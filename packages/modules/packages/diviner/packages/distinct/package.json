@@ -18,7 +18,7 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/object": "^3.5.2",
+    "@xylabs/object": "^3.5.3",
     "@xylabs/ts-scripts-yarn3": "^3.11.12",
     "@xylabs/tsconfig": "^3.11.12",
     "typescript": "^5.5.3"
@@ -62,6 +62,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.109.0",
+  "version": "2.109.1",
   "type": "module"
 }

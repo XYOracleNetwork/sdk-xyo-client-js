@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.5.2",
+    "@xylabs/assert": "^3.5.3",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-huri": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
@@ -62,6 +62,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.109.0",
+  "version": "2.109.1",
   "type": "module"
 }

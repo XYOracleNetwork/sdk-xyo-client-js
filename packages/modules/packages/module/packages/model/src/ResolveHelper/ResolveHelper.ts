@@ -108,9 +108,7 @@ export class ResolveHelper extends ResolveHelperStatic {
       const modules = [
         ...(down ? await (downResolver as ModuleResolver).resolve<T>('*', downLocalOptions) : []),
         ...(up ? await (upResolver as ModuleResolver).resolve<T>('*', upLocalOptions) : []),
-      ]
-        .filter(duplicateModules)
-        .filter((mod) => mod.address !== config.address)
+      ].filter(duplicateModules)
 
       if (modules.length > 0) {
         log?.log('modules [count]', modules.length)
@@ -121,7 +119,7 @@ export class ResolveHelper extends ResolveHelperStatic {
         return modules
       }
       const childModules = (await Promise.all(modules.map(async (mod) => await mod.resolve<T>('*', childOptions)))).flat().filter(duplicateModules)
-      return [...modules, ...childModules].filter(duplicateModules)
+      return [...modules, ...childModules, mod as T].filter(duplicateModules)
     } else {
       switch (typeof idOrFilter) {
         case 'string': {

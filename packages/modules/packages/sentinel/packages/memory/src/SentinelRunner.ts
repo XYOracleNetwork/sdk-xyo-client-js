@@ -43,7 +43,7 @@ export class SentinelRunner {
   async add(automation: SentinelAutomationPayload, restart = true) {
     const hash = await PayloadBuilder.dataHash(automation)
     this._automations[hash] = automation
-    if (restart) await this.restart()
+    if (restart) this.restart()
     return hash
   }
 
@@ -51,9 +51,9 @@ export class SentinelRunner {
     Object.entries(this._automations).find(([key]) => key === hash)
   }
 
-  async remove(hash: string, restart = true) {
+  remove(hash: string, restart = true) {
     delete this._automations[hash]
-    if (restart) await this.restart()
+    if (restart) this.restart()
   }
 
   removeAll() {

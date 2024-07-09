@@ -60,11 +60,11 @@ export class HttpModuleProxy<
 
   override async publicChildren(): Promise<ModuleInstance[]> {
     const resolved = await Promise.all(
-      Object.values(await this.childAddressMap())
+      Object.keys(await this.childAddressMap())
         .filter(exists)
         .map((address) => this.resolve(address)),
     )
-    return resolved.filter(exists).filter((m) => m.address !== this.address)
+    return resolved.filter(exists)
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */

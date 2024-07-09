@@ -66,7 +66,7 @@ export class AsyncQueryBusModuleProxy<
   override async publicChildren(): Promise<ModuleInstance[]> {
     return (
       await Promise.all(
-        Object.values(await this.childAddressMap())
+        Object.keys(await this.childAddressMap())
           .filter(exists)
           .map((address) => this.resolve(address)),
       )

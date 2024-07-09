@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AxiosError, AxiosJson } from '@xylabs/axios'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
-import { Address } from '@xylabs/hex'
+import { Address, isAddress } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { ApiEnvelope } from '@xyo-network/api-models'
@@ -18,15 +18,23 @@ import {
 } from '@xyo-network/bridge-model'
 import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
+  AddressPayload,
+  AddressSchema,
   AnyConfigSchema,
   creatableModule,
+  isAddressModuleFilter,
+  ModuleFilter,
+  ModuleFilterOptions,
+  ModuleIdentifier,
   ModuleInstance,
   ModuleQueryResult,
   ModuleResolverInstance,
   ModuleStateQuery,
   ModuleStateQuerySchema,
+  resolveAddressToInstance,
+  ResolveHelper,
 } from '@xyo-network/module-model'
-import { asAttachableNodeInstance } from '@xyo-network/node-model'
+import { asAttachableNodeInstance, asNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 import { Mutex, Semaphore } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
@@ -103,6 +111,19 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
     return this._resolver
   }
 
+  async connect(id: ModuleIdentifier, maxDepth = 5): Promise<Address | undefined> {
+    const transformedId = assertEx(await ResolveHelper.transformModuleIdentifier(id), () => `Unable to transform module identifier: ${id}`)
+    //check if already connected
+    const existingInstance = await this.resolve<ModuleInstance>(transformedId)
+    if (existingInstance) {
+      return existingInstance.address
+    }
+
+    //use the resolver to create the proxy instance
+    const [instance] = await this.resolver.resolveHandler<ModuleInstance>(id)
+    return await this.connectInstance(instance, maxDepth)
+  }
+
   override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]> {
     throw new Error('Unsupported')
   }
@@ -131,6 +152,52 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
 
   moduleUrl(address: Address) {
     return new URL(address, this.clientUrl)
+  }
+
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
+  override async resolve(): Promise<ModuleInstance[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  /** @deprecated use '*' if trying to resolve all */
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
+
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
+    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
+    options: ModuleFilterOptions<T> = {},
+  ): Promise<T | T[] | undefined> {
+    const roots = (this._roots ?? []) as T[]
+    const workingSet = (options.direction === 'up' ? [this as ModuleInstance] : [...roots, this]) as T[]
+    if (idOrFilter === '*') {
+      const remainingDepth = (options.maxDepth ?? 1) - 1
+      return remainingDepth <= 0 ? workingSet
+          // TODO: resolveAddressToInstance here to iterate over workingSet public children of down resolver
+          // TODO: Add resolveAll helper in https://github.com/XYOracleNetwork/sdk-xyo-client-js/tree/797a7a0693b831037ebbb519c4be9b749d035d38/packages/modules/packages/module/packages/model/src/ResolveHelper
+        : [...workingSet, ...(await Promise.all(roots.map((mod) => mod.resolve('*', { ...options, maxDepth: remainingDepth })))).flat()]
+    }
+    switch (typeof idOrFilter) {
+      case 'string': {
+        const parts = idOrFilter.split(':')
+        const first = assertEx(parts.shift(), () => 'Missing first part')
+        const firstInstance: ModuleInstance | undefined =
+          isAddress(first) ?
+            ((await resolveAddressToInstance(this, first, undefined, [], options.direction)) as T)
+          : this._roots?.find((mod) => mod.id === first)
+        return (parts.length === 0 ? firstInstance : firstInstance?.resolve(parts.join(':'), options)) as T | undefined
+      }
+      case 'object': {
+        const results: T[] = []
+        if (isAddressModuleFilter(idOrFilter)) {
+          for (const mod of workingSet) {
+            if (mod.modName && idOrFilter.address.includes(mod.address)) results.push(mod as T)
+          }
+        }
+        return results
+      }
+      default: {
+        return
+      }
+    }
   }
 
   async sendBridgeQuery<TOut extends Payload = Payload, TQuery extends QueryBoundWitness = QueryBoundWitness, TIn extends Payload = Payload>(
@@ -176,6 +243,25 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
 
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]> {
     throw new Error('Unsupported')
+  }
+
+  protected async connectInstance(instance?: ModuleInstance, maxDepth = 5): Promise<Address | undefined> {
+    if (instance) {
+      this.downResolver.add(instance)
+      await this.getRoots(true)
+      if (maxDepth > 0) {
+        const node = asNodeInstance(instance)
+        if (node) {
+          const state = await node.state()
+          const children = (state?.filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema)).map((s) => s.address) ?? []).filter(
+            (a) => a !== instance.address,
+          )
+          await Promise.all(children.map((child) => this.connect(child, maxDepth - 1)))
+        }
+      }
+      this.logger?.log(`Connect: ${instance.id}`)
+      return instance.address
+    }
   }
 
   private async getRootState() {

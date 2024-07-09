@@ -5,9 +5,11 @@ import { Payload } from '@xyo-network/payload-model'
 export const BridgeConfigSchema = 'network.xyo.bridge.config' as const
 export type BridgeConfigSchema = typeof BridgeConfigSchema
 
+export type DiscoverRoots = 'start' | 'lazy' | 'none'
+
 export type BridgeClientConfig = {
   cache?: CacheConfig | true
-  discoverRoots?: 'start' | 'lazy'
+  discoverRoots?: DiscoverRoots
   maxDepth?: number
 }
 
@@ -26,7 +28,7 @@ export type BridgeConfig<
     {
       client?: WithAdditional<BridgeClientConfig, TClient>
       /** @deprecated use client.discoverRoots instead */
-      discoverRoots?: 'start' | 'lazy'
+      discoverRoots?: DiscoverRoots
       host?: WithAdditional<BridgeHostConfig, THost>
       schema: TConfig extends Payload ? TConfig['schema'] : BridgeConfigSchema
     },

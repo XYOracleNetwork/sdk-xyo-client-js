@@ -10,15 +10,15 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.5.3",
-    "@xylabs/error": "^3.5.3",
-    "@xylabs/exists": "^3.5.3",
-    "@xylabs/forget": "^3.5.3",
-    "@xylabs/hex": "^3.5.3",
-    "@xylabs/lodash": "^3.5.3",
-    "@xylabs/logger": "^3.5.3",
-    "@xylabs/object": "^3.5.3",
-    "@xylabs/promise": "^3.5.3",
+    "@xylabs/assert": "^3.5.4",
+    "@xylabs/error": "^3.5.4",
+    "@xylabs/exists": "^3.5.4",
+    "@xylabs/forget": "^3.5.4",
+    "@xylabs/hex": "^3.5.4",
+    "@xylabs/lodash": "^3.5.4",
+    "@xylabs/logger": "^3.5.4",
+    "@xylabs/object": "^3.5.4",
+    "@xylabs/promise": "^3.5.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
@@ -35,7 +35,7 @@
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
     "@xyo-network/wallet-model": "workspace:^",
-    "lru-cache": "^10.3.0"
+    "lru-cache": "^10.4.2"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.11.12",

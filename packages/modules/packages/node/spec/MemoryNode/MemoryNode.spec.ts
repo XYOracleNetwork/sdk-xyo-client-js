@@ -300,8 +300,8 @@ describe('MemoryNode', () => {
       })
       it('clone-all', async () => {
         const newNode = await MemoryNodeHelper.attachToNewNode(node, '*')
-        const newNodeChildren = await newNode.resolve('*', { maxDepth: 1 })
-        const nodeChildren = await node.resolve('*', { maxDepth: 1 })
+        const newNodeChildren = await newNode.publicChildren()
+        const nodeChildren = await node.publicChildren()
         expect(newNodeChildren.length).toEqual(nodeChildren.length)
         expect(newNodeChildren.includes(nodeChildren[0])).toBe(true)
       })

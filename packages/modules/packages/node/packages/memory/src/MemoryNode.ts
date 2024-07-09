@@ -97,7 +97,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
   protected async attachUsingAddress(address: Address, external?: boolean) {
     return await this._attachMutex.runExclusive(async () => {
-      const existingModule = (await this.resolve({ address: [address] })).pop()
+      const existingModule = await this.resolve(address)
       assertEx(!existingModule, () => `Module [${existingModule?.modName ?? existingModule?.address}] already attached at address [${address}]`)
       const mod = assertEx(this.registeredModuleMap[address], () => `No Module Registered at address [${address}]`)
 

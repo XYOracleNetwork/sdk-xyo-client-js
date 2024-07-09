@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { globallyUnique } from '@xylabs/object'
@@ -29,6 +30,8 @@ import {
   ObjectFilterOptions,
   resolveAddressToInstance,
   resolveAll,
+  resolveAllDown,
+  resolveAllUp,
   ResolveHelper,
   ResolveHelperConfig,
   resolveLocalNameToInstance,
@@ -178,15 +181,21 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   ): Promise<T | T[] | undefined> {
     if (AbstractModuleInstance.useNewResolver) {
       if (idOrFilter === '*') {
-        const { maxDepth = 1 } = options
+        const { maxDepth = 10, direction } = options
+        if (direction === 'down') {
+          return (await resolveAllDown(this, maxDepth)) as T[]
+        }
+        if (direction === 'up') {
+          return (await resolveAllUp(this, maxDepth)) as T[]
+        }
         return (await resolveAll(this, maxDepth)) as T[]
       } else if (typeof idOrFilter === 'string') {
-        return (await resolvePathToInstance(this, idOrFilter, true)) as T
+        return (await resolvePathToInstance(this, idOrFilter, true)) as T | undefined
       } else {
         if (isNameModuleFilter(idOrFilter)) {
-          return (await Promise.all(idOrFilter.name.map(async (id) => await resolveLocalNameToInstance(this, id)))) as T[]
+          return (await Promise.all(idOrFilter.name.map(async (id) => await resolveLocalNameToInstance(this, id)))).filter(exists) as T[]
         } else if (isAddressModuleFilter(idOrFilter)) {
-          return (await Promise.all(idOrFilter.address.map(async (id) => await resolveAddressToInstance(this, id)))) as T[]
+          return (await Promise.all(idOrFilter.address.map(async (id) => await resolveAddressToInstance(this, id)))).filter(exists) as T[]
         } else {
           throw new TypeError('Invalid filter')
         }
@@ -202,7 +211,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
         upResolver: this.upResolver,
       }
       if (idOrFilter === '*') {
-        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+        return await ResolveHelper.resolve(config, idOrFilter, options)
       }
       switch (typeof idOrFilter) {
         case 'string': {

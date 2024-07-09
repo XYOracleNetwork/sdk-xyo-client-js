@@ -73,18 +73,36 @@ describe('MemoryNode', () => {
       }
     }
 
-    expect((await node.resolve('*', { direction: 'up' })).length).toBe(0)
-    expect((await node.resolve('*', { direction: 'up', maxDepth: 0 })).length).toBe(0)
-    expect((await node.resolve('*', { direction: 'up', maxDepth: 1 })).length).toBe(0)
-    expect((await node.resolve('*', { direction: 'down' })).length).toBe(2)
+    expect((await node.resolve('*', { direction: 'up' })).length).toBe(1)
+    expect((await node.resolve('*', { direction: 'up', maxDepth: 0 })).length).toBe(1)
+    expect((await node.resolve('*', { direction: 'up', maxDepth: 1 })).length).toBe(1)
+
+    const nodeDown = await node.resolve('*', { direction: 'down' })
+    expect(nodeDown.length).toBe(3)
+    expect(nodeDown.find((mod) => mod.address === node.address)).toBeDefined()
+    expect(nodeDown.find((mod) => mod.address === archivist.address)).toBeDefined()
+    expect(nodeDown.find((mod) => mod.address === diviner.address)).toBeDefined()
+
     expect((await node.resolvePrivate('*', { direction: 'down' })).length).toBe(1)
-    expect((await node.resolve('*', { direction: 'down', maxDepth: 0 })).length).toBe(0)
-    expect((await node.resolve('*', { direction: 'down', maxDepth: 1 })).length).toBe(2)
+    expect((await node.resolve('*', { direction: 'down', maxDepth: 0 })).length).toBe(1)
+    expect((await node.resolve('*', { direction: 'down', maxDepth: 1 })).length).toBe(3)
+
+    //this should be 3 here and not 4 since node is at the top and asking it to resolve its privates
+    //from outside should not include the private cousin
     expect((await node.resolve('*', { direction: 'all' })).length).toBe(3)
 
-    expect((await archivist.resolve('*', { direction: 'up' })).length).toBe(3)
-    expect((await archivist.resolve('*', { direction: 'up', maxDepth: 1 })).length).toBe(1)
-    expect((await archivist.resolve('*', { direction: 'down' })).length).toBe(0)
-    expect((await archivist.resolve('*', { direction: 'all' })).length).toBe(3)
+    const archivistUp = await archivist.resolve('*', { direction: 'up' })
+
+    expect(archivistUp.find((mod) => mod.address === node.address)).toBeDefined()
+    expect(archivistUp.find((mod) => mod.address === archivist.address)).toBeDefined()
+    expect(archivistUp.find((mod) => mod.address === diviner.address)).toBeDefined()
+    //this is 4 here since it will include the one private cousin
+    expect(archivistUp.length).toBe(4)
+
+    expect((await archivist.resolve('*', { direction: 'up', maxDepth: 1 })).length).toBe(2)
+    expect((await archivist.resolve('*', { direction: 'down' })).length).toBe(1)
+
+    //this is 4 here since it will include the one private cousin
+    expect((await archivist.resolve('*', { direction: 'all' })).length).toBe(4)
   })
 })

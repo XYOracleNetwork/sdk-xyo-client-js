@@ -10,13 +10,13 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.5.3",
-    "@xylabs/exists": "^3.5.3",
+    "@xylabs/assert": "^3.5.5",
+    "@xylabs/exists": "^3.5.5",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-jsonpatch-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "json-joy": "^16.12.0",
+    "json-joy": "^16.13.0",
     "tslib": "^2.6.3"
   },
   "devDependencies": {

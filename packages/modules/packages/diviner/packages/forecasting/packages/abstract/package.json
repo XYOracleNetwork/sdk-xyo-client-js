@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/promise": "^3.5.3",
+    "@xylabs/promise": "^3.5.5",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-forecasting-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",

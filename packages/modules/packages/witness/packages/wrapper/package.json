@@ -17,7 +17,7 @@
     "@xyo-network/witness-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/promise": "^3.5.3",
+    "@xylabs/promise": "^3.5.5",
     "@xylabs/ts-scripts-yarn3": "^3.11.12",
     "@xylabs/tsconfig": "^3.11.12",
     "@xyo-network/abstract-witness": "workspace:^",

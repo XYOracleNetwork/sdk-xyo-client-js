@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@metamask/providers": "^17.1.0",
-    "@xylabs/forget": "^3.5.3",
+    "@xylabs/forget": "^3.5.5",
     "ethers": "6.13.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

@@ -9,7 +9,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/hex": "^3.5.3",
+    "@xylabs/hex": "^3.5.5",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",

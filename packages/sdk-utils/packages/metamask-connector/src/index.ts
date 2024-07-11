@@ -1,1 +1,1 @@
-export * from './MetaMaskConnector'
+export * from './MetaMaskConnector.js'

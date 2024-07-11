@@ -1,4 +1,4 @@
-import { typeOf } from './typeOf'
+import { typeOf } from './typeOf.js'
 
 export const ifDefined = <T>(value: T, function_: (value: T) => void) => {
   switch (typeOf(value)) {

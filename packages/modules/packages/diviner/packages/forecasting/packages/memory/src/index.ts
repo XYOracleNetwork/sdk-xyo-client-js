@@ -1,1 +1,1 @@
-export * from './MemoryForecastingDiviner'
+export * from './MemoryForecastingDiviner.js'

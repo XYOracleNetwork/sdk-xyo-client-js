@@ -2,8 +2,8 @@ import { staticImplements } from '@xylabs/static-implements'
 import { Data } from '@xyo-network/data'
 import { AddressValueInstance, AddressValueStatic } from '@xyo-network/key-model'
 
-import { Elliptic } from '../Elliptic'
-import { EllipticKey } from './EllipticKey'
+import { Elliptic } from '../Elliptic.js'
+import { EllipticKey } from './EllipticKey.js'
 
 @staticImplements<AddressValueStatic>()
 export class AddressValue extends EllipticKey implements AddressValueInstance {

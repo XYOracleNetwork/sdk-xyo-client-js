@@ -1,5 +1,5 @@
-import { ModuleIdentifier } from '../ModuleIdentifier'
-import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer'
+import { ModuleIdentifier } from '../ModuleIdentifier.js'
+import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.js'
 
 export const transformModuleIdentifier = async (
   id: ModuleIdentifier,

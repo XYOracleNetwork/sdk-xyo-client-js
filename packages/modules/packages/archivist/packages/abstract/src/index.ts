@@ -1,2 +1,2 @@
-export * from './AbstractArchivist'
-export * from './StorageMeta'
+export * from './AbstractArchivist.js'
+export * from './StorageMeta.js'

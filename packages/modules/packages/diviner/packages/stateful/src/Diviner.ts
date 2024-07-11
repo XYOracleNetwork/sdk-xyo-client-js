@@ -11,8 +11,8 @@ import { isModuleState, ModuleState, ModuleStateSchema, StateDictionary } from '
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 
-import { StatefulDivinerConfigSchema } from './Config'
-import { StatefulDivinerParams } from './Params'
+import { StatefulDivinerConfigSchema } from './Config.js'
+import { StatefulDivinerParams } from './Params.js'
 
 const moduleName = 'StatefulDiviner'
 

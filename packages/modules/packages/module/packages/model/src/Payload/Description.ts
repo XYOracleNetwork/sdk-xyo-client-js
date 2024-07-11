@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { ModuleDescription } from '../ModuleDescription'
+import { ModuleDescription } from '../ModuleDescription.js'
 
 export const ModuleDescriptionSchema = 'network.xyo.module.description' as const
 export type ModuleDescriptionSchema = typeof ModuleDescriptionSchema

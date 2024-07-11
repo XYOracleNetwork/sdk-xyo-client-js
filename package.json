@@ -25,7 +25,7 @@
     "@types/supertest": "^6.0.2",
     "@xylabs/eslint-config": "^3.11.12",
     "@xylabs/eslint-config-flat": "^3.11.12",
-    "@xylabs/forget": "^3.5.5",
+    "@xylabs/forget": "^3.5.9",
     "@xylabs/ts-scripts-yarn3": "^3.11.12",
     "@xylabs/tsconfig": "^3.11.12",
     "@xylabs/tsconfig-dom-jest": "^3.11.12",

@@ -1,5 +1,5 @@
-import { createNodeWorker } from './createNodeWorker'
-import { PayloadHasher } from './PayloadHasher'
+import { createNodeWorker } from './createNodeWorker.js'
+import { PayloadHasher } from './PayloadHasher.js'
 
 PayloadHasher.createNodeWorker = createNodeWorker
 

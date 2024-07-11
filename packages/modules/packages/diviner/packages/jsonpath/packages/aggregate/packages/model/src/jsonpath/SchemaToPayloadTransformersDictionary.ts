@@ -1,4 +1,4 @@
-import { PayloadTransformer } from './PayloadTransformer'
+import { PayloadTransformer } from './PayloadTransformer.js'
 
 /**
  * A dictionary of schema to payload transformers

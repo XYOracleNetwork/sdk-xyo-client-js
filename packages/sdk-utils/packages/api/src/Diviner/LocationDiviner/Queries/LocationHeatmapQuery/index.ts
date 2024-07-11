@@ -1,2 +1,2 @@
-export * from './LocationHeatmapPointProperties'
-export * from './LocationHeatmapQuery'
+export * from './LocationHeatmapPointProperties.js'
+export * from './LocationHeatmapQuery.js'

@@ -1,5 +1,5 @@
-import { AddressValueInstance } from './AddressValue'
-import { EllipticKeyInstance } from './EllipticKey'
+import { AddressValueInstance } from './AddressValue.js'
+import { EllipticKeyInstance } from './EllipticKey.js'
 
 export interface PublicKeyInstance extends EllipticKeyInstance {
   get address(): AddressValueInstance

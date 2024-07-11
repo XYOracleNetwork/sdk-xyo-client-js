@@ -1,1 +1,1 @@
-export * from './ViewNode'
+export * from './ViewNode.js'

@@ -1,2 +1,2 @@
-export * from './Config'
-export * from './Diviner'
+export * from './Config.js'
+export * from './Diviner.js'

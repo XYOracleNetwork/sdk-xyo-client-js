@@ -1,3 +1,3 @@
-export * from './BigInt'
-export * from './Number'
-export * from './Range'
+export * from './BigInt.js'
+export * from './Number.js'
+export * from './Range.js'

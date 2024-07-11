@@ -4,7 +4,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
-import { JsonPathDiviner } from '../Diviner'
+import { JsonPathDiviner } from '../Diviner.js'
 describe('JsonPathDiviner', () => {
   type AnyPayload = Payload<{ [key: string]: unknown }>
   type TestData = [description: string, input: AnyPayload[], transformers: JsonPathTransformExpression[], expected: AnyPayload[]]

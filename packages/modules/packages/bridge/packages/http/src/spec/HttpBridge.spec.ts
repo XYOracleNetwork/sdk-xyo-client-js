@@ -17,8 +17,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
-import { HttpBridge } from '../HttpBridgeFull'
+import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.js'
+import { HttpBridge } from '../HttpBridgeFull.js'
 
 const archivistName = 'XYOPublic:Archivist' // TODO: This should be configurable
 const discoverRoots = 'start'

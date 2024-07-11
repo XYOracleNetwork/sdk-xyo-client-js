@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
-    "incremental": false,
-    "types": [],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
     "typeRoots": []
   },
   "exclude": ["dist", "docs", "packages", "node_modules"],

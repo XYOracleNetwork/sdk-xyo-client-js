@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "incremental": false
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
+    "typeRoots": []
   },
   "exclude": ["dist", "docs", "packages", "node_modules"],
   "extends": "@xylabs/tsconfig"

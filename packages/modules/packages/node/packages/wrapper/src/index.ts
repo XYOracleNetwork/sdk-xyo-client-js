@@ -1,1 +1,1 @@
-export * from './NodeWrapper'
+export * from './NodeWrapper.js'

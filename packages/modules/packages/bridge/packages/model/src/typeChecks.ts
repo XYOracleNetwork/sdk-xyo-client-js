@@ -1,9 +1,9 @@
 import { AsObjectFactory } from '@xylabs/object'
 import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
 
-import { BridgeInstance } from './Instance'
-import { BridgeModule } from './Module'
-import { BridgeConnectQuerySchema, BridgeDisconnectQuerySchema } from './Queries'
+import { BridgeInstance } from './Instance.js'
+import { BridgeModule } from './Module.js'
+import { BridgeConnectQuerySchema, BridgeDisconnectQuerySchema } from './Queries/index.js'
 
 export const isBridgeInstance = new IsInstanceFactory<BridgeInstance>().create(
   {

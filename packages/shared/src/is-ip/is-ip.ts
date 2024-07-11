@@ -1,4 +1,4 @@
-import { ipRegex } from './ip-regex'
+import { ipRegex } from './ip-regex.js'
 
 export function isIP(value: string) {
   return ipRegex({ exact: true }).test(value)

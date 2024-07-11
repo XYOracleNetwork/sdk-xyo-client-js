@@ -31,10 +31,10 @@ import { isPayloadOfSchemaType, Schema } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
-import { AsyncQueryBusClient, AsyncQueryBusHost } from './AsyncQueryBus'
-import { PubSubBridgeConfigSchema } from './Config'
-import { PubSubBridgeParams } from './Params'
-import { PubSubBridgeModuleResolver } from './PubSubBridgeModuleResolver'
+import { AsyncQueryBusClient, AsyncQueryBusHost } from './AsyncQueryBus/index.js'
+import { PubSubBridgeConfigSchema } from './Config.js'
+import { PubSubBridgeParams } from './Params.js'
+import { PubSubBridgeModuleResolver } from './PubSubBridgeModuleResolver.js'
 
 const moduleName = 'PubSubBridge'
 

@@ -41,7 +41,7 @@ import {
 import { ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
-import type { ModuleWrapperParams } from './models'
+import type { ModuleWrapperParams } from './models.js'
 
 export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   defaultLogger?: Logger

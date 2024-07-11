@@ -1,7 +1,7 @@
 import { Module, ModuleEventData } from '@xyo-network/module-model'
 
-import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './EventsModels'
-import { NodeParams } from './Params'
+import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './EventsModels/index.js'
+import { NodeParams } from './Params.js'
 
 export interface NodeModuleEventData
   extends ModuleAttachedEventData,

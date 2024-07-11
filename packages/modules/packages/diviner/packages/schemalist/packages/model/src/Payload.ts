@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { SchemaListDivinerSchema } from './Schema'
+import { SchemaListDivinerSchema } from './Schema.js'
 
 export type SchemaListPayload = Payload<{
   schema: SchemaListDivinerSchema

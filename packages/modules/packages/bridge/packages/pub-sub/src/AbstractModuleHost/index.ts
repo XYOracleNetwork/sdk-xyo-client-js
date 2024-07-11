@@ -1,1 +1,1 @@
-export * from './AbstractModuleHost'
+export * from './AbstractModuleHost.js'

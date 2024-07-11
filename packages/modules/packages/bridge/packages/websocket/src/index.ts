@@ -1,2 +1,2 @@
-export * from './Bridge'
-export * from './Config'
+export * from './Bridge.js'
+export * from './Config.js'

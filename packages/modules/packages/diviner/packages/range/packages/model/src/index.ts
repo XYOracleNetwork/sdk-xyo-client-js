@@ -1,2 +1,2 @@
-export * from './Config'
-export * from './Payload'
+export * from './Config/index.js'
+export * from './Payload/index.js'

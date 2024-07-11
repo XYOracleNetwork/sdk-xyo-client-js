@@ -1,1 +1,1 @@
-export * from './WasmSupport'
+export * from './WasmSupport.js'

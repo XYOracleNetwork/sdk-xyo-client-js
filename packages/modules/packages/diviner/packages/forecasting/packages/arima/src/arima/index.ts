@@ -1,2 +1,2 @@
-export * from './configurable'
-export * from './configured'
+export * from './configurable/index.js'
+export * from './configured/index.js'

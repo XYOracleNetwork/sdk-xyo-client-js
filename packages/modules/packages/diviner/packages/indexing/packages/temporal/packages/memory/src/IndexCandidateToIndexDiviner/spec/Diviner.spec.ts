@@ -6,7 +6,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
-import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../Diviner'
+import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../Diviner.js'
 
 type ImageThumbnail = Payload<{
   http?: {

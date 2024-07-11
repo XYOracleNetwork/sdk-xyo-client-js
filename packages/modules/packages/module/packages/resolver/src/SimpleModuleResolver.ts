@@ -17,7 +17,7 @@ import {
   ObjectFilterOptions,
 } from '@xyo-network/module-model'
 
-import { AbstractModuleResolver, ModuleResolverParams } from './AbstractModuleResolver'
+import { AbstractModuleResolver, ModuleResolverParams } from './AbstractModuleResolver.js'
 
 export type SimpleModuleResolverParams = ModuleResolverParams & {
   allowNameResolution?: boolean

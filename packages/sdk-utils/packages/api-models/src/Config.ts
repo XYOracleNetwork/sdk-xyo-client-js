@@ -1,4 +1,4 @@
-import { ApiReportable } from './Reportable'
+import { ApiReportable } from './Reportable.js'
 
 interface ApiConfig extends ApiReportable {
   /** @description The domain where the api is located */

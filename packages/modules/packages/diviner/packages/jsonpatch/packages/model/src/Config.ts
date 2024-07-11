@@ -2,7 +2,7 @@ import { DivinerConfig } from '@xyo-network/diviner-model'
 // eslint-disable-next-line import/no-internal-modules
 import { Operation } from 'json-joy/lib/json-patch/index.js'
 
-import { JsonPatchDivinerSchema } from './Schema'
+import { JsonPatchDivinerSchema } from './Schema.js'
 
 export type JsonPatchDivinerConfigSchema = `${JsonPatchDivinerSchema}.config`
 export const JsonPatchDivinerConfigSchema: JsonPatchDivinerConfigSchema = `${JsonPatchDivinerSchema}.config`

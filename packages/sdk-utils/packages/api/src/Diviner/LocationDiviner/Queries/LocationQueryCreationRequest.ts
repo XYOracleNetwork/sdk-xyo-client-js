@@ -1,9 +1,9 @@
 import { ApiConfig } from '@xyo-network/api-models'
 
-import { LocationHeatmapQuery, LocationHeatmapQuerySchema } from './LocationHeatmapQuery'
-import { LocationQuadkeyHeatmapQuery, LocationQuadkeyHeatmapQuerySchema } from './LocationQuadkeyHeatmapQuery'
-import { LocationQuerySchema } from './LocationQuerySchema'
-import { LocationTimeRangeQuery, LocationTimeRangeQuerySchema } from './LocationTimeRangeQuery'
+import { LocationHeatmapQuery, LocationHeatmapQuerySchema } from './LocationHeatmapQuery/index.js'
+import { LocationQuadkeyHeatmapQuery, LocationQuadkeyHeatmapQuerySchema } from './LocationQuadkeyHeatmapQuery/index.js'
+import { LocationQuerySchema } from './LocationQuerySchema.js'
+import { LocationTimeRangeQuery, LocationTimeRangeQuerySchema } from './LocationTimeRangeQuery/index.js'
 
 export interface LocationQueryCreationRequest<
   TSchema extends LocationQuerySchema = LocationQuerySchema,

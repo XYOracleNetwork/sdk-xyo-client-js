@@ -1,7 +1,7 @@
 import { Address } from '@xylabs/hex'
 
-import { ModuleInstance } from '../instance'
-import { duplicateModules } from '../lib'
+import { ModuleInstance } from '../instance/index.js'
+import { duplicateModules } from '../lib/index.js'
 
 export const resolveAllUp = async (root: ModuleInstance, maxDepth = 10, exclude: Address[] = []): Promise<ModuleInstance[]> => {
   if (maxDepth === 0) {

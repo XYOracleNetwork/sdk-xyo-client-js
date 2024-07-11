@@ -1,6 +1,6 @@
 import { asHash } from '@xylabs/hex'
 // eslint-disable-next-line import/no-internal-modules
-import { expose } from '@xylabs/threads/worker'
+import { expose } from '@xylabs/threads'
 import shajs from 'sha.js'
 
 expose({

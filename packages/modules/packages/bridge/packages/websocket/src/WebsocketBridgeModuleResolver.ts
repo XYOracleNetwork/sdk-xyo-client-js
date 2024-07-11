@@ -13,7 +13,7 @@ import {
   ResolveHelper,
 } from '@xyo-network/module-model'
 
-import { WebsocketBridgeQuerySender, WebsocketModuleProxy, WebsocketModuleProxyParams } from './ModuleProxy'
+import { WebsocketBridgeQuerySender, WebsocketModuleProxy, WebsocketModuleProxyParams } from './ModuleProxy/index.js'
 
 export interface WebsocketBridgeModuleResolverParams extends BridgeModuleResolverParams {
   querySender: WebsocketBridgeQuerySender

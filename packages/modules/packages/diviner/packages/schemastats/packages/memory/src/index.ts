@@ -1,1 +1,1 @@
-export * from './MemorySchemaStatsDiviner'
+export * from './MemorySchemaStatsDiviner.js'

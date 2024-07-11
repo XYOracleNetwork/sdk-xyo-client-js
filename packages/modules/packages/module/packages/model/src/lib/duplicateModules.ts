@@ -1,4 +1,4 @@
-import { Module } from '../module'
+import { Module } from '../module/index.js'
 
 /**
  * Used to filter duplicates from an array of modules

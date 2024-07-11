@@ -1,1 +1,1 @@
-export * from './MemoryPayloadStatsDiviner'
+export * from './MemoryPayloadStatsDiviner.js'

@@ -12,8 +12,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 import { IDBPDatabase, IDBPObjectStore, openDB } from 'idb'
 
-import { IndexedDbPayloadDivinerConfigSchema } from './Config'
-import { IndexedDbPayloadDivinerParams } from './Params'
+import { IndexedDbPayloadDivinerConfigSchema } from './Config.js'
+import { IndexedDbPayloadDivinerParams } from './Params.js'
 
 interface PayloadStore {
   [s: string]: Payload

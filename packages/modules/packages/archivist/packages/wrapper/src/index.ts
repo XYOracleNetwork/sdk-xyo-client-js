@@ -1,1 +1,1 @@
-export * from './ArchivistWrapper'
+export * from './ArchivistWrapper.js'

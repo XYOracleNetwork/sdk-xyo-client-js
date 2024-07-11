@@ -6,7 +6,7 @@ import { Promisable } from '@xylabs/promise'
 import { removeEmptyFields } from '@xyo-network/hash'
 import { Payload, Schema, WithMeta, WithOptionalMeta } from '@xyo-network/payload-model'
 
-import { PayloadBuilderOptions } from './Options'
+import { PayloadBuilderOptions } from './Options.js'
 
 export type WithOptionalSchema<T extends Payload> = Omit<T, 'schema'> & Partial<T>
 

@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { NetworkNodePayload } from './NetworkNodePayload'
+import { NetworkNodePayload } from './NetworkNodePayload.js'
 
 export type NetworkSchema = 'network.xyo.network'
 export const NetworkSchema = 'network.xyo.network'

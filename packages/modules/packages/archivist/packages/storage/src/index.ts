@@ -1,1 +1,1 @@
-export * from './StorageArchivist'
+export * from './StorageArchivist.js'

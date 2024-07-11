@@ -1,4 +1,4 @@
-import { Payload } from './Payload'
+import { Payload } from './Payload.js'
 
 /**
  * Type corresponding to the properties of a payload

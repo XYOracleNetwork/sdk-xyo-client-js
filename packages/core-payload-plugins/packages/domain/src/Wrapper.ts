@@ -9,7 +9,7 @@ import { NetworkPayload } from '@xyo-network/network'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { Alias, DomainPayload } from './Payload'
+import { Alias, DomainPayload } from './Payload.js'
 
 export interface FetchedAlias extends FetchedPayload {
   alias: Alias

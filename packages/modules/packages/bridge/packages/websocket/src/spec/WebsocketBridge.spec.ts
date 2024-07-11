@@ -8,7 +8,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { WebsocketBridge } from '../Bridge'
 import { WebsocketClientBridge } from '../ClientBridge'
-import { WebsocketBridgeConfigSchema } from '../Config'
+import { WebsocketBridgeConfigSchema } from '../Config.js'
 
 /**
  * @group module

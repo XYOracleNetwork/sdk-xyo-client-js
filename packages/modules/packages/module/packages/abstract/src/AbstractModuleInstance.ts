@@ -10,7 +10,9 @@ import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network
 import {
   AddressPayload,
   AddressPreviousHashPayload,
+  AddressToWeakInstanceCache,
   AttachableModuleInstance,
+  Direction,
   duplicateModules,
   isAddressModuleFilter,
   isNameModuleFilter,
@@ -41,7 +43,7 @@ import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { asNodeInstance, NodeInstance } from '@xyo-network/node-model'
 import { Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
-import { AbstractModule } from './AbstractModule'
+import { AbstractModule } from './AbstractModule.js'
 
 export abstract class AbstractModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModule<TParams, TEventData>
@@ -68,6 +70,8 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       this.downResolver.add(this)
     }
   }
+  pipeline?: 'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many' | undefined
+  addressCache?: ((direction: Direction, includePrivate: boolean) => AddressToWeakInstanceCache | undefined) | undefined
 
   get downResolver() {
     this._downResolver =

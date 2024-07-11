@@ -25,8 +25,8 @@ import {
   indexedDB,
 } from 'fake-indexeddb'
 
-import { IndexedDbArchivist } from '../Archivist'
-import { IndexedDbArchivistConfigSchema } from '../Config'
+import { IndexedDbArchivist } from '../Archivist.js'
+import { IndexedDbArchivistConfigSchema } from '../Config.js'
 
 /**
  * @group module

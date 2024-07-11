@@ -1,1 +1,1 @@
-export * from './AbstractForecasting'
+export * from './AbstractForecasting.js'

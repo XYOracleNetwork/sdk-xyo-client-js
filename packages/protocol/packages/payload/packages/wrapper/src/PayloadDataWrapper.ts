@@ -3,7 +3,7 @@ import { Address } from '@xylabs/hex'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 
-import { isPayloadWrapperBase, PayloadLoaderFactory, PayloadWrapperBase } from './PayloadWrapperBase'
+import { isPayloadWrapperBase, PayloadLoaderFactory, PayloadWrapperBase } from './PayloadWrapperBase.js'
 
 export const isPayloadDataWrapper = (value?: unknown): value is PayloadDataWrapper => {
   return isPayloadWrapperBase(value)

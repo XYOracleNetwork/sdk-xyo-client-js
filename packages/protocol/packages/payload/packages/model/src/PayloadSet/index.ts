@@ -1,2 +1,2 @@
-export * from './PayloadSetPayload'
-export * from './PayloadSetSchema'
+export * from './PayloadSetPayload.js'
+export * from './PayloadSetSchema.js'

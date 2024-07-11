@@ -2,6 +2,8 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
     "typeRoots": []
   },
   "exclude": ["dist", "./dist", "./**/dist", "./**/docs", ".*"],

@@ -1,6 +1,13 @@
 import { Module, ModuleEventData } from '@xyo-network/module-model'
 
-import { JobEndEventData, JobStartEventData, ReportEndEventData, ReportStartEventData, TaskEndEventData, TaskStartEventData } from './EventsModels'
+import {
+  JobEndEventData,
+  JobStartEventData,
+  ReportEndEventData,
+  ReportStartEventData,
+  TaskEndEventData,
+  TaskStartEventData,
+} from './EventsModels/index.js'
 
 export interface SentinelModuleEventData<T extends Module = Module>
   extends TaskEndEventData<T>,

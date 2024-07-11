@@ -1,8 +1,8 @@
 import { Hash } from '@xylabs/hex'
 import { WithMeta } from '@xyo-network/payload-model'
 
-import { BoundWitness, BoundWitnessSchema } from './BoundWitness'
-import { isBoundWitness, isBoundWitnessWithMeta } from './isBoundWitness'
+import { BoundWitness, BoundWitnessSchema } from './BoundWitness/index.js'
+import { isBoundWitness, isBoundWitnessWithMeta } from './isBoundWitness.js'
 
 export type QueryBoundWitnessSchema = BoundWitnessSchema
 export const QueryBoundWitnessSchema: QueryBoundWitnessSchema = BoundWitnessSchema

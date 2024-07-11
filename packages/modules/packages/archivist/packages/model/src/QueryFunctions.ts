@@ -3,7 +3,7 @@ import { Promisable, PromisableArray } from '@xylabs/promise'
 import { ModuleQueryFunctions } from '@xyo-network/module-model'
 import { Payload, WithMeta } from '@xyo-network/payload-model'
 
-import { NextOptions } from './NextOptions'
+import { NextOptions } from './NextOptions.js'
 
 export interface ReadArchivist<TReadResponse, TId = string> {
   all(): PromisableArray<TReadResponse>

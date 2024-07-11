@@ -1,1 +1,1 @@
-export * from './WitnessWrapper'
+export * from './WitnessWrapper.js'

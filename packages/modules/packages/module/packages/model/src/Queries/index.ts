@@ -1,11 +1,11 @@
-import { ModuleManifestQuery } from './Manifest'
-import { ModuleAddressQuery } from './ModuleAddress'
-import { ModuleStateQuery } from './State'
-import { ModuleSubscribeQuery } from './Subscribe'
+import { ModuleManifestQuery } from './Manifest.js'
+import { ModuleAddressQuery } from './ModuleAddress/index.js'
+import { ModuleStateQuery } from './State.js'
+import { ModuleSubscribeQuery } from './Subscribe.js'
 
-export * from './Manifest'
-export * from './ModuleAddress'
-export * from './State'
-export * from './Subscribe'
+export * from './Manifest.js'
+export * from './ModuleAddress/index.js'
+export * from './State.js'
+export * from './Subscribe.js'
 
 export type ModuleQueries = ModuleAddressQuery | ModuleSubscribeQuery | ModuleManifestQuery | ModuleStateQuery

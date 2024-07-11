@@ -4,7 +4,7 @@ import { assertEx } from '@xylabs/assert'
 import { Hex } from '@xylabs/hex'
 import { keccak256 } from 'ethers'
 
-import { AbstractData } from './AbstractData'
+import { AbstractData } from './AbstractData.js'
 
 export interface DataInstance {
   base58: string

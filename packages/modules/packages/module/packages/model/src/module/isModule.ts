@@ -1,10 +1,10 @@
 import { TypeCheck } from '@xylabs/object'
 import { Schema } from '@xyo-network/payload-model'
 
-import { ModuleStateQuerySchema } from '../Queries'
-import { IsModuleFactory } from './IsModuleFactory'
-import { isModuleObject } from './isModuleObject'
-import { Module } from './Module'
+import { ModuleStateQuerySchema } from '../Queries/index.js'
+import { IsModuleFactory } from './IsModuleFactory.js'
+import { isModuleObject } from './isModuleObject.js'
+import { Module } from './Module.js'
 
 export const requiredModuleQueries: Schema[] = [ModuleStateQuerySchema]
 

@@ -1,8 +1,3 @@
-import { pathsToModuleNameMapper } from 'ts-jest'
-import { MapLike } from 'typescript'
-
-import { compilerOptions } from './tsconfig.json'
-
 const generateJestConfig = ({ esModules }: { esModules: string[] }) => {
   const esModulesList = Array.isArray(esModules) ? esModules.join('|') : esModules
   return {
@@ -10,10 +5,10 @@ const generateJestConfig = ({ esModules }: { esModules: string[] }) => {
     extensionsToTreatAsEsm: ['.ts'],
     globalSetup: './jestSetup/globalSetup.ts',
     globalTeardown: './jestSetup/globalTeardown.ts',
-    moduleNameMapper: pathsToModuleNameMapper((compilerOptions as unknown as { paths: MapLike<string[]> | undefined }).paths || {}, {
-      prefix: '<rootDir>/',
-    }),
-    preset: 'ts-jest/presets/default-esm',
+    moduleNameMapper: {
+      '^(\\.{1,2}/.*)\\.js$': '$1',
+    },
+    preset: 'ts-jest',
     setupFiles: ['dotenv/config'],
     setupFilesAfterEnv: ['jest-sorted', 'jest-extended/all', './jestSetup/setupFiles.ts'],
     testEnvironment: 'node',
@@ -25,6 +20,7 @@ const generateJestConfig = ({ esModules }: { esModules: string[] }) => {
         'ts-jest',
         {
           tsconfig: 'tsconfig.test.json',
+          useESM: true,
         },
       ],
     },

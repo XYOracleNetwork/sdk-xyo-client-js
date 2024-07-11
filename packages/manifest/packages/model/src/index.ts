@@ -1,2 +1,2 @@
-export * from './Manifest'
-export * from './Payload'
+export * from './Manifest.js'
+export * from './Payload.js'

@@ -19,7 +19,9 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
-import store, { StoreBase } from 'store2'
+import store, { StoreBase, StoreType } from 'store2'
+
+const storeTypes = store as unknown as StoreType
 
 export type StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'
 export const StorageArchivistConfigSchema: StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'
@@ -80,13 +82,13 @@ export class StorageArchivist<
 
   /* This has to be a getter so that it can access it during construction */
   private get privateStorage(): StoreBase {
-    this._privateStorage = this._storage ?? store[this.type].namespace(`${this.namespace}|private`)
+    this._privateStorage = this._storage ?? storeTypes[this.type].namespace(`${this.namespace}|private`)
     return this._privateStorage
   }
 
   /* This has to be a getter so that it can access it during construction */
   private get storage(): StoreBase {
-    this._storage = this._storage ?? store[this.type].namespace(this.namespace)
+    this._storage = this._storage ?? storeTypes[this.type].namespace(this.namespace)
     return this._storage
   }
 

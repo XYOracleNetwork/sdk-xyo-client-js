@@ -1,3 +1,3 @@
-export * from './lib'
-export * from './model'
-export * from './Witness'
+export * from './lib/index.js'
+export * from './model.js'
+export * from './Witness.js'

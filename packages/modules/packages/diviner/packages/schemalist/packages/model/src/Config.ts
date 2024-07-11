@@ -1,7 +1,7 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { SchemaListDivinerSchema } from './Schema'
+import { SchemaListDivinerSchema } from './Schema.js'
 
 export type SchemaListDivinerConfigSchema = `${SchemaListDivinerSchema}.config`
 export const SchemaListDivinerConfigSchema: SchemaListDivinerConfigSchema = `${SchemaListDivinerSchema}.config`

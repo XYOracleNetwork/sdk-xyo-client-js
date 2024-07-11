@@ -2,7 +2,7 @@ import { DivinerModule } from '@xyo-network/diviner-model'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
 import { WitnessModule } from '@xyo-network/witness-model'
 
-import { PayloadSetDivinerPlugin, PayloadSetDualPlugin, PayloadSetWitnessPlugin } from './Plugin'
+import { PayloadSetDivinerPlugin, PayloadSetDualPlugin, PayloadSetWitnessPlugin } from './Plugin.js'
 
 export const createPayloadSetDualPlugin = <TWitness extends WitnessModule = WitnessModule, TDiviner extends DivinerModule = DivinerModule>(
   set: PayloadSetPayload,

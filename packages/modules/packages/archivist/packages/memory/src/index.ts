@@ -1,1 +1,1 @@
-export * from './MemoryArchivist'
+export * from './MemoryArchivist.js'

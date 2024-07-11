@@ -1,11 +1,11 @@
 import { ModuleInstance } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { CustomWitnessModule } from './CustomModule'
-import { WitnessModuleEventData } from './EventData'
-import { WitnessInstance } from './Instance'
-import { WitnessParams } from './Params'
-import { WitnessQueryFunctions } from './QueryFunctions'
+import { CustomWitnessModule } from './CustomModule.js'
+import { WitnessModuleEventData } from './EventData.js'
+import { WitnessInstance } from './Instance.js'
+import { WitnessParams } from './Params.js'
+import { WitnessQueryFunctions } from './QueryFunctions.js'
 
 export type CustomWitnessInstance<
   TParams extends WitnessParams = WitnessParams,

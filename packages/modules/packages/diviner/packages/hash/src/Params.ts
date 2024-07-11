@@ -1,7 +1,7 @@
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 
-import { HashLeaseEstimateDivinerConfig } from './Config'
+import { HashLeaseEstimateDivinerConfig } from './Config.js'
 
 export type HashLeaseEstimateDivinerParams<
   TConfig extends AnyConfigSchema<HashLeaseEstimateDivinerConfig> = AnyConfigSchema<HashLeaseEstimateDivinerConfig>,

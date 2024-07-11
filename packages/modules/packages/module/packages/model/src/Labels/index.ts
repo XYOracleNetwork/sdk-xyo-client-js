@@ -1,2 +1,2 @@
-export * from './Labels'
-export * from './standard'
+export * from './Labels.js'
+export * from './standard/index.js'

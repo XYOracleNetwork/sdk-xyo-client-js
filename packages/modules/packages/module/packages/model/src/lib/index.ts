@@ -1,2 +1,2 @@
-export * from './duplicateModules'
-export * from './serializable'
+export * from './duplicateModules.js'
+export * from './serializable.js'

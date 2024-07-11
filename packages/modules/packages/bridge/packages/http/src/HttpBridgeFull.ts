@@ -15,14 +15,14 @@ import {
 } from '@xylabs/sdk-api-express-ecs'
 import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeExposeOptions, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { standardResponses } from '@xyo-network/express-node-middleware'
+//import { standardResponses } from '@xyo-network/express-node-middleware'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleQueryResult, resolveAddressToInstanceUp } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import express, { Application, Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 
-import { HttpBridgeBase } from './HttpBridgeBase'
-import { HttpBridgeConfig } from './HttpBridgeConfig'
+import { HttpBridgeBase } from './HttpBridgeBase.js'
+import { HttpBridgeConfig } from './HttpBridgeConfig.js'
 
 /**
  * The type of the path parameters for the address path.
@@ -174,7 +174,8 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     // Add middleware
     app.use(responseProfiler)
     app.use(jsonBodyParser)
-    app.use(standardResponses)
+    //removed for now since this causes a cycle
+    //app.use(standardResponses)
     disableExpressDefaultPoweredByHeader(app)
     app.use(customPoweredByHeader)
     disableCaseSensitiveRouting(app)

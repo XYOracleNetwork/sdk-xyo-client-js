@@ -1,6 +1,6 @@
-import { createBrowserWorker } from './createBrowserWorker'
-import { createNodeWorker } from './createNodeWorker'
-import { PayloadHasher } from './PayloadHasher'
+import { createBrowserWorker } from './createBrowserWorker.js'
+import { createNodeWorker } from './createNodeWorker.js'
+import { PayloadHasher } from './PayloadHasher.js'
 
 // We put both in here so that things will work in jsdom/jest
 

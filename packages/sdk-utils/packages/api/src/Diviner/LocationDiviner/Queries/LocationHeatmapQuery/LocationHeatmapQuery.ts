@@ -1,4 +1,4 @@
-import { LocationWitnessSchema } from '../../Witnesses'
+import { LocationWitnessSchema } from '../../Witnesses/index.js'
 
 export type LocationHeatmapQuerySchema = 'network.xyo.location.heatmap.query'
 export const locationHeatmapQuerySchema: LocationHeatmapQuerySchema = 'network.xyo.location.heatmap.query'

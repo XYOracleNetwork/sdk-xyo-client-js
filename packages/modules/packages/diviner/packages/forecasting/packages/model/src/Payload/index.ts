@@ -1,2 +1,2 @@
-export * from './Forecast'
-export * from './Payload'
+export * from './Forecast.js'
+export * from './Payload.js'

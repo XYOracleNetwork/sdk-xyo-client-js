@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { SchemaSchema } from './Schema'
+import { SchemaSchema } from './Schema.js'
 
 export type SchemaPayload = Payload<{
   definition: {

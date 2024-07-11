@@ -2,7 +2,7 @@ import { Address, Hash, Hex } from '@xylabs/hex'
 import { EmptyObject } from '@xylabs/object'
 import { Payload, Schema } from '@xyo-network/payload-model'
 
-import { BoundWitnessSchema } from './BoundWitnessSchema'
+import { BoundWitnessSchema } from './BoundWitnessSchema.js'
 
 export type BoundWitnessFields = {
   $meta: {

@@ -17,7 +17,7 @@ import {
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { WithMeta } from '@xyo-network/payload-model'
 
-import { StatefulDivinerConfig } from './Config'
+import { StatefulDivinerConfig } from './Config.js'
 
 export type StatefulModuleParams = ModuleParams<AnyConfigSchema<StatefulDivinerConfig>>
 

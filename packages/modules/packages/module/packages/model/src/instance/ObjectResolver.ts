@@ -1,8 +1,8 @@
 import { AnyObject, EmptyObject } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 
-import { ModuleIdentifier } from '../ModuleIdentifier'
-import { ObjectFilter, ObjectFilterOptions } from './ObjectFilter'
+import { ModuleIdentifier } from '../ModuleIdentifier.js'
+import { ObjectFilter, ObjectFilterOptions } from './ObjectFilter.js'
 
 export const isObjectResolver = <T extends EmptyObject = AnyObject>(value?: unknown): value is ObjectResolver<T> => {
   // eslint-disable-next-line deprecation/deprecation

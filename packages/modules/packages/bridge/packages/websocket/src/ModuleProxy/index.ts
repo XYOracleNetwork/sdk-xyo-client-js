@@ -1,1 +1,1 @@
-export * from './ModuleProxy'
+export * from './ModuleProxy.js'

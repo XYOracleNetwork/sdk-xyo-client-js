@@ -9,7 +9,7 @@ import {
   SentinelIntervalAutomationPayload,
 } from '@xyo-network/sentinel-model'
 
-import { SentinelIntervalAutomationWrapper } from './SentinelIntervalAutomationWrapper'
+import { SentinelIntervalAutomationWrapper } from './SentinelIntervalAutomationWrapper.js'
 
 export type OnSentinelRunnerTriggerResult = (result: Payload[]) => void
 

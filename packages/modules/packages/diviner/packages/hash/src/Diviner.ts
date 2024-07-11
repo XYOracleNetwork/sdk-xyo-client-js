@@ -3,9 +3,9 @@ import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-mo
 import { creatableModule } from '@xyo-network/module-model'
 import { Payload, Schema } from '@xyo-network/payload-model'
 
-import { HashLeaseEstimateDivinerConfigSchema } from './Config'
-import { HashLeaseEstimateDivinerParams } from './Params'
-import { HashLeaseEstimate, HashLeaseEstimateSchema } from './Payload'
+import { HashLeaseEstimateDivinerConfigSchema } from './Config.js'
+import { HashLeaseEstimateDivinerParams } from './Params.js'
+import { HashLeaseEstimate, HashLeaseEstimateSchema } from './Payload/index.js'
 
 @creatableModule()
 export class HashLeaseEstimateDiviner<

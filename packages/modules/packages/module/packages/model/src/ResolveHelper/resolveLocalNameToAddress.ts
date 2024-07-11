@@ -1,14 +1,14 @@
 import { Address } from '@xylabs/hex'
 
-import { ModuleInstance } from '../instance'
-import { ModuleName } from '../ModuleIdentifier'
-import { ModuleResolveDirection } from './model'
+import { ModuleInstance } from '../instance/index.js'
+import { ModuleName } from '../ModuleIdentifier.js'
+import { ModuleResolveDirection } from './model.js'
 import {
   resolveLocalNameToInstance,
   resolveLocalNameToInstanceAll,
   resolveLocalNameToInstanceDown,
   resolveLocalNameToInstanceUp,
-} from './resolveLocalNameToInstance'
+} from './resolveLocalNameToInstance.js'
 
 export const resolveLocalNameToAddressUp = async (root: ModuleInstance, modName: ModuleName): Promise<Address | undefined> => {
   return (await resolveLocalNameToInstanceUp(root, modName))?.address

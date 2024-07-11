@@ -1,9 +1,9 @@
 import { IsObjectFactory, TypeCheck } from '@xylabs/object'
 
-import { ModuleEventData } from '../../EventsModels'
-import { ModuleParams } from '../../ModuleParams'
-import { ModuleInstance } from '../Instance'
-import { ModuleResolverInstance } from '../ModuleResolver'
+import { ModuleEventData } from '../../EventsModels/index.js'
+import { ModuleParams } from '../../ModuleParams.js'
+import { ModuleInstance } from '../Instance.js'
+import { ModuleResolverInstance } from '../ModuleResolver.js'
 
 export interface AttachableModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends ModuleInstance<TParams, TEventData> {

@@ -1,6 +1,6 @@
 import { AxiosResponse } from '@xylabs/axios'
 
-import { ApiEnvelope } from './Envelope'
+import { ApiEnvelope } from './Envelope.js'
 
 export type ApiResponse<T = unknown, D = unknown> = AxiosResponse<T, D>
 

@@ -1,9 +1,9 @@
 import { AsObjectFactory } from '@xylabs/object'
 import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
 
-import { NodeInstance } from './instance'
-import { NodeModule } from './Node'
-import { NodeAttachedQuerySchema } from './Queries'
+import { NodeInstance } from './instance.js'
+import { NodeModule } from './Node.js'
+import { NodeAttachedQuerySchema } from './Queries/index.js'
 
 const instanceFactory = new IsInstanceFactory<NodeInstance>()
 

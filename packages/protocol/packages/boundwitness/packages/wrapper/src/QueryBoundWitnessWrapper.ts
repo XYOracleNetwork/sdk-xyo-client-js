@@ -5,7 +5,7 @@ import { PayloadBuilder } from '@xyo-network/payload'
 import { Payload, Query, WithMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { BoundWitnessWrapper } from './BoundWitnessWrapper'
+import { BoundWitnessWrapper } from './BoundWitnessWrapper.js'
 
 export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitnessWrapper<QueryBoundWitness> {
   private _payloadsWithoutQuery: PayloadWrapper<Payload>[] | undefined

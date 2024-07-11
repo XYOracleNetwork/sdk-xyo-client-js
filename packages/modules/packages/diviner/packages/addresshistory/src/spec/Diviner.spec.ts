@@ -7,7 +7,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { WithMeta } from '@xyo-network/payload-model'
 
-import { AddressHistoryDiviner } from '../Diviner'
+import { AddressHistoryDiviner } from '../Diviner.js'
 
 /**
  * @group module

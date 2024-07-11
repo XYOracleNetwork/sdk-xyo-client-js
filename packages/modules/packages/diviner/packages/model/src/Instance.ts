@@ -1,10 +1,10 @@
 import { ModuleInstance } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { DivinerQueryFunctions } from './DivinerQueryFunctions'
-import { DivinerModuleEventData } from './EventData'
-import { DivinerModule } from './Module'
-import { DivinerParams } from './Params'
+import { DivinerQueryFunctions } from './DivinerQueryFunctions.js'
+import { DivinerModuleEventData } from './EventData.js'
+import { DivinerModule } from './Module.js'
+import { DivinerParams } from './Params.js'
 
 export interface DivinerInstance<
   TParams extends DivinerParams = DivinerParams,

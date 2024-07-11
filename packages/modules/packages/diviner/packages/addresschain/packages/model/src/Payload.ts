@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { AddressChainSchema } from './Schema'
+import { AddressChainSchema } from './Schema.js'
 
 export type AddressChainPayload = Payload<{ schema: AddressChainSchema }>
 export const isAddressChainPayload = (x?: Payload | null): x is AddressChainPayload => x?.schema === AddressChainSchema

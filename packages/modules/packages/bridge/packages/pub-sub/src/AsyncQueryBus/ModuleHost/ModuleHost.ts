@@ -1,6 +1,6 @@
-import { AbstractModuleHost, ModuleHostParams } from '../../AbstractModuleHost'
-import { AsyncQueryBusHost } from '../AsyncQueryBusHost'
-import { AsyncQueryBusHostConfig } from '../model'
+import { AbstractModuleHost, ModuleHostParams } from '../../AbstractModuleHost/index.js'
+import { AsyncQueryBusHost } from '../AsyncQueryBusHost.js'
+import { AsyncQueryBusHostConfig } from '../model/index.js'
 
 export type AsyncQueryBusModuleHostParams = ModuleHostParams & {
   config: AsyncQueryBusHostConfig

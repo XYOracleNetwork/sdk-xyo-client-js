@@ -1,7 +1,7 @@
 import { ApiConfig } from '@xyo-network/api-models'
 import { v4 as uuid } from 'uuid'
 
-import { ArchivistApi } from '../Api'
+import { ArchivistApi } from '../Api.js'
 
 test('Must have tests defined', () => {
   expect(true).toBeTruthy()

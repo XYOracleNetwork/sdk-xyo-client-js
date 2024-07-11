@@ -24,7 +24,7 @@ import {
   indexedDB,
 } from 'fake-indexeddb'
 
-import { GenericPayloadDiviner, GenericPayloadDivinerConfigSchema } from '../Diviner'
+import { GenericPayloadDiviner, GenericPayloadDivinerConfigSchema } from '../Diviner.js'
 
 /**
  * @group module

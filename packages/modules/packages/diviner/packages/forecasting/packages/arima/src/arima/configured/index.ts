@@ -1,2 +1,2 @@
-export * from './arima'
-export * from './seasonalArima'
+export * from './arima.js'
+export * from './seasonalArima.js'

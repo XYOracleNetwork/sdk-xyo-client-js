@@ -3,7 +3,7 @@ import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { ModuleConfig } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { IndexDescription } from './IndexDescription'
+import { IndexDescription } from './IndexDescription.js'
 
 export interface ArchivistParents {
   commit?: Address[]

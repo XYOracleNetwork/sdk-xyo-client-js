@@ -7,8 +7,8 @@ import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload, Schema } from '@xyo-network/payload-model'
 
-import { HuriPayloadDivinerConfig, HuriPayloadDivinerConfigSchema } from './Config'
-import { HuriPayload, HuriSchema } from './HuriPayload'
+import { HuriPayloadDivinerConfig, HuriPayloadDivinerConfigSchema } from './Config.js'
+import { HuriPayload, HuriSchema } from './HuriPayload.js'
 
 export type HuriPayloadDivinerParams<TConfig extends AnyConfigSchema<HuriPayloadDivinerConfig> = AnyConfigSchema<HuriPayloadDivinerConfig>> =
   DivinerParams<TConfig>

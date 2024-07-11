@@ -1,5 +1,5 @@
-import { ApiError } from './Error'
-import { ApiWarning } from './Warning'
+import { ApiError } from './Error.js'
+import { ApiWarning } from './Warning.js'
 
 export interface ApiEnvelopeBase {
   warning?: ApiWarning[]

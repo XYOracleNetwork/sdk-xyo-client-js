@@ -3,9 +3,9 @@ import { merge } from '@xylabs/lodash'
 import { Logger } from '@xylabs/logger'
 import { Schema } from '@xyo-network/payload-model'
 
-import { AttachableModuleInstance } from '../instance'
-import { Labels, WithOptionalLabels } from '../Labels'
-import { CreatableModule, CreatableModuleFactory } from './CreatableModule'
+import { AttachableModuleInstance } from '../instance/index.js'
+import { Labels, WithOptionalLabels } from '../Labels/index.js'
+import { CreatableModule, CreatableModuleFactory } from './CreatableModule.js'
 
 export class ModuleFactory<TModule extends AttachableModuleInstance> implements CreatableModuleFactory<TModule> {
   configSchemas: CreatableModuleFactory<TModule>['configSchemas']

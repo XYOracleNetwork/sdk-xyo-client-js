@@ -1,4 +1,4 @@
-import { Payload } from './Payload'
+import { Payload } from './Payload.js'
 
 /**
  * A function that validates the supplied payload

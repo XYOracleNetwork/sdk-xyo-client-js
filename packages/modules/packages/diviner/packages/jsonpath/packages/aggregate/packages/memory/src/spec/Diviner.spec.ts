@@ -6,7 +6,7 @@ import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/div
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
-import { JsonPathAggregateDiviner } from '../Diviner'
+import { JsonPathAggregateDiviner } from '../Diviner.js'
 
 function countCombinations<T>(jaggedArray: T[][]): number {
   return jaggedArray.reduce((total, currentArray) => total * currentArray.length, 1)

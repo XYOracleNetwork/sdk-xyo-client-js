@@ -1,13 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { asAddress } from '@xylabs/hex'
 
-import { ModuleInstance } from '../instance'
-import { MODULE_PATH_SEPARATOR } from '../ModuleIdentifier'
-import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer'
-import { resolveAddressToInstance } from './resolveAddressToInstance'
-import { ResolveHelperStatic } from './ResolveHelperStatic'
-import { resolveLocalNameToAddress } from './resolveLocalNameToAddress'
-import { transformModuleIdentifier } from './transformModuleIdentifier'
+import { ModuleInstance } from '../instance/index.js'
+import { MODULE_PATH_SEPARATOR } from '../ModuleIdentifier.js'
+import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.js'
+import { resolveAddressToInstance } from './resolveAddressToInstance.js'
+import { ResolveHelperStatic } from './ResolveHelperStatic.js'
+import { resolveLocalNameToAddress } from './resolveLocalNameToAddress.js'
+import { transformModuleIdentifier } from './transformModuleIdentifier.js'
 
 export const resolvePathToInstance = async (
   root: ModuleInstance,

@@ -2,9 +2,9 @@ import { assertEx } from '@xylabs/assert'
 import { staticImplements } from '@xylabs/static-implements'
 import { PrivateKeyInstance, PrivateKeyStatic, PublicKeyInstance } from '@xyo-network/key-model'
 
-import { Elliptic } from '../Elliptic'
-import { EllipticKey } from './EllipticKey'
-import { PublicKey } from './PublicKey'
+import { Elliptic } from '../Elliptic.js'
+import { EllipticKey } from './EllipticKey.js'
+import { PublicKey } from './PublicKey.js'
 
 @staticImplements<PrivateKeyStatic>()
 export class PrivateKey extends EllipticKey implements PrivateKeyInstance {

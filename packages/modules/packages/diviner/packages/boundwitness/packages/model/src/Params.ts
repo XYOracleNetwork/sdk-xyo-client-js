@@ -1,6 +1,6 @@
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 
-import { BoundWitnessDivinerConfig } from './Config'
+import { BoundWitnessDivinerConfig } from './Config.js'
 
 export type BoundWitnessDivinerParams = DivinerParams<AnyConfigSchema<BoundWitnessDivinerConfig>>

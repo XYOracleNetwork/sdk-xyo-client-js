@@ -1,2 +1,2 @@
-export * from './jsonPathToTransformersDictionary'
-export * from './reducePayloads'
+export * from './jsonPathToTransformersDictionary.js'
+export * from './reducePayloads.js'

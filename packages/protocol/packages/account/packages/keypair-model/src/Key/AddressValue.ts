@@ -1,4 +1,4 @@
-import { EllipticKeyInstance } from './EllipticKey'
+import { EllipticKeyInstance } from './EllipticKey.js'
 
 export interface AddressValueInstance extends EllipticKeyInstance {}
 

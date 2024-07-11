@@ -1,9 +1,9 @@
 import { Address } from '@xylabs/hex'
 
-import { ModuleInstance } from '../instance'
-import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer'
-import { ResolveHelperStatic } from './ResolveHelperStatic'
-import { resolvePathToInstance } from './resolvePathToInstance'
+import { ModuleInstance } from '../instance/index.js'
+import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.js'
+import { ResolveHelperStatic } from './ResolveHelperStatic.js'
+import { resolvePathToInstance } from './resolvePathToInstance.js'
 
 export const resolvePathToAddress = async (
   root: ModuleInstance,

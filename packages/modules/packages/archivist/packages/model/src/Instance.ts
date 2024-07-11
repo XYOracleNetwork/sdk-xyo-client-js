@@ -1,11 +1,11 @@
 import { ModuleInstance } from '@xyo-network/module-model'
 import { Payload, WithMeta } from '@xyo-network/payload-model'
 
-import { ArchivistModuleEventData } from './EventData'
-import { ArchivistModule } from './Module'
-import { ArchivistParams } from './Params'
-import { ArchivistQueryFunctions } from './QueryFunctions'
-import { ArchivistRawQueryFunctions } from './RawQueryFunctions'
+import { ArchivistModuleEventData } from './EventData.js'
+import { ArchivistModule } from './Module.js'
+import { ArchivistParams } from './Params.js'
+import { ArchivistQueryFunctions } from './QueryFunctions.js'
+import { ArchivistRawQueryFunctions } from './RawQueryFunctions.js'
 
 export interface ArchivistInstance<
   TParams extends ArchivistParams = ArchivistParams,

@@ -1,8 +1,8 @@
 import { EventFunctions } from '@xyo-network/module-events'
 
-import { ModuleEventData } from '../EventsModels'
-import { ModuleParams } from '../ModuleParams'
-import { ModuleFields } from './ModuleFields'
+import { ModuleEventData } from '../EventsModels/index.js'
+import { ModuleParams } from '../ModuleParams.js'
+import { ModuleFields } from './ModuleFields.js'
 
 export interface Module<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData<object> = ModuleEventData<object>>
   extends ModuleFields<TParams>,

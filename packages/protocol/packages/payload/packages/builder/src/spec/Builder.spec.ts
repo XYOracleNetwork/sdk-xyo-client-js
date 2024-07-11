@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { PayloadBuilder } from '../src'
+import { PayloadBuilder } from '../Builder.js'
 
 const schema = 'network.xyo.temp'
 

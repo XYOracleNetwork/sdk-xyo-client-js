@@ -17,7 +17,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
-import { BridgeQuerySender, HttpModuleProxy, HttpModuleProxyParams } from './ModuleProxy'
+import { BridgeQuerySender, HttpModuleProxy, HttpModuleProxyParams } from './ModuleProxy/index.js'
 
 const NotFoundModule = { notFound: true }
 

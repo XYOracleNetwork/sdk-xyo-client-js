@@ -1,2 +1,2 @@
-export * from './DivineEnd'
-export * from './DivineStart'
+export * from './DivineEnd.js'
+export * from './DivineStart.js'

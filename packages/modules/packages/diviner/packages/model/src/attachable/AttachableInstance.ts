@@ -2,9 +2,9 @@ import { IsObjectFactory, TypeCheck } from '@xylabs/object'
 import { AttachableModuleInstance } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { DivinerModuleEventData } from '../EventData'
-import { DivinerInstance } from '../Instance'
-import { DivinerParams } from '../Params'
+import { DivinerModuleEventData } from '../EventData.js'
+import { DivinerInstance } from '../Instance.js'
+import { DivinerParams } from '../Params.js'
 
 export interface AttachableDivinerInstance<
   TParams extends DivinerParams = DivinerParams,

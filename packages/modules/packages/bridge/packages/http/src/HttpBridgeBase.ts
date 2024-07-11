@@ -31,9 +31,9 @@ import { isPayloadOfSchemaType, Payload, Schema, WithMeta } from '@xyo-network/p
 import { Mutex, Semaphore } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
-import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
-import { HttpBridgeModuleResolver } from './HttpBridgeModuleResolver'
-import { BridgeQuerySender } from './ModuleProxy'
+import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig.js'
+import { HttpBridgeModuleResolver } from './HttpBridgeModuleResolver.js'
+import { BridgeQuerySender } from './ModuleProxy/index.js'
 
 export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {
   axios?: AxiosJson

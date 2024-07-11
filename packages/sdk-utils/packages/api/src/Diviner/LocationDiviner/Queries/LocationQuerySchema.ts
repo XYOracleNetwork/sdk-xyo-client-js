@@ -1,6 +1,6 @@
-import { LocationHeatmapQuerySchema } from './LocationHeatmapQuery'
-import { LocationQuadkeyHeatmapQuerySchema } from './LocationQuadkeyHeatmapQuery'
-import { LocationTimeRangeQuerySchema } from './LocationTimeRangeQuery'
+import { LocationHeatmapQuerySchema } from './LocationHeatmapQuery/index.js'
+import { LocationQuadkeyHeatmapQuerySchema } from './LocationQuadkeyHeatmapQuery/index.js'
+import { LocationTimeRangeQuerySchema } from './LocationTimeRangeQuery/index.js'
 
 export type LocationQuerySchema = LocationQuadkeyHeatmapQuerySchema | LocationHeatmapQuerySchema | LocationTimeRangeQuerySchema
 

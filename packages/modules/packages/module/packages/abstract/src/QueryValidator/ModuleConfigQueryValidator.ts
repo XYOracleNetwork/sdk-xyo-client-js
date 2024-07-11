@@ -3,7 +3,7 @@ import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQueries } from '@xyo-network/module-model'
 import { Schema } from '@xyo-network/payload-model'
 
-import { Queryable, QueryValidator } from './QueryValidator'
+import { Queryable, QueryValidator } from './QueryValidator.js'
 
 export type SortedPipedAddressesString = string
 

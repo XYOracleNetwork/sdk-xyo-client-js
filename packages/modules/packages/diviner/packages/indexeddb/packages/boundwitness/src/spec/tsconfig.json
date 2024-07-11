@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom"]
+    "lib": ["dom"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
   },
   "extends": "@xylabs/tsconfig-jest"
 }

@@ -1,1 +1,1 @@
-export * from './FilesystemArchivist'
+export * from './FilesystemArchivist.js'

@@ -13,7 +13,7 @@ import {
 } from '@xyo-network/sdk-geo'
 import { LngLat, LngLatLike } from 'mapbox-gl'
 
-import { RelativeDirectionConstantLookup } from './RelativeDirectionConstantLookup'
+import { RelativeDirectionConstantLookup } from './RelativeDirectionConstantLookup.js'
 
 const MAX_ZOOM = 124
 

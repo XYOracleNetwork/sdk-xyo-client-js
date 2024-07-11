@@ -1,5 +1,5 @@
-import { typeOf } from './typeOf'
-import { TypeOfTypes } from './TypeOfTypes'
+import { typeOf } from './typeOf.js'
+import { TypeOfTypes } from './TypeOfTypes.js'
 
 export const ifTypeOf = <T, R>(typeName: TypeOfTypes, value: unknown, trueFunction: (value: T) => R, isFunction?: (value: T) => boolean) => {
   switch (typeOf(value)) {

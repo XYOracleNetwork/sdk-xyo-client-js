@@ -1,4 +1,4 @@
-import { DnsRecordType } from './DnsRecordType'
+import { DnsRecordType } from './DnsRecordType.js'
 
 export interface GoogleDnsResultAnswer {
   TTL?: number

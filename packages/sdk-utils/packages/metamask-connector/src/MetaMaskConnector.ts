@@ -81,12 +81,12 @@ export class MetaMaskConnector {
   }
 
   providerRemoveListener(event: string, listener: Listener) {
-    this.ethereum?.removeListener(event, listener)
+    //this.ethereum?.removeListener(event, listener)
     this.providerListeners = this.providerListeners.filter(([, savedListener]) => listener !== savedListener)
   }
 
   providerRemoveListeners() {
-    for (const [event, listener] of this.providerListeners) this.ethereum?.removeListener(event, listener)
+    //for (const [event, listener] of this.providerListeners) this.ethereum?.removeListener(event, listener)
   }
 
   async requestAccounts(): Promise<string[] | null> {

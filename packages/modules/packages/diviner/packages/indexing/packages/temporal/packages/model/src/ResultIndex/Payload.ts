@@ -1,7 +1,7 @@
 import { Hash } from '@xylabs/hex'
 import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
 
-import { TemporalIndexingDivinerResultIndexSchema } from './Schema'
+import { TemporalIndexingDivinerResultIndexSchema } from './Schema.js'
 
 export type TemporalIndexingDivinerResultIndex = Payload<
   {

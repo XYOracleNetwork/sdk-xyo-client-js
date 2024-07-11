@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { isValuePayload } from '@xyo-network/value-payload-plugin'
 
-import { EnvironmentWitnessConfigSchema } from '../Config'
+import { EnvironmentWitnessConfigSchema } from '../Config.js'
 import { EnvironmentSubset, EnvironmentSubsetSchema } from '../Payload'
 import { EnvironmentWitness } from '../Witness'
 

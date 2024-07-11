@@ -10,10 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/plugins/issues"
   },
   "dependencies": {
-    "@xylabs/axios": "^3.5.5",
-    "@xylabs/hex": "^3.5.5",
-    "@xylabs/lodash": "^3.5.5",
-    "@xylabs/platform": "^3.5.5",
+    "@xylabs/axios": "^3.5.9",
+    "@xylabs/hex": "^3.5.9",
+    "@xylabs/lodash": "^3.5.9",
+    "@xylabs/platform": "^3.5.9",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/dns": "workspace:^",
     "@xyo-network/huri": "workspace:^",

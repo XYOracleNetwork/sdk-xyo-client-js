@@ -8,8 +8,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Schema } from '@xyo-network/payload-model'
 import { IDBPDatabase, openDB } from 'idb'
 
-import { IndexedDbBoundWitnessDivinerConfigSchema } from './Config'
-import { IndexedDbBoundWitnessDivinerParams } from './Params'
+import { IndexedDbBoundWitnessDivinerConfigSchema } from './Config.js'
+import { IndexedDbBoundWitnessDivinerParams } from './Params.js'
 
 interface BoundWitnessStore {
   [s: string]: BoundWitness

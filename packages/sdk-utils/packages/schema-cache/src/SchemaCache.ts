@@ -6,8 +6,8 @@ import { SchemaPayload, SchemaSchema } from '@xyo-network/schema-payload-plugin'
 import { Ajv, SchemaObject } from 'ajv'
 import { LRUCache } from 'lru-cache'
 
-import { Debounce } from './Debounce'
-import { SchemaNameToValidatorMap } from './SchemaNameToValidatorMap'
+import { Debounce } from './Debounce.js'
+import { SchemaNameToValidatorMap } from './SchemaNameToValidatorMap.js'
 
 const getSchemaNameFromSchema = (schema: SchemaObject) => {
   if (schema.$id) {

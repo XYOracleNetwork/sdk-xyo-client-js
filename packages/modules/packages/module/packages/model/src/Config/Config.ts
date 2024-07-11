@@ -1,8 +1,8 @@
 import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { Payload, Schema } from '@xyo-network/payload-model'
 
-import { ArchivingModuleConfig } from './Archiving'
-import { ModuleConfigFields } from './Fields'
+import { ArchivingModuleConfig } from './Archiving.js'
+import { ModuleConfigFields } from './Fields.js'
 
 export type ModuleConfigSchema = 'network.xyo.module.config'
 export const ModuleConfigSchema: ModuleConfigSchema = 'network.xyo.module.config'

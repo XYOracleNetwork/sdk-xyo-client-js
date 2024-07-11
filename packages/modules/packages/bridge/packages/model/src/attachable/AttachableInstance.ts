@@ -1,10 +1,10 @@
 import { IsObjectFactory, TypeCheck } from '@xylabs/object'
 import { AttachableModuleInstance } from '@xyo-network/module-model'
 
-import { BridgeModuleEventData } from '../EventData'
-import { BridgeInstance } from '../Instance'
-import { BridgeModule } from '../Module'
-import { BridgeParams } from '../Params'
+import { BridgeModuleEventData } from '../EventData.js'
+import { BridgeInstance } from '../Instance.js'
+import { BridgeModule } from '../Module.js'
+import { BridgeParams } from '../Params.js'
 
 export interface AttachableBridgeInstance<
   TParams extends BridgeParams = BridgeParams,

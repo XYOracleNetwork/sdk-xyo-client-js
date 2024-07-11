@@ -4,15 +4,19 @@ import { omitBy } from '@xylabs/lodash'
 import { EmptyObject, ObjectWrapper } from '@xylabs/object'
 import { subtle } from '@xylabs/platform'
 import { ModuleThread, Pool, spawn, Worker } from '@xylabs/threads'
-// eslint-disable-next-line import/no-unresolved, import/no-internal-modules
-import { WorkerModule } from '@xylabs/threads/dist/types/worker'
 import { WasmSupport } from '@xyo-network/wasm'
 import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 
-import { removeEmptyFields } from './removeEmptyFields'
-import { sortFields } from './sortFields'
-import { jsHashFunc, subtleHashFunc, wasmHashFunc } from './worker'
+import { removeEmptyFields } from './removeEmptyFields.js'
+import { sortFields } from './sortFields.js'
+import { jsHashFunc, subtleHashFunc, wasmHashFunc } from './worker/index.js'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type WorkerFunction = ((...args: any[]) => any) | (() => any)
+export type WorkerModule<Keys extends string> = {
+  [key in Keys]: WorkerFunction
+}
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
 

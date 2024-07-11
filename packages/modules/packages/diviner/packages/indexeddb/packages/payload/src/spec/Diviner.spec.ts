@@ -24,7 +24,7 @@ import {
   indexedDB,
 } from 'fake-indexeddb'
 
-import { IndexedDbPayloadDiviner } from '../Diviner'
+import { IndexedDbPayloadDiviner } from '../Diviner.js'
 
 // Augment window with prototypes to ensure instance of comparisons work
 window.IDBCursor = IDBCursor

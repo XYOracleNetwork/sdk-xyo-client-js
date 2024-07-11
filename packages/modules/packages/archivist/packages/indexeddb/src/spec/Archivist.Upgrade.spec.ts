@@ -19,8 +19,8 @@ import {
   indexedDB,
 } from 'fake-indexeddb'
 
-import { IndexedDbArchivist } from '../Archivist'
-import { IndexedDbArchivistConfig, IndexedDbArchivistConfigSchema } from '../Config'
+import { IndexedDbArchivist } from '../Archivist.js'
+import { IndexedDbArchivistConfig, IndexedDbArchivistConfigSchema } from '../Config.js'
 
 // Augment window with prototypes to ensure instance of comparisons work
 window.IDBCursor = IDBCursor

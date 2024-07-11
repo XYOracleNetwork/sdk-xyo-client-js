@@ -8,9 +8,9 @@ import { AnyConfigSchema, creatableModule, ModuleInstance } from '@xyo-network/m
 import { Payload } from '@xyo-network/payload-model'
 import { Server, Socket } from 'socket.io'
 
-import { WebsocketClientBridge } from './ClientBridge'
-import { WebsocketBridgeConfig } from './Config'
-import { WebsocketBridgeParams } from './Params'
+import { WebsocketClientBridge } from './ClientBridge.js'
+import { WebsocketBridgeConfig } from './Config.js'
+import { WebsocketBridgeParams } from './Params.js'
 
 export const BridgeCommands = {
   join: 'join',

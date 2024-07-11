@@ -1,1 +1,1 @@
-export * from './MemoryBoundWitnessDiviner'
+export * from './MemoryBoundWitnessDiviner.js'

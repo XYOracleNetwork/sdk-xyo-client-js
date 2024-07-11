@@ -1,6 +1,6 @@
-import { isAnyPayload } from './isPayload'
-import { WithMeta } from './Meta'
-import { Payload } from './Payload'
+import { isAnyPayload } from './isPayload.js'
+import { WithMeta } from './Meta.js'
+import { Payload } from './Payload.js'
 
 /**
  * Return true if the value is a payload with the required meta fields

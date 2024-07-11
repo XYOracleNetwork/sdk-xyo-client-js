@@ -19,7 +19,8 @@ export class StoragePreviousHashStore implements PreviousHashStore {
   constructor(opts?: StoragePreviousHashOpts) {
     if (opts?.namespace) this._namespace = opts.namespace
     if (opts?.type) this._type = opts.type
-    this._storage = store[this.type].namespace(this.namespace)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this._storage = (store as any)[this.type].namespace(this.namespace)
   }
 
   get namespace() {
@@ -31,7 +32,8 @@ export class StoragePreviousHashStore implements PreviousHashStore {
   }
 
   private get storage(): StoreBase {
-    if (!this?._storage) this._storage = store[this.type].namespace(this.namespace)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (!this?._storage) this._storage = (store as any)[this.type].namespace(this.namespace) as StoreBase
     return this._storage
   }
 

@@ -1,2 +1,2 @@
-export * from './HashLease'
-export * from './HashLeaseEstimate'
+export * from './HashLease.js'
+export * from './HashLeaseEstimate.js'

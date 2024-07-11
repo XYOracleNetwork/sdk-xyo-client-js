@@ -1,7 +1,7 @@
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 
-import { TemporalIndexingDivinerIndexCandidateToIndexDivinerConfig } from './Config'
+import { TemporalIndexingDivinerIndexCandidateToIndexDivinerConfig } from './Config.js'
 
 /**
  * Diviner Params for a Diviner which transforms Index Candidates to Indexes

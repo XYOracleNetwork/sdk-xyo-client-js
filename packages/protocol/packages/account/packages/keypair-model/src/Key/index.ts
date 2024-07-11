@@ -1,3 +1,3 @@
-export * from './AddressValue'
-export * from './PrivateKey'
-export * from './PublicKey'
+export * from './AddressValue.js'
+export * from './PrivateKey.js'
+export * from './PublicKey.js'

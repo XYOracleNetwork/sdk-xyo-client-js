@@ -1,6 +1,6 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
-import { AddressSpaceSchema } from './Schema'
+import { AddressSpaceSchema } from './Schema.js'
 
 export type AddressSpaceDivinerConfigSchema = `${AddressSpaceSchema}.diviner.config`
 export const AddressSpaceDivinerConfigSchema: AddressSpaceDivinerConfigSchema = `${AddressSpaceSchema}.diviner.config`

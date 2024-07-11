@@ -35,7 +35,7 @@ import { isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, WithMet
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 
-import { ModuleProxyResolver } from './ModuleProxyResolver'
+import { ModuleProxyResolver } from './ModuleProxyResolver.js'
 
 export type ModuleProxyParams = ModuleParams<
   {

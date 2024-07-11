@@ -7,7 +7,7 @@ import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-m
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { ViewArchivist } from '../ViewArchivist'
+import { ViewArchivist } from '../ViewArchivist.js'
 
 /**
  * @group module

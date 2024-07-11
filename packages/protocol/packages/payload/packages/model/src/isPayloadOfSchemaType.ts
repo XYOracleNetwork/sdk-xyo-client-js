@@ -1,6 +1,6 @@
-import { isAnyPayload } from './isPayload'
-import { WithMeta } from './Meta'
-import { Payload, WithSources } from './Payload'
+import { isAnyPayload } from './isPayload.js'
+import { WithMeta } from './Meta.js'
+import { Payload, WithSources } from './Payload.js'
 
 export const isPayloadOfSchemaType = <T extends Payload>(schema: string) => {
   return (x?: unknown | null): x is T => isAnyPayload(x) && x?.schema === schema

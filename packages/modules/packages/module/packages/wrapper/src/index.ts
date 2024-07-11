@@ -1,2 +1,2 @@
-export * from './models'
-export * from './ModuleWrapper'
+export * from './models.js'
+export * from './ModuleWrapper.js'

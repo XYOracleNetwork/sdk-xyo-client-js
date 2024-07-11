@@ -1,8 +1,8 @@
 import { IsObjectFactory, ObjectTypeShape, TypeCheck } from '@xylabs/object'
 import { isAttachableModuleInstance } from '@xyo-network/module-model'
 
-import { isWitnessInstance } from '../typeChecks'
-import { AttachableWitnessInstance } from './AttachableInstance'
+import { isWitnessInstance } from '../typeChecks.js'
+import { AttachableWitnessInstance } from './AttachableInstance.js'
 
 export const requiredAttachableWitnessInstanceFunctions: ObjectTypeShape = {}
 

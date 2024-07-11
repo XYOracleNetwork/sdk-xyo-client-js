@@ -10,7 +10,7 @@ import {
 } from '@xyo-network/module-model'
 import { Schema } from '@xyo-network/payload-model'
 
-import { standardCreatableFactories } from './standardCreatableFactories'
+import { standardCreatableFactories } from './standardCreatableFactories.js'
 
 /**
  * A class which encapsulates the Service Locator Pattern for Module Factories

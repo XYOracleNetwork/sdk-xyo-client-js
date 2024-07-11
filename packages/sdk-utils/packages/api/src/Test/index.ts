@@ -1,2 +1,2 @@
-export * from './testBoundWitness'
-export * from './testPayload'
+export * from './testBoundWitness.js'
+export * from './testPayload.js'

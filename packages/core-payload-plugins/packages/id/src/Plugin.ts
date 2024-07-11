@@ -1,8 +1,8 @@
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import { IdPayload } from './Payload'
-import { IdSchema } from './Schema'
-import { idPayloadTemplate } from './Template'
+import { IdPayload } from './Payload.js'
+import { IdSchema } from './Schema.js'
+import { idPayloadTemplate } from './Template.js'
 
 export const IdPayloadPlugin = () =>
   createPayloadPlugin<IdPayload>({

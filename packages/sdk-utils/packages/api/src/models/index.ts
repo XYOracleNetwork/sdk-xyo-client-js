@@ -1,1 +1,1 @@
-export * from './ArchivePath'
+export * from './ArchivePath.js'

@@ -1,6 +1,6 @@
 import { Query } from '@xyo-network/payload-model'
 
-import { BridgeExposeOptions } from './Expose'
+import { BridgeExposeOptions } from './Expose.js'
 
 export const BridgeUnexposeQuerySchema = 'network.xyo.query.bridge.unexpose' as const
 export type BridgeUnexposeQuerySchema = typeof BridgeUnexposeQuerySchema

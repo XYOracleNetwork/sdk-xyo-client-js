@@ -1,5 +1,5 @@
-import { Payload } from '../Payload'
-import { PayloadSetSchema } from './PayloadSetSchema'
+import { Payload } from '../Payload.js'
+import { PayloadSetSchema } from './PayloadSetSchema.js'
 
 export interface PayloadSet {
   optional?: Record<string, number>

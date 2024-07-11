@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher'
+import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher.js'
 /*
 const cryptoTest = async () => {
   const testObject = {

@@ -11,7 +11,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, WithMeta } from '@xyo-network/payload-model'
 
-import { StatefulDiviner } from '../Diviner'
+import { StatefulDiviner } from '../Diviner.js'
 import TestManifest from './TestManifest.json'
 
 class TestStatefulDiviner extends StatefulDiviner {

@@ -1,2 +1,2 @@
-export * from './Diviner'
-export * from './jsonpath'
+export * from './Diviner.js'
+export * from './jsonpath/index.js'

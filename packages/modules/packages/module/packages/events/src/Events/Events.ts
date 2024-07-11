@@ -3,7 +3,7 @@ import { handleError } from '@xylabs/error'
 import { forget } from '@xylabs/forget'
 import { Base, BaseParams } from '@xylabs/object'
 
-import { EventAnyListener, EventArgs, EventData, EventFunctions, EventListener, EventName } from '../model'
+import { EventAnyListener, EventArgs, EventData, EventFunctions, EventListener, EventName } from '../model/index.js'
 
 /**
 Emittery can collect and log debug information.

@@ -1,1 +1,1 @@
-export * from './DivinerWrapper'
+export * from './DivinerWrapper.js'

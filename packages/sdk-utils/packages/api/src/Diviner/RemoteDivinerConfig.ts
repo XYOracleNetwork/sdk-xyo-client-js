@@ -1,6 +1,6 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
-import { ArchivistApi } from '../Api'
+import { ArchivistApi } from '../Api/index.js'
 
 export type RemoteDivinerConfigSchema = 'network.xyo.diviner.remote.config'
 export const RemoteDivinerConfigSchema: RemoteDivinerConfigSchema = 'network.xyo.diviner.remote.config'

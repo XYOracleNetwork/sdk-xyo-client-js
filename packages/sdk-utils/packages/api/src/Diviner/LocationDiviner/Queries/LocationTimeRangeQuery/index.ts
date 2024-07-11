@@ -1,2 +1,2 @@
-export * from './LocationTimeRangePointProperties'
-export * from './LocationTimeRangeQuery'
+export * from './LocationTimeRangePointProperties.js'
+export * from './LocationTimeRangeQuery.js'

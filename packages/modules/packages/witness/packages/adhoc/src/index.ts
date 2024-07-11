@@ -1,1 +1,1 @@
-export * from './Witness'
+export * from './Witness.js'

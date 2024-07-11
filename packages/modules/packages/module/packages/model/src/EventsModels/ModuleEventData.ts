@@ -1,6 +1,6 @@
-import { ModuleBusyEventData } from './ModuleBusy'
-import { ModuleErrorEventData } from './ModuleError'
-import { ModuleQueriedEventData } from './ModuleQueried'
+import { ModuleBusyEventData } from './ModuleBusy.js'
+import { ModuleErrorEventData } from './ModuleError.js'
+import { ModuleQueriedEventData } from './ModuleQueried.js'
 
 export interface ModuleEventData<TModule extends object = object>
   extends ModuleQueriedEventData<TModule>,

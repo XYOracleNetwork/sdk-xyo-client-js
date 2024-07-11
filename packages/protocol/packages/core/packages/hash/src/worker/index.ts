@@ -1,3 +1,3 @@
-export * from './jsHashNode'
-export * from './subtleHashNode'
-export * from './wasmHashNode'
+export * from './jsHashNode.js'
+export * from './subtleHashNode.js'
+export * from './wasmHashNode.js'

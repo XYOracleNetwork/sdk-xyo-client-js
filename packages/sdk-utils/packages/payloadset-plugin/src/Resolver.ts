@@ -15,7 +15,7 @@ import {
   PayloadSetWitnessPlugin,
   tryAsPayloadSetDivinerPlugin,
   tryAsPayloadSetWitnessPlugin,
-} from './Plugin'
+} from './Plugin.js'
 
 export class PayloadSetPluginResolver {
   protected _params: Record<string, PayloadSetPlugin['params'] | undefined> = {}

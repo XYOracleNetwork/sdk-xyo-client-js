@@ -1,3 +1,3 @@
-export * from './ModuleConfigQueryValidator'
-export * from './QueryValidator'
-export * from './SupportedQueryValidator'
+export * from './ModuleConfigQueryValidator.js'
+export * from './QueryValidator.js'
+export * from './SupportedQueryValidator.js'

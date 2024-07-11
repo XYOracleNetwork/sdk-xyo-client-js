@@ -1,8 +1,8 @@
 import { Address } from '@xylabs/hex'
 import { EmptyObject } from '@xylabs/object'
 
-import { Payload } from './Payload'
-import { Schema, WithSchema } from './Schema'
+import { Payload } from './Payload.js'
+import { Schema, WithSchema } from './Schema.js'
 
 export interface QueryFields {
   /** @field The addresses of the intended handlers */

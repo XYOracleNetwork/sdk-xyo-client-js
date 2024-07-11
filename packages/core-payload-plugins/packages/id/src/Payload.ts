@@ -7,7 +7,7 @@ import {
   WithSources,
 } from '@xyo-network/payload-model'
 
-import { IdSchema } from './Schema'
+import { IdSchema } from './Schema.js'
 
 export type IdPayload = Payload<{
   salt: string

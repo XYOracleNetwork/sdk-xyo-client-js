@@ -6,7 +6,7 @@ import { HuriPayload, HuriSchema } from '@xyo-network/diviner-huri'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { Payload, PayloadBuilder, PayloadSchema } from '@xyo-network/payload'
 
-import { MemoryNode } from '../../src'
+import { MemoryNode } from '../../index.js'
 
 /**
  * @group node

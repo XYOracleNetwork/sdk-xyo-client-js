@@ -2,9 +2,9 @@ import { Address } from '@xylabs/hex'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AttachableModuleInstance, ModuleIdentifier, ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
 
-import { ChildCertification, ChildCertificationFields } from './ChildCertification'
-import { NodeModule, NodeModuleEventData } from './Node'
-import { NodeParams } from './Params'
+import { ChildCertification, ChildCertificationFields } from './ChildCertification.js'
+import { NodeModule, NodeModuleEventData } from './Node.js'
+import { NodeParams } from './Params.js'
 
 export interface NodeQueryFunctions {
   attach: (id: ModuleIdentifier, external?: boolean) => Promise<Address | undefined>

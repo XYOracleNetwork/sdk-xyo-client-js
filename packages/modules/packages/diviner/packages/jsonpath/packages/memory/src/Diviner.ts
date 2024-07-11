@@ -5,7 +5,7 @@ import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-mo
 import { PayloadBuilder, WithoutSchema } from '@xyo-network/payload-builder'
 import { Payload, PayloadSchema, Schema } from '@xyo-network/payload-model'
 
-import { toPayloadTransformer } from './jsonpath'
+import { toPayloadTransformer } from './jsonpath/index.js'
 
 export class JsonPathDiviner<
   TParams extends JsonPathDivinerParams = JsonPathDivinerParams,

@@ -2,9 +2,9 @@ import { IsObjectFactory, TypeCheck } from '@xylabs/object'
 import { AttachableModuleInstance } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { WitnessModuleEventData } from '../EventData'
-import { WitnessInstance } from '../Instance'
-import { WitnessParams } from '../Params'
+import { WitnessModuleEventData } from '../EventData.js'
+import { WitnessInstance } from '../Instance.js'
+import { WitnessParams } from '../Params.js'
 
 export interface AttachableWitnessInstance<
   TParams extends WitnessParams = WitnessParams,

@@ -1,7 +1,7 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { PayloadStatsDivinerSchema } from './Schema'
+import { PayloadStatsDivinerSchema } from './Schema.js'
 
 export type PayloadStatsDivinerConfigSchema = `${PayloadStatsDivinerSchema}.config`
 export const PayloadStatsDivinerConfigSchema: PayloadStatsDivinerConfigSchema = `${PayloadStatsDivinerSchema}.config`

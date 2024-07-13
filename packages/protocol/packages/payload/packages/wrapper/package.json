@@ -16,7 +16,7 @@
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-validator": "workspace:^",
-    "ajv": "^8.16.0"
+    "ajv": "^8.17.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.11.12",

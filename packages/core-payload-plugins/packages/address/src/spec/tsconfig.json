@@ -3,8 +3,8 @@
     "lib": ["dom"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "moduleResolution": "nodenext",
-    "module": "nodenext",
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
   },
   "extends": "@xylabs/tsconfig-jest"
 }

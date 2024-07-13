@@ -9,7 +9,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@metamask/providers": "^17.1.0",
+    "@metamask/providers": "^17.1.1",
     "@xylabs/forget": "^3.5.9",
     "ethers": "6.13.1"
   },

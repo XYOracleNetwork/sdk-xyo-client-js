@@ -1,5 +1,5 @@
 import { EllipticKeyInstance } from './EllipticKey.js'
-import { PublicKeyInstance } from './PublicKey.js'
+import type { PublicKeyInstance } from './PublicKey.js'
 
 export interface PrivateKeyConfig {
   privateKeyData?: ArrayBuffer

@@ -16,7 +16,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.11.12",
     "@xylabs/tsconfig": "^3.11.12",
-    "ajv": "^8.16.0",
+    "ajv": "^8.17.1",
     "typescript": "^5.5.3"
   },
   "types": "dist/node/index.d.ts",

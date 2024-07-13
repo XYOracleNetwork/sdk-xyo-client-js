@@ -2,8 +2,8 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "moduleResolution": "nodenext",
-    "module": "nodenext",
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
     "typeRoots": []
   },
 

@@ -17,8 +17,8 @@ import {
 import { Payload, Schema } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
-import { defaultPackageManifest } from './defaultNodeManifest'
-import { WorkerBridgeConfig, WorkerBridgeConfigSchema } from './WorkerBridgeConfig'
+import { defaultPackageManifest } from './defaultNodeManifest.js'
+import { WorkerBridgeConfig, WorkerBridgeConfigSchema } from './WorkerBridgeConfig.js'
 
 export type WorkerBridgeParams<TConfig extends AnyConfigSchema<WorkerBridgeConfig> = AnyConfigSchema<WorkerBridgeConfig>> = ModuleParams<
   TConfig,

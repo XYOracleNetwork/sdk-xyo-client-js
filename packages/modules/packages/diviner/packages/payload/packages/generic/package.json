@@ -24,8 +24,8 @@
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.12",
-    "@xylabs/tsconfig": "^3.11.12",
+    "@xylabs/ts-scripts-yarn3": "^3.12.1",
+    "@xylabs/tsconfig": "^3.12.1",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

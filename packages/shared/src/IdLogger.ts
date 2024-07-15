@@ -14,19 +14,19 @@ export class IdLogger implements Logger {
     this._id = () => id
   }
 
-  debug(message?: unknown) {
+  debug(message?: unknown): void {
     this._logger?.debug(this.generate(message, getFunctionName(3)))
   }
-  error(message?: unknown) {
+  error(message?: unknown): void {
     this._logger?.error(this.generate(message, getFunctionName(3)))
   }
-  info(message?: unknown) {
+  info(message?: unknown): void {
     this._logger?.info(this.generate(message, getFunctionName(3)))
   }
-  log(message?: unknown) {
+  log(message?: unknown): void {
     this._logger?.log(this.generate(message, getFunctionName(3)))
   }
-  warn(message?: unknown) {
+  warn(message?: unknown): void {
     this._logger?.warn(this.generate(message, getFunctionName(3)))
   }
 

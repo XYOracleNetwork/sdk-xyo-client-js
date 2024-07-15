@@ -1,1 +1,1 @@
-export * from './WorkerNodeHost'
+export * from './WorkerNodeHost.js'

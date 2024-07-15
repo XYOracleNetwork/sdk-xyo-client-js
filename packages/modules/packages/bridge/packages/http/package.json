@@ -35,8 +35,8 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@xylabs/ts-scripts-yarn3": "^3.11.12",
-    "@xylabs/tsconfig": "^3.11.12",
+    "@xylabs/ts-scripts-yarn3": "^3.12.1",
+    "@xylabs/tsconfig": "^3.12.1",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",

@@ -73,7 +73,7 @@ export class Quadkey {
     return result
   }
 
-  get gridLocation() {
+  get gridLocation(): { col: number; row: number; zoom: number } {
     const tileData = tileFromQuadkey(this.base4Hash)
 
     return {

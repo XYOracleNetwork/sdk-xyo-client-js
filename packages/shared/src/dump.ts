@@ -1,4 +1,4 @@
-export const dump = (object: unknown) => {
+export const dump = (object: unknown): string => {
   const cache: unknown[] = []
   return JSON.stringify(
     object,

@@ -14,8 +14,8 @@
     "@xyo-network/payload-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.12",
-    "@xylabs/tsconfig": "^3.11.12",
+    "@xylabs/ts-scripts-yarn3": "^3.12.1",
+    "@xylabs/tsconfig": "^3.12.1",
     "typescript": "^5.5.3"
   },
   "description": "Typescript/Javascript Plugins for XYO Platform",

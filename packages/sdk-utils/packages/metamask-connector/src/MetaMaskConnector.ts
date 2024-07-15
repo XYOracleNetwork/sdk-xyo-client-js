@@ -111,27 +111,27 @@ export class MetaMaskConnector {
   }
 
   /** Web3Provider Listeners - https://docs.ethers.org/v5/api/providers/provider/#Provider--events */
-  web3ProviderOn(event: string, listener: Listener) {
+  web3ProviderOn(event: string, listener: Listener): void {
     if (this.provider) {
       forget(this.provider.on(event, listener))
     }
     this.listeners.push(listener)
   }
 
-  web3ProviderRemoveListener(event: string, listener: Listener) {
+  web3ProviderRemoveListener(event: string, listener: Listener): void {
     if (this.provider) {
       forget(this.provider.removeListener(event, listener))
     }
     this.listeners = this.listeners.filter((savedListener) => listener !== savedListener)
   }
 
-  web3ProviderRemoveListeners() {
+  web3ProviderRemoveListeners(): void {
     if (this.provider) {
       forget(this.provider.removeAllListeners())
     }
   }
 
-  private logProviderMissing() {
+  private logProviderMissing(): void {
     console.warn('Cannot call this method because there is no web3 provider connected.  Please confirm that metamask is installed')
   }
 }

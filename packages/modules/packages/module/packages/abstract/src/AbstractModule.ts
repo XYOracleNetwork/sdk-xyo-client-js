@@ -152,7 +152,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   override get logger() {
     const consoleLogger = this.config.consoleLogger
     this._logger =
-      this._logger ?? consoleLogger ? new ConsoleLogger(consoleLogger) : this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger
+      (this._logger ?? consoleLogger) ? new ConsoleLogger(consoleLogger) : (this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger)
     return this._logger
   }
 

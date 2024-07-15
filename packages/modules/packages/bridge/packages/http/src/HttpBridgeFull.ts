@@ -60,7 +60,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     const { maxDepth = 5 } = options ?? {}
     assertEx(this.config.host, () => 'Not configured as a host')
     this._exposedModules.push(new WeakRef(mod))
-    const children = maxDepth > 0 ? (await mod.publicChildren?.()) ?? [] : []
+    const children = maxDepth > 0 ? ((await mod.publicChildren?.()) ?? []) : []
     this.logger.log(`childrenToExpose [${mod.id}][${mod.address}]: ${toJsonString(children.map((child) => child.id))}`)
     const exposedChildren = (await Promise.all(children.map((child) => this.exposeChild(child, { maxDepth: maxDepth - 1, required: false }))))
       .flat()
@@ -103,7 +103,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     assertEx(!required || mod, () => `Module not exposed: ${address}`)
     this._exposedModules = this._exposedModules.filter((ref) => ref.deref()?.address !== address)
     if (mod) {
-      const children = maxDepth > 0 ? (await mod.publicChildren?.()) ?? [] : []
+      const children = maxDepth > 0 ? ((await mod.publicChildren?.()) ?? []) : []
       const exposedChildren = (
         await Promise.all(children.map((child) => this.unexposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
       )

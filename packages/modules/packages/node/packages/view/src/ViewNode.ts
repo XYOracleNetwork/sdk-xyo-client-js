@@ -67,22 +67,6 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
     return this.config.source
   }
 
-  async build() {
-    return await this._buildMutex.runExclusive(async () => {
-      if (!this._built) {
-        const source = asNodeInstance(await super.resolve(this.source))
-        if (source) {
-          await Promise.all(
-            this.ids.map(async (id) => {
-              await MemoryNodeHelper.attachToExistingNode(source, id, this)
-            }),
-          )
-          this._built = true
-        }
-      }
-    })
-  }
-
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
   override async resolve(): Promise<ModuleInstance[]>
   override async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
@@ -159,5 +143,21 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
     await super.startHandler()
     await this.build()
     return true
+  }
+
+  private async build() {
+    return await this._buildMutex.runExclusive(async () => {
+      if (!this._built) {
+        const source = asNodeInstance(await super.resolve(this.source))
+        if (source) {
+          await Promise.all(
+            this.ids.map(async (id) => {
+              await MemoryNodeHelper.attachToExistingNode(source, id, this)
+            }),
+          )
+          this._built = true
+        }
+      }
+    })
   }
 }

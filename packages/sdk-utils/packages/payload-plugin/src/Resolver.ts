@@ -41,7 +41,7 @@ export class PayloadPluginResolver {
   resolve(schema?: string): PayloadPlugin
   resolve(payload: Payload): PayloadPlugin
   resolve(value: Payload | string | undefined): PayloadPlugin {
-    return value ? this._plugins[typeof value === 'string' ? value : value.schema] ?? this.defaultPlugin : this.defaultPlugin
+    return value ? (this._plugins[typeof value === 'string' ? value : value.schema] ?? this.defaultPlugin) : this.defaultPlugin
   }
 
   /** @description Create list of schema, optionally filtered by ability to witness/divine */

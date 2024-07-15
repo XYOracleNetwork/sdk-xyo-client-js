@@ -105,7 +105,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     console.log(`exposeChild: ${mod.address} ${mod?.id} ${maxDepth}`)
     const host = assertEx(this.busHost(), () => 'Not configured as a host')
     host.expose(mod)
-    const children = maxDepth > 0 ? (await mod.publicChildren?.()) ?? [] : []
+    const children = maxDepth > 0 ? ((await mod.publicChildren?.()) ?? []) : []
     this.logger.log(`childrenToExpose [${mod.id}][${mod.address}]: ${toJsonString(children.map((child) => child.id))}`)
     const exposedChildren = (await Promise.all(children.map((child) => this.exposeChild(child, { maxDepth: maxDepth - 1, required: false }))))
       .flat()
@@ -228,7 +228,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const host = assertEx(this.busHost(), () => 'Not configured as a host')
     const mod = await host.unexpose(id, required)
     if (mod) {
-      const children = maxDepth > 0 ? (await mod.publicChildren?.()) ?? [] : []
+      const children = maxDepth > 0 ? ((await mod.publicChildren?.()) ?? []) : []
       const exposedChildren = (
         await Promise.all(children.map((child) => this.unexposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
       )

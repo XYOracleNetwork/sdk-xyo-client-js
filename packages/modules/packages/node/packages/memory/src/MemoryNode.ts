@@ -104,11 +104,17 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   protected async attachUsingAddress(address: Address, external?: boolean) {
     return await this._attachMutex.runExclusive(async () => {
       const existingModule = await this.resolve(address)
-      assertEx(!existingModule, () => `Module [${existingModule?.modName ?? existingModule?.address}] already attached at address [${address}]`)
+      if (existingModule) {
+        this.logger.warn(`MemoryNode: Module [${existingModule?.modName ?? existingModule?.address}] already attached at address [${address}]`)
+      }
       const mod = assertEx(this.registeredModuleMap[address], () => `No Module Registered at address [${address}]`)
 
-      assertEx(!this._attachedPublicModules.has(mod.address), () => `Module [${mod.modName}] already attached at [${address}] (public)`)
-      assertEx(!this._attachedPrivateModules.has(mod.address), () => `Module [${mod.modName}] already attached at [${address}] (private)`)
+      if (this._attachedPublicModules.has(mod.address)) {
+        this.logger.warn(`Module [${mod.modName}] already attached at [${address}] (public)`)
+      }
+      if (this._attachedPrivateModules.has(mod.address)) {
+        this.logger.warn(`Module [${mod.modName}] already attached at [${address}] (private)`)
+      }
 
       const notificationList = await this.getModulesToNotifyAbout(mod)
 

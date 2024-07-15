@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.110.3",
+  "version": "2.110.4",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {

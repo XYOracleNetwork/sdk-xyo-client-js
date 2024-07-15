@@ -39,9 +39,9 @@ type PostAddressRequestBody = [QueryBoundWitness, undefined | Payload[]]
 // TODO: This does not match the error response shape of the legacy bridge BUT it its the
 // shape this bridge is currently returning.  Massage this into the standard
 // error shape constructed via middleware.
-type ErrorResponseBody = {
+/*type ErrorResponseBody = {
   error: string
-}
+}*/
 
 export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {}
 

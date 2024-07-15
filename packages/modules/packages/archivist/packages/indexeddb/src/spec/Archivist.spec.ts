@@ -8,7 +8,7 @@ import { Account, AccountInstance } from '@xyo-network/account'
 import { ArchivistInstance, isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { asPayload, Payload, PayloadWithMeta } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   IDBCursor,

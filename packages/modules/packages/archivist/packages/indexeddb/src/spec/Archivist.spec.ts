@@ -8,7 +8,7 @@ import { Account, AccountInstance } from '@xyo-network/account'
 import { ArchivistInstance, isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
+import { asPayload, Payload, PayloadWithMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   IDBCursor,
@@ -202,7 +202,7 @@ describe('IndexedDbArchivist', () => {
     it('returned by order of insertion', async () => {
       const shuffled = shuffleArray(sources)
       const sourceHashes = await Promise.all(shuffled.map((source) => PayloadBuilder.dataHash(source)))
-      const getResult = (await archivistModule.get(sourceHashes)) as unknown as TestPayload[]
+      const getResult = (await archivistModule.get(sourceHashes)) as TestPayload[]
       expect(getResult).toBeDefined()
       expect(getResult.length).toBe(sourceHashes.length)
       const salts = sources.map((source) => source.salt)

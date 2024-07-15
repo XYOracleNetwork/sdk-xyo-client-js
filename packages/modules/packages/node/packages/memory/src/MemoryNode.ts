@@ -61,7 +61,13 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
   async register(mod: AttachableModuleInstance) {
     await this.started('throw')
-    assertEx(!this.registeredModuleMap[mod.address], () => `Module already registered at that address[${mod.address}][${mod.config.schema}]`)
+    if (this.registeredModuleMap[mod.address]) {
+      if (this.registeredModuleMap[mod.address] === mod) {
+        this.logger.warn(`Module already registered at that address[${mod.address}]|${mod.id}|[${mod.config.schema}]`)
+      } else {
+        throw new Error(`Other module already registered at that address[${mod.address}]|${mod.id}|[${mod.config.schema}]`)
+      }
+    }
     this.registeredModuleMap[mod.address] = mod
     const args = { mod, name: mod.modName }
     await this.emit('moduleRegistered', args)

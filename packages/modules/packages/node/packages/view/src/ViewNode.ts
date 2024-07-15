@@ -69,14 +69,16 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
 
   async build() {
     return await this._buildMutex.runExclusive(async () => {
-      const source = asNodeInstance(await super.resolve(this.source))
-      if (source) {
-        await Promise.all(
-          this.ids.map(async (id) => {
-            await MemoryNodeHelper.attachToExistingNode(source, id, this)
-          }),
-        )
-        this._built = true
+      if (!this._built) {
+        const source = asNodeInstance(await super.resolve(this.source))
+        if (source) {
+          await Promise.all(
+            this.ids.map(async (id) => {
+              await MemoryNodeHelper.attachToExistingNode(source, id, this)
+            }),
+          )
+          this._built = true
+        }
       }
     })
   }

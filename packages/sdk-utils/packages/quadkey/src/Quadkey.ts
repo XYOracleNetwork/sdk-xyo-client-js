@@ -36,9 +36,13 @@ export class Quadkey {
 
   private _geoJson?: GeoJson
 
-  constructor(private key = 0n) {
+  constructor(public key = 0n) {
     assertMaxBitUint(key)
     this.guessZoom()
+  }
+
+  get base10String() {
+    return this.id.toString(10)
   }
 
   get base16String() {

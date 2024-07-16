@@ -4,8 +4,7 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "NodeNext",
-    "module": "NodeNext",
+
     "typeRoots": []
   },
   "exclude": ["dist", "docs", "packages", "node_modules"],

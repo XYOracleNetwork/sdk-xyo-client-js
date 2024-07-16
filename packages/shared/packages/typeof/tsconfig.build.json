@@ -2,8 +2,7 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "moduleResolution": "NodeNext",
-    "module": "NodeNext",
+
     "typeRoots": []
   },
   "exclude": ["dist", "docs", "src/**/*.spec.*"],

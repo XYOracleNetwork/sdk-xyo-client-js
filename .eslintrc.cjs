@@ -40,9 +40,6 @@ const finalConfig = {
           '../../../../../../..'
         ]
       }
-    ],
-    'import/no-internal-modules': [
-      'off'
     ]
   }
 }

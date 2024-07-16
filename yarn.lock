@@ -6377,7 +6377,6 @@ __metadata:
     esbuild: "npm:^0.23.0"
     hash-wasm: "npm:^4.11.0"
     sha.js: "npm:^2.4.11"
-    threads: "npm:^1.7.0"
     typescript: "npm:^5.5.3"
   languageName: unknown
   linkType: soft
@@ -8495,7 +8494,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"callsites-3-1-0@npm:callsites@3.1.0, callsites@npm:^3.0.0, callsites@npm:^3.1.0":
+"callsites-3-1-0@npm:callsites@3.1.0, callsites@npm:^3.0.0":
   version: 3.1.0
   resolution: "callsites@npm:3.1.0"
   checksum: 10/072d17b6abb459c2ba96598918b55868af677154bec7e73d222ef95a8fdb9bbf7dae96a8421085cdad8cd190d86653b5b6dc55a4484f2e5b2e27d5e0c3fc15b3
@@ -9309,7 +9308,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:^4.3.5, debug@npm:~4.3.1, debug@npm:~4.3.2, debug@npm:~4.3.4":
+"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:^4.3.5, debug@npm:~4.3.1, debug@npm:~4.3.2, debug@npm:~4.3.4":
   version: 4.3.5
   resolution: "debug@npm:4.3.5"
   dependencies:
@@ -12515,7 +12514,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-observable-2-1-0@npm:is-observable@2.1.0, is-observable@npm:^2.1.0":
+"is-observable-2-1-0@npm:is-observable@2.1.0":
   version: 2.1.0
   resolution: "is-observable@npm:2.1.0"
   checksum: 10/93b0e0f9b115ef4b5f0523f4930667a7809a42e9cf1b23a444f8a9c15f72b9c1729b2a4691d55a5c479a05eafd5dda9b51ed1b65336d56027b7989ecb8ef51bf
@@ -19418,22 +19417,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"threads@npm:^1.7.0":
-  version: 1.7.0
-  resolution: "threads@npm:1.7.0"
-  dependencies:
-    callsites: "npm:^3.1.0"
-    debug: "npm:^4.2.0"
-    is-observable: "npm:^2.1.0"
-    observable-fns: "npm:^0.6.1"
-    tiny-worker: "npm:>= 2"
-  dependenciesMeta:
-    tiny-worker:
-      optional: true
-  checksum: 10/e4cefeac67a9d3609d95b2c02e9f868e152dec210179073810a64084256fad2e0795d778ec69a06eb5bd4a76185af689ca0348f84d44d758d6736edbfa841116
-  languageName: node
-  linkType: hard
-
 "tiny-lru@npm:^11.2.6":
   version: 11.2.11
   resolution: "tiny-lru@npm:11.2.11"
@@ -19441,7 +19424,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-worker@npm:>= 2, tiny-worker@npm:^2.3.0":
+"tiny-worker@npm:^2.3.0":
   version: 2.3.0
   resolution: "tiny-worker@npm:2.3.0"
   dependencies:

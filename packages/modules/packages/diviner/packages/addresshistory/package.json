@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.6.1",
-    "@xylabs/exists": "^3.6.1",
-    "@xylabs/hex": "^3.6.1",
+    "@xylabs/assert": "^3.6.4",
+    "@xylabs/exists": "^3.6.4",
+    "@xylabs/hex": "^3.6.4",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -23,8 +23,8 @@
     "@xyo-network/payload-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.12.2",
-    "@xylabs/tsconfig": "^3.12.2",
+    "@xylabs/ts-scripts-yarn3": "^3.12.4",
+    "@xylabs/tsconfig": "^3.12.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",

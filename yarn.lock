@@ -922,7 +922,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bitauth/libauth@npm:^1.19.1":
+"@bitauth/libauth@npm:^1":
   version: 1.19.1
   resolution: "@bitauth/libauth@npm:1.19.1"
   checksum: 10/325e396bdbed4af15861085db8b702a9a5083fea9f22c451598ca574d25edf1d344b22b7576b082da5bab8a46d9b31ea42f206e1ad4d5c1b02e877b62448c1aa
@@ -4157,7 +4157,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/protocol/packages/account"
   dependencies:
-    "@bitauth/libauth": "npm:^1.19.1"
+    "@bitauth/libauth": "npm:^3.0.0"
     "@scure/bip39": "npm:^1.3.0"
     "@xylabs/arraybuffer": "npm:^3.6.4"
     "@xylabs/assert": "npm:^3.6.4"

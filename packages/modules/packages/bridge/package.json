@@ -23,7 +23,7 @@
     "@xyo-network/bridge-pub-sub": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",

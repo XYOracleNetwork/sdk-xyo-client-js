@@ -9,7 +9,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@metamask/providers": "^17.1.1",
+    "@metamask/providers": "^17.1.2",
     "@xylabs/forget": "^3.6.4",
     "ethers": "6.13.1"
   },
@@ -17,7 +17,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.12.4",
     "@xylabs/tsconfig-dom": "^3.12.4",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.4"
   },
   "exports": {
     ".": {

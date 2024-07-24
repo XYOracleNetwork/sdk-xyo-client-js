@@ -31,7 +31,7 @@
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "fake-indexeddb": "^6.0.0",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",

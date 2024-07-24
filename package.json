@@ -42,9 +42,9 @@
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.3",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.26.4",
+    "typedoc": "^0.26.5",
     "typedoc-material-theme": "^1.1.0",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.4"
   },
   "resolutions": {
     "@bitauth/libauth": "^1",

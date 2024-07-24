@@ -47,7 +47,7 @@
     "@xyo-network/payload-wrapper": "workspace:^",
     "express": "^4.19.2",
     "get-port-please": "^3.1.2",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.4"
   },
   "peerDependencies": {
     "express": "^4.19.2"

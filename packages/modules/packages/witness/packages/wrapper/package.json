@@ -22,7 +22,7 @@
     "@xylabs/tsconfig": "^3.12.4",
     "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/account": "workspace:^",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",

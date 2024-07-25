@@ -47,7 +47,6 @@
     "typescript": "^5.5.4"
   },
   "resolutions": {
-    "@bitauth/libauth": "^1",
     "axios": "^1",
     "eslint": "^8",
     "ethers": "^6",

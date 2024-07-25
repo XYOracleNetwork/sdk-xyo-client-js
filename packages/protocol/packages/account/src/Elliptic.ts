@@ -1,4 +1,4 @@
-import { instantiateSecp256k1, Secp256k1 } from '@bitauth/libauth'
+import { instantiateSecp256k1, Secp256k1 } from '@bitauth/libauth-1-19-1'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import { Data } from '@xyo-network/data'

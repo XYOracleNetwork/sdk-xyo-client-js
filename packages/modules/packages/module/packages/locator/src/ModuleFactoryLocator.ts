@@ -38,6 +38,10 @@ export class ModuleFactoryLocator {
     )
   }
 
+  merge(locator: ModuleFactoryLocator): ModuleFactoryLocator {
+    return new ModuleFactoryLocator({ ...this.registry, ...locator.registry })
+  }
+
   /**
    * Registers a single module factory (with optional tags) with the locator
    * @param factory The factory to register

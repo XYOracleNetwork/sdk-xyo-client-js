@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@swc/core": "^1.7.2",
-    "@xylabs/delay": "^3.6.4",
+    "@xylabs/delay": "^3.6.5",
     "@xylabs/ts-scripts-yarn3": "^3.12.4",
     "@xylabs/tsconfig": "^3.12.4",
     "@xyo-network/account": "workspace:^",

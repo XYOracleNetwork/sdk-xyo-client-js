@@ -10,21 +10,19 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.6.4",
-    "@xylabs/hex": "^3.6.4",
-    "@xylabs/lodash": "^3.6.4",
-    "@xylabs/object": "^3.6.4",
-    "@xylabs/platform": "^3.6.4",
-    "@xylabs/threads": "^3.6.4",
-    "@xylabs/typeof": "^3.6.4",
+    "@xylabs/assert": "^3.6.5",
+    "@xylabs/hex": "^3.6.5",
+    "@xylabs/lodash": "^3.6.5",
+    "@xylabs/object": "^3.6.5",
+    "@xylabs/platform": "^3.6.5",
+    "@xylabs/threads": "^3.6.5",
+    "@xylabs/typeof": "^3.6.5",
     "@xyo-network/wasm": "workspace:^",
-    "hash-wasm": "^4.11.0",
-    "sha.js": "^2.4.11"
+    "hash-wasm": "^4.11.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/sha.js": "^2.4.4",
-    "@xylabs/delay": "^3.6.4",
+    "@xylabs/delay": "^3.6.5",
     "@xylabs/ts-scripts-yarn3": "^3.12.4",
     "@xylabs/tsconfig": "^3.12.4",
     "esbuild": "^0.23.0",
@@ -68,10 +66,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "scripts": {
-    "jsHashBundle": "esbuild src/worker/jsHash.ts --bundle --outfile=dist/browser/worker/jsHash-bundle.js --target=chrome120,firefox120,safari14,edge120",
     "subtleHashBundle": "esbuild src/worker/subtleHash.ts --bundle --outfile=dist/browser/worker/subtleHash-bundle.js --target=chrome120,firefox120,safari14,edge120",
     "wasmHashBundle": "esbuild src/worker/wasmHash.ts --bundle --outfile=dist/browser/worker/wasmHash-bundle.js --target=chrome120,firefox120,safari14,edge120",
-    "bundle": "yarn jsHashBundle && yarn subtleHashBundle && yarn wasmHashBundle",
+    "bundle": "yarn subtleHashBundle && yarn wasmHashBundle",
     "package-compile": "package-compile-only && yarn bundle"
   },
   "sideEffects": false,

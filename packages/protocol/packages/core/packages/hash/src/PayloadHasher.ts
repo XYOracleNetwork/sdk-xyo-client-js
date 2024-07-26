@@ -6,11 +6,10 @@ import { subtle } from '@xylabs/platform'
 import { ModuleThread, Pool, spawn, Worker } from '@xylabs/threads'
 import { WasmSupport } from '@xyo-network/wasm'
 import { sha256 } from 'hash-wasm'
-import shajs from 'sha.js'
 
 import { removeEmptyFields } from './removeEmptyFields.js'
 import { sortFields } from './sortFields.js'
-import { jsHashFunc, subtleHashFunc, wasmHashFunc } from './worker/index.js'
+import { subtleHashFunc, wasmHashFunc } from './worker/index.js'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type WorkerFunction = ((...args: any[]) => any) | (() => any)
@@ -57,19 +56,6 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   private static _subtleHashPool?: Pool<ModuleThread<WorkerModule<any>>> | null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static _wasmHashPool?: Pool<ModuleThread<WorkerModule<any>>> | null
-
-  private static get jsHashPool() {
-    if (!this.allowHashPooling || this._jsHashPool === null) {
-      return null
-    }
-    try {
-      return (this._jsHashPool = this._jsHashPool ?? (this.jsHashWorkerUrl ? this.createWorkerPool(this.jsHashWorkerUrl, jsHashFunc) : null))
-    } catch {
-      console.warn('Creating js hash worker failed')
-      this._jsHashPool = null
-      return null
-    }
-  }
 
   private static get subtleHashPool() {
     if (!this.allowHashPooling || this._subtleHashPool === null) {
@@ -145,7 +131,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
         this.wasmSupport.allowWasm = false
       }
     }
-    return await this.jsHash(stringToHash)
+    throw new Error('No wasm hashing available')
   }
 
   static hashFields<T extends EmptyObject>(obj: T): T {
@@ -162,31 +148,12 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   }
 
   /**
-   * Synchronously hashes a payload
-   * @param obj A payload
-   * @returns The payload hash
-   */
-  static hashSync<T extends EmptyObject>(obj: T): Hash {
-    return asHash(shajs('sha256').update(this.stringifyHashFields(obj)).digest().toString('hex'), true)
-  }
-
-  /**
    * Creates an array of payload hashes based on the payloads passed in
    * @param objs Any array of payloads
    * @returns An array of payload hashes
    */
   static async hashes<T extends EmptyObject>(objs?: T[]): Promise<Hash[] | undefined> {
     return objs ? await Promise.all(objs.map((obj) => this.hash(obj))) : undefined
-  }
-
-  static async jsHash(data: string) {
-    if (PayloadHasher.warnIfUsingJsHash) {
-      console.warn('Using jsHash [No subtle or wasm?]')
-    }
-    const pool = this.jsHashPool
-    return pool === null ?
-        asHash(shajs('sha256').update(data).digest().toString('hex'), true)
-      : await pool.queue(async (thread) => await thread.hash(data))
   }
 
   /**
@@ -227,10 +194,6 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
 
   async hash(): Promise<Hash> {
     return await PayloadHasher.hash(this.obj)
-  }
-
-  hashSync(): Hash {
-    return PayloadHasher.hashSync(this.obj)
   }
 
   /**

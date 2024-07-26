@@ -5,7 +5,7 @@
 import { Address } from '@xylabs/hex'
 import { v4 as uuid } from 'uuid'
 
-import { Storage, StoragePreviousHashStore } from '../StoragePreviousHashStore'
+import { Storage, StoragePreviousHashStore } from '../StoragePreviousHashStore.js'
 
 describe('StoragePreviousHashStore', () => {
   const previousHash = '2e8de18ece40481f132e6d2f05617e05cd896a9098d28ed65afdf0d72203b490'

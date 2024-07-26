@@ -19,7 +19,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.12.4",
     "@xylabs/tsconfig": "^3.12.4",
-    "ethers": "6.13.1",
+    "ethers": "6.13.2",
     "typescript": "^5.5.4"
   },
   "peerDependencies": {
@@ -68,6 +68,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.110.9",
+  "version": "2.110.10",
   "type": "module"
 }

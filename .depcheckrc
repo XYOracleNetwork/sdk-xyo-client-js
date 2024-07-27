@@ -8,6 +8,11 @@ ignores: [
   "eslint-plugin-deprecation",
   "eslint-plugin-import",
   "eslint",
+  "eslint-plugin-prettier",
+  "eslint-plugin-simple-import-sort",
+  "eslint-plugin-sonarjs",
+  "eslint-plugin-workspaces",
+  "prettier",
   "jest-docblock",
   "jest-environment-jsdom",
   "jest-runner-groups",
@@ -15,5 +20,6 @@ ignores: [
   "reflect-metadata",
   "supertest",
   "ts-node",
+  "tslib",
   "typedoc-material-theme"
 ]

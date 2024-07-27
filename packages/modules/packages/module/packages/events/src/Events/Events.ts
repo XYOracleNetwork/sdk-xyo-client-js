@@ -19,6 +19,8 @@ export type EventListenerInfo<TEventArgs extends EventArgs = EventArgs> = {
   listener: EventListener<TEventArgs>
 }
 
+const NO_META_EVENT_ERROR_MESSAGE = '`eventName` cannot be meta event `listenerAdded` or `listenerRemoved`'
+
 /**
 Configure debug options of an instance.
 */
@@ -139,7 +141,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
 
   async emitSerial<TEventName extends keyof TEventData>(eventName: TEventName, eventArgs: TEventData[TEventName]) {
     if (isMetaEvent(eventName) && !Events.canEmitMetaEvents) {
-      throw new TypeError('`eventName` cannot be meta event `listenerAdded` or `listenerRemoved`')
+      throw new TypeError(NO_META_EVENT_ERROR_MESSAGE)
     }
 
     const filterMatch = (args: TEventData[TEventName], filter: TEventData[TEventName]) => {
@@ -286,7 +288,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     filter?: TEventArgs,
   ) {
     if (isMetaEvent(eventName) && !Events.canEmitMetaEvents) {
-      throw new TypeError('`eventName` cannot be meta event `listenerAdded` or `listenerRemoved`')
+      throw new TypeError(NO_META_EVENT_ERROR_MESSAGE)
     }
 
     this.logIfDebugEnabled('emit', eventName, eventArgs)

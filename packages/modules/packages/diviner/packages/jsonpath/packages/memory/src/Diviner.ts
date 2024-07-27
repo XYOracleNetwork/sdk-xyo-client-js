@@ -43,7 +43,7 @@ export class JsonPathDiviner<
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     if (!payloads) return []
     // Create the indexes from the tuples
-    const results = await Promise.all(
+    return await Promise.all(
       payloads.map<Promise<TOut>>(async (payload) => {
         // Use the payload transformers to convert the fields from the source payloads to the destination fields
         const fields = this.transforms.map((transform) => transform(payload)) as WithoutSchema<TOut>[]
@@ -53,6 +53,5 @@ export class JsonPathDiviner<
         return await new PayloadBuilder<TOut>({ schema: this.destinationSchema }).fields(Object.assign({ sources }, ...fields)).build()
       }),
     )
-    return results
   }
 }

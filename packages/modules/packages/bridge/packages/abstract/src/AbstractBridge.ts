@@ -141,12 +141,12 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return true
   }
 
-  async unexpose(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
+  async unexpose(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<Address[]> {
     this._noOverride('unexpose')
     const addressToUnexpose = assertEx(await resolvePathToAddress(this, id), () => `Module to unexpose not found [${id}]`)
     const modules = await this.unexposeHandler(addressToUnexpose, options)
     await this.emit('unexposed', { mod: this, modules })
-    return modules
+    return modules.map((mod) => mod.address)
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(
@@ -166,13 +166,13 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
           filterPayloads.map(async (filter) => {
             const { id, ...options } = filter
             const modules = await this.expose(id, options)
-            modules.map((mod) => {
+            for (const mod of modules) {
               const addressPayload: AddressPayload = {
                 address: mod.address,
                 schema: AddressSchema,
               }
               resultPayloads.push(addressPayload)
-            })
+            }
           }),
         )
         break
@@ -184,14 +184,14 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
         await Promise.all(
           filterPayloads.map(async (filter) => {
             const { id, ...options } = filter
-            const modules = await this.unexpose(id, options)
-            modules.map((mod) => {
+            const moduleAddresses = await this.unexpose(id, options)
+            for (const address of moduleAddresses) {
               const addressPayload: AddressPayload = {
-                address: mod.address,
+                address,
                 schema: AddressSchema,
               }
               resultPayloads.push(addressPayload)
-            })
+            }
           }),
         )
         break

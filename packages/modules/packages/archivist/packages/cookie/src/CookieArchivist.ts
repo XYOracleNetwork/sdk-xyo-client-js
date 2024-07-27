@@ -82,11 +82,11 @@ export class CookieArchivist<
 
   protected override clearHandler(): void | Promise<void> {
     try {
-      Object.entries(Cookies.get()).map(([key]) => {
+      for (const [key] of Object.entries(Cookies.get())) {
         if (key.startsWith(`${this.namespace}-`)) {
           Cookies.remove(key)
         }
-      })
+      }
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex

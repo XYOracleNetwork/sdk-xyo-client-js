@@ -242,8 +242,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
     const results = (
       await Promise.all(
         this.resolvers.map(async (resolver) => {
-          const result = await resolver.resolveIdentifier(id)
-          return result
+          return await resolver.resolveIdentifier(id)
         }),
       )
     ).filter(exists)

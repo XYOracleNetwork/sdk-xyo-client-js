@@ -1,5 +1,4 @@
 import { subtle } from '@xylabs/platform'
-// eslint-disable-next-line import/no-internal-modules
 import { expose } from '@xylabs/threads'
 
 expose({

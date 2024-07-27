@@ -16,17 +16,15 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
     switch (typeof obj) {
       case 'object': {
         const castWrapper = obj as QueryBoundWitnessWrapper<T>
-        const wrapper =
-          castWrapper instanceof QueryBoundWitnessWrapper ? castWrapper : (
+        /*if (!wrapper.valid) {
+          console.warn(`Parsed invalid QueryBoundWitness ${JSON.stringify(wrapper.errors.map((error) => error.message))}`)
+        }*/
+        return castWrapper instanceof QueryBoundWitnessWrapper ? castWrapper : (
             new QueryBoundWitnessWrapper<T>(
               await PayloadBuilder.build(obj as QueryBoundWitness),
               payloads ? await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload))) : undefined,
             )
           )
-        /*if (!wrapper.valid) {
-          console.warn(`Parsed invalid QueryBoundWitness ${JSON.stringify(wrapper.errors.map((error) => error.message))}`)
-        }*/
-        return wrapper
       }
     }
     throw new Error(`Unable to parse [${typeof obj}]`)

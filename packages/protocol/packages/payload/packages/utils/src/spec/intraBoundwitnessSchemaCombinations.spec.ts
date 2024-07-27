@@ -1,6 +1,7 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 
-import { intraBoundwitnessSchemaCombinations } from '../intraBoundwitnessSchemaCombinations'
+import { intraBoundwitnessSchemaCombinations } from '../intraBoundwitnessSchemaCombinations.js'
 
 describe('intraBoundwitnessSchemaCombinations', () => {
   const payloadCount = 2

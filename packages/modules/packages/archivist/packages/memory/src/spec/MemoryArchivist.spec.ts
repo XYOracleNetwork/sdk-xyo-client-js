@@ -1,9 +1,10 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { toJsonString } from '@xylabs/object'
 import { HDWallet } from '@xyo-network/account'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { MemoryArchivist } from '../MemoryArchivist'
+import { MemoryArchivist } from '../MemoryArchivist.js'
 
 /**
  * @group module

@@ -7,10 +7,7 @@ export const PayloadSchema = 'network.xyo.payload' as const
 export type PayloadSchema = typeof PayloadSchema
 
 export const isSchema = (value: unknown): value is Schema => {
-  if (typeof value === 'string') {
-    return true
-  }
-  return false
+  return typeof value === 'string'
 }
 
 export const asSchema = AsTypeFactory.create<Schema>(isSchema)

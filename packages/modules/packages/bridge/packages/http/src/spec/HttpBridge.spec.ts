@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable complexity */
 /* eslint-disable max-statements */
 

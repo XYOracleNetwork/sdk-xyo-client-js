@@ -1,8 +1,9 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { Account } from '@xyo-network/account'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { AdhocWitness, AdhocWitnessConfig, AdhocWitnessConfigSchema } from '../Witness'
+import { AdhocWitness, AdhocWitnessConfig, AdhocWitnessConfigSchema } from '../Witness.js'
 
 describe('AdhocWitness', () => {
   describe('observe', () => {

@@ -33,6 +33,14 @@ const payloadValueFilter = (key: keyof AnyPayload, value?: unknown | unknown[]):
   }
 }
 
+// Function to extract fields from an index name
+const extractFields = (indexName: string): string[] => {
+  return indexName
+    .slice(3)
+    .split(IndexSeparator)
+    .map((field) => field.toLowerCase())
+}
+
 export class IndexedDbPayloadDiviner<
   TParams extends IndexedDbPayloadDivinerParams = IndexedDbPayloadDivinerParams,
   TIn extends PayloadDivinerQueryPayload = PayloadDivinerQueryPayload,
@@ -149,13 +157,6 @@ export class IndexedDbPayloadDiviner<
 
   private getKeyRangeValue(indexName: string | null, query: AnyObject): unknown | unknown[] {
     if (!indexName) return []
-    // Function to extract fields from an index name
-    const extractFields = (indexName: string): string[] => {
-      return indexName
-        .slice(3)
-        .split(IndexSeparator)
-        .map((field) => field.toLowerCase())
-    }
 
     // Extracting the relevant fields from the index name
     const indexFields = extractFields(indexName)
@@ -168,14 +169,6 @@ export class IndexedDbPayloadDiviner<
   private selectBestIndex(query: AnyObject, store: IDBPObjectStore<PayloadStore>): string | null {
     // List of available indexes
     const { indexNames } = store
-
-    // Function to extract fields from an index name
-    const extractFields = (indexName: string): string[] => {
-      return indexName
-        .slice(3)
-        .split(IndexSeparator)
-        .map((field) => field.toLowerCase())
-    }
 
     // Convert query object keys to a set for easier comparison
     const queryKeys = new Set(Object.keys(query).map((key) => key.toLowerCase()))

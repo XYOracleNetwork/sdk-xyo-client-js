@@ -9,5 +9,4 @@ import { Config } from 'jest'
 
 const teardown = async (_globalConfig: Config, _projectConfig: Config) => {}
 
-// eslint-disable-next-line id-denylist
 module.exports = teardown

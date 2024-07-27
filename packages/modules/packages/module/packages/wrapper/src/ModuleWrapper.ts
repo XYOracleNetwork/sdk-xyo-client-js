@@ -372,6 +372,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
       if (idOrFilter === '*') {
         return await instance.resolve<T>('*', options)
       }
+      // eslint-disable-next-line sonarjs/no-all-duplicated-branches
       switch (typeof idOrFilter) {
         case 'string': {
           return await instance.resolve<T>(idOrFilter, options)
@@ -420,12 +421,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     additionalSigners = this.additionalSigners,
   ): PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance> {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    const promise = new PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance>(async (resolve) => {
+    return new PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance>(async (resolve) => {
       const result = await this.bindQueryInternal(query, payloads, account, additionalSigners)
       resolve?.(result)
       return result
     }, account)
-    return promise
   }
 
   protected async bindQueryInternal<T extends Query>(
@@ -436,8 +436,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   ): Promise<[QueryBoundWitness, Payload[], ModuleError[]]> {
     const builder = await new QueryBoundWitnessBuilder().payloads(payloads).query(query)
     const accounts = [account, ...additionalSigners].filter(exists)
-    const result = await (account ? builder.signers(accounts) : builder).build()
-    return result
+    return await (account ? builder.signers(accounts) : builder).build()
   }
 
   protected async filterErrors(result: ModuleQueryResult): Promise<ModuleError[]> {

@@ -13,7 +13,6 @@ export class DistinctDiviner<TParams extends DistinctDivinerParams = DistinctDiv
 
   protected override async divineHandler(payloads?: PayloadWithMeta[]): Promise<PayloadWithMeta[]> {
     const map = await PayloadBuilder.toDataHashMap(payloads ?? [])
-    const values = Object.values(map)
-    return values
+    return Object.values(map)
   }
 }

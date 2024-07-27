@@ -1,5 +1,4 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
-// eslint-disable-next-line import/no-internal-modules
 import { Operation } from 'json-joy/lib/json-patch/index.js'
 
 import { JsonPatchDivinerSchema } from './Schema.js'

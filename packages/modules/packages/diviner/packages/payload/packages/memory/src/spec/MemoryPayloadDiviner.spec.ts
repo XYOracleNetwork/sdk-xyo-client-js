@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable max-nested-callbacks */
 
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -6,7 +7,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWithMeta } from '@xyo-network/payload-model'
 
-import { MemoryPayloadDiviner } from '../MemoryPayloadDiviner'
+import { MemoryPayloadDiviner } from '../MemoryPayloadDiviner.js'
 
 /**
  * @group module

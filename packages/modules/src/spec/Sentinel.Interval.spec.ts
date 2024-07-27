@@ -18,6 +18,8 @@ import SentinelManifest from './Sentinel.Interval.spec.json'
  * @group slow
  */
 
+const NETWORK_XYO_TEST = 'network.xyo.test' as const
+
 describe('Sentinel.Interval', () => {
   let node: MemoryNode
 
@@ -39,11 +41,11 @@ describe('Sentinel.Interval', () => {
     // Add some test data
     const testPayloads = [
       {
-        schema: 'network.xyo.test',
+        schema: NETWORK_XYO_TEST,
         value: 1,
       },
       {
-        schema: 'network.xyo.test',
+        schema: NETWORK_XYO_TEST,
         value: 2,
       },
     ]
@@ -58,16 +60,16 @@ describe('Sentinel.Interval', () => {
     const payloads = (await archivist?.all?.()) ?? []
     expect(payloads.length).toBeGreaterThan(0)
     //console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
-    expect(payloads.some((p) => p.schema === 'network.xyo.test')).toBeTrue()
+    expect(payloads.some((p) => p.schema === NETWORK_XYO_TEST)).toBeTrue()
   })
   it.skip('manual query', async () => {
     const testPayloads = [
       {
-        schema: 'network.xyo.test',
+        schema: NETWORK_XYO_TEST,
         value: 1,
       },
       {
-        schema: 'network.xyo.test',
+        schema: NETWORK_XYO_TEST,
         value: 2,
       },
     ]
@@ -96,7 +98,7 @@ describe('Sentinel.Interval', () => {
       offset,
       order: 'asc',
       schema: 'network.xyo.diviner.payload.query',
-      schemas: ['network.xyo.test'],
+      schemas: [NETWORK_XYO_TEST],
     }
     const payloadBatch = await payloadDiviner?.divine([payloadDivinerQuery])
     expect(payloadBatch?.length).toBe(1)

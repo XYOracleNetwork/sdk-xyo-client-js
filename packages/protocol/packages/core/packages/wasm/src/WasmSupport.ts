@@ -149,7 +149,6 @@ export class WasmSupport {
     if (this._isInitialized) return
     await this.detectDesiredFeatures()
     this._isInitialized = true
-    return
   }
 
   protected async detectDesiredFeatures(): Promise<void> {

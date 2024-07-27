@@ -130,8 +130,7 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
     } else {
       const filter = idOrFilter
       if (isAddressModuleFilter(filter)) {
-        const results = (await Promise.all(filter.address.map((item) => this.resolve(item, options)))).filter(exists)
-        return results
+        return (await Promise.all(filter.address.map((item) => this.resolve(item, options)))).filter(exists)
       } else if (isNameModuleFilter(filter)) {
         return (await Promise.all(filter.name.map((item) => this.resolve(item, options)))).filter(exists)
       }

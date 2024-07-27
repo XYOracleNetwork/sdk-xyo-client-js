@@ -13,8 +13,8 @@ describe('arimaForecasting', () => {
     })
     const result = await arimaForecastingMethod(payloads, transformer)
     expect(result).toBeTruthy()
-    result.map((payload, index) => {
+    for (const [index, payload] of result.entries()) {
       expect((payload as { schema: string; value: number }).value).toBeCloseTo(expected[index])
-    })
+    }
   })
 })

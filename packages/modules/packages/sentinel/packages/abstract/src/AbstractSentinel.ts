@@ -119,15 +119,12 @@ export abstract class AbstractSentinel<
       //remove any tasks that have inputs that are in the current list or the remaining tasks
       const newList = newListCandidates.filter((taskCandidate) => {
         const input = taskCandidate.input
-        if (
+        return !(
           Array.isArray(input) &&
           tasks.some(
             (remainingTask) => input.includes(remainingTask.mod.address) || input.includes(remainingTask.mod.modName ?? remainingTask.mod.address),
           )
-        ) {
-          return false
-        }
-        return true
+        )
       })
       assertEx(newList.length > 0, () => `Unable to generateJob [${tasks.length}]`)
       job.tasks.push(newList)

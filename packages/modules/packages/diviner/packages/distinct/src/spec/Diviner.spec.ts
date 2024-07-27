@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { AnyObject } from '@xylabs/object'
 import { Payload } from '@xyo-network/payload-model'
 

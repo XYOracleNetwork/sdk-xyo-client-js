@@ -28,7 +28,6 @@ export interface WithOptionalLabels<T extends Labels = Labels> {
 export const hasAllLabels = (source?: Labels, required?: Labels): boolean => {
   if (!required) return true
   return Object.entries(required).every(([key, value]) => {
-    // eslint-disable-next-line no-prototype-builtins
     return source?.hasOwnProperty(key as keyof typeof source) && source?.[key as keyof typeof source] === value
   })
 }

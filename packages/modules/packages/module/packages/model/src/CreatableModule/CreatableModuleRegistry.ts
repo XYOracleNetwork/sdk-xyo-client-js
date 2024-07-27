@@ -76,13 +76,13 @@ export const assignCreatableModuleRegistry = (
   target: CreatableModuleRegistry = {},
   ...sources: CreatableModuleRegistry[]
 ): CreatableModuleRegistry => {
-  sources.map((source) =>
-    Object.entries(source).map(([schema, factories]) => {
+  for (const source of sources)
+    for (const [schema, factories] of Object.entries(source)) {
       if (factories) {
         const existingFactories = target[schema]
         target[schema] = existingFactories ? (target[schema] = [...existingFactories, ...factories]) : factories
       }
-    }),
-  )
+    }
+
   return target
 }

@@ -325,7 +325,7 @@ export class IndexedDbArchivist<
    */
   private async getInitializedDb(): Promise<IDBPDatabase<PayloadStore>> {
     const { dbName, dbVersion, indexes, storeName, logger } = this
-    const db = await openDB<PayloadStore>(dbName, dbVersion, {
+    return await openDB<PayloadStore>(dbName, dbVersion, {
       blocked(currentVersion, blockedVersion, event) {
         logger.warn(`IndexedDbArchivist: Blocked from upgrading from ${currentVersion} to ${blockedVersion}`, event)
       },
@@ -369,7 +369,6 @@ export class IndexedDbArchivist<
         }
       },
     })
-    return db
   }
 
   /**

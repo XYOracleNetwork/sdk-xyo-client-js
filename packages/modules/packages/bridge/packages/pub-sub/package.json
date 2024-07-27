@@ -36,8 +36,8 @@
   },
   "devDependencies": {
     "@xylabs/logger": "^3.6.5",
-    "@xylabs/ts-scripts-yarn3": "^3.12.4",
-    "@xylabs/tsconfig": "^3.12.4",
+    "@xylabs/ts-scripts-yarn3": "^3.13.3",
+    "@xylabs/tsconfig": "^3.13.3",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/diviner-boundwitness-memory": "workspace:^",
     "@xyo-network/module-abstract": "workspace:^",

@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 /* eslint-disable max-nested-callbacks */
+/* eslint-disable sonarjs/no-duplicate-string */
 
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { IndexDescription } from '@xyo-network/archivist-model'

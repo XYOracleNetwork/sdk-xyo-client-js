@@ -22,7 +22,10 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
     const parts = reverseDomainName.split('.')
     for (let i = 2; i <= parts.length; i++) {
       const domainToCheck = reverse(parts.filter((_, index) => index < i)).join('.')
-      return (await this.discoverDNSEntry(domainToCheck)) ?? (await this.discoverRootFile(domainToCheck, proxy))
+      const result = (await this.discoverDNSEntry(domainToCheck)) ?? (await this.discoverRootFile(domainToCheck, proxy))
+      if (result) {
+        return result
+      }
     }
   }
 

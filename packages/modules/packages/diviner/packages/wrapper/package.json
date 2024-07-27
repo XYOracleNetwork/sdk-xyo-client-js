@@ -18,9 +18,9 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.12.4",
-    "@xylabs/tsconfig": "^3.12.4",
-    "@xylabs/tsconfig-jest": "^3.12.4",
+    "@xylabs/ts-scripts-yarn3": "^3.13.3",
+    "@xylabs/tsconfig": "^3.13.3",
+    "@xylabs/tsconfig-jest": "^3.13.3",
     "@xyo-network/diviner-identity": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "typescript": "^5.5.4"

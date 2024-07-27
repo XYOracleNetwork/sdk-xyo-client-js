@@ -31,11 +31,10 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
   async attachHandler(id: ModuleIdentifier, external?: boolean) {
     await this.started('throw')
-    const attachedModule = assertEx(
+    return assertEx(
       isAddress(id) ? await this.attachUsingAddress(id as Address, external) : await this.attachUsingName(id, external),
       () => `Unable to locate module [${id}]`,
     )
-    return attachedModule
   }
 
   async certifyHandler(id: ModuleIdentifier): Promise<ChildCertificationFields> {
@@ -212,7 +211,6 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     if (address) {
       return await this.detachUsingAddress(address)
     }
-    return
   }
 
   private async getModulesToNotifyAbout(node: ModuleInstance) {
@@ -257,9 +255,8 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   }
 
   private registeredModuleAddressFromName(name: string) {
-    const address = Object.values(this.registeredModuleMap).find((value) => {
+    return Object.values(this.registeredModuleMap).find((value) => {
       return value.modName === name
     })?.address
-    return address
   }
 }

@@ -48,7 +48,7 @@ export class SentinelRunner {
   }
 
   find(hash: string) {
-    Object.entries(this._automations).find(([key]) => key === hash)
+    return Object.entries(this._automations).find(([key]) => key === hash)
   }
 
   remove(hash: string, restart = true) {

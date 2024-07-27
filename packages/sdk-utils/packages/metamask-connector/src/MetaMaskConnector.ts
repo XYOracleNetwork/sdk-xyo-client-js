@@ -106,8 +106,7 @@ export class MetaMaskConnector {
 
     const signer = await this.provider.getSigner()
     await signer.getAddress()
-    const signature = await signer.signMessage(message)
-    return signature
+    return await signer.signMessage(message)
   }
 
   /** Web3Provider Listeners - https://docs.ethers.org/v5/api/providers/provider/#Provider--events */

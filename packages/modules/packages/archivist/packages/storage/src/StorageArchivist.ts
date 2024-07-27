@@ -152,7 +152,7 @@ export class StorageArchivist<
   }
 
   protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
-    const deletedHashes = compact(
+    return compact(
       await Promise.all(
         hashes.map((hash) => {
           this.storage.remove(hash)
@@ -160,7 +160,6 @@ export class StorageArchivist<
         }),
       ),
     )
-    return deletedHashes
   }
 
   protected override getHandler(hashes: string[]): Promisable<PayloadWithMeta[]> {
@@ -181,14 +180,13 @@ export class StorageArchivist<
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
     const pairs = await PayloadBuilder.hashPairs(payloads)
-    const resultPayloads = pairs.map(([payload, hash]) => {
+    return pairs.map(([payload, hash]) => {
       const value = JSON.stringify(payload)
       assertEx(value.length < this.maxEntrySize, () => `Payload too large [${hash}, ${value.length}]`)
       this.storage.set(hash, payload)
       this.storage.set(payload.$hash, payload)
       return payload
     })
-    return resultPayloads
   }
 
   protected saveAccount() {

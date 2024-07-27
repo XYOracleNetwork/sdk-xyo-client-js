@@ -31,7 +31,8 @@ export class IdLogger implements Logger {
   }
 
   private generate(message?: unknown, tag?: string) {
-    return `${tag} ${this._id ? `[${this._id}] ` : ''}${
+    const idString = this._id ? `[${this._id}] ` : ''
+    return `${tag} ${idString}${
       typeof message === 'string' ? message
       : typeof message === 'object' ? JSON.stringify(message, undefined, 2)
       : `${message}`

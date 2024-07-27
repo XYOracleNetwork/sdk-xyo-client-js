@@ -8,8 +8,7 @@ import { googleDnsOverHttps } from './googleDnsOverHttps.js'
  */
 const domainResolve = async (domain?: string, type = DnsRecordType.A) => {
   if (domain) {
-    const dnsResult = await googleDnsOverHttps(domain, type)
-    return dnsResult
+    return await googleDnsOverHttps(domain, type)
   }
 }
 

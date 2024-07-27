@@ -97,7 +97,7 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
     const queries = payloads.filter(isPayloadOfSchemaType<PayloadDivinerQueryPayload>(this.divinerQuerySchema))
     if (queries.length > 0) {
-      const results = await Promise.all(
+      return await Promise.all(
         queries.map(async (query) => {
           const fields = await reducePayloads<PayloadDivinerQueryPayload & { sources?: Hash[] }>(
             [query],
@@ -112,7 +112,6 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
           return await new PayloadBuilder<Payload>({ schema: this.indexQuerySchema }).fields(fields).build()
         }),
       )
-      return results
     }
     return []
   }

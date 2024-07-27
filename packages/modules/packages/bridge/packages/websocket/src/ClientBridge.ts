@@ -99,8 +99,7 @@ export class WebsocketClientBridge<TParams extends WebsocketBridgeParams = Webso
       await this.querySemaphore.acquire()
       throw new Error('Unsupported')
     } catch (ex) {
-      const error = ex as Error
-      throw error
+      throw ex as Error
     } finally {
       this.querySemaphore.release()
     }

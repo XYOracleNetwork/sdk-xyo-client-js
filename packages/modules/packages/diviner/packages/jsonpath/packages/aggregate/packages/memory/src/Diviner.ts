@@ -76,12 +76,11 @@ export class JsonPathAggregateDiviner<
       this.transformableSchemas.includes(BoundWitnessSchema) ?
         await combinationsByBoundwitness(strippedPayloads)
       : await combinationsBySchema(strippedPayloads, this.transformableSchemas)
-    const reducedPayloads = await Promise.all(
+    return await Promise.all(
       combinations.map((combination) => {
         return reducePayloads<TOut>(combination, this.payloadTransformers, this.destinationSchema, this.config.excludeSources ?? false)
       }),
     )
-    return reducedPayloads
   }
 
   /**

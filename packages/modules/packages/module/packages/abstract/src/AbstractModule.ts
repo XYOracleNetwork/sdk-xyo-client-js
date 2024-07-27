@@ -63,6 +63,7 @@ import { determineAccount } from './determineAccount.js'
 import { ModuleErrorBuilder } from './Error.js'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator/index.js'
 
+const MODULE_NOT_STARTED = 'Module not Started' as const
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends BaseEmitter<TParams, TEventData>
   implements Module<TParams, TEventData>
@@ -256,6 +257,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return ModuleFactory.withParams(this, params)
   }
 
+  // eslint-disable-next-line sonarjs/no-identical-functions
   _getRootFunction(funcName: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let anyThis = this as any
@@ -390,21 +392,21 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         }
         switch (notStartedAction) {
           case 'throw': {
-            throw new Error(`Module not Started [${this.address}]`)
+            throw new Error(`${MODULE_NOT_STARTED} [${this.address}]`)
           }
           case 'warn': {
-            this.logger?.warn('Module not started')
+            this.logger?.warn(MODULE_NOT_STARTED)
             break
           }
           case 'error': {
-            this.logger?.error('Module not started')
+            this.logger?.error(MODULE_NOT_STARTED)
             break
           }
           case 'none': {
             break
           }
           default: {
-            this.logger?.log('Module not started')
+            this.logger?.log(MODULE_NOT_STARTED)
             break
           }
         }
@@ -433,6 +435,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
   }
 
+  // eslint-disable-next-line sonarjs/no-identical-functions
   protected _noOverride(functionName: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const thisFunc = (this as any)[functionName]
@@ -460,12 +463,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected bindHashes(hashes: Hash[], schema: Schema[], account?: AccountInstance) {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    const promise = new PromiseEx((resolve) => {
+    return new PromiseEx((resolve) => {
       const result = this.bindHashesInternal(hashes, schema, account)
       resolve?.(result)
       return result
     }, account)
-    return promise
   }
 
   protected async bindHashesInternal(hashes: Hash[], schema: Schema[], account: AccountInstance = this.account): Promise<BoundWitness> {
@@ -482,12 +484,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     additionalSigners?: AccountInstance[],
   ): PromiseEx<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]], AccountInstance> {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    const promise = new PromiseEx<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]], AccountInstance>(async (resolve) => {
+    return new PromiseEx<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]], AccountInstance>(async (resolve) => {
       const result = await this.bindQueryInternal(query, payloads, account, additionalSigners)
       resolve?.(result)
       return result
     }, account)
-    return promise
   }
 
   protected async bindQueryInternal<T extends Query>(

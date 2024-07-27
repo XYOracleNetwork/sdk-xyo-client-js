@@ -1,10 +1,10 @@
-/* eslint-disable no-restricted-imports */
+// eslint-disable-next-line no-restricted-imports
 import * as Modules from '@xyo-network/modules'
 import * as SdkUtils from '@xyo-network/sdk-utils'
 
 describe('Loading Client SDKs', () => {
   test('Monolithic', () => {
-    Object.entries(Modules).map(([key, value]) => `Modules[${key}]: ${typeof value}`)
-    Object.entries(SdkUtils).map(([key, value]) => `Sdk[${key}]: ${typeof value}`)
+    for (const [key, value] of Object.entries(Modules)) `Modules[${key}]: ${typeof value}`
+    for (const [key, value] of Object.entries(SdkUtils)) `Sdk[${key}]: ${typeof value}`
   })
 })

@@ -1,4 +1,4 @@
-import { WasmFeature, WasmSupport } from '../WasmSupport'
+import { WasmFeature, WasmSupport } from '../WasmSupport.js'
 
 describe('WasmSupport', () => {
   const allFeatures: WasmFeature[] = [
@@ -36,7 +36,7 @@ describe('WasmSupport', () => {
     it('Lists desired features and their support status', async () => {
       const instance = await WasmSupport.create(allFeatures)
       expect(Object.keys(instance.featureSupport)).toIncludeAllMembers(allFeatures)
-      Object.values(instance.featureSupport).map((feature) => expect(feature).toBeBoolean())
+      for (const feature of Object.values(instance.featureSupport)) expect(feature).toBeBoolean()
     })
   })
 })

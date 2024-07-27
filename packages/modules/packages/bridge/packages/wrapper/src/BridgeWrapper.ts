@@ -32,11 +32,10 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
     return await Promise.all((addresses as Address[]).map((address) => this.resolve(address)))
   }
 
-  async unexpose(id: ModuleIdentifier, options?: BridgeUnexposeOptions): Promise<ModuleInstance[]> {
+  async unexpose(id: ModuleIdentifier, options?: BridgeUnexposeOptions): Promise<Address[]> {
     const filterPayload: ModuleFilterPayload = { id, schema: ModuleFilterPayloadSchema, ...options }
-    const addresses = (
+    return (
       await this.sendQuery<BridgeUnexposeQuery, ModuleFilterPayload, AddressPayload>({ schema: BridgeUnexposeQuerySchema }, [filterPayload])
     ).map(({ address }) => address)
-    return addresses ? [] : []
   }
 }

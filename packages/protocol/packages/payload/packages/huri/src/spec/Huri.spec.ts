@@ -1,8 +1,9 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { axios } from '@xylabs/axios'
 import { delay } from '@xylabs/delay'
 import { Payload } from '@xyo-network/payload-model'
 
-import { Huri } from '../Huri'
+import { Huri } from '../Huri.js'
 
 const hash = 'fb3606d71dcdd49a0aacc9d234e412684d577803c8a9ed9399a9d3776cc88e24'
 
@@ -28,7 +29,7 @@ const invalid = [`https:///api.archivist.xyo.network/${hash}`, `https://api.arch
 
 describe.skip('Huri', () => {
   describe('Valid Items', () => {
-    valid.map((item) => {
+    for (const item of valid) {
       test(`valid [${item}]`, () => {
         try {
           const huri = new Huri(item)
@@ -38,10 +39,10 @@ describe.skip('Huri', () => {
           console.error(error)
         }
       })
-    })
+    }
   })
   describe('Valid Items w/archive', () => {
-    validWithTempArchive.map((item) => {
+    for (const item of validWithTempArchive) {
       test(`valid w/archive [${item}]`, () => {
         try {
           const huri = new Huri(item)
@@ -52,14 +53,14 @@ describe.skip('Huri', () => {
           console.error(error)
         }
       })
-    })
+    }
   })
   describe('Invalid Items', () => {
-    invalid.map((item) => {
+    for (const item of invalid) {
       test(`invalid [${item}]`, () => {
         expect(() => new Huri(item)).toThrow()
       })
-    })
+    }
   })
   describe('Api Fetch', () => {
     it('Valid Huri', async () => {
@@ -86,7 +87,7 @@ describe.skip('Huri', () => {
     })
   })
   describe('Fetch Override', () => {
-    invalid.map((item) => {
+    for (const item of invalid) {
       test(`invalid [${item}]`, async () => {
         const oldFetch = Huri.fetch
         Huri.fetch = async <T extends Payload = Payload>(huri: Huri): Promise<T | undefined> => {
@@ -101,6 +102,6 @@ describe.skip('Huri', () => {
         Huri.fetch = oldFetch
         expect(result?.schema).toBe('18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057')
       })
-    })
+    }
   })
 })

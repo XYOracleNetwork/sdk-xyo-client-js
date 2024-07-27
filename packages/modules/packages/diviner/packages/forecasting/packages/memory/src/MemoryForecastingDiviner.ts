@@ -18,12 +18,11 @@ import jsonpath from 'jsonpath'
 export type SupportedForecastingType = typeof arimaForecastingName | typeof seasonalArimaForecastingName
 
 const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer => {
-  const transformer = (x: Payload): number => {
+  return (x: Payload): number => {
     const ret = jsonpath.value(x, pathExpression)
     if (typeof ret === 'number') return ret
     throw new Error('Parsed invalid payload value')
   }
-  return transformer
 }
 
 const defaultBatchLimit = 1000

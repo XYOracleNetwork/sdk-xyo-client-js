@@ -190,11 +190,11 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
 
   errors(errors?: (ModuleError | null)[]) {
     if (errors) {
-      errors.map((error) => {
+      for (const error of errors) {
         if (error !== null) {
           this.error(error)
         }
-      })
+      }
     }
     return this
   }
@@ -216,11 +216,11 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
 
   payloads(payloads?: (TPayload | null)[]) {
     if (payloads)
-      payloads.map((payload) => {
+      for (const payload of payloads) {
         if (payload !== null) {
           this.payload(payload)
         }
-      })
+      }
     return this
   }
 

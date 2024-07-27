@@ -15,7 +15,7 @@ const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
   const listeners: ListenerFunction[] = []
   const emit = (event: 'moduleResolved', args: ModuleResolvedEventArgs): boolean => {
     if (listeners.length === 0) return false
-    listeners.map((listener) => listener(args))
+    for (const listener of listeners) listener(args)
     return true
   }
   const onModuleResolved = (mod: Module, filter?: ModuleFilter) => {
@@ -42,6 +42,5 @@ const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
 
 export const mixinResolverEventEmitter = <T extends ModuleResolver = ModuleResolver>(resolver: T): T & ResolverEventEmitter => {
   const mixin = getMixin(resolver)
-  const ret = Object.assign(resolver, mixin)
-  return ret
+  return Object.assign(resolver, mixin)
 }

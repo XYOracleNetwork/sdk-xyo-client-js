@@ -1,6 +1,5 @@
-/**
- * @jest-environment jsdom
- */
+/** @jest-environment jsdom */
+/* eslint-disable sonarjs/no-duplicate-string */
 
 import { Hash } from '@xylabs/hex'
 import { EmptyObject } from '@xylabs/object'

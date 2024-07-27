@@ -8,5 +8,5 @@ export interface BridgeQueryFunctions {
   connect?: (id: ModuleIdentifier, maxDepth?: number) => Promisable<Address | undefined>
   disconnect?: (id: ModuleIdentifier, maxDepth?: number) => Promisable<Address | undefined>
   expose: (id: ModuleIdentifier, options?: BridgeExposeOptions) => Promisable<ModuleInstance[]>
-  unexpose?: (id: ModuleIdentifier, options?: BridgeUnexposeOptions) => Promisable<ModuleInstance[]>
+  unexpose?: (id: ModuleIdentifier, options?: BridgeUnexposeOptions) => Promisable<Address[]>
 }

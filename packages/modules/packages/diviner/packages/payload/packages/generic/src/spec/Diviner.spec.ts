@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable max-nested-callbacks */
 import { Hash } from '@xylabs/hex'
 import { EmptyObject } from '@xylabs/object'

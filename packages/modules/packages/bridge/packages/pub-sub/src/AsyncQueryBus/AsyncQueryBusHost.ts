@@ -92,7 +92,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
 
   async listeningModules(): Promise<ModuleInstance[]> {
     const exposedModules = [...(this.config?.listeningModules ?? []), ...this.exposedAddresses.values()]
-    const mods = await Promise.all(
+    return await Promise.all(
       exposedModules.map(async (exposedModule) =>
         assertEx(
           asModuleInstance(await resolveAddressToInstance(this.rootModule, exposedModule)),
@@ -100,7 +100,6 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
         ),
       ),
     )
-    return mods
   }
 
   start() {

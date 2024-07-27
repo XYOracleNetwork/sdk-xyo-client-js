@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -7,7 +8,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
-import { MemoryBoundWitnessDiviner } from '../MemoryBoundWitnessDiviner'
+import { MemoryBoundWitnessDiviner } from '../MemoryBoundWitnessDiviner.js'
 
 /**
  * @group module

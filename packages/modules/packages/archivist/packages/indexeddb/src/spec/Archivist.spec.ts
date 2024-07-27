@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+/* eslint-disable sonarjs/no-duplicate-string */
 
 import { Hash } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'

@@ -10,27 +10,21 @@ export interface GetProvidersFromEnvOptions {
 }
 
 const createInfuraRpc = (chainId: number) => {
-  const provider =
-    process.env.INFURA_PROJECT_ID && process.env.INFURA_PROJECT_SECRET ? new InfuraProvider(chainId, process.env.INFURA_PROJECT_ID) : undefined
-  return provider
+  return process.env.INFURA_PROJECT_ID && process.env.INFURA_PROJECT_SECRET ? new InfuraProvider(chainId, process.env.INFURA_PROJECT_ID) : undefined
 }
 
 const createInfuraWss = (chainId: number) => {
-  const provider = process.env.INFURA_PROJECT_ID ? new InfuraWebSocketProvider(chainId, process.env.INFURA_PROJECT_ID) : undefined
-  return provider
+  return process.env.INFURA_PROJECT_ID ? new InfuraWebSocketProvider(chainId, process.env.INFURA_PROJECT_ID) : undefined
 }
 
 const createQuicknodeWss = (chainId: number) => {
   const quickNodeWSSUri = process.env.QUICKNODE_WSS_URI
-  const provider = quickNodeWSSUri ? new WebSocketProvider(quickNodeWSSUri, chainId) : undefined
-
-  return provider
+  return quickNodeWSSUri ? new WebSocketProvider(quickNodeWSSUri, chainId) : undefined
 }
 
 const createQuicknodeRpc = (chainId: number) => {
   const quickNodeHttpsUri = process.env.QUICKNODE_HTTPS_URI
-  const provider = quickNodeHttpsUri ? new JsonRpcProvider(quickNodeHttpsUri, chainId) : undefined
-  return provider
+  return quickNodeHttpsUri ? new JsonRpcProvider(quickNodeHttpsUri, chainId) : undefined
 }
 
 export const getProviderFromEnv = (
@@ -38,32 +32,41 @@ export const getProviderFromEnv = (
   { providerSource = 'infura', providerType = 'rpc' }: GetProvidersFromEnvOptions = {},
 ): Provider => {
   let provider: Provider | undefined = undefined
+
+  const quicknodeCases = () => {
+    switch (providerType) {
+      case 'rpc': {
+        provider = createQuicknodeRpc(chainId)
+        break
+      }
+      case 'wss': {
+        provider = createQuicknodeWss(chainId)
+        break
+      }
+    }
+  }
+
+  const infuraCases = () => {
+    switch (providerType) {
+      case 'wss': {
+        provider = createInfuraWss(chainId)
+        break
+      }
+      case 'rpc': {
+        provider = createInfuraRpc(chainId)
+        break
+      }
+    }
+  }
+
   switch (providerSource) {
     case 'quicknode': {
-      switch (providerType) {
-        case 'rpc': {
-          provider = createQuicknodeRpc(chainId)
-          break
-        }
-        case 'wss': {
-          provider = createQuicknodeWss(chainId)
-          break
-        }
-      }
+      quicknodeCases()
       break
     }
     default:
     case 'infura': {
-      switch (providerType) {
-        case 'wss': {
-          provider = createInfuraWss(chainId)
-          break
-        }
-        case 'rpc': {
-          provider = createInfuraRpc(chainId)
-          break
-        }
-      }
+      infuraCases()
       break
     }
   }

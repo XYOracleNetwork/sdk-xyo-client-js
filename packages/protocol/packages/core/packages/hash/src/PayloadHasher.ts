@@ -35,7 +35,6 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     if (globalThis.xyo.hashing) {
       console.warn('Two static instances of PayloadHasher detected')
     }
-    globalThis.xyo === globalThis.xyo ?? { hashing: PayloadHasher }
   })()
 
   static jsHashWorkerUrl?: URL

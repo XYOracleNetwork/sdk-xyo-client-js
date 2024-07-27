@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
@@ -344,9 +345,9 @@ describe('MemoryNode', () => {
       expect(config?.schema).toBe(mod.config.schema)
       const queries = response.filter((p) => mod.queries.includes(p.schema))
       expect(queries.length).toBeGreaterThanOrEqual(0)
-      queries.map((query) => {
+      for (const query of queries) {
         expect(query).toBeObject()
-      })
+      }
     }
     describe('node without child modules', () => {
       it('describes node alone', async () => {

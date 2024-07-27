@@ -74,7 +74,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
     this.logger?.debug(`Issued query: ${routedQueryHash} to: ${address}`)
     this.queryCache.set(routedQueryHash, Pending)
     if (!insertResult) throw new Error('Unable to issue query to queryArchivist')
-    const context = new Promise<ModuleQueryResult>((resolve, reject) => {
+    return new Promise<ModuleQueryResult>((resolve, reject) => {
       this.logger?.debug(`Polling for response to query: ${routedQueryHash}`)
       let nextDelay = 100
       const pollForResponse = async () => {
@@ -117,7 +117,6 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
       }
       forget(pollForResponse())
     })
-    return context
   }
 
   /**

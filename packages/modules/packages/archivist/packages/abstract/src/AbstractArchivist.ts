@@ -37,6 +37,8 @@ import { duplicateModules, ModuleConfig, ModuleIdentifier, ModuleName, ModuleQue
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
 
+const NOT_IMPLEMENTED = 'Not implemented' as const
+
 export interface ActionConfig {
   emitEvents?: boolean
 }
@@ -169,19 +171,19 @@ export abstract class AbstractArchivist<
   }
 
   protected allHandler(): PromisableArray<Payload> {
-    throw new Error('Not implemented')
+    throw new Error(NOT_IMPLEMENTED)
   }
 
   protected clearHandler(): Promisable<void> {
-    throw new Error('Not implemented')
+    throw new Error(NOT_IMPLEMENTED)
   }
 
   protected commitHandler(): Promisable<WithMeta<BoundWitness>[]> {
-    throw new Error('Not implemented')
+    throw new Error(NOT_IMPLEMENTED)
   }
 
   protected deleteHandler(_hashes: Hash[]): PromisableArray<Hash> {
-    throw new Error('Not implemented')
+    throw new Error(NOT_IMPLEMENTED)
   }
 
   protected async deleteWithConfig(hashes: Hash[], config?: ActionConfig): Promise<Hash[]> {
@@ -230,7 +232,7 @@ export abstract class AbstractArchivist<
   }
 
   protected getHandler(_hashes: Hash[]): Promisable<Payload[]> {
-    throw new Error('Not implemented')
+    throw new Error(NOT_IMPLEMENTED)
   }
 
   protected async getWithConfig(hashes: Hash[], _config?: InsertConfig): Promise<WithMeta<Payload>[]> {
@@ -288,7 +290,7 @@ export abstract class AbstractArchivist<
   }
 
   protected insertHandler(_payloads: WithMeta<Payload>[]): Promise<WithMeta<Payload>[]> {
-    throw new Error('Not implemented')
+    throw new Error(NOT_IMPLEMENTED)
   }
 
   protected async insertQueryHandler<T extends QueryBoundWitnessWrapper = QueryBoundWitnessWrapper>(query: T, payloads?: Payload[]) {
@@ -326,7 +328,7 @@ export abstract class AbstractArchivist<
   }
 
   protected nextHandler(_options?: ArchivistNextOptions): Promisable<WithMeta<Payload>[]> {
-    throw new Error('Not implemented')
+    throw new Error(NOT_IMPLEMENTED)
   }
 
   protected async nextWithConfig(options?: ArchivistNextOptions, _config?: InsertConfig): Promise<WithMeta<Payload>[]> {

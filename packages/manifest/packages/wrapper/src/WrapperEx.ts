@@ -119,14 +119,13 @@ export class ManifestWrapperEx<
    * Load the nodes that are defined in the wrapped manifest and optionally attach them to a node
    */
   async loadNodes(node?: MemoryNode): Promise<MemoryNode[]> {
-    const result = await Promise.all(
+    return await Promise.all(
       this.payload.nodes?.map(async (nodeManifest, index) => {
         const subNode = await this.loadNodeFromManifest(this.wallet, nodeManifest, nodeManifest.config.accountPath ?? `${index}'`)
         await node?.register(subNode)
         return subNode
       }),
     )
-    return result
   }
 
   nodeManifest(index: number) {

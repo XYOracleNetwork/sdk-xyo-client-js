@@ -1,4 +1,5 @@
-import { combinationsBySchema } from '../combinationsBySchema'
+/* eslint-disable sonarjs/no-duplicate-string */
+import { combinationsBySchema } from '../combinationsBySchema.js'
 
 describe('combinationsBySchema', () => {
   const payloadCount = 2

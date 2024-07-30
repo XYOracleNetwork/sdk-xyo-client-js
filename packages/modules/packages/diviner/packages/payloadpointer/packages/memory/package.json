@@ -11,11 +11,19 @@
   },
   "dependencies": {
     "@xylabs/assert": "^3.6.5",
+    "@xylabs/exists": "^3.6.5",
+    "@xylabs/hex": "^3.6.5",
+    "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/diviner-abstract": "workspace:^",
+    "@xyo-network/diviner-boundwitness-abstract": "workspace:^",
+    "@xyo-network/diviner-boundwitness-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
+    "@xyo-network/diviner-payload-abstract": "workspace:^",
+    "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/diviner-payload-pointer-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^",
+    "@xyo-network/payload-wrapper": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.13.3",

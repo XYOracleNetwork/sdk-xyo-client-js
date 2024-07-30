@@ -5702,10 +5702,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-pointer-model@workspace:packages/modules/packages/diviner/packages/payloadpointer/packages/model"
   dependencies:
-    "@xylabs/object": "npm:^3.6.5"
+    "@xylabs/hex": "npm:^3.6.5"
     "@xylabs/ts-scripts-yarn3": "npm:^3.13.3"
     "@xylabs/tsconfig": "npm:^3.13.3"
+    "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/diviner-payload-model": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.5.4"

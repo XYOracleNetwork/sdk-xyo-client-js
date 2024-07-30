@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { asDivinerInstance, DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
@@ -28,14 +29,12 @@ export class JsonPathDiviner<
 
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     const pointer = payloads?.find(isPointerPayload)
-    const archivist = await this.getArchivist()
+    if (!pointer) return []
+    const archivist = await this.getConfigArchivist()
     const boundWitnessDiviner = await this.getBoundWitnessDiviner()
     const payloadDiviner = await this.getPayloadDiviner()
-    if (archivist && boundWitnessDiviner && payloadDiviner && pointer) {
-      const result = (await findPayload(archivist, boundWitnessDiviner, payloadDiviner, pointer)) as TOut | undefined
-      if (result) return [result]
-    }
-    return []
+    const result = (await findPayload(archivist, boundWitnessDiviner, payloadDiviner, pointer)) as TOut | undefined
+    return result ? [result] : []
   }
 
   /**
@@ -47,6 +46,15 @@ export class JsonPathDiviner<
     const mod = assertEx(await this.resolve(name), () => `Config.boundWitnessDiviner module value of ${name} not resolved`)
     const diviner = assertEx(asDivinerInstance(mod), () => `Module ${name} is not an BoundWitnessDiviner`)
     return diviner as BoundWitnessDiviner
+  }
+
+  /**
+   * Returns the archivist instance for the given config
+   * @returns The archivist instance corresponding to the config
+   */
+  private async getConfigArchivist(): Promise<ArchivistInstance> {
+    const name = assertEx(this.config?.archivist, () => 'Missing archivist in config')
+    return assertEx(await this.getArchivist(), () => `Config.archivist module value of ${name} not resolved`)
   }
 
   /**

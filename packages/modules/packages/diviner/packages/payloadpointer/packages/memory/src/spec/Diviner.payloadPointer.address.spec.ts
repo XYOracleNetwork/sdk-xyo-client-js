@@ -50,7 +50,7 @@ describe('PayloadPointerDiviner', () => {
         const expected = getData()
         const pointerHash = await createPointer([[(await account).address]], [[expected.schema]])
         const result = await sut.divine([pointerHash])
-        expect(result).toEqual(expected)
+        expect(result).toEqual([expected])
       })
     })
     describe('multiple address rules', () => {
@@ -59,7 +59,7 @@ describe('PayloadPointerDiviner', () => {
           const expected = payloads[4]
           const pointerHash = await createPointer([[(await accountC).address], [(await accountD).address]], [[expected.schema]])
           const result = await sut.divine([pointerHash])
-          expect(result).toEqual(expected)
+          expect(result).toEqual([expected])
         })
       })
       describe('combined in parallel', () => {
@@ -67,7 +67,7 @@ describe('PayloadPointerDiviner', () => {
           const expected = payloads[4]
           const pointerHash = await createPointer([[(await accountC).address, (await accountD).address]], [[expected.schema]])
           const result = await sut.divine([pointerHash])
-          expect(result).toEqual(expected)
+          expect(result).toEqual([expected])
         })
       })
     })

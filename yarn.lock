@@ -5707,6 +5707,7 @@ __metadata:
     "@xyo-network/diviner-payload-model": "workspace:^"
     "@xyo-network/diviner-payload-pointer-model": "workspace:^"
     "@xyo-network/node-memory": "workspace:^"
+    "@xyo-network/node-model": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"

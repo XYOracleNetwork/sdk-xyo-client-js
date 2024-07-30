@@ -34,6 +34,10 @@
     "@xylabs/tsconfig": "^3.13.3",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
+    "@xyo-network/archivist-memory": "workspace:^",
+    "@xyo-network/diviner-boundwitness-memory": "workspace:^",
+    "@xyo-network/diviner-payload-memory": "workspace:^",
+    "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/wallet-model": "workspace:^",
     "typescript": "^5.5.4",
     "uuid": "^10.0.0"

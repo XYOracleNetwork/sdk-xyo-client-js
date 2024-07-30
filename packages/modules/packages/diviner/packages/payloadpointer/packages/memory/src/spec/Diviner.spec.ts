@@ -1,14 +1,27 @@
 import { HDWallet } from '@xyo-network/account'
+import { PayloadPointerDivinerConfigSchema } from '@xyo-network/diviner-payload-pointer-model'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
-import { JsonPathDiviner } from '../Diviner.js'
+import { PayloadPointerDiviner } from '../Diviner.js'
 
-describe('JsonPathDiviner', () => {
-  let wallet: WalletInstance
+describe('PayloadPointerDiviner', () => {
+  let account: WalletInstance
+  let sut: PayloadPointerDiviner
   beforeAll(async () => {
-    wallet = await HDWallet.random()
+    account = await HDWallet.random()
+    sut = await PayloadPointerDiviner.create({
+      account,
+      config: {
+        archivist: 'archivist',
+        boundWitnessDiviner: 'boundWitnessDiviner',
+        payloadDiviner: 'payloadDiviner',
+        schema: PayloadPointerDivinerConfigSchema,
+      },
+    })
   })
-  it('should return the correct value', async () => {
-    await Promise.reject('Not implemented')
+  describe('with no input', () => {
+    it('returns empty array', async () => {
+      expect(await sut.divine()).toEqual([])
+    })
   })
 })

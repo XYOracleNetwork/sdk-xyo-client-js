@@ -14,7 +14,7 @@ import { Payload, Schema } from '@xyo-network/payload-model'
 
 import { findPayload } from './findPayload.js'
 
-export class JsonPathDiviner<
+export class PayloadPointerDiviner<
   TParams extends PayloadPointerDivinerParams = PayloadPointerDivinerParams,
   TIn extends PointerPayload = PointerPayload,
   TOut extends Payload = Payload,

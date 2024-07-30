@@ -5,18 +5,14 @@
       "name": "Jest",
       "type": "node",
       "request": "launch",
-      "osx": {
-        "program": "${workspaceRoot}/node_modules/.bin/jest"
-      },
-      "windows": {
-        "program": "${workspaceRoot}/node_modules/jest/bin/jest.js"
-      },
+      "program": "jest",
       "args": [
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
         "packages/modules/packages/diviner/packages/payloadpointer/packages/memory/src/spec/Diviner.payloadPointer.schema.spec.ts"
       ],
+      "runtimeExecutable": "yarn",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "cwd": "${workspaceFolder}",

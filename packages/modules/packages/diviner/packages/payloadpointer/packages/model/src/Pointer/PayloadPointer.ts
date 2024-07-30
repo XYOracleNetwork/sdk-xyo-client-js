@@ -9,4 +9,8 @@ export type PayloadPointerPayload = PointerPayload & {
   schema: PayloadPointerSchema
 }
 
+/**
+ * Identity function for determining if an object is a Payload Pointer
+ * @param x The object to check
+ */
 export const isPayloadPointer = (x?: Payload | null): x is PayloadPointerPayload => x?.schema === PayloadPointerSchema

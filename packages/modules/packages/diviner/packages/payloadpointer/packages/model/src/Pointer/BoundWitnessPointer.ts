@@ -10,4 +10,8 @@ export type BoundWitnessPointerPayload = PointerPayload & {
   schema: BoundWitnessPointerSchema
 }
 
+/**
+ * Identity function for determining if an object is a BoundWitness Pointer
+ * @param x The object to check
+ */
 export const isBoundWitnessPointer = (x?: Payload | null): x is BoundWitnessPointerPayload => x?.schema === BoundWitnessPointerSchema

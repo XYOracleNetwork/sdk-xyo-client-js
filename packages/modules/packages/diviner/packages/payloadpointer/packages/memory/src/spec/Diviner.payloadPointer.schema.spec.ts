@@ -19,6 +19,7 @@ import {
 } from './testUtil/index.js'
 
 describe('PayloadPointerDiviner', () => {
+  // NOTE: Skipped because memory payload diviner doesn't currently seem to support OR condition
   describe.skip('with rules for [schema]', () => {
     const account = Account.random()
     const schemaA = getTestSchemaName()

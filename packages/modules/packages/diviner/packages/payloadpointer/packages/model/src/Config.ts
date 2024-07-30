@@ -19,10 +19,6 @@ export type PayloadPointerDivinerConfigSchema = typeof PayloadPointerDivinerConf
 export type PayloadPointerDivinerConfig = DivinerConfig<
   {
     /**
-     * The module identifier of the archivist
-     */
-    archivist: ModuleIdentifier
-    /**
      * The module identifier of the bound witness diviner
      */
     boundWitnessDiviner: ModuleIdentifier

@@ -5684,12 +5684,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-pointer-memory@workspace:packages/modules/packages/diviner/packages/payloadpointer/packages/memory"
   dependencies:
+    "@types/uuid": "npm:^10.0.0"
     "@xylabs/assert": "npm:^3.6.5"
     "@xylabs/exists": "npm:^3.6.5"
     "@xylabs/hex": "npm:^3.6.5"
     "@xylabs/ts-scripts-yarn3": "npm:^3.13.3"
     "@xylabs/tsconfig": "npm:^3.13.3"
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
+    "@xyo-network/archivist-model": "workspace:^"
+    "@xyo-network/boundwitness-builder": "workspace:^"
+    "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/diviner-abstract": "workspace:^"
     "@xyo-network/diviner-boundwitness-abstract": "workspace:^"
@@ -5703,6 +5708,7 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/wallet-model": "workspace:^"
     typescript: "npm:^5.5.4"
+    uuid: "npm:^10.0.0"
   languageName: unknown
   linkType: soft
 

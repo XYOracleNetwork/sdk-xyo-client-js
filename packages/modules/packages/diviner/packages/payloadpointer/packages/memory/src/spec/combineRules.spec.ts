@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { PayloadAddressRule, PayloadRule, PayloadSchemaRule, PayloadTimestampOrderRule } from '@xyo-network/diviner-payload-pointer-model'
 
 import { combineRules } from '../combineRules.js'

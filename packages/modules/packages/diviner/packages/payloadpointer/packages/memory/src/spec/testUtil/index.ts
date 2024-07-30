@@ -1,4 +1,5 @@
 export * from './Account/index.js'
+export * from './Archivist/index.js'
 export * from './Block/index.js'
 export * from './BoundWitness/index.js'
 export * from './Diviner/index.js'

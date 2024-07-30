@@ -6,5 +6,5 @@ import { getTestNode, PayloadPointerDivinerName } from '../Node/index.js'
 
 export const getPayloadPointerDiviner = async (node?: NodeInstance) => {
   if (!node) node = await getTestNode()
-  return asDivinerInstance(node?.resolve(PayloadPointerDivinerName)) as PayloadPointerDiviner
+  return asDivinerInstance(await node?.resolve(PayloadPointerDivinerName)) as PayloadPointerDiviner
 }

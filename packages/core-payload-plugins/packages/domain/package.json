@@ -10,10 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/plugins/issues"
   },
   "dependencies": {
-    "@xylabs/axios": "^3.6.5",
-    "@xylabs/hex": "^3.6.5",
-    "@xylabs/lodash": "^3.6.5",
-    "@xylabs/platform": "^3.6.5",
+    "@xylabs/axios": "^3.6.6",
+    "@xylabs/hex": "^3.6.6",
+    "@xylabs/lodash": "^3.6.6",
+    "@xylabs/platform": "^3.6.6",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/dns": "workspace:^",
     "@xyo-network/huri": "workspace:^",
@@ -24,8 +24,8 @@
     "@xyo-network/payload-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.13.9",
-    "@xylabs/tsconfig": "^3.13.9",
+    "@xylabs/ts-scripts-yarn3": "^3.14.1",
+    "@xylabs/tsconfig": "^3.14.1",
     "typescript": "^5.5.4"
   },
   "description": "Typescript/Javascript Plugins for XYO Platform",

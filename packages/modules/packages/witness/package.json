@@ -17,8 +17,8 @@
     "@xyo-network/witness-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.13.9",
-    "@xylabs/tsconfig": "^3.13.9",
+    "@xylabs/ts-scripts-yarn3": "^3.14.1",
+    "@xylabs/tsconfig": "^3.14.1",
     "typescript": "^5.5.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

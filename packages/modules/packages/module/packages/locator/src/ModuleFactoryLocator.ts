@@ -40,7 +40,15 @@ export class ModuleFactoryLocator {
   }
 
   merge(locator: ModuleFactoryLocator): ModuleFactoryLocator {
-    return new ModuleFactoryLocator({ ...this.registry, ...locator.registry })
+    const registry = { ...this.registry }
+    for (const schema in locator.registry) {
+      if (registry[schema]) {
+        registry[schema].push(...(locator.registry[schema] ?? []))
+      } else {
+        registry[schema] = locator.registry[schema]
+      }
+    }
+    return new ModuleFactoryLocator(registry)
   }
 
   /**

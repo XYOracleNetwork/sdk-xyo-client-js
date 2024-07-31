@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist-memory'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { BoundWitnessDivinerConfigSchema } from '@xyo-network/diviner-boundwitness-model'

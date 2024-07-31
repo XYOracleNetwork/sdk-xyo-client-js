@@ -3884,7 +3884,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts-yarn3@npm:^3.13.9":
+"@xylabs/ts-scripts-yarn3@npm:^3.13.3, @xylabs/ts-scripts-yarn3@npm:^3.13.9":
   version: 3.13.9
   resolution: "@xylabs/ts-scripts-yarn3@npm:3.13.9"
   dependencies:
@@ -4027,7 +4027,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig@npm:^3.13.9":
+"@xylabs/tsconfig@npm:^3.13.3, @xylabs/tsconfig@npm:^3.13.9":
   version: 3.13.9
   resolution: "@xylabs/tsconfig@npm:3.13.9"
   checksum: 10/4d4dfc094c6d2c0ec61e3523b4c53c486eb327496813bb7fcb00f8ac0d05a61778c5b2a55428813b5486ebb2041dcde7a06870b0a11bc87a9bd37997b5c7cc14

@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { assertEx } from '@xylabs/assert'
-import { AnyObject, removeFields } from '@xylabs/object'
+import { removeFields } from '@xylabs/object'
 import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import {
@@ -11,6 +11,8 @@ import {
 } from '@xyo-network/diviner-payload-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
+
+import { hasTimestamp } from './hasTimestamp.js'
 
 export class MemoryPayloadDiviner<
   TParams extends PayloadDivinerParams = PayloadDivinerParams,
@@ -85,8 +87,4 @@ export class MemoryPayloadDiviner<
       throw new Error('Archivist does not support "all"')
     }
   }
-}
-
-const hasTimestamp = <T extends Payload = Payload<AnyObject>>(payload: T): payload is T & { timestamp: number } => {
-  return (payload as unknown as { timestamp: number }).timestamp !== undefined
 }

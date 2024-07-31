@@ -8,6 +8,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWithMeta } from '@xyo-network/payload-model'
 
+import { hasTimestamp } from '../hasTimestamp.js'
 import { MemoryPayloadDiviner } from '../MemoryPayloadDiviner.js'
 
 /**
@@ -19,8 +20,8 @@ describe('MemoryPayloadDiviner', () => {
   let archivist: MemoryArchivist
   let sut: MemoryPayloadDiviner
   let node: MemoryNode
-  let payloadA: PayloadWithMeta<{ timestamp: number; schema: string; url: string }>
-  let payloadB: PayloadWithMeta<{ timestamp: number; foo: string[]; schema: string }>
+  let payloadA: PayloadWithMeta<{ schema: string; timestamp: number; url: string }>
+  let payloadB: PayloadWithMeta<{ foo: string[]; schema: string; timestamp: number }>
   beforeAll(async () => {
     payloadA = await PayloadBuilder.build({
       schema: 'network.xyo.test',
@@ -91,7 +92,8 @@ describe('MemoryPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every((result) => (result as unknown as { timestamp: number }).timestamp > timestamp)).toBe(true)
+            expect(results.every(hasTimestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every((result) => result.timestamp > timestamp)).toBe(true)
           })
           it('returns payloads equal to the supplied timestamp', async () => {
             const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[1].timestamp
@@ -100,7 +102,8 @@ describe('MemoryPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every((result) => (result as unknown as { timestamp: number }).timestamp === timestamp)).toBe(true)
+            expect(results.every(hasTimestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every((result) => result.timestamp === timestamp)).toBe(true)
           })
         })
         describe('desc', () => {
@@ -112,7 +115,8 @@ describe('MemoryPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every((result) => (result as unknown as { timestamp: number }).timestamp <= timestamp)).toBe(true)
+            expect(results.every(hasTimestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every((result) => result.timestamp <= timestamp)).toBe(true)
           })
           it('returns payloads equal to the supplied timestamp', async () => {
             const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[0].timestamp
@@ -121,7 +125,8 @@ describe('MemoryPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every((result) => (result as unknown as { timestamp: number }).timestamp === timestamp)).toBe(true)
+            expect(results.every(hasTimestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every((result) => result.timestamp === timestamp)).toBe(true)
           })
         })
       })
@@ -132,7 +137,8 @@ describe('MemoryPayloadDiviner', () => {
             const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ timestamp }).build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every((result) => (result as unknown as { timestamp: number }).timestamp === timestamp)).toBe(true)
+            expect(results.every(hasTimestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every((result) => result.timestamp === timestamp)).toBe(true)
           }
         })
       })

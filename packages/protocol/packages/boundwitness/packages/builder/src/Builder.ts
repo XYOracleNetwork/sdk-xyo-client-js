@@ -22,6 +22,20 @@ export interface BoundWitnessBuilderOptions<TBoundWitness extends BoundWitness =
   readonly timestamp?: number
 }
 
+const uniqueAccounts = (accounts: AccountInstance[], throwOnFalse = false) => {
+  const addresses = new Set<Address>()
+  for (const account of accounts) {
+    if (addresses.has(account.address)) {
+      if (throwOnFalse) {
+        throw new Error('Duplicate address')
+      }
+      return false
+    }
+    addresses.add(account.address)
+  }
+  return true
+}
+
 export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitness, TPayload extends Payload = Payload> extends PayloadBuilderBase<
   Omit<TBoundWitness, GeneratedBoundWitnessFields>,
   BoundWitnessBuilderOptions<TBoundWitness> & { schema: BoundWitnessSchema }
@@ -50,6 +64,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   }
 
   protected get addresses(): Address[] {
+    uniqueAccounts(this._accounts, true)
     return this._accounts.map((account) => account.address.toLowerCase()) as Address[]
   }
 
@@ -225,11 +240,13 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   }
 
   signer(account: AccountInstance) {
+    uniqueAccounts([...this._accounts, account], true)
     this._accounts?.push(account)
     return this
   }
 
   signers(accounts: AccountInstance[]) {
+    uniqueAccounts([...this._accounts, ...accounts], true)
     this._accounts?.push(...accounts)
     return this
   }
@@ -264,6 +281,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   }
 
   protected async signatures(_hash: Hash, previousHashes: (Hash | ArrayBuffer | null)[]): Promise<string[]> {
+    uniqueAccounts(this._accounts, true)
     const hash = toArrayBuffer(_hash)
     const previousHashesBytes = previousHashes.map((ph) => (ph ? toUint8Array(ph) : undefined))
     return await Promise.all(this._accounts.map(async (account, index) => hexFromArrayBuffer(await account.sign(hash, previousHashesBytes[index]))))

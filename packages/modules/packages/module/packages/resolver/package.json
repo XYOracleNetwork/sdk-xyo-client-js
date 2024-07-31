@@ -22,8 +22,8 @@
     "lru-cache": "^11.0.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.13.3",
-    "@xylabs/tsconfig": "^3.13.3",
+    "@xylabs/ts-scripts-yarn3": "^3.13.9",
+    "@xylabs/tsconfig": "^3.13.9",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.7",
     "typescript": "^5.5.4"
@@ -67,6 +67,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.110.10",
+  "version": "2.110.12",
   "type": "module"
 }

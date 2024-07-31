@@ -14,8 +14,8 @@
     "@xyo-network/payload-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.13.3",
-    "@xylabs/tsconfig": "^3.13.3",
+    "@xylabs/ts-scripts-yarn3": "^3.13.9",
+    "@xylabs/tsconfig": "^3.13.9",
     "typescript": "^5.5.4"
   },
   "description": "Typescript/Javascript Plugins for XYO Platform",
@@ -57,6 +57,6 @@
     "url": "https://github.com/XYOracleNetwork/plugins.git"
   },
   "sideEffects": false,
-  "version": "2.110.10",
+  "version": "2.110.12",
   "type": "module"
 }

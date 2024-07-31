@@ -37,7 +37,6 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     }
   })()
 
-  static jsHashWorkerUrl?: URL
   static subtleHashWorkerUrl?: URL
 
   static warnIfUsingJsHash = true

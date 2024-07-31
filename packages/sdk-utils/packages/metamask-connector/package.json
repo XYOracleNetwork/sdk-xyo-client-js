@@ -15,8 +15,8 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.13.3",
-    "@xylabs/tsconfig-dom": "^3.13.3",
+    "@xylabs/ts-scripts-yarn3": "^3.13.9",
+    "@xylabs/tsconfig-dom": "^3.13.9",
     "typescript": "^5.5.4"
   },
   "exports": {

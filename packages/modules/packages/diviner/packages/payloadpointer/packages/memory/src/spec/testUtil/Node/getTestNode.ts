@@ -17,7 +17,7 @@ export const PayloadPointerDivinerName = 'PayloadPointerDiviner'
 
 export const getTestNode = async (): Promise<NodeInstance> => {
   const node = await MemoryNode.create()
-  const archivist = await MemoryArchivist.create({ config: { schema: MemoryArchivistConfigSchema, name: ArchivistName } })
+  const archivist = await MemoryArchivist.create({ account: 'random', config: { schema: MemoryArchivistConfigSchema, name: ArchivistName } })
   const payloadDiviner = await MemoryPayloadDiviner.create({
     account: 'random',
     config: { schema: PayloadDivinerConfigSchema, name: PayloadDivinerName, archivist: ArchivistName },

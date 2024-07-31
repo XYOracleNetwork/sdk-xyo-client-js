@@ -5651,6 +5651,7 @@ __metadata:
   resolution: "@xyo-network/diviner-payload-memory@workspace:packages/modules/packages/diviner/packages/payload/packages/memory"
   dependencies:
     "@xylabs/assert": "npm:^3.6.5"
+    "@xylabs/delay": "npm:^3.6.5"
     "@xylabs/object": "npm:^3.6.5"
     "@xylabs/ts-scripts-yarn3": "npm:^3.13.3"
     "@xylabs/tsconfig": "npm:^3.13.3"

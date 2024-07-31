@@ -3884,7 +3884,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts-yarn3@npm:^3.13.9":
+"@xylabs/ts-scripts-yarn3@npm:^3.13.3, @xylabs/ts-scripts-yarn3@npm:^3.13.9":
   version: 3.13.9
   resolution: "@xylabs/ts-scripts-yarn3@npm:3.13.9"
   dependencies:
@@ -4027,7 +4027,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig@npm:^3.13.9":
+"@xylabs/tsconfig@npm:^3.13.3, @xylabs/tsconfig@npm:^3.13.9":
   version: 3.13.9
   resolution: "@xylabs/tsconfig@npm:3.13.9"
   checksum: 10/4d4dfc094c6d2c0ec61e3523b4c53c486eb327496813bb7fcb00f8ac0d05a61778c5b2a55428813b5486ebb2041dcde7a06870b0a11bc87a9bd37997b5c7cc14
@@ -5647,6 +5647,7 @@ __metadata:
   resolution: "@xyo-network/diviner-payload-memory@workspace:packages/modules/packages/diviner/packages/payload/packages/memory"
   dependencies:
     "@xylabs/assert": "npm:^3.6.5"
+    "@xylabs/delay": "npm:^3.6.5"
     "@xylabs/object": "npm:^3.6.5"
     "@xylabs/ts-scripts-yarn3": "npm:^3.13.9"
     "@xylabs/tsconfig": "npm:^3.13.9"
@@ -5672,6 +5673,71 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
+    typescript: "npm:^5.5.4"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-payload-pointer-memory@workspace:^, @xyo-network/diviner-payload-pointer-memory@workspace:packages/modules/packages/diviner/packages/payloadpointer/packages/memory":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-payload-pointer-memory@workspace:packages/modules/packages/diviner/packages/payloadpointer/packages/memory"
+  dependencies:
+    "@types/uuid": "npm:^10.0.0"
+    "@xylabs/assert": "npm:^3.6.5"
+    "@xylabs/exists": "npm:^3.6.5"
+    "@xylabs/hex": "npm:^3.6.5"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.13.3"
+    "@xylabs/tsconfig": "npm:^3.13.3"
+    "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
+    "@xyo-network/archivist-memory": "workspace:^"
+    "@xyo-network/archivist-model": "workspace:^"
+    "@xyo-network/boundwitness-builder": "workspace:^"
+    "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/boundwitness-wrapper": "workspace:^"
+    "@xyo-network/diviner-abstract": "workspace:^"
+    "@xyo-network/diviner-boundwitness-abstract": "workspace:^"
+    "@xyo-network/diviner-boundwitness-memory": "workspace:^"
+    "@xyo-network/diviner-boundwitness-model": "workspace:^"
+    "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/diviner-payload-abstract": "workspace:^"
+    "@xyo-network/diviner-payload-memory": "workspace:^"
+    "@xyo-network/diviner-payload-model": "workspace:^"
+    "@xyo-network/diviner-payload-pointer-model": "workspace:^"
+    "@xyo-network/node-memory": "workspace:^"
+    "@xyo-network/node-model": "workspace:^"
+    "@xyo-network/payload-builder": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/wallet-model": "workspace:^"
+    typescript: "npm:^5.5.4"
+    uuid: "npm:^10.0.0"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-payload-pointer-model@workspace:^, @xyo-network/diviner-payload-pointer-model@workspace:packages/modules/packages/diviner/packages/payloadpointer/packages/model":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-payload-pointer-model@workspace:packages/modules/packages/diviner/packages/payloadpointer/packages/model"
+  dependencies:
+    "@xylabs/hex": "npm:^3.6.5"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.13.3"
+    "@xylabs/tsconfig": "npm:^3.13.3"
+    "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/diviner-payload-model": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    typescript: "npm:^5.5.4"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-payload-pointer@workspace:packages/modules/packages/diviner/packages/payloadpointer":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-payload-pointer@workspace:packages/modules/packages/diviner/packages/payloadpointer"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": "npm:^3.13.3"
+    "@xylabs/tsconfig": "npm:^3.13.3"
+    "@xyo-network/diviner-payload-pointer-memory": "workspace:^"
+    "@xyo-network/diviner-payload-pointer-model": "workspace:^"
     typescript: "npm:^5.5.4"
   languageName: unknown
   linkType: soft

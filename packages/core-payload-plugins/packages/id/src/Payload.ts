@@ -9,20 +9,34 @@ import {
 
 import { IdSchema } from './Schema.js'
 
-export type IdPayload = Payload<{
+/**
+ * The fields of an ID Payload
+ */
+export type IdFields = {
   salt: string
-  schema: IdSchema
-}>
+}
+
+/**
+ * The ID Payload
+ */
+export type Id = Payload<IdFields, IdSchema>
+
+/**
+ * @deprecated Use `Id` instead
+ */
+export type IdPayload = Id
 
 /**
  * Identity helper for ID Payload
  */
-export const isId = isPayloadOfSchemaType<IdPayload>(IdSchema)
+export const isId = isPayloadOfSchemaType<Id>(IdSchema)
+
 /**
  * Identity helper for ID Payload with meta
  */
-export const isIdWithMeta = isPayloadOfSchemaTypeWithMeta<WithMeta<IdPayload>>(IdSchema)
+export const isIdWithMeta = isPayloadOfSchemaTypeWithMeta<WithMeta<Id>>(IdSchema)
+
 /**
  * Identity helper for ID Payload with sources
  */
-export const isIdWithSources = isPayloadOfSchemaTypeWithSources<WithSources<IdPayload>>(IdSchema)
+export const isIdWithSources = isPayloadOfSchemaTypeWithSources<WithSources<Id>>(IdSchema)

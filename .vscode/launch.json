@@ -5,17 +5,12 @@
       "name": "Jest",
       "type": "node",
       "request": "launch",
-      "osx": {
-        "program": "${workspaceRoot}/node_modules/.bin/jest"
-      },
-      "windows": {
-        "program": "${workspaceRoot}/node_modules/jest/bin/jest.js"
-      },
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
       "args": [
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/node/spec/MemoryNode/WithArchivistAndDiviner.spec.ts"
+        "packages/modules/packages/diviner/packages/payloadpointer/packages/memory/src/spec/Diviner.payloadPointer.schema.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { assertEx } from '@xylabs/assert'
 import { removeFields } from '@xylabs/object'
 import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
@@ -10,6 +11,8 @@ import {
 } from '@xyo-network/diviner-payload-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
+
+import { hasTimestamp } from './hasTimestamp.js'
 
 export class MemoryPayloadDiviner<
   TParams extends PayloadDivinerParams = PayloadDivinerParams,
@@ -28,11 +31,24 @@ export class MemoryPayloadDiviner<
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
-    const { schemas, limit, offset, hash, order = 'desc', ...props } = removeFields(filter as WithMeta<TIn>, ['schema', '$meta', '$hash'])
+    const { schemas, limit, offset, hash, order = 'desc', timestamp, ...props } = removeFields(filter as WithMeta<TIn>, ['schema', '$meta', '$hash'])
     let all = (await archivist.all?.()) as WithMeta<TOut>[]
     if (all) {
       if (order === 'desc') all = all.reverse()
       if (schemas?.length) all = all.filter((payload) => schemas.includes(payload.schema))
+      if (timestamp !== undefined) {
+        // If there was no order supplied with the original
+        if (filter.order === undefined) {
+          // filter for timestamp equality
+          all = all.filter(hasTimestamp).filter((payload) => payload.timestamp === timestamp)
+        } else {
+          // filter for greater than/less than or equal to
+          all =
+            order === 'asc' ?
+              all.filter(hasTimestamp).filter((payload) => payload.timestamp >= timestamp)
+            : all.filter(hasTimestamp).filter((payload) => payload.timestamp <= timestamp)
+        }
+      }
       if (Object.keys(props).length > 0) {
         const additionalFilterCriteria = Object.entries(props)
         for (const [prop, filter] of additionalFilterCriteria) {

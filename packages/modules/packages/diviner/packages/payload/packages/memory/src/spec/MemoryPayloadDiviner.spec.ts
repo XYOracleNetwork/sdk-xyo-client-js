@@ -1,12 +1,14 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable max-nested-callbacks */
 
+import { delay } from '@xylabs/delay'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWithMeta } from '@xyo-network/payload-model'
 
+import { hasTimestamp } from '../hasTimestamp.js'
 import { MemoryPayloadDiviner } from '../MemoryPayloadDiviner.js'
 
 /**
@@ -18,16 +20,19 @@ describe('MemoryPayloadDiviner', () => {
   let archivist: MemoryArchivist
   let sut: MemoryPayloadDiviner
   let node: MemoryNode
-  let payloadA: PayloadWithMeta<{ schema: string; url: string }>
-  let payloadB: PayloadWithMeta<{ foo: string[]; schema: string }>
+  let payloadA: PayloadWithMeta<{ schema: string; timestamp: number; url: string }>
+  let payloadB: PayloadWithMeta<{ foo: string[]; schema: string; timestamp: number }>
   beforeAll(async () => {
     payloadA = await PayloadBuilder.build({
       schema: 'network.xyo.test',
       url: 'https://xyo.network',
+      timestamp: Date.now(),
     })
+    await delay(2)
     payloadB = await PayloadBuilder.build({
       foo: ['bar', 'baz'],
       schema: 'network.xyo.debug',
+      timestamp: Date.now(),
     })
 
     archivist = await MemoryArchivist.create({
@@ -73,6 +78,68 @@ describe('MemoryPayloadDiviner', () => {
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
           expect(results.every((result) => schemas.includes(result.schema))).toBe(true)
+        })
+      })
+    })
+    describe('timestamp', () => {
+      describe('when order supplied', () => {
+        describe('asc', () => {
+          const order = 'asc'
+          it('returns payloads greater than the supplied timestamp', async () => {
+            const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[0].timestamp - 1
+            const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
+              .fields({ order, timestamp })
+              .build()
+            const results = await sut.divine([query])
+            expect(results.length).toBeGreaterThan(0)
+            expect(results.every(hasTimestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every((result) => result.timestamp > timestamp)).toBe(true)
+          })
+          it('returns payloads equal to the supplied timestamp', async () => {
+            const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[1].timestamp
+            const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
+              .fields({ order, timestamp })
+              .build()
+            const results = await sut.divine([query])
+            expect(results.length).toBeGreaterThan(0)
+            expect(results.every(hasTimestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every((result) => result.timestamp === timestamp)).toBe(true)
+          })
+        })
+        describe('desc', () => {
+          const order = 'desc'
+          it('returns payloads less than the supplied timestamp', async () => {
+            const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[1].timestamp + 1
+            const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
+              .fields({ order, timestamp })
+              .build()
+            const results = await sut.divine([query])
+            expect(results.length).toBeGreaterThan(0)
+            expect(results.every(hasTimestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every((result) => result.timestamp <= timestamp)).toBe(true)
+          })
+          it('returns payloads equal to the supplied timestamp', async () => {
+            const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[0].timestamp
+            const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
+              .fields({ order, timestamp })
+              .build()
+            const results = await sut.divine([query])
+            expect(results.length).toBeGreaterThan(0)
+            expect(results.every(hasTimestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every((result) => result.timestamp === timestamp)).toBe(true)
+          })
+        })
+      })
+      describe('when order not supplied', () => {
+        it('returns payloads equal to the supplied timestamp', async () => {
+          for (const payload of [payloadA, payloadB]) {
+            const timestamp = payload.timestamp
+            const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ timestamp }).build()
+            const results = await sut.divine([query])
+            expect(results.length).toBeGreaterThan(0)
+            expect(results.every(hasTimestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every((result) => result.timestamp === timestamp)).toBe(true)
+          }
         })
       })
     })

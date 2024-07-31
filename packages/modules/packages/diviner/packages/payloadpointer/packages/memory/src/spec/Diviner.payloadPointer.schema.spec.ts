@@ -4,7 +4,7 @@ import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { NodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, unMeta } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { PayloadPointerDiviner } from '../Diviner.js'
@@ -19,14 +19,13 @@ import {
 } from './testUtil/index.js'
 
 describe('PayloadPointerDiviner', () => {
-  // NOTE: Skipped because memory payload diviner doesn't currently seem to support OR condition
-  describe.skip('with rules for [schema]', () => {
+  describe('with rules for [schema]', () => {
     const account = Account.random()
     const schemaA = getTestSchemaName()
     const schemaB = getTestSchemaName()
-    const payloadBaseA = (async () => PayloadBuilder.build({ ...(await getNewPayload()), schema: schemaA }))()
+    const payloadBaseA = (async () => PayloadBuilder.build({ ...(await getNewPayload()), schema: schemaA, timestamp: Date.now() }))()
     const payloadA: Promise<PayloadWrapper> = (async () => PayloadWrapper.wrap(await payloadBaseA))()
-    const payloadBaseB = (async () => PayloadBuilder.build({ ...(await getNewPayload()), schema: schemaB }))()
+    const payloadBaseB = (async () => PayloadBuilder.build({ ...(await getNewPayload()), schema: schemaB, timestamp: Date.now() }))()
     const payloadB: Promise<PayloadWrapper> = (async () => PayloadWrapper.wrap(await payloadBaseB))()
     const schemas = [schemaA, schemaB]
     let node: NodeInstance
@@ -51,9 +50,7 @@ describe('PayloadPointerDiviner', () => {
       ])('returns Payload of schema type', async (schema, expected) => {
         const pointer = await createPointer([[]], [[schema]])
         const result = await sut.divine([pointer])
-        expect(result).toEqual([expected])
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        expect(unMeta(result as any)).toEqual(unMeta((await expected).payload as any))
+        expect(result).toEqual([(await expected).payload])
       })
     })
     describe('single schema [w/address]', () => {
@@ -63,7 +60,7 @@ describe('PayloadPointerDiviner', () => {
       ])('returns Payload of schema type', async (schema, expected) => {
         const pointer = await createPointer([[(await account).address]], [[schema]])
         const result = await sut.divine([pointer])
-        expect(result).toEqual([expected])
+        expect(result).toEqual([(await expected).payload])
       })
     })
     describe('multiple schema rules', () => {

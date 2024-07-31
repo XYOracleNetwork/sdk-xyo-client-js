@@ -19,19 +19,22 @@ export const getTestNode = async (): Promise<NodeInstance> => {
   const node = await MemoryNode.create()
   const archivist = await MemoryArchivist.create({ config: { schema: MemoryArchivistConfigSchema, name: ArchivistName } })
   const payloadDiviner = await MemoryPayloadDiviner.create({
+    account: 'random',
     config: { schema: PayloadDivinerConfigSchema, name: PayloadDivinerName, archivist: ArchivistName },
   })
   const boundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
+    account: 'random',
     config: { schema: BoundWitnessDivinerConfigSchema, name: BoundWitnessDivinerName, archivist: ArchivistName },
   })
   const config: PayloadPointerDivinerConfig = {
     schema: PayloadPointerDivinerConfigSchema,
     archivist: ArchivistName,
+
     payloadDiviner: PayloadDivinerName,
     boundWitnessDiviner: BoundWitnessDivinerName,
     name: PayloadPointerDivinerName,
   }
-  const payloadPointerDiviner = await PayloadPointerDiviner.create({ config })
+  const payloadPointerDiviner = await PayloadPointerDiviner.create({ account: 'random', config })
   const children = [archivist, payloadDiviner, boundWitnessDiviner, payloadPointerDiviner]
   for (const child of children) {
     await node.register(child)

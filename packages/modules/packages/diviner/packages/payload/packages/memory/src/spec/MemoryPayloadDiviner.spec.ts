@@ -91,16 +91,16 @@ describe('MemoryPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every((result) => (result as unknown as { timestamp: number }).timestamp >= timestamp)).toBe(true)
+            expect(results.every((result) => (result as unknown as { timestamp: number }).timestamp > timestamp)).toBe(true)
           })
           it('returns payloads equal to the supplied timestamp', async () => {
-            const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[0].timestamp
+            const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[1].timestamp
             const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
               .fields({ order, timestamp })
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every((result) => (result as unknown as { timestamp: number }).timestamp >= timestamp)).toBe(true)
+            expect(results.every((result) => (result as unknown as { timestamp: number }).timestamp === timestamp)).toBe(true)
           })
         })
         describe('desc', () => {
@@ -115,14 +115,25 @@ describe('MemoryPayloadDiviner', () => {
             expect(results.every((result) => (result as unknown as { timestamp: number }).timestamp <= timestamp)).toBe(true)
           })
           it('returns payloads equal to the supplied timestamp', async () => {
-            const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[1].timestamp
+            const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[0].timestamp
             const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
               .fields({ order, timestamp })
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every((result) => (result as unknown as { timestamp: number }).timestamp <= timestamp)).toBe(true)
+            expect(results.every((result) => (result as unknown as { timestamp: number }).timestamp === timestamp)).toBe(true)
           })
+        })
+      })
+      describe('when order not supplied', () => {
+        it('returns payloads equal to the supplied timestamp', async () => {
+          for (const payload of [payloadA, payloadB]) {
+            const timestamp = payload.timestamp
+            const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ timestamp }).build()
+            const results = await sut.divine([query])
+            expect(results.length).toBeGreaterThan(0)
+            expect(results.every((result) => (result as unknown as { timestamp: number }).timestamp === timestamp)).toBe(true)
+          }
         })
       })
     })

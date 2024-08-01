@@ -35,6 +35,19 @@ export const registerCreatableModuleFactory = <TModule extends AttachableModuleI
   /** register this as the primary factory for every schema it supports */
   primary: boolean | Schema | Schema[] = false,
 ) => {
+  const primarySchemas =
+    primary !== true && primary ?
+      Array.isArray(primary) ?
+        primary
+      : [primary]
+    : []
+
+  for (const primarySchema of primarySchemas) {
+    if (!factory.configSchemas.includes(primarySchema)) {
+      console.warn(`Primary schema ${primary} not found in factory configSchemas`)
+    }
+  }
+
   const isPrimaryForSchema = (schema: Schema) => {
     switch (typeof primary) {
       case 'boolean': {

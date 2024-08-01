@@ -5,7 +5,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 import { SchemaSchema } from '@xyo-network/schema-payload-plugin'
 
-import { SchemaCache } from '../SchemaCache'
+import { SchemaCache } from '../SchemaCache.ts'
 
 const proxy = 'https://beta.api.archivist.xyo.network/domain'
 

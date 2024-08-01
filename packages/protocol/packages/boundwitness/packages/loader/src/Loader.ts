@@ -53,7 +53,7 @@ export class BoundWitnessLoader extends Base<BoundWitnessLoaderParams> {
     for (const archivist of this.params.workingSet.archivists ?? []) {
       const payloadFromArchivist = await archivist.get([hash])
       if (isAnyPayload(payloadFromArchivist)) {
-        cache.insert([payloadFromArchivist])
+        await cache.insert([payloadFromArchivist])
         return payloadFromArchivist
       }
     }
@@ -61,7 +61,7 @@ export class BoundWitnessLoader extends Base<BoundWitnessLoaderParams> {
     for (const huriEndpoint of this.params.workingSet.huriEndpoints ?? []) {
       const payloadFromHuri = await new Huri(hash, { archivistUri: huriEndpoint }).fetch()
       if (isAnyPayload(payloadFromHuri)) {
-        cache.insert([payloadFromHuri])
+        await cache.insert([payloadFromHuri])
         return payloadFromHuri
       }
     }

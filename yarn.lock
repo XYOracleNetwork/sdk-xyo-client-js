@@ -4514,6 +4514,28 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/boundwitness-loader@workspace:packages/protocol/packages/boundwitness/packages/loader":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/boundwitness-loader@workspace:packages/protocol/packages/boundwitness/packages/loader"
+  dependencies:
+    "@xylabs/arraybuffer": "npm:^3.6.6"
+    "@xylabs/assert": "npm:^3.6.6"
+    "@xylabs/exists": "npm:^3.6.6"
+    "@xylabs/hex": "npm:^3.6.6"
+    "@xylabs/object": "npm:^3.6.6"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.14.1"
+    "@xylabs/tsconfig": "npm:^3.14.1"
+    "@xyo-network/account": "workspace:^"
+    "@xyo-network/archivist-memory": "workspace:^"
+    "@xyo-network/archivist-model": "workspace:^"
+    "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/huri": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    async-mutex: "npm:^0.5.0"
+    typescript: "npm:^5.5.4"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/boundwitness-model@workspace:^, @xyo-network/boundwitness-model@workspace:packages/protocol/packages/boundwitness/packages/model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-model@workspace:packages/protocol/packages/boundwitness/packages/model"

@@ -5,12 +5,11 @@ import { hexFromHexString } from '@xylabs/hex'
 import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import {
-  BoundWitnessDivinerConfigSchema,
   BoundWitnessDivinerParams,
   BoundWitnessDivinerQueryPayload,
   isBoundWitnessDivinerQueryPayload,
 } from '@xyo-network/diviner-boundwitness-model'
-import { Schema, WithMeta } from '@xyo-network/payload-model'
+import { WithMeta } from '@xyo-network/payload-model'
 
 export interface EqualityComparisonOperators {
   /**
@@ -70,9 +69,6 @@ export class MemoryBoundWitnessDiviner<
   TIn extends BoundWitnessDivinerQueryPayload = BoundWitnessDivinerQueryPayload,
   TOut extends BoundWitness = BoundWitness,
 > extends BoundWitnessDiviner<TParams, TIn, TOut> {
-  static override readonly configSchemas: Schema[] = [...super.configSchemas, BoundWitnessDivinerConfigSchema]
-  static override readonly defaultConfigSchema: Schema = BoundWitnessDivinerConfigSchema
-
   // eslint-disable-next-line complexity
   protected override async divineHandler(payloads?: TIn[]) {
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), () => 'Missing query payload')

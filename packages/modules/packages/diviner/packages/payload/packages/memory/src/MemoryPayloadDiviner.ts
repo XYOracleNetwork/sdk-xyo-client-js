@@ -3,14 +3,9 @@ import { assertEx } from '@xylabs/assert'
 import { removeFields } from '@xylabs/object'
 import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
-import {
-  isPayloadDivinerQueryPayload,
-  PayloadDivinerConfigSchema,
-  PayloadDivinerParams,
-  PayloadDivinerQueryPayload,
-} from '@xyo-network/diviner-payload-model'
+import { isPayloadDivinerQueryPayload, PayloadDivinerParams, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
+import { Payload, WithMeta } from '@xyo-network/payload-model'
 
 import { hasTimestamp } from './hasTimestamp.js'
 
@@ -24,9 +19,6 @@ export class MemoryPayloadDiviner<
     TOut
   >,
 > extends PayloadDiviner<TParams, TIn, TOut, TEventData> {
-  static override readonly configSchemas: Schema[] = [...super.configSchemas, PayloadDivinerConfigSchema]
-  static override readonly defaultConfigSchema: Schema = PayloadDivinerConfigSchema
-
   protected override async divineHandler(payloads?: TIn[]): Promise<WithMeta<TOut>[]> {
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []

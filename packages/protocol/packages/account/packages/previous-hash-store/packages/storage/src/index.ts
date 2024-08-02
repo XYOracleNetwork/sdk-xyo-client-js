@@ -1,1 +1,1 @@
-export * from './StoragePreviousHashStore.js'
+export * from './StoragePreviousHashStore.ts'

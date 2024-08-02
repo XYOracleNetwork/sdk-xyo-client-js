@@ -1,3 +1,3 @@
-export * from './asAttachableInstance.js'
-export * from './AttachableInstance.js'
-export * from './isAttachableInstance.js'
+export * from './asAttachableInstance.ts'
+export * from './AttachableInstance.ts'
+export * from './isAttachableInstance.ts'

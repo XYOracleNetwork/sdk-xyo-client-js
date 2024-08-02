@@ -1,10 +1,10 @@
 import { Payload } from '@xyo-network/payload-model'
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import { DomainPayload } from './Payload.js'
-import { DomainSchema } from './Schema.js'
-import { domainConfigTemplate } from './Template.js'
-import { DomainPayloadWrapper } from './Wrapper.js'
+import { DomainPayload } from './Payload.ts'
+import { DomainSchema } from './Schema.ts'
+import { domainConfigTemplate } from './Template.ts'
+import { DomainPayloadWrapper } from './Wrapper.ts'
 
 export const DomainPayloadPlugin = () =>
   createPayloadPlugin<DomainPayload>({

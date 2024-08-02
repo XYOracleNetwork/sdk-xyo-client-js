@@ -1,4 +1,4 @@
-import { TemporalIndexingDivinerSchema } from '../Schema.js'
+import { TemporalIndexingDivinerSchema } from '../Schema.ts'
 
 export type TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema =
   `${TemporalIndexingDivinerSchema}.stage.indexQueryResponseToDivinerQueryResponseDiviner`

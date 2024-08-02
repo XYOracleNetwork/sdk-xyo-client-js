@@ -4,7 +4,7 @@ import { HDWallet } from '@xyo-network/account'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { MemoryArchivist } from '../MemoryArchivist.js'
+import { MemoryArchivist } from '../MemoryArchivist.ts'
 
 /**
  * @group module

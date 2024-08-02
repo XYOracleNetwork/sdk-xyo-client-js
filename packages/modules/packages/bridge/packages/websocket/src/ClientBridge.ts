@@ -9,10 +9,10 @@ import { Payload, Schema } from '@xyo-network/payload-model'
 import { Semaphore } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
-import { WebsocketBridgeConfigSchema } from './Config.js'
-import { WebsocketBridgeQuerySender } from './ModuleProxy/index.js'
-import { WebsocketBridgeParams } from './Params.js'
-import { WebsocketBridgeModuleResolver } from './WebsocketBridgeModuleResolver.js'
+import { WebsocketBridgeConfigSchema } from './Config.ts'
+import { WebsocketBridgeQuerySender } from './ModuleProxy/index.ts'
+import { WebsocketBridgeParams } from './Params.ts'
+import { WebsocketBridgeModuleResolver } from './WebsocketBridgeModuleResolver.ts'
 
 @creatableModule()
 export class WebsocketClientBridge<TParams extends WebsocketBridgeParams = WebsocketBridgeParams>

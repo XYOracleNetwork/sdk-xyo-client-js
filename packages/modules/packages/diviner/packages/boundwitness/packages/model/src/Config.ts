@@ -1,7 +1,7 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { BoundWitnessDivinerSchema } from './Schema.js'
+import { BoundWitnessDivinerSchema } from './Schema.ts'
 
 export type BoundWitnessDivinerConfigSchema = `${BoundWitnessDivinerSchema}.config`
 export const BoundWitnessDivinerConfigSchema: BoundWitnessDivinerConfigSchema = `${BoundWitnessDivinerSchema}.config`

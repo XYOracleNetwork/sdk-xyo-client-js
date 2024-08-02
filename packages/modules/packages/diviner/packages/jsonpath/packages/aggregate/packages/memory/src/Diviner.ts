@@ -12,7 +12,7 @@ import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-mo
 import { Payload, PayloadSchema, Schema, WithOptionalMeta } from '@xyo-network/payload-model'
 import { combinationsByBoundwitness, combinationsBySchema } from '@xyo-network/payload-utils'
 
-import { jsonPathToTransformersDictionary, reducePayloads } from './jsonpath/index.js'
+import { jsonPathToTransformersDictionary, reducePayloads } from './jsonpath/index.ts'
 
 const moduleName = 'JsonPathAggregateDiviner'
 

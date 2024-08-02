@@ -1,6 +1,6 @@
 import { AsObjectFactory, isObject } from '@xylabs/object'
 
-import { Payload } from './Payload.js'
+import { Payload } from './Payload.ts'
 
 export const isAnyPayload = (value: unknown): value is Payload => {
   if (isObject(value)) {

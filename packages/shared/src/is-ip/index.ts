@@ -1,1 +1,1 @@
-export * from './is-ip.js'
+export * from './is-ip.ts'

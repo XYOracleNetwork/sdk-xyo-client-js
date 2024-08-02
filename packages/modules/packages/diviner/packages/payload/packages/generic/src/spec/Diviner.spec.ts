@@ -8,7 +8,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWithMeta } from '@xyo-network/payload-model'
 
-import { GenericPayloadDiviner, GenericPayloadDivinerConfigSchema } from '../Diviner.js'
+import { GenericPayloadDiviner, GenericPayloadDivinerConfigSchema } from '../Diviner.ts'
 
 /**
  * @group module

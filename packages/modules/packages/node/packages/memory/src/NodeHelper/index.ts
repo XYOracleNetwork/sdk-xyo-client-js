@@ -1,9 +1,9 @@
 import { NodeHelper } from '@xyo-network/node-abstract'
 
-import { attachToExistingNode } from './attachToExistingNode.js'
-import { attachToNewNode } from './attachToNewNode.js'
-import { flatAttachAllToExistingNode, flatAttachChildToExistingNode, flatAttachToExistingNode } from './flatAttachToExistingNode.js'
-import { flatAttachToNewNode } from './flatAttachToNewNode.js'
+import { attachToExistingNode } from './attachToExistingNode.ts'
+import { attachToNewNode } from './attachToNewNode.ts'
+import { flatAttachAllToExistingNode, flatAttachChildToExistingNode, flatAttachToExistingNode } from './flatAttachToExistingNode.ts'
+import { flatAttachToNewNode } from './flatAttachToNewNode.ts'
 
 export const MemoryNodeHelper = {
   ...NodeHelper,

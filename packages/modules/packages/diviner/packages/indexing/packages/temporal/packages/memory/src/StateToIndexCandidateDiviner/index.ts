@@ -1,1 +1,1 @@
-export * from './Diviner.js'
+export * from './Diviner.ts'

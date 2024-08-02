@@ -1,8 +1,8 @@
 import { IsObjectFactory, ObjectTypeShape, TypeCheck } from '@xylabs/object'
 import { isAttachableModuleInstance } from '@xyo-network/module-model'
 
-import { isDivinerInstance } from '../typeChecks.js'
-import { AttachableDivinerInstance } from './AttachableInstance.js'
+import { isDivinerInstance } from '../typeChecks.ts'
+import { AttachableDivinerInstance } from './AttachableInstance.ts'
 
 export const requiredAttachableDivinerInstanceFunctions: ObjectTypeShape = {}
 

@@ -3,7 +3,7 @@ import { Account } from '@xyo-network/account'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { AdhocWitness, AdhocWitnessConfig, AdhocWitnessConfigSchema } from '../Witness.js'
+import { AdhocWitness, AdhocWitnessConfig, AdhocWitnessConfigSchema } from '../Witness.ts'
 
 describe('AdhocWitness', () => {
   describe('observe', () => {

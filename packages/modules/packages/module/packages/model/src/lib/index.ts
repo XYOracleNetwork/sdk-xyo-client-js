@@ -1,2 +1,2 @@
-export * from './duplicateModules.js'
-export * from './serializable.js'
+export * from './duplicateModules.ts'
+export * from './serializable.ts'

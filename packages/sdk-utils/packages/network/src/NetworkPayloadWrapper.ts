@@ -2,9 +2,9 @@ import { Hash } from '@xylabs/hex'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { knownNetworks } from './knownNetworks.js'
-import { NetworkNodeType } from './NetworkNodePayload.js'
-import { NetworkPayload } from './NetworkPayload.js'
+import { knownNetworks } from './knownNetworks.ts'
+import { NetworkNodeType } from './NetworkNodePayload.ts'
+import { NetworkPayload } from './NetworkPayload.ts'
 
 export class NetworkPayloadWrapper extends PayloadWrapper<NetworkPayload> {
   get archivists() {

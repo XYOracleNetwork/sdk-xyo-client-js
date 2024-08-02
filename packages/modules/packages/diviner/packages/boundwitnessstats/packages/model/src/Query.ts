@@ -1,6 +1,6 @@
 import { Payload, Query } from '@xyo-network/payload-model'
 
-import { BoundWitnessStatsDivinerSchema } from './Schema.js'
+import { BoundWitnessStatsDivinerSchema } from './Schema.ts'
 
 export type BoundWitnessStatsQuerySchema = `${BoundWitnessStatsDivinerSchema}.query`
 export const BoundWitnessStatsQuerySchema: BoundWitnessStatsQuerySchema = `${BoundWitnessStatsDivinerSchema}.query`

@@ -1,1 +1,1 @@
-export * from './MemoryDiviner.js'
+export * from './MemoryDiviner.ts'

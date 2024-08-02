@@ -1,7 +1,7 @@
 import { Address } from '@xylabs/hex'
 
-import { ModuleInstance } from '../instance/index.js'
-import { ModuleResolveDirection } from './model.js'
+import { ModuleInstance } from '../instance/index.ts'
+import { ModuleResolveDirection } from './model.ts'
 
 export const resolveAddressToInstanceDown = async (
   root: ModuleInstance,

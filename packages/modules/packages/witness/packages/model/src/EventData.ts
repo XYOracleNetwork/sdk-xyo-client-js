@@ -1,7 +1,7 @@
 import { ModuleEventData, ModuleInstance } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { ObserveEndEventData, ObserveStartEventData } from './EventsModels/index.js'
+import { ObserveEndEventData, ObserveStartEventData } from './EventsModels/index.ts'
 
 export type WitnessModuleEventData<
   T extends ModuleInstance = ModuleInstance,

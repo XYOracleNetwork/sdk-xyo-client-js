@@ -1,9 +1,9 @@
 import { ModuleInstance } from '@xyo-network/module-model'
 
-import { SentinelModuleEventData } from './EventData.js'
-import { CustomSentinelModule, SentinelModule } from './Module.js'
-import { SentinelParams } from './Params.js'
-import { Sentinel } from './Sentinel.js'
+import { SentinelModuleEventData } from './EventData.ts'
+import { CustomSentinelModule, SentinelModule } from './Module.ts'
+import { SentinelParams } from './Params.ts'
+import { Sentinel } from './Sentinel.ts'
 
 export interface SentinelInstance<
   TParams extends SentinelParams = SentinelParams,

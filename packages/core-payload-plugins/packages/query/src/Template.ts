@@ -1,5 +1,5 @@
-import { QueryPayload } from './Payload.js'
-import { QuerySchema } from './Schema.js'
+import { QueryPayload } from './Payload.ts'
+import { QuerySchema } from './Schema.ts'
 
 export const queryPayloadTemplate = (): QueryPayload => ({
   query: '',

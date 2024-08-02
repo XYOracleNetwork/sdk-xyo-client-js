@@ -1,6 +1,6 @@
-import { ModuleInstance } from '../instance/index.js'
-import { ModuleName } from '../ModuleIdentifier.js'
-import { ModuleResolveDirection } from './model.js'
+import { ModuleInstance } from '../instance/index.ts'
+import { ModuleName } from '../ModuleIdentifier.ts'
+import { ModuleResolveDirection } from './model.ts'
 
 export const resolveLocalNameToInstanceUp = async (root: ModuleInstance, modName: ModuleName): Promise<ModuleInstance | undefined> => {
   const parents = (await root.parents?.()) ?? []

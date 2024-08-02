@@ -3,7 +3,7 @@ import { AnyObject } from '@xylabs/object'
 import { PayloadHasher } from '@xyo-network/hash'
 import { Payload } from '@xyo-network/payload-model'
 
-import { PayloadBuilder } from '../index.js'
+import { PayloadBuilder } from '../index.ts'
 
 describe('PayloadBuilder', () => {
   const testObject = {

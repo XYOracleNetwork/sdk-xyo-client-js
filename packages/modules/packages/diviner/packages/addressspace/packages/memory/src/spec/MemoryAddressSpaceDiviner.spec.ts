@@ -7,7 +7,7 @@ import { AddressSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { MemoryAddressSpaceDiviner } from '../MemoryAddressSpaceDiviner.js'
+import { MemoryAddressSpaceDiviner } from '../MemoryAddressSpaceDiviner.ts'
 
 /**
  * @group module

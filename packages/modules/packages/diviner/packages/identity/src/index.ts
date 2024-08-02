@@ -1,1 +1,1 @@
-export * from './IdentityDiviner.js'
+export * from './IdentityDiviner.ts'

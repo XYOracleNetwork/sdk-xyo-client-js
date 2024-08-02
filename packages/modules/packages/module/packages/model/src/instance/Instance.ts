@@ -3,12 +3,12 @@ import { IsObjectFactory, toJsonString, TypeCheck } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { AccountInstance } from '@xyo-network/account-model'
 
-import { ModuleEventData } from '../EventsModels/index.js'
-import { Module, ModuleQueryFunctions } from '../module/index.js'
-import { ModuleIdentifier, ModuleName } from '../ModuleIdentifier.js'
-import { ModuleParams } from '../ModuleParams.js'
-import { Direction } from './ObjectFilter.js'
-import { ObjectResolver } from './ObjectResolver.js'
+import { ModuleEventData } from '../EventsModels/index.ts'
+import { Module, ModuleQueryFunctions } from '../module/index.ts'
+import { ModuleIdentifier, ModuleName } from '../ModuleIdentifier.ts'
+import { ModuleParams } from '../ModuleParams.ts'
+import { Direction } from './ObjectFilter.ts'
+import { ObjectResolver } from './ObjectResolver.ts'
 
 export type ModulePipeLine = Lowercase<'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many'>
 

@@ -1,2 +1,2 @@
-export * from './AbstractNode.js'
-export * from './NodeHelper/index.js'
+export * from './AbstractNode.ts'
+export * from './NodeHelper/index.ts'

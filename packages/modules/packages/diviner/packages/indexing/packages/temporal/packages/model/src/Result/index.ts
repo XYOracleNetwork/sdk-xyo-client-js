@@ -1,2 +1,2 @@
-export * from './Payload.js'
-export * from './Schema.js'
+export * from './Payload.ts'
+export * from './Schema.ts'

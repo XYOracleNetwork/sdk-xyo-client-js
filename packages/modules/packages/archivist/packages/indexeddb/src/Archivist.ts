@@ -19,8 +19,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadWithMeta, Schema } from '@xyo-network/payload-model'
 import { IDBPCursorWithValue, IDBPDatabase, openDB } from 'idb'
 
-import { IndexedDbArchivistConfigSchema } from './Config.js'
-import { IndexedDbArchivistParams } from './Params.js'
+import { IndexedDbArchivistConfigSchema } from './Config.ts'
+import { IndexedDbArchivistParams } from './Params.ts'
 
 type StoredPayload = PayloadWithMeta & { _hash: string }
 

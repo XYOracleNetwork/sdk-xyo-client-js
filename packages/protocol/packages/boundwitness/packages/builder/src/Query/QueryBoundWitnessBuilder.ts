@@ -4,7 +4,7 @@ import { QueryBoundWitness, QueryBoundWitnessSchema } from '@xyo-network/boundwi
 import { PayloadBuilder } from '@xyo-network/payload'
 import { Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
-import { BoundWitnessBuilder } from '../Builder.js'
+import { BoundWitnessBuilder } from '../Builder.ts'
 
 export class QueryBoundWitnessBuilder<
   TBoundWitness extends QueryBoundWitness = QueryBoundWitness,

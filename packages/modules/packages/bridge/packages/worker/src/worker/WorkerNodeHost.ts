@@ -7,7 +7,7 @@ import { HDWallet } from '@xyo-network/account'
 import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
 import { NodeInstance } from '@xyo-network/node-model'
 
-import { Message, QueryMessage, QueryResultMessage } from '../WorkerBridge.js'
+import { Message, QueryMessage, QueryResultMessage } from '../WorkerBridge.ts'
 
 export type QueryEvent = MessageEvent<QueryMessage>
 

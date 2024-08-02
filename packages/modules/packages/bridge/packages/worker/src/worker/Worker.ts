@@ -1,3 +1,3 @@
-import { WorkerNodeHost } from './WorkerNodeHost.js'
+import { WorkerNodeHost } from './WorkerNodeHost.ts'
 
 WorkerNodeHost.start()

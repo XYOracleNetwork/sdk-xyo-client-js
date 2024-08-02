@@ -1,1 +1,1 @@
-export * from './Huri.js'
+export * from './Huri.ts'

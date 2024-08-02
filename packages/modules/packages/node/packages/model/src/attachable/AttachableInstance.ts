@@ -1,9 +1,9 @@
 import { IsObjectFactory, TypeCheck } from '@xylabs/object'
 import { AttachableModuleInstance } from '@xyo-network/module-model'
 
-import { NodeInstance } from '../instance.js'
-import { NodeModule, NodeModuleEventData } from '../Node.js'
-import { NodeParams } from '../Params.js'
+import { NodeInstance } from '../instance.ts'
+import { NodeModule, NodeModuleEventData } from '../Node.ts'
+import { NodeParams } from '../Params.ts'
 
 export interface AttachableNodeInstance<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends NodeModule<TParams, TEventData>,

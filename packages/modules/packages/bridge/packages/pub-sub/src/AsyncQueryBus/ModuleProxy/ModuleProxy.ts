@@ -16,7 +16,7 @@ import {
 } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { AsyncQueryBusClient } from '../AsyncQueryBusClient.js'
+import { AsyncQueryBusClient } from '../AsyncQueryBusClient.ts'
 
 export type AsyncQueryBusModuleProxyParams = ModuleProxyParams & {
   busClient: AsyncQueryBusClient

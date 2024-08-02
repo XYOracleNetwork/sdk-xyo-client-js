@@ -1,1 +1,1 @@
-export * from './CookieArchivist.js'
+export * from './CookieArchivist.ts'

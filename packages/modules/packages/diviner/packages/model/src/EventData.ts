@@ -1,7 +1,7 @@
 import { ModuleEventData, ModuleInstance } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { DivineEndEventData, DivineStartEventData } from './EventsModels/index.js'
+import { DivineEndEventData, DivineStartEventData } from './EventsModels/index.ts'
 
 export type DivinerModuleEventData<
   TInstance extends ModuleInstance = ModuleInstance,

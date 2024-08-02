@@ -3,7 +3,7 @@ import { HDWallet, WalletInstance } from '@xyo-network/account'
 import { JsonPatchDivinerConfig, JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { JsonPatchDiviner } from '../Diviner.js'
+import { JsonPatchDiviner } from '../Diviner.ts'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TestData = Payload<any>

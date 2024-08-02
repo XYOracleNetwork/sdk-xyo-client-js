@@ -1,1 +1,1 @@
-export * from './QueryBoundWitnessBuilder.js'
+export * from './QueryBoundWitnessBuilder.ts'

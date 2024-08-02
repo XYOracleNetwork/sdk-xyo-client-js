@@ -1,1 +1,1 @@
-export * from './configurableArima.js'
+export * from './configurableArima.ts'

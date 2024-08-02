@@ -1,4 +1,4 @@
-export * from './Payload.js'
-export { SchemaPayloadPlugin as default, SchemaPayloadPlugin } from './Plugin.js'
-export * from './Schema.js'
-export * from './Template.js'
+export * from './Payload.ts'
+export { SchemaPayloadPlugin as default, SchemaPayloadPlugin } from './Plugin.ts'
+export * from './Schema.ts'
+export * from './Template.ts'

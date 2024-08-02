@@ -1,2 +1,2 @@
-export * from './checkIpfsUrl.js'
-export * from './getProviderFromEnv.js'
+export * from './checkIpfsUrl.ts'
+export * from './getProviderFromEnv.ts'

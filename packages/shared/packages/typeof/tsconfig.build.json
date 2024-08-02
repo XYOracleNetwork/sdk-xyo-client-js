@@ -1,8 +1,5 @@
 {
   "compilerOptions": {
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-
     "typeRoots": []
   },
   "exclude": ["dist", "docs", "src/**/*.spec.*"],

@@ -1,1 +1,1 @@
-export * from './Wrapper.js'
+export * from './Wrapper.ts'

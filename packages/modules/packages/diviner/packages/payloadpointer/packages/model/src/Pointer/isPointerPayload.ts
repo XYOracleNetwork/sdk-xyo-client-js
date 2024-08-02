@@ -1,8 +1,8 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { BoundWitnessPointerSchema } from './BoundWitnessPointer.js'
-import { PayloadPointerSchema } from './PayloadPointer.js'
-import { PointerPayload } from './Pointer.js'
+import { BoundWitnessPointerSchema } from './BoundWitnessPointer.ts'
+import { PayloadPointerSchema } from './PayloadPointer.ts'
+import { PointerPayload } from './Pointer.ts'
 
 /**
  * Identity function for determining if an object is a Pointer Payload (PayloadPointer or BoundWitnessPointer)

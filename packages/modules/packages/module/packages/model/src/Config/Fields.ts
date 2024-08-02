@@ -2,9 +2,9 @@ import { LogLevel } from '@xylabs/logger'
 import { RetryConfig } from '@xylabs/retry'
 import { Schema } from '@xyo-network/payload-model'
 
-import { Labels } from '../Labels/index.js'
-import { ModuleIdentifier, ModuleName } from '../ModuleIdentifier.js'
-import { ModuleSecurityConfig } from './Security.js'
+import { Labels } from '../Labels/index.ts'
+import { ModuleIdentifier, ModuleName } from '../ModuleIdentifier.ts'
+import { ModuleSecurityConfig } from './Security.ts'
 
 export interface ModuleConfigFields {
   /** Limit to only these allowed queries */

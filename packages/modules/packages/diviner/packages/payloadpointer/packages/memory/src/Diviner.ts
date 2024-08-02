@@ -12,7 +12,7 @@ import {
 } from '@xyo-network/diviner-payload-pointer-model'
 import { Payload, Schema } from '@xyo-network/payload-model'
 
-import { findPayload } from './findPayload.js'
+import { findPayload } from './findPayload.ts'
 
 export class PayloadPointerDiviner<
   TParams extends PayloadPointerDivinerParams = PayloadPointerDivinerParams,

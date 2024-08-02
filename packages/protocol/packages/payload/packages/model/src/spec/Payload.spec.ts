@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { WithMeta } from '../Meta.js'
-import { Payload } from '../Payload.js'
+import { WithMeta } from '../Meta.ts'
+import { Payload } from '../Payload.ts'
 
 const TestPayloadSchema = 'com.test.schema'
 type TestPayloadSchema = typeof TestPayloadSchema

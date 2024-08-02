@@ -1,2 +1,2 @@
-export * from './configurable/index.js'
-export * from './configured/index.js'
+export * from './configurable/index.ts'
+export * from './configured/index.ts'

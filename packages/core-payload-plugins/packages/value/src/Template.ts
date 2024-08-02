@@ -1,5 +1,5 @@
-import { Value } from './Payload.js'
-import { ValueSchema } from './Schema.js'
+import { Value } from './Payload.ts'
+import { ValueSchema } from './Schema.ts'
 
 export const valuePayloadTemplate = (): Value => ({
   schema: ValueSchema,

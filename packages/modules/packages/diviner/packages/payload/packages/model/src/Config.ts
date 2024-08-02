@@ -2,7 +2,7 @@ import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { DivinerConfig } from '@xyo-network/diviner-model'
 import { Schema } from '@xyo-network/payload-model'
 
-import { PayloadDivinerSchema } from './Schema.js'
+import { PayloadDivinerSchema } from './Schema.ts'
 
 export type PayloadDivinerConfigSchema = `${PayloadDivinerSchema}.config`
 export const PayloadDivinerConfigSchema: PayloadDivinerConfigSchema = `${PayloadDivinerSchema}.config`

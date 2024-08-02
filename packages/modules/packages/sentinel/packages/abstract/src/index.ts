@@ -1,1 +1,1 @@
-export * from './AbstractSentinel.js'
+export * from './AbstractSentinel.ts'

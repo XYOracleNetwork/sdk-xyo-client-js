@@ -1,1 +1,1 @@
-export * from './getTestSchemaName.js'
+export * from './getTestSchemaName.ts'

@@ -8,8 +8,8 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWithMeta } from '@xyo-network/payload-model'
 
-import { hasTimestamp } from '../hasTimestamp.js'
-import { MemoryPayloadDiviner } from '../MemoryPayloadDiviner.js'
+import { hasTimestamp } from '../hasTimestamp.ts'
+import { MemoryPayloadDiviner } from '../MemoryPayloadDiviner.ts'
 
 /**
  * @group module

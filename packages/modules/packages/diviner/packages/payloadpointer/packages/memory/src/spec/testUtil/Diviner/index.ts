@@ -1,1 +1,1 @@
-export * from './getPayloadPointerDiviner.js'
+export * from './getPayloadPointerDiviner.ts'

@@ -1,3 +1,3 @@
-export * from './Debounce.js'
-export * from './SchemaCache.js'
-export * from './SchemaNameToValidatorMap.js'
+export * from './Debounce.ts'
+export * from './SchemaCache.ts'
+export * from './SchemaNameToValidatorMap.ts'

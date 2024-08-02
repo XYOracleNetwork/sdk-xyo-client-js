@@ -1,1 +1,1 @@
-export * from './createPointer.js'
+export * from './createPointer.ts'

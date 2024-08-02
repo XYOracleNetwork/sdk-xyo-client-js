@@ -6,14 +6,14 @@ import { Address, isAddress } from '@xylabs/hex'
 import { IdLogger, Logger } from '@xylabs/logger'
 import { toJsonString } from '@xylabs/object'
 
-import { asModuleInstance, ModuleFilter, ModuleFilterOptions, ModuleInstance, ModuleResolver } from '../instance/index.js'
-import { duplicateModules } from '../lib/index.js'
-import { ModuleIdentifier } from '../ModuleIdentifier.js'
-import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.js'
-import { ResolveHelperStatic } from './ResolveHelperStatic.js'
-import { resolvePathToAddress } from './resolvePathToAddress.js'
-import { traceModuleIdentifier } from './traceModuleIdentifier.js'
-import { transformModuleIdentifier } from './transformModuleIdentifier.js'
+import { asModuleInstance, ModuleFilter, ModuleFilterOptions, ModuleInstance, ModuleResolver } from '../instance/index.ts'
+import { duplicateModules } from '../lib/index.ts'
+import { ModuleIdentifier } from '../ModuleIdentifier.ts'
+import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.ts'
+import { ResolveHelperStatic } from './ResolveHelperStatic.ts'
+import { resolvePathToAddress } from './resolvePathToAddress.ts'
+import { traceModuleIdentifier } from './traceModuleIdentifier.ts'
+import { transformModuleIdentifier } from './transformModuleIdentifier.ts'
 
 /*
 

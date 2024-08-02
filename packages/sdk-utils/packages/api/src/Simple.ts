@@ -1,8 +1,8 @@
 import { ApiConfig, ApiResponseBody, ApiResponseTuple, ApiResponseTupleOrBody, ApiResponseType } from '@xyo-network/api-models'
 import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 
-import { ApiBase } from './Base.js'
-import { objToQuery } from './objToQuery.js'
+import { ApiBase } from './Base.ts'
+import { objToQuery } from './objToQuery.ts'
 
 export type ApiSimpleQuery = PayloadFindFilter
 

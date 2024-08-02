@@ -8,7 +8,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
-import { MemoryBoundWitnessDiviner } from '../MemoryBoundWitnessDiviner.js'
+import { MemoryBoundWitnessDiviner } from '../MemoryBoundWitnessDiviner.ts'
 
 /**
  * @group module

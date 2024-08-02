@@ -1,1 +1,1 @@
-export * from './Plugin/index.js'
+export * from './Plugin/index.ts'

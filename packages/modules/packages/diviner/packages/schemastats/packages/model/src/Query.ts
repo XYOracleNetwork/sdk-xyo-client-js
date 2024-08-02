@@ -1,6 +1,6 @@
 import { Payload, Query } from '@xyo-network/payload-model'
 
-import { SchemaStatsDivinerSchema } from './Schema.js'
+import { SchemaStatsDivinerSchema } from './Schema.ts'
 
 export type SchemaStatsQuerySchema = `${SchemaStatsDivinerSchema}.query`
 export const SchemaStatsQuerySchema: SchemaStatsQuerySchema = `${SchemaStatsDivinerSchema}.query`

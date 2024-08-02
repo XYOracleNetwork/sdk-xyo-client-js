@@ -1,5 +1,5 @@
-import { DomainPayload } from './Payload.js'
-import { DomainSchema } from './Schema.js'
+import { DomainPayload } from './Payload.ts'
+import { DomainSchema } from './Schema.ts'
 
 export const domainConfigTemplate = (): DomainPayload => ({
   aliases: {

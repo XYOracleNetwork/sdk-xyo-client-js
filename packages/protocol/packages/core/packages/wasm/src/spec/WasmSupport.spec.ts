@@ -1,4 +1,4 @@
-import { WasmFeature, WasmSupport } from '../WasmSupport.js'
+import { WasmFeature, WasmSupport } from '../WasmSupport.ts'
 
 describe('WasmSupport', () => {
   const allFeatures: WasmFeature[] = [

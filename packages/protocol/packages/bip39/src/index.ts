@@ -5,7 +5,7 @@ import { sha256 } from '@noble/hashes/sha256'
 import { sha512 } from '@noble/hashes/sha512'
 import { utils as baseUtils } from '@scure/base'
 
-export * from './wordlists/index.js'
+export * from './wordlists/index.ts'
 
 // Japanese wordlist
 const isJapanese = (wordlist: string[]) => wordlist[0] === '\u3042\u3044\u3053\u304F\u3057\u3093'

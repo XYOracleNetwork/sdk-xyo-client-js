@@ -4,7 +4,7 @@ import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { NodeInstance } from '@xyo-network/node-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { PayloadPointerDiviner } from '../Diviner.js'
+import { PayloadPointerDiviner } from '../Diviner.ts'
 import {
   createPointer,
   getArchivist,
@@ -13,7 +13,7 @@ import {
   getTestNode,
   insertBlock,
   insertPayload,
-} from './testUtil/index.js'
+} from './testUtil/index.ts'
 
 describe('PayloadPointerDiviner', () => {
   describe('with rules for [timestamp]', () => {

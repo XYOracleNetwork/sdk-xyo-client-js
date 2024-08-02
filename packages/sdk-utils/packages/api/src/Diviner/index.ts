@@ -1,2 +1,2 @@
-export * from './LocationDiviner/index.js'
-export * from './RemoteDivinerConfig.js'
+export * from './LocationDiviner/index.ts'
+export * from './RemoteDivinerConfig.ts'

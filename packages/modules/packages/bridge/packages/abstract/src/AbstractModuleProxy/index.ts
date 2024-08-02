@@ -1,2 +1,2 @@
-export * from './AbstractModuleProxy.js'
-export * from './ModuleProxyResolver.js'
+export * from './AbstractModuleProxy.ts'
+export * from './ModuleProxyResolver.ts'

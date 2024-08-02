@@ -1,4 +1,4 @@
-import { JsonPathTransformExpression } from './JsonPathTransformExpression.js'
+import { JsonPathTransformExpression } from './JsonPathTransformExpression.ts'
 
 /**
  * A dictionary of schema to JSON Path transform expressions.

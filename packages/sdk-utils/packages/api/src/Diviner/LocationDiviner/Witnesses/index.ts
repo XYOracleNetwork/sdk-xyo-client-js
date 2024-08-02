@@ -1,2 +1,2 @@
-export * from './CurrentLocationWitness.js'
-export * from './LocationWitness.js'
+export * from './CurrentLocationWitness.ts'
+export * from './LocationWitness.ts'

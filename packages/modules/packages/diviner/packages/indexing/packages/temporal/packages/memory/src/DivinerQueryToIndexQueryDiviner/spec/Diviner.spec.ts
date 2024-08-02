@@ -8,7 +8,7 @@ import {
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
-import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../Diviner.js'
+import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../Diviner.ts'
 
 type QueryType = PayloadDivinerQueryPayload<{ status?: number; success?: boolean; url: string }>
 

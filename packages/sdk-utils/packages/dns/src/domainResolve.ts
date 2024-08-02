@@ -1,5 +1,5 @@
-import { DnsRecordType } from './DnsRecordType.js'
-import { googleDnsOverHttps } from './googleDnsOverHttps.js'
+import { DnsRecordType } from './DnsRecordType.ts'
+import { googleDnsOverHttps } from './googleDnsOverHttps.ts'
 
 /**
  * Resolves DNS information (resolves using DNS)

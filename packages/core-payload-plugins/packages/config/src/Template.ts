@@ -1,5 +1,5 @@
-import { ConfigPayload } from './Payload.js'
-import { ConfigSchema } from './Schema.js'
+import { ConfigPayload } from './Payload.ts'
+import { ConfigSchema } from './Schema.ts'
 
 export const configPayloadTemplate = (): ConfigPayload => ({
   config: '',

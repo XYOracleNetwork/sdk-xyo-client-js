@@ -1,6 +1,6 @@
-import { DnsReturnCode } from './DnsReturnCode.js'
-import { GoogleDnsResultAnswer } from './GoogleDnsResultAnswer.js'
-import { GoogleDnsResultQuestion } from './GoogleDnsResultQuestion.js'
+import { DnsReturnCode } from './DnsReturnCode.ts'
+import { GoogleDnsResultAnswer } from './GoogleDnsResultAnswer.ts'
+import { GoogleDnsResultQuestion } from './GoogleDnsResultQuestion.ts'
 
 export interface GoogleDnsResult {
   AD?: boolean //Validated with DNSSEC

@@ -1,6 +1,6 @@
-import { NetworkNodePayload } from './NetworkNodePayload.js'
-import { NetworkNodePayloadWrapper } from './NetworkNodePayloadWrapper.js'
-import { NetworkPayload, NetworkSchema } from './NetworkPayload.js'
+import { NetworkNodePayload } from './NetworkNodePayload.ts'
+import { NetworkNodePayloadWrapper } from './NetworkNodePayloadWrapper.ts'
+import { NetworkPayload, NetworkSchema } from './NetworkPayload.ts'
 
 const kerplunk = async (): Promise<NetworkPayload> => {
   return {

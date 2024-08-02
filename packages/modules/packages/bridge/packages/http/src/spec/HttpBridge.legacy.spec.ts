@@ -1,8 +1,8 @@
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 
-import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.js'
-import { HttpBridge } from '../HttpBridgeFull.js'
+import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
+import { HttpBridge } from '../HttpBridgeFull.ts'
 
 /**
  * @group module

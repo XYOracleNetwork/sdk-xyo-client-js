@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { SchemaStatsDivinerSchema } from './Schema.js'
+import { SchemaStatsDivinerSchema } from './Schema.ts'
 
 export type SchemaStatsPayload = Payload<{
   count: Record<string, number>

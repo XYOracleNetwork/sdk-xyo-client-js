@@ -5,7 +5,7 @@ import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { ArchivistWrapper } from '../ArchivistWrapper.js'
+import { ArchivistWrapper } from '../ArchivistWrapper.ts'
 
 /**
  * @group module

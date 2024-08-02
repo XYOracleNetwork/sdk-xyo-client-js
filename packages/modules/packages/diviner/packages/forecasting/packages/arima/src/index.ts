@@ -1,1 +1,1 @@
-export * from './arima/index.js'
+export * from './arima/index.ts'

@@ -12,7 +12,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchivist.js'
+import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchivist.ts'
 
 /**
  * @group module

@@ -41,7 +41,7 @@ import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { asNodeInstance, NodeInstance } from '@xyo-network/node-model'
 import { Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
-import { AbstractModule } from './AbstractModule.js'
+import { AbstractModule } from './AbstractModule.ts'
 
 export abstract class AbstractModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModule<TParams, TEventData>

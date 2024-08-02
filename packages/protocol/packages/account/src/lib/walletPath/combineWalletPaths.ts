@@ -1,4 +1,4 @@
-import { formatWalletPath } from './formatWalletPath.js'
+import { formatWalletPath } from './formatWalletPath.ts'
 
 export const combineWalletPaths = (path1: string, path2: string) => {
   const parts1 = formatWalletPath(path1).split('/')

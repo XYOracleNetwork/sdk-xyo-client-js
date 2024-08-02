@@ -12,8 +12,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { AsyncQueryBusIntersectConfig } from '../AsyncQueryBus/index.js'
-import { PubSubBridge } from '../PubSubBridge.js'
+import { AsyncQueryBusIntersectConfig } from '../AsyncQueryBus/index.ts'
+import { PubSubBridge } from '../PubSubBridge.ts'
 
 /**
  * @group module

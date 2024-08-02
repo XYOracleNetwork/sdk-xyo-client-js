@@ -1,7 +1,7 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/module-model'
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import { addressPayloadTemplate } from './Template.js'
+import { addressPayloadTemplate } from './Template.ts'
 
 export const AddressPayloadPlugin = () =>
   createPayloadPlugin<AddressPayload>({

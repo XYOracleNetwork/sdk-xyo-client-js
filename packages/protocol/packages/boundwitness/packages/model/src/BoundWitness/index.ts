@@ -1,3 +1,3 @@
-export * from './BoundWitness.js'
-export * from './BoundWitnessJsonSchema.js'
-export * from './BoundWitnessSchema.js'
+export * from './BoundWitness.ts'
+export * from './BoundWitnessJsonSchema.ts'
+export * from './BoundWitnessSchema.ts'

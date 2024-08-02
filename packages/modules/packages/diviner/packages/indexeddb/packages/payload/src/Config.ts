@@ -1,7 +1,7 @@
 import { IndexDescription } from '@xyo-network/archivist-model'
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
-import { IndexedDbPayloadDivinerSchema } from './Schema.js'
+import { IndexedDbPayloadDivinerSchema } from './Schema.ts'
 
 export const IndexedDbPayloadDivinerConfigSchema = `${IndexedDbPayloadDivinerSchema}.config` as const
 export type IndexedDbPayloadDivinerConfigSchema = typeof IndexedDbPayloadDivinerConfigSchema

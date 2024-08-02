@@ -2,8 +2,8 @@ import { Address } from '@xylabs/hex'
 import { EmptyObject } from '@xylabs/object'
 import { BridgeConfig } from '@xyo-network/bridge-model'
 
-import { AsyncQueryBusClientConfig, AsyncQueryBusHostConfig } from './AsyncQueryBus/index.js'
-import { PubSubBridgeSchema } from './Schema.js'
+import { AsyncQueryBusClientConfig, AsyncQueryBusHostConfig } from './AsyncQueryBus/index.ts'
+import { PubSubBridgeSchema } from './Schema.ts'
 
 export const PubSubBridgeConfigSchema = `${PubSubBridgeSchema}.config` as const
 export type PubSubBridgeConfigSchema = typeof PubSubBridgeConfigSchema

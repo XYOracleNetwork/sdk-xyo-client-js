@@ -1,3 +1,3 @@
-export * from './Config.js'
-export * from './Diviner.js'
-export * from './HuriPayload.js'
+export * from './Config.ts'
+export * from './Diviner.ts'
+export * from './HuriPayload.ts'

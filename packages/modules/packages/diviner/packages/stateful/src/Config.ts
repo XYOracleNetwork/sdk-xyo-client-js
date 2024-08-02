@@ -1,7 +1,7 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 import { ModuleIdentifier } from '@xyo-network/module-model'
 
-import { StatefulDivinerSchema } from './Schema.js'
+import { StatefulDivinerSchema } from './Schema.ts'
 
 /**
  * The schema for a Stateful Diviner config

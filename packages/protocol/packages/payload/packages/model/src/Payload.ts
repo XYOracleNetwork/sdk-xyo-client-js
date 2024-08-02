@@ -1,7 +1,7 @@
 import { Hash } from '@xylabs/hex'
 import { EmptyObject, JsonObject } from '@xylabs/object'
 
-import { Schema, WithSchema } from './Schema.js'
+import { Schema, WithSchema } from './Schema.ts'
 
 /** Meta fields for a payload - Either both $hash and $meta should exist or neither */
 export interface PayloadMetaFields<TAdditionalMeta extends EmptyObject | void = void> extends EmptyObject {

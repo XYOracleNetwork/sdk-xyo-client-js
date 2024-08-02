@@ -7,7 +7,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { PayloadPointerDiviner } from '../Diviner.js'
+import { PayloadPointerDiviner } from '../Diviner.ts'
 import {
   createPointer,
   getArchivist,
@@ -16,7 +16,7 @@ import {
   getTestNode,
   getTestSchemaName,
   insertPayload,
-} from './testUtil/index.js'
+} from './testUtil/index.ts'
 
 describe('PayloadPointerDiviner', () => {
   describe('with rules for [schema]', () => {

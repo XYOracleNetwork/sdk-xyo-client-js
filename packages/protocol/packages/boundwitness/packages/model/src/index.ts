@@ -1,3 +1,3 @@
-export * from './BoundWitness/index.js'
-export * from './isBoundWitness.js'
-export * from './QueryBoundWitness.js'
+export * from './BoundWitness/index.ts'
+export * from './isBoundWitness.ts'
+export * from './QueryBoundWitness.ts'

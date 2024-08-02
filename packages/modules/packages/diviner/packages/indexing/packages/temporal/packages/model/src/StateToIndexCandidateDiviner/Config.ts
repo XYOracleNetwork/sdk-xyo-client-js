@@ -1,7 +1,7 @@
 import { BoundWitnessDivinerPredicate } from '@xyo-network/diviner-boundwitness-model'
 import { DivinerConfig, SearchableStorage } from '@xyo-network/diviner-model'
 
-import { TemporalIndexingDivinerStateToIndexCandidateDivinerSchema } from './Schema.js'
+import { TemporalIndexingDivinerStateToIndexCandidateDivinerSchema } from './Schema.ts'
 
 export type TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema = `${TemporalIndexingDivinerStateToIndexCandidateDivinerSchema}.config`
 export const TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema: TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema = `${TemporalIndexingDivinerStateToIndexCandidateDivinerSchema}.config`

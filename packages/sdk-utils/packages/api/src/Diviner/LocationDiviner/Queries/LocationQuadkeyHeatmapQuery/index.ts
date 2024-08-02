@@ -1,1 +1,1 @@
-export * from './LocationQuadkeyHeatmapQuery.js'
+export * from './LocationQuadkeyHeatmapQuery.ts'

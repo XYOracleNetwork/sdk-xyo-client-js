@@ -2,9 +2,9 @@ import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Payload, Schema } from '@xyo-network/payload-model'
 
-import { TimestampWitnessConfigSchema } from './Config.js'
-import { TimestampWitnessParams } from './Params.js'
-import { TimeStamp, TimestampSchema } from './Payload.js'
+import { TimestampWitnessConfigSchema } from './Config.ts'
+import { TimestampWitnessParams } from './Params.ts'
+import { TimeStamp, TimestampSchema } from './Payload.ts'
 
 export class TimestampWitness<P extends TimestampWitnessParams = TimestampWitnessParams> extends AbstractWitness<P> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, TimestampWitnessConfigSchema]

@@ -1,2 +1,2 @@
-export * from './getNewBlock.js'
-export * from './insertBlock.js'
+export * from './getNewBlock.ts'
+export * from './insertBlock.ts'

@@ -1,2 +1,2 @@
-export * from './ObserveEnd.js'
-export * from './ObserveStart.js'
+export * from './ObserveEnd.ts'
+export * from './ObserveStart.ts'

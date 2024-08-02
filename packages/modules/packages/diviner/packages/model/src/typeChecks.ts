@@ -1,9 +1,9 @@
 import { AsObjectFactory } from '@xylabs/object'
 import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
 
-import { DivinerInstance } from './Instance.js'
-import { DivinerModule } from './Module.js'
-import { DivinerDivineQuerySchema } from './Queries/index.js'
+import { DivinerInstance } from './Instance.ts'
+import { DivinerModule } from './Module.ts'
+import { DivinerDivineQuerySchema } from './Queries/index.ts'
 
 export const isDivinerInstance = new IsInstanceFactory<DivinerInstance>().create({ divine: 'function' }, [isModuleInstance])
 export const isDivinerModule = new IsModuleFactory<DivinerModule>().create([DivinerDivineQuerySchema])

@@ -7,9 +7,9 @@ import { ModuleThread, Pool, spawn, Worker } from '@xylabs/threads'
 import { WasmSupport } from '@xyo-network/wasm'
 import { sha256 } from 'hash-wasm'
 
-import { removeEmptyFields } from './removeEmptyFields.js'
-import { sortFields } from './sortFields.js'
-import { subtleHashFunc, wasmHashFunc } from './worker/index.js'
+import { removeEmptyFields } from './removeEmptyFields.ts'
+import { sortFields } from './sortFields.ts'
+import { subtleHashFunc, wasmHashFunc } from './worker/index.ts'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type WorkerFunction = ((...args: any[]) => any) | (() => any)

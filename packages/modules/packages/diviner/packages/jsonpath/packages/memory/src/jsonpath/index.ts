@@ -1,1 +1,1 @@
-export * from './toPayloadTransformer.js'
+export * from './toPayloadTransformer.ts'

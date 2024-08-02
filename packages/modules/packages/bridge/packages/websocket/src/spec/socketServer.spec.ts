@@ -1,6 +1,6 @@
 import { io as Client, Socket } from 'socket.io-client'
 
-import { BridgeCommands, createServer } from '../socketServer.js'
+import { BridgeCommands, createServer } from '../socketServer.ts'
 
 /**
  * @group module

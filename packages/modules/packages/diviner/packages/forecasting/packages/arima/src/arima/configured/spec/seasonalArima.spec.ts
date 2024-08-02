@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { seasonalArimaForecastingMethod } from '../seasonalArima.js'
+import { seasonalArimaForecastingMethod } from '../seasonalArima.ts'
 
 const twoPi = 2 * Math.PI
 

@@ -1,4 +1,4 @@
-import { NetworkNodePayload, NetworkNodeSchema } from './NetworkNodePayload.js'
+import { NetworkNodePayload, NetworkNodeSchema } from './NetworkNodePayload.ts'
 
 const beta = (): NetworkNodePayload => {
   return {

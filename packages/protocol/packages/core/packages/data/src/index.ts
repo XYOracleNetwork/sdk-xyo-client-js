@@ -1,2 +1,2 @@
-export * from './AbstractData.js'
-export * from './Data.js'
+export * from './AbstractData.ts'
+export * from './Data.ts'

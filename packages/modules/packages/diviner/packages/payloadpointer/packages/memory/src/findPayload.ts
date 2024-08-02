@@ -8,7 +8,7 @@ import { isBoundWitnessPointer, PayloadSearchCriteria, PointerPayload } from '@x
 import { Payload, Schema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { combineRules } from './combineRules.js'
+import { combineRules } from './combineRules.ts'
 
 const limit = 1
 

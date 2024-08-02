@@ -1,2 +1,2 @@
-export * from './getNewPayload.js'
-export * from './insertPayload.js'
+export * from './getNewPayload.ts'
+export * from './insertPayload.ts'

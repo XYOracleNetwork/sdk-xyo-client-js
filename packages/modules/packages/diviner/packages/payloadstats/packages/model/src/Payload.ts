@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { PayloadStatsDivinerSchema } from './Schema.js'
+import { PayloadStatsDivinerSchema } from './Schema.ts'
 
 export type PayloadStatsPayload = Payload<{ count: number; schema: PayloadStatsDivinerSchema }>
 export const isPayloadStatsPayload = (x?: Payload | null): x is PayloadStatsPayload => x?.schema === PayloadStatsDivinerSchema

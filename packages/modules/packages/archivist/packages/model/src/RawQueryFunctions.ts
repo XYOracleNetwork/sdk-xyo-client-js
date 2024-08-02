@@ -4,7 +4,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { ModuleQueryResult } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { ArchivistNextOptions } from './NextOptions.js'
+import { ArchivistNextOptions } from './NextOptions.ts'
 
 export interface ArchivistRawQueryFunctions {
   allQuery(account?: AccountInstance): Promisable<ModuleQueryResult>

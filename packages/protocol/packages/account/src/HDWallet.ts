@@ -15,8 +15,8 @@ import type { PrivateKeyInstance } from '@xyo-network/key-model'
 import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import { defaultPath, HDNodeWallet, Mnemonic } from 'ethers'
 
-import { Account } from './Account.js'
-import { PrivateKey } from './Key/index.js'
+import { Account } from './Account.ts'
+import { PrivateKey } from './Key/index.ts'
 
 @staticImplements<WalletStatic>()
 export class HDWallet extends Account implements WalletInstance {

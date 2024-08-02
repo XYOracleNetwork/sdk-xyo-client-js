@@ -4,8 +4,8 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { ModuleQueryResult } from '../ModuleQueryResult.js'
-import { AddressPayload, AddressPreviousHashPayload } from '../Payload/index.js'
+import { ModuleQueryResult } from '../ModuleQueryResult.ts'
+import { AddressPayload, AddressPreviousHashPayload } from '../Payload/index.ts'
 
 export interface ModuleQueryFunctions {
   manifest: (maxDepth?: number, ignoreAddresses?: Address[]) => Promisable<ModuleManifestPayload>

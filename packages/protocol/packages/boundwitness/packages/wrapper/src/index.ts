@@ -1,2 +1,2 @@
-export * from './BoundWitnessWrapper.js'
-export * from './QueryBoundWitnessWrapper.js'
+export * from './BoundWitnessWrapper.ts'
+export * from './QueryBoundWitnessWrapper.ts'

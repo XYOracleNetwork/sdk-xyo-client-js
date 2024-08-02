@@ -1,3 +1,3 @@
-export * from './MemorySentinel.js'
-export * from './SentinelIntervalAutomationWrapper.js'
-export * from './SentinelRunner.js'
+export * from './MemorySentinel.ts'
+export * from './SentinelIntervalAutomationWrapper.ts'
+export * from './SentinelRunner.ts'

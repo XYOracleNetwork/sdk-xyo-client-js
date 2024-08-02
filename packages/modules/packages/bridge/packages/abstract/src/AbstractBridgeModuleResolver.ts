@@ -11,7 +11,7 @@ import {
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver, ModuleResolverParams } from '@xyo-network/module-resolver'
 
-import { ModuleProxyParams } from './AbstractModuleProxy/index.js'
+import { ModuleProxyParams } from './AbstractModuleProxy/index.ts'
 
 export interface BridgeModuleResolverParams extends ModuleResolverParams {
   additionalSigners?: AccountInstance[]

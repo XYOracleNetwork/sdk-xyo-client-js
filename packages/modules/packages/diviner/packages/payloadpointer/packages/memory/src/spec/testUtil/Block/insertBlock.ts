@@ -2,7 +2,7 @@ import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { Payload, WithMeta } from '@xyo-network/payload-model'
 
-import { getNewBlock } from './getNewBlock.js'
+import { getNewBlock } from './getNewBlock.ts'
 
 export const insertBlock = async (archivist: ArchivistInstance, boundWitnesses?: BoundWitness | BoundWitness[]): Promise<WithMeta<Payload>[]> => {
   boundWitnesses = boundWitnesses ?? (await getNewBlock())

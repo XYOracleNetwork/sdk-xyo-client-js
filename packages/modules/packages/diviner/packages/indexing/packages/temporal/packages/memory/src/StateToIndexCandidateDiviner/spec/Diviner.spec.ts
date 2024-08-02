@@ -12,7 +12,7 @@ import { isModuleStateWithMeta, ModuleState, ModuleStateSchema } from '@xyo-netw
 import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
-import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../Diviner.js'
+import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../Diviner.ts'
 import TemporalStateToIndexCandidateDivinerManifest from './TemporalStateToIndexCandidateDiviner.json'
 
 /**

@@ -1,3 +1,3 @@
-export * from './combineWalletPaths.js'
-export * from './formatWalletPath.js'
-export * from './isValidWalletPath.js'
+export * from './combineWalletPaths.ts'
+export * from './formatWalletPath.ts'
+export * from './isValidWalletPath.ts'

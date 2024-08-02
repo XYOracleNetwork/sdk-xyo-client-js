@@ -9,7 +9,7 @@ import { ModuleConfig, ModuleIdentifier, ModuleInstance, ResolveHelper } from '@
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
-import { AsyncQueryBusParams } from './model/index.js'
+import { AsyncQueryBusParams } from './model/index.ts'
 
 const POLLING_FREQUENCY_MIN = 100 as const
 const POLLING_FREQUENCY_MAX = 60_000 as const

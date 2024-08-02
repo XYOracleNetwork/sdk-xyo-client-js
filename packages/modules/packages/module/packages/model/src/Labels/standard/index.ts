@@ -1,1 +1,1 @@
-export * from './View.js'
+export * from './View.ts'

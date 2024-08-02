@@ -1,6 +1,6 @@
-import { createBrowserWorker } from './createBrowserWorker.js'
-import { createNodeWorker } from './createNodeWorker.js'
-import { PayloadHasher } from './PayloadHasher.js'
+import { createBrowserWorker } from './createBrowserWorker.ts'
+import { createNodeWorker } from './createNodeWorker.ts'
+import { PayloadHasher } from './PayloadHasher.ts'
 
 // We put both in here so that things will work in jsdom/jest
 
@@ -12,14 +12,14 @@ export class BrowserPayloadHasher extends PayloadHasher {
   static override createNodeWorker = createNodeWorker
   static override subtleHashWorkerUrl = (() => {
     try {
-      return new URL('worker/subtleHash-bundle.js', import.meta.url)
+      return new URL('worker/subtleHash-bundle.ts', import.meta.url)
     } catch {
       return
     }
   })()
   static override wasmHashWorkerUrl = (() => {
     try {
-      return new URL('worker/wasmHash-bundle.js', import.meta.url)
+      return new URL('worker/wasmHash-bundle.ts', import.meta.url)
     } catch {
       return
     }

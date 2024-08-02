@@ -1,7 +1,7 @@
 import { EmptyObject } from '@xylabs/object'
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module-model'
 
-import { DivinerConfig } from './Config.js'
+import { DivinerConfig } from './Config.ts'
 
 export type DivinerParams<
   TConfig extends AnyConfigSchema<DivinerConfig> = AnyConfigSchema<DivinerConfig>,

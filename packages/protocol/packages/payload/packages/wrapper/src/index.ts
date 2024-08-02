@@ -1,3 +1,3 @@
-export * from './PayloadWrapper.js'
-export * from './PayloadWrapperBase.js'
-export * from './SchemaType.js'
+export * from './PayloadWrapper.ts'
+export * from './PayloadWrapperBase.ts'
+export * from './SchemaType.ts'

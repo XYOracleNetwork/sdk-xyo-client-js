@@ -1,4 +1,4 @@
-import { LocationWitnessSchema } from '../../Witnesses/index.js'
+import { LocationWitnessSchema } from '../../Witnesses/index.ts'
 
 export interface LocationTimeRangePointProperties {
   _archive: string

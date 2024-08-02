@@ -1,4 +1,4 @@
-import { DomainSchema } from '../Schema.js'
+import { DomainSchema } from '../Schema.ts'
 import { DomainPayloadWrapper } from '../Wrapper'
 
 describe('DomainPayloadWrapper', () => {

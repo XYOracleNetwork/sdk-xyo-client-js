@@ -1,1 +1,1 @@
-export * from './ViewArchivist.js'
+export * from './ViewArchivist.ts'

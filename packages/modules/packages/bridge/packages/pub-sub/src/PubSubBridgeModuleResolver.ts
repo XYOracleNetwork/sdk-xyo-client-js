@@ -15,7 +15,7 @@ import {
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
-import { AsyncQueryBusClient, AsyncQueryBusModuleProxy, AsyncQueryBusModuleProxyParams } from './AsyncQueryBus/index.js'
+import { AsyncQueryBusClient, AsyncQueryBusModuleProxy, AsyncQueryBusModuleProxyParams } from './AsyncQueryBus/index.ts'
 
 export interface PubSubBridgeModuleResolverParams extends BridgeModuleResolverParams {
   busClient: AsyncQueryBusClient

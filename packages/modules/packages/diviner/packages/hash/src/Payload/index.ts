@@ -1,2 +1,2 @@
-export * from './HashLease.js'
-export * from './HashLeaseEstimate.js'
+export * from './HashLease.ts'
+export * from './HashLeaseEstimate.ts'

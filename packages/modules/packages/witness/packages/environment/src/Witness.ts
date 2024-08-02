@@ -3,9 +3,9 @@ import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Payload, Schema } from '@xyo-network/payload-model'
 import { Value, ValueSchema } from '@xyo-network/value-payload-plugin'
 
-import { EnvironmentWitnessConfigSchema } from './Config.js'
-import { EnvironmentWitnessParams } from './Params.js'
-import { EnvironmentSubset, isEnvironmentSubsetPayload } from './Payload.js'
+import { EnvironmentWitnessConfigSchema } from './Config.ts'
+import { EnvironmentWitnessParams } from './Params.ts'
+import { EnvironmentSubset, isEnvironmentSubsetPayload } from './Payload.ts'
 
 const schema = ValueSchema
 

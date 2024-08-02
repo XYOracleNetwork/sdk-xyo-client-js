@@ -1,7 +1,7 @@
 import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
-import { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema } from './Schema.js'
+import { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema } from './Schema.ts'
 
 export type TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema =
   `${TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema}.config`

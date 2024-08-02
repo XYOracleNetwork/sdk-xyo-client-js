@@ -1,7 +1,7 @@
 import { TypeCheck } from '@xylabs/object'
 
-import { isModuleInstance } from './instance/index.js'
-import { isModule } from './module/index.js'
+import { isModuleInstance } from './instance/index.ts'
+import { isModule } from './module/index.ts'
 
 export const WithFactory = {
   create: <T extends object>(typeCheck: TypeCheck<T>) => {

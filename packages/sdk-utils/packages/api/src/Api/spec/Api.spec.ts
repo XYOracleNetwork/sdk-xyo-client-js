@@ -1,7 +1,7 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/module-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
-import { getApi } from './ApiUtil.spec.js'
+import { getApi } from './ApiUtil.spec.ts'
 
 describe('ArchivistApi', () => {
   describe('get', () => {

@@ -1,5 +1,5 @@
-import { SchemaPayload } from './Payload.js'
-import { SchemaSchema } from './Schema.js'
+import { SchemaPayload } from './Payload.ts'
+import { SchemaSchema } from './Schema.ts'
 export const schemaPayloadTemplate = (): SchemaPayload => ({
   definition: {
     $id: '',

@@ -7,7 +7,7 @@ import {
   ReportStartEventData,
   TaskEndEventData,
   TaskStartEventData,
-} from './EventsModels/index.js'
+} from './EventsModels/index.ts'
 
 export interface SentinelModuleEventData<T extends Module = Module>
   extends TaskEndEventData<T>,

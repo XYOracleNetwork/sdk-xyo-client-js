@@ -20,8 +20,8 @@ import {
 } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
-import { AbstractModuleResolver, ModuleResolverParams } from './AbstractModuleResolver.js'
-import { SimpleModuleResolver } from './SimpleModuleResolver.js'
+import { AbstractModuleResolver, ModuleResolverParams } from './AbstractModuleResolver.ts'
+import { SimpleModuleResolver } from './SimpleModuleResolver.ts'
 
 export interface CompositeModuleResolverParams extends ModuleResolverParams {
   allowNameResolution?: boolean

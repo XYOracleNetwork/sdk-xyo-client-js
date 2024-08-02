@@ -1,2 +1,2 @@
-export * from './Labels.js'
-export * from './standard/index.js'
+export * from './Labels.ts'
+export * from './standard/index.ts'

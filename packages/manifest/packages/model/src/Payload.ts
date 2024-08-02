@@ -12,7 +12,7 @@ export const NodeManifestPayloadSchema: NodeManifestPayloadSchema = 'network.xyo
 
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
-import { ModuleManifest, NodeManifest, PackageManifest } from './Manifest.js'
+import { ModuleManifest, NodeManifest, PackageManifest } from './Manifest.ts'
 
 export interface NodeManifestPayload extends NodeManifest {
   schema: NodeManifestPayloadSchema

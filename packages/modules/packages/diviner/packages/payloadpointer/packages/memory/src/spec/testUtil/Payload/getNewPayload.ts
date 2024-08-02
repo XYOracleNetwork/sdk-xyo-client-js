@@ -2,7 +2,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { v4 as uuid } from 'uuid'
 
-import { schema } from './schema.js'
+import { schema } from './schema.ts'
 
 export const getNewPayload = async (): Promise<Payload> => {
   const fields = { schema: 'network.xyo.id', salt: uuid() }

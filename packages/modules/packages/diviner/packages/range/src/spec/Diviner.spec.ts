@@ -1,7 +1,7 @@
 import { hexFrom } from '@xylabs/hex'
 import { BigIntSchema, NumberSchema, RangeSchema } from '@xyo-network/diviner-range-model'
 
-import { RangeDiviner } from '../Diviner.js'
+import { RangeDiviner } from '../Diviner.ts'
 describe('RangeDiviner', () => {
   it('Number', async () => {
     const diviner = await RangeDiviner.create({ account: 'random' })

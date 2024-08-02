@@ -1,7 +1,7 @@
 import { EmptyObject } from '@xylabs/object'
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module-model'
 
-import { ArchivistConfig } from './Config.js'
+import { ArchivistConfig } from './Config.ts'
 
 export type ArchivistParams<
   TConfig extends AnyConfigSchema<ArchivistConfig> = AnyConfigSchema<ArchivistConfig>,

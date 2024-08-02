@@ -6,7 +6,7 @@ import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 
-import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema } from './Config.js'
+import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema } from './Config.ts'
 
 export type ArchivistPayloadDivinerParams<
   TConfig extends AnyConfigSchema<ArchivistPayloadDivinerConfig> = AnyConfigSchema<ArchivistPayloadDivinerConfig>,

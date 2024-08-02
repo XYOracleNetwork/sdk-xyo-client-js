@@ -1,1 +1,1 @@
-export * from './IndexedDbPreviousHashStore.js'
+export * from './IndexedDbPreviousHashStore.ts'

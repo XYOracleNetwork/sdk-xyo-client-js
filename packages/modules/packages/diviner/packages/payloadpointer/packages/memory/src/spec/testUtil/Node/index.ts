@@ -1,1 +1,1 @@
-export * from './getTestNode.js'
+export * from './getTestNode.ts'

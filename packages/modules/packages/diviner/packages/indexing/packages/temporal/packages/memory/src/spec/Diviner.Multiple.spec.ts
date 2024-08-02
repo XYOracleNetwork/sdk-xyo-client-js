@@ -17,11 +17,11 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
-import { TemporalIndexingDiviner } from '../Diviner.js'
-import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../DivinerQueryToIndexQueryDiviner/index.js'
-import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../IndexCandidateToIndexDiviner/index.js'
-import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner/index.js'
-import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../StateToIndexCandidateDiviner/index.js'
+import { TemporalIndexingDiviner } from '../Diviner.ts'
+import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../DivinerQueryToIndexQueryDiviner/index.ts'
+import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../IndexCandidateToIndexDiviner/index.ts'
+import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner/index.ts'
+import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../StateToIndexCandidateDiviner/index.ts'
 import imageThumbnailDivinerManifest from './TemporalDiviner.json'
 
 type ImageThumbnail = Payload<{

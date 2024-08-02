@@ -1,7 +1,7 @@
 import { EmptyObject } from '@xylabs/object'
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module-model'
 
-import { NodeConfig } from './Config.js'
+import { NodeConfig } from './Config.ts'
 
 export type NodeParams<
   TConfig extends AnyConfigSchema<NodeConfig> = AnyConfigSchema<NodeConfig>,

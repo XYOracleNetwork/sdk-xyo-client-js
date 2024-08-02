@@ -1,2 +1,2 @@
-export * from './DivineEnd.js'
-export * from './DivineStart.js'
+export * from './DivineEnd.ts'
+export * from './DivineStart.ts'

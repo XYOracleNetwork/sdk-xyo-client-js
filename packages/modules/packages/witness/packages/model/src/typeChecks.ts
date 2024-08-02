@@ -1,9 +1,9 @@
 import { AsObjectFactory } from '@xylabs/object'
 import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
 
-import { WitnessInstance } from './Instance.js'
-import { WitnessModule } from './Module.js'
-import { WitnessObserveQuerySchema } from './Queries/index.js'
+import { WitnessInstance } from './Instance.ts'
+import { WitnessModule } from './Module.ts'
+import { WitnessObserveQuerySchema } from './Queries/index.ts'
 
 export const isWitnessInstance = new IsInstanceFactory<WitnessInstance>().create({ observe: 'function' }, [isModuleInstance])
 export const isWitnessModule = new IsModuleFactory<WitnessModule>().create([WitnessObserveQuerySchema])

@@ -1,7 +1,7 @@
 import { JsonValue } from '@xylabs/object'
 import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithMeta, Payload } from '@xyo-network/payload-model'
 
-import { ValueSchema } from './Schema.js'
+import { ValueSchema } from './Schema.ts'
 
 export type Value<T extends JsonValue = JsonValue> = Payload<{
   schema: ValueSchema

@@ -1,2 +1,2 @@
-export * from './MemoryNode.js'
-export * from './NodeHelper/index.js'
+export * from './MemoryNode.ts'
+export * from './NodeHelper/index.ts'

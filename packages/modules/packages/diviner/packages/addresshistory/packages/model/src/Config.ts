@@ -1,7 +1,7 @@
 import { Address } from '@xylabs/hex'
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
-import { AddressHistorySchema } from './Diviner.js'
+import { AddressHistorySchema } from './Diviner.ts'
 
 export type AddressHistoryDivinerConfigSchema = `${AddressHistorySchema}.config`
 export const AddressHistoryDivinerConfigSchema: AddressHistoryDivinerConfigSchema = `${AddressHistorySchema}.config`

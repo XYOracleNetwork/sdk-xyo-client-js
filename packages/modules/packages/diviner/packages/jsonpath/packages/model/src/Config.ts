@@ -1,7 +1,7 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
-import { JsonPathTransformExpression } from './jsonpath/index.js'
-import { JsonPathDivinerSchema } from './Schema.js'
+import { JsonPathTransformExpression } from './jsonpath/index.ts'
+import { JsonPathDivinerSchema } from './Schema.ts'
 
 /**
  * The config schema type for the JSON Path diviner

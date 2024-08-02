@@ -1,8 +1,8 @@
 import { ModuleIdentifier } from '@xyo-network/module-model'
 import { NodeInstance } from '@xyo-network/node-model'
 
-import { MemoryNode, MemoryNodeParams } from '../MemoryNode.js'
-import { flatAttachToExistingNode } from './flatAttachToExistingNode.js'
+import { MemoryNode, MemoryNodeParams } from '../MemoryNode.ts'
+import { flatAttachToExistingNode } from './flatAttachToExistingNode.ts'
 
 export const flatAttachToNewNode = async (
   source: NodeInstance,

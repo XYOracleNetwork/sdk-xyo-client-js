@@ -1,1 +1,1 @@
-export * from './Quadkey.js'
+export * from './Quadkey.ts'

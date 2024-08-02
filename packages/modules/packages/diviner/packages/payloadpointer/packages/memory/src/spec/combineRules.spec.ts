@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { PayloadAddressRule, PayloadRule, PayloadSchemaRule, PayloadTimestampOrderRule } from '@xyo-network/diviner-payload-pointer-model'
 
-import { combineRules } from '../combineRules.js'
+import { combineRules } from '../combineRules.ts'
 
 // Mock Date.now
 const now = new Date()

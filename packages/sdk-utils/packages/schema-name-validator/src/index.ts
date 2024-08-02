@@ -1,1 +1,1 @@
-export * from './SchemaNameValidator.js'
+export * from './SchemaNameValidator.ts'

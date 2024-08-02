@@ -2,8 +2,8 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { unitTestSigningAccount } from '../Account/index.js'
-import { getNewPayloads } from '../Payload/index.js'
+import { unitTestSigningAccount } from '../Account/index.ts'
+import { getNewPayloads } from '../Payload/index.ts'
 
 export const getNewBlock = async (...payloads: Payload[]): Promise<BoundWitness> => {
   return (await (await new BoundWitnessBuilder().witness(await unitTestSigningAccount()).payloads(payloads)).build())[0]

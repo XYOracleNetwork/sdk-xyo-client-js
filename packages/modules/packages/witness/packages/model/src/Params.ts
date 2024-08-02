@@ -1,7 +1,7 @@
 import { EmptyObject } from '@xylabs/object'
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module-model'
 
-import { WitnessConfig } from './Config.js'
+import { WitnessConfig } from './Config.ts'
 
 export type WitnessParams<
   TConfig extends AnyConfigSchema<WitnessConfig> = AnyConfigSchema<WitnessConfig>,

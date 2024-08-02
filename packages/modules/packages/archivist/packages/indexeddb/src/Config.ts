@@ -1,6 +1,6 @@
 import { ArchivistConfig } from '@xyo-network/archivist-model'
 
-import { IndexedDbArchivistSchema } from './Schema.js'
+import { IndexedDbArchivistSchema } from './Schema.ts'
 
 export type IndexedDbArchivistConfigSchema = `${IndexedDbArchivistSchema}.config`
 export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = `${IndexedDbArchivistSchema}.config`

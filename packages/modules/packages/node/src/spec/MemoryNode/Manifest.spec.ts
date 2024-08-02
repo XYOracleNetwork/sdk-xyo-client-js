@@ -1,7 +1,7 @@
 import { NodeManifestPayload } from '@xyo-network/manifest-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 
-import { MemoryNode } from '../../index.js'
+import { MemoryNode } from '../../index.ts'
 
 /**
  * @group node

@@ -2,7 +2,7 @@
 import { AnyObject } from '@xylabs/object'
 import { Payload } from '@xyo-network/payload-model'
 
-import { DistinctDiviner } from '../Diviner.js'
+import { DistinctDiviner } from '../Diviner.ts'
 describe('RangeDiviner', () => {
   it('Generate', async () => {
     const diviner = await DistinctDiviner.create({ account: 'random' })

@@ -1,7 +1,7 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { PayloadDataWrapper } from './PayloadDataWrapper.js'
-import { isPayloadWrapperBase } from './PayloadWrapperBase.js'
+import { PayloadDataWrapper } from './PayloadDataWrapper.ts'
+import { isPayloadWrapperBase } from './PayloadWrapperBase.ts'
 
 export const isPayloadWrapper = (value?: unknown): value is PayloadWrapper => {
   return isPayloadWrapperBase(value)

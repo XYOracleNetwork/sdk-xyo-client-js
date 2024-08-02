@@ -1,4 +1,4 @@
-import { ModuleInstance } from './Instance.js'
+import { ModuleInstance } from './Instance.ts'
 import {
   AddressObjectFilter,
   AnyObjectFilter,
@@ -9,7 +9,7 @@ import {
   ObjectFilter,
   ObjectFilterOptions,
   QueryObjectFilter,
-} from './ObjectFilter.js'
+} from './ObjectFilter.ts'
 
 export interface ModuleFilterOptions<T extends ModuleInstance = ModuleInstance> extends ObjectFilterOptions<T> {}
 

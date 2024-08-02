@@ -1,1 +1,1 @@
-export * from './BridgeWrapper.js'
+export * from './BridgeWrapper.ts'

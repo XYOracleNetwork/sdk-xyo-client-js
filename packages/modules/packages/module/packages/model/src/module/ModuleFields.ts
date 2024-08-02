@@ -3,10 +3,10 @@ import { Promisable } from '@xylabs/promise'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { ModuleConfig } from '../Config/index.js'
-import { ModuleName } from '../ModuleIdentifier.js'
-import { ModuleParams } from '../ModuleParams.js'
-import { ModuleQueryResult } from '../ModuleQueryResult.js'
+import { ModuleConfig } from '../Config/index.ts'
+import { ModuleName } from '../ModuleIdentifier.ts'
+import { ModuleParams } from '../ModuleParams.ts'
+import { ModuleQueryResult } from '../ModuleQueryResult.ts'
 
 export interface ModuleFields<TParams extends ModuleParams = ModuleParams> {
   address: Address

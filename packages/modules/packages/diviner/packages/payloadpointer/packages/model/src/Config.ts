@@ -1,7 +1,7 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 import { ModuleIdentifier } from '@xyo-network/module-model'
 
-import { PayloadPointerDivinerSchema } from './Schema.js'
+import { PayloadPointerDivinerSchema } from './Schema.ts'
 
 /**
  * The config schema for the Payload Pointer Diviner

@@ -10,7 +10,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { WithMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { MemoryAddressChainDiviner } from '../MemoryDiviner.js'
+import { MemoryAddressChainDiviner } from '../MemoryDiviner.ts'
 
 /**
  * @group module

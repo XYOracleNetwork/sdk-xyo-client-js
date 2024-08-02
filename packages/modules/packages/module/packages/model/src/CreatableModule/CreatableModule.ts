@@ -3,7 +3,7 @@ import { Logger } from '@xylabs/logger'
 import { AccountInstance } from '@xyo-network/account-model'
 import { Schema } from '@xyo-network/payload-model'
 
-import { AttachableModuleInstance } from '../instance/index.js'
+import { AttachableModuleInstance } from '../instance/index.ts'
 
 export type CreatableModuleFactory<T extends AttachableModuleInstance | void = void> = Omit<
   CreatableModule<T extends AttachableModuleInstance ? T : AttachableModuleInstance>,

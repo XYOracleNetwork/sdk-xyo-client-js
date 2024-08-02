@@ -58,10 +58,10 @@ import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { WalletInstance } from '@xyo-network/wallet-model'
 import { LRUCache } from 'lru-cache'
 
-import { BaseEmitter } from './BaseEmitter.js'
-import { determineAccount } from './determineAccount.js'
-import { ModuleErrorBuilder } from './Error.js'
-import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator/index.js'
+import { BaseEmitter } from './BaseEmitter.ts'
+import { determineAccount } from './determineAccount.ts'
+import { ModuleErrorBuilder } from './Error.ts'
+import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator/index.ts'
 
 const MODULE_NOT_STARTED = 'Module not Started' as const
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>

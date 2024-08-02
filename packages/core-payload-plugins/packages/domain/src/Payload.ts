@@ -1,7 +1,7 @@
 import { NetworkPayload } from '@xyo-network/network'
 import { Payload } from '@xyo-network/payload-model'
 
-import { DomainSchema } from './Schema.js'
+import { DomainSchema } from './Schema.ts'
 
 export interface Alias {
   /** @field huri to the aliased payload */

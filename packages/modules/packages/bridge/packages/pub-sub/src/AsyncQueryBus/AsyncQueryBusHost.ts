@@ -16,8 +16,8 @@ import {
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Schema, WithMeta } from '@xyo-network/payload-model'
 
-import { AsyncQueryBusBase } from './AsyncQueryBusBase.js'
-import { AsyncQueryBusHostParams } from './model/index.js'
+import { AsyncQueryBusBase } from './AsyncQueryBusBase.ts'
+import { AsyncQueryBusHostParams } from './model/index.ts'
 
 export interface ExposeOptions {
   allowedQueries?: Schema[]

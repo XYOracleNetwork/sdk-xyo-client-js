@@ -1,2 +1,2 @@
-export * from './ModuleFactoryLocator.js'
-export * from './standardCreatableFactories.js'
+export * from './ModuleFactoryLocator.ts'
+export * from './standardCreatableFactories.ts'

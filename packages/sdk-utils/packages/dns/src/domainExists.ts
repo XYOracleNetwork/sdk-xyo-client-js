@@ -1,5 +1,5 @@
-import { DnsReturnCode } from './DnsReturnCode.js'
-import { domainResolve } from './domainResolve.js'
+import { DnsReturnCode } from './DnsReturnCode.ts'
+import { domainResolve } from './domainResolve.ts'
 
 /**
  * Checks if a domain exists (resolves using DNS)

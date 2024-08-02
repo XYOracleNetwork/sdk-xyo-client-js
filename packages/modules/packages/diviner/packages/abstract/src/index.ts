@@ -1,1 +1,1 @@
-export * from './AbstractDiviner.js'
+export * from './AbstractDiviner.ts'

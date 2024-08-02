@@ -7,7 +7,7 @@ import { isPayloadDivinerQueryPayload, PayloadDivinerParams, PayloadDivinerQuery
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, WithMeta } from '@xyo-network/payload-model'
 
-import { hasTimestamp } from './hasTimestamp.js'
+import { hasTimestamp } from './hasTimestamp.ts'
 
 export class MemoryPayloadDiviner<
   TParams extends PayloadDivinerParams = PayloadDivinerParams,

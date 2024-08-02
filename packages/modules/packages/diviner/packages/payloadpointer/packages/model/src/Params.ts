@@ -1,7 +1,7 @@
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 
-import { PayloadPointerDivinerConfig } from './Config.js'
+import { PayloadPointerDivinerConfig } from './Config.ts'
 
 /**
  * The params type of the Payload Pointer diviner

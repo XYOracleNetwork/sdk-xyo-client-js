@@ -1,3 +1,3 @@
-export * from './combinationsByBoundwitness.js'
-export * from './combinationsBySchema.js'
-export * from './intraBoundwitnessSchemaCombinations.js'
+export * from './combinationsByBoundwitness.ts'
+export * from './combinationsBySchema.ts'
+export * from './intraBoundwitnessSchemaCombinations.ts'

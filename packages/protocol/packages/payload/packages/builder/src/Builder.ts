@@ -5,8 +5,8 @@ import { AnyObject, isJsonObject, JsonArray, JsonObject } from '@xylabs/object'
 import { PayloadHasher } from '@xyo-network/hash'
 import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
-import { PayloadBuilderBase, removeMetaAndSchema, WithoutMeta, WithoutSchema } from './BuilderBase.js'
-import { PayloadBuilderOptions } from './Options.js'
+import { PayloadBuilderBase, removeMetaAndSchema, WithoutMeta, WithoutSchema } from './BuilderBase.ts'
+import { PayloadBuilderOptions } from './Options.ts'
 
 export interface BuildOptions {
   stamp?: boolean

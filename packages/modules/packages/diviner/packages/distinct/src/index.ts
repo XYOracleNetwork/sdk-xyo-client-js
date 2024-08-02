@@ -1,2 +1,2 @@
-export * from './Diviner.js'
+export * from './Diviner.ts'
 export * from '@xyo-network/diviner-distinct-model'

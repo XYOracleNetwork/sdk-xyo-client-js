@@ -1,5 +1,5 @@
-import { IdPayload } from './Payload.js'
-import { IdSchema } from './Schema.js'
+import { IdPayload } from './Payload.ts'
+import { IdSchema } from './Schema.ts'
 
 export const idPayloadTemplate = (): IdPayload => ({
   salt: '',

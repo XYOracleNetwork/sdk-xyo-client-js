@@ -1,3 +1,3 @@
-export * from './Config.js'
-export * from './TransformerSettings.js'
-export * from './TransformSettings.js'
+export * from './Config.ts'
+export * from './TransformerSettings.ts'
+export * from './TransformSettings.ts'

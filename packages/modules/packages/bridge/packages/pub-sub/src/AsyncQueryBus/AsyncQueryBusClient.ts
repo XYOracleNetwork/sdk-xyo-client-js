@@ -10,8 +10,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { ModuleError, Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
-import { AsyncQueryBusBase } from './AsyncQueryBusBase.js'
-import { AsyncQueryBusClientParams, Pending } from './model/index.js'
+import { AsyncQueryBusBase } from './AsyncQueryBusBase.ts'
+import { AsyncQueryBusClientParams, Pending } from './model/index.ts'
 
 export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = AsyncQueryBusClientParams> extends AsyncQueryBusBase<TParams> {
   protected _queryCache?: LRUCache<Address, Pending | ModuleQueryResult>

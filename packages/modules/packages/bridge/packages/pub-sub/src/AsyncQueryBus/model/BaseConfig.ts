@@ -1,6 +1,6 @@
 import { SearchableStorage } from '@xyo-network/diviner-model'
 
-import { AsyncQueryBusIntersectConfig } from './IntersectConfig.js'
+import { AsyncQueryBusIntersectConfig } from './IntersectConfig.ts'
 
 export interface AsyncQueryBusBaseConfig {
   intersect?: AsyncQueryBusIntersectConfig

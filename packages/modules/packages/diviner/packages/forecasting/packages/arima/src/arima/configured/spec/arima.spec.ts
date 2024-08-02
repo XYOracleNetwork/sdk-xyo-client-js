@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { arimaForecastingMethod } from '../arima.js'
+import { arimaForecastingMethod } from '../arima.ts'
 
 const transformer = (payload: Payload) => (payload as Payload<{ data: number }>)?.data || Number.NaN
 

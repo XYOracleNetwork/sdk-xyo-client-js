@@ -1,4 +1,4 @@
-import { Quadkey } from '../Quadkey.js'
+import { Quadkey } from '../Quadkey.ts'
 
 describe('Quadkey', () => {
   test('Valid Items', () => {

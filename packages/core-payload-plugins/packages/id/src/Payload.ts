@@ -7,7 +7,7 @@ import {
   WithSources,
 } from '@xyo-network/payload-model'
 
-import { IdSchema } from './Schema.js'
+import { IdSchema } from './Schema.ts'
 
 /**
  * The fields of an ID Payload

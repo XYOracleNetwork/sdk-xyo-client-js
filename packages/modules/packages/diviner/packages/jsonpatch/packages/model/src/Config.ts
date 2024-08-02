@@ -1,7 +1,7 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
-import type { Operation } from 'json-joy/lib/json-patch/index.js'
+import type { Operation } from 'json-joy/lib/json-patch/index.ts'
 
-import { JsonPatchDivinerSchema } from './Schema.js'
+import { JsonPatchDivinerSchema } from './Schema.ts'
 
 export type JsonPatchDivinerConfigSchema = `${JsonPatchDivinerSchema}.config`
 export const JsonPatchDivinerConfigSchema: JsonPatchDivinerConfigSchema = `${JsonPatchDivinerSchema}.config`

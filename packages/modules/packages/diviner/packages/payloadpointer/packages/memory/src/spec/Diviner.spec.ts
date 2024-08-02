@@ -2,7 +2,7 @@ import { HDWallet } from '@xyo-network/account'
 import { PayloadPointerDivinerConfigSchema } from '@xyo-network/diviner-payload-pointer-model'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
-import { PayloadPointerDiviner } from '../Diviner.js'
+import { PayloadPointerDiviner } from '../Diviner.ts'
 
 describe('PayloadPointerDiviner', () => {
   let account: WalletInstance

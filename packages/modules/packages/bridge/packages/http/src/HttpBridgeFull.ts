@@ -21,8 +21,8 @@ import { Payload } from '@xyo-network/payload-model'
 import express, { Application, Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 
-import { HttpBridgeBase } from './HttpBridgeBase.js'
-import { HttpBridgeConfig } from './HttpBridgeConfig.js'
+import { HttpBridgeBase } from './HttpBridgeBase.ts'
+import { HttpBridgeConfig } from './HttpBridgeConfig.ts'
 
 /**
  * The type of the path parameters for the address path.

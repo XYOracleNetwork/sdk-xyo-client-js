@@ -1,7 +1,7 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 import type { PrivateKeyInstance } from '@xyo-network/key-model'
 
-import { PrivateKey } from '../Key/index.js'
+import { PrivateKey } from '../Key/index.ts'
 
 const verifyTestIterations = 10
 

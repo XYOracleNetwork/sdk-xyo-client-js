@@ -3,7 +3,7 @@ import { axios } from '@xylabs/axios'
 import { delay } from '@xylabs/delay'
 import { Payload } from '@xyo-network/payload-model'
 
-import { Huri } from '../Huri.js'
+import { Huri } from '../Huri.ts'
 
 const hash = 'fb3606d71dcdd49a0aacc9d234e412684d577803c8a9ed9399a9d3776cc88e24'
 

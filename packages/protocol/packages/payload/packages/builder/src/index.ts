@@ -1,3 +1,3 @@
-export * from './Builder.js'
-export * from './BuilderBase.js'
-export * from './Options.js'
+export * from './Builder.ts'
+export * from './BuilderBase.ts'
+export * from './Options.ts'

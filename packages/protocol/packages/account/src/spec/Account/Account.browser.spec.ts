@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { Account } from '../../Account.js'
-import { generateAccountTests } from './Account.spec.js'
+import { Account } from '../../Account.ts'
+import { generateAccountTests } from './Account.spec.ts'
 
 /**
  * @group jsdom

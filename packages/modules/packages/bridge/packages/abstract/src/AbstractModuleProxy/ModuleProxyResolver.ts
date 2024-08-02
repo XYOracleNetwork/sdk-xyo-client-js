@@ -20,7 +20,7 @@ import {
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 
-import { wrapModuleWithType } from '../wrapModuleWithType.js'
+import { wrapModuleWithType } from '../wrapModuleWithType.ts'
 
 export interface ModuleProxyResolverOptions {
   childAddressMap: Record<Address, ModuleName | null>

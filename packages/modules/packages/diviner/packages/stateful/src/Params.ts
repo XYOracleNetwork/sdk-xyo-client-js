@@ -1,7 +1,7 @@
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 
-import { StatefulDivinerConfig } from './Config.js'
+import { StatefulDivinerConfig } from './Config.ts'
 
 /**
  * The parameters for a Stateful Diviner

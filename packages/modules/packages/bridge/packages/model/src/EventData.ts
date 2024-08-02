@@ -7,7 +7,7 @@ import {
   QuerySendFinishedEventData,
   QuerySendStartedEventData,
   UnexposedEventData,
-} from './Events/index.js'
+} from './Events/index.ts'
 
 export interface BridgeModuleEventData
   extends QuerySendFinishedEventData,

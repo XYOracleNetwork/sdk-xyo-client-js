@@ -7,7 +7,7 @@ import { PayloadPointerDivinerConfig, PayloadPointerDivinerConfigSchema } from '
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeInstance } from '@xyo-network/node-model'
 
-import { PayloadPointerDiviner } from '../../../Diviner.js'
+import { PayloadPointerDiviner } from '../../../Diviner.ts'
 
 export const ArchivistName = 'Archivist'
 export const BoundWitnessDivinerName = 'BoundWitnessDiviner'

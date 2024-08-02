@@ -15,7 +15,7 @@ import {
 } from '@xyo-network/sentinel-model'
 import { asWitnessInstance } from '@xyo-network/witness-model'
 
-import { SentinelRunner } from './SentinelRunner.js'
+import { SentinelRunner } from './SentinelRunner.ts'
 
 export type MemorySentinelParams<TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>> = SentinelParams<TConfig>
 

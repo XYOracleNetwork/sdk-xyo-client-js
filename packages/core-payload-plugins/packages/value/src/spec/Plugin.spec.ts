@@ -1,6 +1,6 @@
 import { PayloadPluginResolver } from '@xyo-network/payload-plugin'
 
-import { ValuePayloadPlugin } from '../Plugin.js'
+import { ValuePayloadPlugin } from '../Plugin.ts'
 
 describe('ValuePayloadPlugin', () => {
   test('Add to Resolver', () => {

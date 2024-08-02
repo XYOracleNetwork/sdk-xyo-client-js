@@ -1,7 +1,7 @@
 import { BridgeParams } from '@xyo-network/bridge-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 
-import { PubSubBridgeConfig } from './Config.js'
+import { PubSubBridgeConfig } from './Config.ts'
 
 /**
  * The parameters for the PubSubBridge

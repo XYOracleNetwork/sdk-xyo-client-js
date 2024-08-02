@@ -1,3 +1,3 @@
-export * from './Config.js'
-export * from './Params.js'
-export * from './Schema.js'
+export * from './Config.ts'
+export * from './Params.ts'
+export * from './Schema.ts'

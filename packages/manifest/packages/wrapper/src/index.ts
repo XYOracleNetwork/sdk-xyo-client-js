@@ -1,2 +1,2 @@
-export * from './Wrapper.js'
-export * from './WrapperEx.js'
+export * from './Wrapper.ts'
+export * from './WrapperEx.ts'

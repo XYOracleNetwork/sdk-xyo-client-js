@@ -1,2 +1,2 @@
-export * from './Builder.js'
-export * from './Query/index.js'
+export * from './Builder.ts'
+export * from './Query/index.ts'

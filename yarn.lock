@@ -4683,11 +4683,6 @@ __metadata:
     lru-cache: "npm:^11.0.0"
     tslib: "npm:^2.6.3"
     typescript: "npm:^5.5.4"
-  peerDependencies:
-    express: ^4
-  peerDependenciesMeta:
-    express:
-      optional: true
   languageName: unknown
   linkType: soft
 

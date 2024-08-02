@@ -29,6 +29,7 @@
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "async-mutex": "^0.5.0",
+    "express": "^4.19.2",
     "http-status-codes": "^2.3.0",
     "lru-cache": "^11.0.0"
   },
@@ -45,18 +46,9 @@
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
-    "express": "^4.19.2",
     "get-port-please": "^3.1.2",
     "tslib": "^2.6.3",
     "typescript": "^5.5.4"
-  },
-  "peerDependencies": {
-    "express": "^4"
-  },
-  "peerDependenciesMeta": {
-    "express": {
-      "optional": true
-    }
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "exports": {

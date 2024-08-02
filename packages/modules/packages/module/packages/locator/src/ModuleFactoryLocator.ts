@@ -27,6 +27,14 @@ export class ModuleFactoryLocator {
     return this._registry
   }
 
+  static empty() {
+    return new ModuleFactoryLocator({})
+  }
+
+  static standard() {
+    return new ModuleFactoryLocator(standardCreatableFactories())
+  }
+
   freeze() {
     this._frozen = true
   }

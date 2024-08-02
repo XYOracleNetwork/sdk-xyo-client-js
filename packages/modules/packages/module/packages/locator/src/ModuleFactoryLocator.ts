@@ -16,6 +16,8 @@ import { standardCreatableFactories } from './standardCreatableFactories.ts'
  * A class which encapsulates the Service Locator Pattern for Module Factories
  */
 export class ModuleFactoryLocator {
+  private _frozen = false
+
   constructor(protected readonly _registry: CreatableModuleRegistry = standardCreatableFactories()) {}
 
   /**
@@ -23,6 +25,10 @@ export class ModuleFactoryLocator {
    */
   get registry(): Readonly<CreatableModuleRegistry> {
     return this._registry
+  }
+
+  freeze() {
+    this._frozen = true
   }
 
   /**
@@ -57,6 +63,7 @@ export class ModuleFactoryLocator {
    * @param labels The labels for the module factory
    */
   register(factory: CreatableModuleFactory, labels?: Labels, primary: boolean | Schema | Schema[] = false): this {
+    assertEx(!this._frozen, () => 'Cannot register a module factory after the locator has been frozen')
     registerCreatableModuleFactory(this._registry, factory, labels, primary)
     return this
   }

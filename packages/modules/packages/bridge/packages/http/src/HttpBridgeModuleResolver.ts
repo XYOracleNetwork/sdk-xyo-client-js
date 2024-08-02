@@ -79,7 +79,6 @@ export class HttpBridgeModuleResolver<
       }
 
       this.logger?.debug(`creating HttpProxy [${firstPart}] ${id}`)
-      console.log(`creating HttpProxy [${firstPart}] ${id}`)
 
       const proxy = new HttpModuleProxy<T, HttpModuleProxyParams>(finalParams)
 

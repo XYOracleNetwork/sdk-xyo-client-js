@@ -1,5 +1,5 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
-import type { Operation } from 'json-joy/lib/json-patch/index.ts'
+import type { Operation } from 'json-joy/lib/json-patch/index.js'
 
 import { JsonPatchDivinerSchema } from './Schema.ts'
 

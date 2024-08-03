@@ -22,9 +22,11 @@ export const addStorageMeta = <T extends PayloadWithMeta>(payload: T, index = 0)
 
 export const sortByStorageMeta = <T extends PayloadWithMeta>(payloads: WithStorageMeta<T>[], direction: -1 | 1 = 1) => {
   return payloads.sort((a, b) =>
-    a._sequence < b._sequence ? -direction
-    : a._sequence > b._sequence ? direction
-    : 0,
+    a._sequence < b._sequence
+      ? -direction
+      : a._sequence > b._sequence
+        ? direction
+        : 0,
   )
 }
 
@@ -34,7 +36,7 @@ export function removeStorageMeta<T extends Payload>(payload?: WithOptionalStora
 export function removeStorageMeta<T extends Payload>(payload?: WithOptionalStorageMeta<WithMeta<T>>) {
   if (!payload) return
   if (Array.isArray(payload)) {
-    return payload.map((p) => removeStorageMeta(p))
+    return payload.map(p => removeStorageMeta(p))
   }
 
   const { ...noMeta } = payload

@@ -12,8 +12,8 @@ export interface AttachableArchivistInstance<
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   TPayload extends Payload = Payload,
 > extends ArchivistModule<TParams, TEventData>,
-    AttachableModuleInstance<TParams, TEventData>,
-    ArchivistInstance<TParams, TEventData, TPayload> {}
+  AttachableModuleInstance<TParams, TEventData>,
+  ArchivistInstance<TParams, TEventData, TPayload> {}
 
 export type AttachableArchivistInstanceTypeCheck<T extends AttachableArchivistInstance = AttachableArchivistInstance> = TypeCheck<T>
 

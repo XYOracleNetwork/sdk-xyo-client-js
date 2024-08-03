@@ -17,18 +17,18 @@ export class NameRegistrarTransformer implements ModuleIdentifierTransformer {
     const first = parts.shift()
     const nameParts = first?.split('.')
     if (nameParts?.length === 2 && nameParts[1] === this.root) {
-      //check cache
+      // check cache
       const cachedResult = this._cache.get(identifier)
       if (cachedResult) return cachedResult
 
-      //not cached, so check registrar
+      // not cached, so check registrar
       const query = { domain: nameParts[0], order: 'desc' as const, schema: PayloadDivinerQuerySchema, tld: nameParts[1] }
       const result = await this.registrarDiviner?.divine([query])
       const resultPayload = result?.shift()
       if (!resultPayload) {
         throw new Error(`Unable to resolve registrar name (failed) [${first}]`)
       }
-      //TODO: Use proper types for this check
+      // TODO: Use proper types for this check
       if (resultPayload) {
         const address = (resultPayload as unknown as { address: Address[] }).address?.shift()
         if (address) {

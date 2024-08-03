@@ -41,12 +41,11 @@ export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivis
   ModuleParams<TConfig>
 @creatableModule()
 export class MemoryArchivist<
-    TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,
-    TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-  >
+  TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,
+  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+>
   extends AbstractArchivist<TParams, TEventData>
-  implements AttachableArchivistInstance, ModuleInstance
-{
+  implements AttachableArchivistInstance, ModuleInstance {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, MemoryArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = MemoryArchivistConfigSchema
 
@@ -81,7 +80,7 @@ export class MemoryArchivist<
 
   protected override allHandler(): Promisable<PayloadWithMeta[]> {
     const all = compact(this.cache.dump().map(([, item]) => item.value))
-    return sortByStorageMeta(all).map((payload) => removeStorageMeta(payload))
+    return sortByStorageMeta(all).map(payload => removeStorageMeta(payload))
   }
 
   protected override clearHandler(): void | Promise<void> {
@@ -104,7 +103,7 @@ export class MemoryArchivist<
       ),
     )
     await this.clearHandler()
-    return compact(settled.filter(fulfilled).map((result) => result.value))
+    return compact(settled.filter(fulfilled).map(result => result.value))
   }
 
   protected override deleteHandler(hashes: Hash[]): Promisable<Hash[]> {

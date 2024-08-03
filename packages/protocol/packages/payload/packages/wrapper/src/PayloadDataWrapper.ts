@@ -52,9 +52,11 @@ export class PayloadDataWrapper<TPayload extends Payload = Payload> extends Payl
     assertEx(!Array.isArray(payload), () => 'Array can not be converted to PayloadWrapper')
     switch (typeof payload) {
       case 'object': {
-        return payload instanceof PayloadDataWrapper ? payload : (
-            new PayloadDataWrapper((isPayloadWrapperBase(payload) ? payload.payload : payload) as T)
-          )
+        return payload instanceof PayloadDataWrapper
+          ? payload
+          : (
+              new PayloadDataWrapper((isPayloadWrapperBase(payload) ? payload.payload : payload) as T)
+            )
       }
       default: {
         throw new Error(`Can only parse objects [${typeof payload}]`)

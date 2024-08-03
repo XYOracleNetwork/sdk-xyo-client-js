@@ -15,7 +15,7 @@ test('valid', async () => {
   const wallet: WalletInstance = await HDWallet.random()
   const payload: Payload = { schema: 'network.xyo.test' }
   const [bw] = await BoundWitnessBuilder.build({ accounts: [wallet], payloads: [payload] })
-  BoundWitnessValidator.setSchemaNameValidatorFactory((schema) => new SchemaNameValidator(schema))
+  BoundWitnessValidator.setSchemaNameValidatorFactory(schema => new SchemaNameValidator(schema))
   const validator = new BoundWitnessValidator(bw)
   const errors = await validator.validate()
   dumpErrors(errors)
@@ -28,7 +28,7 @@ test('invalid', async () => {
   const [bw] = await BoundWitnessBuilder.build({ accounts: [wallet], payloads: [payload] })
   bw.payload_hashes.push(bw.$hash) // this should make it invalid
   bw.payload_schemas.push(bw.schema) // this should make it invalid
-  BoundWitnessValidator.setSchemaNameValidatorFactory((schema) => new SchemaNameValidator(schema))
+  BoundWitnessValidator.setSchemaNameValidatorFactory(schema => new SchemaNameValidator(schema))
   const validator = new BoundWitnessValidator(bw)
   const errors = await validator.validate()
   dumpErrors(errors)

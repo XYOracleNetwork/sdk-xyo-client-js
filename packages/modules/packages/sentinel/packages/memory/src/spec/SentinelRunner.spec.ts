@@ -41,7 +41,7 @@ describe('SentinelRunner', () => {
     config = {
       schema: SentinelConfigSchema,
       synchronous: true,
-      tasks: witnesses.map((mod) => ({ mod })),
+      tasks: witnesses.map(mod => ({ mod })),
     }
 
     sentinel = (await MemorySentinel.create({ account: 'random', config })) as MemorySentinel
@@ -76,7 +76,7 @@ describe('SentinelRunner', () => {
       timeoutCount--
       await delay(100)
     }
-    //should never get here if succeeded
+    // should never get here if succeeded
     expect(false).toBe(true)
     runner.stop()
   })

@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { toJsonString } from '@xylabs/object'
 import { HDWallet } from '@xyo-network/account'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
@@ -66,7 +65,7 @@ describe('MemoryArchivist', () => {
     expect(batch2).toBeArrayOfSize(2)
     expect(batch2?.[1].$hash).toEqual(payloads2[0].$hash)
 
-    //desc
+    // desc
     const batch1Desc = await archivist.next?.({ limit: 2, order: 'desc' })
     expect(batch1Desc).toBeArrayOfSize(2)
     expect(batch1Desc?.[0].$hash).toEqual(payloads2[1].$hash)

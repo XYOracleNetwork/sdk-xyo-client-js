@@ -14,9 +14,10 @@ export function isIPv4(value: string): boolean {
 
 export function ipVersion(value: string): 6 | 4 | undefined {
   return (
-    isIP(value) ?
-      isIPv6(value) ? 6
-      : 4
-    : undefined
+    isIP(value)
+      ? isIPv6(value)
+        ? 6
+        : 4
+      : undefined
   )
 }

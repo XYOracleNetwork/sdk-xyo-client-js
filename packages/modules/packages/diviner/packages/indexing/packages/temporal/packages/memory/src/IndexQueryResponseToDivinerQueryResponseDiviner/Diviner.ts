@@ -12,6 +12,7 @@ export class TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivi
     ...super.configSchemas,
     TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema,
   ]
+
   static override readonly defaultConfigSchema: Schema = TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
   static override labels: Labels = {
     ...super.labels,
@@ -23,7 +24,7 @@ export class TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivi
     // might want to use this to transform from the query to the response (for example
     // if we use a plaintext value in the query to generate a hash key in the index)
     // const queries = payloads.filter(isPayloadDivinerQueryPayload)
-    const responses = payloads.filter((p) => !isPayloadDivinerQueryPayload(p))
+    const responses = payloads.filter(p => !isPayloadDivinerQueryPayload(p))
     return await Promise.resolve(responses)
   }
 }

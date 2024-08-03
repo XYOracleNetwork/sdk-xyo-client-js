@@ -42,15 +42,15 @@ describe('AbstractModule', () => {
   describe('manifest', () => {
     it('returns manifest', async () => {
       const response = await sut.manifest()
-      //console.log(`manifest: ${toJsonString(response, 5)}`)
+      // console.log(`manifest: ${toJsonString(response, 5)}`)
       expect(response.schema).toBe(ModuleManifestPayloadSchema)
     })
   })
   describe('state', () => {
     it('returns state', async () => {
       const response = await sut.state()
-      //console.log(`state: ${toJsonString(response, 5)}`)
-      expect(response.some((p) => p.schema === ModuleManifestPayloadSchema)).toBeTrue()
+      // console.log(`state: ${toJsonString(response, 5)}`)
+      expect(response.some(p => p.schema === ModuleManifestPayloadSchema)).toBeTrue()
     })
   })
 })

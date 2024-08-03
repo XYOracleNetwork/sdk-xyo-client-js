@@ -22,7 +22,7 @@ export const reducePayloads = async <T extends Payload = Payload>(
     // Find the transformers for this payload
     const transformers = payloadTransformers[payload.schema]
     // If transformers exist, apply them to the payload otherwise return an empty array
-    return transformers ? transformers.map((transform) => transform(payload)) : []
+    return transformers ? transformers.map(transform => transform(payload)) : []
   })
   // Include all the sources for reference
   const baseObject = excludeSources ? {} : { sources: await PayloadBuilder.dataHashes(payloads) }

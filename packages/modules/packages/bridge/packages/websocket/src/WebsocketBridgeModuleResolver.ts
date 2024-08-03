@@ -51,13 +51,13 @@ export class WebsocketBridgeModuleResolver<
     this.logger?.debug(`creating HttpProxy [${moduleAddress}] ${id}`)
 
     const proxy = new WebsocketModuleProxy<T, WebsocketModuleProxyParams>(params)
-    //calling state here to get the config
+    // calling state here to get the config
     if (proxy) {
       const state = await proxy.state()
       if (state) {
-        const configSchema = (state.find((payload) => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
+        const configSchema = (state.find(payload => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
         const config = assertEx(
-          state.find((payload) => payload.schema === configSchema),
+          state.find(payload => payload.schema === configSchema),
           () => 'Unable to locate config',
         ) as ModuleConfig
         proxy.setConfig(config)
@@ -76,7 +76,7 @@ export class WebsocketBridgeModuleResolver<
       return result ? [result] : []
     }
 
-    //console.log(`resolved: ${proxy.address} [${wrapped.constructor.name}] [${as.constructor.name}]`)
+    // console.log(`resolved: ${proxy.address} [${wrapped.constructor.name}] [${as.constructor.name}]`)
     return [instance]
   }
 }

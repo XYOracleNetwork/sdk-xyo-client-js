@@ -11,9 +11,9 @@ export const getApiConfig = (configData: Partial<ApiConfig> = {}): ApiConfig => 
   const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
   const defaults: ApiConfig = {
     apiDomain,
-    onError: (error) => error,
-    onFailure: (response) => response,
-    onSuccess: (response) => response,
+    onError: error => error,
+    onFailure: response => response,
+    onSuccess: response => response,
   }
   return Object.assign({}, defaults, configData)
 }

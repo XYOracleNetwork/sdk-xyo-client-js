@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-/* eslint-disable sonarjs/no-duplicate-string */
 
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
@@ -108,7 +107,7 @@ describe('IndexedDbPayloadDiviner.Errors', () => {
       it('returns values', async () => {
         const result = await sut.divine([{ schema: PayloadDivinerQuerySchema }])
         expect(PayloadBuilder.withoutMeta(result)).toMatchObject(
-          PayloadBuilder.withoutMeta(await Promise.all(values.map((value) => PayloadBuilder.build(value)))),
+          PayloadBuilder.withoutMeta(await Promise.all(values.map(value => PayloadBuilder.build(value)))),
         )
       })
     })

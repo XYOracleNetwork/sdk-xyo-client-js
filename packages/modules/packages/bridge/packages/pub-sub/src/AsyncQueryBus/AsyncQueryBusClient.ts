@@ -49,12 +49,12 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
     this.logger?.debug(`Begin issuing query to: ${address}`)
     const $meta = { ...query?.$meta, destination: [address] }
     const routedQuery = await PayloadBuilder.build({ ...query, $meta })
-    //console.log('queryArchivist - calling')
+    // console.log('queryArchivist - calling')
     const queryArchivist = assertEx(
       await this.queriesArchivist(),
       () => `Unable to contact queriesArchivist [${this.config?.intersect?.queries?.archivist}]`,
     )
-    //console.log('queryArchivist')
+    // console.log('queryArchivist')
 
     // TODO: Should we always re-hash to true up timestamps?  We can't
     // re-sign correctly so we would lose that information if we did and
@@ -62,11 +62,11 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
     // they sent us (which might be OK since it reflect the chain of custody)
     // Revisit this once we have proxy module support as they are another
     // intermediary to consider.
-    const routedQueryHash =
+    const routedQueryHash
       // Trust the signed hash if it's there
-      (routedQuery as WithMeta<QueryBoundWitness>)?.$hash ??
+      = (routedQuery as WithMeta<QueryBoundWitness>)?.$hash
       // Calculate the hash otherwise
-      Object.keys(await PayloadBuilder.dataHash(routedQuery))
+      ?? Object.keys(await PayloadBuilder.dataHash(routedQuery))
     this.logger?.debug(`Issuing query: ${routedQueryHash} to: ${address}`)
     // If there was data associated with the query, add it to the insert
     const data = payloads ? [routedQuery, ...payloads] : [routedQuery]
@@ -83,7 +83,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
           let response = this.queryCache.get(routedQueryHash)
           // Poll for response until cache key expires (response timed out)
           while (response !== undefined) {
-            //console.log('polling...')
+            // console.log('polling...')
             // Wait a bit
             await delay(nextDelay)
             // Check the status of the response
@@ -94,9 +94,9 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
               resolve(response)
               return
             }
-            //back off the polling frequency
+            // back off the polling frequency
             nextDelay = Math.floor(nextDelay * 1.2)
-            //cap it at 1000ms
+            // cap it at 1000ms
             if (nextDelay > 1000) nextDelay = 1000
           }
           // If we got here waiting for a response timed out

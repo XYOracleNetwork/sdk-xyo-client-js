@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable import/no-internal-modules */
+/* eslint-disable @typescript-eslint/no-require-imports */
 export const wasmHashFunc = () => {
   const { sha256 } = require('hash-wasm')
   const { asHash } = require('@xylabs/hex')

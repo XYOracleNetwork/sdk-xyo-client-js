@@ -78,8 +78,8 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
           const address = isAddress(id) ? id : undefined
           assertEx(name || address, () => 'module identifier must be a ModuleName or Address')
           return (
-            (name ? this.resolveByName<T>(Object.values(this.modules), [name]).pop() : undefined) ??
-            (address ? this.resolveByAddress<T>(this.modules, [address]).pop() : undefined)
+            (name ? this.resolveByName<T>(Object.values(this.modules), [name]).pop() : undefined)
+            ?? (address ? this.resolveByAddress<T>(this.modules, [address]).pop() : undefined)
           )
         } else {
           const filter = idOrFilter
@@ -98,29 +98,31 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
     const identity = options?.identity
     if (identity) {
       return (
-        Array.isArray(unfiltered) ? unfiltered?.filter((mod) => identity(mod))
-        : identity(unfiltered) ? [unfiltered]
-        : []
+        Array.isArray(unfiltered)
+          ? unfiltered?.filter(mod => identity(mod))
+          : identity(unfiltered)
+            ? [unfiltered]
+            : []
       )
     } else {
       return (
-        unfiltered ?
-          Array.isArray(unfiltered) ?
-            unfiltered
-          : [unfiltered]
-        : []
+        unfiltered
+          ? Array.isArray(unfiltered)
+            ? unfiltered
+            : [unfiltered]
+          : []
       )
     }
   }
 
   resolveIdentifier(id: ModuleIdentifier, _options?: ObjectFilterOptions): Promisable<Address | undefined> {
-    //check if id is a name of one of modules in the resolver
+    // check if id is a name of one of modules in the resolver
     const moduleFromName = this.nameToModule[id]
     if (moduleFromName) {
       return moduleFromName.address
     }
 
-    //check if any of the modules have the id as an address
+    // check if any of the modules have the id as an address
     for (const mod of Object.values(this.modules)) {
       if (mod.address === id) {
         return mod.address
@@ -132,7 +134,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
     if (mod) {
       const modName = mod.modName
       if (modName && this.allowNameResolution) {
-        //check for collision
+        // check for collision
         assertEx(this.nameToModule[modName] === undefined, () => `Module with name ${modName} already added`)
         this.nameToModule[modName] = mod
       }
@@ -161,14 +163,14 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
   private resolveByName<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], name: ModuleName[]): T[] {
     return compact(
       name.map((name) => {
-        return modules.find((mod) => mod.modName === name)
+        return modules.find(mod => mod.modName === name)
       }),
     ) as T[]
   }
 
   private resolveByQuery<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], query: string[][]): T[] {
     return compact(
-      modules.filter((mod) =>
+      modules.filter(mod =>
         query?.reduce((supported, queryList) => {
           return (
             // eslint-disable-next-line unicorn/no-array-reduce

@@ -111,7 +111,7 @@ export class Account extends EllipticKey implements AccountInstance {
   }
 
   async initialize(): Promise<this> {
-    //TODO: Add initialization of public key and address
+    // TODO: Add initialization of public key and address
     return await Promise.resolve(this)
   }
 
@@ -133,10 +133,12 @@ export class Account extends EllipticKey implements AccountInstance {
     await Elliptic.initialize()
     return await this._signingMutex.runExclusive(async () => {
       const currentPreviousHash = this.previousHash
-      const passedCurrentHash =
-        typeof previousHash === 'string' ? previousHash
-        : previousHash === undefined ? undefined
-        : hexFromArrayBuffer(previousHash, { prefix: false })
+      const passedCurrentHash
+        = typeof previousHash === 'string'
+          ? previousHash
+          : previousHash === undefined
+            ? undefined
+            : hexFromArrayBuffer(previousHash, { prefix: false })
       assertEx(
         currentPreviousHash === passedCurrentHash,
         () => `Used and current previous hashes do not match [${currentPreviousHash} !== ${passedCurrentHash}]`,
@@ -163,7 +165,7 @@ export class Account extends EllipticKey implements AccountInstance {
     if (currentAddressObject === undefined) {
       Account._addressMap[address] = new WeakRef(this)
     } else {
-      //assertEx(this === currentAddressObject, `Two Accounts have the same address [${address}]`)
+      // assertEx(this === currentAddressObject, `Two Accounts have the same address [${address}]`)
       return currentAddressObject
     }
     return this

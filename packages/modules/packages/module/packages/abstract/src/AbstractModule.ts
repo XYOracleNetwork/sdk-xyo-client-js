@@ -66,8 +66,7 @@ import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from '
 const MODULE_NOT_STARTED = 'Module not Started' as const
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends BaseEmitter<TParams, TEventData>
-  implements Module<TParams, TEventData>
-{
+  implements Module<TParams, TEventData> {
   static readonly allowRandomAccount: boolean = true
   static readonly configSchemas: Schema[] = [ModuleConfigSchema]
   static readonly defaultConfigSchema: Schema = ModuleConfigSchema
@@ -80,7 +79,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected _account: AccountInstance
 
-  //cache manifest based on maxDepth
+  // cache manifest based on maxDepth
   protected _cachedManifests = new LRUCache<number, ModuleManifestPayload>({ max: 10, ttl: 1000 * 60 * 5 })
 
   protected _lastError?: ModuleDetailsError
@@ -152,8 +151,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   override get logger() {
     const consoleLogger = this.config.consoleLogger
-    this._logger =
-      (this._logger ?? consoleLogger) ? new ConsoleLogger(consoleLogger) : (this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger)
+    this._logger
+      = (this._logger ?? consoleLogger) ? new ConsoleLogger(consoleLogger) : (this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger)
     return this._logger
   }
 
@@ -257,7 +256,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return ModuleFactory.withParams(this, params)
   }
 
-  // eslint-disable-next-line sonarjs/no-identical-functions
   _getRootFunction(funcName: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let anyThis = this as any
@@ -324,7 +322,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         await handleErrorAsync(ex, async (err) => {
           const error = err as ModuleDetailsError
           this._lastError = error
-          //this.status = 'dead'
+          // this.status = 'dead'
           errorPayloads.push(
             await new ModuleErrorBuilder()
               .sources([sourceQuery.$hash])
@@ -356,15 +354,15 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       return false
     }
     if (!(await this.started('warn'))) return false
-    const configValidator =
-      queryConfig ? new ModuleConfigQueryValidator(Object.assign({}, this.config, queryConfig)).queryable : this.moduleConfigQueryValidator
+    const configValidator
+      = queryConfig ? new ModuleConfigQueryValidator(Object.assign({}, this.config, queryConfig)).queryable : this.moduleConfigQueryValidator
     const validators = [this.supportedQueryValidator, configValidator]
 
-    return validators.every((validator) => validator(query, payloads))
+    return validators.every(validator => validator(query, payloads))
   }
 
   start(_timeout?: number): Promisable<boolean> {
-    //using promise as mutex
+    // using promise as mutex
     this._startPromise = this._startPromise ?? this.startHandler()
     const result = this._startPromise
     this.status = result ? 'started' : 'dead'
@@ -377,7 +375,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       return true
     }
     if (!started) {
-      //using promise as mutex
+      // using promise as mutex
       this._started = (async () => {
         if (tryStart) {
           try {
@@ -435,7 +433,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
   }
 
-  // eslint-disable-next-line sonarjs/no-identical-functions
   protected _noOverride(functionName: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const thisFunc = (this as any)[functionName]
@@ -520,8 +517,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     builder.signers(witnesses)
     const result: ModuleQueryResult = [
       (await builder.build())[0],
-      await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload))),
-      await Promise.all((errors ?? [])?.map((error) => PayloadBuilder.build(error))),
+      await Promise.all(payloads.map(payload => PayloadBuilder.build(payload))),
+      await Promise.all((errors ?? [])?.map(error => PayloadBuilder.build(error))),
     ]
     if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
       forget(this.storeToArchivists(result.flat()))

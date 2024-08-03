@@ -63,7 +63,7 @@ export class IndexingDiviner<
     const results = lastState ? await indexCandidateDiviner.divine([lastState]) : await indexCandidateDiviner.divine()
     // Filter next state out from results
     const nextState = results.find(isModuleStateWithMeta<IndexingDivinerState>)
-    const indexCandidates = results.filter((x) => !isModuleStateWithMeta(x))
+    const indexCandidates = results.filter(x => !isModuleStateWithMeta(x))
     // Transform candidates to indexes
     const toIndexTransformDiviner = await this.getIndexingDivinerStage('indexCandidateToIndexDiviner')
     const indexes = await toIndexTransformDiviner.divine(indexCandidates)
@@ -104,14 +104,14 @@ export class IndexingDiviner<
           const indexedResults = await indexPayloadDiviner.divine(indexQuery)
           // Transform the results to the response shape
           const response = await Promise.all(
-            indexedResults.flat().map((indexedResult) => indexQueryResponseToDivinerQueryResponseDiviner.divine([payload, indexedResult])),
+            indexedResults.flat().map(indexedResult => indexQueryResponseToDivinerQueryResponseDiviner.divine([payload, indexedResult])),
           )
           return response.flat()
         }),
       )
     ).flat()
     // TODO: Infer this type over casting to this type
-    return (await Promise.all(results.map((result) => PayloadBuilder.build(result)))) as WithMeta<TOut>[]
+    return (await Promise.all(results.map(result => PayloadBuilder.build(result)))) as WithMeta<TOut>[]
   }
 
   /**

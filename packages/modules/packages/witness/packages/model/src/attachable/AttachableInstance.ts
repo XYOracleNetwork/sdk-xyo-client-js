@@ -12,7 +12,7 @@ export interface AttachableWitnessInstance<
   TOut extends Payload = Payload,
   TEventData extends WitnessModuleEventData = WitnessModuleEventData,
 > extends WitnessInstance<TParams, TIn, TOut, TEventData>,
-    AttachableModuleInstance<TParams, TEventData> {}
+  AttachableModuleInstance<TParams, TEventData> {}
 
 export type AttachableWitnessInstanceTypeCheck<T extends AttachableWitnessInstance = AttachableWitnessInstance> = TypeCheck<T>
 

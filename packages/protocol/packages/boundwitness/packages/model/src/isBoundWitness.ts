@@ -10,5 +10,5 @@ export const notBoundWitness = notPayloadOfSchemaType<BoundWitness>(BoundWitness
 export const asBoundWitness = <T extends BoundWitness<{ schema: string }> = BoundWitness>(payload?: unknown) =>
   isBoundWitness(payload) ? (payload as T) : undefined
 
-/** @deprecated use isBoundWitness instead*/
+/** @deprecated use isBoundWitness instead */
 export const isBoundWitnessPayload = isBoundWitness

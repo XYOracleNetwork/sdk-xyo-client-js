@@ -56,6 +56,6 @@ describe('SimpleModuleResolverDeep', () => {
     expect(resolvedModuleBMulti?.address).toBe(moduleB.address)
 
     const resolvedModuleAMultiTooFar = await rootNode.resolve(`${rootNodeName}:${moduleAName}`)
-    expect(resolvedModuleAMultiTooFar).toBeUndefined
+    expect(resolvedModuleAMultiTooFar).toBeUndefined()
   })
 })

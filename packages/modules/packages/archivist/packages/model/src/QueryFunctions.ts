@@ -27,8 +27,8 @@ export interface Archivist<
   TWrite extends Payload = TReadResponse & Payload,
   TId = Hash,
 > extends ReadArchivist<WithMeta<TReadResponse>, TId>,
-    WriteArchivist<WithMeta<TReadResponse>, WithMeta<TWriteResponse>, TWrite, TId>,
-    StashArchivist<WithMeta<TWriteResponse>> {}
+  WriteArchivist<WithMeta<TReadResponse>, WithMeta<TWriteResponse>, TWrite, TId>,
+  StashArchivist<WithMeta<TWriteResponse>> {}
 
 export interface ArchivistQueryFunctions<
   TReadResponse extends Payload = Payload,
@@ -36,4 +36,4 @@ export interface ArchivistQueryFunctions<
   TWrite extends Payload = TReadResponse & Payload,
   TId = Hash,
 > extends Archivist<TReadResponse, TWriteResponse, TWrite, TId>,
-    ModuleQueryFunctions {}
+  ModuleQueryFunctions {}

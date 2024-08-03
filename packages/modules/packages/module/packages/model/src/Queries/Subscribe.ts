@@ -9,7 +9,7 @@ export interface ModuleSubscribeFilter {
   schema?: string[]
 }
 
-//requests notification when a boundwitness is added to the modules chain that meets the filter criteria
+// requests notification when a boundwitness is added to the modules chain that meets the filter criteria
 export type ModuleSubscribeQuery = Query<{
   /** @field The address that will receive notifications */
   address: Address

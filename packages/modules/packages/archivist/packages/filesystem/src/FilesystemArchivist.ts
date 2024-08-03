@@ -39,8 +39,7 @@ export type FilesystemArchivistParams = ArchivistParams<AnyConfigSchema<Filesyst
 @creatableModule()
 export class FilesystemArchivist<TParams extends FilesystemArchivistParams = FilesystemArchivistParams>
   extends AbstractArchivist<TParams>
-  implements ArchivistInstance
-{
+  implements ArchivistInstance {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, FilesystemArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = FilesystemArchivistConfigSchema
 
@@ -67,8 +66,8 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
   }
 
   private static async payloadsFromRawPayloads(rawPayloads: Payload[]) {
-    //validation should be done in here.  I don't believe parse does much validation yet.
-    return await Promise.all(rawPayloads.map(async (payload) => await PayloadBuilder.build(payload)))
+    // validation should be done in here.  I don't believe parse does much validation yet.
+    return await Promise.all(rawPayloads.map(async payload => await PayloadBuilder.build(payload)))
   }
 
   protected override allHandler(): PromisableArray<PayloadWithMeta> {
@@ -100,7 +99,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     this._memoryArchivist = await MemoryArchivist.create({ account: await HDWallet.random() })
     try {
       const data = await FilesystemArchivist.dataFromRawJson(await this.rawJsonFromFile())
-      await this._memoryArchivist.insert(await Promise.all(data.payloads.map((payload) => PayloadBuilder.build(payload))))
+      await this._memoryArchivist.insert(await Promise.all(data.payloads.map(payload => PayloadBuilder.build(payload))))
     } catch (ex) {
       handleError(ex, (error) => {
         this.logger?.error(error.message)

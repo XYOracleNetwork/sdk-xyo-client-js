@@ -48,7 +48,6 @@ export class ModuleFactoryLocator {
   locate(schema: string, labels?: Labels): CreatableModuleFactory | LabeledCreatableModuleFactory {
     return assertEx(
       this.tryLocate(schema, labels),
-      // eslint-disable-next-line sonarjs/no-nested-template-literals
       () => `No module factory for the supplied ${`config schema [${schema}]`}${labels ? ` & labels [${JSON.stringify(labels)}]` : ''} registered`,
     )
   }
@@ -95,10 +94,9 @@ export class ModuleFactoryLocator {
    */
   tryLocate(schema: string, labels?: Labels): CreatableModuleFactory | LabeledCreatableModuleFactory | undefined {
     // If labels were provided
-    return labels ?
-        // Find the first factory that has labels and has all the labels provided
-        this._registry[schema]?.filter(hasLabels).find((factory) => hasAllLabels(factory?.labels, labels))
-      : // Otherwise, return the first factory
-        this._registry[schema]?.[0]
+    return labels
+    // Find the first factory that has labels and has all the labels provided
+      ? this._registry[schema]?.filter(hasLabels).find(factory => hasAllLabels(factory?.labels, labels))
+      : this._registry[schema]?.[0] // Otherwise, return the first factory
   }
 }

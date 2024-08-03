@@ -45,12 +45,12 @@ export class CookieArchivist<
   }
 
   get maxEntries() {
-    //all browsers support at least 60 cookies
+    // all browsers support at least 60 cookies
     return this.config?.maxEntries ?? 60
   }
 
   get maxEntrySize() {
-    //all browsers support at least 4000 length per cookie
+    // all browsers support at least 4000 length per cookie
     return this.config?.maxEntrySize ?? 4000
   }
 
@@ -109,7 +109,7 @@ export class CookieArchivist<
         ),
       )
       await this.clear()
-      return compact(settled.filter(fulfilled).map((result) => result.value))
+      return compact(settled.filter(fulfilled).map(result => result.value))
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex

@@ -9,7 +9,7 @@ const dumpErrors = (errors: Error[]) => {
   }
 }
 
-PayloadValidator.setSchemaNameValidatorFactory((schema) => new SchemaNameValidator(schema))
+PayloadValidator.setSchemaNameValidatorFactory(schema => new SchemaNameValidator(schema))
 
 const testPayloadNoSchema: Payload = {} as Payload
 const testPayloadMixedCase: Payload = {

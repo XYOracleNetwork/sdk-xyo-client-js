@@ -57,9 +57,8 @@ export const findPayload = async (
       const result = await archivist.get([hash])
       return result?.[0] ? PayloadWrapper.wrap(result?.[0]).payload : undefined
     }
-  }
-  // Find payload
-  else {
+  } else {
+    // Find payload
     const filter = createPayloadFilterFromSearchCriteria(searchCriteria)
     const result = await payloadDiviner.divine(filter)
     return result?.[0] ? PayloadWrapper.wrap(result?.[0]).payload : undefined

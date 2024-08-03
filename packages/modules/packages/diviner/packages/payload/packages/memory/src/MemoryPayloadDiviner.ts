@@ -27,47 +27,47 @@ export class MemoryPayloadDiviner<
     let all = (await archivist.all?.()) as WithMeta<TOut>[]
     if (all) {
       if (order === 'desc') all = all.reverse()
-      if (schemas?.length) all = all.filter((payload) => schemas.includes(payload.schema))
+      if (schemas?.length) all = all.filter(payload => schemas.includes(payload.schema))
       if (timestamp !== undefined) {
         // If there was no order supplied with the original
         if (filter.order === undefined) {
           // filter for timestamp equality
-          all = all.filter(hasTimestamp).filter((payload) => payload.timestamp === timestamp)
+          all = all.filter(hasTimestamp).filter(payload => payload.timestamp === timestamp)
         } else {
           // filter for greater than/less than or equal to
-          all =
-            order === 'asc' ?
-              all.filter(hasTimestamp).filter((payload) => payload.timestamp >= timestamp)
-            : all.filter(hasTimestamp).filter((payload) => payload.timestamp <= timestamp)
+          all
+            = order === 'asc'
+              ? all.filter(hasTimestamp).filter(payload => payload.timestamp >= timestamp)
+              : all.filter(hasTimestamp).filter(payload => payload.timestamp <= timestamp)
         }
       }
       if (Object.keys(props).length > 0) {
         const additionalFilterCriteria = Object.entries(props)
         for (const [prop, filter] of additionalFilterCriteria) {
           const property = prop as keyof TOut
-          all =
-            Array.isArray(filter) ?
-              all.filter((payload) =>
+          all
+            = Array.isArray(filter)
+              ? all.filter(payload =>
                 filter.every((value) => {
                   const prop = payload?.[property]
-                  //TODO: This seems to be written just to check arrays, and now that $meta is there, need to check type?
+                  // TODO: This seems to be written just to check arrays, and now that $meta is there, need to check type?
                   return Array.isArray(prop) && prop.includes?.(value)
                 }),
               )
-            : all.filter((payload) => payload?.[property] === filter)
+              : all.filter(payload => payload?.[property] === filter)
         }
       }
       const parsedLimit = limit ?? all.length
       const parsedOffset = offset || 0
-      return offset === undefined ?
-          (async () => {
+      return offset === undefined
+        ? (async () => {
             const allPairs = await PayloadBuilder.hashPairs(all)
             if (hash) {
-              //remove all until found
+              // remove all until found
               while (allPairs.length > 0 && allPairs[0][1] !== hash) {
                 allPairs.shift()
               }
-              //remove it if found
+              // remove it if found
               if (allPairs.length > 0 && allPairs[0][1] === hash) {
                 allPairs.shift()
               }

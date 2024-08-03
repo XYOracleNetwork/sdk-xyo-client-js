@@ -1,6 +1,6 @@
 import { AnyObject, EmptyObject, isObject } from '@xylabs/object'
 
-//if an object, sub-sort
+// if an object, sub-sort
 const subSort = (value: unknown) => {
   return isObject(value) ? sortFields(value) : value
 }

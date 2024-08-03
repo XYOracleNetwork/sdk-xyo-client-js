@@ -35,12 +35,11 @@ export type ViewArchivistParams<TConfig extends AnyConfigSchema<ViewArchivistCon
 
 @labeledCreatableModuleFactory()
 export class ViewArchivist<
-    TParams extends ViewArchivistParams<AnyConfigSchema<ViewArchivistConfig>> = ViewArchivistParams,
-    TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-  >
+  TParams extends ViewArchivistParams<AnyConfigSchema<ViewArchivistConfig>> = ViewArchivistParams,
+  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+>
   extends AbstractArchivist<TParams, TEventData>
-  implements ArchivistInstance, ModuleInstance
-{
+  implements ArchivistInstance, ModuleInstance {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, ViewArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = ViewArchivistConfigSchema
   static override readonly labels = { ...ModuleLimitationViewLabel }
@@ -56,8 +55,8 @@ export class ViewArchivist<
   }
 
   async originArchivistInstance() {
-    this._originArchivistInstance =
-      this._originArchivistInstance ?? assertEx(await this.resolve(this.originArchivist, { identity: isArchivistInstance, required: true }))
+    this._originArchivistInstance
+      = this._originArchivistInstance ?? assertEx(await this.resolve(this.originArchivist, { identity: isArchivistInstance, required: true }))
     return this._originArchivistInstance
   }
 

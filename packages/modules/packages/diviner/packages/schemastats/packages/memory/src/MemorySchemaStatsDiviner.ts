@@ -23,7 +23,7 @@ export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams =
     const filtered = all
       .filter(isBoundWitness)
       .filter(isBoundWitnessWithMeta)
-      .filter((bw) => bw.addresses.includes(address))
+      .filter(bw => bw.addresses.includes(address))
     // eslint-disable-next-line unicorn/no-array-reduce
     const counts: Record<string, number> = filtered.reduce(
       (acc, payload) => {
@@ -52,15 +52,15 @@ export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams =
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<SchemaStatsQueryPayload>(isSchemaStatsQueryPayload)
     if (!query) return []
-    const addresses =
-      query?.address ?
-        Array.isArray(query?.address) ?
-          query.address
-        : [query.address]
-      : undefined
-    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
+    const addresses
+      = query?.address
+        ? Array.isArray(query?.address)
+          ? query.address
+          : [query.address]
+        : undefined
+    const counts = addresses ? await Promise.all(addresses.map(address => this.divineAddress(address))) : [await this.divineAllAddresses()]
     return await Promise.all(
-      counts.map((count) => new PayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsDivinerSchema }).fields({ count }).build()),
+      counts.map(count => new PayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsDivinerSchema }).fields({ count }).build()),
     )
   }
 }

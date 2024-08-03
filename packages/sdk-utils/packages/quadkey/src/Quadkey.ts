@@ -99,7 +99,7 @@ export class Quadkey {
 
   get siblings() {
     const siblings = assertEx(this.parent?.children, () => `siblings: parentChildren ${this.base4Hash}`)
-    const filteredSiblings = siblings.filter((quadkey) => quadkey.key !== this.key)
+    const filteredSiblings = siblings.filter(quadkey => quadkey.key !== this.key)
     assertEx(filteredSiblings.length === 3, () => `siblings: expected 3 [${filteredSiblings.length}]`)
     return filteredSiblings
   }
@@ -109,12 +109,12 @@ export class Quadkey {
   }
 
   get valid() {
-    //check for additional data outside zoom scope
+    // check for additional data outside zoom scope
     return this.id.toString(4) === this.base4Hash.padStart(64, '0')
   }
 
   get zoom() {
-    //zoom is stored in top byte
+    // zoom is stored in top byte
     return Number((this.key & ZOOM_MASK) >> 248n)
   }
 
@@ -245,10 +245,10 @@ export class Quadkey {
   isInBoundingBox(boundingBox: MercatorBoundingBox) {
     const tileBoundingBox = tileToBoundingBox(this.tile)
     return (
-      boundingBox.contains(tileBoundingBox.getNorthEast()) ||
-      boundingBox.contains(tileBoundingBox.getNorthWest()) ||
-      boundingBox.contains(tileBoundingBox.getSouthEast()) ||
-      boundingBox.contains(tileBoundingBox.getSouthWest())
+      boundingBox.contains(tileBoundingBox.getNorthEast())
+      || boundingBox.contains(tileBoundingBox.getNorthWest())
+      || boundingBox.contains(tileBoundingBox.getSouthEast())
+      || boundingBox.contains(tileBoundingBox.getSouthWest())
     )
   }
 

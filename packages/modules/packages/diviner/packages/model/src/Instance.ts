@@ -12,5 +12,5 @@ export interface DivinerInstance<
   TOut extends Payload = Payload,
   TEvents extends DivinerModuleEventData = DivinerModuleEventData,
 > extends DivinerModule<TParams, TEvents>,
-    DivinerQueryFunctions<TIn, TOut>,
-    ModuleInstance<TParams, TEvents> {}
+  DivinerQueryFunctions<TIn, TOut>,
+  ModuleInstance<TParams, TEvents> {}

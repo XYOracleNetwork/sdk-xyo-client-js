@@ -6,7 +6,7 @@ import { AttachableDivinerInstance } from './AttachableInstance.ts'
 
 export const requiredAttachableDivinerInstanceFunctions: ObjectTypeShape = {}
 
-//we do not use IsInstanceFactory here to prevent a cycle
+// we do not use IsInstanceFactory here to prevent a cycle
 const factory = new IsObjectFactory<AttachableDivinerInstance>()
 
 export const isAttachableDivinerInstance: TypeCheck<AttachableDivinerInstance> = factory.create(requiredAttachableDivinerInstanceFunctions, [

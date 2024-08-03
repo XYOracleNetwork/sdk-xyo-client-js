@@ -86,12 +86,12 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
-    //console.log(`childAddressMap: ${toJsonString(this.childAddressMap, 10)}`)
+    // console.log(`childAddressMap: ${toJsonString(this.childAddressMap, 10)}`)
     const direction = options?.direction ?? 'all'
     if (idOrFilter === '*') {
-      //get all the child addresses.  if they have been resolved before, they should be in downResolver
+      // get all the child addresses.  if they have been resolved before, they should be in downResolver
       const childAddresses = Object.keys(this.childAddressMap)
-      const resolvedChildren = await Promise.all(childAddresses.map<Promise<T | undefined>>((address) => this.resolve<T>(address, options)))
+      const resolvedChildren = await Promise.all(childAddresses.map<Promise<T | undefined>>(address => this.resolve<T>(address, options)))
       return resolvedChildren.filter(exists)
     } else if (typeof idOrFilter === 'string') {
       const idParts = idOrFilter.split(':')
@@ -111,11 +111,11 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
             return remainingParts ? wrapped?.resolve(remainingParts, options) : wrapped
           }
 
-          //if it is a known child, create a proxy
-          const addressToProxy =
-            Object.keys(this.childAddressMap).includes(firstPartAddress as Address) ?
-              (firstPartAddress as Address)
-            : (Object.entries(this.childAddressMap).find(([_, value]) => value === firstPartAddress)?.[0] as Address | undefined)
+          // if it is a known child, create a proxy
+          const addressToProxy
+            = Object.keys(this.childAddressMap).includes(firstPartAddress as Address)
+              ? (firstPartAddress as Address)
+              : (Object.entries(this.childAddressMap).find(([_, value]) => value === firstPartAddress)?.[0] as Address | undefined)
           if (addressToProxy) {
             const proxy = await this.host.resolve(addressToProxy, { ...options, direction: 'down' })
             if (proxy) {
@@ -130,15 +130,15 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
     } else {
       const filter = idOrFilter
       if (isAddressModuleFilter(filter)) {
-        return (await Promise.all(filter.address.map((item) => this.resolve(item, options)))).filter(exists)
+        return (await Promise.all(filter.address.map(item => this.resolve(item, options)))).filter(exists)
       } else if (isNameModuleFilter(filter)) {
-        return (await Promise.all(filter.name.map((item) => this.resolve(item, options)))).filter(exists)
+        return (await Promise.all(filter.name.map(item => this.resolve(item, options)))).filter(exists)
       }
     }
   }
 
   resolveIdentifier(id: ModuleIdentifier, _options?: ObjectFilterOptions): Promisable<Address | undefined> {
-    //check if any of the modules have the id as an address
+    // check if any of the modules have the id as an address
     if (this.childAddressMap[id as Address]) {
       return id as Address
     }
@@ -151,7 +151,7 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
       return this.root.address
     }
 
-    //check if id is a name of one of modules in the resolver
+    // check if id is a name of one of modules in the resolver
     const addressFromName = Object.entries(this.childAddressMap).find(([, name]) => name === id)?.[0] as Address | undefined
     if (addressFromName) {
       return addressFromName

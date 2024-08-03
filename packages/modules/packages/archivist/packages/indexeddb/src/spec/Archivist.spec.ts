@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-/* eslint-disable sonarjs/no-duplicate-string */
 
 import { Hash } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
@@ -202,12 +201,12 @@ describe('IndexedDbArchivist', () => {
     })
     it('returned by order of insertion', async () => {
       const shuffled = shuffleArray(sources)
-      const sourceHashes = await Promise.all(shuffled.map((source) => PayloadBuilder.dataHash(source)))
+      const sourceHashes = await Promise.all(shuffled.map(source => PayloadBuilder.dataHash(source)))
       const getResult = (await archivistModule.get(sourceHashes)) as TestPayload[]
       expect(getResult).toBeDefined()
       expect(getResult.length).toBe(sourceHashes.length)
-      const salts = sources.map((source) => source.salt)
-      const resultSalts = getResult.map((result) => result?.salt)
+      const salts = sources.map(source => source.salt)
+      const resultSalts = getResult.map(result => result?.salt)
       expect(resultSalts).toEqual(salts)
     })
     it('returns nothing for non-existing hashes', async () => {
@@ -371,14 +370,14 @@ describe('IndexedDbArchivist', () => {
         await PayloadBuilder.build({ schema: 'network.xyo.test', value: 2 }),
       ]
 
-      //console.log('Payloads1:', toJsonString(await PayloadBuilder.hashPairs(payloads1), 10))
+      // console.log('Payloads1:', toJsonString(await PayloadBuilder.hashPairs(payloads1), 10))
 
       const payloads2 = [
         await PayloadBuilder.build({ schema: 'network.xyo.test', value: 3 }),
         await PayloadBuilder.build({ schema: 'network.xyo.test', value: 4 }),
       ]
 
-      //console.log('Payloads2:', toJsonString(await PayloadBuilder.hashPairs(payloads2), 10))
+      // console.log('Payloads2:', toJsonString(await PayloadBuilder.hashPairs(payloads2), 10))
 
       await archivist.insert(payloads1)
       console.log(toJsonString(payloads1, 10))
@@ -387,7 +386,7 @@ describe('IndexedDbArchivist', () => {
       expect(payloads).toBeDefined()
       expect(errors).toBeDefined()
 
-      //console.log(toJsonString([bw, payloads, errors], 10))
+      // console.log(toJsonString([bw, payloads, errors], 10))
 
       const batch1 = await archivist.next?.({ limit: 2 })
       expect(batch1).toBeArrayOfSize(2)
@@ -401,7 +400,7 @@ describe('IndexedDbArchivist', () => {
       expect(batch3).toBeArrayOfSize(2)
       expect(batch3?.[0].$hash).toEqual(payloads2[0].$hash)
 
-      //desc
+      // desc
       const batch1Desc = await archivist.next?.({ limit: 2, order: 'desc' })
       expect(batch1Desc).toBeArrayOfSize(2)
       expect(batch1Desc?.[0].$hash).toEqual(payloads2[1].$hash)

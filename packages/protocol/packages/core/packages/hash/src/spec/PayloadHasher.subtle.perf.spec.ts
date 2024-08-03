@@ -27,7 +27,7 @@ describe('Hasher - Subtle performance', () => {
       jsTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
     }
     const jsHashStart = Date.now()
-    await Promise.all(jsTestObjects.map((obj) => obj.hash()))
+    await Promise.all(jsTestObjects.map(obj => obj.hash()))
     const jsHashDuration = Date.now() - jsHashStart
 
     PayloadHasher.warnIfUsingJsHash = true
@@ -38,7 +38,7 @@ describe('Hasher - Subtle performance', () => {
       subtleTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
     }
     const subtleHashStart = Date.now()
-    await Promise.all(subtleTestObjects.map((obj) => obj.hash()))
+    await Promise.all(subtleTestObjects.map(obj => obj.hash()))
     const subtleHashDuration = Date.now() - subtleHashStart
     expect(subtleHashDuration).toBeDefined()
     expect(jsHashDuration).toBeDefined()

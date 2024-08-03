@@ -89,7 +89,7 @@ describe('MultiNodeConfiguration', () => {
   })
   test('leftNode', async () => {
     await primaryNode.attach(leftNode.address, true)
-    //await primaryNode.detach(rightNode.address)
+    // await primaryNode.detach(rightNode.address)
     expect((await primaryNode.resolve({ address: [primaryArchivist.address] })).length).toBe(1)
     expect((await primaryNode.resolve({ name: ['primaryArchivist'] })).length).toBe(1)
 
@@ -163,7 +163,7 @@ describe('MultiNodeConfiguration', () => {
   })
 
   test('leftNode', async () => {
-    //await primaryNode.detach(leftNode.address)
+    // await primaryNode.detach(leftNode.address)
     await primaryNode.detach(rightNode.address)
     await primaryNode.attach(leftNode.address, true)
     await primaryNode.attach(rightNode.address, true)

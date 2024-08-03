@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
@@ -51,7 +50,7 @@ describe('MemoryAddressSpaceDiviner', () => {
       for (const payload of results) {
         expect(payload.schema).toBe(AddressSchema)
       }
-      const addresses = results.map((payload) => payload.address)
+      const addresses = results.map(payload => payload.address)
       expect(addresses).toContain(wrapperAccount.address)
     })
   })

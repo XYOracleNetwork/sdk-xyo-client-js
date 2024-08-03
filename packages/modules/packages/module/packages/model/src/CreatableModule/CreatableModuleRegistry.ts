@@ -35,12 +35,12 @@ export const registerCreatableModuleFactory = <TModule extends AttachableModuleI
   /** register this as the primary factory for every schema it supports */
   primary: boolean | Schema | Schema[] = false,
 ) => {
-  const primarySchemas =
-    primary !== true && primary ?
-      Array.isArray(primary) ?
-        primary
-      : [primary]
-    : []
+  const primarySchemas
+    = primary !== true && primary
+      ? Array.isArray(primary)
+        ? primary
+        : [primary]
+      : []
 
   for (const primarySchema of primarySchemas) {
     if (!factory.configSchemas.includes(primarySchema)) {
@@ -66,7 +66,7 @@ export const registerCreatableModuleFactory = <TModule extends AttachableModuleI
   }
 
   const factoryClone: LabeledCreatableModuleFactory<TModule> = buildModuleFactory(factory, labels)
-  //add the defaultConfigSchema as the first key in the registry
+  // add the defaultConfigSchema as the first key in the registry
   registry[factory.defaultConfigSchema] = [factoryClone, ...(registry[factoryClone.defaultConfigSchema] ?? [])]
   for (const schema of factoryClone.configSchemas) {
     registry[schema] = isPrimaryForSchema(schema) ? [factoryClone, ...(registry[schema] ?? [])] : [...(registry[schema] ?? []), factoryClone]

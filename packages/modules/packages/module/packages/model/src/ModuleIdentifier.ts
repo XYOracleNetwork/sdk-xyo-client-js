@@ -7,7 +7,7 @@ export const DisallowedModuleIdentifierCharacters = {
   '!': true,
   '"': true,
   '#': true,
-  $: true,
+  '$': true,
   '%': true,
   '&': true,
   "'": true,
@@ -27,7 +27,7 @@ export const DisallowedModuleIdentifierCharacters = {
   '[': true,
   ']': true,
   '^': true,
-  _: true,
+  '_': true,
   '{': true,
   '|': true,
   '}': true,
@@ -38,7 +38,7 @@ export const ReservedModuleIdentifierCharacters = new Set<ReservedModuleIdentifi
   Object.keys(DisallowedModuleIdentifierCharacters) as ReservedModuleIdentifierCharacter[],
 )
 
-//using Exclude to make this type not allowed to take a naked string
+// using Exclude to make this type not allowed to take a naked string
 export type ModuleName = Exclude<string, 'reserved-module-name-56487634'>
 
 export type ModuleIdentifier =
@@ -59,7 +59,7 @@ export const isModuleName = (value: unknown): value is ModuleName => {
 }
 
 export const includesReservedModuleIdentifierCharacter = (value: unknown): boolean => {
-  return typeof value === 'string' && [...value].some((char) => ReservedModuleIdentifierCharacters.has(char as ReservedModuleIdentifierCharacter))
+  return typeof value === 'string' && [...value].some(char => ReservedModuleIdentifierCharacters.has(char as ReservedModuleIdentifierCharacter))
 }
 
 export const isModuleIdentifierPart = (value: unknown): value is ModuleIdentifierPart => {

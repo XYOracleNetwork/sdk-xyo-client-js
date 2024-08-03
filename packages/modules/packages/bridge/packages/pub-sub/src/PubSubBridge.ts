@@ -55,9 +55,9 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   private _resolver?: PubSubBridgeModuleResolver
 
   override get resolver(): PubSubBridgeModuleResolver {
-    this._resolver =
-      this._resolver ??
-      new PubSubBridgeModuleResolver({
+    this._resolver
+      = this._resolver
+      ?? new PubSubBridgeModuleResolver({
         additionalSigners: this.additionalSigners,
         archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
         bridge: this,
@@ -80,13 +80,13 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
 
   async connect(id: ModuleIdentifier, maxDepth = 5): Promise<Address | undefined> {
     const transformedId = assertEx(await ResolveHelper.transformModuleIdentifier(id), () => `Unable to transform module identifier: ${id}`)
-    //check if already connected
+    // check if already connected
     const existingInstance = await this.resolve<ModuleInstance>(transformedId)
     if (existingInstance) {
       return existingInstance.address
     }
 
-    //use the resolver to create the proxy instance
+    // use the resolver to create the proxy instance
     const [instance] = await this.resolver.resolveHandler<ModuleInstance>(id)
     return await this.connectInstance(instance, maxDepth)
   }
@@ -106,8 +106,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const host = assertEx(this.busHost(), () => 'Not configured as a host')
     host.expose(mod)
     const children = maxDepth > 0 ? ((await mod.publicChildren?.()) ?? []) : []
-    this.logger.log(`childrenToExpose [${mod.id}][${mod.address}]: ${toJsonString(children.map((child) => child.id))}`)
-    const exposedChildren = (await Promise.all(children.map((child) => this.exposeChild(child, { maxDepth: maxDepth - 1, required: false }))))
+    this.logger.log(`childrenToExpose [${mod.id}][${mod.address}]: ${toJsonString(children.map(child => child.id))}`)
+    const exposedChildren = (await Promise.all(children.map(child => this.exposeChild(child, { maxDepth: maxDepth - 1, required: false }))))
       .flat()
       .filter(exists)
     const allExposed = [mod, ...exposedChildren]
@@ -189,18 +189,20 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const workingSet = (options.direction === 'up' ? [this as ModuleInstance] : [...roots, this]) as T[]
     if (idOrFilter === '*') {
       const remainingDepth = (options.maxDepth ?? 1) - 1
-      return remainingDepth <= 0 ? workingSet : (
-          [...workingSet, ...(await Promise.all(roots.map((mod) => mod.resolve('*', { ...options, maxDepth: remainingDepth })))).flat()]
-        )
+      return remainingDepth <= 0
+        ? workingSet
+        : (
+            [...workingSet, ...(await Promise.all(roots.map(mod => mod.resolve('*', { ...options, maxDepth: remainingDepth })))).flat()]
+          )
     }
     switch (typeof idOrFilter) {
       case 'string': {
         const parts = idOrFilter.split(':')
         const first = assertEx(parts.shift(), () => 'Missing first part')
-        const firstInstance: ModuleInstance | undefined =
-          isAddress(first) ?
-            ((await resolveAddressToInstance(this, first, undefined, [], options.direction)) as T)
-          : this._roots?.find((mod) => mod.id === first)
+        const firstInstance: ModuleInstance | undefined
+          = isAddress(first)
+            ? ((await resolveAddressToInstance(this, first, undefined, [], options.direction)) as T)
+            : this._roots?.find(mod => mod.id === first)
         return (parts.length === 0 ? firstInstance : firstInstance?.resolve(parts.join(':'), options)) as T | undefined
       }
       case 'object': {
@@ -230,7 +232,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     if (mod) {
       const children = maxDepth > 0 ? ((await mod.publicChildren?.()) ?? []) : []
       const exposedChildren = (
-        await Promise.all(children.map((child) => this.unexposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
+        await Promise.all(children.map(child => this.unexposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
       )
         .flat()
         .filter(exists)
@@ -280,10 +282,10 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
         const node = asNodeInstance(instance)
         if (node) {
           const state = await node.state()
-          const children = (state?.filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema)).map((s) => s.address) ?? []).filter(
-            (a) => a !== instance.address,
+          const children = (state?.filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema)).map(s => s.address) ?? []).filter(
+            a => a !== instance.address,
           )
-          await Promise.all(children.map((child) => this.connect(child, maxDepth - 1)))
+          await Promise.all(children.map(child => this.connect(child, maxDepth - 1)))
         }
       }
       this.logger?.log(`Connect: ${instance.id}`)

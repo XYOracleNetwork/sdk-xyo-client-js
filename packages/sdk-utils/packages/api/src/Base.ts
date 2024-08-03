@@ -93,6 +93,7 @@ export class ApiBase<C extends ApiConfig = ApiConfig> implements ApiReportable {
     }
 
     if (trapAxiosException) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       error.response ? this.onFailure(error.response) : this.onError(error)
       if (this.config.throwFailure) {
         throw error
@@ -102,12 +103,13 @@ export class ApiBase<C extends ApiConfig = ApiConfig> implements ApiReportable {
   }
 
   protected async monitorResponse<T>(closure: () => Promise<ApiResponse<ApiEnvelope<T>>>) {
-    //we use this to prevent accidental catching on exceptions in callbacks
+    // we use this to prevent accidental catching on exceptions in callbacks
     let trapAxiosException = true
     try {
       const response = await closure()
       trapAxiosException = false
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       response.status < 300 ? this.onSuccess(response) : this.onFailure(response)
 
       return response

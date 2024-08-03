@@ -98,7 +98,7 @@ export class IndexedDbBoundWitnessDiviner<
           // If we're filtering on more than just the schema
           if (valueFilters.length > 0) {
             // Ensure all filters pass
-            if (valueFilters.every((filter) => filter(value))) {
+            if (valueFilters.every(filter => filter(value))) {
               // Then save the value
               results.push(value)
             }

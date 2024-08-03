@@ -17,14 +17,13 @@ export type WebsocketModuleProxyParams = ModuleProxyParams & {
 }
 
 export class WebsocketModuleProxy<
-    TWrappedModule extends ModuleInstance = ModuleInstance,
-    TParams extends Omit<WebsocketModuleProxyParams, 'config'> & { config: TWrappedModule['config'] } = Omit<WebsocketModuleProxyParams, 'config'> & {
-      config: TWrappedModule['config']
-    },
-  >
+  TWrappedModule extends ModuleInstance = ModuleInstance,
+  TParams extends Omit<WebsocketModuleProxyParams, 'config'> & { config: TWrappedModule['config'] } = Omit<WebsocketModuleProxyParams, 'config'> & {
+    config: TWrappedModule['config']
+  },
+>
   extends AbstractModuleProxy<TWrappedModule, TParams>
-  implements ModuleInstance<TParams, TWrappedModule['eventData']>
-{
+  implements ModuleInstance<TParams, TWrappedModule['eventData']> {
   static createCount = 0
 
   constructor(params: TParams) {

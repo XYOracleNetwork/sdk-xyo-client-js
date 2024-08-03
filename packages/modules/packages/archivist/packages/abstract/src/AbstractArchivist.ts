@@ -54,12 +54,11 @@ export interface ArchivistParentInstances {
 }
 
 export abstract class AbstractArchivist<
-    TParams extends ArchivistParams = ArchivistParams,
-    TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-  >
+  TParams extends ArchivistParams = ArchivistParams,
+  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+>
   extends AbstractModuleInstance<TParams, TEventData>
-  implements AttachableArchivistInstance<TParams, TEventData, Payload>
-{
+  implements AttachableArchivistInstance<TParams, TEventData, Payload> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, ArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = ArchivistConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractArchivist', AbstractArchivist, 'xyo')
@@ -147,7 +146,7 @@ export abstract class AbstractArchivist<
     this._noOverride('insert')
     return await this.busy(async () => {
       await this.started('throw')
-      //make sure all incoming payloads have proper $hash and $meta
+      // make sure all incoming payloads have proper $hash and $meta
       return await this.insertWithConfig(payloads)
     })
   }
@@ -203,7 +202,7 @@ export abstract class AbstractArchivist<
       const askedFor = hashes.includes(hash)
       if (!askedFor) {
         console.warn(`Parent returned payload with hash not asked for: ${hash}`)
-        //throw Error(`Parent returned payload with hash not asked for: ${hash}`)
+        // throw Error(`Parent returned payload with hash not asked for: ${hash}`)
       }
       return askedFor
     })
@@ -211,7 +210,7 @@ export abstract class AbstractArchivist<
     const foundHashes = new Set(foundPairs.map(([, hash]) => hash))
     const foundPayloads = foundPairs.map(([payload]) => payload)
 
-    const notfound = hashes.filter((hash) => !foundHashes.has(hash))
+    const notfound = hashes.filter(hash => !foundHashes.has(hash))
     return [foundPayloads, notfound]
   }
 
@@ -261,12 +260,12 @@ export abstract class AbstractArchivist<
         const hash = key as Hash // NOTE: Required cast as Object.entries always returns string keys
         // If this hash was requested
         if (
-          requestedHashes.has(hash) && // Indicate that we found it (but do not insert it yet). Since
+          requestedHashes.has(hash) // Indicate that we found it (but do not insert it yet). Since
           // one payload could satisfy two requested hashes (vit its dataHash
           // & rootHash) we only want to insert that payload once but we want
           // to keep track of all the hashes it satisfies so we can ask th
           // parents for the ones we did not find
-          !foundHashes.has(hash)
+          && !foundHashes.has(hash)
         ) {
           requestedPayloadFound = true
           // Add it to the list of found hashes
@@ -428,8 +427,8 @@ export abstract class AbstractArchivist<
     assertEx(
       !this.requireAllParents || archivistModules.length === archivists.length,
       () =>
-        `Failed to find some archivists (set allRequired to false if ok): [${archivists.filter((archivist) =>
-          archivistModules.map((mod) => !(mod.address === archivist || mod.modName === archivist)),
+        `Failed to find some archivists (set allRequired to false if ok): [${archivists.filter(archivist =>
+          archivistModules.map(mod => !(mod.address === archivist || mod.modName === archivist)),
         )}]`,
     )
 

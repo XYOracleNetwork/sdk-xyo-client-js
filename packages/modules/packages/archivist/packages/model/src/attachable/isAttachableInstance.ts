@@ -6,7 +6,7 @@ import { AttachableArchivistInstance } from './AttachableInstance.ts'
 
 export const requiredAttachableArchivistInstanceFunctions: ObjectTypeShape = {}
 
-//we do not use IsInstanceFactory here to prevent a cycle
+// we do not use IsInstanceFactory here to prevent a cycle
 const factory = new IsObjectFactory<AttachableArchivistInstance>()
 
 export const isAttachableArchivistInstance: TypeCheck<AttachableArchivistInstance> = factory.create(requiredAttachableArchivistInstanceFunctions, [

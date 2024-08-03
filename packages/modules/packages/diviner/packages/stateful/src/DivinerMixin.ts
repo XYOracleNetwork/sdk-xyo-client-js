@@ -86,6 +86,7 @@ export const StatefulModuleMixin = <
       const instance = asDivinerInstance(mod)
       return assertEx(instance, () => `${moduleName}: Failed to wrap diviner instance`)
     }
+
     /**
      * Retrieves the Payload Diviner for the specified store
      * @param store The store to retrieve the Payload Diviner for
@@ -98,6 +99,7 @@ export const StatefulModuleMixin = <
       const instance = asDivinerInstance(mod)
       return assertEx(instance, () => `${moduleName}: Failed to wrap diviner instance`)
     }
+
     /**
      * Retrieves the last state of the Diviner process. Used to recover state after
      * preemptions, reboots, etc.

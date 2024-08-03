@@ -7,8 +7,8 @@ import { NodeParams } from '../Params.ts'
 
 export interface AttachableNodeInstance<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends NodeModule<TParams, TEventData>,
-    AttachableModuleInstance<TParams, TEventData>,
-    NodeInstance<TParams, TEventData> {}
+  AttachableModuleInstance<TParams, TEventData>,
+  NodeInstance<TParams, TEventData> {}
 
 export type AttachableNodeInstanceTypeCheck<T extends AttachableNodeInstance = AttachableNodeInstance> = TypeCheck<T>
 

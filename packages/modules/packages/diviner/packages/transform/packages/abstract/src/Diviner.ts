@@ -30,7 +30,7 @@ export abstract class AbstractTransformDiviner<
     if (this.config.transform) {
       transforms.push({ schema: TransformDivinerSchema, transform: this.config.transform })
     }
-    return transforms.flatMap((transform) => payloads?.map(this.transformer(transform)) || [])
+    return transforms.flatMap(transform => payloads?.map(this.transformer(transform)) || [])
   }
 
   protected abstract transformer(transform: Transform): PayloadTransformer<TIn, TOut>

@@ -36,8 +36,7 @@ import { Mutex } from 'async-mutex'
 constructableModuleWrapper()
 export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
   extends ModuleWrapper<TWrappedModule>
-  implements NodeInstance<TWrappedModule['params']>
-{
+  implements NodeInstance<TWrappedModule['params']> {
   static override instanceIdentityCheck: InstanceTypeCheck<NodeInstance> = isNodeInstance
   static override moduleIdentityCheck = isNodeModule
   static override requiredQueries = [NodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
@@ -61,7 +60,7 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
       if (this._attached === undefined) {
         const queryPayload: NodeAttachedQuery = { schema: NodeAttachedQuerySchema }
         const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<AddressPayload>>(AddressSchema))
-        this._attached = payloads.map((p) => p.address)
+        this._attached = payloads.map(p => p.address)
       }
       return this._attached
     })
@@ -103,7 +102,7 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
   async registered(): Promise<Address[]> {
     const queryPayload: NodeRegisteredQuery = { schema: NodeRegisteredQuerySchema }
     const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<AddressPayload>>(AddressSchema))
-    return payloads.map((p) => p.address)
+    return payloads.map(p => p.address)
   }
 
   async registeredQuery(account?: AccountInstance): Promise<ModuleQueryResult<AddressPayload>> {

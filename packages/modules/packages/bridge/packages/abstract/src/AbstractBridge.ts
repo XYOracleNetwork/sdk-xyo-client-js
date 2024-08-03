@@ -42,8 +42,7 @@ import { isPayloadOfSchemaType, Payload, Schema } from '@xyo-network/payload-mod
 
 export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams>
   extends AbstractModuleInstance<TParams, BridgeModuleEventData>
-  implements AttachableBridgeInstance<TParams, BridgeModuleEventData>
-{
+  implements AttachableBridgeInstance<TParams, BridgeModuleEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, BridgeConfigSchema]
   static override readonly defaultConfigSchema: Schema = BridgeConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractBridge', AbstractBridge, 'xyo')
@@ -51,7 +50,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   protected _roots?: ModuleInstance[]
 
   override get allowNameResolution() {
-    //we default to false here to prevent name collisions
+    // we default to false here to prevent name collisions
     return this.params.allowNameResolution ?? true
   }
 
@@ -98,9 +97,11 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     const workingSet = (options.direction === 'up' ? [this as ModuleInstance] : [...roots, this]) as T[]
     if (idOrFilter === '*') {
       const remainingDepth = (options.maxDepth ?? 5) - 1
-      return remainingDepth <= 0 ? workingSet : (
-          [...workingSet, ...(await Promise.all(roots.map((mod) => mod.resolve('*', { ...options, maxDepth: remainingDepth })))).flat()]
-        )
+      return remainingDepth <= 0
+        ? workingSet
+        : (
+            [...workingSet, ...(await Promise.all(roots.map(mod => mod.resolve('*', { ...options, maxDepth: remainingDepth })))).flat()]
+          )
     }
     switch (typeof idOrFilter) {
       case 'string': {
@@ -146,7 +147,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     const addressToUnexpose = assertEx(await resolvePathToAddress(this, id), () => `Module to unexpose not found [${id}]`)
     const modules = await this.unexposeHandler(addressToUnexpose, options)
     await this.emit('unexposed', { mod: this, modules })
-    return modules.map((mod) => mod.address)
+    return modules.map(mod => mod.address)
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(
@@ -208,15 +209,15 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     if (!archivists) return []
     const resolvedAddresses = (
       await Promise.all(
-        archivists.map(async (archivist) =>
-          (await Promise.all((await this.parents()).map((parent) => resolvePathToAddress(parent, archivist)))).filter(exists),
+        archivists.map(async archivist =>
+          (await Promise.all((await this.parents()).map(parent => resolvePathToAddress(parent, archivist)))).filter(exists),
         ),
       )
     )
       .flat()
       .filter(exists)
-    const resolved = (await Promise.all(resolvedAddresses.map((address) => resolveAddressToInstance(this, address)))).filter(exists)
-    return resolved.map((mod) => asArchivistInstance(mod)).filter(exists)
+    const resolved = (await Promise.all(resolvedAddresses.map(address => resolveAddressToInstance(this, address)))).filter(exists)
+    return resolved.map(mod => asArchivistInstance(mod)).filter(exists)
   }
 
   abstract exposeHandler(address: Address, options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]>

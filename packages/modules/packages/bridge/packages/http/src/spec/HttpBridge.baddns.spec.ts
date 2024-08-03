@@ -14,7 +14,7 @@ describe('HttpBridge', () => {
   console.log(`HttpBridge:baseUrl ${baseUrl}`)
   const cases = [
     ['/', `${baseUrl}`],
-    /*['/node', `${baseUrl}/node`],*/
+    /* ['/node', `${baseUrl}/node`], */
   ]
 
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {

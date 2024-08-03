@@ -8,7 +8,7 @@ export const requiredAttachableModuleInstanceFunctions: ObjectTypeShape = {
   upResolver: 'object',
 }
 
-//we do not use IsInstanceFactory here to prevent a cycle
+// we do not use IsInstanceFactory here to prevent a cycle
 const factory = new IsObjectFactory<AttachableModuleInstance>()
 
 export const isAttachableModuleInstance: TypeCheck<AttachableModuleInstance> = factory.create(requiredAttachableModuleInstanceFunctions, [

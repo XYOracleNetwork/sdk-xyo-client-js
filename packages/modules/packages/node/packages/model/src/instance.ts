@@ -27,6 +27,6 @@ export interface NodeRegistrationFunctions {
 
 export interface NodeInstance<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends NodeModule<TParams, TEventData>,
-    NodeQueryFunctions,
-    NodeRegistrationFunctions,
-    ModuleInstance<TParams, TEventData> {}
+  NodeQueryFunctions,
+  NodeRegistrationFunctions,
+  ModuleInstance<TParams, TEventData> {}

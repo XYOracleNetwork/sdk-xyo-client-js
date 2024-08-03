@@ -30,6 +30,7 @@ export interface CreatableModule<T extends AttachableModuleInstance = Attachable
  */
 export function creatableModule<TModule extends AttachableModuleInstance = AttachableModuleInstance>() {
   return <U extends CreatableModule<TModule>>(constructor: U) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     constructor
   }
 }
@@ -42,6 +43,7 @@ export function creatableModule<TModule extends AttachableModuleInstance = Attac
  */
 export function creatableModuleFactory<TModule extends AttachableModuleInstance = AttachableModuleInstance>() {
   return <U extends CreatableModuleFactory<TModule>>(constructor: U) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     constructor
   }
 }

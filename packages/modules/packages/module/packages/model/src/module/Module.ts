@@ -6,4 +6,4 @@ import { ModuleFields } from './ModuleFields.ts'
 
 export interface Module<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData<object> = ModuleEventData<object>>
   extends ModuleFields<TParams>,
-    EventFunctions<TEventData> {}
+  EventFunctions<TEventData> {}

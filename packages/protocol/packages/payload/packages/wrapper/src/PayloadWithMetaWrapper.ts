@@ -50,9 +50,11 @@ export class PayloadWithMetaWrapper<TPayload extends Payload = Payload> extends 
     assertEx(!Array.isArray(payload), () => 'Array can not be converted to PayloadWrapper')
     switch (typeof payload) {
       case 'object': {
-        return payload instanceof PayloadWithMetaWrapper ? payload : (
-            new PayloadWithMetaWrapper((isPayloadWrapperBase(payload) ? payload.payload : payload) as T)
-          )
+        return payload instanceof PayloadWithMetaWrapper
+          ? payload
+          : (
+              new PayloadWithMetaWrapper((isPayloadWrapperBase(payload) ? payload.payload : payload) as T)
+            )
       }
       default: {
         throw new Error(`Can only parse objects [${typeof payload}]`)

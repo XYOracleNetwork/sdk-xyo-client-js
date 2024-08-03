@@ -41,9 +41,11 @@ export class StoragePreviousHashStore implements PreviousHashStore {
     const value = await this.storage.get(address)
     return value ?? null
   }
+
   async removeItem(address: Address): Promise<void> {
     await this.storage.remove(address)
   }
+
   async setItem(address: Address, previousHash: Hash): Promise<void> {
     await this.storage.set(address, previousHash)
   }

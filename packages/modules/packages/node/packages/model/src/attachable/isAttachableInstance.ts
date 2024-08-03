@@ -6,7 +6,7 @@ import { AttachableNodeInstance } from './AttachableInstance.ts'
 
 export const requiredAttachableNodeInstanceFunctions: ObjectTypeShape = {}
 
-//we do not use IsInstanceFactory here to prevent a cycle
+// we do not use IsInstanceFactory here to prevent a cycle
 const factory = new IsObjectFactory<AttachableNodeInstance>()
 
 export const isAttachableNodeInstance: TypeCheck<AttachableNodeInstance> = factory.create(requiredAttachableNodeInstanceFunctions, [

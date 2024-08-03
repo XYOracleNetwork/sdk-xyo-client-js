@@ -12,7 +12,7 @@ export interface AttachableDivinerInstance<
   TOut extends Payload = Payload,
   TEventData extends DivinerModuleEventData = DivinerModuleEventData,
 > extends DivinerInstance<TParams, TIn, TOut, TEventData>,
-    AttachableModuleInstance<TParams, TEventData> {}
+  AttachableModuleInstance<TParams, TEventData> {}
 
 export type AttachableDivinerInstanceTypeCheck<T extends AttachableDivinerInstance = AttachableDivinerInstance> = TypeCheck<T>
 

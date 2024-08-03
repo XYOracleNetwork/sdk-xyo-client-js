@@ -10,7 +10,7 @@ const payloadsPromise = (async () =>
   await Promise.all(
     Array(5000)
       .fill(Math.random())
-      .map((value) => new PayloadBuilder<Payload<AnyObject>>({ schema }).fields({ value }).build()),
+      .map(value => new PayloadBuilder<Payload<AnyObject>>({ schema }).fields({ value }).build()),
   ))()
 
 describe('BoundWitnessBuilder-Perf', () => {

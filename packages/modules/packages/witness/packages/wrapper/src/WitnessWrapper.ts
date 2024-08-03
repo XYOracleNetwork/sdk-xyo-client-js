@@ -14,8 +14,7 @@ import {
 constructableModuleWrapper()
 export class WitnessWrapper<TModule extends WitnessModule = WitnessModule>
   extends ModuleWrapper<TModule>
-  implements WitnessInstance<TModule['params']>
-{
+  implements WitnessInstance<TModule['params']> {
   static override instanceIdentityCheck = isWitnessInstance
   static override moduleIdentityCheck = isWitnessModule
   static override requiredQueries = [WitnessObserveQuerySchema, ...super.requiredQueries]

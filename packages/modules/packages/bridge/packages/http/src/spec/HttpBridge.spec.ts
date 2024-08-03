@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable complexity */
 /* eslint-disable max-statements */
 
@@ -56,7 +55,7 @@ describe('HttpBridge', () => {
   console.log(`HttpBridge:baseUrl ${baseUrl}`)
   const cases = [
     ['/', `${baseUrl}`],
-    /*['/node', `${baseUrl}/node`],*/
+    /* ['/node', `${baseUrl}/node`], */
   ]
 
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
@@ -163,13 +162,13 @@ describe('HttpBridge', () => {
     expect(description?.queries?.length).toBeGreaterThan(0)
 
     // Works if you supply the known address for 'Archivist'
-    //const [archivistByAddress] = await memNode.resolve({ address: ['461fd6970770e97d9f66c71658f4b96212581f0b'] })
-    //expect(archivistByAddress).toBeDefined()
+    // const [archivistByAddress] = await memNode.resolve({ address: ['461fd6970770e97d9f66c71658f4b96212581f0b'] })
+    // expect(archivistByAddress).toBeDefined()
 
-    /*const mods = await bridge.resolve('*')
+    /* const mods = await bridge.resolve('*')
     for (const mod of mods) {
       console.log(`module [${mod.address}]: ${mod.modName}`)
-    }*/
+    } */
 
     const node = await bridge.resolve('XYOPublic')
     expect(node).toBeDefined()

@@ -10,5 +10,5 @@ import { Module } from '../module/index.ts'
  * that address in the array, false otherwise
  */
 export const duplicateModules = (value: Module, index: number, array: Module[]): value is Module => {
-  return array.findIndex((v) => v.address === value.address) === index
+  return array.findIndex(v => v.address === value.address) === index
 }

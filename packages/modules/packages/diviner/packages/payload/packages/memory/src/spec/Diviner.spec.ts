@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable max-nested-callbacks */
 
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -77,7 +76,7 @@ describe('GenericPayloadDiviner', () => {
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => result.schema === schema)).toBe(true)
+          expect(results.every(result => result.schema === schema)).toBe(true)
         })
         it('only return single payload of that schema', async () => {
           const schemas = ['network.xyo.debug']
@@ -87,7 +86,7 @@ describe('GenericPayloadDiviner', () => {
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
           expect(results[0].$hash).toBe(payloadD.$hash)
-          expect(results.every((result) => result.schema === 'network.xyo.debug')).toBe(true)
+          expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })
         it('only return single payload of that schema (desc)', async () => {
           const schemas = ['network.xyo.debug']
@@ -97,7 +96,7 @@ describe('GenericPayloadDiviner', () => {
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
           expect(results[0].$hash).toBe(payloadD.$hash)
-          expect(results.every((result) => result.schema === 'network.xyo.debug')).toBe(true)
+          expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })
         it('only return single payload of that schema (asc)', async () => {
           const schemas = ['network.xyo.debug']
@@ -107,7 +106,7 @@ describe('GenericPayloadDiviner', () => {
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
           expect(results[0].$hash).toBe(payloadB.$hash)
-          expect(results.every((result) => result.schema === 'network.xyo.debug')).toBe(true)
+          expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })
       })
       describe('multiple', () => {
@@ -116,7 +115,7 @@ describe('GenericPayloadDiviner', () => {
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => schemas.includes(result.schema))).toBe(true)
+          expect(results.every(result => schemas.includes(result.schema))).toBe(true)
         })
       })
     })
@@ -128,7 +127,7 @@ describe('GenericPayloadDiviner', () => {
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload & WithUrl>({ schema: PayloadDivinerQuerySchema }).fields({ url }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => (result as WithUrl)?.url === url)).toBe(true)
+          expect(results.every(result => (result as WithUrl)?.url === url)).toBe(true)
         })
       })
       describe('array', () => {
@@ -138,7 +137,7 @@ describe('GenericPayloadDiviner', () => {
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload & WithFoo>({ schema: PayloadDivinerQuerySchema }).fields({ foo }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => foo.every((v) => (result as unknown as WithFoo)?.foo?.includes(v)))).toBe(true)
+          expect(results.every(result => foo.every(v => (result as unknown as WithFoo)?.foo?.includes(v)))).toBe(true)
         })
       })
     })

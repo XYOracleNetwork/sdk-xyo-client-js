@@ -8,7 +8,7 @@ import { Module } from './Module.ts'
 
 export const requiredModuleQueries: Schema[] = [ModuleStateQuerySchema]
 
-//we do not use IsInstanceFactory here to prevent a cycle
+// we do not use IsInstanceFactory here to prevent a cycle
 const factory = new IsModuleFactory<Module>()
 
 export const isModule: TypeCheck<Module> = factory.create(requiredModuleQueries, [isModuleObject])

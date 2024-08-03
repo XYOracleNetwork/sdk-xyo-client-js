@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
@@ -35,16 +34,16 @@ describe('MemoryNode', () => {
     testAccount2 = await HDWallet.fromPhrase('siren tenant achieve enough tone roof album champion tiny civil lottery hundred')
     testAccount3 = await HDWallet.fromPhrase('person wheat floor tumble pond develop sauce attract neither toilet build enrich')
     testAccount4 = await HDWallet.fromPhrase('kit sound script century margin into guilt region engine garment lab rifle')
-    //jest.spyOn(console, 'log').mockImplementation(() => {
+    // jest.spyOn(console, 'log').mockImplementation(() => {
     // Stop expected logs from being generated during tests
-    //})
+    // })
   })
   beforeEach(async () => {
     const nodeModule = await MemoryNode.create({ account: testAccount1, config: nodeConfig })
     node = nodeModule
   })
   describe('create', () => {
-    /*describe('with autoAttachExternallyResolved true', () => {
+    /* describe('with autoAttachExternallyResolved true', () => {
       it('attaches external modules to internal resolver', async () => {
         // Arrange
         // Create a MemoryNode with no modules in the internal
@@ -80,7 +79,7 @@ describe('MemoryNode', () => {
         // Module still exists in external resolver
         expect(await resolver.resolve(filter)).toBeArrayOfSize(1)
       })
-    })*/
+    }) */
   })
   describe('register', () => {
     it('registers module', async () => {
@@ -130,7 +129,7 @@ describe('MemoryNode', () => {
         node
           .attach(mod.address, true)
           .then(async () => {
-            //wait for up to 5 seconds
+            // wait for up to 5 seconds
             let waitFrames = 50
             while (waitFrames) {
               if (eventDone) {
@@ -179,9 +178,9 @@ describe('MemoryNode', () => {
     it('deregisters existing module', async () => {
       await node.detach(mod.address)
     })
-    /*it('allows deregistering non-existent mod', () => {
+    /* it('allows deregistering non-existent mod', () => {
       node.detach('4a15a6c96665931b76c1d2a587ea1132dbfdc266')
-    })*/
+    }) */
   })
   describe('registeredModules', () => {
     let mod: AttachableModuleInstance
@@ -255,7 +254,7 @@ describe('MemoryNode', () => {
         const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         validateModuleDescription(description)
         expect(description?.children).toBeArrayOfSize(2)
-        //description.children?.map(validateModuleDescription)
+        // description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
         const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
@@ -293,7 +292,7 @@ describe('MemoryNode', () => {
         const description = (await memoryNode.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         validateModuleDescription(description)
         expect(description?.children).toBeArrayOfSize(2)
-        //description.children?.map(validateModuleDescription)
+        // description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
         const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
@@ -324,7 +323,7 @@ describe('MemoryNode', () => {
         await node.attach(mod.address)
 
         try {
-          //this should except
+          // this should except
           await MemoryNodeHelper.attachToNewNode(node, 'CloneModulePrivate')
           expect(false).toBeTrue()
         } catch (e) {
@@ -337,13 +336,13 @@ describe('MemoryNode', () => {
     const archivistConfig = { schema: MemoryArchivist.defaultConfigSchema }
     const validateStateResponse = (mod: Module, response: Payload[]) => {
       expect(response).toBeArray()
-      const address = response.find((p) => p.schema === AddressSchema) as AddressPayload
+      const address = response.find(p => p.schema === AddressSchema) as AddressPayload
       expect(address).toBeObject()
       expect(address.address).toEqual(mod.address)
-      const config = response.find((p) => p.schema === mod.config.schema)
+      const config = response.find(p => p.schema === mod.config.schema)
       expect(config).toBeObject()
       expect(config?.schema).toBe(mod.config.schema)
-      const queries = response.filter((p) => mod.queries.includes(p.schema))
+      const queries = response.filter(p => mod.queries.includes(p.schema))
       expect(queries.length).toBeGreaterThanOrEqual(0)
       for (const query of queries) {
         expect(query).toBeObject()
@@ -370,9 +369,9 @@ describe('MemoryNode', () => {
         )
         const state = await memoryNode.state()
 
-        const address0 = state.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[0].address) as AddressPayload
+        const address0 = state.find(p => p.schema === AddressSchema && (p as AddressPayload).address === modules[0].address) as AddressPayload
         expect(address0).toBeObject()
-        const address1 = state.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[1].address) as AddressPayload
+        const address1 = state.find(p => p.schema === AddressSchema && (p as AddressPayload).address === modules[1].address) as AddressPayload
         expect(address1).toBeObject()
       })
     })
@@ -410,7 +409,7 @@ describe('MemoryNode', () => {
         for (const rootModule of rootModules) {
           expect(attachEvents.includes(rootModule)).toBeTrue()
         }
-        const eventAddresses = attachEvents.map((mod) => mod.address)
+        const eventAddresses = attachEvents.map(mod => mod.address)
         expect(eventAddresses.length).toBe(3)
       })
       it('describes node and all nested nodes and child modules', async () => {

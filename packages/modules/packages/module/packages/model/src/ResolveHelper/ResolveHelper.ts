@@ -118,7 +118,7 @@ export class ResolveHelper extends ResolveHelperStatic {
       if (maxDepth === 0) {
         return modules
       }
-      const childModules = (await Promise.all(modules.map(async (mod) => await mod.resolve<T>('*', childOptions)))).flat().filter(duplicateModules)
+      const childModules = (await Promise.all(modules.map(async mod => await mod.resolve<T>('*', childOptions)))).flat().filter(duplicateModules)
       return [...modules, ...childModules, mod as T].filter(duplicateModules)
     } else {
       switch (typeof idOrFilter) {
@@ -163,7 +163,7 @@ export class ResolveHelper extends ResolveHelperStatic {
     return result
   }
 
-  //resolves a complex module path to addresses
+  // resolves a complex module path to addresses
   static async resolveModuleIdentifier<T extends ModuleInstance = ModuleInstance>(
     resolver: ModuleResolver,
     path: ModuleIdentifier,
@@ -172,9 +172,9 @@ export class ResolveHelper extends ResolveHelperStatic {
     const parts = path.split(':')
     const first = parts.shift()
     const firstIsAddress = isAddress(first)
-    const resolvedModule =
-      (await resolver.resolve(first, { maxDepth: firstIsAddress ? 10 : 1 })) ??
-      (first ? await resolver.resolvePrivate(first, { maxDepth: firstIsAddress ? 10 : 1 }) : undefined)
+    const resolvedModule
+      = (await resolver.resolve(first, { maxDepth: firstIsAddress ? 10 : 1 }))
+      ?? (first ? await resolver.resolvePrivate(first, { maxDepth: firstIsAddress ? 10 : 1 }) : undefined)
     const finalModule = required ? assertEx(resolvedModule, () => `Failed to resolve [${first}] [${firstIsAddress}]`) : resolvedModule
     const firstModule = asModuleInstance(finalModule, () => `Resolved invalid module instance [${first}]`) as T
     if (firstModule) {
@@ -182,7 +182,7 @@ export class ResolveHelper extends ResolveHelperStatic {
     }
   }
 
-  //translates a complex module path to addresses
+  // translates a complex module path to addresses
   static traceModuleIdentifier(resolver: ModuleResolver, path: ModuleIdentifier) {
     return traceModuleIdentifier(resolver, path)
   }

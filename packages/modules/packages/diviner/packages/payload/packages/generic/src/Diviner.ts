@@ -115,21 +115,21 @@ export class GenericPayloadDiviner<
     const { $hash, $meta, schema, schemas, order, limit, offset, ...props } = filter
     let all: WithMeta<TOut>[] = this.all(order, offset)
     if (all) {
-      if (schemas?.length) all = all.filter((payload) => schemas.includes(payload.schema))
+      if (schemas?.length) all = all.filter(payload => schemas.includes(payload.schema))
       if (Object.keys(props).length > 0) {
         const additionalFilterCriteria = Object.entries(props)
         for (const [prop, filter] of additionalFilterCriteria) {
           const property = prop as keyof TOut
-          all =
-            Array.isArray(filter) ?
-              all.filter((payload) =>
+          all
+            = Array.isArray(filter)
+              ? all.filter(payload =>
                 filter.every((value) => {
                   const prop = payload?.[property]
-                  //TODO: This seems to be written just to check arrays, and now that $meta is there, need to check type?
+                  // TODO: This seems to be written just to check arrays, and now that $meta is there, need to check type?
                   return Array.isArray(prop) && prop.includes?.(value)
                 }),
               )
-            : all.filter((payload) => payload?.[property] === filter)
+              : all.filter(payload => payload?.[property] === filter)
         }
       }
       return limit ? all.slice(0, limit) : all
@@ -169,7 +169,7 @@ export class GenericPayloadDiviner<
     return await super.stopHandler()
   }
 
-  //index any new payloads
+  // index any new payloads
   protected async updateIndex() {
     await this._updatePayloadPairsMutex.runExclusive(async () => {
       const archivist = await this.archivistInstance(true)
@@ -191,7 +191,7 @@ export class GenericPayloadDiviner<
     const pairs = await PayloadBuilder.hashPairs(payloads)
     this.payloadPairs.push(...pairs)
 
-    //update the custom indexes
+    // update the custom indexes
     for (const index of this.indexes ?? []) {
       this.indexMaps[index] = this.indexMaps[index] ?? []
       for (const [payload] of pairs) {

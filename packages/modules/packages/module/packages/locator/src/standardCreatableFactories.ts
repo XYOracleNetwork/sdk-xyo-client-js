@@ -10,7 +10,7 @@ import { ViewNode } from '@xyo-network/node-view'
 import { MemorySentinel } from '@xyo-network/sentinel-memory'
 import { AdhocWitness } from '@xyo-network/witness-adhoc'
 
-//order matters in this array.  later items will register themselves as primary for schemas shared with earlier items
+// order matters in this array.  later items will register themselves as primary for schemas shared with earlier items
 export const standardCreatableFactoriesList: (CreatableModuleFactory | LabeledCreatableModuleFactory)[] = [
   HttpBridge,
   ViewArchivist,

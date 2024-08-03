@@ -16,8 +16,7 @@ import { Payload, WithMeta, WithSources } from '@xyo-network/payload-model'
 constructableModuleWrapper()
 export class DivinerWrapper<TWrappedModule extends DivinerModule<DivinerParams>, TIn extends Payload = Payload, TOut extends Payload = Payload>
   extends ModuleWrapper<TWrappedModule>
-  implements DivinerInstance<TWrappedModule['params'], TIn, TOut>
-{
+  implements DivinerInstance<TWrappedModule['params'], TIn, TOut> {
   static override instanceIdentityCheck = isDivinerInstance
   static override moduleIdentityCheck = isDivinerModule
   static override requiredQueries = [DivinerDivineQuerySchema, ...super.requiredQueries]

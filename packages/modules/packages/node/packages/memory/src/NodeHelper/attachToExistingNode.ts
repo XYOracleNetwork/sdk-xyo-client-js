@@ -9,10 +9,10 @@ export const attachToExistingNode = async (source: NodeInstance, id: ModuleIdent
   const parts = id.split(':')
   const first = assertEx(parts.shift(), () => 'missing first part')
   if (parts.length === 0) {
-    //this is an immediate child/children
+    // this is an immediate child/children
     return await flatAttachToExistingNode(source, first, destination)
   } else {
-    //all parts that are not the last should be nodes, build them and nest
+    // all parts that are not the last should be nodes, build them and nest
     const firstModule = await source.resolve(first)
     const firstNode = asNodeInstance(firstModule, () => 'first part is not a node')
     const newNode = await MemoryNode.create({ config: firstNode.config })

@@ -1,4 +1,5 @@
 import { generateMnemonic } from '@scure/bip39'
+// eslint-disable-next-line import/no-internal-modules
 import { wordlist } from '@scure/bip39/wordlists/english'
 import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'

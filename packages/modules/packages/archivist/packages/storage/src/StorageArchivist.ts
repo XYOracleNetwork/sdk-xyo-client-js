@@ -37,12 +37,11 @@ export type StorageArchivistConfig = ArchivistConfig<{
 
 export type StorageArchivistParams = ArchivistParams<AnyConfigSchema<StorageArchivistConfig>>
 export class StorageArchivist<
-    TParams extends StorageArchivistParams = StorageArchivistParams,
-    TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-  >
+  TParams extends StorageArchivistParams = StorageArchivistParams,
+  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+>
   extends AbstractArchivist<TParams, TEventData>
-  implements ArchivistInstance
-{
+  implements ArchivistInstance {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, StorageArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = StorageArchivistConfigSchema
 
@@ -92,7 +91,7 @@ export class StorageArchivist<
     return this._storage
   }
 
-  /*override async loadAccount(account?: AccountInstance, persistAccount?: boolean, privateStorage?: StoreBase, _logger?: Logger) {
+  /* override async loadAccount(account?: AccountInstance, persistAccount?: boolean, privateStorage?: StoreBase, _logger?: Logger) {
     if (!this._account) {
       if (persistAccount) {
         const privateKey = privateStorage?.get('privateKey')
@@ -108,7 +107,7 @@ export class StorageArchivist<
       }
     }
     return await super.loadAccount()
-  }*/
+  } */
 
   protected override allHandler(): PromisableArray<PayloadWithMeta> {
     const found = new Set<string>()
@@ -148,7 +147,7 @@ export class StorageArchivist<
     )
     // TODO - rather than clear, delete the payloads that come back as successfully inserted
     await this.clear()
-    return compact(settled.filter(fulfilled).map((result) => result.value))
+    return compact(settled.filter(fulfilled).map(result => result.value))
   }
 
   protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {

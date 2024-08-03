@@ -2,25 +2,25 @@ import { toUint8Array } from '@xylabs/arraybuffer'
 import { AccountInstance, AccountStatic } from '@xyo-network/account-model'
 
 export const generateAccountTests = (title: string, Account: AccountStatic) => {
-  //test vectors: https://tools.ietf.org/html/rfc8032
-  //test tool: https://asecuritysite.com/encryption/ethadd
+  // test vectors: https://tools.ietf.org/html/rfc8032
+  // test tool: https://asecuritysite.com/encryption/ethadd
 
   const testVectorPrivateKey = '7f71bc5644f8f521f7e9b73f7a391e82c05432f8a9d36c44d6b1edbf1d8db62f'
-  const testVectorPublicKey =
-    'ed6f3b86542f45aab88ec48ab1366b462bd993fec83e234054afd8f2311fba774800fdb40c04918463b463a6044b83413a604550bfba8f8911beb65475d6528e'
+  const testVectorPublicKey
+    = 'ed6f3b86542f45aab88ec48ab1366b462bd993fec83e234054afd8f2311fba774800fdb40c04918463b463a6044b83413a604550bfba8f8911beb65475d6528e'
   const testVectorAddress = '5e7a847447e7fec41011ae7d32d768f86605ba03'
   const testVectorHash = toUint8Array('4b688df40bcedbe641ddb16ff0a1842d9c67ea1c3bf63f3e0471baa664531d1a')
-  const testVectorSignature =
-    'b61dad551e910e2793b4f9f880125b5799086510ce102fad0222c1b093c60a6b38aa35ef56f97f86537269e8be95832aaa37d3b64d86b67f0cda467ac7cb5b3e'
+  const testVectorSignature
+    = 'b61dad551e910e2793b4f9f880125b5799086510ce102fad0222c1b093c60a6b38aa35ef56f97f86537269e8be95832aaa37d3b64d86b67f0cda467ac7cb5b3e'
 
-  /*const testVectors = {
+  /* const testVectors = {
   d: 'ebb2c082fd7727890a28ac82f6bdf97bad8de9f5d7c9028692de1a255cad3e0f',
   k: '49a0d7b786ec9cde0d0721d72804befd06571c974b191efb42ecf322ba9ddd9a',
   h: '4b688df40bcedbe641ddb16ff0a1842d9c67ea1c3bf63f3e0471baa664531d1a',
   r: '241097efbf8b63bf145c8961dbdf10c310efbb3b2676bbc0f8b08505c9e2f795',
   s: '021006b7838609339e8b415a7f9acb1b661828131aef1ecbc7955dfb01f3ca0e',
   q: '04779dd197a5df977ed2cf6cb31d82d43328b790dc6b3b7d4437a427bd5847dfcde94b724a555b6d017bb7607c3e3281daf5b1699d6ef4124975c9237b917d426f',
-}*/
+} */
 
   describe(title, () => {
     test('Address from Key', async () => {

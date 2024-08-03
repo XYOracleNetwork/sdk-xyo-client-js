@@ -16,8 +16,7 @@ import { WitnessInstance } from '@xyo-network/witness-model'
 constructableModuleWrapper()
 export class SentinelWrapper<TModule extends SentinelModule = SentinelModule>
   extends ModuleWrapper<TModule>
-  implements SentinelInstance<TModule['params']>
-{
+  implements SentinelInstance<TModule['params']> {
   static override instanceIdentityCheck = isSentinelInstance
   static override moduleIdentityCheck = isSentinelModule
   static override requiredQueries = [SentinelReportQuerySchema, ...super.requiredQueries]

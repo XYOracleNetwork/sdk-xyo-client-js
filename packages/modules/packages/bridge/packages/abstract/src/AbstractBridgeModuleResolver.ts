@@ -30,6 +30,7 @@ export abstract class AbstractBridgeModuleResolver<
   override get priority() {
     return ObjectResolverPriority.VeryLow
   }
+
   override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
     id: ModuleIdentifier,
     options?: ModuleFilterOptions<T>,

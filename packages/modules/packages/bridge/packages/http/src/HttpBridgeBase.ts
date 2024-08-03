@@ -82,9 +82,9 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
   }
 
   override get resolver() {
-    this._resolver =
-      this._resolver ??
-      new HttpBridgeModuleResolver({
+    this._resolver
+      = this._resolver
+      ?? new HttpBridgeModuleResolver({
         additionalSigners: this.additionalSigners,
         archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
         bridge: this,

@@ -34,7 +34,7 @@ const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
     },
     resolve: async (filter?: ModuleFilter): Promise<Module[]> => {
       const modules: Module[] = await originalResolve(filter)
-      await Promise.allSettled(modules.map((mod) => onModuleResolved(mod, filter)))
+      await Promise.allSettled(modules.map(mod => onModuleResolved(mod, filter)))
       return modules
     },
   }

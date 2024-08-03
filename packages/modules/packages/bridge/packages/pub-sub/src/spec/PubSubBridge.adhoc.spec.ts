@@ -162,7 +162,7 @@ describe('PubSubBridge', () => {
     hostBridge.on('queryFulfillStarted', ({ query }) => console.log(`Query fulfill started: ${query}`))
     hostBridge.on('queryFulfillFinished', ({ query }) => console.log(`Query fulfill finished: ${query}`))
 
-    clientBridge.onAny((event) => console.log(`onAny: ${String(event)}`))
+    clientBridge.onAny(event => console.log(`onAny: ${String(event)}`))
 
     await clientBridge?.start?.()
     await hostBridge?.start?.()
@@ -179,7 +179,7 @@ describe('PubSubBridge', () => {
     expect(exposed).toBeArray()
     expect(exposed?.length).toBeGreaterThan(1)
 
-    //test the requirement for connect to be called before resolve
+    // test the requirement for connect to be called before resolve
     const rootModuleNoExist = await clientNode.resolve(hostNodeContainer.address)
     expect(rootModuleNoExist).toBeUndefined()
 

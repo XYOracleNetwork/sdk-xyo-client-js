@@ -28,7 +28,7 @@ declare interface ARIMAOptions {
   s?: number
   method?: ARIMAMethod // ARIMA method (default: 0)
   optimizer?: OptimizationMethod // optimization method (default: 6)
-  transpose?: boolean //transpose exogenous array when fitting SARIMAX (default: false)
+  transpose?: boolean // transpose exogenous array when fitting SARIMAX (default: false)
   verbose?: boolean // verbose output (default: true)
 }
 

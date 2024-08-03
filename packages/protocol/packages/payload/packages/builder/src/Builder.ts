@@ -26,12 +26,12 @@ export class PayloadBuilder<
   static async build<T extends Payload = Payload<AnyObject>>(payload: T[], options?: BuildOptions): Promise<WithMeta<T>[]>
   static async build<T extends Payload = Payload<AnyObject>>(payload: T | T[], options: BuildOptions = {}) {
     if (Array.isArray(payload)) {
-      return await Promise.all(payload.map((payload) => this.build(payload, options)))
+      return await Promise.all(payload.map(payload => this.build(payload, options)))
     } else {
       const { stamp = false, validate = true } = options
       const { schema, $hash: incomingDataHash, $meta: incomingMeta = {} } = payload as WithMeta<T>
 
-      //check for legacy signatures
+      // check for legacy signatures
       const { _signatures } = payload as { _signatures?: JsonArray }
       if (_signatures && !incomingMeta.signatures) {
         incomingMeta.signatures = _signatures
@@ -70,13 +70,13 @@ export class PayloadBuilder<
   static async dataHashes(payloads: undefined, options?: BuildOptions): Promise<undefined>
   static async dataHashes<T extends Payload>(payloads: T[], options?: BuildOptions): Promise<Hash[]>
   static async dataHashes<T extends Payload>(payloads?: T[], options?: BuildOptions): Promise<Hash[] | undefined> {
-    return payloads ?
-        await Promise.all(
-          payloads.map(async (payload) => {
-            const built = await PayloadBuilder.build(payload, options)
-            return built.$hash
-          }),
-        )
+    return payloads
+      ? await Promise.all(
+        payloads.map(async (payload) => {
+          const built = await PayloadBuilder.build(payload, options)
+          return built.$hash
+        }),
+      )
       : undefined
   }
 
@@ -86,12 +86,12 @@ export class PayloadBuilder<
 
   static async filterExcludeByDataHash<T extends Payload>(payloads: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
     const hashes = Array.isArray(hash) ? hash : [hash]
-    return (await this.dataHashPairs(payloads)).filter(([_, objHash]) => !hashes.includes(objHash))?.map((pair) => pair[0])
+    return (await this.dataHashPairs(payloads)).filter(([_, objHash]) => !hashes.includes(objHash))?.map(pair => pair[0])
   }
 
   static async filterIncludeByDataHash<T extends Payload>(payloads: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
     const hashes = Array.isArray(hash) ? hash : [hash]
-    return (await this.dataHashPairs(payloads)).filter(([_, objHash]) => hashes.includes(objHash))?.map((pair) => pair[0])
+    return (await this.dataHashPairs(payloads)).filter(([_, objHash]) => hashes.includes(objHash))?.map(pair => pair[0])
   }
 
   static async findByDataHash<T extends Payload>(payloads: T[] = [], hash: Hash): Promise<T | undefined> {
@@ -193,7 +193,7 @@ export class PayloadBuilder<
   static withoutMeta<T extends PayloadWithMeta>(payloads: T[]): Omit<T, '$meta'>[]
   static withoutMeta<T extends PayloadWithMeta>(payloads: T | T[]) {
     if (Array.isArray(payloads)) {
-      return payloads.map((payload) => this.withoutMeta(payload))
+      return payloads.map(payload => this.withoutMeta(payload))
     } else {
       if (payloads) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

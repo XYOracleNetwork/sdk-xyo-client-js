@@ -14,8 +14,8 @@ export type EvmWitnessConfig<TAdditional extends EmptyObject | Payload | void = 
   TSchema extends void ?
     TAdditional extends Payload ?
       TAdditional['schema']
-    : EvmWitnessConfigSchema
-  : TSchema
+      : EvmWitnessConfigSchema
+    : TSchema
 >
 
 export type AdditionalEvmWitnessParams = {
@@ -37,18 +37,17 @@ export type EvmWitnessParams<
 
 creatableModule()
 export abstract class AbstractEvmWitness<
-    TParams extends EvmWitnessParams<AnyConfigSchema<EvmWitnessConfig>> = EvmWitnessParams,
-    TIn extends Payload = Payload,
-    TOut extends Payload = Payload,
-    TEventData extends WitnessModuleEventData<WitnessInstance<TParams, TIn, TOut>, TIn, TOut> = WitnessModuleEventData<
-      WitnessInstance<TParams, TIn, TOut>,
-      TIn,
-      TOut
-    >,
-  >
+  TParams extends EvmWitnessParams<AnyConfigSchema<EvmWitnessConfig>> = EvmWitnessParams,
+  TIn extends Payload = Payload,
+  TOut extends Payload = Payload,
+  TEventData extends WitnessModuleEventData<WitnessInstance<TParams, TIn, TOut>, TIn, TOut> = WitnessModuleEventData<
+    WitnessInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
+>
   extends AbstractWitness<TParams, TIn, TOut, TEventData>
-  implements CustomWitnessInstance<TParams, TIn, TOut, TEventData>
-{
+  implements CustomWitnessInstance<TParams, TIn, TOut, TEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, EvmWitnessConfigSchema]
   static override readonly defaultConfigSchema: Schema = EvmWitnessConfigSchema
   private _providers: Provider[] | undefined = undefined
@@ -63,7 +62,7 @@ export abstract class AbstractEvmWitness<
       }
       return undefined
     }
-    return providers[Date.now() % providers.length] //pick a random provider
+    return providers[Date.now() % providers.length] // pick a random provider
   }
 
   async getProviders(cache = false): Promise<Provider[]> {

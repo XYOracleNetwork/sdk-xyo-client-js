@@ -25,9 +25,9 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
     const archivist = ArchivistWrapper.wrap(archivistMod, this.account)
     const all = await archivist.all?.()
     const bwLists = all?.filter(isBoundWitnessWithMeta) ?? []
-    const addresses = new Set<Address>(bwLists.flatMap((bw) => bw.addresses).map((address) => address.toLowerCase() as Address))
+    const addresses = new Set<Address>(bwLists.flatMap(bw => bw.addresses).map(address => address.toLowerCase() as Address))
     return await Promise.all(
-      [...addresses].map((address) => new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()),
+      [...addresses].map(address => new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()),
     )
   }
 }

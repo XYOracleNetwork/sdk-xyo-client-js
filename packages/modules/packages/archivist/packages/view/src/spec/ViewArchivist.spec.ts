@@ -34,7 +34,7 @@ describe('MemoryArchivist', () => {
     await node.attach(viewArchivist.modName ?? viewArchivist.address, true)
 
     const payloads = [await PayloadBuilder.build({ schema: 'network.xyo.test' })]
-    const payloadHashes = payloads.map((payload) => payload.$hash)
+    const payloadHashes = payloads.map(payload => payload.$hash)
     const result = await originArchivist.insert(payloads)
 
     expect(result.length).toEqual(payloads.length)

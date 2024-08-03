@@ -50,20 +50,21 @@ export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleCo
       if (validCosigners) return true
     }
     // OR all signers have to be allowed individually
-    return addresses.every((address) => this.allowed?.[schema]?.includes(address) || false)
+    return addresses.every(address => this.allowed?.[schema]?.includes(address) || false)
   }
+
   protected queryDisallowed = (schema: Schema, addresses: string[]): boolean => {
     if (!this.hasDisallowedRules) return false
-    return addresses.some((address) => this.disallowed?.[schema]?.includes(address))
+    return addresses.some(address => this.disallowed?.[schema]?.includes(address))
   }
 }
 
 // TODO: Handle 0x prefix
 const toAddressesString = (addresses: string | CosigningAddressSet): SortedPipedAddressesString => {
-  return Array.isArray(addresses) ?
-      addresses
-        .sort()
-        .map((address) => address.toLowerCase())
-        .join(delimiter)
+  return Array.isArray(addresses)
+    ? addresses
+      .sort()
+      .map(address => address.toLowerCase())
+      .join(delimiter)
     : addresses.toLowerCase()
 }

@@ -46,12 +46,12 @@ export interface ModuleFamilyFunctions {
 
 export interface ModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends Module<TParams, TEventData>,
-    ObjectResolver<ModuleInstance>,
-    ModuleQueryFunctions,
-    ModuleFamilyFunctions {
+  ObjectResolver<ModuleInstance>,
+  ModuleQueryFunctions,
+  ModuleFamilyFunctions {
   readonly pipeline?: ModulePipeLine
 
-  //if the module has become non-functional, such as a broken bridge connection, this will be 'dead'
+  // if the module has become non-functional, such as a broken bridge connection, this will be 'dead'
   readonly status: ModuleStatus
 }
 

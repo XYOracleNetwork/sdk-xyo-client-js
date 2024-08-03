@@ -4,10 +4,10 @@ import { ModuleResolveDirection } from './model.ts'
 
 export const resolveLocalNameToInstanceUp = async (root: ModuleInstance, modName: ModuleName): Promise<ModuleInstance | undefined> => {
   const parents = (await root.parents?.()) ?? []
-  return parents.find((parent) => parent.config.name === modName)
+  return parents.find(parent => parent.config.name === modName)
 }
 
-//since this is a modName, it only checks the children of the root module
+// since this is a modName, it only checks the children of the root module
 export const resolveLocalNameToInstanceDown = async (
   root: ModuleInstance,
   modName: ModuleName,
@@ -16,7 +16,7 @@ export const resolveLocalNameToInstanceDown = async (
   const privateChildren = (includePrivate ? await root.privateChildren?.() : []) ?? []
   const publicChildren = (await root.publicChildren?.()) ?? []
   const children = [...privateChildren, ...publicChildren]
-  return children.find((child) => child.config.name === modName)
+  return children.find(child => child.config.name === modName)
 }
 
 export const resolveLocalNameToInstanceAll = async (

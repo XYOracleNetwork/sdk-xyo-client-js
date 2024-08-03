@@ -38,7 +38,7 @@ export class MemoryAddressChainDiviner<
           result.push(bwWrapper.payload)
           currentHash = bwWrapper.prev(this.queryAddress)
         } else {
-          //was not a bound witness - bail
+          // was not a bound witness - bail
           console.log(`Hash is not a BoundWitness [${currentHash}]`)
           currentHash = null
         }

@@ -65,13 +65,13 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
-    const builtPayloads = await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload)))
+    const builtPayloads = await Promise.all(payloads.map(payload => PayloadBuilder.build(payload)))
     // If the Bound Witness does not contain all the required schemas do not index it
     const indexableBoundWitnesses = builtPayloads
       .filter(isBoundWitnessWithMeta)
-      .filter((bw) => containsAll(bw.payload_schemas, this.indexableSchemas))
+      .filter(bw => containsAll(bw.payload_schemas, this.indexableSchemas))
     // If the Payload is not one of the indexable schemas do not index it
-    const indexablePayloads = builtPayloads.filter((p) => this.isIndexablePayload(p))
+    const indexablePayloads = builtPayloads.filter(p => this.isIndexablePayload(p))
     // If there is nothing to index, return an empty array
     if (indexableBoundWitnesses.length === 0 || indexablePayloads.length === 0) return []
     // Hash all the indexable data once
@@ -90,7 +90,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
 
       // Iterate over each combination
       for (const combination of combinations) {
-        const indexablePayloads = combination.map((hash) => payloadDictionary[hash]).filter(exists)
+        const indexablePayloads = combination.map(hash => payloadDictionary[hash]).filter(exists)
 
         // If we found the right amount of indexable payloads (of the correct schema as checked
         // above) in this BW, then index it
@@ -103,13 +103,13 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
     // Create the indexes from the tuples
     const indexes = await Promise.all(
       validIndexableTuples.map<Promise<TemporalIndexingDivinerResultIndex>>(async ([bwHash, ...sourcePayloadHashes]) => {
-        const sourcePayloads = sourcePayloadHashes.map((hash) => payloadDictionary[hash])
+        const sourcePayloads = sourcePayloadHashes.map(hash => payloadDictionary[hash])
         // Use the payload transformers to convert the fields from the source payloads to the destination fields
         const indexFields = sourcePayloads.flatMap((payload) => {
           // Find the transformers for this payload
           const transformers = this.payloadTransformers[payload.schema]
           // If transformers exist, apply them to the payload otherwise return an empty array
-          return transformers ? transformers.map((transform) => transform(payload)) : []
+          return transformers ? transformers.map(transform => transform(payload)) : []
         })
         // Include all the sources for reference
         const sources: string[] = [bwHash, ...sourcePayloadHashes]

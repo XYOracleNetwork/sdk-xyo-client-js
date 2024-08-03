@@ -54,14 +54,13 @@ export type ModuleProxyParams = ModuleParams<
 >
 
 export abstract class AbstractModuleProxy<
-    TWrappedModule extends ModuleInstance = ModuleInstance,
-    TParams extends Omit<ModuleProxyParams, 'config'> & { config: TWrappedModule['config'] } = Omit<ModuleProxyParams, 'config'> & {
-      config: TWrappedModule['config']
-    },
-  >
+  TWrappedModule extends ModuleInstance = ModuleInstance,
+  TParams extends Omit<ModuleProxyParams, 'config'> & { config: TWrappedModule['config'] } = Omit<ModuleProxyParams, 'config'> & {
+    config: TWrappedModule['config']
+  },
+>
   extends AbstractModuleInstance<TParams, TWrappedModule['eventData']>
-  implements ModuleInstance<TParams, TWrappedModule['eventData']>
-{
+  implements ModuleInstance<TParams, TWrappedModule['eventData']> {
   static requiredQueries: string[] = [ModuleStateQuerySchema]
 
   protected _config?: ModuleInstance['config']
@@ -89,10 +88,10 @@ export abstract class AbstractModuleProxy<
   }
 
   override get queries(): string[] {
-    const queryPayloads = assertEx(this._state, () => 'Module state not found.  Make sure proxy has been started').filter((item) =>
+    const queryPayloads = assertEx(this._state, () => 'Module state not found.  Make sure proxy has been started').filter(item =>
       isPayloadOfSchemaType<QueryPayload>(QuerySchema)(item),
     ) as QueryPayload[]
-    return queryPayloads.map((payload) => payload.query)
+    return queryPayloads.map(payload => payload.query)
   }
 
   static hasRequiredQueries(mod: Module) {
@@ -121,13 +120,13 @@ export abstract class AbstractModuleProxy<
 
   childAddressByName(name: ModuleName): Address | undefined {
     const nodeManifests = this._state?.filter(isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema))
-    const childPairs = nodeManifests?.flatMap((nodeManifest) => Object.entries(nodeManifest.status?.children ?? {}) as [Address, ModuleName | null][])
+    const childPairs = nodeManifests?.flatMap(nodeManifest => Object.entries(nodeManifest.status?.children ?? {}) as [Address, ModuleName | null][])
     return asAddress(childPairs?.find(([_, childName]) => childName === name)?.[0])
   }
 
   async childAddressMap(): Promise<Record<Address, ModuleName | null>> {
-    let nodeManifests: NodeManifestPayload[] | undefined =
-      isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema)(this.params.manifest) ? [this.params.manifest] : undefined
+    let nodeManifests: NodeManifestPayload[] | undefined
+      = isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema)(this.params.manifest) ? [this.params.manifest] : undefined
     const result: Record<Address, ModuleName | null> = {}
     if (nodeManifests === undefined) {
       const state = await this.state()
@@ -187,7 +186,7 @@ export abstract class AbstractModuleProxy<
         this.params.onQuerySendFinished?.({ payloads, query, status: 'failure' })
         const error = ex as Error
         this._lastError = error
-        //this.status = 'dead'
+        // this.status = 'dead'
         const deadError = new DeadModuleError(this.address, error)
         const errorPayload: ModuleError = {
           message: deadError.message,
@@ -233,7 +232,7 @@ export abstract class AbstractModuleProxy<
     if (!manifest) {
       const state = await this.state()
       const manifestPayload = state.find(
-        (payload) => isPayloadOfSchemaType(NodeManifestPayloadSchema)(payload) || isPayloadOfSchemaType(ModuleManifestPayloadSchema)(payload),
+        payload => isPayloadOfSchemaType(NodeManifestPayloadSchema)(payload) || isPayloadOfSchemaType(ModuleManifestPayloadSchema)(payload),
       ) as ModuleManifestPayload
       manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
     }
@@ -251,7 +250,7 @@ export abstract class AbstractModuleProxy<
 
   override async state(): Promise<Payload[]> {
     if (this._state === undefined) {
-      //temporarily add ModuleStateQuerySchema to the schema list so we can wrap it and get the real query list
+      // temporarily add ModuleStateQuerySchema to the schema list so we can wrap it and get the real query list
       const stateQueryPayload: QueryPayload = { query: ModuleStateQuerySchema, schema: QuerySchema }
       const manifestQueryPayload: QueryPayload = { query: ModuleManifestQuerySchema, schema: QuerySchema }
       this._state = [stateQueryPayload, manifestQueryPayload]
@@ -266,7 +265,7 @@ export abstract class AbstractModuleProxy<
     return wrapper.payloadsBySchema<WithMeta<ModuleError>>(ModuleErrorSchema)
   }
 
-  //this checks and warns if we are getting spammed by the same query
+  // this checks and warns if we are getting spammed by the same query
   private async checkSpam(query: QueryBoundWitness) {
     const hash = await PayloadBuilder.hash(query)
     const previousCount = this._spamTrap.get(hash) ?? 0

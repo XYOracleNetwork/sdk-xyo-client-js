@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable max-nested-callbacks */
 
 import { delay } from '@xylabs/delay'
@@ -68,7 +67,7 @@ describe('MemoryPayloadDiviner', () => {
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => result.schema === schema)).toBe(true)
+          expect(results.every(result => result.schema === schema)).toBe(true)
         })
       })
       describe('multiple', () => {
@@ -77,7 +76,7 @@ describe('MemoryPayloadDiviner', () => {
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => schemas.includes(result.schema))).toBe(true)
+          expect(results.every(result => schemas.includes(result.schema))).toBe(true)
         })
       })
     })
@@ -93,7 +92,7 @@ describe('MemoryPayloadDiviner', () => {
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
             expect(results.every(hasTimestamp)).toBe(true)
-            expect(results.filter(hasTimestamp).every((result) => result.timestamp > timestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every(result => result.timestamp > timestamp)).toBe(true)
           })
           it('returns payloads equal to the supplied timestamp', async () => {
             const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[1].timestamp
@@ -103,7 +102,7 @@ describe('MemoryPayloadDiviner', () => {
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
             expect(results.every(hasTimestamp)).toBe(true)
-            expect(results.filter(hasTimestamp).every((result) => result.timestamp === timestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every(result => result.timestamp === timestamp)).toBe(true)
           })
         })
         describe('desc', () => {
@@ -116,7 +115,7 @@ describe('MemoryPayloadDiviner', () => {
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
             expect(results.every(hasTimestamp)).toBe(true)
-            expect(results.filter(hasTimestamp).every((result) => result.timestamp <= timestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every(result => result.timestamp <= timestamp)).toBe(true)
           })
           it('returns payloads equal to the supplied timestamp', async () => {
             const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[0].timestamp
@@ -126,7 +125,7 @@ describe('MemoryPayloadDiviner', () => {
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
             expect(results.every(hasTimestamp)).toBe(true)
-            expect(results.filter(hasTimestamp).every((result) => result.timestamp === timestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every(result => result.timestamp === timestamp)).toBe(true)
           })
         })
       })
@@ -138,7 +137,7 @@ describe('MemoryPayloadDiviner', () => {
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
             expect(results.every(hasTimestamp)).toBe(true)
-            expect(results.filter(hasTimestamp).every((result) => result.timestamp === timestamp)).toBe(true)
+            expect(results.filter(hasTimestamp).every(result => result.timestamp === timestamp)).toBe(true)
           }
         })
       })
@@ -151,7 +150,7 @@ describe('MemoryPayloadDiviner', () => {
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload & WithUrl>({ schema: PayloadDivinerQuerySchema }).fields({ url }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => (result as WithUrl)?.url === url)).toBe(true)
+          expect(results.every(result => (result as WithUrl)?.url === url)).toBe(true)
         })
       })
       describe('array', () => {
@@ -161,7 +160,7 @@ describe('MemoryPayloadDiviner', () => {
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload & WithFoo>({ schema: PayloadDivinerQuerySchema }).fields({ foo }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => foo.every((v) => (result as unknown as WithFoo)?.foo?.includes(v)))).toBe(true)
+          expect(results.every(result => foo.every(v => (result as unknown as WithFoo)?.foo?.includes(v)))).toBe(true)
         })
       })
     })

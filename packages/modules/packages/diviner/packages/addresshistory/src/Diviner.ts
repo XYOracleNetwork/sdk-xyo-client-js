@@ -29,12 +29,12 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
     const chains = Object.values(this.buildAddressChains(this.queryAddress, bwRecords))
 
     // Return the heads of each chain (get the last bw on each chain)
-    return chains.map((chain) => assertEx(PayloadWrapper.unwrap(chain.shift())))
+    return chains.map(chain => assertEx(PayloadWrapper.unwrap(chain.shift())))
   }
 
   private async allBoundWitnesses() {
-    const archivists =
-      (await Promise.all(await this.resolve({ query: [[ArchivistGetQuerySchema]] }))).map((mod) =>
+    const archivists
+      = (await Promise.all(await this.resolve({ query: [[ArchivistGetQuerySchema]] }))).map(mod =>
         asArchivistInstance(mod, `Failed to cast module to Archivist [${mod.id}]`),
       ) ?? []
     assertEx(archivists.length > 0, () => 'Did not find any archivists')
@@ -58,12 +58,12 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
     }, {})
     // eslint-disable-next-line unicorn/no-array-reduce
     return Object.entries(bwRecords).reduce<Record<string, BoundWitness[]>>((prev, [key, value]) => {
-      //check if key is still there (may have been deleted as prevHash)
+      // check if key is still there (may have been deleted as prevHash)
       if (prev[key]) {
         const previousHash = BoundWitnessBuilder.previousHash(value, address)
         if (
-          previousHash && //if we have the previousHash, move this bw to its chain
-          prev[previousHash]
+          previousHash // if we have the previousHash, move this bw to its chain
+          && prev[previousHash]
         ) {
           prev[key].push(...prev[previousHash])
           delete prev[previousHash]

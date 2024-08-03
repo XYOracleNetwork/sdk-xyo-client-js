@@ -43,8 +43,7 @@ export type ViewNodeParams = NodeParams<AnyConfigSchema<ViewNodeConfig>>
 
 export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends MemoryNode<TParams, TEventData>
-  implements AttachableNodeInstance
-{
+  implements AttachableNodeInstance {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, ViewNodeConfigSchema]
   static override readonly defaultConfigSchema: Schema = ViewNodeConfigSchema
   static override readonly labels = { ...ModuleLimitationViewLabel }
@@ -60,7 +59,7 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
   override get queries(): Schema[] {
     const disallowedQueries = new Set<Schema>([NodeAttachQuerySchema, NodeDetachQuerySchema, NodeRegisteredQuerySchema])
     const queries: Schema[] = [...super.queries]
-    return queries.filter((query) => !disallowedQueries.has(query))
+    return queries.filter(query => !disallowedQueries.has(query))
   }
 
   get source() {
@@ -85,14 +84,14 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
     }
     switch (typeof idOrFilter) {
       case 'string': {
-        const mod = mods.find((mod) => mod.modName === idOrFilter || mod.address === idOrFilter)
+        const mod = mods.find(mod => mod.modName === idOrFilter || mod.address === idOrFilter)
         return mod as unknown as T
       }
       case 'object': {
         if (isAddressModuleFilter(idOrFilter)) {
-          return (await Promise.all(idOrFilter.address.map(async (address) => await this.resolve(address, options)))).filter(exists)
+          return (await Promise.all(idOrFilter.address.map(async address => await this.resolve(address, options)))).filter(exists)
         } else if (isNameModuleFilter(idOrFilter)) {
-          return (await Promise.all(idOrFilter.name.map(async (name) => await this.resolve(name, options)))).filter(exists)
+          return (await Promise.all(idOrFilter.name.map(async name => await this.resolve(name, options)))).filter(exists)
         }
         return []
       }
@@ -101,8 +100,8 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
 
   protected override async attachUsingAddress(address: Address) {
     const attached = await this.attached()
-    const mods = this.registeredModules().filter((mod) => attached.includes(mod.address))
-    const existingModule = mods.find((mod) => mod.address === address)
+    const mods = this.registeredModules().filter(mod => attached.includes(mod.address))
+    const existingModule = mods.find(mod => mod.address === address)
     if (existingModule) {
       this.logger.warn(`ViewNode: Module [${existingModule?.modName ?? existingModule?.address}] already attached at address [${address}]`)
     }
@@ -130,7 +129,7 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
   }
 
   protected override async attachedPublicModules(): Promise<ModuleInstance[]> {
-    return (await this._limitedResolver.resolve('*')).filter((mod) => mod.address !== this.address)
+    return (await this._limitedResolver.resolve('*')).filter(mod => mod.address !== this.address)
   }
 
   protected override async detachUsingAddress(address: Address) {

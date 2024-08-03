@@ -17,13 +17,13 @@ export const combineRules = (rules: PayloadRule[][]): PayloadSearchCriteria => {
   const addresses = rules
     .flat()
     .filter(isPayloadAddressRule)
-    .map((r) => r.address)
+    .map(r => r.address)
     .filter(exists) as Address[]
 
   const schemas = rules
     .flat()
     .filter(isPayloadSchemaRule)
-    .map((r) => r.schema)
+    .map(r => r.schema)
     .filter(exists)
   assertEx(schemas.length, () => 'At least one schema must be supplied')
 

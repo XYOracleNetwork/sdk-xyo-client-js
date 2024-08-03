@@ -14,4 +14,4 @@ export type PayloadPlugin<TPayload extends Payload = Payload> = {
   wrap?: (payload: Payload) => PayloadWrapper
 }
 
-/* Note: We use PartialWitnessConfig to allow people to config witnesses without having to pass in all the schema info*/
+/* Note: We use PartialWitnessConfig to allow people to config witnesses without having to pass in all the schema info */

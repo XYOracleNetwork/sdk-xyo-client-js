@@ -23,17 +23,16 @@ export type AsyncQueryBusModuleProxyParams = ModuleProxyParams & {
 }
 
 export class AsyncQueryBusModuleProxy<
-    TWrappedModule extends ModuleInstance = ModuleInstance,
-    TParams extends Omit<AsyncQueryBusModuleProxyParams, 'config'> & { config: TWrappedModule['config'] } = Omit<
-      AsyncQueryBusModuleProxyParams,
-      'config'
-    > & {
-      config: TWrappedModule['config']
-    },
-  >
+  TWrappedModule extends ModuleInstance = ModuleInstance,
+  TParams extends Omit<AsyncQueryBusModuleProxyParams, 'config'> & { config: TWrappedModule['config'] } = Omit<
+    AsyncQueryBusModuleProxyParams,
+    'config'
+  > & {
+    config: TWrappedModule['config']
+  },
+>
   extends AbstractModuleProxy<TWrappedModule, TParams>
-  implements ModuleInstance<TParams, TWrappedModule['eventData']>
-{
+  implements ModuleInstance<TParams, TWrappedModule['eventData']> {
   static createCount = 0
 
   constructor(params: TParams) {
@@ -68,7 +67,7 @@ export class AsyncQueryBusModuleProxy<
       await Promise.all(
         Object.keys(await this.childAddressMap())
           .filter(exists)
-          .map((address) => this.resolve(address)),
+          .map(address => this.resolve(address)),
       )
     ).filter(exists)
   }
@@ -107,10 +106,10 @@ export class AsyncQueryBusModuleProxy<
         return (remainingPath ? await firstInstance?.resolve(remainingPath) : firstInstance) as T | undefined
       }
       case 'object': {
-        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter(mod => mod.address !== this.address)
       }
       default: {
-        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter(mod => mod.address !== this.address)
       }
     }
   }

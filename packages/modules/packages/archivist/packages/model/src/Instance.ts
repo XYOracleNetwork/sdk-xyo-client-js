@@ -12,6 +12,6 @@ export interface ArchivistInstance<
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   TPayload extends Payload = Payload,
 > extends ArchivistModule<TParams, TEventData>,
-    ArchivistQueryFunctions<TPayload, WithMeta<TPayload>>,
-    ModuleInstance<TParams, TEventData>,
-    ArchivistRawQueryFunctions {}
+  ArchivistQueryFunctions<TPayload, WithMeta<TPayload>>,
+  ModuleInstance<TParams, TEventData>,
+  ArchivistRawQueryFunctions {}

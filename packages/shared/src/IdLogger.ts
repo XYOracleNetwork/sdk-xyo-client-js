@@ -17,15 +17,19 @@ export class IdLogger implements Logger {
   debug(message?: unknown): void {
     this._logger?.debug(this.generate(message, getFunctionName(3)))
   }
+
   error(message?: unknown): void {
     this._logger?.error(this.generate(message, getFunctionName(3)))
   }
+
   info(message?: unknown): void {
     this._logger?.info(this.generate(message, getFunctionName(3)))
   }
+
   log(message?: unknown): void {
     this._logger?.log(this.generate(message, getFunctionName(3)))
   }
+
   warn(message?: unknown): void {
     this._logger?.warn(this.generate(message, getFunctionName(3)))
   }
@@ -33,8 +37,10 @@ export class IdLogger implements Logger {
   private generate(message?: unknown, tag?: string) {
     const idString = this._id ? `[${this._id}] ` : ''
     return `${tag} ${idString}${
-      typeof message === 'string' ? message
-      : typeof message === 'object' ? JSON.stringify(message, undefined, 2)
+      typeof message === 'string'
+? message
+      : typeof message === 'object'
+? JSON.stringify(message, undefined, 2)
       : `${message}`
     }`
   }

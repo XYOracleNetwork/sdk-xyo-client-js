@@ -9,7 +9,7 @@ import { Payload } from '@xyo-network/payload-model'
 const generateKeyForTuple = async (payloads: Payload[]): Promise<string> => {
   // return (await Promise.all(array.map((p) => PayloadBuilder.dataHash(p)))).join('|')
   await Promise.resolve() // Here to reserve the right to make this async
-  return payloads.map((p) => PayloadHasher.stringifyHashFields(p)).join('|')
+  return payloads.map(p => PayloadHasher.stringifyHashFields(p)).join('|')
 }
 
 /**
@@ -20,7 +20,7 @@ const generateKeyForTuple = async (payloads: Payload[]): Promise<string> => {
  */
 export const combinationsBySchema = async (payloads: Payload[], schemas: string[]): Promise<Payload[][]> => {
   // Group payloads by schema
-  const groupedPayloads: Record<string, Payload[]> = Object.fromEntries(schemas.map((schema) => [schema, []]))
+  const groupedPayloads: Record<string, Payload[]> = Object.fromEntries(schemas.map(schema => [schema, []]))
   for (const payload of payloads) {
     if (schemas.includes(payload.schema)) {
       groupedPayloads[payload.schema].push(payload)

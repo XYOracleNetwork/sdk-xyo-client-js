@@ -11,13 +11,13 @@ export const isAnyPayload = (value: unknown): value is Payload => {
 
 export const asAnyPayload = AsObjectFactory.create(isAnyPayload)
 
-export const isPayload =
-  <T extends Payload>(schema: string[]) =>
-  (value: unknown): value is T => {
-    if (isAnyPayload(value)) {
-      return schema.includes(value.schema)
+export const isPayload
+  = <T extends Payload>(schema: string[]) =>
+    (value: unknown): value is T => {
+      if (isAnyPayload(value)) {
+        return schema.includes(value.schema)
+      }
+      return false
     }
-    return false
-  }
 
 export const asPayload = <T extends Payload>(schema: string[]) => AsObjectFactory.create((value: unknown): value is T => isPayload(schema)(value))

@@ -17,7 +17,7 @@ export const combinationsByBoundwitness = async (payloads: Payload[]): Promise<[
   const results = [] as [BoundWitness, ...Payload[]][]
   for (const bw of bws) {
     const { payload_hashes } = bw
-    const p = payload_hashes.map((h) => payloadDictionary[h]).filter(exists)
+    const p = payload_hashes.map(h => payloadDictionary[h]).filter(exists)
     if (p.length === payload_hashes.length) {
       const complete = [bw, ...p] as [BoundWitness, ...Payload[]]
       results.push(complete)

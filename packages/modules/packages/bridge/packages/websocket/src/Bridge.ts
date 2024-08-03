@@ -21,11 +21,10 @@ const DEFAULT_HOST_PORT = 8080
 
 @creatableModule()
 export class WebsocketBridge<
-    TParams extends WebsocketBridgeParams<AnyConfigSchema<WebsocketBridgeConfig>> = WebsocketBridgeParams<WebsocketBridgeConfig>,
-  >
+  TParams extends WebsocketBridgeParams<AnyConfigSchema<WebsocketBridgeConfig>> = WebsocketBridgeParams<WebsocketBridgeConfig>,
+>
   extends WebsocketClientBridge<TParams>
-  implements BridgeModule<TParams>
-{
+  implements BridgeModule<TParams> {
   httpServer?: HttpServer
   server?: Server
 

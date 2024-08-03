@@ -20,8 +20,7 @@ export interface ModuleResolverParams extends BaseParams {
 
 export abstract class AbstractModuleResolver<TParams extends ModuleResolverParams = ModuleResolverParams>
   extends Base<TParams>
-  implements ModuleResolverInstance
-{
+  implements ModuleResolverInstance {
   get priority() {
     return this.params.priority ?? ObjectResolverPriority.Normal
   }
@@ -46,7 +45,7 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
     if (idOrFilter === '*') {
       const values = await this.resolveHandler(idOrFilter, options)
       assertEx(Array.isArray(values), () => 'resolveHandler returned a non-array')
-      return values.map((value) =>
+      return values.map(value =>
         asModuleInstance<T>(value, () => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           return `resolveHandler returned invalid result (*) [${(value as any)?.constructor?.name}][${toJsonString(value)}]`
@@ -66,7 +65,7 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
       default: {
         const values = (await this.resolveHandler(idOrFilter, options)) as []
         assertEx(Array.isArray(values), () => 'resolveHandler returned a non-array')
-        return values.map((value) =>
+        return values.map(value =>
           asModuleInstance<T>(value, () => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             return `resolveHandler returned invalid result (filter) [${(value as any)?.constructor?.name}][${toJsonString(value)}]`

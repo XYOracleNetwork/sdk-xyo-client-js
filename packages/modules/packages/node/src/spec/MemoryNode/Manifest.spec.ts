@@ -9,7 +9,7 @@ import { MemoryNode } from '../../index.ts'
  */
 
 describe('MemoryNode', () => {
-  //AbstractModule.defaultLogger = new ConsoleLogger(LogLevel.log)
+  // AbstractModule.defaultLogger = new ConsoleLogger(LogLevel.log)
   it('Creates MemoryNode from Manifest', async () => {
     const memoryNode = await MemoryNode.create({
       account: 'random',
@@ -40,14 +40,14 @@ describe('MemoryNode', () => {
     )
     const publicModules = await memoryNode.resolve('*')
     expect(publicModules).toBeArrayOfSize(8)
-    /*const privateModules = await memoryNode.resolve('*', { visibility: 'private' })
+    /* const privateModules = await memoryNode.resolve('*', { visibility: 'private' })
     expect(privateModules).toBeArrayOfSize(3)
     const allModules = await memoryNode.resolve('*', { visibility: 'all' })
-    expect(allModules).toBeArrayOfSize(8)*/
+    expect(allModules).toBeArrayOfSize(8) */
 
     const manifest = (await memoryNode.manifest()) as NodeManifestPayload
-    //console.log(`manifest: ${toJsonString(manifest, 10)}`)
+    // console.log(`manifest: ${toJsonString(manifest, 10)}`)
     expect(manifest.modules?.public ?? []).toBeArrayOfSize(4)
-    //expect(manifest.modules?.private).toBeArrayOfSize(3)
+    // expect(manifest.modules?.private).toBeArrayOfSize(3)
   })
 })

@@ -138,10 +138,10 @@ export class BoundWitnessWrapper<
       const innerBoundwitnessPayload = asBoundWitness<WithMeta<TBoundWitness>>(
         (await PayloadBuilder.toDataHashMap(this.payloads))[innerBoundwitnessHash],
       )
-      const innerBoundwitness: BoundWitnessWrapper<TBoundWitness> | undefined =
-        innerBoundwitnessPayload ?
-          new BoundWitnessWrapper<TBoundWitness>(innerBoundwitnessPayload, await PayloadBuilder.filterExclude(this.payloads, innerBoundwitnessHash))
-        : undefined
+      const innerBoundwitness: BoundWitnessWrapper<TBoundWitness> | undefined
+        = innerBoundwitnessPayload
+          ? new BoundWitnessWrapper<TBoundWitness>(innerBoundwitnessPayload, await PayloadBuilder.filterExclude(this.payloads, innerBoundwitnessHash))
+          : undefined
       if (innerBoundwitness) {
         return innerBoundwitness.dig(depth ? depth - 1 : undefined)
       }
@@ -152,11 +152,11 @@ export class BoundWitnessWrapper<
 
   async getMissingPayloads() {
     const payloadMap = await this.payloadsDataHashMap()
-    return this.payloadHashes.filter((hash) => !payloadMap[hash])
+    return this.payloadHashes.filter(hash => !payloadMap[hash])
   }
 
   async getWrappedPayloads(): Promise<PayloadWrapper<TPayload>[]> {
-    return await Promise.all(this.payloads.map((payload) => PayloadWrapper.wrap(payload)))
+    return await Promise.all(this.payloads.map(payload => PayloadWrapper.wrap(payload)))
   }
 
   hashesBySchema(schema: string) {
@@ -171,16 +171,16 @@ export class BoundWitnessWrapper<
 
   async payloadsByDataHashes(hashes: Hash[]): Promise<TPayload[]> {
     const map = await this.payloadsDataHashMap()
-    return hashes.map((hash) => assertEx(map[hash], () => 'Hash not found') as TPayload)
+    return hashes.map(hash => assertEx(map[hash], () => 'Hash not found') as TPayload)
   }
 
   async payloadsByHashes(hashes: Hash[]): Promise<TPayload[]> {
     const map = await this.payloadsHashMap()
-    return hashes.map((hash) => assertEx(map[hash], () => 'Hash not found') as TPayload)
+    return hashes.map(hash => assertEx(map[hash], () => 'Hash not found') as TPayload)
   }
 
   payloadsBySchema<T extends TPayload>(schema: string): WithMeta<T>[] {
-    return this.payloads.filter((payload) => payload?.schema === schema) as WithMeta<T>[]
+    return this.payloads.filter(payload => payload?.schema === schema) as WithMeta<T>[]
   }
 
   async payloadsDataHashMap(): Promise<Record<Hash, WithMeta<TPayload>>> {

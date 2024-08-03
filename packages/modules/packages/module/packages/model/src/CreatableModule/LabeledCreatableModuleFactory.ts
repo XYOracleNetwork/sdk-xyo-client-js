@@ -16,6 +16,7 @@ export const hasLabels = (factory: CreatableModuleFactory | LabeledCreatableModu
  */
 export function labeledCreatableModuleFactory<TModule extends AttachableModuleInstance = AttachableModuleInstance>() {
   return <U extends LabeledCreatableModuleFactory<TModule>>(constructor: U) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     constructor
   }
 }

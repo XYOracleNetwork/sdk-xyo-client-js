@@ -28,6 +28,7 @@ export class JsonPathDiviner<
   protected get destinationSchema(): string {
     return this.config.destinationSchema ?? PayloadSchema
   }
+
   /**
    * Dictionary of schemas to payload transformers for creating indexes
    * from the payloads within a Bound Witness
@@ -46,7 +47,7 @@ export class JsonPathDiviner<
     return await Promise.all(
       payloads.map<Promise<TOut>>(async (payload) => {
         // Use the payload transformers to convert the fields from the source payloads to the destination fields
-        const fields = this.transforms.map((transform) => transform(payload)) as WithoutSchema<TOut>[]
+        const fields = this.transforms.map(transform => transform(payload)) as WithoutSchema<TOut>[]
         // Include all the sources for reference
         const sources = await PayloadBuilder.dataHashes([payload])
         // Build and return the index

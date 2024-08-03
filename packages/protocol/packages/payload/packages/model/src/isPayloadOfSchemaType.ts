@@ -19,7 +19,7 @@ export const notPayloadOfSchemaType = <T extends Payload>(schema: string) => {
   return (x?: unknown | null): x is T => !isAnyPayload(x) || x?.schema !== schema
 }
 
-//test types -- keep for future validation, but comment out
+// test types -- keep for future validation, but comment out
 
 /*
 type TestSchema = 'network.xyo.test'

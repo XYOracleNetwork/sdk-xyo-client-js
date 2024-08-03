@@ -3,9 +3,8 @@ import { EventAnyListener, EventData, EventFunctions, EventListener, Events } fr
 
 export class BaseEmitter<TParams extends BaseParams = BaseParams, TEventData extends EventData = EventData>
   extends Base<TParams>
-  implements EventFunctions<TEventData>
-{
-  //just here to query types
+  implements EventFunctions<TEventData> {
+  // just here to query types
   eventData = {} as TEventData
 
   private events: Events<TEventData>

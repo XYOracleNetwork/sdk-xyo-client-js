@@ -15,7 +15,7 @@ export class IndexedDbPreviousHashStore implements PreviousHashStore {
 
   constructor() {
     this.db = openDB<PreviousHashStoreSchemaV1>(this.dbName, IndexedDbPreviousHashStore.CurrentSchemaVersion, {
-      upgrade: (db) => db.createObjectStore(this.storeName),
+      upgrade: db => db.createObjectStore(this.storeName),
     })
   }
 
@@ -37,9 +37,11 @@ export class IndexedDbPreviousHashStore implements PreviousHashStore {
     const value = (await (await this.db).get(this.storeName, address)) as Hash
     return value ?? null
   }
+
   async removeItem(address: Address): Promise<void> {
     await (await this.db).delete(this.storeName, address)
   }
+
   async setItem(address: Address, previousHash: string): Promise<void> {
     await (await this.db).put(this.storeName, previousHash, address)
   }

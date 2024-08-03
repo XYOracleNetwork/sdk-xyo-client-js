@@ -21,18 +21,17 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, Schema, WithMeta, WithSources } from '@xyo-network/payload-model'
 
 export abstract class AbstractDiviner<
-    TParams extends DivinerParams = DivinerParams,
-    TIn extends Payload = Payload,
-    TOut extends Payload = Payload,
-    TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
-      DivinerInstance<TParams, TIn, TOut>,
-      TIn,
-      TOut
-    >,
-  >
+  TParams extends DivinerParams = DivinerParams,
+  TIn extends Payload = Payload,
+  TOut extends Payload = Payload,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
+>
   extends AbstractModuleInstance<TParams, TEventData>
-  implements AttachableDivinerInstance<TParams, TIn, TOut, TEventData>
-{
+  implements AttachableDivinerInstance<TParams, TIn, TOut, TEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, DivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = DivinerConfigSchema
   static targetSchema: string
@@ -49,10 +48,10 @@ export abstract class AbstractDiviner<
       const retryConfig = retryConfigIn ?? this.config.retry
       await this.started('throw')
       await this.emit('divineStart', { inPayloads: payloads, mod: this })
-      const resultPayloads: TOut[] =
-        (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
+      const resultPayloads: TOut[]
+        = (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
       await this.emit('divineEnd', { errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads })
-      return await Promise.all(resultPayloads.map((payload) => PayloadBuilder.build(payload)))
+      return await Promise.all(resultPayloads.map(payload => PayloadBuilder.build(payload)))
     })
   }
 
@@ -68,7 +67,7 @@ export abstract class AbstractDiviner<
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
     const wrapper = await QueryBoundWitnessWrapper.parseQuery<DivinerQueries>(query, payloads)
-    //remove the query payload
+    // remove the query payload
     const cleanPayloads = await PayloadBuilder.filterExclude(payloads, query.query)
     const queryPayload = await wrapper.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))

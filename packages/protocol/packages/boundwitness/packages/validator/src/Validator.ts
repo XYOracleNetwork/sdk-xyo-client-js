@@ -27,8 +27,8 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
 
   addresses(): Error[] {
     const errors: Error[] = []
-    //const { addresses } = this.obj
-    //if (!addresses?.length) errors.push(new Error('addresses missing [at least one address required]'))
+    // const { addresses } = this.obj
+    // if (!addresses?.length) errors.push(new Error('addresses missing [at least one address required]'))
     errors.push(...this.addressesUniqueness())
     return errors
   }

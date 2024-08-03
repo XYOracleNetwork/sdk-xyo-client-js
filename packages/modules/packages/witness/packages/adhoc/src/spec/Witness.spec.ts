@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { Account } from '@xyo-network/account'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'

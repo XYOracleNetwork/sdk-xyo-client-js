@@ -3,7 +3,6 @@
  */
 /// <reference lib="dom" />
 /* eslint-disable max-nested-callbacks */
-/* eslint-disable sonarjs/no-duplicate-string */
 
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { IndexDescription } from '@xyo-network/archivist-model'
@@ -103,7 +102,7 @@ describe('IndexedDbPayloadDiviner', () => {
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => result.schema === schema)).toBe(true)
+          expect(results.every(result => result.schema === schema)).toBe(true)
         })
       })
       describe.skip('multiple', () => {
@@ -112,7 +111,7 @@ describe('IndexedDbPayloadDiviner', () => {
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => schemas.includes(result.schema))).toBe(true)
+          expect(results.every(result => schemas.includes(result.schema))).toBe(true)
         })
       })
     })
@@ -127,7 +126,7 @@ describe('IndexedDbPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every((result) => (result as WithUrl)?.url === url)).toBe(true)
+            expect(results.every(result => (result as WithUrl)?.url === url)).toBe(true)
           })
         })
         describe('without index', () => {
@@ -139,7 +138,7 @@ describe('IndexedDbPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every((result) => (result as WithOther)?.other === other)).toBe(true)
+            expect(results.every(result => (result as WithOther)?.other === other)).toBe(true)
           })
         })
       })
@@ -150,7 +149,7 @@ describe('IndexedDbPayloadDiviner', () => {
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload & WithFoo>({ schema: PayloadDivinerQuerySchema }).fields({ foo }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => foo.every((v) => (result as unknown as WithFoo)?.foo?.includes(v)))).toBe(true)
+          expect(results.every(result => foo.every(v => (result as unknown as WithFoo)?.foo?.includes(v)))).toBe(true)
         })
       })
     })

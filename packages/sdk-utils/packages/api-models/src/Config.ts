@@ -28,7 +28,7 @@ interface ApiConfig extends ApiReportable {
   /** @description Throw on failures */
   throwFailure?: boolean
 
-  /** @deprecated use the jwtToken instead*/
+  /** @deprecated use the jwtToken instead */
   userid?: string
 }
 

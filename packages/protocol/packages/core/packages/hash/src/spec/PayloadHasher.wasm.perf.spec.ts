@@ -28,7 +28,7 @@ describe('Hasher', () => {
       jsTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
     }
     const jsHashStart = Date.now()
-    await Promise.all(jsTestObjects.map((obj) => obj.hash()))
+    await Promise.all(jsTestObjects.map(obj => obj.hash()))
     const jsHashDuration = Date.now() - jsHashStart
     PayloadHasher.warnIfUsingJsHash = true
     PayloadHasher.allowSubtle = false
@@ -38,7 +38,7 @@ describe('Hasher', () => {
       wasmTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
     }
     const wasmHashStart = Date.now()
-    await Promise.all(wasmTestObjects.map((obj) => obj.hash()))
+    await Promise.all(wasmTestObjects.map(obj => obj.hash()))
     const wasmHashDuration = Date.now() - wasmHashStart
     expect(wasmHashDuration).toBeDefined()
     expect(jsHashDuration).toBeDefined()

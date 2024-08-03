@@ -4,7 +4,7 @@ import { SchemaStatsDivinerSchema } from './Schema.ts'
 
 export type SchemaStatsPayload = Payload<{
   count: Record<string, number>
-  //the name of the schema that the count is for.  If name is undefined, then it is the count for all schemas
+  // the name of the schema that the count is for.  If name is undefined, then it is the count for all schemas
   name?: string
   schema: SchemaStatsDivinerSchema
 }>

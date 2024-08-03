@@ -29,14 +29,13 @@ export type HttpModuleProxyParams = ModuleProxyParams & {
 }
 
 export class HttpModuleProxy<
-    TWrappedModule extends ModuleInstance = ModuleInstance,
-    TParams extends Omit<HttpModuleProxyParams, 'config'> & { config: TWrappedModule['config'] } = Omit<HttpModuleProxyParams, 'config'> & {
-      config: TWrappedModule['config']
-    },
-  >
+  TWrappedModule extends ModuleInstance = ModuleInstance,
+  TParams extends Omit<HttpModuleProxyParams, 'config'> & { config: TWrappedModule['config'] } = Omit<HttpModuleProxyParams, 'config'> & {
+    config: TWrappedModule['config']
+  },
+>
   extends AbstractModuleProxy<TWrappedModule, TParams>
-  implements AttachableModuleInstance<TParams, TWrappedModule['eventData']>
-{
+  implements AttachableModuleInstance<TParams, TWrappedModule['eventData']> {
   static createCount = 0
 
   constructor(params: TParams) {
@@ -63,7 +62,7 @@ export class HttpModuleProxy<
       await Promise.all(
         Object.values(await this.childAddressMap())
           .filter(exists)
-          .map((address) => this.resolve(address)),
+          .map(address => this.resolve(address)),
       )
     ).filter(exists)
   }
@@ -96,19 +95,21 @@ export class HttpModuleProxy<
         const parts = idOrFilter.split(':')
         const first = assertEx(parts.shift(), () => 'Missing first')
         const remainingPath = parts.join(':')
-        const address =
-          isAddress(first) ? first
-          : this.id === first ? this.address
-          : this.childAddressByName(first)
+        const address
+          = isAddress(first)
+            ? first
+            : this.id === first
+              ? this.address
+              : this.childAddressByName(first)
         if (!address) return undefined
         const firstInstance = (await this.params.host.resolve(address)) as ModuleInstance | undefined
         return (remainingPath ? await firstInstance?.resolve(remainingPath) : firstInstance) as T | undefined
       }
       case 'object': {
-        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter(mod => mod.address !== this.address)
       }
       default: {
-        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter(mod => mod.address !== this.address)
       }
     }
   }

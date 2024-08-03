@@ -12,10 +12,10 @@ export class IsModuleFactory<T extends Module = Module> {
     return (obj: AnyNonPromise, config): obj is T => {
       const mod = asModuleObject(obj)
       return (
-        isModuleObject(mod, config) &&
-        (expectedQueries?.reduce((prev, query) => prev && mod.queries.includes(query), true) ?? true) &&
-        //perform additional checks
-        (additionalChecks?.reduce((prev, check) => prev && check(obj, config), true) ?? true)
+        isModuleObject(mod, config)
+        && (expectedQueries?.reduce((prev, query) => prev && mod.queries.includes(query), true) ?? true)
+        // perform additional checks
+        && (additionalChecks?.reduce((prev, check) => prev && check(obj, config), true) ?? true)
       )
     }
   }

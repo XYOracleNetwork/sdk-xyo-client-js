@@ -93,7 +93,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
   async listeningModules(): Promise<ModuleInstance[]> {
     const exposedModules = [...(this.config?.listeningModules ?? []), ...this.exposedAddresses.values()]
     return await Promise.all(
-      exposedModules.map(async (exposedModule) =>
+      exposedModules.map(async exposedModule =>
         assertEx(
           asModuleInstance(await resolveAddressToInstance(this.rootModule, exposedModule)),
           () => `Unable to resolve listeningModule [${exposedModule}]`,
@@ -214,7 +214,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       }
       const result = await queriesBoundWitnessDiviner.divine([divinerQuery])
       const queries = result.filter(isQueryBoundWitnessWithMeta)
-      const nextState = queries.length > 0 ? Math.max(...queries.map((c) => c.timestamp ?? prevState)) + 1 : Date.now()
+      const nextState = queries.length > 0 ? Math.max(...queries.map(c => c.timestamp ?? prevState)) + 1 : Date.now()
       // TODO: This needs to be thought through as we can't use a distributed timestamp
       // because of collisions. We need to use the timestamp of the store so there's no
       // chance of multiple commands at the same time

@@ -1,5 +1,5 @@
-//Should type as JSONSchemaType<BoundWitness> once ajv/eslint issue is fixed
-//https://github.com/microsoft/TypeScript/issues/44851
+// Should type as JSONSchemaType<BoundWitness> once ajv/eslint issue is fixed
+// https://github.com/microsoft/TypeScript/issues/44851
 
 export const BoundWitnessJsonSchema = () => {
   return {

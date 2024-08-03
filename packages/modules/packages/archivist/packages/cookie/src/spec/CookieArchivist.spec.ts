@@ -30,7 +30,7 @@ const testArchivistRoundTrip = (archivistPromise: Promisable<ArchivistInstance>,
     const gottenPayload = getResult[0]
     if (gottenPayload) {
       const gottenPayloadWrapper = PayloadWrapper.wrap(gottenPayload)
-      //expect(await gottenPayloadWrapper.hash()).toBe(await payloadWrapper.hash())
+      // expect(await gottenPayloadWrapper.hash()).toBe(await payloadWrapper.hash())
       expect(await gottenPayloadWrapper.dataHash()).toBe(await payloadWrapper.dataHash())
     }
   })
@@ -50,7 +50,7 @@ const testArchivistAll = (archivistPromise: Promisable<ArchivistInstance>, name:
     }
     const getResult = await archivist.all?.()
     expect(getResult).toBeDefined()
-    //this is 11 here since we double store all these and every one has the same dataHash
+    // this is 11 here since we double store all these and every one has the same dataHash
     expect(getResult?.length).toBe(2)
   })
 }

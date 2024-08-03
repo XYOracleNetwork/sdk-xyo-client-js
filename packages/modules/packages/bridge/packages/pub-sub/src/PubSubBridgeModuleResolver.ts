@@ -55,9 +55,9 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
       const proxy = new AsyncQueryBusModuleProxy<T, AsyncQueryBusModuleProxyParams>(finalParams)
       const state = await proxy.state()
       if (state) {
-        const configSchema = (state.find((payload) => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
+        const configSchema = (state.find(payload => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
         const config = assertEx(
-          state.find((payload) => payload.schema === configSchema),
+          state.find(payload => payload.schema === configSchema),
           () => 'Unable to locate config',
         ) as ModuleConfig
         proxy.setConfig(config)

@@ -6899,6 +6899,7 @@ __metadata:
   resolution: "@xyo-network/sdk-js@workspace:."
   dependencies:
     "@babel/core": "npm:^7.25.2"
+    "@stylistic/eslint-plugin": "npm:^2.6.1"
     "@types/jest": "npm:^29.5.12"
     "@types/supertest": "npm:^6.0.2"
     "@typescript-eslint/eslint-plugin": "npm:^8.0.0"

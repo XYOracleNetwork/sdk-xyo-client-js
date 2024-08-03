@@ -32,7 +32,7 @@ export class SchemaCache<T extends SchemaNameToValidatorMap = SchemaNameToValida
   private _cache = new LRUCache<string, SchemaCacheEntry>({ max: 500, ttl: 1000 * 60 * 5 })
   private _validators: T = {} as T
 
-  //prevents double discovery
+  // prevents double discovery
   private getDebounce = new Debounce()
 
   private constructor(proxy?: string) {
@@ -70,10 +70,10 @@ export class SchemaCache<T extends SchemaNameToValidatorMap = SchemaNameToValida
   }
 
   private cacheSchemaIfValid(entry: SchemaCacheEntry) {
-    //only store them if they match the schema root
+    // only store them if they match the schema root
     if (entry.payload.definition) {
       const ajv = new Ajv({ strict: false })
-      //check if it is a valid schema def
+      // check if it is a valid schema def
       const validator = ajv.compile(entry.payload.definition)
       const schemaName = getSchemaNameFromSchema(entry.payload.definition)
       if (schemaName) {
@@ -86,7 +86,7 @@ export class SchemaCache<T extends SchemaNameToValidatorMap = SchemaNameToValida
   }
 
   private cacheSchemas(aliasEntries?: FetchedPayload[] | null) {
-    for (const entry of aliasEntries?.filter((entry) => entry.payload.schema === SchemaSchema) ?? []) {
+    for (const entry of aliasEntries?.filter(entry => entry.payload.schema === SchemaSchema) ?? []) {
       this.cacheSchemaIfValid(entry as SchemaCacheEntry)
     }
   }
@@ -97,12 +97,12 @@ export class SchemaCache<T extends SchemaNameToValidatorMap = SchemaNameToValida
       await domain?.fetch()
       this.cacheSchemas(domain?.aliases)
 
-      //if it is still undefined, mark it as null (not found)
+      // if it is still undefined, mark it as null (not found)
       if (this._cache.get(schema) === undefined) {
         this._cache.set(schema, SchemaCache.NULL)
       }
     } catch (error) {
-      //if failed, set it to NULL, TODO: Make an entry for an error to try again in the future?
+      // if failed, set it to NULL, TODO: Make an entry for an error to try again in the future?
       this._cache.set(schema, SchemaCache.NULL)
       if (isAxiosError(error)) {
         console.log(`Axios Url: ${error.response?.config.url}`)

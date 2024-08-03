@@ -73,7 +73,7 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
     )
   }
 
-  //we do not require sending in $hash since it will be generated anyway
+  // we do not require sending in $hash since it will be generated anyway
   fields(fields: WithOptionalSchema<WithOptionalMeta<T>>) {
     if (fields) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

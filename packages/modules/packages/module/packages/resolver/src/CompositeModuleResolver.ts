@@ -35,8 +35,7 @@ const moduleIdentifierParts = (moduleIdentifier: ModuleIdentifier): ModuleIdenti
 
 export class CompositeModuleResolver<T extends CompositeModuleResolverParams = CompositeModuleResolverParams>
   extends AbstractModuleResolver<T>
-  implements ModuleRepository, ModuleResolverInstance
-{
+  implements ModuleRepository, ModuleResolverInstance {
   static defaultMaxDepth = 3
 
   protected _cache: LRUCache<ModuleIdentifier, ModuleInstance>
@@ -98,7 +97,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
   }
 
   removeResolver(resolver: ModuleResolverInstance): this {
-    this.resolvers = this.resolvers.filter((item) => item !== resolver)
+    this.resolvers = this.resolvers.filter(item => item !== resolver)
     return this
   }
 
@@ -109,16 +108,16 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
   ): Promise<T[]> {
     const mutatedOptions = { ...options, maxDepth: options?.maxDepth ?? CompositeModuleResolver.defaultMaxDepth }
 
-    //resolve all
+    // resolve all
     if (idOrFilter === '*') {
       const all = idOrFilter
 
-      //wen't too far?
+      // wen't too far?
       if (mutatedOptions.maxDepth < 0) {
         return []
       }
 
-      //identity resolve?
+      // identity resolve?
       if (mutatedOptions.maxDepth === 0) {
         return (await this._localResolver.resolve(all, mutatedOptions)) ?? []
       }
@@ -136,21 +135,21 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
     }
 
     if (typeof idOrFilter === 'string') {
-      //wen't too far?
+      // wen't too far?
       if (mutatedOptions.maxDepth < 0) {
         return []
       }
 
-      //resolve ModuleIdentifier
+      // resolve ModuleIdentifier
       const idParts = moduleIdentifierParts(idOrFilter)
       if (idParts.length > 1) {
         const mod = await this.resolveMultipartIdentifier<T>(idOrFilter)
         return (
-          mod ?
-            Array.isArray(mod) ?
-              mod
-            : [mod]
-          : []
+          mod
+            ? Array.isArray(mod)
+              ? mod
+              : [mod]
+            : []
         )
       }
       const id = await ResolveHelper.transformModuleIdentifier(idOrFilter, this.moduleIdentifierTransformers)
@@ -167,21 +166,21 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
           }
         }
 
-        //identity resolve?
+        // identity resolve?
         if (mutatedOptions.maxDepth === 0) {
           const mod = await this._localResolver.resolve(idOrFilter, mutatedOptions)
           return (
-            mod ?
-              Array.isArray(mod) ?
-                mod
-              : [mod]
-            : []
+            mod
+              ? Array.isArray(mod)
+                ? mod
+                : [mod]
+              : []
           )
         }
 
-        //recursive function to resolve by priority
+        // recursive function to resolve by priority
         const resolvePriority = async (priority: ObjectResolverPriority): Promise<T | undefined> => {
-          const resolvers = this.resolvers.filter((resolver) => resolver.priority === priority)
+          const resolvers = this.resolvers.filter(resolver => resolver.priority === priority)
           const results: T[] = (
             await Promise.all(
               resolvers.map(async (resolver) => {
@@ -200,22 +199,22 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
         }
         const mod = await resolvePriority(ObjectResolverPriority.VeryHigh)
         return (
-          mod ?
-            Array.isArray(mod) ?
-              mod
-            : [mod]
-          : []
+          mod
+            ? Array.isArray(mod)
+              ? mod
+              : [mod]
+            : []
         )
       }
     } else if (typeof idOrFilter === 'object') {
-      //wen't too far?
+      // wen't too far?
       if (mutatedOptions.maxDepth < 0) {
         return []
       }
 
       const filter = idOrFilter
 
-      //identity resolve?
+      // identity resolve?
       if (mutatedOptions.maxDepth === 0) {
         return await this._localResolver.resolve(filter, mutatedOptions)
       }
@@ -264,6 +263,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
       this._localResolver.add(mod)
     }
   }
+
   private removeSingleModule(address: Address) {
     this._localResolver.remove(address)
   }

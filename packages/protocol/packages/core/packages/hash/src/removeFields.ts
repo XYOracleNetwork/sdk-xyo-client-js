@@ -8,11 +8,11 @@ export const deepBy = <T extends EmptyObject>(obj: T, predicate: ValueKeyIterate
     return obj
   }
 
-  //pick the child objects
+  // pick the child objects
   const onlyObjects = pickBy<T>(obj, isObject)
 
-  //pick the child non-objects
-  const nonObjects = pickBy<T>(obj, (value) => !isObject(value))
+  // pick the child non-objects
+  const nonObjects = pickBy<T>(obj, value => !isObject(value))
 
   const pickedObjects = omitBy(onlyObjects, predicate)
   const pickedNonObjects = omitBy(nonObjects, predicate)

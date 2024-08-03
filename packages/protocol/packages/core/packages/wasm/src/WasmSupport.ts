@@ -60,6 +60,7 @@ export class WasmSupport {
   get allowWasm(): boolean {
     return this._allowWasm
   }
+
   /**
    * Whether or not to allow WASM usage
    */
@@ -74,11 +75,11 @@ export class WasmSupport {
   get canUseWasm(): boolean {
     return (
       // Just force WASM
-      this._forceWasm ||
+      this._forceWasm
       // Or if we haven't checked be optimistic
-      (this._allowWasm && !this._isInitialized) ||
+      || (this._allowWasm && !this._isInitialized)
       // Or if we have checked and WASM is not supported, be realistic
-      (this._allowWasm && this._isInitialized && this._isWasmFeatureSetSupported)
+      || (this._allowWasm && this._isInitialized && this._isWasmFeatureSetSupported)
     )
   }
 
@@ -96,6 +97,7 @@ export class WasmSupport {
   get forceWasm(): boolean {
     return this._forceWasm
   }
+
   /**
    * Whether or not to force Wasm usage
    */
@@ -138,7 +140,7 @@ export class WasmSupport {
    * @returns True if all the features are supported, false otherwise
    */
   async featureCheck(features: WasmFeature[]): Promise<boolean> {
-    const results = await Promise.all(features.map((feature) => WasmFeatureDetectors[feature]).map(async (detector) => await detector()))
+    const results = await Promise.all(features.map(feature => WasmFeatureDetectors[feature]).map(async detector => await detector()))
     return results.every(Boolean)
   }
 

@@ -12,6 +12,7 @@ export interface DetermineAccountFromWalletParams {
   wallet: WalletInstance
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface DetermineRandomParams {}
 
 export type DetermineAccountParams = DetermineAccountFromAccountParams | DetermineAccountFromWalletParams | DetermineRandomParams
@@ -41,7 +42,7 @@ export async function determineAccount(params: DetermineAccountParams, allowRand
     )
   }
 
-  //this should eventually be removed/thrown
+  // this should eventually be removed/thrown
   console.warn('AbstractModule.determineAccount: No account or wallet provided - Creating Random account')
   return await Account.random()
 }

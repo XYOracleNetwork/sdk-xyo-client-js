@@ -60,7 +60,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       })
       describe('with multiple queries', () => {
         it('transforms queries using default settings', async () => {
-          const builtExpected = await Promise.all(expected.map((payload) => PayloadBuilder.build(payload)))
+          const builtExpected = await Promise.all(expected.map(payload => PayloadBuilder.build(payload)))
           const results = await diviner.divine(queries)
           const actual = results.filter(isPayloadDivinerQueryPayload)
           expect(actual).toBeArrayOfSize(builtExpected.length)
@@ -241,7 +241,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       })
       describe('with multiple queries', () => {
         it('transforms queries using default settings', async () => {
-          const builtExpected = await Promise.all(expected.map((payload) => PayloadBuilder.build(payload)))
+          const builtExpected = await Promise.all(expected.map(payload => PayloadBuilder.build(payload)))
           const results = await diviner.divine(queries)
           const actual = results.filter(isPayloadOfSchemaType(indexQuerySchema))
           expect(actual).toBeArrayOfSize(builtExpected.length)

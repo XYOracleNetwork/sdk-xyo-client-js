@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -19,9 +18,11 @@ class TestStatefulDiviner extends StatefulDiviner {
   callCommitState(state: WithMeta<ModuleState>) {
     return this.commitState(state)
   }
+
   callRetrieveState() {
     return this.retrieveState()
   }
+
   protected override divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     return Promise.resolve(payloads ?? [])
   }

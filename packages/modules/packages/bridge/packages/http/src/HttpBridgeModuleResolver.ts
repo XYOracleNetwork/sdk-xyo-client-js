@@ -61,7 +61,7 @@ export class HttpBridgeModuleResolver<
           const result = idParts.length <= 0 ? cachedMod : cachedMod.resolve(remainderParts, { ...options, maxDepth: (options?.maxDepth ?? 5) - 1 })
           return result as T
         } else {
-          //return cached 404
+          // return cached 404
           return
         }
       }
@@ -92,14 +92,14 @@ export class HttpBridgeModuleResolver<
       }
 
       if (!state) {
-        //cache the fact that it was not found
+        // cache the fact that it was not found
         this._resolvedCache.set(firstPart as Address, NotFoundModule)
         return
       }
 
-      const configSchema = (state.find((payload) => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
+      const configSchema = (state.find(payload => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
       const config = assertEx(
-        state.find((payload) => payload.schema === configSchema),
+        state.find(payload => payload.schema === configSchema),
         () => 'Unable to locate config',
       ) as ModuleConfig
       proxy.setConfig(config)

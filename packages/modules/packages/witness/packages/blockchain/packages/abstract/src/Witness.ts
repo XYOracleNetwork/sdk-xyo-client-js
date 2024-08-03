@@ -17,8 +17,8 @@ export type BlockchainWitnessConfig<TAdditional extends EmptyObject | Payload | 
   TSchema extends void ?
     TAdditional extends Payload ?
       TAdditional['schema']
-    : BlockchainWitnessConfigSchema
-  : TSchema
+      : BlockchainWitnessConfigSchema
+    : TSchema
 >
 
 /** @deprecated use AdditionalEvmWitnessParams version instead */
@@ -63,7 +63,7 @@ export abstract class AbstractBlockchainWitness<
       }
       return undefined
     }
-    return providers[Date.now() % providers.length] //pick a random provider
+    return providers[Date.now() % providers.length] // pick a random provider
   }
 
   async getProviders(cache = false): Promise<Provider[]> {

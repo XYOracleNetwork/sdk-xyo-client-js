@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { WithMeta } from '../Meta.ts'
 import { Payload } from '../Payload.ts'
 

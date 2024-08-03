@@ -32,24 +32,24 @@ describe('Hasher', () => {
     const subtleHashDuration = await (async () => {
       PayloadHasher.allowSubtle = true
       PayloadHasher.wasmSupport.allowWasm = false
-      //prime it
+      // prime it
       await Promise.all([{ length: 8 }].map(async (_, index) => await PayloadHasher.hash(testObjects[index])))
       const subtleHashStart = Date.now()
-      const subtleResult = await Promise.all(testObjects.map((obj) => PayloadHasher.hash(obj)))
+      const subtleResult = await Promise.all(testObjects.map(obj => PayloadHasher.hash(obj)))
       console.log(`subtleResult count: ${subtleResult.length}`)
       return Date.now() - subtleHashStart
     })()
 
-    //allow for cleanup
+    // allow for cleanup
     await delay(2000)
 
     const wasmHashDuration = await (async () => {
       PayloadHasher.allowSubtle = false
       PayloadHasher.wasmSupport.allowWasm = true
-      //prime it
+      // prime it
       await Promise.all([{ length: 8 }].map(async (_, index) => await PayloadHasher.hash(testObjects[index])))
       const wasmHashStart = Date.now()
-      const wasmResult = await Promise.all(testObjects.map((obj) => PayloadHasher.hash(obj)))
+      const wasmResult = await Promise.all(testObjects.map(obj => PayloadHasher.hash(obj)))
       console.log(`wasmResult count: ${wasmResult.length}`)
       return Date.now() - wasmHashStart
     })()

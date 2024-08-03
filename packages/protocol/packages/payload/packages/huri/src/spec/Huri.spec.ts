@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { axios } from '@xylabs/axios'
 import { delay } from '@xylabs/delay'
 import { Payload } from '@xyo-network/payload-model'

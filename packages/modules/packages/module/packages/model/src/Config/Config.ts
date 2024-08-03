@@ -10,8 +10,8 @@ export const ModuleConfigSchema: ModuleConfigSchema = 'network.xyo.module.config
 export type ModuleConfig<TConfig extends EmptyObject | Payload | void = void, TSchema extends Schema | void = void> = Payload<
   WithAdditional<ArchivingModuleConfig & ModuleConfigFields, TConfig>,
   TSchema extends Schema ? TSchema
-  : TConfig extends Payload ? TConfig['schema']
-  : ModuleConfigSchema
+    : TConfig extends Payload ? TConfig['schema']
+      : ModuleConfigSchema
 >
 
 export type AnyConfigSchema<TConfig extends Omit<ModuleConfig, 'schema'> & { schema: string } = Omit<ModuleConfig, 'schema'> & { schema: string }> =

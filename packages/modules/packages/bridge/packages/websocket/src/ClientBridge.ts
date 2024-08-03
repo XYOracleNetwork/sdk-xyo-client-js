@@ -17,8 +17,7 @@ import { WebsocketBridgeModuleResolver } from './WebsocketBridgeModuleResolver.t
 @creatableModule()
 export class WebsocketClientBridge<TParams extends WebsocketBridgeParams = WebsocketBridgeParams>
   extends AbstractBridge<TParams>
-  implements BridgeModule<TParams>, WebsocketBridgeQuerySender
-{
+  implements BridgeModule<TParams>, WebsocketBridgeQuerySender {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, WebsocketBridgeConfigSchema]
   static override readonly defaultConfigSchema: Schema = WebsocketBridgeConfigSchema
   static defaultFailureRetryTime = 1000 * 60
@@ -53,9 +52,9 @@ export class WebsocketClientBridge<TParams extends WebsocketBridgeParams = Webso
   }
 
   override get resolver() {
-    this._resolver =
-      this._resolver ??
-      new WebsocketBridgeModuleResolver({
+    this._resolver
+      = this._resolver
+      ?? new WebsocketBridgeModuleResolver({
         archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
         bridge: this,
         querySender: this,

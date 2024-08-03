@@ -8,6 +8,7 @@ import { isObjectResolver, ObjectResolver } from './ObjectResolver.ts'
 
 export const isModuleResolver = isObjectResolver<ModuleInstance>
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ModuleResolver<TResult extends ModuleInstance = ModuleInstance> extends ObjectResolver<TResult> {}
 
 export interface ModuleNameResolver {

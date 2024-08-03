@@ -22,12 +22,11 @@ import {
 } from '@xyo-network/sentinel-model'
 
 export abstract class AbstractSentinel<
-    TParams extends SentinelParams = SentinelParams,
-    TEventData extends SentinelModuleEventData<SentinelInstance<TParams>> = SentinelModuleEventData<SentinelInstance<TParams>>,
-  >
+  TParams extends SentinelParams = SentinelParams,
+  TEventData extends SentinelModuleEventData<SentinelInstance<TParams>> = SentinelModuleEventData<SentinelInstance<TParams>>,
+>
   extends AbstractModuleInstance<TParams, TEventData>
-  implements CustomSentinelInstance<TParams, TEventData>
-{
+  implements CustomSentinelInstance<TParams, TEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, SentinelConfigSchema]
   static override readonly defaultConfigSchema: Schema = SentinelConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractSentinel', AbstractSentinel, 'xyo')
@@ -57,7 +56,7 @@ export abstract class AbstractSentinel<
       await this.emit('reportStart', { inPayloads, mod: this })
       const payloads = await this.reportHandler(inPayloads)
 
-      //create boundwitness
+      // create boundwitness
       const result = (await new BoundWitnessBuilder().payloads(payloads).signer(this.account).build()).flat()
 
       if (this.config.archiving) {
@@ -83,23 +82,23 @@ export abstract class AbstractSentinel<
   protected async emitReportEnd(inPayloads?: Payload[], payloads?: Payload[]) {
     const boundwitnesses = payloads?.filter(isBoundWitness) ?? []
     const outPayloads = payloads?.filter(notBoundWitness) ?? []
-    const boundwitness = boundwitnesses.find((bw) => bw.addresses.includes(this.address))
+    const boundwitness = boundwitnesses.find(bw => bw.addresses.includes(this.address))
     await this.emit('reportEnd', { boundwitness, inPayloads, mod: this, outPayloads })
   }
 
   protected async generateJob() {
     const job: SentinelJob = { tasks: [] }
     let tasks: ResolvedTask[] = await Promise.all(
-      this.config.tasks.map(async (task) => ({
+      this.config.tasks.map(async task => ({
         input: task.input ?? false,
         mod: assertEx(await this.resolve(task.mod), () => `Unable to resolve task module [${task.mod}]`),
       })),
     )
     while (tasks.length > 0) {
       const previousTasks = job.tasks.at(-1) ?? []
-      const newListCandidates =
-        //add all tasks that either require no previous input or have the previous input module already added
-        tasks.filter((task) => {
+      const newListCandidates
+        // add all tasks that either require no previous input or have the previous input module already added
+        = tasks.filter((task) => {
           const input = task.input
           if (input === undefined) {
             return true
@@ -108,28 +107,28 @@ export abstract class AbstractSentinel<
             return true
           }
           if (typeof input === 'string') {
-            return previousTasks.find((prevTask) => prevTask.mod.address === input || prevTask.mod.modName === input)
+            return previousTasks.find(prevTask => prevTask.mod.address === input || prevTask.mod.modName === input)
           }
           if (Array.isArray(input)) {
             return previousTasks.find(
-              (prevTask) => input.includes(prevTask.mod.address) || input.includes(prevTask.mod.modName ?? prevTask.mod.address),
+              prevTask => input.includes(prevTask.mod.address) || input.includes(prevTask.mod.modName ?? prevTask.mod.address),
             )
           }
         })
-      //remove any tasks that have inputs that are in the current list or the remaining tasks
+      // remove any tasks that have inputs that are in the current list or the remaining tasks
       const newList = newListCandidates.filter((taskCandidate) => {
         const input = taskCandidate.input
         return !(
-          Array.isArray(input) &&
-          tasks.some(
-            (remainingTask) => input.includes(remainingTask.mod.address) || input.includes(remainingTask.mod.modName ?? remainingTask.mod.address),
+          Array.isArray(input)
+          && tasks.some(
+            remainingTask => input.includes(remainingTask.mod.address) || input.includes(remainingTask.mod.modName ?? remainingTask.mod.address),
           )
         )
       })
       assertEx(newList.length > 0, () => `Unable to generateJob [${tasks.length}]`)
       job.tasks.push(newList)
-      //remove the tasks we just added
-      tasks = tasks.filter((task) => !newList.includes(task))
+      // remove the tasks we just added
+      tasks = tasks.filter(task => !newList.includes(task))
     }
     return job
   }

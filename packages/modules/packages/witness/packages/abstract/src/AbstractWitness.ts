@@ -22,18 +22,17 @@ import {
 
 creatableModule()
 export abstract class AbstractWitness<
-    TParams extends WitnessParams = WitnessParams,
-    TIn extends Payload = Payload,
-    TOut extends Payload = Payload,
-    TEventData extends WitnessModuleEventData<WitnessInstance<TParams, TIn, TOut>, TIn, TOut> = WitnessModuleEventData<
-      WitnessInstance<TParams, TIn, TOut>,
-      TIn,
-      TOut
-    >,
-  >
+  TParams extends WitnessParams = WitnessParams,
+  TIn extends Payload = Payload,
+  TOut extends Payload = Payload,
+  TEventData extends WitnessModuleEventData<WitnessInstance<TParams, TIn, TOut>, TIn, TOut> = WitnessModuleEventData<
+    WitnessInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
+>
   extends AbstractModuleInstance<TParams, TEventData>
-  implements CustomWitnessInstance<TParams, TIn, TOut, TEventData>
-{
+  implements CustomWitnessInstance<TParams, TIn, TOut, TEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, WitnessConfigSchema]
   static override readonly defaultConfigSchema: Schema = WitnessConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractWitness', AbstractWitness, 'xyo')
@@ -56,7 +55,7 @@ export abstract class AbstractWitness<
     await this.started('throw')
     await this.emit('observeStart', { inPayloads, mod: this } as TEventData['observeStart'])
     const outPayloads = assertEx(await this.observeHandler(inPayloads), () => 'Trying to witness nothing')
-    //assertEx(outPayloads.length > 0, 'Trying to witness empty list')
+    // assertEx(outPayloads.length > 0, 'Trying to witness empty list')
     for (const payload of outPayloads ?? []) assertEx(payload.schema, () => 'observe: Missing Schema')
 
     const archivist = await this.getArchivistInstance()

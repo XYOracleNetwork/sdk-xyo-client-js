@@ -59,8 +59,8 @@ describe('Sentinel.Interval', () => {
     expect(archivist).toBeDefined()
     const payloads = (await archivist?.all?.()) ?? []
     expect(payloads.length).toBeGreaterThan(0)
-    //console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
-    expect(payloads.some((p) => p.schema === NETWORK_XYO_TEST)).toBeTrue()
+    // console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
+    expect(payloads.some(p => p.schema === NETWORK_XYO_TEST)).toBeTrue()
   })
   it.skip('manual query', async () => {
     const testPayloads = [
@@ -89,8 +89,8 @@ describe('Sentinel.Interval', () => {
       schemas: ['network.xyo.module.state'],
     }
     const initialState = await addressStatePayloadDiviner?.divine([lastStateQuery])
-    const statePayloads =
-      initialState?.filter((p): p is WithMeta<{ offset?: number; schema: string }> => p.schema === 'network.xyo.module.state') ?? []
+    const statePayloads
+      = initialState?.filter((p): p is WithMeta<{ offset?: number; schema: string }> => p.schema === 'network.xyo.module.state') ?? []
     const offset = statePayloads?.[0]?.offset ?? 0
     const payloadDiviner = asDivinerInstance(await node.resolve('PayloadDiviner'))
     const payloadDivinerQuery = {

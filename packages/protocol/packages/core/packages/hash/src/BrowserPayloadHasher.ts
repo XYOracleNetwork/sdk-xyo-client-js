@@ -17,6 +17,7 @@ export class BrowserPayloadHasher extends PayloadHasher {
       return
     }
   })()
+
   static override wasmHashWorkerUrl = (() => {
     try {
       return new URL('worker/wasmHash-bundle.js', import.meta.url)

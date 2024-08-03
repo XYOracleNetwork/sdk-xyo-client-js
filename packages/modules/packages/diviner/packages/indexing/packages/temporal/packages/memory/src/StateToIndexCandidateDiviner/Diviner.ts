@@ -91,12 +91,13 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     const sourceArchivist = await this.getArchivistForStore()
     if (!sourceArchivist) return [lastState]
     const bws = batch.filter(isBoundWitnessWithMeta)
-    const indexCandidates: IndexCandidate[] = (await Promise.all(bws.map((bw) => this.getPayloadsInBoundWitness(bw, sourceArchivist))))
+    const indexCandidates: IndexCandidate[] = (await Promise.all(bws.map(bw => this.getPayloadsInBoundWitness(bw, sourceArchivist))))
       .filter(exists)
       .flat()
     const nextState = { schema: ModuleStateSchema, state: { ...lastState.state, offset: offset + batch.length } }
     return [nextState, ...indexCandidates]
   }
+
   /**
    * Retrieves the archivist for the payloadStore
    * @returns The archivist for the payloadStore or undefined if not resolvable

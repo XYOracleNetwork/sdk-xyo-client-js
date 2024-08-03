@@ -1,4 +1,5 @@
 import { generateMnemonic } from '@scure/bip39'
+// eslint-disable-next-line import/no-internal-modules
 import { wordlist as englishWordlist } from '@scure/bip39/wordlists/english'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
@@ -144,7 +145,7 @@ export class HDWallet extends Account implements WalletInstance {
   }
 
   async derivePath(path: string): Promise<WalletInstance> {
-    //if an absolute path, check if it matches the parent root and work with it
+    // if an absolute path, check if it matches the parent root and work with it
     if (path.startsWith('m/')) {
       const parentPath = this.path
       if (parentPath !== null && path.startsWith(parentPath)) {

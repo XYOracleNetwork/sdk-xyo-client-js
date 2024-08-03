@@ -20,6 +20,6 @@ export class EnvironmentWitness<P extends EnvironmentWitnessParams = Environment
 
 const getEnv = (payload?: EnvironmentSubset): Value => {
   const subset = payload?.values
-  const env = (subset ? Object.fromEntries(subset.map((key) => [key, process.env[key]])) : process.env) as JsonValue
+  const env = (subset ? Object.fromEntries(subset.map(key => [key, process.env[key]])) : process.env) as JsonValue
   return { schema, value: env }
 }

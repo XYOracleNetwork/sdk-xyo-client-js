@@ -1,4 +1,4 @@
-import { serializable, serializableField } from '../serializable'
+import { serializable, serializableField } from '../serializable.ts'
 
 /**
  * @group module
@@ -98,7 +98,7 @@ describe('serializable', () => {
           },
         },
       ]),
-    ).toBeFalse
+    ).toBeFalse()
   })
 
   it('maximum depth', () => {

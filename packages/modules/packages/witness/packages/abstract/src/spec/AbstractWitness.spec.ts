@@ -18,7 +18,7 @@ describe('Witness', () => {
   it('Stub', () => {
     expect(true).toBeTrue()
   })
-  /*const config: WitnessConfig = { schema: WitnessConfigSchema }
+  /* const config: WitnessConfig = { schema: WitnessConfigSchema }
   const params: ModuleParams<WitnessConfig> = { config }
   const observed = await new PayloadBuilder({ schema: 'network.xyo.test' }).build()
 
@@ -66,5 +66,5 @@ describe('Witness', () => {
         })
       })
     })
-  })*/
+  }) */
 })

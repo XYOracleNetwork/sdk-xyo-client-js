@@ -23,7 +23,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
   private _lastResolveFailure: Record<ModuleIdentifier, number> = {}
   private _queriesArchivist?: ArchivistInstance
   private _queriesDiviner?: DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, QueryBoundWitness>
-  private _reResolveDelay = 1000 * 5 //5 seconds
+  private _reResolveDelay = 1000 * 5 // 5 seconds
   private _resolveMutex = new Mutex()
   private _responsesArchivist?: ArchivistInstance
   private _responsesDiviner?: DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
@@ -59,9 +59,9 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
 
   async queriesArchivist() {
     return await this._resolveMutex.runExclusive(async () => {
-      this._queriesArchivist =
-        this._queriesArchivist ??
-        (await this.resolve(
+      this._queriesArchivist
+        = this._queriesArchivist
+        ?? (await this.resolve(
           assertEx(this.config?.intersect?.queries?.archivist, () => 'No queries Archivist defined'),
           isArchivistInstance,
         ))
@@ -71,9 +71,9 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
 
   async queriesDiviner() {
     return await this._resolveMutex.runExclusive(async () => {
-      this._queriesDiviner =
-        this._queriesDiviner ??
-        ((await this.resolve(
+      this._queriesDiviner
+        = this._queriesDiviner
+        ?? ((await this.resolve(
           assertEx(this.config?.intersect?.queries?.boundWitnessDiviner, () => 'No queries Diviner defined'),
           isDivinerInstance,
         )) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, QueryBoundWitness>)
@@ -83,9 +83,9 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
 
   async responsesArchivist() {
     return await this._resolveMutex.runExclusive(async () => {
-      this._responsesArchivist =
-        this._responsesArchivist ??
-        (await this.resolve(
+      this._responsesArchivist
+        = this._responsesArchivist
+        ?? (await this.resolve(
           assertEx(this.config?.intersect?.responses?.archivist, () => 'No responses Archivist defined'),
           isArchivistInstance,
         ))
@@ -95,9 +95,9 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
 
   async responsesDiviner() {
     return await this._resolveMutex.runExclusive(async () => {
-      this._responsesDiviner =
-        this._responsesDiviner ??
-        ((await this.resolve(
+      this._responsesDiviner
+        = this._responsesDiviner
+        ?? ((await this.resolve(
           assertEx(this.config?.intersect?.responses?.boundWitnessDiviner, () => 'No responses Diviner defined'),
           isDivinerInstance,
         )) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>)

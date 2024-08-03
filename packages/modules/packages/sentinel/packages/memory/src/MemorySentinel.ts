@@ -66,7 +66,7 @@ export class MemorySentinel<
 
   private async inputAddresses(input: ModuleIdentifier | ModuleIdentifier[]): Promise<Address[]> {
     if (Array.isArray(input)) {
-      return (await Promise.all(input.map(async (inputItem) => await this.inputAddresses(inputItem)))).flat()
+      return (await Promise.all(input.map(async inputItem => await this.inputAddresses(inputItem)))).flat()
     } else {
       const resolved = await this.resolve(input)
       return resolved ? [resolved.address] : []
@@ -74,7 +74,7 @@ export class MemorySentinel<
   }
 
   private processPreviousResults(payloads: Record<string, Payload[]>, inputs: string[]) {
-    return inputs.flatMap((input) => payloads[input] ?? [])
+    return inputs.flatMap(input => payloads[input] ?? [])
   }
 
   private async runJob(
@@ -89,10 +89,12 @@ export class MemorySentinel<
     const results: PromiseSettledResult<[Address, Payload[]]>[] = await Promise.allSettled(
       tasks?.map(async (task) => {
         const input = task.input ?? false
-        const inPayloadsFound =
-          input === true ? inPayloads
-          : input === false ? []
-          : this.processPreviousResults(previousResults, await this.inputAddresses(input))
+        const inPayloadsFound
+          = input === true
+            ? inPayloads
+            : input === false
+              ? []
+              : this.processPreviousResults(previousResults, await this.inputAddresses(input))
         const witness = asWitnessInstance(task.mod)
         if (witness) {
           await this.emit('taskStart', { address: witness.address, inPayloads: inPayloadsFound, mod: this })
@@ -127,7 +129,7 @@ export class MemorySentinel<
       finalResult[address].push(...payloads)
     }
     if (this.throwErrors) {
-      const errors = results.filter(rejected).map((result) => result.reason)
+      const errors = results.filter(rejected).map(result => result.reason)
       if (errors.length > 0) {
         throw new Error('At least one module failed')
       }

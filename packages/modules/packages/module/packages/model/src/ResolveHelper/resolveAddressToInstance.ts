@@ -66,9 +66,9 @@ export const resolveAddressToInstanceAll = async (
   ignore: Address[] = [],
 ): Promise<ModuleInstance | undefined> => {
   const cache = root.addressCache?.('all', !!includePrivate)
-  const result =
-    (await resolveAddressToInstanceDown(root, address, includePrivate ?? false, ignore)) ??
-    (await resolveAddressToInstanceUp(root, address, includePrivate ?? true, ignore))
+  const result
+    = (await resolveAddressToInstanceDown(root, address, includePrivate ?? false, ignore))
+    ?? (await resolveAddressToInstanceUp(root, address, includePrivate ?? true, ignore))
   cache?.set(address, result ? new WeakRef(result) : null)
   return result
 }

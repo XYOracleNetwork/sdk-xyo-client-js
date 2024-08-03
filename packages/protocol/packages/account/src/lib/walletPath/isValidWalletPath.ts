@@ -11,7 +11,7 @@ export const isValidRelativeWalletPath = (path?: string): boolean => {
   if (path.length === 0 || path[0] === 'm') return false
   const parts = path.split('/')
   // If any empty parts, return invalid
-  if (parts.some((p) => !p)) return false
+  if (parts.some(p => !p)) return false
   // If all the segments after the first are not valid HD paths, return invalid
-  return parts.slice(1).every((p) => pathSegmentRegex.test(p))
+  return parts.slice(1).every(p => pathSegmentRegex.test(p))
 }

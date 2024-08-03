@@ -60,8 +60,8 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
       return null
     }
     try {
-      return (this._subtleHashPool =
-        this._subtleHashPool ?? (this.subtleHashWorkerUrl ? this.createWorkerPool(this.subtleHashWorkerUrl, subtleHashFunc) : null))
+      return (this._subtleHashPool
+        = this._subtleHashPool ?? (this.subtleHashWorkerUrl ? this.createWorkerPool(this.subtleHashWorkerUrl, subtleHashFunc) : null))
     } catch {
       console.warn('Creating subtle hash worker failed')
       this._subtleHashPool = null
@@ -74,8 +74,8 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
       return null
     }
     try {
-      return (this._wasmHashPool =
-        this._wasmHashPool ?? (this.wasmHashWorkerUrl ? this.createWorkerPool(this.wasmHashWorkerUrl, wasmHashFunc) : null))
+      return (this._wasmHashPool
+        = this._wasmHashPool ?? (this.wasmHashWorkerUrl ? this.createWorkerPool(this.wasmHashWorkerUrl, wasmHashFunc) : null))
     } catch {
       console.warn('Creating wasm hash worker failed')
       this._wasmHashPool = null
@@ -90,12 +90,12 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
 
   static async filterExcludeByHash<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
     const hashes = Array.isArray(hash) ? hash : [hash]
-    return (await this.hashPairs(objs)).filter(([_, objHash]) => !hashes.includes(objHash))?.map((pair) => pair[0])
+    return (await this.hashPairs(objs)).filter(([_, objHash]) => !hashes.includes(objHash))?.map(pair => pair[0])
   }
 
   static async filterIncludeByHash<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
     const hashes = Array.isArray(hash) ? hash : [hash]
-    return (await this.hashPairs(objs)).filter(([_, objHash]) => hashes.includes(objHash))?.map((pair) => pair[0])
+    return (await this.hashPairs(objs)).filter(([_, objHash]) => hashes.includes(objHash))?.map(pair => pair[0])
   }
 
   static async findByHash<T extends EmptyObject>(objs: T[] = [], hash: Hash): Promise<T | undefined> {
@@ -142,7 +142,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @returns An array of payload/hash tuples
    */
   static async hashPairs<T extends EmptyObject>(objs: T[]): Promise<[T, Hash][]> {
-    return await Promise.all(objs.map<Promise<[T, Hash]>>(async (obj) => [obj, await PayloadHasher.hash(obj)]))
+    return await Promise.all(objs.map<Promise<[T, Hash]>>(async obj => [obj, await PayloadHasher.hash(obj)]))
   }
 
   /**
@@ -151,7 +151,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @returns An array of payload hashes
    */
   static async hashes<T extends EmptyObject>(objs?: T[]): Promise<Hash[] | undefined> {
-    return objs ? await Promise.all(objs.map((obj) => this.hash(obj))) : undefined
+    return objs ? await Promise.all(objs.map(obj => this.hash(obj))) : undefined
   }
 
   /**
@@ -175,12 +175,12 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
 
   static async subtleHash(data: Uint8Array): Promise<ArrayBuffer> {
     const pool = this.subtleHashPool
-    return pool === null ? await subtle.digest('SHA-256', data) : await pool.queue(async (thread) => await thread.hash(data))
+    return pool === null ? await subtle.digest('SHA-256', data) : await pool.queue(async thread => await thread.hash(data))
   }
 
   static async wasmHash(data: string) {
     const pool = this.wasmHashPool
-    return pool === null ? asHash(await sha256(data), true) : pool.queue(async (thread) => await thread.hash(data))
+    return pool === null ? asHash(await sha256(data), true) : pool.queue(async thread => await thread.hash(data))
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -73,7 +73,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
   }
 
   async fetchAliases(networkSlug?: Hash) {
-    //set it to null to signify fetch ran
+    // set it to null to signify fetch ran
     this.aliases = null
 
     const archivistUri = await this.findArchivistUri(networkSlug)
@@ -83,7 +83,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
           return this.fetchAlias(alias, { archivistUri })
         }),
       )
-      //cast to FetchedPayload[] after we filter out any null/undefined entries
+      // cast to FetchedPayload[] after we filter out any null/undefined entries
       this.aliases = fetchedAliases.filter(Boolean) as FetchedAlias[]
     }
   }
@@ -95,7 +95,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
   }
 
   private async findArchivistUri(hash?: Hash): Promise<string | undefined> {
-    return (await this.getNetwork(hash))?.nodes?.find((payload) => (payload.type === 'archivist' ? payload : undefined))?.uri
+    return (await this.getNetwork(hash))?.nodes?.find(payload => (payload.type === 'archivist' ? payload : undefined))?.uri
   }
 
   private async getNetwork(hash?: Hash): Promise<NetworkPayload | undefined> {

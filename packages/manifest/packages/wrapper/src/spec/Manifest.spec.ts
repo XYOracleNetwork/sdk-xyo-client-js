@@ -16,13 +16,13 @@ describe('Manifest', () => {
       expect(node).toBeDefined()
 
       const discover = await node.state()
-      const discoveredAddresses = discover.filter((item) => item.schema === AddressSchema)
+      const discoveredAddresses = discover.filter(item => item.schema === AddressSchema)
       expect(discoveredAddresses.length).toBeGreaterThan(4)
-      //expect((await node.resolve()).length).toBeGreaterThan(4)
+      // expect((await node.resolve()).length).toBeGreaterThan(4)
 
       const roundTrip = (await node.manifest()) as NodeManifest
       console.log(`manifest: ${toJsonString(roundTrip, 20)}`)
-      //expect(roundTrip.modules?.private).toBeArrayOfSize(1)
+      // expect(roundTrip.modules?.private).toBeArrayOfSize(1)
       expect(roundTrip.modules?.public).toBeArrayOfSize(3)
     })
   })

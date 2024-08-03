@@ -4,11 +4,13 @@ import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { AbstractForecastingDiviner, ForecastingDivinerParams } from '@xyo-network/diviner-forecasting-abstract'
+import type {
+  arimaForecastingName,
+  seasonalArimaForecastingName,
+} from '@xyo-network/diviner-forecasting-method-arima'
 import {
   arimaForecastingMethod,
-  arimaForecastingName,
   seasonalArimaForecastingMethod,
-  seasonalArimaForecastingName,
 } from '@xyo-network/diviner-forecasting-method-arima'
 import { ForecastingDivinerConfigSchema, ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner-forecasting-model'
 import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
@@ -85,13 +87,13 @@ export class MemoryForecastingDiviner<
     while (more || payloads.length < this.maxTrainingLength) {
       const query: BoundWitnessDivinerQueryPayload = { addresses, limit, payload_schemas, schema: BoundWitnessDivinerQuerySchema, timestamp }
       const boundWitnesses = (await bwDiviner.divine([query])).filter(
-        (bw) => bw.timestamp && bw.timestamp >= startTimestamp && bw.timestamp <= stopTimestamp,
+        bw => bw.timestamp && bw.timestamp >= startTimestamp && bw.timestamp <= stopTimestamp,
       )
       if (boundWitnesses.length === 0) break
 
       // Update the timestamp value for the next batch
       timestamp = boundWitnesses
-        .map((bw) => bw.timestamp)
+        .map(bw => bw.timestamp)
         .filter(exists)
         // eslint-disable-next-line unicorn/no-array-reduce
         .reduce((a, b) => Math.min(a, b), Number.MAX_SAFE_INTEGER)
@@ -101,7 +103,7 @@ export class MemoryForecastingDiviner<
       more = boundWitnesses.length === limit
 
       // Get the corresponding payload hashes from the BWs
-      const hashes = boundWitnesses.map((bw) => bw.payload_hashes[bw.payload_schemas.indexOf(witnessSchema)]).filter(exists)
+      const hashes = boundWitnesses.map(bw => bw.payload_hashes[bw.payload_schemas.indexOf(witnessSchema)]).filter(exists)
 
       // Get the payloads corresponding to the BW hashes from the archivist
       if (hashes.length > 0) {

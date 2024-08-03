@@ -75,6 +75,7 @@ export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
 
 export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
   return <U extends ConstructableModuleWrapper<TWrapper>>(constructor: U) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     constructor
   }
 }
@@ -82,8 +83,7 @@ export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
 @constructableModuleWrapper()
 export class ModuleWrapper<TWrappedModule extends Module = Module>
   extends Base<Exclude<Omit<TWrappedModule['params'], 'config'> & { config: Exclude<TWrappedModule['params']['config'], undefined> }, undefined>>
-  implements AttachableModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
-{
+  implements AttachableModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']> {
   static instanceIdentityCheck: InstanceTypeCheck = isModuleInstance
   static moduleIdentityCheck: ModuleTypeCheck = isModule
   static requiredQueries: string[] = [ModuleStateQuerySchema]
@@ -104,7 +104,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
       undefined
     >
 
-    //set the root params to the wrapped mod params
+    // set the root params to the wrapped mod params
     super(mutatedParams)
     this.wrapperParams = mutatedWrapperParams
   }
@@ -126,7 +126,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   get downResolver(): ModuleResolverInstance {
-    //Should we be allowing this?
+    // Should we be allowing this?
     const instance: AttachableModuleInstance | undefined = asAttachableModuleInstance(this.mod)
     if (instance) {
       return instance.downResolver as ModuleResolverInstance
@@ -151,7 +151,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   get privateResolver(): ModuleResolverInstance {
-    //Should we be allowing this?
+    // Should we be allowing this?
     const instance = asAttachableModuleInstance(this.mod)
     if (instance) {
       return instance.privateResolver as ModuleResolverInstance
@@ -168,7 +168,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   get upResolver(): ModuleResolverInstance {
-    //Should we be allowing this?
+    // Should we be allowing this?
     const instance = asAttachableModuleInstance(this.mod)
     if (instance) {
       return instance.upResolver as ModuleResolverInstance
@@ -242,7 +242,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   addParent(mod: ModuleInstance) {
-    const existingEntry = this._parents.find((parent) => parent.address === mod.address)
+    const existingEntry = this._parents.find(parent => parent.address === mod.address)
     if (!existingEntry) {
       this._parents.push(mod)
     }
@@ -251,7 +251,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   async addressPreviousHash(): Promise<AddressPreviousHashPayload> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return assertEx(
-      (await this.sendQuery(queryPayload)).find((payload) => payload.schema === AddressPreviousHashSchema) as WithMeta<AddressPreviousHashPayload>,
+      (await this.sendQuery(queryPayload)).find(payload => payload.schema === AddressPreviousHashSchema) as WithMeta<AddressPreviousHashPayload>,
       () => 'Result did not include correct payload',
     )
   }
@@ -350,7 +350,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   removeParent(address: Address) {
-    this._parents = this._parents.filter((item) => item.address !== address)
+    this._parents = this._parents.filter(item => item.address !== address)
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
@@ -372,7 +372,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
       if (idOrFilter === '*') {
         return await instance.resolve<T>('*', options)
       }
-      // eslint-disable-next-line sonarjs/no-all-duplicated-branches
       switch (typeof idOrFilter) {
         case 'string': {
           return await instance.resolve<T>(idOrFilter, options)
@@ -395,7 +394,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   async siblings(): Promise<ModuleInstance[]> {
-    return (await Promise.all((await this.parents()).map((parent) => parent.publicChildren()))).flat().filter(duplicateModules)
+    return (await Promise.all((await this.parents()).map(parent => parent.publicChildren()))).flat().filter(duplicateModules)
   }
 
   async state(): Promise<Payload[]> {

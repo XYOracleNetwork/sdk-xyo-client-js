@@ -65,24 +65,24 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
 
   protected get addresses(): Address[] {
     uniqueAccounts(this._accounts, true)
-    return this._accounts.map((account) => account.address.toLowerCase()) as Address[]
+    return this._accounts.map(account => account.address.toLowerCase()) as Address[]
   }
 
   protected get payloadSchemas(): string[] {
     return (
-      this._payloadSchemas ??
-      this._payloads.map((payload) => {
+      this._payloadSchemas
+      ?? this._payloads.map((payload) => {
         return assertEx(payload.schema, () => this.missingSchemaMessage(payload))
       })
     )
   }
 
   protected get previousHashBuffers(): (ArrayBuffer | null)[] {
-    return this._accounts.map((account) => account.previousHashBytes ?? null)
+    return this._accounts.map(account => account.previousHashBytes ?? null)
   }
 
   protected get previousHashes(): (Hash | null)[] {
-    return this._accounts.map((account) => account.previousHash ?? null)
+    return this._accounts.map(account => account.previousHash ?? null)
   }
 
   protected get timestamp(): number {
@@ -117,8 +117,8 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     payloads?: Payload[],
     timestamp = Date.now(),
   ) {
-    const addresses = accounts.map((account) => hexFromArrayBuffer(account.addressBytes, { prefix: false }))
-    const previous_hashes = accounts.map((account) => account.previousHash ?? null)
+    const addresses = accounts.map(account => hexFromArrayBuffer(account.addressBytes, { prefix: false }))
+    const previous_hashes = accounts.map(account => account.previousHash ?? null)
     const payload_hashes = payloads ? await PayloadBuilder.dataHashes(payloads) : []
     const payload_schemas = payloads?.map(({ schema }) => schema)
     return { addresses, payload_hashes, payload_schemas, previous_hashes, timestamp } as WithoutSchema<WithoutMeta<T>>
@@ -157,14 +157,14 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
 
   protected static async signatures(accounts: AccountInstance[], hash: Hash, previousHashes: (Hash | ArrayBuffer | null)[]): Promise<string[]> {
     const hashBytes = toArrayBuffer(hash)
-    const previousHashesBytes = previousHashes?.map((ph) => (ph ? toUint8Array(ph) : undefined))
+    const previousHashesBytes = previousHashes?.map(ph => (ph ? toUint8Array(ph) : undefined))
     return await Promise.all(accounts.map(async (account, index) => hexFromArrayBuffer(await account.sign(hashBytes, previousHashesBytes[index]))))
   }
 
   private static validateLinkingFields(bw: Pick<BoundWitness, 'payload_hashes' | 'payload_schemas'>) {
     assertEx(bw.payload_hashes?.length === bw.payload_schemas?.length, () => 'Payload hash/schema mismatch')
-    assertEx(!bw.payload_hashes.some((hash) => !hash), () => 'nulls found in hashes')
-    assertEx(!bw.payload_schemas.some((schema) => !schema), () => 'nulls found in schemas')
+    assertEx(!bw.payload_hashes.some(hash => !hash), () => 'nulls found in hashes')
+    assertEx(!bw.payload_schemas.some(schema => !schema), () => 'nulls found in schemas')
   }
 
   async build(): Promise<[WithMeta<TBoundWitness>, WithMeta<TPayload>[], WithMeta<ModuleError>[]]> {
@@ -180,8 +180,8 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
       } as WithMeta<TBoundWitness>
       return [
         ret,
-        await Promise.all(this._payloads?.map((payload) => PayloadBuilder.build(payload))),
-        await Promise.all(this._errors?.map((error) => PayloadBuilder.build(error))),
+        await Promise.all(this._payloads?.map(payload => PayloadBuilder.build(payload))),
+        await Promise.all(this._errors?.map(error => PayloadBuilder.build(error))),
       ]
     })
   }
@@ -283,7 +283,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   protected async signatures(_hash: Hash, previousHashes: (Hash | ArrayBuffer | null)[]): Promise<string[]> {
     uniqueAccounts(this._accounts, true)
     const hash = toArrayBuffer(_hash)
-    const previousHashesBytes = previousHashes.map((ph) => (ph ? toUint8Array(ph) : undefined))
+    const previousHashesBytes = previousHashes.map(ph => (ph ? toUint8Array(ph) : undefined))
     return await Promise.all(this._accounts.map(async (account, index) => hexFromArrayBuffer(await account.sign(hash, previousHashesBytes[index]))))
   }
 

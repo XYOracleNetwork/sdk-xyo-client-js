@@ -26,8 +26,8 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> {
   static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
     payload: TPayload | TWrapper | (TPayload | TWrapper)[],
   ): TPayload | TPayload[] | undefined {
-    return Array.isArray(payload) ?
-        payload.map((payload) => this.unwrapSinglePayload<TPayload, TWrapper>(payload))
+    return Array.isArray(payload)
+      ? payload.map(payload => this.unwrapSinglePayload<TPayload, TWrapper>(payload))
       : this.unwrapSinglePayload<TPayload, TWrapper>(payload)
   }
 
@@ -70,7 +70,7 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> {
     return (await this.getErrors()).length === 0
   }
 
-  //intentionally a function to prevent confusion with payload
+  // intentionally a function to prevent confusion with payload
   schema(): string {
     return assertEx(this.payload?.schema, () => 'Missing payload schema')
   }

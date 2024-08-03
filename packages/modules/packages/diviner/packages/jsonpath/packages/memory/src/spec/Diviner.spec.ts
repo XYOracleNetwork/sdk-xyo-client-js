@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { HDWallet } from '@xyo-network/account'
 import { JsonPathDivinerConfigSchema, JsonPathTransformExpression } from '@xyo-network/diviner-jsonpath-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -116,7 +115,7 @@ describe('JsonPathDiviner', () => {
     )
 
     // Act
-    const actual = await sut.divine(await Promise.all(inputs.map((input) => PayloadBuilder.build(input))))
+    const actual = await sut.divine(await Promise.all(inputs.map(input => PayloadBuilder.build(input))))
 
     // Assert
     expect(PayloadBuilder.withoutMeta(actual)).toEqual(PayloadBuilder.withoutMeta(expected))

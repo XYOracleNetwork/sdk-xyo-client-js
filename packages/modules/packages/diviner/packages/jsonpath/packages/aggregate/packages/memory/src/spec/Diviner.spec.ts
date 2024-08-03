@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -188,7 +187,7 @@ describe('JsonPathAggregateDiviner', () => {
       })
       describe('with multiple inputs', () => {
         it('transforms to multiple outputs', async () => {
-          const bws = await Promise.all(cases.map(async (c) => (await new BoundWitnessBuilder().payloads(c)).build()))
+          const bws = await Promise.all(cases.map(async c => (await new BoundWitnessBuilder().payloads(c)).build()))
           const allCases = bws.map((bw, i) => [bw[0], ...cases[i]] as [BoundWitness, TimeStamp, ImageThumbnail, Payload])
           const results = await diviner.divine(allCases.flat())
           expect(results).toBeArrayOfSize(cases.length)

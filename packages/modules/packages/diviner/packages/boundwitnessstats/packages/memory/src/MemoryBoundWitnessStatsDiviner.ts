@@ -25,7 +25,7 @@ export class MemoryBoundWitnessStatsDiviner<
     return all
       .filter(isBoundWitness)
       .filter(isBoundWitnessWithMeta)
-      .filter((bw) => bw.addresses.includes(address)).length
+      .filter(bw => bw.addresses.includes(address)).length
   }
 
   protected async divineAllAddresses(): Promise<number> {
@@ -37,15 +37,15 @@ export class MemoryBoundWitnessStatsDiviner<
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<BoundWitnessStatsQueryPayload>(isBoundWitnessStatsQueryPayload)
     if (!query) return []
-    const addresses =
-      query?.address ?
-        Array.isArray(query?.address) ?
-          query.address
-        : [query.address]
-      : undefined
-    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
+    const addresses
+      = query?.address
+        ? Array.isArray(query?.address)
+          ? query.address
+          : [query.address]
+        : undefined
+    const counts = addresses ? await Promise.all(addresses.map(address => this.divineAddress(address))) : [await this.divineAllAddresses()]
     return await Promise.all(
-      counts.map((count) => new PayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsDivinerSchema }).fields({ count }).build()),
+      counts.map(count => new PayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsDivinerSchema }).fields({ count }).build()),
     )
   }
 }

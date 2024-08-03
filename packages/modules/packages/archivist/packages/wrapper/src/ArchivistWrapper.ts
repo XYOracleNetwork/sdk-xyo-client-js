@@ -28,8 +28,7 @@ import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
 constructableModuleWrapper()
 export class ArchivistWrapper<TWrappedModule extends ArchivistModule = ArchivistModule>
   extends ModuleWrapper<TWrappedModule>
-  implements AttachableArchivistInstance<ArchivistModule['params']>
-{
+  implements AttachableArchivistInstance<ArchivistModule['params']> {
   static override instanceIdentityCheck = isArchivistInstance
   static override moduleIdentityCheck = isArchivistModule
   static override requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]

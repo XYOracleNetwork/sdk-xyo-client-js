@@ -15,7 +15,7 @@ import {
 } from '@xylabs/sdk-api-express-ecs'
 import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeExposeOptions, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-//import { standardResponses } from '@xyo-network/express-node-middleware'
+// import { standardResponses } from '@xyo-network/express-node-middleware'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleQueryResult, resolveAddressToInstanceUp } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import express, { Application, Request, Response } from 'express'
@@ -39,10 +39,11 @@ type PostAddressRequestBody = [QueryBoundWitness, undefined | Payload[]]
 // TODO: This does not match the error response shape of the legacy bridge BUT it its the
 // shape this bridge is currently returning.  Massage this into the standard
 // error shape constructed via middleware.
-/*type ErrorResponseBody = {
+/* type ErrorResponseBody = {
   error: string
-}*/
+} */
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {}
 
 @creatableModule()
@@ -61,8 +62,8 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     assertEx(this.config.host, () => 'Not configured as a host')
     this._exposedModules.push(new WeakRef(mod))
     const children = maxDepth > 0 ? ((await mod.publicChildren?.()) ?? []) : []
-    this.logger.log(`childrenToExpose [${mod.id}][${mod.address}]: ${toJsonString(children.map((child) => child.id))}`)
-    const exposedChildren = (await Promise.all(children.map((child) => this.exposeChild(child, { maxDepth: maxDepth - 1, required: false }))))
+    this.logger.log(`childrenToExpose [${mod.id}][${mod.address}]: ${toJsonString(children.map(child => child.id))}`)
+    const exposedChildren = (await Promise.all(children.map(child => this.exposeChild(child, { maxDepth: maxDepth - 1, required: false }))))
       .flat()
       .filter(exists)
     const allExposed = [mod, ...exposedChildren]
@@ -85,7 +86,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   }
 
   override exposedHandler(): Address[] {
-    return this._exposedModules.map((ref) => ref.deref()?.address).filter(exists)
+    return this._exposedModules.map(ref => ref.deref()?.address).filter(exists)
   }
 
   override async startHandler(): Promise<boolean> {
@@ -99,13 +100,13 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   override async unexposeHandler(address: Address, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
     const { maxDepth = 2, required = true } = options ?? {}
     assertEx(this.config.host, () => 'Not configured as a host')
-    const mod = this._exposedModules.find((ref) => ref.deref()?.address === address)?.deref()
+    const mod = this._exposedModules.find(ref => ref.deref()?.address === address)?.deref()
     assertEx(!required || mod, () => `Module not exposed: ${address}`)
-    this._exposedModules = this._exposedModules.filter((ref) => ref.deref()?.address !== address)
+    this._exposedModules = this._exposedModules.filter(ref => ref.deref()?.address !== address)
     if (mod) {
       const children = maxDepth > 0 ? ((await mod.publicChildren?.()) ?? []) : []
       const exposedChildren = (
-        await Promise.all(children.map((child) => this.unexposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
+        await Promise.all(children.map(child => this.unexposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
       )
         .flat()
         .filter(exists)
@@ -115,7 +116,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   }
 
   protected async callLocalModule(address: Address, query: QueryBoundWitness, payloads: Payload[]): Promise<ModuleQueryResult | null> {
-    const mod = this._exposedModules.find((ref) => ref.deref()?.address === address)?.deref()
+    const mod = this._exposedModules.find(ref => ref.deref()?.address === address)?.deref()
     return mod ? await mod.query(query, payloads) : null
   }
 
@@ -125,7 +126,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
       if (address == this.address) {
         res.json(await this.stateQuery(this.account))
       } else {
-        const mod = this._exposedModules.find((ref) => ref.deref()?.address === address)?.deref()
+        const mod = this._exposedModules.find(ref => ref.deref()?.address === address)?.deref()
         // TODO: Use standard errors middleware
         if (mod) {
           res.json(await mod.stateQuery(this.account))
@@ -174,8 +175,8 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     // Add middleware
     app.use(responseProfiler)
     app.use(jsonBodyParser)
-    //removed for now since this causes a cycle
-    //app.use(standardResponses)
+    // removed for now since this causes a cycle
+    // app.use(standardResponses)
     disableExpressDefaultPoweredByHeader(app)
     app.use(customPoweredByHeader)
     disableCaseSensitiveRouting(app)

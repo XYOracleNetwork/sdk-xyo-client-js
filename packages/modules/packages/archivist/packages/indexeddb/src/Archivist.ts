@@ -118,20 +118,20 @@ export class IndexedDbArchivist<
 
   protected override async allHandler(): Promise<StoredPayload[]> {
     // Get all payloads from the store
-    const payloads = await this.useDb((db) => db.getAll(this.storeName))
+    const payloads = await this.useDb(db => db.getAll(this.storeName))
     // Remove any metadata before returning to the client
-    return await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload)))
+    return await Promise.all(payloads.map(payload => PayloadBuilder.build(payload)))
   }
 
   protected override async clearHandler(): Promise<void> {
-    await this.useDb((db) => db.clear(this.storeName))
+    await this.useDb(db => db.clear(this.storeName))
   }
 
   protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
     // Filter duplicates to prevent unnecessary DB queries
     const uniqueHashes = uniq(hashes)
     const pairs = await PayloadBuilder.hashPairs(await this.getHandler(uniqueHashes))
-    const hashesToDelete = pairs.flatMap<Hash>((pair) => [pair[0].$hash, pair[1]])
+    const hashesToDelete = pairs.flatMap<Hash>(pair => [pair[0].$hash, pair[1]])
     // Remove any duplicates
     const distinctHashes = [...new Set(hashesToDelete)]
     return await this.useDb(async (db) => {
@@ -139,9 +139,9 @@ export class IndexedDbArchivist<
       const found = await Promise.all(
         distinctHashes.map(async (hash) => {
           // Check if the hash exists
-          const existing =
-            (await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash)) ??
-            (await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.dataHashIndexName, hash))
+          const existing
+            = (await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash))
+            ?? (await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.dataHashIndexName, hash))
           // If it does exist
           if (existing) {
             // Delete it
@@ -151,7 +151,7 @@ export class IndexedDbArchivist<
           }
         }),
       )
-      return found.filter(exists).filter((hash) => uniqueHashes.includes(hash))
+      return found.filter(exists).filter(hash => uniqueHashes.includes(hash))
     })
   }
 
@@ -198,13 +198,13 @@ export class IndexedDbArchivist<
     let primaryCursor: IDBPCursorWithValue<PayloadStore, [string]> | null | undefined = undefined
     if (offset) {
       const hashCursor = assertEx(await hashIndex.openCursor(offset), () => 'Failed to get cursor')
-      const startPrimaryKey = (hashCursor?.primaryKey ?? 0) as number //we know the primary key is a number and starts at 1
-      primaryCursor = await (order === 'desc' ?
-        store.openCursor(IDBKeyRange.upperBound(startPrimaryKey), 'prev')
-      : store.openCursor(IDBKeyRange.lowerBound(startPrimaryKey), 'next'))
+      const startPrimaryKey = (hashCursor?.primaryKey ?? 0) as number // we know the primary key is a number and starts at 1
+      primaryCursor = await (order === 'desc'
+        ? store.openCursor(IDBKeyRange.upperBound(startPrimaryKey), 'prev')
+        : store.openCursor(IDBKeyRange.lowerBound(startPrimaryKey), 'next'))
       if (!primaryCursor?.value) return []
       try {
-        primaryCursor = await primaryCursor?.advance(1) //advance to skip the offset value
+        primaryCursor = await primaryCursor?.advance(1) // advance to skip the offset value
       } catch {
         return []
       }
@@ -234,7 +234,7 @@ export class IndexedDbArchivist<
   }
 
   protected override async getHandler(hashes: string[]): Promise<StoredPayload[]> {
-    const payloads = await this.useDb((db) =>
+    const payloads = await this.useDb(db =>
       Promise.all(
         // Filter duplicates to prevent unnecessary DB queries
         uniq(hashes).map(async (hash) => {

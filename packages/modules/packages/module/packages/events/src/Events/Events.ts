@@ -54,15 +54,15 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
   private static canEmitMetaEvents = false
   private static isGlobalDebugEnabled = false
 
-  //this is here to be able to query the type, not use
+  // this is here to be able to query the type, not use
   eventData = {} as TEventData
 
   constructor(params: EventsParams = {}) {
     const mutatedParams = { ...params }
     if (mutatedParams.debug) {
-      mutatedParams.debug.logger =
-        mutatedParams.debug.logger ??
-        ((type: string, debugName: string, eventName?: EventName, eventData?: EventArgs) => {
+      mutatedParams.debug.logger
+        = mutatedParams.debug.logger
+        ?? ((type: string, debugName: string, eventName?: EventName, eventData?: EventArgs) => {
           let eventDataString: string
           try {
             eventDataString = JSON.stringify(eventData)
@@ -163,8 +163,8 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
 
     const listeners = this.getListeners(eventName) ?? new Set()
     const filteredListeners = [...listeners.values()]
-      .filter((value) => (value.filter ? filterMatch(eventArgs, value.filter as TEventData[TEventName]) : true))
-      .map((info) => info.listener)
+      .filter(value => (value.filter ? filterMatch(eventArgs, value.filter as TEventData[TEventName]) : true))
+      .map(info => info.listener)
     const anyListeners = assertEx(Events.anyMap.get(this))
     const staticListeners = [...filteredListeners]
     const staticAnyListeners = [...anyListeners]
@@ -180,7 +180,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     }
   }
 
-  //TODO: Make test for this
+  // TODO: Make test for this
   listenerCount(eventNames?: keyof TEventData | (keyof TEventData)[]) {
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
     let count = 0
@@ -294,7 +294,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     this.logIfDebugEnabled('emit', eventName, eventArgs)
 
     const listeners = this.getListeners(eventName) ?? new Set()
-    const filteredListeners = [...listeners.values()].filter((value) => (filter ? value.listener : true)).map((info) => info.listener)
+    const filteredListeners = [...listeners.values()].filter(value => (filter ? value.listener : true)).map(info => info.listener)
     const anyListeners = assertEx(Events.anyMap.get(this))
     const staticListeners = [...filteredListeners]
     const staticAnyListeners = isMetaEvent(eventName) ? [] : [...anyListeners]
@@ -323,7 +323,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     this.logIfDebugEnabled('emit', eventName, eventArgs)
 
     const listeners = this.getListeners(eventName) ?? new Set()
-    const filteredListeners = [...listeners.values()].map((info) => info.listener)
+    const filteredListeners = [...listeners.values()].map(info => info.listener)
     const anyListeners = assertEx(Events.anyMap.get(this))
     const staticListeners = [...filteredListeners]
     const staticAnyListeners = isMetaEvent(eventName) ? [] : [...anyListeners]

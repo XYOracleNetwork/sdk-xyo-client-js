@@ -12,11 +12,11 @@ describe('ArchivistApi', () => {
       expect(response).toBeArray()
 
       expect(response).toBeArray()
-      const addressPayload = response?.find((p) => p.schema === AddressSchema) as AddressPayload
+      const addressPayload = response?.find(p => p.schema === AddressSchema) as AddressPayload
       expect(addressPayload).toBeObject()
       expect(addressPayload.address).toBeString()
 
-      const queries = response?.filter((d) => d.schema === QuerySchema) as QueryPayload[]
+      const queries = response?.filter(d => d.schema === QuerySchema) as QueryPayload[]
       expect(queries.length).toBeGreaterThan(0)
     })
   })

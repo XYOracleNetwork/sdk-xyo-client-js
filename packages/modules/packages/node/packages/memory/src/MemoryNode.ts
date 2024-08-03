@@ -20,8 +20,7 @@ export type MemoryNodeParams = NodeParams<AnyConfigSchema<NodeConfig>>
 
 export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractNode<TParams, TEventData>
-  implements AttachableNodeInstance<TParams, TEventData>
-{
+  implements AttachableNodeInstance<TParams, TEventData> {
   protected registeredModuleMap: Record<Address, AttachableModuleInstance> = {}
 
   private _attachMutex = new Mutex()
@@ -38,7 +37,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   }
 
   async certifyHandler(id: ModuleIdentifier): Promise<ChildCertificationFields> {
-    const child = (await this.publicChildren()).find((child) => child.modName === id || child.address === id)
+    const child = (await this.publicChildren()).find(child => child.modName === id || child.address === id)
     if (child) {
       return { address: child.address, expiration: Date.now() + 1000 * 60 * 10 /* 10 minutes */ }
     }
@@ -88,12 +87,10 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
   async unregister(mod: ModuleInstance): Promise<ModuleInstance> {
     await this.started('throw')
-    //try to detach if it is attached
+    // try to detach if it is attached
     try {
       await this.detach(mod.address)
-    } catch {
-      null
-    }
+    } catch {}
     delete this.registeredModuleMap[mod.address]
     const args = { mod, name: mod.modName }
     await this.emit('moduleUnregistered', args)
@@ -117,17 +114,17 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
       const notificationList = await this.getModulesToNotifyAbout(mod)
 
-      //give it private access
+      // give it private access
       mod.upResolver.addResolver?.(this.privateResolver)
 
-      //give it public access
+      // give it public access
       mod.upResolver.addResolver?.(this.downResolver as CompositeModuleResolver)
 
-      //give it outside access
+      // give it outside access
       mod.upResolver.addResolver?.(this.upResolver)
 
       if (external) {
-        //expose it externally
+        // expose it externally
         this._attachedPublicModules.add(mod.address)
         this.downResolver.addResolver(mod.downResolver as ModuleResolverInstance)
       } else {
@@ -165,13 +162,13 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
     assertEx(isAttachedPublic || isAttachedPrivate, () => `Module [${mod.modName}] not attached at [${address}]`)
 
-    //remove inside access
+    // remove inside access
     mod.upResolver?.removeResolver?.(this.privateResolver)
 
-    //remove outside access
+    // remove outside access
     mod.upResolver?.removeResolver?.(this.upResolver)
 
-    //remove external exposure
+    // remove external exposure
     this.downResolver.removeResolver(mod.downResolver as ModuleResolverInstance)
 
     mod.removeParent(this.address)
@@ -187,7 +184,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     const args = { mod, name: mod.modName }
     await this.emit('moduleDetached', args)
 
-    //notify of all sub node children detach
+    // notify of all sub node children detach
     if (isNodeModule(mod)) {
       const notificationList = await this.getModulesToNotifyAbout(mod)
       await this.notifyOfExistingModulesDetached(notificationList)
@@ -215,16 +212,16 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
   private async getModulesToNotifyAbout(node: ModuleInstance) {
     const notifiedAddresses: string[] = []
-    //send attach events for all existing attached modules
+    // send attach events for all existing attached modules
     const childModules = await node.resolve('*', { direction: 'down' })
     return compact(
       childModules.map((child) => {
-        //don't report self
+        // don't report self
         if (node.address === child.address) {
           return
         }
 
-        //prevent loop
+        // prevent loop
         if (notifiedAddresses.includes(child.address)) {
           return
         }

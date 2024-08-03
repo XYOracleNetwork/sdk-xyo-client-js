@@ -12,8 +12,8 @@ export type IndexDescription = {
    */
   key:
     | {
-        [key: string]: IndexDirection
-      }
+      [key: string]: IndexDirection
+    }
     | Map<string, IndexDirection>
   /**
    * Is the indexed value an array

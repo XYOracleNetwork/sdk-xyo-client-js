@@ -3,6 +3,6 @@ export const objToQuery = (obj: Record<string, string | number | undefined>) => 
     .map(([key, value]) => {
       return `${key}=${value}`
     })
-    .filter((value) => value !== undefined)
+    .filter(value => value !== undefined)
     .join('&')}`
 }

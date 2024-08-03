@@ -12,5 +12,5 @@ export interface WitnessInstance<
   TOut extends Payload = Payload,
   TEvents extends WitnessModuleEventData = WitnessModuleEventData,
 > extends WitnessModule<TParams, TEvents>,
-    WitnessQueryFunctions<TIn, TOut>,
-    ModuleInstance<TParams, TEvents> {}
+  WitnessQueryFunctions<TIn, TOut>,
+  ModuleInstance<TParams, TEvents> {}

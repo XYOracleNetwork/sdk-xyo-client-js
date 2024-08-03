@@ -11,9 +11,9 @@ import {
 
 export interface BridgeModuleEventData
   extends QuerySendFinishedEventData,
-    QuerySendStartedEventData,
-    QueryFulfillFinishedEventData,
-    QueryFulfillStartedEventData,
-    ExposedEventData,
-    UnexposedEventData,
-    ModuleEventData {}
+  QuerySendStartedEventData,
+  QueryFulfillFinishedEventData,
+  QueryFulfillStartedEventData,
+  ExposedEventData,
+  UnexposedEventData,
+  ModuleEventData {}

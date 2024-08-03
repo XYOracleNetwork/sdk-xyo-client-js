@@ -25,11 +25,11 @@ export class BoundWitnessLoader extends Base<BoundWitnessLoaderParams> {
 
   async load(hash: Hash | Hash[]): Promise<Payload[]> {
     if (Array.isArray(hash)) {
-      return (await Promise.all(hash.map((h) => this.load(h)))).flat()
+      return (await Promise.all(hash.map(h => this.load(h)))).flat()
     }
     const bw = asBoundWitness(await this.getPayload(hash))
     if (bw) {
-      const payloads = (await Promise.all(bw.payload_hashes.map((hash) => this.getPayload(hash)))).filter(exists)
+      const payloads = (await Promise.all(bw.payload_hashes.map(hash => this.getPayload(hash)))).filter(exists)
       return [bw, ...payloads]
     }
     return []

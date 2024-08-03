@@ -45,11 +45,10 @@ import { AbstractModule } from './AbstractModule.ts'
 
 export abstract class AbstractModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModule<TParams, TEventData>
-  implements AttachableModuleInstance<TParams, TEventData>, ModuleNameResolver
-{
+  implements AttachableModuleInstance<TParams, TEventData>, ModuleNameResolver {
   static override readonly uniqueName = globallyUnique('AbstractModuleInstance', AbstractModuleInstance, 'xyo')
 
-  //switches between old and new resolution system
+  // switches between old and new resolution system
   static readonly useNewResolver = false
 
   private _downResolver?: CompositeModuleResolver
@@ -70,9 +69,9 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   }
 
   get downResolver() {
-    this._downResolver =
-      this._downResolver ??
-      new CompositeModuleResolver({
+    this._downResolver
+      = this._downResolver
+      ?? new CompositeModuleResolver({
         allowNameResolution: this.allowNameResolution,
         moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
         root: this,
@@ -89,9 +88,9 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   }
 
   get privateResolver() {
-    this._privateResolver =
-      this._privateResolver ??
-      new CompositeModuleResolver({
+    this._privateResolver
+      = this._privateResolver
+      ?? new CompositeModuleResolver({
         allowNameResolution: this.allowNameResolution,
         moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
         root: this,
@@ -104,9 +103,9 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   }
 
   get upResolver() {
-    this._upResolver =
-      this._upResolver ??
-      new CompositeModuleResolver({
+    this._upResolver
+      = this._upResolver
+      ?? new CompositeModuleResolver({
         allowNameResolution: this.allowNameResolution,
         moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
         root: this,
@@ -115,7 +114,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   }
 
   addParent(mod: ModuleInstance) {
-    const existingEntry = this._parents.find((parent) => parent.address === mod.address)
+    const existingEntry = this._parents.find(parent => parent.address === mod.address)
     if (!existingEntry) {
       this._parents.push(asNodeInstance(mod, 'Only NodeInstances can be parents'))
     }
@@ -165,7 +164,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   }
 
   removeParent(address: Address) {
-    this._parents = this._parents.filter((item) => item.address !== address)
+    this._parents = this._parents.filter(item => item.address !== address)
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
@@ -193,9 +192,9 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
         return (await resolvePathToInstance(this, idOrFilter, true)) as T | undefined
       } else {
         if (isNameModuleFilter(idOrFilter)) {
-          return (await Promise.all(idOrFilter.name.map(async (id) => await resolveLocalNameToInstance(this, id)))).filter(exists) as T[]
+          return (await Promise.all(idOrFilter.name.map(async id => await resolveLocalNameToInstance(this, id)))).filter(exists) as T[]
         } else if (isAddressModuleFilter(idOrFilter)) {
-          return (await Promise.all(idOrFilter.address.map(async (id) => await resolveAddressToInstance(this, id)))).filter(exists) as T[]
+          return (await Promise.all(idOrFilter.address.map(async id => await resolveAddressToInstance(this, id)))).filter(exists) as T[]
         } else {
           throw new TypeError('Invalid filter')
         }
@@ -218,10 +217,10 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
           return await ResolveHelper.resolve(config, idOrFilter, options)
         }
         case 'object': {
-          return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+          return (await ResolveHelper.resolve(config, idOrFilter, options)).filter(mod => mod.address !== this.address)
         }
         default: {
-          return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+          return (await ResolveHelper.resolve(config, idOrFilter, options)).filter(mod => mod.address !== this.address)
         }
       }
     }
@@ -247,22 +246,22 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
     return (
-      (await this.privateResolver.resolve(id, options)) ??
-      (await this.upResolver.resolve(id, options)) ??
-      (await this.downResolver.resolve(id, options))
+      (await this.privateResolver.resolve(id, options))
+      ?? (await this.upResolver.resolve(id, options))
+      ?? (await this.downResolver.resolve(id, options))
     )
   }
 
   async siblings(): Promise<ModuleInstance[]> {
-    return (await Promise.all((await this.parents()).map((parent) => parent.publicChildren()))).flat().filter(duplicateModules)
+    return (await Promise.all((await this.parents()).map(parent => parent.publicChildren()))).flat().filter(duplicateModules)
   }
 
-  /*override start(_timeout?: number): Promisable<boolean> {
+  /* override start(_timeout?: number): Promisable<boolean> {
     if (this.parents.length === 0) {
       this.logger.warn(`Module is being started without being attached to a parent: ${this.id} [${this.address}]`)
     }
     return super.start()
-  }*/
+  } */
 
   state() {
     this._checkDead()
@@ -306,8 +305,8 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   protected async resolveArchivingArchivists(): Promise<ArchivistInstance[]> {
     const archivists = this.archiving?.archivists
     if (!archivists) return []
-    const resolved = await Promise.all(archivists.map((archivist) => this.resolve(archivist)))
-    return compact(resolved.map((mod) => asArchivistInstance(mod)))
+    const resolved = await Promise.all(archivists.map(archivist => this.resolve(archivist)))
+    return compact(resolved.map(mod => asArchivistInstance(mod)))
   }
 
   protected async sendQuery<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(

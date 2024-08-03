@@ -10,8 +10,8 @@ export interface AttachableBridgeInstance<
   TParams extends BridgeParams = BridgeParams,
   TEventData extends BridgeModuleEventData = BridgeModuleEventData,
 > extends BridgeModule<TParams, TEventData>,
-    AttachableModuleInstance<TParams, TEventData>,
-    BridgeInstance<TParams, TEventData> {}
+  AttachableModuleInstance<TParams, TEventData>,
+  BridgeInstance<TParams, TEventData> {}
 
 export type AttachableBridgeInstanceTypeCheck<T extends AttachableBridgeInstance = AttachableBridgeInstance> = TypeCheck<T>
 

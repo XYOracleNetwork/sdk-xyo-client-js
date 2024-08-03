@@ -35,8 +35,8 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
     assertEx(!(await collision(node, manifest.config.name, external)), () => `Node name collision [${manifest.config.name}]`)
 
     if (!(await collision(node, manifest.config.name, external))) {
-      //is it already registered?
-      if (node.registeredModules().some((mod) => mod.config.name && mod.config.name === manifest.config.name)) {
+      // is it already registered?
+      if (node.registeredModules().some(mod => mod.config.name && mod.config.name === manifest.config.name)) {
         assertEx(await node.attach(manifest.config.name, external), () => `Failed to attach module [${manifest.config.name}]`)
       } else {
         if ((manifest as NodeManifest).modules) {
@@ -53,7 +53,7 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
     }
   }
 
-  //These are top level, so they can use this.wallet as their
+  // These are top level, so they can use this.wallet as their
   async loadNodeFromIndex(index: number): Promise<MemoryNode> {
     const manifest = assertEx(this.nodeManifest(index), () => 'Failed to find Node Manifest')
     return await this.loadNodeFromManifest(this.wallet, manifest, manifest.config.accountPath ?? `${index}'`)
@@ -64,15 +64,15 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
     const derivedWallet = path ? await wallet.derivePath(path) : await HDWallet.random()
     const node = await MemoryNode.create({ account: derivedWallet, config: manifest.config })
     // Load Private Modules
-    const privateModules =
-      manifest.modules?.private?.map(async (moduleManifest) => {
+    const privateModules
+      = manifest.modules?.private?.map(async (moduleManifest) => {
         if (typeof moduleManifest === 'object') {
           await this.loadModule(derivedWallet, node, moduleManifest, false)
         }
       }) ?? []
     // Load Public Modules
-    const publicModules =
-      manifest.modules?.public?.map(async (moduleManifest) => {
+    const publicModules
+      = manifest.modules?.public?.map(async (moduleManifest) => {
         if (typeof moduleManifest === 'object') {
           await this.loadModule(derivedWallet, node, moduleManifest, true)
         }

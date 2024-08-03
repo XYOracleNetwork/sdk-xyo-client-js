@@ -81,7 +81,7 @@ describe('Hasher', () => {
       jsTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
     }
     const jsHashStart = Date.now()
-    await Promise.all(jsTestObjects.map((obj) => obj.hash()))
+    await Promise.all(jsTestObjects.map(obj => obj.hash()))
     const jsHashDuration = Date.now() - jsHashStart
     PayloadHasher.allowSubtle = false
     PayloadHasher.wasmSupport.allowWasm = true
@@ -90,7 +90,7 @@ describe('Hasher', () => {
       wasmTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
     }
     const wasmHashStart = Date.now()
-    await Promise.all(wasmTestObjects.map((obj) => obj.hash()))
+    await Promise.all(wasmTestObjects.map(obj => obj.hash()))
     const wasmHashDuration = Date.now() - wasmHashStart
     expect(wasmHashDuration).toBeDefined()
     expect(jsHashDuration).toBeDefined()
@@ -110,7 +110,7 @@ describe('Hasher', () => {
       jsTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
     }
     const jsHashStart = Date.now()
-    await Promise.all(jsTestObjects.map((obj) => obj.hash()))
+    await Promise.all(jsTestObjects.map(obj => obj.hash()))
     const jsHashDuration = Date.now() - jsHashStart
     PayloadHasher.allowSubtle = true
     PayloadHasher.wasmSupport.allowWasm = false
@@ -119,7 +119,7 @@ describe('Hasher', () => {
       subtleTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
     }
     const subtleHashStart = Date.now()
-    await Promise.all(subtleTestObjects.map((obj) => obj.hash()))
+    await Promise.all(subtleTestObjects.map(obj => obj.hash()))
     const subtleHashDuration = Date.now() - subtleHashStart
     expect(subtleHashDuration).toBeDefined()
     expect(jsHashDuration).toBeDefined()

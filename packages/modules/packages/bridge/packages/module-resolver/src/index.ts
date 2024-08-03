@@ -1,2 +1,2 @@
-//this package is deprecated
+// this package is deprecated
 export const x = 1

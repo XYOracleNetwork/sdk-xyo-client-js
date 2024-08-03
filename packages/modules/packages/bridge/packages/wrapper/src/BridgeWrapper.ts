@@ -19,8 +19,7 @@ import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-w
 constructableModuleWrapper()
 export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
   extends ModuleWrapper<TWrappedModule>
-  implements BridgeInstance<TWrappedModule['params']>
-{
+  implements BridgeInstance<TWrappedModule['params']> {
   static override instanceIdentityCheck = isBridgeInstance
   static override moduleIdentityCheck = isBridgeModule
 
@@ -29,7 +28,7 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
     const addresses = (
       await this.sendQuery<BridgeExposeQuery, ModuleFilterPayload, AddressPayload>({ schema: BridgeExposeQuerySchema }, [filterPayload])
     ).map(({ address }) => address)
-    return await Promise.all((addresses as Address[]).map((address) => this.resolve(address)))
+    return await Promise.all((addresses as Address[]).map(address => this.resolve(address)))
   }
 
   async unexpose(id: ModuleIdentifier, options?: BridgeUnexposeOptions): Promise<Address[]> {

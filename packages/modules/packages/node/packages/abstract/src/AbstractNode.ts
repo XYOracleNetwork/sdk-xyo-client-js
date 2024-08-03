@@ -49,8 +49,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     Module<TParams, TEventData>,
     NodeInstance<TParams, TEventData>,
     ModuleInstance<TParams, TEventData>,
-    NodeModule<TParams, TEventData>
-{
+    NodeModule<TParams, TEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, NodeConfigSchema]
   static override readonly defaultConfigSchema: Schema = NodeConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractNode', AbstractNode, 'xyo')
@@ -89,7 +88,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   }
 
   async attachedHandler(): Promise<Address[]> {
-    return [...(await this.attachedPublicModules()).map((mod) => mod.address), ...(await this.attachedPrivateModules()).map((mod) => mod.address)]
+    return [...(await this.attachedPublicModules()).map(mod => mod.address), ...(await this.attachedPrivateModules()).map(mod => mod.address)]
   }
 
   async attachedQuery(account?: AccountInstance): Promise<ModuleQueryResult<AddressPayload>> {
@@ -143,18 +142,18 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   }
 
   protected async attachedPrivateModules(maxDepth = 1): Promise<ModuleInstance[]> {
-    return (await (this.resolvePrivate('*', { maxDepth }) ?? [])).filter((mod) => mod.address !== this.address)
+    return (await (this.resolvePrivate('*', { maxDepth }) ?? [])).filter(mod => mod.address !== this.address)
   }
 
   protected async attachedPublicModules(maxDepth = 1): Promise<ModuleInstance[]> {
-    return (await (this.downResolver.resolve('*', { direction: 'down', maxDepth }) ?? [])).filter((mod) => mod.address !== this.address)
+    return (await (this.downResolver.resolve('*', { direction: 'down', maxDepth }) ?? [])).filter(mod => mod.address !== this.address)
   }
 
   protected override async generateConfigAndAddress(maxDepth = 10): Promise<Payload[]> {
     const childMods = await this.attachedPublicModules(maxDepth)
-    //console.log(`childMods: ${toJsonString(childMods)}`)
+    // console.log(`childMods: ${toJsonString(childMods)}`)
     const childModAddresses = await Promise.all(
-      childMods.map((mod) => new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address }).build()),
+      childMods.map(mod => new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address }).build()),
     )
 
     return [...(await super.generateConfigAndAddress(maxDepth)), ...childModAddresses]

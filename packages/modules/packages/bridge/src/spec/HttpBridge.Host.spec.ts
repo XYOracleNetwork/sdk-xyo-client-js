@@ -20,7 +20,7 @@ describe.skip('HttpBridge with PubSubBridge', () => {
   console.log(`HttpBridge:baseUrl ${httpBaseUrl}`)
   const cases = [
     ['/', `${httpBaseUrl}`],
-    /*['/node', `${baseUrl}/node`],*/
+    /* ['/node', `${baseUrl}/node`], */
   ]
 
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {

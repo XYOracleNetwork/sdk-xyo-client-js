@@ -22,8 +22,8 @@ export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams
     const all = await assertEx(archivist.all, () => 'Archivist does not support "all"')()
     return all
       .filter(isBoundWitnessWithMeta)
-      .filter((bw) => bw.addresses.includes(address))
-      .map((bw) => bw.payload_hashes.length)
+      .filter(bw => bw.addresses.includes(address))
+      .map(bw => bw.payload_hashes.length)
       .reduce((total, count) => total + count, 0)
   }
 
@@ -36,15 +36,15 @@ export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
     if (!query) return []
-    const addresses =
-      query?.address ?
-        Array.isArray(query?.address) ?
-          query.address
-        : [query.address]
-      : undefined
-    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
+    const addresses
+      = query?.address
+        ? Array.isArray(query?.address)
+          ? query.address
+          : [query.address]
+        : undefined
+    const counts = addresses ? await Promise.all(addresses.map(address => this.divineAddress(address))) : [await this.divineAllAddresses()]
     return await Promise.all(
-      counts.map((count) => new PayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsDivinerSchema }).fields({ count }).build()),
+      counts.map(count => new PayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsDivinerSchema }).fields({ count }).build()),
     )
   }
 }

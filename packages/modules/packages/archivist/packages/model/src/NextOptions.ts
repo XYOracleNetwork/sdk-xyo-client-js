@@ -6,4 +6,5 @@ export interface NextOptions<TId = string> {
   order?: 'asc' | 'desc'
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ArchivistNextOptions extends NextOptions<Hash> {}

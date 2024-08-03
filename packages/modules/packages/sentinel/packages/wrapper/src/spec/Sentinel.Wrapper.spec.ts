@@ -41,7 +41,7 @@ describe('Sentinel', () => {
       },
       schema: SentinelConfigSchema,
       synchronous: true,
-      tasks: witnesses.map((witness) => ({ mod: witness.address })),
+      tasks: witnesses.map(witness => ({ mod: witness.address })),
     }
 
     const sentinel = (await MemorySentinel.create({ account: 'random', config })) as MemorySentinel
@@ -62,7 +62,7 @@ describe('Sentinel', () => {
         expect(panelReport).toBeArrayOfSize(3)
       }
       const assertArchivistStateMatchesPanelReport = async (payloads: Payload[], archivists: Archivist[]) => {
-        //delay to wait for archiving to happen
+        // delay to wait for archiving to happen
         await delay(1000)
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
@@ -124,7 +124,7 @@ describe('Sentinel', () => {
         })
         await node.register(sentinel)
         await node.attach(sentinel.address)
-        //using a wrapper to trigger archiving
+        // using a wrapper to trigger archiving
         const wrapper = SentinelWrapper.wrap(sentinel, await Account.random())
         const result = await wrapper.report()
         assertPanelReport(result)

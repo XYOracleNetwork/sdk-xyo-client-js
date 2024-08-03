@@ -4,8 +4,8 @@ import { asAttachableNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { getPort } from 'get-port-please'
 
-import { HttpBridgeConfig, HttpBridgeConfigSchema } from '../HttpBridgeConfig'
-import { HttpBridge, HttpBridgeParams } from '../HttpBridgeFull'
+import { HttpBridgeConfig, HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
+import { HttpBridge, HttpBridgeParams } from '../HttpBridgeFull.ts'
 
 const account = 'random'
 const schema = HttpBridgeConfigSchema

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "typeRoots": []
+    "lib": ["esnext", "dom"],
   },
 
   "extends": "@xylabs/tsconfig"

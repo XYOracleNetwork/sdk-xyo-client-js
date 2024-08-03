@@ -104,7 +104,7 @@ export class HttpBridgeModuleResolver<
       ) as ModuleConfig
       proxy.setConfig(config)
 
-      console.log(`created HttpProxy [${firstPart}] ${proxy.id}`)
+      this.logger?.log(`created HttpProxy [${firstPart}] ${proxy.id}`)
 
       await proxy.start?.()
       const wrapped = wrapModuleWithType(proxy, account) as unknown as T

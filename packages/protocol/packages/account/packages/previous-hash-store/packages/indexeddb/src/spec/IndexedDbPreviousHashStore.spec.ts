@@ -19,7 +19,7 @@ import {
 } from 'fake-indexeddb'
 import { v4 as uuid } from 'uuid'
 
-import { IndexedDbPreviousHashStore } from '../IndexedDbPreviousHashStore'
+import { IndexedDbPreviousHashStore } from '../IndexedDbPreviousHashStore.ts'
 
 // Shim via fake-indexeddb
 window.indexedDB = indexedDB

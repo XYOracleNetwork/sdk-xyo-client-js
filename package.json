@@ -26,13 +26,13 @@
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
-    "@xylabs/eslint-config": "^3.14.1",
-    "@xylabs/eslint-config-flat": "^3.14.1",
-    "@xylabs/forget": "^3.6.6",
-    "@xylabs/ts-scripts-yarn3": "^3.14.1",
-    "@xylabs/tsconfig": "^3.14.1",
-    "@xylabs/tsconfig-dom-jest": "^3.14.1",
-    "@xylabs/tsconfig-jest": "^3.14.1",
+    "@xylabs/eslint-config": "^3.15.5",
+    "@xylabs/eslint-config-flat": "^3.15.5",
+    "@xylabs/forget": "^3.6.8",
+    "@xylabs/ts-scripts-yarn3": "^3.15.5",
+    "@xylabs/tsconfig": "^3.15.5",
+    "@xylabs/tsconfig-dom-jest": "^3.15.5",
+    "@xylabs/tsconfig-jest": "^3.15.5",
     "babel-jest": "^29.7.0",
     "dotenv": "^16.4.5",
     "eslint": "^9.8.0",
@@ -52,8 +52,9 @@
     "prettier": "^3.3.3",
     "reflect-metadata": "^0.2.2",
     "supertest": "^7.0.0",
-    "ts-jest": "^29.2.3",
+    "ts-jest": "^29.2.4",
     "ts-node": "^10.9.2",
+    "tslib": "^2.6.3",
     "typedoc": "^0.26.5",
     "typedoc-material-theme": "^1.1.0",
     "typescript": "^5.5.4"
@@ -75,7 +76,7 @@
         },
         "import": {
           "types": "./dist/browser/index.d.mts",
-          "default": "./dist/browser/index.js"
+          "default": "./dist/browser/index.mjs"
         }
       },
       "node": {
@@ -85,7 +86,7 @@
         },
         "import": {
           "types": "./dist/node/index.d.mts",
-          "default": "./dist/node/index.js"
+          "default": "./dist/node/index.mjs"
         }
       }
     },
@@ -93,7 +94,7 @@
     "./README.md": "./README.md"
   },
   "main": "./dist/node/index.cjs",
-  "module": "./dist/node/index.js",
+  "module": "./dist/node/index.mjs",
   "types": "./dist/node/index.d.cts",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",

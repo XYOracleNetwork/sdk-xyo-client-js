@@ -10,20 +10,20 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.6.6",
-    "@xylabs/exists": "^3.6.6",
-    "@xylabs/hex": "^3.6.6",
-    "@xylabs/lodash": "^3.6.6",
-    "@xylabs/object": "^3.6.6",
-    "@xylabs/promise": "^3.6.6",
+    "@xylabs/assert": "^3.6.8",
+    "@xylabs/exists": "^3.6.8",
+    "@xylabs/hex": "^3.6.8",
+    "@xylabs/lodash": "^3.6.8",
+    "@xylabs/object": "^3.6.8",
+    "@xylabs/promise": "^3.6.8",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "lru-cache": "^11.0.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.14.1",
-    "@xylabs/tsconfig": "^3.14.1",
+    "@xylabs/ts-scripts-yarn3": "^3.15.5",
+    "@xylabs/tsconfig": "^3.15.5",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.7",
     "typescript": "^5.5.4"
@@ -39,7 +39,7 @@
         },
         "import": {
           "types": "./dist/browser/index.d.mts",
-          "default": "./dist/browser/index.js"
+          "default": "./dist/browser/index.mjs"
         }
       },
       "node": {
@@ -49,14 +49,14 @@
         },
         "import": {
           "types": "./dist/node/index.d.mts",
-          "default": "./dist/node/index.js"
+          "default": "./dist/node/index.mjs"
         }
       }
     },
     "./package.json": "./package.json"
   },
   "main": "dist/node/index.cjs",
-  "module": "dist/node/index.js",
+  "module": "dist/node/index.mjs",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
   "publishConfig": {

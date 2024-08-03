@@ -10,13 +10,13 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.6.6",
-    "@xylabs/axios": "^3.6.6",
-    "@xylabs/exists": "^3.6.6",
-    "@xylabs/forget": "^3.6.6",
-    "@xylabs/hex": "^3.6.6",
-    "@xylabs/object": "^3.6.6",
-    "@xylabs/promise": "^3.6.6",
+    "@xylabs/assert": "^3.6.8",
+    "@xylabs/axios": "^3.6.8",
+    "@xylabs/exists": "^3.6.8",
+    "@xylabs/forget": "^3.6.8",
+    "@xylabs/hex": "^3.6.8",
+    "@xylabs/object": "^3.6.8",
+    "@xylabs/promise": "^3.6.8",
     "@xylabs/sdk-api-express-ecs": "^2.0.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
@@ -35,11 +35,12 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/node": "^22.0.2",
-    "@xylabs/ts-scripts-yarn3": "^3.14.1",
-    "@xylabs/tsconfig": "^3.14.1",
+    "@types/node": "^22.1.0",
+    "@xylabs/ts-scripts-yarn3": "^3.15.5",
+    "@xylabs/tsconfig": "^3.15.5",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
+    "@xyo-network/bridge-abstract": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-resolver": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
@@ -60,7 +61,7 @@
         },
         "import": {
           "types": "./dist/browser/index-browser.d.mts",
-          "default": "./dist/browser/index-browser.js"
+          "default": "./dist/browser/index-browser.mjs"
         }
       },
       "node": {
@@ -70,14 +71,14 @@
         },
         "import": {
           "types": "./dist/node/index.d.mts",
-          "default": "./dist/node/index.js"
+          "default": "./dist/node/index.mjs"
         }
       }
     },
     "./package.json": "./package.json"
   },
   "main": "dist/neutral/index-browser.cjs",
-  "module": "dist/neutral/index-browser.js",
+  "module": "dist/neutral/index-browser.mjs",
   "types": "dist/neutral/index-browser.d.ts",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",

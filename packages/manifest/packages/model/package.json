@@ -11,13 +11,13 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/hex": "^3.6.6",
+    "@xylabs/hex": "^3.6.8",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@types/node": "^22.0.2",
-    "@xylabs/ts-scripts-yarn3": "^3.14.1",
-    "@xylabs/tsconfig": "^3.14.1",
+    "@types/node": "^22.1.0",
+    "@xylabs/ts-scripts-yarn3": "^3.15.5",
+    "@xylabs/tsconfig": "^3.15.5",
     "typescript": "^5.5.4",
     "typescript-json-schema": "^0.64.0"
   },
@@ -31,7 +31,7 @@
         },
         "import": {
           "types": "./dist/browser/index.d.mts",
-          "default": "./dist/browser/index.js"
+          "default": "./dist/browser/index.mjs"
         }
       },
       "node": {
@@ -41,7 +41,7 @@
         },
         "import": {
           "types": "./dist/node/index.d.mts",
-          "default": "./dist/node/index.js"
+          "default": "./dist/node/index.mjs"
         }
       }
     },
@@ -51,7 +51,7 @@
     "./package.json": "./package.json"
   },
   "main": "dist/neutral/index.cjs",
-  "module": "dist/neutral/index.js",
+  "module": "dist/neutral/index.mjs",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
   "publishConfig": {

@@ -24,8 +24,8 @@
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.15.5",
-    "@xylabs/tsconfig": "^3.15.5",
+    "@xylabs/ts-scripts-yarn3": "^3.15.8",
+    "@xylabs/tsconfig": "^3.15.8",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
@@ -72,6 +72,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.111.0",
+  "version": "2.111.1",
   "type": "module"
 }

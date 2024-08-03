@@ -14,8 +14,8 @@
     "@xylabs/object": "^3.6.8"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.15.5",
-    "@xylabs/tsconfig": "^3.15.5",
+    "@xylabs/ts-scripts-yarn3": "^3.15.8",
+    "@xylabs/tsconfig": "^3.15.8",
     "typescript": "^5.5.4"
   },
   "exports": {
@@ -56,6 +56,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.111.0",
+  "version": "2.111.1",
   "type": "module"
 }

@@ -43,7 +43,7 @@ export class HttpModuleProxy<
     HttpModuleProxy.createCount = HttpModuleProxy.createCount + 1
     super(params)
     if (Math.floor(HttpModuleProxy.createCount / 10) === HttpModuleProxy.createCount / 10) {
-      this.logger.log(`HttpModuleProxy.createCount: ${HttpModuleProxy.createCount}`)
+      console.log(`HttpModuleProxy.createCount: ${HttpModuleProxy.createCount}`)
     }
   }
 

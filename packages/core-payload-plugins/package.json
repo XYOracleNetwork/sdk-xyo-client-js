@@ -63,6 +63,6 @@
     "url": "https://github.com/XYOracleNetwork/plugins.git"
   },
   "sideEffects": false,
-  "version": "2.110.19",
+  "version": "2.111.0",
   "type": "module"
 }

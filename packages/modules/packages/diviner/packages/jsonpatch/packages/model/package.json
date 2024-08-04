@@ -12,12 +12,12 @@
   "dependencies": {
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
-    "json-joy": "^16.22.1",
+    "json-joy": "~16.19.0",
     "tslib": "^2.6.3"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.15.8",
-    "@xylabs/tsconfig": "^3.15.8",
+    "@xylabs/ts-scripts-yarn3": "^3.15.13",
+    "@xylabs/tsconfig": "^3.15.13",
     "typescript": "^5.5.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -59,6 +59,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.111.1",
+  "version": "2.111.2",
   "type": "module"
 }

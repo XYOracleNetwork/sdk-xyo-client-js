@@ -16,8 +16,8 @@
   },
   "devDependencies": {
     "@types/node": "^22.1.0",
-    "@xylabs/ts-scripts-yarn3": "^3.15.8",
-    "@xylabs/tsconfig": "^3.15.8",
+    "@xylabs/ts-scripts-yarn3": "^3.15.13",
+    "@xylabs/tsconfig": "^3.15.13",
     "typescript": "^5.5.4",
     "typescript-json-schema": "^0.64.0"
   },
@@ -66,6 +66,6 @@
     "gen-schema": "yarn typescript-json-schema src/Manifest.ts PackageManifest --required --out dist/PackageManifest.schema.json"
   },
   "sideEffects": false,
-  "version": "2.111.1",
+  "version": "2.111.2",
   "type": "module"
 }

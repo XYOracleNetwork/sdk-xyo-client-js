@@ -36,8 +36,8 @@
   },
   "devDependencies": {
     "@xylabs/logger": "^3.6.8",
-    "@xylabs/ts-scripts-yarn3": "^3.15.8",
-    "@xylabs/tsconfig": "^3.15.8",
+    "@xylabs/ts-scripts-yarn3": "^3.15.13",
+    "@xylabs/tsconfig": "^3.15.13",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/diviner-boundwitness-memory": "workspace:^",
     "@xyo-network/module-abstract": "workspace:^",
@@ -86,6 +86,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.111.1",
+  "version": "2.111.2",
   "type": "module"
 }

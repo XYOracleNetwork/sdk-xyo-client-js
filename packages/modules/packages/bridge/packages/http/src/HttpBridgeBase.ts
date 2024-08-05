@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AxiosError, AxiosJson } from '@xylabs/axios'
+import { AxiosJson } from '@xylabs/axios'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
@@ -29,6 +29,7 @@ import {
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 import { Mutex, Semaphore } from 'async-mutex'
+import type { AxiosError } from 'axios'
 import { LRUCache } from 'lru-cache'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig.ts'

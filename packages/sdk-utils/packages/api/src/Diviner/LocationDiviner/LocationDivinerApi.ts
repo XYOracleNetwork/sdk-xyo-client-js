@@ -1,5 +1,6 @@
-import { axios, RawAxiosRequestConfig } from '@xylabs/axios'
+import { axios } from '@xylabs/axios'
 import { ApiConfig } from '@xyo-network/api-models'
+import type { RawAxiosRequestConfig } from 'axios'
 
 import { getLocationDivinerApiResponseTransformer } from './LocationDivinerApiResponseTransformer.ts'
 import { GetLocationQueryResponse } from './models.ts'

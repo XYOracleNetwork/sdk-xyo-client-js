@@ -4,6 +4,7 @@ import {
   boundingBoxToCenter,
   GeoJson,
   MercatorBoundingBox,
+  MercatorLngLat,
   MercatorTile,
   tileFromPoint,
   tileFromQuadkey,
@@ -62,7 +63,7 @@ export class Quadkey {
     return tileToBoundingBox(this.tile)
   }
 
-  get center() {
+  get center(): LngLat {
     const result = boundingBoxToCenter(this.boundingBox)
     return new LngLat(result[0], result[1])
   }
@@ -154,7 +155,7 @@ export class Quadkey {
   }
 
   static fromLngLat(point: LngLatLike, zoom: number) {
-    const tile = tileFromPoint(LngLat.convert(point), zoom)
+    const tile = tileFromPoint(point as MercatorLngLat, zoom)
     const quadkeyString = tileToQuadkey(tile)
     return Quadkey.fromBase4String(quadkeyString)
   }

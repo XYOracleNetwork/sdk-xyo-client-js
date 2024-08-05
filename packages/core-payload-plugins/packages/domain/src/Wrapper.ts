@@ -1,4 +1,4 @@
-import { axios, AxiosError } from '@xylabs/axios'
+import { axios } from '@xylabs/axios'
 import { Hash } from '@xylabs/hex'
 import { reverse } from '@xylabs/lodash'
 import { isBrowser } from '@xylabs/platform'
@@ -8,6 +8,7 @@ import { FetchedPayload, Huri, HuriOptions } from '@xyo-network/huri'
 import { NetworkPayload } from '@xyo-network/network'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import type { AxiosError } from 'axios'
 
 import { Alias, DomainPayload } from './Payload.ts'
 

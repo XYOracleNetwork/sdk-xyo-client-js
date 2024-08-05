@@ -1,14 +1,14 @@
 import { describeIf } from '@xylabs/jest-helpers'
 import { ApiConfig } from '@xyo-network/api-models'
 
-import { LocationDivinerApi } from '../LocationDivinerApi'
+import { LocationDivinerApi } from '../LocationDivinerApi.ts'
 import {
   LocationHeatmapQueryCreationRequest,
   locationHeatmapQuerySchema,
   LocationTimeRangeQueryCreationRequest,
   LocationTimeRangeQuerySchema,
-} from '../Queries'
-import { LocationWitnessSchema } from '../Witnesses'
+} from '../Queries/index.ts'
+import { LocationWitnessSchema } from '../Witnesses/index.ts'
 
 const getLocationApiConfig = (): ApiConfig => {
   return {

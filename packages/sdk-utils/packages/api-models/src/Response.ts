@@ -1,4 +1,4 @@
-import { AxiosResponse } from '@xylabs/axios'
+import { AxiosResponse } from 'axios'
 
 import { ApiEnvelope } from './Envelope.ts'
 

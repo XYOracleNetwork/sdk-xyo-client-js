@@ -1,9 +1,4 @@
 {
-  "compilerOptions": {
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-  },
   "extends": "@xylabs/tsconfig-jest",
   "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

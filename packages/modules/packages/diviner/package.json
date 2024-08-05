@@ -74,6 +74,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.111.2",
+  "version": "2.111.3",
   "type": "module"
 }

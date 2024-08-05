@@ -43,7 +43,6 @@ type PostAddressRequestBody = [QueryBoundWitness, undefined | Payload[]]
   error: string
 } */
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {}
 
 @creatableModule()

@@ -11,7 +11,6 @@ import {
   QueryObjectFilter,
 } from './ObjectFilter.ts'
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ModuleFilterOptions<T extends ModuleInstance = ModuleInstance> extends ObjectFilterOptions<T> {}
 
 export const isAddressModuleFilter = isAddressObjectFilter<ModuleInstance>

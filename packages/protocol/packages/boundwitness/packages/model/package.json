@@ -11,8 +11,8 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/hex": "^3.6.11",
-    "@xylabs/object": "^3.6.11",
+    "@xylabs/hex": "^3.6.12",
+    "@xylabs/object": "^3.6.12",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {

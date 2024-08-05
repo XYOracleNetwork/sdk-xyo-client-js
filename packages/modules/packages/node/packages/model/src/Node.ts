@@ -10,6 +10,5 @@ export interface NodeModuleEventData
   ModuleUnregisteredEventData,
   ModuleEventData {}
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface NodeModule<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends Module<TParams, TEventData> {}

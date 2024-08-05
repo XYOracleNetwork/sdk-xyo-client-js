@@ -10,15 +10,15 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/array": "^3.6.11",
-    "@xylabs/assert": "^3.6.11",
-    "@xylabs/delay": "^3.6.11",
-    "@xylabs/exists": "^3.6.11",
-    "@xylabs/forget": "^3.6.11",
-    "@xylabs/hex": "^3.6.11",
-    "@xylabs/object": "^3.6.11",
-    "@xylabs/promise": "^3.6.11",
-    "@xylabs/timer": "^3.6.11",
+    "@xylabs/array": "^3.6.12",
+    "@xylabs/assert": "^3.6.12",
+    "@xylabs/delay": "^3.6.12",
+    "@xylabs/exists": "^3.6.12",
+    "@xylabs/forget": "^3.6.12",
+    "@xylabs/hex": "^3.6.12",
+    "@xylabs/object": "^3.6.12",
+    "@xylabs/promise": "^3.6.12",
+    "@xylabs/timer": "^3.6.12",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -35,7 +35,7 @@
     "lru-cache": "^11.0.0"
   },
   "devDependencies": {
-    "@xylabs/logger": "^3.6.11",
+    "@xylabs/logger": "^3.6.12",
     "@xylabs/ts-scripts-yarn3": "^3.15.14",
     "@xylabs/tsconfig": "^3.15.14",
     "@xyo-network/archivist-memory": "workspace:^",
@@ -44,7 +44,6 @@
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
-    "tslib": "^2.6.3",
     "typescript": "^5.5.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

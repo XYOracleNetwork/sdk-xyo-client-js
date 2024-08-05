@@ -12,7 +12,6 @@ export interface DetermineAccountFromWalletParams {
   wallet: WalletInstance
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface DetermineRandomParams {}
 
 export type DetermineAccountParams = DetermineAccountFromAccountParams | DetermineAccountFromWalletParams | DetermineRandomParams

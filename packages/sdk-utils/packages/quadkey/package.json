@@ -12,11 +12,10 @@
   "dependencies": {
     "@xylabs/assert": "^3.6.12",
     "@xylabs/hex": "^3.6.12",
-    "@xyo-network/sdk-geo": "^2.11.4",
+    "@xyo-network/sdk-geo": "^2.11.5",
     "mapbox-gl": "^3.5.2"
   },
   "devDependencies": {
-    "@types/mapbox-gl": "^3.4.0",
     "@xylabs/ts-scripts-yarn3": "^3.15.14",
     "@xylabs/tsconfig": "^3.15.14",
     "typescript": "^5.5.4"

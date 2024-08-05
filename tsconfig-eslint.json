@@ -1,9 +1,4 @@
 {
-  "compilerOptions": {
-    "declaration": true,
-    "declarationMap": true,
-    "moduleResolution": "node"
-  },
   "exclude": [".yarn", "dist", "**/dist", "./**/docs"],
   "extends": "@xylabs/tsconfig"
 }

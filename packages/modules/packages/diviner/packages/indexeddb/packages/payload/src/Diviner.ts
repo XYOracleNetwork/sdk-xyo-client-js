@@ -38,7 +38,7 @@ const extractFields = (indexName: string): string[] => {
   return indexName
     .slice(3)
     .split(IndexSeparator)
-    .map(field => field.toLowerCase())
+    .map((field) => field.toLowerCase())
 }
 
 export class IndexedDbPayloadDiviner<
@@ -103,18 +103,18 @@ export class IndexedDbPayloadDiviner<
       const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
       const suggestedIndex = this.selectBestIndex(filter, store)
       const keyRangeValue = this.getKeyRangeValue(suggestedIndex, filter)
-      const valueFilters: ValueFilter[]
-        = props
-          ? Object.entries(props)
+      const valueFilters: ValueFilter[] =
+        props ?
+          Object.entries(props)
             .map(([key, value]) => payloadValueFilter(key, value))
             .filter(exists)
-          : []
-      let cursor
-        = suggestedIndex
+        : []
+      let cursor =
+        suggestedIndex ?
           // Conditionally filter on schemas
-          ? await store.index(suggestedIndex).openCursor(IDBKeyRange.only(keyRangeValue), direction)
+          await store.index(suggestedIndex).openCursor(IDBKeyRange.only(keyRangeValue), direction)
           // Just iterate all records
-          : await store.openCursor(suggestedIndex, direction)
+        : await store.openCursor(suggestedIndex, direction)
 
       // Skip records until the offset is reached
       while (cursor && parsedOffset > 0) {
@@ -128,7 +128,7 @@ export class IndexedDbPayloadDiviner<
           // If we're filtering on more than just the schema
           if (valueFilters.length > 0) {
             // Ensure all filters pass
-            if (valueFilters.every(filter => filter(value))) {
+            if (valueFilters.every((filter) => filter(value))) {
               // Then save the value
               results.push(value)
             }
@@ -145,7 +145,7 @@ export class IndexedDbPayloadDiviner<
       }
       await tx.done
       // Remove any metadata before returning to the client
-      return await Promise.all(results.map(payload => PayloadBuilder.build(payload)))
+      return await Promise.all(results.map((payload) => PayloadBuilder.build(payload)))
     })
     return result ?? []
   }
@@ -162,7 +162,7 @@ export class IndexedDbPayloadDiviner<
     const indexFields = extractFields(indexName)
 
     // Collecting the values for these fields from the query object
-    const keyRangeValue = indexFields.map(field => query[field as keyof AnyObject])
+    const keyRangeValue = indexFields.map((field) => query[field as keyof AnyObject])
     return keyRangeValue.length === 1 ? keyRangeValue[0] : keyRangeValue
   }
 
@@ -171,14 +171,14 @@ export class IndexedDbPayloadDiviner<
     const { indexNames } = store
 
     // Convert query object keys to a set for easier comparison
-    const queryKeys = new Set(Object.keys(query).map(key => key.toLowerCase()))
+    const queryKeys = new Set(Object.keys(query).map((key) => key.toLowerCase()))
 
     // Find the best matching index
     let bestMatch: { indexName: string; matchCount: number } = { indexName: '', matchCount: 0 }
 
     for (const indexName of indexNames) {
       const indexFields = extractFields(indexName)
-      const matchCount = indexFields.filter(field => queryKeys.has(field)).length
+      const matchCount = indexFields.filter((field) => queryKeys.has(field)).length
       if (matchCount > bestMatch.matchCount) {
         bestMatch = { indexName, matchCount }
       }

@@ -12,7 +12,9 @@ import {
   tileToBoundingBox,
   tileToQuadkey,
 } from '@xyo-network/sdk-geo'
-import { LngLat, LngLatLike } from 'mapbox-gl'
+import type { LngLatLike } from 'mapbox-gl'
+import mb from 'mapbox-gl'
+const { LngLat } = mb
 
 import { RelativeDirectionConstantLookup } from './RelativeDirectionConstantLookup.ts'
 
@@ -63,7 +65,7 @@ export class Quadkey {
     return tileToBoundingBox(this.tile)
   }
 
-  get center(): LngLat {
+  get center() {
     const result = boundingBoxToCenter(this.boundingBox)
     return new LngLat(result[0], result[1])
   }

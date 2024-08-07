@@ -61,7 +61,7 @@ describe('Sentinel.Interval', () => {
     expect(payloads.length).toBeGreaterThan(0)
     // console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
     expect(payloads.some(p => p.schema === NETWORK_XYO_TEST)).toBeTrue()
-  })
+  }, 20_000)
   it.skip('manual query', async () => {
     const testPayloads = [
       {

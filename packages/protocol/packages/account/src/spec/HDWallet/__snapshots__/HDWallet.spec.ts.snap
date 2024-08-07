@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Same address, two paths 1`] = `"1eefd4fb703a43ce5ded91bdff2820a7a3999ca8"`;
 

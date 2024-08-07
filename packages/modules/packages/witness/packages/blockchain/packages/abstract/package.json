@@ -21,8 +21,8 @@
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^3.6.12",
-    "@xylabs/ts-scripts-yarn3": "^3.15.14",
-    "@xylabs/tsconfig": "^3.15.14",
+    "@xylabs/ts-scripts-yarn3": "^3.15.16",
+    "@xylabs/tsconfig": "^3.15.16",
     "ethers": "6.13.2",
     "jest": "^29.7.0",
     "typescript": "^5.5.4"

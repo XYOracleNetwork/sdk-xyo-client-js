@@ -7464,6 +7464,7 @@ __metadata:
     "@xylabs/axios": "npm:^3.6.12"
     "@xylabs/hex": "npm:^3.6.12"
     "@xylabs/lodash": "npm:^3.6.12"
+    "@xylabs/object": "npm:^3.6.12"
     "@xylabs/platform": "npm:^3.6.12"
     "@xylabs/ts-scripts-yarn3": "npm:next"
     "@xylabs/tsconfig": "npm:next"

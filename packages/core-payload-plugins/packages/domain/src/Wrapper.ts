@@ -1,6 +1,7 @@
 import { axios } from '@xylabs/axios'
 import { Hash } from '@xylabs/hex'
 import { reverse } from '@xylabs/lodash'
+import { Base } from '@xylabs/object'
 import { isBrowser } from '@xylabs/platform'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { DnsRecordType, domainResolve } from '@xyo-network/dns'
@@ -41,7 +42,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
         }
       }
     } catch {
-      console.log(`DomainConfig dns reading error entry not found [${domain}]`)
+      Base.defaultLogger?.log(`DomainConfig dns reading error entry not found [${domain}]`)
     }
   }
 

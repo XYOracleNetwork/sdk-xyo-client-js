@@ -13,6 +13,7 @@
     "@xylabs/axios": "^3.6.12",
     "@xylabs/hex": "^3.6.12",
     "@xylabs/lodash": "^3.6.12",
+    "@xylabs/object": "^3.6.12",
     "@xylabs/platform": "^3.6.12",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/dns": "workspace:^",

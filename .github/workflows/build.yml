@@ -46,6 +46,3 @@ jobs:
 
       - name: statics
         run: yarn xy statics
-
-      - name: cycle
-        run: yarn xy cycle

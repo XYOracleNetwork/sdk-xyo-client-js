@@ -7,6 +7,9 @@ const config: XyTsupConfig = {
     node: {
       src: { entry: ['./src/index.ts'] },
     },
+    neutral: {
+      src: { entry: ['./src/index.ts'] },
+    },
   },
 }
 

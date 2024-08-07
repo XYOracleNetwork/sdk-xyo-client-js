@@ -37,8 +37,8 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^22.1.0",
-    "@xylabs/ts-scripts-yarn3": "^3.15.16",
-    "@xylabs/tsconfig": "^3.15.16",
+    "@xylabs/ts-scripts-yarn3": "next",
+    "@xylabs/tsconfig": "next",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/bridge-abstract": "workspace:^",
@@ -55,29 +55,20 @@
   "exports": {
     ".": {
       "browser": {
-        "require": {
-          "types": "./dist/browser/index-browser.d.cts",
-          "default": "./dist/browser/index-browser.cjs"
-        },
         "import": {
-          "types": "./dist/browser/index-browser.d.mts",
+          "types": "./dist/browser/index-browser.d.ts",
           "default": "./dist/browser/index-browser.mjs"
         }
       },
       "node": {
-        "require": {
-          "types": "./dist/node/index.d.cts",
-          "default": "./dist/node/index.cjs"
-        },
         "import": {
-          "types": "./dist/node/index.d.mts",
+          "types": "./dist/node/index.d.ts",
           "default": "./dist/node/index.mjs"
         }
       }
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/neutral/index-browser.cjs",
   "module": "dist/neutral/index-browser.mjs",
   "types": "dist/neutral/index-browser.d.ts",
   "homepage": "https://xyo.network",

@@ -72,3 +72,9 @@ export const generateBridgeTests = (title: string, _bridge: AbstractBridge) => {
     })
   })
 }
+
+describe('HttpBridge', () => {
+  it('No tests', () => {
+    expect(true).toBeTruthy()
+  })
+})

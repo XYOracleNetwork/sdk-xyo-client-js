@@ -6,8 +6,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { WebsocketBridge } from '../Bridge'
-import { WebsocketClientBridge } from '../ClientBridge'
+import { WebsocketBridge } from '../Bridge.ts'
+import { WebsocketClientBridge } from '../ClientBridge.ts'
 import { WebsocketBridgeConfigSchema } from '../Config.ts'
 
 /**

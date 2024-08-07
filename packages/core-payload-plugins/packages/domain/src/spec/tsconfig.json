@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-
+    "lib": ["esnext"],
   },
   "extends": "@xylabs/tsconfig-jest"
 }

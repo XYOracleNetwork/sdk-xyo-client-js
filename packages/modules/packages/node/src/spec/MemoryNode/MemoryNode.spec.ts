@@ -42,8 +42,8 @@ describe('MemoryNode', () => {
     const nodeModule = await MemoryNode.create({ account: testAccount1, config: nodeConfig })
     node = nodeModule
   })
-  describe('create', () => {
-    /* describe('with autoAttachExternallyResolved true', () => {
+  /* describe('create', () => {
+    describe('with autoAttachExternallyResolved true', () => {
       it('attaches external modules to internal resolver', async () => {
         // Arrange
         // Create a MemoryNode with no modules in the internal
@@ -79,8 +79,8 @@ describe('MemoryNode', () => {
         // Module still exists in external resolver
         expect(await resolver.resolve(filter)).toBeArrayOfSize(1)
       })
-    }) */
-  })
+    })
+  }) */
   describe('register', () => {
     it('registers module', async () => {
       const mod = await MemoryArchivist.create({ account: 'random' })

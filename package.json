@@ -27,21 +27,16 @@
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^8.0.1",
     "@typescript-eslint/parser": "^8.0.1",
-    "@xylabs/eslint-config-flat": "^3.15.16",
+    "@xylabs/eslint-config-flat": "next",
     "@xylabs/forget": "^3.6.12",
-    "@xylabs/ts-scripts-yarn3": "^3.15.16",
-    "@xylabs/tsconfig": "^3.15.16",
-    "@xylabs/tsconfig-dom-jest": "^3.15.16",
-    "@xylabs/tsconfig-jest": "^3.15.16",
+    "@xylabs/ts-scripts-yarn3": "next",
+    "@xylabs/tsconfig": "next",
+    "@xylabs/tsconfig-dom-jest": "next",
+    "@xylabs/tsconfig-jest": "next",
     "babel-jest": "^29.7.0",
     "dotenv": "^16.4.5",
     "eslint": "^9.8.0",
     "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
-    "eslint-plugin-sonarjs": "^1.0.4",
-    "eslint-plugin-workspaces": "^0.10.1",
     "jest": "^29.7.0",
     "jest-docblock": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -52,7 +47,6 @@
     "jsdom": "^24.1.1",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
-    "prettier": "^3.3.3",
     "reflect-metadata": "^0.2.2",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.4",
@@ -73,32 +67,25 @@
   "exports": {
     ".": {
       "browser": {
-        "require": {
-          "types": "./dist/browser/index.d.cts",
-          "default": "./dist/browser/index.cjs"
-        },
         "import": {
-          "types": "./dist/browser/index.d.mts",
+          "types": "./dist/browser/index.d.ts",
           "default": "./dist/browser/index.mjs"
         }
       },
       "node": {
-        "require": {
-          "types": "./dist/node/index.d.cts",
-          "default": "./dist/node/index.cjs"
-        },
         "import": {
-          "types": "./dist/node/index.d.mts",
+          "types": "./dist/node/index.d.ts",
           "default": "./dist/node/index.mjs"
         }
-      }
+      },
+      "types": "./dist/neutral/index.d.ts",
+      "default": "./dist/neutral/index.mjs"
     },
     "./package.json": "./package.json",
     "./README.md": "./README.md"
   },
-  "main": "./dist/node/index.cjs",
-  "module": "./dist/node/index.mjs",
-  "types": "./dist/node/index.d.cts",
+  "module": "./dist/neutral/index.mjs",
+  "types": "./dist/neutral/index.d.ts",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
   "name": "@xyo-network/sdk-js",
@@ -116,8 +103,8 @@
     "deploy": "xy deploy",
     "lint-pkg": "npmPkgJsonLint .",
     "perf": "yarn jest -c jest.config.perf.cjs",
-    "test-esm": "node $(yarn jest --no-cache --forceExit)",
-    "test": "jest --no-cache --forceExit",
+    "test-esm": "FORCE_COLOR=1 && node $(yarn jest --no-cache --forceExit)",
+    "test": "vitest --watch false",
     "test:no-slow": "jest . --passWithNoTests --forceExit -- --group=-slow",
     "test:module": "jest . --passWithNoTests --forceExit -- --group=module",
     "test:sentinel": "jest . --passWithNoTests --forceExit -- --group=sentinel",

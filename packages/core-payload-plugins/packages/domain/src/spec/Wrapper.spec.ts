@@ -1,5 +1,5 @@
 import { DomainSchema } from '../Schema.ts'
-import { DomainPayloadWrapper } from '../Wrapper'
+import { DomainPayloadWrapper } from '../Wrapper.ts'
 
 describe('DomainPayloadWrapper', () => {
   test('Valid-discover', async () => {

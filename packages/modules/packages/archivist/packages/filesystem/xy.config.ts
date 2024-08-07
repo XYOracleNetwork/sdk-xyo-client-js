@@ -5,6 +5,7 @@ const config: XyTsupConfig = {
     node: {
       src: true,
     },
+    neutral: {},
   },
 }
 

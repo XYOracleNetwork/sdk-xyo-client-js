@@ -19,39 +19,20 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.15.16",
-    "@xylabs/tsconfig": "^3.15.16",
+    "@xylabs/ts-scripts-yarn3": "next",
+    "@xylabs/tsconfig": "next",
     "typescript": "^5.5.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "types": "dist/node/index.d.ts",
+  "types": "dist/neutral/index.d.ts",
   "exports": {
     ".": {
-      "browser": {
-        "require": {
-          "types": "./dist/browser/index.d.cts",
-          "default": "./dist/browser/index.cjs"
-        },
-        "import": {
-          "types": "./dist/browser/index.d.mts",
-          "default": "./dist/browser/index.mjs"
-        }
-      },
-      "node": {
-        "require": {
-          "types": "./dist/node/index.d.cts",
-          "default": "./dist/node/index.cjs"
-        },
-        "import": {
-          "types": "./dist/node/index.d.mts",
-          "default": "./dist/node/index.mjs"
-        }
-      }
+      "types": "./dist/neutral/index.d.ts",
+      "default": "./dist/neutral/index.mjs"
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/node/index.cjs",
-  "module": "dist/node/index.mjs",
+  "module": "dist/neutral/index.mjs",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
   "publishConfig": {

@@ -18,8 +18,8 @@
     "@xyo-network/bridge-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "next",
-    "@xylabs/tsconfig": "next",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.9",
+    "@xylabs/tsconfig": "^4.0.0-rc.9",
     "@xyo-network/bridge-pub-sub": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/node-model": "workspace:^",

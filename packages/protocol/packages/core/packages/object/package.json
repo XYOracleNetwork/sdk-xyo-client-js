@@ -14,8 +14,8 @@
     "@xylabs/object": "^3.6.12"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "next",
-    "@xylabs/tsconfig": "next",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.9",
+    "@xylabs/tsconfig": "^4.0.0-rc.9",
     "typescript": "^5.5.4"
   },
   "exports": {

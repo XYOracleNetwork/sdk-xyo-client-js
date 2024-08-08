@@ -15,8 +15,8 @@
     "@xyo-network/diviner-temporal-indexing": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "next",
-    "@xylabs/tsconfig": "next",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.9",
+    "@xylabs/tsconfig": "^4.0.0-rc.9",
     "typescript": "^5.5.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

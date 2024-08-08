@@ -20,8 +20,8 @@
     "tslib": "^2.6.3"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "next",
-    "@xylabs/tsconfig": "next",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.9",
+    "@xylabs/tsconfig": "^4.0.0-rc.9",
     "@xyo-network/account": "workspace:^",
     "typescript": "^5.5.4"
   },

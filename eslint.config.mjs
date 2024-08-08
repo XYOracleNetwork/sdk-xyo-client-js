@@ -1,6 +1,6 @@
 // eslint.config.mjs
 
-import { config as xylabsConfig, rulesConfig } from '@xylabs/eslint-config-flat'
+import { config as xylabsConfig, rulesConfig, importConfig } from '@xylabs/eslint-config-flat'
 
 export default [
   {
@@ -33,4 +33,11 @@ export default [
       ],
     },
   },
+  {
+    ...importConfig,
+    rules: {
+      ...importConfig.rules,
+      'import/no-cycle': ['warn', { maxDepth: 5 }]
+    }
+  }
 ]

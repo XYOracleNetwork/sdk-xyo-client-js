@@ -14,8 +14,8 @@
     "@xylabs/hex": "^3.6.12"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.9",
-    "@xylabs/tsconfig": "^4.0.0-rc.9",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.12",
+    "@xylabs/tsconfig": "^4.0.0-rc.12",
     "typescript": "^5.5.4"
   },
   "exports": {

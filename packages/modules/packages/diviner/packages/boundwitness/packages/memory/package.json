@@ -20,8 +20,8 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.9",
-    "@xylabs/tsconfig": "^4.0.0-rc.9",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.12",
+    "@xylabs/tsconfig": "^4.0.0-rc.12",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",

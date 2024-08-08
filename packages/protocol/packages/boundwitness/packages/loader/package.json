@@ -46,6 +46,6 @@
   },
   "sideEffects": false,
   "types": "dist/neutral/index.d.ts",
-  "version": "2.111.3",
+  "version": "3.0.0",
   "type": "module"
 }

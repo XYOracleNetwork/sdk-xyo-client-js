@@ -1,4 +1,4 @@
-/* eslint-disable import/no-internal-modules */
+/* eslint-disable import-x/no-internal-modules */
 /* eslint-disable @typescript-eslint/no-require-imports */
 export const subtleHashFunc = () => {
   const { subtle } = require('@xylabs/platform')

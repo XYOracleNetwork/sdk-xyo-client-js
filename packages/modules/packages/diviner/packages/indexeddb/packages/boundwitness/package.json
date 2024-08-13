@@ -24,8 +24,8 @@
     "idb": "^8.0.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.12",
-    "@xylabs/tsconfig": "^4.0.0-rc.12",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.14",
+    "@xylabs/tsconfig": "^4.0.0-rc.14",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

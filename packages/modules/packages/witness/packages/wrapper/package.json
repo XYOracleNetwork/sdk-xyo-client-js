@@ -18,8 +18,8 @@
   },
   "devDependencies": {
     "@xylabs/promise": "^3.6.12",
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.12",
-    "@xylabs/tsconfig": "^4.0.0-rc.12",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.14",
+    "@xylabs/tsconfig": "^4.0.0-rc.14",
     "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/account": "workspace:^",
     "typescript": "^5.5.4"

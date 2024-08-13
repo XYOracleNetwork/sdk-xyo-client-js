@@ -1,4 +1,4 @@
-/* eslint-disable import/no-internal-modules */
+/* eslint-disable import-x/no-internal-modules */
 import { Ajv, ValidateFunction } from 'ajv'
 
 import dappPackageManifestSchemaCompiled from '../compilations/dapp-package-manifest-schema.json'

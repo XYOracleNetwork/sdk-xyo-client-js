@@ -37,7 +37,7 @@ export default [
     ...importConfig,
     rules: {
       ...importConfig.rules,
-      'import/no-cycle': ['warn', { maxDepth: 5 }]
+      'import-x/no-cycle': ['warn', { maxDepth: 5 }]
     }
   }
 ]

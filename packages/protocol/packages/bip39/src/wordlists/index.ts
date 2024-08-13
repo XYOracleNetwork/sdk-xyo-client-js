@@ -1,4 +1,4 @@
-/* eslint-disable import/no-internal-modules */
+/* eslint-disable import-x/no-internal-modules */
 import czech from '@scure/bip39/wordlists/czech'
 import english from '@scure/bip39/wordlists/english'
 import french from '@scure/bip39/wordlists/french'

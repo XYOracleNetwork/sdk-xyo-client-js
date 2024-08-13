@@ -18,8 +18,8 @@
   },
   "devDependencies": {
     "@types/jsonpath": "^0.2.4",
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.14",
-    "@xylabs/tsconfig": "^4.0.0-rc.14",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.15",
+    "@xylabs/tsconfig": "^4.0.0-rc.15",
     "@xyo-network/account": "workspace:^",
     "typescript": "^5.5.4"
   },

@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.6.12",
+    "@xylabs/assert": "^4.0.0",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-jsonpath-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
@@ -20,8 +20,8 @@
   },
   "devDependencies": {
     "@types/jsonpath": "^0.2.4",
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.14",
-    "@xylabs/tsconfig": "^4.0.0-rc.14",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.15",
+    "@xylabs/tsconfig": "^4.0.0-rc.15",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/wallet-model": "workspace:^",
     "typescript": "^5.5.4"

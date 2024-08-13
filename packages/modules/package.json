@@ -20,9 +20,9 @@
   },
   "devDependencies": {
     "@swc/core": "^1.7.10",
-    "@xylabs/delay": "^3.6.12",
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.14",
-    "@xylabs/tsconfig": "^4.0.0-rc.14",
+    "@xylabs/delay": "^4.0.0",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.15",
+    "@xylabs/tsconfig": "^4.0.0-rc.15",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",

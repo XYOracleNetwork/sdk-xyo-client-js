@@ -11,7 +11,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/assert": "^3.6.12",
+    "@xylabs/assert": "^4.0.0",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/manifest-model": "workspace:^",
     "@xyo-network/module-factory-locator": "workspace:^",
@@ -23,9 +23,9 @@
     "@xyo-network/wallet-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/object": "^3.6.12",
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.14",
-    "@xylabs/tsconfig": "^4.0.0-rc.14",
+    "@xylabs/object": "^4.0.0",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.15",
+    "@xylabs/tsconfig": "^4.0.0-rc.15",
     "typescript": "^5.5.4"
   },
   "types": "dist/neutral/index.d.ts",

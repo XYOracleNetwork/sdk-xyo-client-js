@@ -11,15 +11,15 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/hex": "^3.6.12",
+    "@xylabs/hex": "^4.0.0",
     "@xyo-network/previous-hash-store-model": "workspace:^",
     "store2": "^2.14.3"
   },
   "devDependencies": {
     "@types/node": "^22.2.0",
     "@types/uuid": "^10.0.0",
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.14",
-    "@xylabs/tsconfig": "^4.0.0-rc.14",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.15",
+    "@xylabs/tsconfig": "^4.0.0-rc.15",
     "typescript": "^5.5.4",
     "uuid": "^10.0.0"
   },

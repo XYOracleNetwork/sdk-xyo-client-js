@@ -1,6 +1,5 @@
 import { axios } from '@xylabs/axios'
 import { Hash } from '@xylabs/hex'
-import { reverse } from '@xylabs/lodash'
 import { Base } from '@xylabs/object'
 import { isBrowser } from '@xylabs/platform'
 import { ApiEnvelope } from '@xyo-network/api-models'
@@ -23,7 +22,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
   static async discover(reverseDomainName: string, proxy?: string) {
     const parts = reverseDomainName.split('.')
     for (let i = 2; i <= parts.length; i++) {
-      const domainToCheck = reverse(parts.filter((_, index) => index < i)).join('.')
+      const domainToCheck = parts.filter((_, index) => index < i).reverse().join('.')
       const result = (await this.discoverDNSEntry(domainToCheck)) ?? (await this.discoverRootFile(domainToCheck, proxy))
       if (result) {
         return result

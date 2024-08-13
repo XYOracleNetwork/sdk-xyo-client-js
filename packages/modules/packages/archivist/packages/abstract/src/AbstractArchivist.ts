@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { Address, Hash } from '@xylabs/hex'
-import { compact } from '@xylabs/lodash'
 import { globallyUnique } from '@xylabs/object'
 import { Promisable, PromisableArray } from '@xylabs/promise'
 import { difference } from '@xylabs/set'
@@ -409,13 +409,13 @@ export abstract class AbstractArchivist<
 
   protected async writeToParents(payloads: Payload[]): Promise<PayloadWithMeta[]> {
     const parents = await this.parentArchivists()
-    return compact(
+    return (
       await Promise.all(
         Object.values(parents.write ?? {}).map(async (parent) => {
           return parent ? await this.writeToParent(parent, payloads) : undefined
         }),
-      ),
-    ).flat()
+      )
+    ).filter(exists).flat()
   }
 
   private async resolveArchivists(archivists: ModuleIdentifier[] = []) {

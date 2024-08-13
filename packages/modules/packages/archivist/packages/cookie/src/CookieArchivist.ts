@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
-import { compact } from '@xylabs/lodash'
 import { fulfilled, Promisable, PromisableArray } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
@@ -98,18 +98,18 @@ export class CookieArchivist<
       const payloads = await this.all()
       assertEx(payloads.length > 0, () => 'Nothing to commit')
       const settled = await Promise.allSettled(
-        compact(
+        (
           Object.values((await this.parentArchivists()).commit ?? [])?.map(async (parent) => {
             const queryPayload: WithMeta<ArchivistInsertQuery> = await PayloadBuilder.build({
               schema: ArchivistInsertQuerySchema,
             })
             const query = await this.bindQuery(queryPayload, payloads)
             return (await parent?.query(query[0], query[1]))?.[0]
-          }),
-        ),
+          })
+        ).filter(exists),
       )
       await this.clear()
-      return compact(settled.filter(fulfilled).map(result => result.value))
+      return settled.filter(fulfilled).map(result => result.value).filter(exists)
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex
@@ -118,24 +118,24 @@ export class CookieArchivist<
 
   protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
     const payloadPairs = await PayloadBuilder.dataHashPairs(await this.get(hashes))
-    const deletedPairs = compact(
+    const deletedPairs = (
       await Promise.all(
         payloadPairs.map<[Payload, Hash]>(([payload, hash]) => {
           Cookies.remove(hash)
           return [payload, hash]
         }),
-      ),
-    )
+      )
+    ).filter(exists)
     return deletedPairs.map(([, hash]) => hash)
   }
 
   protected override getHandler(hashes: Hash[]): Promisable<PayloadWithMeta[]> {
-    return compact(
+    return (
       hashes.map((hash) => {
         const cookieString = Cookies.get(this.keyFromHash(hash))
         return cookieString ? JSON.parse(cookieString) : undefined
-      }),
-    )
+      })
+    ).filter(exists)
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<WithMeta<Payload>[]> {

@@ -12,7 +12,7 @@ export class BrowserPayloadHasher extends PayloadHasher {
   static override createNodeWorker = createNodeWorker
   static override subtleHashWorkerUrl = (() => {
     try {
-      return new URL('worker/subtleHash-bundle.js', import.meta.url)
+      return new URL('@xyo-network/hash/worker/subtleHash-bundle.js', import.meta.url)
     } catch {
       return
     }
@@ -20,7 +20,7 @@ export class BrowserPayloadHasher extends PayloadHasher {
 
   static override wasmHashWorkerUrl = (() => {
     try {
-      return new URL('worker/wasmHash-bundle.js', import.meta.url)
+      return new URL('@xyo-network/hash/worker/wasmHash-bundle.js', import.meta.url)
     } catch {
       return
     }

@@ -44,6 +44,12 @@
         }
       }
     },
+    "./worker/subtleHash-bundle.js": {
+      "browser": "./dist/browser/worker/subtleHash-bundle.js"
+    },
+    "./worker/wasmHash-bundle.js": {
+      "browser": "./dist/browser/worker/wasmHash-bundle.js"
+    },
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",

@@ -7,16 +7,16 @@
   },
   "bugs": {
     "email": "support@xyo.network",
-    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^4.0.0",
-    "@xylabs/axios": "^4.0.0",
-    "@xylabs/exists": "^4.0.0",
-    "@xylabs/forget": "^4.0.0",
-    "@xylabs/hex": "^4.0.0",
-    "@xylabs/object": "^4.0.0",
-    "@xylabs/promise": "^4.0.0",
+    "@xylabs/assert": "^4.0.2",
+    "@xylabs/axios": "^4.0.2",
+    "@xylabs/exists": "^4.0.2",
+    "@xylabs/forget": "^4.0.2",
+    "@xylabs/hex": "^4.0.2",
+    "@xylabs/object": "^4.0.2",
+    "@xylabs/promise": "^4.0.2",
     "@xylabs/sdk-api-express-ecs": "^2.0.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
@@ -29,16 +29,16 @@
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "async-mutex": "^0.5.0",
-    "axios": "^1.7.3",
+    "axios": "^1.7.4",
     "express": "^4.19.2",
     "http-status-codes": "^2.3.0",
     "lru-cache": "^11.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/node": "^22.2.0",
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.15",
-    "@xylabs/tsconfig": "^4.0.0-rc.15",
+    "@types/node": "^22.4.0",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.20",
+    "@xylabs/tsconfig": "^4.0.0-rc.20",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/bridge-abstract": "workspace:^",
@@ -78,7 +78,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
   "version": "3.0.2",

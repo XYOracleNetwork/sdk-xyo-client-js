@@ -6,25 +6,25 @@
   },
   "bugs": {
     "email": "support@xyo.network",
-    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/axios": "^4.0.0",
-    "@xylabs/object": "^4.0.0",
+    "@xylabs/axios": "^4.0.2",
+    "@xylabs/object": "^4.0.2",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/huri": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "axios": "^1.7.3"
+    "axios": "^1.7.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/node": "^22.2.0",
+    "@types/node": "^22.4.0",
     "@types/uuid": "^10.0.0",
-    "@xylabs/jest-helpers": "^4.0.0",
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.15",
-    "@xylabs/tsconfig": "^4.0.0-rc.15",
+    "@xylabs/jest-helpers": "^4.0.2",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.20",
+    "@xylabs/tsconfig": "^4.0.0-rc.20",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
     "jest": "^29.7.0",
@@ -48,7 +48,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
   "version": "3.0.2",

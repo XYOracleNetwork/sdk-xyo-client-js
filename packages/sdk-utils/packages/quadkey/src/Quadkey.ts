@@ -1,11 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { hexFromArrayBuffer, hexFromHexString } from '@xylabs/hex'
+import type {
+  MercatorBoundingBox,
+  MercatorLngLat,
+  MercatorTile } from '@xyo-network/sdk-geo'
 import {
   boundingBoxToCenter,
   GeoJson,
-  MercatorBoundingBox,
-  MercatorLngLat,
-  MercatorTile,
   tileFromPoint,
   tileFromQuadkey,
   tilesFromBoundingBox,

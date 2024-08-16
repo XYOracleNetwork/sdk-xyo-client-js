@@ -1,6 +1,6 @@
 import { config } from 'dotenv'
 config()
-import { Config } from 'jest'
+import type { Config } from 'jest'
 
 /**
  * Jest global teardown method runs after all tests are run

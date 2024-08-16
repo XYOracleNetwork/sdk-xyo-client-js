@@ -7,13 +7,13 @@
   },
   "bugs": {
     "email": "support@xyo.network",
-    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^4.0.0",
-    "@xylabs/hex": "^4.0.0",
-    "@xylabs/object": "^4.0.0",
-    "@xylabs/promise": "^4.0.0",
+    "@xylabs/assert": "^4.0.2",
+    "@xylabs/hex": "^4.0.2",
+    "@xylabs/object": "^4.0.2",
+    "@xylabs/promise": "^4.0.2",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/bridge-abstract": "workspace:^",
@@ -26,8 +26,8 @@
     "socket.io": "^4.7.5"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.15",
-    "@xylabs/tsconfig": "^4.0.0-rc.15",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.20",
+    "@xylabs/tsconfig": "^4.0.0-rc.20",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
@@ -64,7 +64,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
   "version": "3.0.2",

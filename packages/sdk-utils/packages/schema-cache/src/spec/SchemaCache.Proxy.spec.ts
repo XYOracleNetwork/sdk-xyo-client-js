@@ -1,8 +1,10 @@
 import { assertEx } from '@xylabs/assert'
-import { DomainPayload, DomainSchema } from '@xyo-network/domain-payload-plugin'
+import type { DomainPayload } from '@xyo-network/domain-payload-plugin'
+import { DomainSchema } from '@xyo-network/domain-payload-plugin'
 import { NetworkNodeSchema, NetworkSchema } from '@xyo-network/network'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadSchema } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
+import { PayloadSchema } from '@xyo-network/payload-model'
 import { SchemaSchema } from '@xyo-network/schema-payload-plugin'
 
 import { SchemaCache } from '../SchemaCache.ts'

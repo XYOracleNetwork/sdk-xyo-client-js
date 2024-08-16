@@ -1,38 +1,43 @@
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
-import { Address, asAddress } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
+import { asAddress } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { toJsonString } from '@xylabs/object'
-import { AccountInstance } from '@xyo-network/account-model'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
-import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { AccountInstance } from '@xyo-network/account-model'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { QuerySendFinishedEventArgs, QuerySendStartedEventArgs } from '@xyo-network/bridge-model'
-import { ModuleManifestPayload, ModuleManifestPayloadSchema, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import type { QuerySendFinishedEventArgs, QuerySendStartedEventArgs } from '@xyo-network/bridge-model'
+import type { ModuleManifestPayload, NodeManifestPayload } from '@xyo-network/manifest-model'
+import { ModuleManifestPayloadSchema, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import {
+import type {
   AddressPreviousHashPayload,
-  AddressPreviousHashSchema,
   ArchivingModuleConfig,
-  DeadModuleError,
   Module,
   ModuleAddressQuery,
-  ModuleAddressQuerySchema,
   ModuleConfigSchema,
   ModuleInstance,
   ModuleManifestQuery,
-  ModuleManifestQuerySchema,
   ModuleName,
   ModuleParams,
   ModuleQueryHandlerResult,
   ModuleQueryResult,
-  ModuleResolver,
+  ModuleResolver } from '@xyo-network/module-model'
+import {
+  AddressPreviousHashSchema,
+  DeadModuleError,
+  ModuleAddressQuerySchema,
+  ModuleManifestQuerySchema,
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, WithMeta } from '@xyo-network/payload-model'
-import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
+import type { ModuleError, Payload, WithMeta } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, ModuleErrorSchema } from '@xyo-network/payload-model'
+import type { QueryPayload } from '@xyo-network/query-payload-plugin'
+import { QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 
 import { ModuleProxyResolver } from './ModuleProxyResolver.ts'

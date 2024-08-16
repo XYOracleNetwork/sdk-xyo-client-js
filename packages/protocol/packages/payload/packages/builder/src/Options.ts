@@ -1,6 +1,6 @@
-import { Logger } from '@xylabs/logger'
-import { JsonObject } from '@xylabs/object'
-import { Schema } from '@xyo-network/payload-model'
+import type { Logger } from '@xylabs/logger'
+import type { JsonObject } from '@xylabs/object'
+import type { Schema } from '@xyo-network/payload-model'
 
 export interface PayloadBuilderOptions<T> {
   readonly fields?: Omit<T, 'schema' | '$hash' | '$meta'>

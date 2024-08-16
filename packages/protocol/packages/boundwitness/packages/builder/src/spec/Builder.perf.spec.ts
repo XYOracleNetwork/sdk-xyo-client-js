@@ -1,6 +1,7 @@
-import { AnyObject } from '@xylabs/object'
+import type { AnyObject } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
-import { Payload, PayloadBuilder } from '@xyo-network/payload'
+import type { Payload } from '@xyo-network/payload'
+import { PayloadBuilder } from '@xyo-network/payload'
 
 import { BoundWitnessBuilder } from '../Builder'
 

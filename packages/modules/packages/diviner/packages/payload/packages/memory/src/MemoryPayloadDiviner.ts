@@ -1,11 +1,12 @@
 /* eslint-disable complexity */
 import { assertEx } from '@xylabs/assert'
 import { removeFields } from '@xylabs/object'
-import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
-import { isPayloadDivinerQueryPayload, PayloadDivinerParams, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
+import type { PayloadDivinerParams, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
+import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import type { Payload, WithMeta } from '@xyo-network/payload-model'
 
 import { hasTimestamp } from './hasTimestamp.ts'
 

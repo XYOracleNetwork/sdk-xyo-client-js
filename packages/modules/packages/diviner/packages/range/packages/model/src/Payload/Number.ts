@@ -1,4 +1,4 @@
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 export const NumberSchema = 'network.xyo.number' as const
 export type NumberSchema = typeof NumberSchema

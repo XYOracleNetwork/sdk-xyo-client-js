@@ -1,5 +1,5 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
-import { AccountInstance, AccountStatic } from '@xyo-network/account-model'
+import type { AccountInstance, AccountStatic } from '@xyo-network/account-model'
 
 export const generateAccountTests = (title: string, Account: AccountStatic) => {
   // test vectors: https://tools.ietf.org/html/rfc8032

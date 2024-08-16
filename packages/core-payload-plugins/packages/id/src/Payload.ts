@@ -1,10 +1,11 @@
+import type {
+  Payload,
+  WithMeta,
+  WithSources } from '@xyo-network/payload-model'
 import {
   isPayloadOfSchemaType,
   isPayloadOfSchemaTypeWithMeta,
   isPayloadOfSchemaTypeWithSources,
-  Payload,
-  WithMeta,
-  WithSources,
 } from '@xyo-network/payload-model'
 
 import { IdSchema } from './Schema.ts'

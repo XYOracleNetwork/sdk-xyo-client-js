@@ -1,4 +1,4 @@
-import { IdPayload } from './Payload.ts'
+import type { IdPayload } from './Payload.ts'
 import { IdSchema } from './Schema.ts'
 
 export const idPayloadTemplate = (): IdPayload => ({

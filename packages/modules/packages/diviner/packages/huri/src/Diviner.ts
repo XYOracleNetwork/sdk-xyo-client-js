@@ -2,13 +2,15 @@ import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import { DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
+import type { DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
-import { AnyConfigSchema } from '@xyo-network/module-model'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import type { AnyConfigSchema } from '@xyo-network/module-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
-import { HuriPayloadDivinerConfig, HuriPayloadDivinerConfigSchema } from './Config.ts'
-import { HuriPayload, HuriSchema } from './HuriPayload.ts'
+import type { HuriPayloadDivinerConfig } from './Config.ts'
+import { HuriPayloadDivinerConfigSchema } from './Config.ts'
+import type { HuriPayload } from './HuriPayload.ts'
+import { HuriSchema } from './HuriPayload.ts'
 
 export type HuriPayloadDivinerParams<TConfig extends AnyConfigSchema<HuriPayloadDivinerConfig> = AnyConfigSchema<HuriPayloadDivinerConfig>> =
   DivinerParams<TConfig>

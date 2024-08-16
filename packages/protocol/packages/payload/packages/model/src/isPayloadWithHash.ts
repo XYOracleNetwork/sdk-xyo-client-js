@@ -1,6 +1,6 @@
 import { isAnyPayload } from './isPayload.ts'
-import { WithMeta } from './Meta.ts'
-import { Payload } from './Payload.ts'
+import type { WithMeta } from './Meta.ts'
+import type { Payload } from './Payload.ts'
 
 /**
  * Return true if the value is a payload with the required meta fields

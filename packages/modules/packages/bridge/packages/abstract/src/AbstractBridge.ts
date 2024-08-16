@@ -1,44 +1,48 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
-import { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
-import { Promisable } from '@xylabs/promise'
-import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
-import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { Promisable } from '@xylabs/promise'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import { asArchivistInstance } from '@xyo-network/archivist-model'
+import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import {
+import type {
   AttachableBridgeInstance,
-  BridgeConfigSchema,
-  BridgeConnectQuerySchema,
-  BridgeDisconnectQuerySchema,
   BridgeExposeOptions,
-  BridgeExposeQuerySchema,
   BridgeModuleEventData,
   BridgeParams,
   BridgeQueries,
   BridgeUnexposeOptions,
+  ModuleFilterPayload } from '@xyo-network/bridge-model'
+import {
+  BridgeConfigSchema,
+  BridgeConnectQuerySchema,
+  BridgeDisconnectQuerySchema,
+  BridgeExposeQuerySchema,
   BridgeUnexposeQuerySchema,
-  ModuleFilterPayload,
   ModuleFilterPayloadSchema,
 } from '@xyo-network/bridge-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import {
+import type {
   AddressPayload,
-  AddressSchema,
-  isAddressModuleFilter,
-  isNameModuleFilter,
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
   ModuleQueryHandlerResult,
-  ModuleResolverInstance,
+  ModuleResolverInstance } from '@xyo-network/module-model'
+import {
+  AddressSchema,
+  isAddressModuleFilter,
+  isNameModuleFilter,
   resolveAddressToInstance,
   resolvePathToAddress,
   transformModuleIdentifier,
 } from '@xyo-network/module-model'
-import { isPayloadOfSchemaType, Payload, Schema } from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams>
   extends AbstractModuleInstance<TParams, BridgeModuleEventData>

@@ -1,11 +1,12 @@
-import { Account, AccountInstance } from '@xyo-network/account'
+import type { AccountInstance } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryQuerySchema } from '@xyo-network/diviner-address-history-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { WithMeta } from '@xyo-network/payload-model'
+import type { WithMeta } from '@xyo-network/payload-model'
 
 import { AddressHistoryDiviner } from '../Diviner.ts'
 

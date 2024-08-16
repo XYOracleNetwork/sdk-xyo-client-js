@@ -1,5 +1,5 @@
 /* eslint-disable max-nested-callbacks */
-import { AbstractBridge } from '@xyo-network/bridge-abstract'
+import type { AbstractBridge } from '@xyo-network/bridge-abstract'
 
 // TODO: Implement standard test suite for all Bridges here and then run
 // against specific bridges

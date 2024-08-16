@@ -1,4 +1,4 @@
-import { Payload, Query } from '@xyo-network/payload-model'
+import type { Payload, Query } from '@xyo-network/payload-model'
 
 import { SchemaListDivinerSchema } from './Schema.ts'
 

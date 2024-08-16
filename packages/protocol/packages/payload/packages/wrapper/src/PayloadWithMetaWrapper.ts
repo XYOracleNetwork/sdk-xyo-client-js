@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
-import { Address } from '@xylabs/hex'
-import { Payload } from '@xyo-network/payload-model'
+import type { Address } from '@xylabs/hex'
+import type { Payload } from '@xyo-network/payload-model'
 
 import { isPayloadDataWrapper, PayloadDataWrapper } from './PayloadDataWrapper.ts'
-import { isPayloadWrapperBase, PayloadLoaderFactory } from './PayloadWrapperBase.ts'
+import type { PayloadLoaderFactory } from './PayloadWrapperBase.ts'
+import { isPayloadWrapperBase } from './PayloadWrapperBase.ts'
 
 export const isPayloadWithMetaWrapper = (value?: unknown): value is PayloadWithMetaWrapper => {
   return isPayloadDataWrapper(value)

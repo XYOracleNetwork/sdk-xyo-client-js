@@ -1,6 +1,6 @@
-import { EventData } from '@xyo-network/module-events'
+import type { EventData } from '@xyo-network/module-events'
 
-import { ModuleEventArgs } from './ModuleEventArgs.ts'
+import type { ModuleEventArgs } from './ModuleEventArgs.ts'
 
 export type ModuleErrorEventArgs<TModule extends object = object> = ModuleEventArgs<
   TModule,

@@ -1,23 +1,25 @@
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
 import { globallyUnique } from '@xylabs/object'
-import { AccountInstance } from '@xyo-network/account-model'
+import type { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { BoundWitness, isBoundWitness, notBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitness, notBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import { ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
-import { Payload, Schema } from '@xyo-network/payload-model'
-import {
+import type { ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
+import type {
   CustomSentinelInstance,
   ResolvedTask,
-  SentinelConfigSchema,
   SentinelInstance,
   SentinelJob,
   SentinelModuleEventData,
   SentinelParams,
   SentinelQueries,
-  SentinelReportQuery,
+  SentinelReportQuery } from '@xyo-network/sentinel-model'
+import {
+  SentinelConfigSchema,
   SentinelReportQuerySchema,
 } from '@xyo-network/sentinel-model'
 

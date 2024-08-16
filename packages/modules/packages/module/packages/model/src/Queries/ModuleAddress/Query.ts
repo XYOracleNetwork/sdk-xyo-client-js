@@ -1,4 +1,4 @@
-import { Query } from '@xyo-network/payload-model'
+import type { Query } from '@xyo-network/payload-model'
 
 export type ModuleAddressQuerySchema = 'network.xyo.query.module.address'
 export const ModuleAddressQuerySchema: ModuleAddressQuerySchema = 'network.xyo.query.module.address'

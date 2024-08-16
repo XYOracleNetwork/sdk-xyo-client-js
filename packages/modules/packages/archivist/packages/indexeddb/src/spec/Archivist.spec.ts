@@ -2,13 +2,15 @@
  * @jest-environment jsdom
  */
 
-import { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
-import { Account, AccountInstance } from '@xyo-network/account'
-import { ArchivistInstance, isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
+import type { AccountInstance } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
+import type { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   IDBCursor,

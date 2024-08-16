@@ -2,7 +2,8 @@ import { Account } from '@xyo-network/account'
 import { isValuePayload } from '@xyo-network/value-payload-plugin'
 
 import { EnvironmentWitnessConfigSchema } from '../Config.ts'
-import { EnvironmentSubset, EnvironmentSubsetSchema } from '../Payload'
+import type { EnvironmentSubset } from '../Payload'
+import { EnvironmentSubsetSchema } from '../Payload'
 import { EnvironmentWitness } from '../Witness'
 
 /**

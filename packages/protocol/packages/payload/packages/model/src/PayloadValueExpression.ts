@@ -1,4 +1,4 @@
-import { Payload } from './Payload.ts'
+import type { Payload } from './Payload.ts'
 
 /**
  * Type corresponding to the properties of a payload

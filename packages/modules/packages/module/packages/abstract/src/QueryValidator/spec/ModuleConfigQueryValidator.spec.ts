@@ -1,9 +1,11 @@
-import { Address, Hex } from '@xylabs/hex'
-import { Account, AccountInstance } from '@xyo-network/account'
+import type { Address, Hex } from '@xylabs/hex'
+import type { AccountInstance } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { CosigningAddressSet, ModuleConfig, ModuleConfigSchema, ModuleStateQuerySchema } from '@xyo-network/module-model'
+import type { CosigningAddressSet, ModuleConfig } from '@xyo-network/module-model'
+import { ModuleConfigSchema, ModuleStateQuerySchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Schema } from '@xyo-network/payload-model'
+import type { Schema } from '@xyo-network/payload-model'
 
 import { ModuleConfigQueryValidator } from '../ModuleConfigQueryValidator'
 

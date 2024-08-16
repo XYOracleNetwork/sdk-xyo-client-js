@@ -1,4 +1,4 @@
-import { ApiConfig } from '@xyo-network/api-models'
+import type { ApiConfig } from '@xyo-network/api-models'
 import { v4 as uuid } from 'uuid'
 
 import { ArchivistApi } from '../Api.ts'

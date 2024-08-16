@@ -1,12 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Address } from '@xylabs/hex'
-import { Promisable } from '@xylabs/promise'
+import type { Address } from '@xylabs/hex'
+import type { Promisable } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
-import { ModuleManifestPayload } from '@xyo-network/manifest-model'
-import {
-  isAddressModuleFilter,
-  isNameModuleFilter,
+import type { ModuleManifestPayload } from '@xyo-network/manifest-model'
+import type {
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
@@ -15,7 +13,10 @@ import {
   ModuleName,
   ModuleResolver,
   ModuleResolverInstance,
-  ObjectFilterOptions,
+  ObjectFilterOptions } from '@xyo-network/module-model'
+import {
+  isAddressModuleFilter,
+  isNameModuleFilter,
   ObjectResolverPriority,
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'

@@ -1,7 +1,7 @@
-import { EmptyObject, JsonObject } from '@xylabs/object'
+import type { EmptyObject, JsonObject } from '@xylabs/object'
 
-import { Payload, PayloadMetaFields } from './Payload.ts'
-import { Schema, WithSchema } from './Schema.ts'
+import type { Payload, PayloadMetaFields } from './Payload.ts'
+import type { Schema, WithSchema } from './Schema.ts'
 
 export type WithMeta<T extends Payload = Payload, M extends JsonObject | void = void> = PayloadMetaFields<M> & T
 export type WithOptionalMeta<T extends Payload = Payload, M extends JsonObject | void = void> = Partial<WithMeta<T, M>> &

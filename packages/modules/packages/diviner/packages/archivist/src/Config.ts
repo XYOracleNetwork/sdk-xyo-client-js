@@ -1,5 +1,5 @@
-import { DivinerConfig } from '@xyo-network/diviner-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { DivinerConfig } from '@xyo-network/diviner-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 export type ArchivistPayloadDivinerConfigSchema = 'network.xyo.diviner.payload.archivist.config'
 export const ArchivistPayloadDivinerConfigSchema: ArchivistPayloadDivinerConfigSchema = 'network.xyo.diviner.payload.archivist.config'

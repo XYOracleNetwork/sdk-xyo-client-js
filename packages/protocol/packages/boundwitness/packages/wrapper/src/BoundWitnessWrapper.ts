@@ -1,10 +1,11 @@
 import { assertEx } from '@xylabs/assert'
-import { Address, Hash } from '@xylabs/hex'
+import type { Address, Hash } from '@xylabs/hex'
 import { isObject } from '@xylabs/object'
-import { asBoundWitness, BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { asBoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import type { Payload, WithMeta } from '@xyo-network/payload-model'
 import { isPayloadWrapperBase, PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 
 export const isBoundWitnessWrapper = <T extends BoundWitness = BoundWitness, P extends Payload = Payload>(

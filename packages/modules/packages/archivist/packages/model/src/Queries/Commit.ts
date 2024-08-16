@@ -1,4 +1,4 @@
-import { Query } from '@xyo-network/payload-model'
+import type { Query } from '@xyo-network/payload-model'
 
 export type ArchivistCommitQuerySchema = 'network.xyo.query.archivist.commit'
 export const ArchivistCommitQuerySchema: ArchivistCommitQuerySchema = 'network.xyo.query.archivist.commit'

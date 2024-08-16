@@ -1,4 +1,5 @@
-import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
+import type { Payload, WithMeta } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 export interface StateDictionary {
   [key: string]: string | number | undefined

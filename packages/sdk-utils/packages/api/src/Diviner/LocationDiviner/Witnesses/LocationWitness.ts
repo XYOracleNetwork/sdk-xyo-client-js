@@ -1,4 +1,4 @@
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 export type LocationWitnessSchema = 'network.xyo.location'
 export const LocationWitnessSchema: LocationWitnessSchema = 'network.xyo.location'

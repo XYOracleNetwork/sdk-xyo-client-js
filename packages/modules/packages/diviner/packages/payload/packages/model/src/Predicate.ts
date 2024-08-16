@@ -1,8 +1,8 @@
-import { Address, Hash } from '@xylabs/hex'
-import { EmptyObject } from '@xylabs/object'
-import { Schema } from '@xyo-network/payload-model'
+import type { Address, Hash } from '@xylabs/hex'
+import type { EmptyObject } from '@xylabs/object'
+import type { Schema } from '@xyo-network/payload-model'
 
-import { Order } from './Order.ts'
+import type { Order } from './Order.ts'
 
 /* Note: Added Omit to PayloadFindDiviner for offset until we support hash based offsets */
 

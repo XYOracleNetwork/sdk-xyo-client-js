@@ -1,6 +1,8 @@
-import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithMeta, notPayloadOfSchemaType, WithMeta } from '@xyo-network/payload-model'
+import type { WithMeta } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithMeta, notPayloadOfSchemaType } from '@xyo-network/payload-model'
 
-import { BoundWitness, BoundWitnessSchema } from './BoundWitness/index.ts'
+import type { BoundWitness } from './BoundWitness/index.ts'
+import { BoundWitnessSchema } from './BoundWitness/index.ts'
 
 export const isBoundWitness = (value: unknown): value is BoundWitness => isPayloadOfSchemaType<BoundWitness>(BoundWitnessSchema)(value)
 export const isBoundWitnessWithMeta = (value: unknown): value is WithMeta<BoundWitness> =>

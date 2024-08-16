@@ -1,12 +1,13 @@
 import { assertEx } from '@xylabs/assert'
-import { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/hex'
 import { omitBy } from '@xylabs/lodash'
-import { AnyObject, isJsonObject, JsonObject, toJson } from '@xylabs/object'
-import { Promisable } from '@xylabs/promise'
+import type { AnyObject, JsonObject } from '@xylabs/object'
+import { isJsonObject, toJson } from '@xylabs/object'
+import type { Promisable } from '@xylabs/promise'
 import { removeEmptyFields } from '@xyo-network/hash'
-import { Payload, Schema, WithMeta, WithOptionalMeta } from '@xyo-network/payload-model'
+import type { Payload, Schema, WithMeta, WithOptionalMeta } from '@xyo-network/payload-model'
 
-import { PayloadBuilderOptions } from './Options.ts'
+import type { PayloadBuilderOptions } from './Options.ts'
 
 export type WithOptionalSchema<T extends Payload> = Omit<T, 'schema'> & Partial<T>
 

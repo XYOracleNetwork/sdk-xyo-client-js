@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { AnyObject } from '@xylabs/object'
+import type { AnyObject } from '@xylabs/object'
 import { PayloadHasher } from '@xyo-network/hash'
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 import { PayloadBuilder } from '../index.ts'
 

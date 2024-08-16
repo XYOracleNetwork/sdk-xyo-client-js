@@ -1,6 +1,6 @@
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 import { unitTestSigningAccount } from '../Account/index.ts'
 import { getNewPayloads } from '../Payload/index.ts'

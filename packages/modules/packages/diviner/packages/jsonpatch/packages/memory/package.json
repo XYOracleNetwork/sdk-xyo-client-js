@@ -7,11 +7,11 @@
   },
   "bugs": {
     "email": "support@xyo.network",
-    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^4.0.0",
-    "@xylabs/exists": "^4.0.0",
+    "@xylabs/assert": "^4.0.2",
+    "@xylabs/exists": "^4.0.2",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-jsonpatch-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
@@ -20,8 +20,8 @@
     "tslib": "^2.6.3"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.15",
-    "@xylabs/tsconfig": "^4.0.0-rc.15",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.20",
+    "@xylabs/tsconfig": "^4.0.0-rc.20",
     "@xyo-network/account": "workspace:^",
     "typescript": "^5.5.4"
   },
@@ -42,7 +42,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
   "version": "3.0.2",

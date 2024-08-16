@@ -1,5 +1,5 @@
-import { ForecastingMethod } from '@xyo-network/diviner-forecasting-model'
-import { ARIMAOptions } from 'arima'
+import type { ForecastingMethod } from '@xyo-network/diviner-forecasting-model'
+import type { ARIMAOptions } from 'arima'
 
 import { configurableArima } from '../configurable/index.ts'
 

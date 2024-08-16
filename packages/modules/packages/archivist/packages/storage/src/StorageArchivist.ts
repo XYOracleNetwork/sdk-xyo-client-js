@@ -1,25 +1,28 @@
 import { assertEx } from '@xylabs/assert'
-import { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
-import { fulfilled, Promisable, PromisableArray } from '@xylabs/promise'
+import type { Promisable, PromisableArray } from '@xylabs/promise'
+import { fulfilled } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
+import type {
+  ArchivistConfig,
+  ArchivistInsertQuery,
+  ArchivistInstance,
+  ArchivistModuleEventData,
+  ArchivistParams } from '@xyo-network/archivist-model'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
-  ArchivistConfig,
   ArchivistDeleteQuerySchema,
-  ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
-  ArchivistInstance,
-  ArchivistModuleEventData,
-  ArchivistParams,
 } from '@xyo-network/archivist-model'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { AnyConfigSchema } from '@xyo-network/module-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
-import store, { StoreBase, StoreType } from 'store2'
+import type { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
+import type { StoreBase, StoreType } from 'store2'
+import store from 'store2'
 
 const storeTypes = store as unknown as StoreType
 

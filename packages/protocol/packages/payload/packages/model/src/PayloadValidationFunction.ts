@@ -1,4 +1,4 @@
-import { Payload } from './Payload.ts'
+import type { Payload } from './Payload.ts'
 
 /**
  * A function that validates the supplied payload

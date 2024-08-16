@@ -1,41 +1,43 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Address, Hash } from '@xylabs/hex'
+import type { Address, Hash } from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
-import { Promisable, PromisableArray } from '@xylabs/promise'
+import type { Promisable, PromisableArray } from '@xylabs/promise'
 import { difference } from '@xylabs/set'
-import { AccountInstance } from '@xyo-network/account-model'
-import {
+import type { AccountInstance } from '@xyo-network/account-model'
+import type {
   ArchivistAllQuery,
-  ArchivistAllQuerySchema,
   ArchivistClearQuery,
-  ArchivistClearQuerySchema,
   ArchivistCommitQuery,
-  ArchivistCommitQuerySchema,
-  ArchivistConfigSchema,
   ArchivistDeleteQuery,
-  ArchivistDeleteQuerySchema,
   ArchivistGetQuery,
-  ArchivistGetQuerySchema,
   ArchivistInsertQuery,
-  ArchivistInsertQuerySchema,
   ArchivistInstance,
   ArchivistModuleEventData,
   ArchivistNextOptions,
   ArchivistNextQuery,
-  ArchivistNextQuerySchema,
   ArchivistParams,
   ArchivistQueries,
+  AttachableArchivistInstance } from '@xyo-network/archivist-model'
+import {
+  ArchivistAllQuerySchema,
+  ArchivistClearQuerySchema,
+  ArchivistCommitQuerySchema,
+  ArchivistConfigSchema,
+  ArchivistDeleteQuerySchema,
+  ArchivistGetQuerySchema,
+  ArchivistInsertQuerySchema,
+  ArchivistNextQuerySchema,
   asArchivistInstance,
-  AttachableArchivistInstance,
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
-import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import { duplicateModules, ModuleConfig, ModuleIdentifier, ModuleName, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
+import type { ModuleConfig, ModuleIdentifier, ModuleName, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
+import { duplicateModules } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
+import type { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
 
 const NOT_IMPLEMENTED = 'Not implemented' as const
 

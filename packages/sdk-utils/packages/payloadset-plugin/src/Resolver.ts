@@ -1,18 +1,19 @@
 import { forget } from '@xylabs/forget'
-import { Validator } from '@xylabs/object'
-import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
+import type { Validator } from '@xylabs/object'
+import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import type { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { PayloadSetPayload } from '@xyo-network/payload-model'
-import { WitnessModule, WitnessParams } from '@xyo-network/witness-model'
+import type { PayloadSetPayload } from '@xyo-network/payload-model'
+import type { WitnessModule, WitnessParams } from '@xyo-network/witness-model'
 
+import type {
+  PayloadSetDivinerPlugin,
+  PayloadSetPlugin,
+  PayloadSetWitnessPlugin } from './Plugin.ts'
 import {
   isPayloadSetDivinerPlugin,
   isPayloadSetWitnessPlugin,
-  PayloadSetDivinerPlugin,
-  PayloadSetPlugin,
-  PayloadSetWitnessPlugin,
   tryAsPayloadSetDivinerPlugin,
   tryAsPayloadSetWitnessPlugin,
 } from './Plugin.ts'

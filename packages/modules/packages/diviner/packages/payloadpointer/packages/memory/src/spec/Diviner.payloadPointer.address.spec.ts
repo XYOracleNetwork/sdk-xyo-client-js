@@ -1,9 +1,9 @@
 import { Account } from '@xyo-network/account'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
-import { NodeInstance } from '@xyo-network/node-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import type { NodeInstance } from '@xyo-network/node-model'
+import type { Payload } from '@xyo-network/payload-model'
 
-import { PayloadPointerDiviner } from '../Diviner.ts'
+import type { PayloadPointerDiviner } from '../Diviner.ts'
 import {
   createPointer,
   getArchivist,

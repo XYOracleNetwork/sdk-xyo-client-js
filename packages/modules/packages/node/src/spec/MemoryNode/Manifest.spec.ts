@@ -1,4 +1,4 @@
-import { NodeManifestPayload } from '@xyo-network/manifest-model'
+import type { NodeManifestPayload } from '@xyo-network/manifest-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 
 import { MemoryNode } from '../../index.ts'

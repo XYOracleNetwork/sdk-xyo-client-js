@@ -4,64 +4,71 @@ import { assertEx } from '@xylabs/assert'
 import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
-import { Address, Hash } from '@xylabs/hex'
+import type { Address, Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
-import { ConsoleLogger, IdLogger, Logger, LogLevel } from '@xylabs/logger'
+import type { Logger } from '@xylabs/logger'
+import { ConsoleLogger, IdLogger, LogLevel } from '@xylabs/logger'
 import { Base, globallyUnique } from '@xylabs/object'
-import { Promisable, PromiseEx } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/promise'
+import { PromiseEx } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
-import { AccountInstance } from '@xyo-network/account-model'
-import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
+import type { AccountInstance } from '@xyo-network/account-model'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { ModuleManifestPayload } from '@xyo-network/manifest-model'
-import {
+import type { ConfigPayload } from '@xyo-network/config-payload-plugin'
+import { ConfigSchema } from '@xyo-network/config-payload-plugin'
+import type { ModuleManifestPayload } from '@xyo-network/manifest-model'
+import type {
   AddressPayload,
   AddressPreviousHashPayload,
-  AddressPreviousHashSchema,
-  AddressSchema,
   ArchivingModuleConfig,
   AttachableModuleInstance,
   CreatableModule,
   CreatableModuleFactory,
-  DeadModuleError,
-  isModuleName,
   Labels,
   Module,
-  ModuleAddressQuerySchema,
   ModuleBusyEventArgs,
   ModuleConfig,
-  ModuleConfigSchema,
   ModuleDescriptionPayload,
-  ModuleDescriptionSchema,
   ModuleDetailsError,
   ModuleEventData,
-  ModuleFactory,
-  ModuleManifestQuerySchema,
   ModuleParams,
   ModuleQueriedEventArgs,
   ModuleQueries,
   ModuleQueryHandlerResult,
   ModuleQueryResult,
   ModuleResolverInstance,
+  ModuleStatus } from '@xyo-network/module-model'
+import {
+  AddressPreviousHashSchema,
+  AddressSchema,
+  DeadModuleError,
+  isModuleName,
+  ModuleAddressQuerySchema,
+  ModuleConfigSchema,
+  ModuleDescriptionSchema,
+  ModuleFactory,
+  ModuleManifestQuerySchema,
   ModuleStateQuerySchema,
-  ModuleStatus,
   ModuleSubscribeQuerySchema,
   ObjectResolverPriority,
   serializableField,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { ModuleError, Payload, Query, Schema, WithMeta } from '@xyo-network/payload-model'
-import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
-import { WalletInstance } from '@xyo-network/wallet-model'
+import type { ModuleError, Payload, Query, Schema, WithMeta } from '@xyo-network/payload-model'
+import type { QueryPayload } from '@xyo-network/query-payload-plugin'
+import { QuerySchema } from '@xyo-network/query-payload-plugin'
+import type { WalletInstance } from '@xyo-network/wallet-model'
 import { LRUCache } from 'lru-cache'
 
 import { BaseEmitter } from './BaseEmitter.ts'
 import { determineAccount } from './determineAccount.ts'
 import { ModuleErrorBuilder } from './Error.ts'
-import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator/index.ts'
+import type { Queryable } from './QueryValidator/index.ts'
+import { ModuleConfigQueryValidator, SupportedQueryValidator } from './QueryValidator/index.ts'
 
 const MODULE_NOT_STARTED = 'Module not Started' as const
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>

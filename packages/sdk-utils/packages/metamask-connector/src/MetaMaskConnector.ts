@@ -1,6 +1,7 @@
-import { MetaMaskInpageProvider } from '@metamask/providers'
+import type { MetaMaskInpageProvider } from '@metamask/providers'
 import { forget } from '@xylabs/forget'
-import { BrowserProvider, Listener } from 'ethers'
+import type { Listener } from 'ethers'
+import { BrowserProvider } from 'ethers'
 
 export class MetaMaskConnector {
   private account = ''

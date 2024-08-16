@@ -1,4 +1,4 @@
-import { PayloadAddressRule, PayloadRule, PayloadSchemaRule, PayloadTimestampOrderRule } from '@xyo-network/diviner-payload-pointer-model'
+import type { PayloadAddressRule, PayloadRule, PayloadSchemaRule, PayloadTimestampOrderRule } from '@xyo-network/diviner-payload-pointer-model'
 
 import { combineRules } from '../combineRules.ts'
 

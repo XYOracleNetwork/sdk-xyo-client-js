@@ -1,36 +1,40 @@
-import { Address } from '@xylabs/hex'
-import { AccountInstance } from '@xyo-network/account-model'
-import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import {
+import type { Address } from '@xylabs/hex'
+import type { AccountInstance } from '@xyo-network/account-model'
+import type { NodeManifestPayload } from '@xyo-network/manifest-model'
+import { NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import type {
   AddressPayload,
-  AddressSchema,
   InstanceTypeCheck,
   ModuleIdentifier,
   ModuleManifestQuery,
+  ModuleQueryResult } from '@xyo-network/module-model'
+import {
+  AddressSchema,
   ModuleManifestQuerySchema,
-  ModuleQueryResult,
 } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
-import {
+import type {
   ChildCertification,
   ChildCertificationFields,
+  NodeAttachedQuery,
+  NodeAttachQuery,
+  NodeCertifyQuery,
+  NodeDetachQuery,
+  NodeInstance,
+  NodeModule,
+  NodeRegisteredQuery } from '@xyo-network/node-model'
+import {
   ChildCertificationSchema,
   isNodeInstance,
   isNodeModule,
-  NodeAttachedQuery,
   NodeAttachedQuerySchema,
-  NodeAttachQuery,
   NodeAttachQuerySchema,
-  NodeCertifyQuery,
   NodeCertifyQuerySchema,
-  NodeDetachQuery,
   NodeDetachQuerySchema,
-  NodeInstance,
-  NodeModule,
-  NodeRegisteredQuery,
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
-import { isPayloadOfSchemaType, WithMeta } from '@xyo-network/payload-model'
+import type { WithMeta } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
 constructableModuleWrapper()

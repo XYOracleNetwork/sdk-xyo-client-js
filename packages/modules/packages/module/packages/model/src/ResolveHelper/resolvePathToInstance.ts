@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { asAddress } from '@xylabs/hex'
 
-import { ModuleInstance } from '../instance/index.ts'
+import type { ModuleInstance } from '../instance/index.ts'
 import { MODULE_PATH_SEPARATOR } from '../ModuleIdentifier.ts'
-import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.ts'
+import type { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.ts'
 import { resolveAddressToInstance } from './resolveAddressToInstance.ts'
 import { ResolveHelperStatic } from './ResolveHelperStatic.ts'
 import { resolveLocalNameToAddress } from './resolveLocalNameToAddress.ts'

@@ -1,15 +1,17 @@
 import { assertEx } from '@xylabs/assert'
-import { Address } from '@xylabs/hex'
-import { Base, BaseParams, toJsonString } from '@xylabs/object'
-import { Promisable } from '@xylabs/promise'
-import {
-  asModuleInstance,
+import type { Address } from '@xylabs/hex'
+import type { BaseParams } from '@xylabs/object'
+import { Base, toJsonString } from '@xylabs/object'
+import type { Promisable } from '@xylabs/promise'
+import type {
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
   ModuleResolverInstance,
-  ObjectFilterOptions,
+  ObjectFilterOptions } from '@xyo-network/module-model'
+import {
+  asModuleInstance,
   ObjectResolverPriority,
 } from '@xyo-network/module-model'
 

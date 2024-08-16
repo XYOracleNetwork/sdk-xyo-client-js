@@ -1,10 +1,11 @@
-import { IsObjectFactory, TypeCheck } from '@xylabs/object'
-import { AttachableModuleInstance } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { TypeCheck } from '@xylabs/object'
+import { IsObjectFactory } from '@xylabs/object'
+import type { AttachableModuleInstance } from '@xyo-network/module-model'
+import type { Payload } from '@xyo-network/payload-model'
 
-import { WitnessModuleEventData } from '../EventData.ts'
-import { WitnessInstance } from '../Instance.ts'
-import { WitnessParams } from '../Params.ts'
+import type { WitnessModuleEventData } from '../EventData.ts'
+import type { WitnessInstance } from '../Instance.ts'
+import type { WitnessParams } from '../Params.ts'
 
 export interface AttachableWitnessInstance<
   TParams extends WitnessParams = WitnessParams,

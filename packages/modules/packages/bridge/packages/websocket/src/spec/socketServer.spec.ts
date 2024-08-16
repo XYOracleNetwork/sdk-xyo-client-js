@@ -1,4 +1,5 @@
-import { io as Client, Socket } from 'socket.io-client'
+import type { Socket } from 'socket.io-client'
+import { io as Client } from 'socket.io-client'
 
 import { BridgeCommands, createServer } from '../socketServer.ts'
 

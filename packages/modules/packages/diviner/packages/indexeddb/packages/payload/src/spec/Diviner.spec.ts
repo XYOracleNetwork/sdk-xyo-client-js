@@ -5,11 +5,12 @@
 /* eslint-disable max-nested-callbacks */
 
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
-import { IndexDescription } from '@xyo-network/archivist-model'
-import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
+import type { IndexDescription } from '@xyo-network/archivist-model'
+import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
+import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import {
   IDBCursor,
   IDBCursorWithValue,

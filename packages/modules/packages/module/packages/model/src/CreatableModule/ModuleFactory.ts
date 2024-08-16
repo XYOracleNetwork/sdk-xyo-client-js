@@ -1,11 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { merge } from '@xylabs/lodash'
-import { Logger } from '@xylabs/logger'
-import { Schema } from '@xyo-network/payload-model'
+import type { Logger } from '@xylabs/logger'
+import type { Schema } from '@xyo-network/payload-model'
 
-import { AttachableModuleInstance } from '../instance/index.ts'
-import { Labels, WithOptionalLabels } from '../Labels/index.ts'
-import { CreatableModule, CreatableModuleFactory } from './CreatableModule.ts'
+import type { AttachableModuleInstance } from '../instance/index.ts'
+import type { Labels, WithOptionalLabels } from '../Labels/index.ts'
+import type { CreatableModule, CreatableModuleFactory } from './CreatableModule.ts'
 
 export class ModuleFactory<TModule extends AttachableModuleInstance> implements CreatableModuleFactory<TModule> {
   configSchemas: CreatableModuleFactory<TModule>['configSchemas']

@@ -1,6 +1,6 @@
-import { DomainPayload, DomainSchema } from '@xyo-network/domain-payload-plugin'
-import { Payload, PayloadSchema } from '@xyo-network/payload-model'
-import { SchemaPayload, SchemaSchema } from '@xyo-network/schema-payload-plugin'
+import type { DomainPayload, DomainSchema } from '@xyo-network/domain-payload-plugin'
+import type { Payload, PayloadSchema } from '@xyo-network/payload-model'
+import type { SchemaPayload, SchemaSchema } from '@xyo-network/schema-payload-plugin'
 
 /**
  * Used in conjunction with schema validation to support compile time type assertion

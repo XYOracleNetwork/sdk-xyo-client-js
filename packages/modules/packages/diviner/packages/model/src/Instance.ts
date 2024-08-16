@@ -1,10 +1,10 @@
-import { ModuleInstance } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { ModuleInstance } from '@xyo-network/module-model'
+import type { Payload } from '@xyo-network/payload-model'
 
-import { DivinerQueryFunctions } from './DivinerQueryFunctions.ts'
-import { DivinerModuleEventData } from './EventData.ts'
-import { DivinerModule } from './Module.ts'
-import { DivinerParams } from './Params.ts'
+import type { DivinerQueryFunctions } from './DivinerQueryFunctions.ts'
+import type { DivinerModuleEventData } from './EventData.ts'
+import type { DivinerModule } from './Module.ts'
+import type { DivinerParams } from './Params.ts'
 
 export interface DivinerInstance<
   TParams extends DivinerParams = DivinerParams,

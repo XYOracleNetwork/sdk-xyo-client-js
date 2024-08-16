@@ -1,6 +1,6 @@
-import { DivinerParams } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module-model'
+import type { DivinerParams } from '@xyo-network/diviner-model'
+import type { AnyConfigSchema } from '@xyo-network/module-model'
 
-import { SchemaListDivinerConfig } from './Config.ts'
+import type { SchemaListDivinerConfig } from './Config.ts'
 
 export type SchemaListDivinerParams = DivinerParams<AnyConfigSchema<SchemaListDivinerConfig>>

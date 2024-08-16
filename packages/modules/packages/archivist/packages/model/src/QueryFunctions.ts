@@ -1,9 +1,9 @@
-import { Hash } from '@xylabs/hex'
-import { Promisable, PromisableArray } from '@xylabs/promise'
-import { ModuleQueryFunctions } from '@xyo-network/module-model'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import type { Hash } from '@xylabs/hex'
+import type { Promisable, PromisableArray } from '@xylabs/promise'
+import type { ModuleQueryFunctions } from '@xyo-network/module-model'
+import type { Payload, WithMeta } from '@xyo-network/payload-model'
 
-import { NextOptions } from './NextOptions.ts'
+import type { NextOptions } from './NextOptions.ts'
 
 export interface ReadArchivist<TReadResponse, TId = string> {
   all(): PromisableArray<TReadResponse>

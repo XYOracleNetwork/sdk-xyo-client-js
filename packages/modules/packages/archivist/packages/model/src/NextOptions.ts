@@ -1,4 +1,4 @@
-import { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/hex'
 
 export interface NextOptions<TId = string> {
   limit?: number

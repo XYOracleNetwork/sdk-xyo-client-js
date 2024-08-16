@@ -1,15 +1,17 @@
 import { assertEx } from '@xylabs/assert'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import {
-  JsonPathAggregateDivinerConfigSchema,
+import type {
   JsonPathAggregateDivinerParams,
   PayloadTransformer,
   SchemaToJsonPathTransformExpressionsDictionary,
-  SchemaToPayloadTransformersDictionary,
+  SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
+import {
+  JsonPathAggregateDivinerConfigSchema,
 } from '@xyo-network/diviner-jsonpath-aggregate-model'
-import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import { Payload, PayloadSchema, Schema, WithOptionalMeta } from '@xyo-network/payload-model'
+import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import type { Payload, Schema, WithOptionalMeta } from '@xyo-network/payload-model'
+import { PayloadSchema } from '@xyo-network/payload-model'
 import { combinationsByBoundwitness, combinationsBySchema } from '@xyo-network/payload-utils'
 
 import { jsonPathToTransformersDictionary, reducePayloads } from './jsonpath/index.ts'

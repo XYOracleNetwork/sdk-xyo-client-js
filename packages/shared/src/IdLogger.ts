@@ -1,4 +1,5 @@
-import { getFunctionName, Logger } from '@xylabs/logger'
+import type { Logger } from '@xylabs/logger'
+import { getFunctionName } from '@xylabs/logger'
 
 /** @deprecated use from @xylabs/logger instead */
 export class IdLogger implements Logger {
@@ -38,10 +39,10 @@ export class IdLogger implements Logger {
     const idString = this._id ? `[${this._id}] ` : ''
     return `${tag} ${idString}${
       typeof message === 'string'
-? message
-      : typeof message === 'object'
-? JSON.stringify(message, undefined, 2)
-      : `${message}`
+        ? message
+        : typeof message === 'object'
+          ? JSON.stringify(message, undefined, 2)
+          : `${message}`
     }`
   }
 }

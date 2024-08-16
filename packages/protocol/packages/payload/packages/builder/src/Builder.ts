@@ -1,12 +1,14 @@
 import { assertEx } from '@xylabs/assert'
-import { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/hex'
 import { omitBy } from '@xylabs/lodash'
-import { AnyObject, isJsonObject, JsonArray, JsonObject } from '@xylabs/object'
+import type { AnyObject, JsonArray, JsonObject } from '@xylabs/object'
+import { isJsonObject } from '@xylabs/object'
 import { PayloadHasher } from '@xyo-network/hash'
-import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
+import type { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
-import { PayloadBuilderBase, removeMetaAndSchema, WithoutMeta, WithoutSchema } from './BuilderBase.ts'
-import { PayloadBuilderOptions } from './Options.ts'
+import type { WithoutMeta, WithoutSchema } from './BuilderBase.ts'
+import { PayloadBuilderBase, removeMetaAndSchema } from './BuilderBase.ts'
+import type { PayloadBuilderOptions } from './Options.ts'
 
 export interface BuildOptions {
   stamp?: boolean

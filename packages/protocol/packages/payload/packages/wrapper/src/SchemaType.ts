@@ -1,5 +1,5 @@
-import { Payload } from '@xyo-network/payload-model'
-import { JSONSchemaType } from 'ajv'
+import type { Payload } from '@xyo-network/payload-model'
+import type { JSONSchemaType } from 'ajv'
 
 const SchemaRegEx = String.raw`^((?!-)[a-z0-9-]{1, 63}(?<!-)\.)+$`
 

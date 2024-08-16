@@ -1,14 +1,15 @@
 import { assertEx } from '@xylabs/assert'
-import {
+import type {
   CreatableModuleFactory,
   CreatableModuleRegistry,
+  LabeledCreatableModuleFactory,
+  Labels } from '@xyo-network/module-model'
+import {
   hasAllLabels,
   hasLabels,
-  LabeledCreatableModuleFactory,
-  Labels,
   registerCreatableModuleFactory,
 } from '@xyo-network/module-model'
-import { Schema } from '@xyo-network/payload-model'
+import type { Schema } from '@xyo-network/payload-model'
 
 import { standardCreatableFactories } from './standardCreatableFactories.ts'
 

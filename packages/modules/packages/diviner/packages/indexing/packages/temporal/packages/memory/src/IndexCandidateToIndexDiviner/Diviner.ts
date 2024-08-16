@@ -1,20 +1,23 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Hash } from '@xylabs/hex'
-import { BoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import type { Hash } from '@xylabs/hex'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { jsonPathToTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-memory'
-import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
+import type { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
+import type {
+  TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
+  TemporalIndexingDivinerResultIndex } from '@xyo-network/diviner-temporal-indexing-model'
 import {
   TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema,
-  TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
-  TemporalIndexingDivinerResultIndex,
   TemporalIndexingDivinerResultIndexSchema,
 } from '@xyo-network/diviner-temporal-indexing-model'
-import { Labels } from '@xyo-network/module-model'
+import type { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isAnyPayload, Payload, Schema } from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
+import { isAnyPayload } from '@xyo-network/payload-model'
 import { intraBoundwitnessSchemaCombinations } from '@xyo-network/payload-utils'
 
 type IndexableHashes = [Hash, ...Hash[]]

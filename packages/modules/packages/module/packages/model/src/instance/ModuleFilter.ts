@@ -1,14 +1,15 @@
-import { ModuleInstance } from './Instance.ts'
-import {
+import type { ModuleInstance } from './Instance.ts'
+import type {
   AddressObjectFilter,
   AnyObjectFilter,
-  isAddressObjectFilter,
-  isNameObjectFilter,
-  isQueryObjectFilter,
   NameObjectFilter,
   ObjectFilter,
   ObjectFilterOptions,
-  QueryObjectFilter,
+  QueryObjectFilter } from './ObjectFilter.ts'
+import {
+  isAddressObjectFilter,
+  isNameObjectFilter,
+  isQueryObjectFilter,
 } from './ObjectFilter.ts'
 
 export interface ModuleFilterOptions<T extends ModuleInstance = ModuleInstance> extends ObjectFilterOptions<T> {}

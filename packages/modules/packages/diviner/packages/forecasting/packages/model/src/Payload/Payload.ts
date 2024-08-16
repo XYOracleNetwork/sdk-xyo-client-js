@@ -1,7 +1,7 @@
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 import { ForecastingDivinerSchema } from '../Schema.ts'
-import { Forecast } from './Forecast.ts'
+import type { Forecast } from './Forecast.ts'
 
 export type ForecastPayloadSchema = `${ForecastingDivinerSchema}.forecast`
 export const ForecastPayloadSchema: ForecastPayloadSchema = `${ForecastingDivinerSchema}.forecast`

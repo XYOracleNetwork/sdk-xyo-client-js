@@ -1,6 +1,6 @@
-import { AnyConfigSchema, ModuleParams, ModuleResolverInstance } from '@xyo-network/module-model'
+import type { AnyConfigSchema, ModuleParams, ModuleResolverInstance } from '@xyo-network/module-model'
 
-import { BridgeConfig } from './Config.ts'
+import type { BridgeConfig } from './Config.ts'
 
 export interface BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = AnyConfigSchema<BridgeConfig>>
   extends ModuleParams<TConfig>,

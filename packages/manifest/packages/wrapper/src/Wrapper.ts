@@ -1,13 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
-import { ModuleManifest, NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
+import type { ModuleManifest, NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
-import { isModuleName, ModuleIdentifierTransformer, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
+import type { ModuleIdentifierTransformer, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
+import { isModuleName } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { NodeInstance } from '@xyo-network/node-model'
-import { WithAnySchema } from '@xyo-network/payload-model'
+import type { NodeInstance } from '@xyo-network/node-model'
+import type { WithAnySchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { WalletInstance } from '@xyo-network/wallet-model'
+import type { WalletInstance } from '@xyo-network/wallet-model'
 
 /** Provides functionality that can be performed on a PackageManifest */
 export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayload> | void = void> extends PayloadWrapper<

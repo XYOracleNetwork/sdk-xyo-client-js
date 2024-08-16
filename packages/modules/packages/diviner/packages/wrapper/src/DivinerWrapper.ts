@@ -1,17 +1,18 @@
-import { RetryConfig } from '@xylabs/retry'
-import { AccountInstance } from '@xyo-network/account-model'
-import {
+import type { RetryConfig } from '@xylabs/retry'
+import type { AccountInstance } from '@xyo-network/account-model'
+import type {
   DivinerDivineQuery,
-  DivinerDivineQuerySchema,
   DivinerInstance,
   DivinerModule,
-  DivinerParams,
+  DivinerParams } from '@xyo-network/diviner-model'
+import {
+  DivinerDivineQuerySchema,
   isDivinerInstance,
   isDivinerModule,
 } from '@xyo-network/diviner-model'
-import { ModuleQueryResult } from '@xyo-network/module-model'
+import type { ModuleQueryResult } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
-import { Payload, WithMeta, WithSources } from '@xyo-network/payload-model'
+import type { Payload, WithMeta, WithSources } from '@xyo-network/payload-model'
 
 constructableModuleWrapper()
 export class DivinerWrapper<TWrappedModule extends DivinerModule<DivinerParams>, TIn extends Payload = Payload, TOut extends Payload = Payload>

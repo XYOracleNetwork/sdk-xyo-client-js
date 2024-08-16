@@ -1,5 +1,5 @@
-import { WithMeta } from '../Meta.ts'
-import { Payload } from '../Payload.ts'
+import type { WithMeta } from '../Meta.ts'
+import type { Payload } from '../Payload.ts'
 
 const TestPayloadSchema = 'com.test.schema'
 type TestPayloadSchema = typeof TestPayloadSchema

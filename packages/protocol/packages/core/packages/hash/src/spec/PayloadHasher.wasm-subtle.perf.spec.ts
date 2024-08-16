@@ -1,5 +1,5 @@
 import { delay } from '@xylabs/delay'
-import { AnyObject } from '@xylabs/object'
+import type { AnyObject } from '@xylabs/object'
 
 import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher'
 

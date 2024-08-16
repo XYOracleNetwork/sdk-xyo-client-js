@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { mapValues, merge, omitBy, pickBy } from '@xylabs/lodash'
-import { EmptyObject, isObject } from '@xylabs/object'
+import type { EmptyObject } from '@xylabs/object'
+import { isObject } from '@xylabs/object'
 type ValueKeyIteratee<T> = (value: T, key: string) => unknown
 
 export const deepBy = <T extends EmptyObject>(obj: T, predicate: ValueKeyIteratee<T>, func: typeof omitBy | typeof pickBy): T => {

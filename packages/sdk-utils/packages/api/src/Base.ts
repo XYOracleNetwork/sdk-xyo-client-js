@@ -1,5 +1,5 @@
 import { AxiosJson } from '@xylabs/axios'
-import {
+import type {
   ApiConfig,
   ApiEnvelope,
   ApiError,

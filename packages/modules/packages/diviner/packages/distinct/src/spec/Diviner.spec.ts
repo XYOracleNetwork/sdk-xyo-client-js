@@ -1,5 +1,5 @@
-import { AnyObject } from '@xylabs/object'
-import { Payload } from '@xyo-network/payload-model'
+import type { AnyObject } from '@xylabs/object'
+import type { Payload } from '@xyo-network/payload-model'
 
 import { DistinctDiviner } from '../Diviner.ts'
 describe('RangeDiviner', () => {

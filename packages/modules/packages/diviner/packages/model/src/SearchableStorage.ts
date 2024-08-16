@@ -1,4 +1,4 @@
-import { ModuleIdentifier } from '@xyo-network/module-model'
+import type { ModuleIdentifier } from '@xyo-network/module-model'
 
 /**
  * Configuration for searchable storage of local state

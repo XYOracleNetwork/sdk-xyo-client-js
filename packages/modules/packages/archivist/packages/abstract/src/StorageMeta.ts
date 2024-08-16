@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
+import type { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
 export interface StorageMeta {
   _sequence: bigint

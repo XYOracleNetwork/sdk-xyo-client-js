@@ -7,23 +7,23 @@
   },
   "bugs": {
     "email": "support@xyo.network",
-    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^4.0.0",
-    "@xylabs/exists": "^4.0.0",
-    "@xylabs/hex": "^4.0.0",
-    "@xylabs/lodash": "^4.0.0",
-    "@xylabs/object": "^4.0.0",
-    "@xylabs/promise": "^4.0.0",
+    "@xylabs/assert": "^4.0.2",
+    "@xylabs/exists": "^4.0.2",
+    "@xylabs/hex": "^4.0.2",
+    "@xylabs/lodash": "^4.0.2",
+    "@xylabs/object": "^4.0.2",
+    "@xylabs/promise": "^4.0.2",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "lru-cache": "^11.0.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.15",
-    "@xylabs/tsconfig": "^4.0.0-rc.15",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.20",
+    "@xylabs/tsconfig": "^4.0.0-rc.20",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.7",
     "typescript": "^5.5.4"
@@ -45,7 +45,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
   "version": "3.0.2",

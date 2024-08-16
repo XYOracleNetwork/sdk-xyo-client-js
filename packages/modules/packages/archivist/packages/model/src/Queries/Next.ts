@@ -1,6 +1,6 @@
-import { Query } from '@xyo-network/payload-model'
+import type { Query } from '@xyo-network/payload-model'
 
-import { ArchivistNextOptions } from '../NextOptions.ts'
+import type { ArchivistNextOptions } from '../NextOptions.ts'
 
 export type ArchivistNextQuerySchema = 'network.xyo.query.archivist.next'
 export const ArchivistNextQuerySchema: ArchivistNextQuerySchema = 'network.xyo.query.archivist.next'

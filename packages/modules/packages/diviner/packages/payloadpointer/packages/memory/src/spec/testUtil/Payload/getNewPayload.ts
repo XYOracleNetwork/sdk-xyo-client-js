@@ -1,5 +1,5 @@
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import { v4 as uuid } from 'uuid'
 
 import { schema } from './schema.ts'

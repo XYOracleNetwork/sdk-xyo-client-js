@@ -1,6 +1,6 @@
-import { EmptyObject, WithAdditional } from '@xylabs/object'
-import { DivinerConfig } from '@xyo-network/diviner-model'
-import { Schema } from '@xyo-network/payload-model'
+import type { EmptyObject, WithAdditional } from '@xylabs/object'
+import type { DivinerConfig } from '@xyo-network/diviner-model'
+import type { Schema } from '@xyo-network/payload-model'
 
 import { PayloadDivinerSchema } from './Schema.ts'
 

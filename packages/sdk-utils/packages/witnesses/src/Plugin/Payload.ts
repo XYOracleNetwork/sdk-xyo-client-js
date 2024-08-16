@@ -1,4 +1,4 @@
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 export type PluginPayload = Payload<{
   language?: 'swift' | 'kotlin' | 'js' | string

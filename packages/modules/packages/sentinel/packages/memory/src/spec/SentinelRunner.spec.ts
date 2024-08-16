@@ -1,17 +1,19 @@
 import { delay } from '@xylabs/delay'
-import { AbstractWitness } from '@xyo-network/abstract-witness'
+import type { AbstractWitness } from '@xyo-network/abstract-witness'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
-import {
+import type {
   SentinelConfig,
+  SentinelIntervalAutomationPayload } from '@xyo-network/sentinel-model'
+import {
   SentinelConfigSchema,
-  SentinelIntervalAutomationPayload,
   SentinelIntervalAutomationSchema,
 } from '@xyo-network/sentinel-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 
 import { MemorySentinel } from '../MemorySentinel'
-import { OnSentinelRunnerTriggerResult, SentinelRunner } from '../SentinelRunner'
+import type { OnSentinelRunnerTriggerResult } from '../SentinelRunner'
+import { SentinelRunner } from '../SentinelRunner'
 
 /**
  * @group sentinel

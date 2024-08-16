@@ -1,14 +1,15 @@
-import { Address } from '@xylabs/hex'
-import { IsObjectFactory, toJsonString, TypeCheck } from '@xylabs/object'
-import { Promisable } from '@xylabs/promise'
-import { AccountInstance } from '@xyo-network/account-model'
+import type { Address } from '@xylabs/hex'
+import type { TypeCheck } from '@xylabs/object'
+import { IsObjectFactory, toJsonString } from '@xylabs/object'
+import type { Promisable } from '@xylabs/promise'
+import type { AccountInstance } from '@xyo-network/account-model'
 
-import { ModuleEventData } from '../EventsModels/index.ts'
-import { Module, ModuleQueryFunctions } from '../module/index.ts'
-import { ModuleIdentifier, ModuleName } from '../ModuleIdentifier.ts'
-import { ModuleParams } from '../ModuleParams.ts'
-import { Direction } from './ObjectFilter.ts'
-import { ObjectResolver } from './ObjectResolver.ts'
+import type { ModuleEventData } from '../EventsModels/index.ts'
+import type { Module, ModuleQueryFunctions } from '../module/index.ts'
+import type { ModuleIdentifier, ModuleName } from '../ModuleIdentifier.ts'
+import type { ModuleParams } from '../ModuleParams.ts'
+import type { Direction } from './ObjectFilter.ts'
+import type { ObjectResolver } from './ObjectResolver.ts'
 
 export type ModulePipeLine = Lowercase<'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many'>
 

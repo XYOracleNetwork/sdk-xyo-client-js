@@ -1,8 +1,8 @@
 import { AsObjectFactory } from '@xylabs/object'
 import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
 
-import { ArchivistInstance } from './Instance.ts'
-import { ArchivistModule } from './Module.ts'
+import type { ArchivistInstance } from './Instance.ts'
+import type { ArchivistModule } from './Module.ts'
 import { ArchivistGetQuerySchema } from './Queries/index.ts'
 
 export const isArchivistInstance = new IsInstanceFactory<ArchivistInstance>().create({ get: 'function' }, [isModuleInstance])

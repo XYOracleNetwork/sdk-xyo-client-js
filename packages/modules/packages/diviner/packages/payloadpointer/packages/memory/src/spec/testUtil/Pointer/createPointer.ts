@@ -1,11 +1,12 @@
-import { Order } from '@xyo-network/diviner-payload-model'
-import {
+import type { Order } from '@xyo-network/diviner-payload-model'
+import type {
   PayloadAddressRule,
   PayloadPointerPayload,
-  PayloadPointerSchema,
   PayloadRule,
   PayloadSchemaRule,
-  PayloadTimestampOrderRule,
+  PayloadTimestampOrderRule } from '@xyo-network/diviner-payload-pointer-model'
+import {
+  PayloadPointerSchema,
 } from '@xyo-network/diviner-payload-pointer-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 

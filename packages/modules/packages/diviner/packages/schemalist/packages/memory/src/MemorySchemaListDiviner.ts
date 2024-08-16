@@ -1,18 +1,19 @@
 import { distinct } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
-import { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 import { isBoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { SchemaListDiviner } from '@xyo-network/diviner-schema-list-abstract'
+import type {
+  SchemaListDivinerParams,
+  SchemaListPayload,
+  SchemaListQueryPayload } from '@xyo-network/diviner-schema-list-model'
 import {
   isSchemaListQueryPayload,
   SchemaListDivinerConfigSchema,
-  SchemaListDivinerParams,
   SchemaListDivinerSchema,
-  SchemaListPayload,
-  SchemaListQueryPayload,
 } from '@xyo-network/diviner-schema-list-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
 export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = SchemaListDivinerParams> extends SchemaListDiviner<TParams> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, SchemaListDivinerConfigSchema]

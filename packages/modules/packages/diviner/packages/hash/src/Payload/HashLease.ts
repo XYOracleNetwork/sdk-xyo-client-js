@@ -1,4 +1,4 @@
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 export const HashLeaseSchema = 'network.xyo.hash.lease' as const
 export type HashLeaseSchema = typeof HashLeaseSchema

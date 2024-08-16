@@ -1,20 +1,21 @@
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
-import { Hash } from '@xylabs/hex'
-import { EmptyObject, JsonObject } from '@xylabs/object'
-import { ArchivistInstance, ArchivistModuleEventData } from '@xyo-network/archivist-model'
-import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import type { Hash } from '@xylabs/hex'
+import type { EmptyObject, JsonObject } from '@xylabs/object'
+import type { ArchivistInstance, ArchivistModuleEventData } from '@xyo-network/archivist-model'
+import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
-import {
-  isPayloadDivinerQueryPayload,
+import type {
   Order,
   PayloadDivinerConfig,
   PayloadDivinerParams,
-  PayloadDivinerQueryPayload,
+  PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
+import {
+  isPayloadDivinerQueryPayload,
 } from '@xyo-network/diviner-payload-model'
-import { EventListener } from '@xyo-network/module-events'
+import type { EventListener } from '@xyo-network/module-events'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
+import type { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
 const DEFAULT_INDEX_BATCH_SIZE = 100 as const

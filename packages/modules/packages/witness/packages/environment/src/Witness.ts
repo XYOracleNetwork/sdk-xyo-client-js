@@ -1,11 +1,13 @@
-import { JsonValue } from '@xylabs/object'
+import type { JsonValue } from '@xylabs/object'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import { Payload, Schema } from '@xyo-network/payload-model'
-import { Value, ValueSchema } from '@xyo-network/value-payload-plugin'
+import type { Payload, Schema } from '@xyo-network/payload-model'
+import type { Value } from '@xyo-network/value-payload-plugin'
+import { ValueSchema } from '@xyo-network/value-payload-plugin'
 
 import { EnvironmentWitnessConfigSchema } from './Config.ts'
-import { EnvironmentWitnessParams } from './Params.ts'
-import { EnvironmentSubset, isEnvironmentSubsetPayload } from './Payload.ts'
+import type { EnvironmentWitnessParams } from './Params.ts'
+import type { EnvironmentSubset } from './Payload.ts'
+import { isEnvironmentSubsetPayload } from './Payload.ts'
 
 const schema = ValueSchema
 

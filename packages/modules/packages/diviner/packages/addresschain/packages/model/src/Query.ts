@@ -1,4 +1,4 @@
-import { Payload, PayloadFindFilter, Query } from '@xyo-network/payload-model'
+import type { Payload, PayloadFindFilter, Query } from '@xyo-network/payload-model'
 
 import { AddressChainQuerySchema } from './Schema.ts'
 

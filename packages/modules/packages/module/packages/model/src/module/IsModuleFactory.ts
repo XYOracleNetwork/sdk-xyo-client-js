@@ -1,9 +1,9 @@
-import { AnyObject, EmptyObject, TypeCheck } from '@xylabs/object'
-import { AnyNonPromise } from '@xylabs/promise'
+import type { AnyObject, EmptyObject, TypeCheck } from '@xylabs/object'
+import type { AnyNonPromise } from '@xylabs/promise'
 
 import { asModuleObject } from './asModuleObject.ts'
 import { isModuleObject } from './isModuleObject.ts'
-import { Module } from './Module.ts'
+import type { Module } from './Module.ts'
 
 export type ModuleTypeCheck<T extends Module = Module> = TypeCheck<T>
 

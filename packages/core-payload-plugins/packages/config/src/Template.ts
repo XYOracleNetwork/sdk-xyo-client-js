@@ -1,4 +1,4 @@
-import { ConfigPayload } from './Payload.ts'
+import type { ConfigPayload } from './Payload.ts'
 import { ConfigSchema } from './Schema.ts'
 
 export const configPayloadTemplate = (): ConfigPayload => ({

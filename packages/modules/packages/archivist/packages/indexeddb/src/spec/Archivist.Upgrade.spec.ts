@@ -1,8 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import { Account, AccountInstance } from '@xyo-network/account'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
+import type { AccountInstance } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import {
   IDBCursor,
@@ -20,7 +21,8 @@ import {
 } from 'fake-indexeddb'
 
 import { IndexedDbArchivist } from '../Archivist.ts'
-import { IndexedDbArchivistConfig, IndexedDbArchivistConfigSchema } from '../Config.ts'
+import type { IndexedDbArchivistConfig } from '../Config.ts'
+import { IndexedDbArchivistConfigSchema } from '../Config.ts'
 
 // Augment window with prototypes to ensure instance of comparisons work
 window.IDBCursor = IDBCursor

@@ -3,18 +3,21 @@
 
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
-import { ApiConfig } from '@xyo-network/api-models'
+import type { ApiConfig } from '@xyo-network/api-models'
+import type {
+  AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import {
   asArchivistInstance,
   asAttachableArchivistInstance,
-  AttachableArchivistInstance,
   isAttachableArchivistInstance,
 } from '@xyo-network/archivist-model'
-import { isModule, isModuleInstance, isModuleObject, ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'
+import type { ModuleDescriptionPayload } from '@xyo-network/module-model'
+import { isModule, isModuleInstance, isModuleObject, ModuleDescriptionSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance, isNodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'

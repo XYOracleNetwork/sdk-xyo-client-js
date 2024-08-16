@@ -1,5 +1,5 @@
-import { ArchivistInstance } from '@xyo-network/archivist-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 import { getNewPayload } from './getNewPayload.ts'
 

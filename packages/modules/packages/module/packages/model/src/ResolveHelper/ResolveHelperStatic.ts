@@ -1,6 +1,6 @@
-import { Logger } from '@xylabs/logger'
+import type { Logger } from '@xylabs/logger'
 
-import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.ts'
+import type { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.ts'
 
 // eslint-disable-next-line unicorn/no-static-only-class
 export class ResolveHelperStatic {

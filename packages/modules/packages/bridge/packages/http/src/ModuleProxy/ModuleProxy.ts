@@ -1,20 +1,23 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
-import { Address, isAddress } from '@xylabs/hex'
-import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/bridge-abstract'
-import {
+import type { Address } from '@xylabs/hex'
+import { isAddress } from '@xylabs/hex'
+import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { ModuleProxyParams } from '@xyo-network/bridge-abstract'
+import { AbstractModuleProxy } from '@xyo-network/bridge-abstract'
+import type {
   AttachableModuleInstance,
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
   ModuleQueryResult,
+  ResolveHelperConfig } from '@xyo-network/module-model'
+import {
   ResolveHelper,
-  ResolveHelperConfig,
 } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 export interface BridgeQuerySender {
   sendBridgeQuery: <TOut extends Payload = Payload, TQuery extends QueryBoundWitness = QueryBoundWitness, TIn extends Payload = Payload>(

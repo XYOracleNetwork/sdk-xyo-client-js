@@ -1,14 +1,15 @@
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import { DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
-import {
+import type { DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
+import type {
   PayloadTransformer,
   Transform,
-  TransformDivinerConfig,
+  TransformDivinerConfig } from '@xyo-network/diviner-transform-model'
+import {
   TransformDivinerConfigSchema,
   TransformDivinerSchema,
 } from '@xyo-network/diviner-transform-model'
-import { AnyConfigSchema } from '@xyo-network/module-model'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import type { AnyConfigSchema } from '@xyo-network/module-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
 export type TransformDivinerParams = DivinerParams<AnyConfigSchema<TransformDivinerConfig>>
 

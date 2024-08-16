@@ -1,7 +1,7 @@
 import { delay } from '@xylabs/delay'
-import { Promisable } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/promise'
 
-import { EventData } from '../../model'
+import type { EventData } from '../../model'
 import { Events } from '../Events'
 
 type ParentTestEvents = {

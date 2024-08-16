@@ -1,22 +1,27 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { BoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
-import { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
+import type { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
+import type { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
+import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import type { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
+import type {
+  TemporalIndexingDivinerStateToIndexCandidateDivinerParams } from '@xyo-network/diviner-temporal-indexing-model'
 import {
   TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema,
-  TemporalIndexingDivinerStateToIndexCandidateDivinerParams,
 } from '@xyo-network/diviner-temporal-indexing-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import { isModuleState, Labels, ModuleIdentifier, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
+import type { Labels, ModuleIdentifier, ModuleState } from '@xyo-network/module-model'
+import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 import { intraBoundwitnessSchemaCombinations } from '@xyo-network/payload-utils'
-import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
+import type { TimeStamp } from '@xyo-network/witness-timestamp'
+import { TimestampSchema } from '@xyo-network/witness-timestamp'
 
 /**
  * All Payload types involved in index candidates for indexing

@@ -1,5 +1,6 @@
 import { MemoryNode } from '@xyo-network/node-memory'
-import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
+import type { NodeInstance } from '@xyo-network/node-model'
+import { NodeConfigSchema } from '@xyo-network/node-model'
 
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
 import { HttpBridge } from '../HttpBridgeFull.ts'

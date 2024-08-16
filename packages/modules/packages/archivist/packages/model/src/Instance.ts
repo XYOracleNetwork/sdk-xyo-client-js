@@ -1,11 +1,11 @@
-import { ModuleInstance } from '@xyo-network/module-model'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import type { ModuleInstance } from '@xyo-network/module-model'
+import type { Payload, WithMeta } from '@xyo-network/payload-model'
 
-import { ArchivistModuleEventData } from './EventData.ts'
-import { ArchivistModule } from './Module.ts'
-import { ArchivistParams } from './Params.ts'
-import { ArchivistQueryFunctions } from './QueryFunctions.ts'
-import { ArchivistRawQueryFunctions } from './RawQueryFunctions.ts'
+import type { ArchivistModuleEventData } from './EventData.ts'
+import type { ArchivistModule } from './Module.ts'
+import type { ArchivistParams } from './Params.ts'
+import type { ArchivistQueryFunctions } from './QueryFunctions.ts'
+import type { ArchivistRawQueryFunctions } from './RawQueryFunctions.ts'
 
 export interface ArchivistInstance<
   TParams extends ArchivistParams = ArchivistParams,

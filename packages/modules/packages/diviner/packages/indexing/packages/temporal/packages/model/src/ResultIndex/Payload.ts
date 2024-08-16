@@ -1,5 +1,6 @@
-import { Hash } from '@xylabs/hex'
-import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
+import type { Hash } from '@xylabs/hex'
+import type { Payload, WithMeta } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerResultIndexSchema } from './Schema.ts'
 

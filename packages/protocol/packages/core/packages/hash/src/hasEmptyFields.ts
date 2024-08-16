@@ -1,4 +1,4 @@
-import { EmptyObject } from '@xylabs/object'
+import type { EmptyObject } from '@xylabs/object'
 import { typeOf } from '@xylabs/typeof'
 
 export const hasEmptyFields = <T extends EmptyObject>(obj: T): boolean => {

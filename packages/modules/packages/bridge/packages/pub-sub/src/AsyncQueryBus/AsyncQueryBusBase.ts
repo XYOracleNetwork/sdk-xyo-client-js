@@ -1,15 +1,19 @@
 import { assertEx } from '@xylabs/assert'
-import { Address } from '@xylabs/hex'
-import { Base, TypeCheck } from '@xylabs/object'
-import { ArchivistInstance, isArchivistInstance } from '@xyo-network/archivist-model'
-import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { DivinerInstance, isDivinerInstance } from '@xyo-network/diviner-model'
-import { ModuleConfig, ModuleIdentifier, ModuleInstance, ResolveHelper } from '@xyo-network/module-model'
+import type { Address } from '@xylabs/hex'
+import type { TypeCheck } from '@xylabs/object'
+import { Base } from '@xylabs/object'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import { isArchivistInstance } from '@xyo-network/archivist-model'
+import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
+import type { DivinerInstance } from '@xyo-network/diviner-model'
+import { isDivinerInstance } from '@xyo-network/diviner-model'
+import type { ModuleConfig, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { ResolveHelper } from '@xyo-network/module-model'
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
-import { AsyncQueryBusParams } from './model/index.ts'
+import type { AsyncQueryBusParams } from './model/index.ts'
 
 const POLLING_FREQUENCY_MIN = 100 as const
 const POLLING_FREQUENCY_MAX = 60_000 as const

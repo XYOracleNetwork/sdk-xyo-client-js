@@ -2,11 +2,11 @@
  * @jest-environment jsdom
  */
 import { delay } from '@xylabs/delay'
-import { Promisable } from '@xylabs/promise'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
+import type { Promisable } from '@xylabs/promise'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { CookieArchivist, CookieArchivistConfigSchema } from '../CookieArchivist'

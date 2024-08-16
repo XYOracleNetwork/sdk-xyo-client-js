@@ -1,13 +1,15 @@
 import { assertEx } from '@xylabs/assert'
-import { Hash } from '@xylabs/hex'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
-import { BoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import type { Hash } from '@xylabs/hex'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressChainDiviner } from '@xyo-network/diviner-address-chain-abstract'
-import { AddressChainDivinerConfig, AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
-import { DivinerParams } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module-model'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import type { AddressChainDivinerConfig } from '@xyo-network/diviner-address-chain-model'
+import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
+import type { DivinerParams } from '@xyo-network/diviner-model'
+import type { AnyConfigSchema } from '@xyo-network/module-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
 // This diviner returns the most recent boundwitness signed by the address that can be found
 // if multiple broken chains are found, all the heads are returned

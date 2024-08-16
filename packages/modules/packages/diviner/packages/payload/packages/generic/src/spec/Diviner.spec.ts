@@ -1,11 +1,12 @@
 /* eslint-disable max-nested-callbacks */
-import { Hash } from '@xylabs/hex'
-import { EmptyObject } from '@xylabs/object'
+import type { Hash } from '@xylabs/hex'
+import type { EmptyObject } from '@xylabs/object'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
+import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
+import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { PayloadWithMeta } from '@xyo-network/payload-model'
+import type { PayloadWithMeta } from '@xyo-network/payload-model'
 
 import { GenericPayloadDiviner, GenericPayloadDivinerConfigSchema } from '../Diviner.ts'
 

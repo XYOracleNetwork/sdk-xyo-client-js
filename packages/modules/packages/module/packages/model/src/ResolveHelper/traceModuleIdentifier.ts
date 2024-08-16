@@ -1,8 +1,9 @@
 import { assertEx } from '@xylabs/assert'
-import { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 
-import { asModuleInstance, ModuleResolver } from '../instance/index.ts'
-import { ModuleIdentifier } from '../ModuleIdentifier.ts'
+import type { ModuleResolver } from '../instance/index.ts'
+import { asModuleInstance } from '../instance/index.ts'
+import type { ModuleIdentifier } from '../ModuleIdentifier.ts'
 
 export const traceModuleIdentifier = async (resolver: ModuleResolver, path: ModuleIdentifier): Promise<Address[]> => {
   const parts = path.split(':')

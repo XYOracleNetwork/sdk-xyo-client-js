@@ -1,5 +1,6 @@
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
-import { HttpBridge, HttpBridgeParams } from '../HttpBridgeFull'
+import type { HttpBridgeParams } from '../HttpBridgeFull'
+import { HttpBridge } from '../HttpBridgeFull'
 
 describe('HttpBridge', () => {
   let httpBridge: HttpBridge<HttpBridgeParams>

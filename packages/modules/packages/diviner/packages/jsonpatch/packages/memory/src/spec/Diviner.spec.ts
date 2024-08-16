@@ -1,6 +1,8 @@
-import { HDWallet, WalletInstance } from '@xyo-network/account'
-import { JsonPatchDivinerConfig, JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { WalletInstance } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
+import type { JsonPatchDivinerConfig } from '@xyo-network/diviner-jsonpatch-model'
+import { JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 import { JsonPatchDiviner } from '../Diviner.ts'
 

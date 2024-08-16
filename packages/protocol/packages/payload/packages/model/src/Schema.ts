@@ -1,4 +1,5 @@
-import { AsTypeFactory, EmptyObject } from '@xylabs/object'
+import type { EmptyObject } from '@xylabs/object'
+import { AsTypeFactory } from '@xylabs/object'
 
 /** Schema type in Javascript is a string */
 export type Schema = string

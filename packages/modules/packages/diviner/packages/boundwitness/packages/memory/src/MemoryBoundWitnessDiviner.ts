@@ -2,14 +2,16 @@ import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { hexFromHexString } from '@xylabs/hex'
-import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
-import {
+import type {
   BoundWitnessDivinerParams,
-  BoundWitnessDivinerQueryPayload,
+  BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
+import {
   isBoundWitnessDivinerQueryPayload,
 } from '@xyo-network/diviner-boundwitness-model'
-import { WithMeta } from '@xyo-network/payload-model'
+import type { WithMeta } from '@xyo-network/payload-model'
 
 export interface EqualityComparisonOperators {
   /**

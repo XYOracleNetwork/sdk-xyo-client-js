@@ -1,6 +1,6 @@
-import { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 
-import { AsyncQueryBusBaseConfig } from './BaseConfig.ts'
+import type { AsyncQueryBusBaseConfig } from './BaseConfig.ts'
 
 export interface AsyncQueryBusHostConfig extends AsyncQueryBusBaseConfig {
   /**

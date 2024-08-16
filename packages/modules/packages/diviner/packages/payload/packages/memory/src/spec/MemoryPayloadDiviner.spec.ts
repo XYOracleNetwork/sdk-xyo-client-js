@@ -2,10 +2,11 @@
 
 import { delay } from '@xylabs/delay'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
+import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
+import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { PayloadWithMeta } from '@xyo-network/payload-model'
+import type { PayloadWithMeta } from '@xyo-network/payload-model'
 
 import { hasTimestamp } from '../hasTimestamp.ts'
 import { MemoryPayloadDiviner } from '../MemoryPayloadDiviner.ts'

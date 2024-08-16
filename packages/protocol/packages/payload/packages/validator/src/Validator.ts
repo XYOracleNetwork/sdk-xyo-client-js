@@ -1,6 +1,7 @@
-import { Validator, ValidatorBase } from '@xylabs/object'
-import { Promisable } from '@xylabs/promise'
-import { Payload } from '@xyo-network/payload-model'
+import type { Validator } from '@xylabs/object'
+import { ValidatorBase } from '@xylabs/object'
+import type { Promisable } from '@xylabs/promise'
+import type { Payload } from '@xyo-network/payload-model'
 import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 
 export type AllValidator = {

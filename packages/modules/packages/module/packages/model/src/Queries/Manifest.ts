@@ -1,4 +1,4 @@
-import { Query } from '@xyo-network/payload-model'
+import type { Query } from '@xyo-network/payload-model'
 
 export type ModuleManifestQuerySchema = 'network.xyo.query.module.manifest'
 export const ModuleManifestQuerySchema: ModuleManifestQuerySchema = 'network.xyo.query.module.manifest'

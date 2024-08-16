@@ -1,5 +1,5 @@
 import { HDWallet } from '@xyo-network/account'
-import { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
+import type { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 import { AddressSchema } from '@xyo-network/module-model'
 
 import { ManifestWrapper } from '../Wrapper'

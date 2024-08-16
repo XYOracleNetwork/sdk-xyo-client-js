@@ -1,5 +1,5 @@
-import { Address, Hex } from '@xylabs/hex'
-import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
+import type { Address, Hex } from '@xylabs/hex'
+import type { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import { defaultPath, Mnemonic, SigningKey } from 'ethers'
 
 import { HDWallet } from '../../HDWallet'

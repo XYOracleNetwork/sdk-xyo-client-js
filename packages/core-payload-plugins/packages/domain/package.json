@@ -7,13 +7,13 @@
   },
   "bugs": {
     "email": "support@xyo.network",
-    "url": "https://github.com/XYOracleNetwork/plugins/issues"
+    "url": "git+https://github.com/XYOracleNetwork/plugins/issues"
   },
   "dependencies": {
-    "@xylabs/axios": "^4.0.0",
-    "@xylabs/hex": "^4.0.0",
-    "@xylabs/object": "^4.0.0",
-    "@xylabs/platform": "^4.0.0",
+    "@xylabs/axios": "^4.0.2",
+    "@xylabs/hex": "^4.0.2",
+    "@xylabs/object": "^4.0.2",
+    "@xylabs/platform": "^4.0.2",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/dns": "workspace:^",
     "@xyo-network/huri": "workspace:^",
@@ -22,12 +22,12 @@
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
-    "axios": "^1.7.3"
+    "axios": "^1.7.4"
   },
   "devDependencies": {
-    "@types/node": "^22.2.0",
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.15",
-    "@xylabs/tsconfig": "^4.0.0-rc.15",
+    "@types/node": "^22.4.0",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.20",
+    "@xylabs/tsconfig": "^4.0.0-rc.20",
     "typescript": "^5.5.4"
   },
   "description": "Typescript/Javascript Plugins for XYO Platform",
@@ -47,7 +47,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/XYOracleNetwork/plugins.git"
+    "url": "git+https://github.com/XYOracleNetwork/plugins.git"
   },
   "sideEffects": false,
   "version": "3.0.2",

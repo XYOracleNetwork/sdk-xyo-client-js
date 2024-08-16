@@ -1,6 +1,6 @@
-import { DivinerConfig } from '@xyo-network/diviner-model'
+import type { DivinerConfig } from '@xyo-network/diviner-model'
 
-import { SchemaToJsonPathTransformExpressionsDictionary } from './jsonpath/index.ts'
+import type { SchemaToJsonPathTransformExpressionsDictionary } from './jsonpath/index.ts'
 import { JsonPathAggregateDivinerSchema } from './Schema.ts'
 
 /**

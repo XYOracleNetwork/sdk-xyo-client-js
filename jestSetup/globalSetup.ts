@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 config()
-import { Config } from 'jest'
-import { SuperTest, Test } from 'supertest'
+import type { Config } from 'jest'
+import type { SuperTest, Test } from 'supertest'
 
 // Augment global scope with shared variables (must be var)
 declare global {

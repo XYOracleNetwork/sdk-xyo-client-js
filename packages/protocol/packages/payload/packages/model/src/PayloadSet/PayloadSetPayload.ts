@@ -1,5 +1,5 @@
-import { Payload } from '../Payload.ts'
-import { PayloadSetSchema } from './PayloadSetSchema.ts'
+import type { Payload } from '../Payload.ts'
+import type { PayloadSetSchema } from './PayloadSetSchema.ts'
 
 export interface PayloadSet {
   optional?: Record<string, number>

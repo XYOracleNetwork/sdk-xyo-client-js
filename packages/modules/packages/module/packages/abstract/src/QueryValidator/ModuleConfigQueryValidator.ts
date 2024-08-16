@@ -1,9 +1,9 @@
-import { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQueries } from '@xyo-network/module-model'
-import { Schema } from '@xyo-network/payload-model'
+import type { AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQueries } from '@xyo-network/module-model'
+import type { Schema } from '@xyo-network/payload-model'
 
-import { Queryable, QueryValidator } from './QueryValidator.ts'
+import type { Queryable, QueryValidator } from './QueryValidator.ts'
 
 export type SortedPipedAddressesString = string
 

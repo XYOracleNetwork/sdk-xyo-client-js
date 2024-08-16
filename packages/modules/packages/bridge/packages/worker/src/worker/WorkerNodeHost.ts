@@ -2,13 +2,14 @@ import { generateMnemonic } from '@scure/bip39'
 // eslint-disable-next-line import-x/no-internal-modules
 import { wordlist } from '@scure/bip39/wordlists/english'
 import { forget } from '@xylabs/forget'
-import { Address } from '@xylabs/hex'
-import { Logger } from '@xylabs/logger'
+import type { Address } from '@xylabs/hex'
+import type { Logger } from '@xylabs/logger'
 import { HDWallet } from '@xyo-network/account'
-import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
-import { NodeInstance } from '@xyo-network/node-model'
+import type { PackageManifestPayload } from '@xyo-network/manifest'
+import { ManifestWrapper } from '@xyo-network/manifest'
+import type { NodeInstance } from '@xyo-network/node-model'
 
-import { Message, QueryMessage, QueryResultMessage } from '../WorkerBridge.ts'
+import type { Message, QueryMessage, QueryResultMessage } from '../WorkerBridge.ts'
 
 export type QueryEvent = MessageEvent<QueryMessage>
 

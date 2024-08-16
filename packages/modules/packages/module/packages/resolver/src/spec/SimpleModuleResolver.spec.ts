@@ -1,5 +1,7 @@
-import { ModuleConfigSchema, ModuleInstance, ModuleStateQuerySchema } from '@xyo-network/module-model'
-import { mock, MockProxy } from 'jest-mock-extended'
+import type { ModuleInstance } from '@xyo-network/module-model'
+import { ModuleConfigSchema, ModuleStateQuerySchema } from '@xyo-network/module-model'
+import type { MockProxy } from 'jest-mock-extended'
+import { mock } from 'jest-mock-extended'
 
 import { SimpleModuleResolver } from '../SimpleModuleResolver'
 

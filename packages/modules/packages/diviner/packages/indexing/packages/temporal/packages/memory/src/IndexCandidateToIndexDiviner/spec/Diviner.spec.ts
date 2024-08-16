@@ -1,10 +1,11 @@
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import type { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import { isTemporalIndexingDivinerResultIndex } from '@xyo-network/diviner-temporal-indexing-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
-import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
+import type { Payload } from '@xyo-network/payload-model'
+import type { TimeStamp } from '@xyo-network/witness-timestamp'
+import { TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../Diviner.ts'
 

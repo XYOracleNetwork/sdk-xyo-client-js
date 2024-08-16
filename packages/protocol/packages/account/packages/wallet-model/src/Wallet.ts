@@ -1,5 +1,5 @@
-import { Hex } from '@xylabs/hex'
-import { AccountConfig, AccountInstance, AccountStatic } from '@xyo-network/account-model'
+import type { Hex } from '@xylabs/hex'
+import type { AccountConfig, AccountInstance, AccountStatic } from '@xyo-network/account-model'
 import type { Mnemonic } from 'ethers'
 
 export interface WalletInstance extends AccountInstance {

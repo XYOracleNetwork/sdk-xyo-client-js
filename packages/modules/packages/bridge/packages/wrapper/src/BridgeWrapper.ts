@@ -1,19 +1,20 @@
-import { Address } from '@xylabs/hex'
-import {
+import type { Address } from '@xylabs/hex'
+import type {
   BridgeExposeOptions,
   BridgeExposeQuery,
-  BridgeExposeQuerySchema,
   BridgeInstance,
   BridgeModule,
   BridgeUnexposeOptions,
   BridgeUnexposeQuery,
+  ModuleFilterPayload } from '@xyo-network/bridge-model'
+import {
+  BridgeExposeQuerySchema,
   BridgeUnexposeQuerySchema,
   isBridgeInstance,
   isBridgeModule,
-  ModuleFilterPayload,
   ModuleFilterPayloadSchema,
 } from '@xyo-network/bridge-model'
-import { AddressPayload, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import type { AddressPayload, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 
 constructableModuleWrapper()

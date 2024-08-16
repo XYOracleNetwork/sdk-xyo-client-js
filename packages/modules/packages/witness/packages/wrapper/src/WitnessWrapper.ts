@@ -1,13 +1,14 @@
-import { AccountInstance } from '@xyo-network/account-model'
-import { ModuleQueryResult } from '@xyo-network/module-model'
+import type { AccountInstance } from '@xyo-network/account-model'
+import type { ModuleQueryResult } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
+import type {
+  WitnessInstance,
+  WitnessModule,
+  WitnessObserveQuery } from '@xyo-network/witness-model'
 import {
   isWitnessInstance,
   isWitnessModule,
-  WitnessInstance,
-  WitnessModule,
-  WitnessObserveQuery,
   WitnessObserveQuerySchema,
 } from '@xyo-network/witness-model'
 

@@ -1,5 +1,5 @@
 import { Account } from '@xyo-network/account'
-import { AccountInstance } from '@xyo-network/account-model'
+import type { AccountInstance } from '@xyo-network/account-model'
 
 let _unitTestSigningAccount: Promise<AccountInstance> | undefined
 let _otherUnitTestSigningAccount: Promise<AccountInstance> | undefined

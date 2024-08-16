@@ -1,12 +1,9 @@
 import { assertEx } from '@xylabs/assert'
-import { Address, isAddress } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
+import { isAddress } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
-import { Promisable } from '@xylabs/promise'
-import {
-  isAddressModuleFilter,
-  isModuleName,
-  isNameModuleFilter,
-  isQueryModuleFilter,
+import type { Promisable } from '@xylabs/promise'
+import type {
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
@@ -14,10 +11,16 @@ import {
   ModuleName,
   ModuleRepository,
   ModuleResolverInstance,
-  ObjectFilterOptions,
+  ObjectFilterOptions } from '@xyo-network/module-model'
+import {
+  isAddressModuleFilter,
+  isModuleName,
+  isNameModuleFilter,
+  isQueryModuleFilter,
 } from '@xyo-network/module-model'
 
-import { AbstractModuleResolver, ModuleResolverParams } from './AbstractModuleResolver.ts'
+import type { ModuleResolverParams } from './AbstractModuleResolver.ts'
+import { AbstractModuleResolver } from './AbstractModuleResolver.ts'
 
 export type SimpleModuleResolverParams = ModuleResolverParams & {
   allowNameResolution?: boolean

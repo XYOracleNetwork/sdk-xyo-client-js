@@ -1,8 +1,9 @@
 import { assertEx } from '@xylabs/assert'
-import { Hash } from '@xylabs/hex'
-import { QueryBoundWitness, QueryBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import type { Hash } from '@xylabs/hex'
+import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { QueryBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'
-import { Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import type { Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
 import { BoundWitnessBuilder } from '../Builder.ts'
 

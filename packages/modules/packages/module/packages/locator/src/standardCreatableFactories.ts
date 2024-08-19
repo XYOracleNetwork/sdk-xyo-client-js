@@ -3,6 +3,7 @@ import { ViewArchivist } from '@xyo-network/archivist-view'
 import { HttpBridge } from '@xyo-network/bridge-http'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { IdentityDiviner } from '@xyo-network/diviner-identity'
+import { GenericPayloadDiviner } from '@xyo-network/diviner-payload-generic'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
 import type { CreatableModuleFactory, LabeledCreatableModuleFactory } from '@xyo-network/module-model'
 import { registerCreatableModuleFactories } from '@xyo-network/module-model'
@@ -24,6 +25,7 @@ export const standardCreatableFactoriesList: (CreatableModuleFactory | LabeledCr
   MemoryArchivist,
   MemoryNode,
   MemorySentinel,
+  GenericPayloadDiviner,
 ]
 
 export const standardCreatableFactories = () => {

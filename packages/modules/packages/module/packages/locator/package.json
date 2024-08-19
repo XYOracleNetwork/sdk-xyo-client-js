@@ -16,6 +16,7 @@
     "@xyo-network/bridge-http": "workspace:^",
     "@xyo-network/diviner-boundwitness-memory": "workspace:^",
     "@xyo-network/diviner-identity": "workspace:^",
+    "@xyo-network/diviner-payload-generic": "workspace:^",
     "@xyo-network/diviner-payload-memory": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

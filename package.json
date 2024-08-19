@@ -27,7 +27,7 @@
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^8.1.0",
     "@typescript-eslint/parser": "^8.1.0",
-    "@xylabs/eslint-config-flat": "^4.0.0-rc.15",
+    "@xylabs/eslint-config-flat": "^4.0.0-rc.20",
     "@xylabs/forget": "^4.0.2",
     "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.20",
     "@xylabs/tsconfig": "^4.0.0-rc.20",
@@ -50,7 +50,7 @@
     "ts-jest": "^29.2.4",
     "ts-node": "^10.9.2",
     "tslib": "^2.6.3",
-    "typedoc": "^0.26.5",
+    "typedoc": "^0.26.6",
     "typedoc-material-theme": "^1.1.0",
     "typescript": "^5.5.4",
     "vitest": "^2.0.5"

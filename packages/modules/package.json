@@ -19,7 +19,7 @@
     "@xyo-network/witness": "workspace:^"
   },
   "devDependencies": {
-    "@swc/core": "^1.7.11",
+    "@swc/core": "^1.7.14",
     "@xylabs/delay": "^4.0.2",
     "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.20",
     "@xylabs/tsconfig": "^4.0.0-rc.20",

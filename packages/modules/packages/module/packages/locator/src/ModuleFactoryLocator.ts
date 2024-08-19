@@ -94,10 +94,9 @@ export class ModuleFactoryLocator {
    * @returns A module factory that matches the supplied schema and labels or undefined
    */
   tryLocate(schema: string, labels?: Labels): CreatableModuleFactory | LabeledCreatableModuleFactory | undefined {
-    // If labels were provided
     return labels
     // Find the first factory that has labels and has all the labels provided
-      ? this._registry[schema]?.filter(hasLabels).find(factory => hasAllLabels(factory?.labels, labels))
+      ? (this._registry[schema]?.filter(hasLabels).find(factory => hasAllLabels(factory?.labels, labels)) ?? this._registry[schema]?.[0])
       : this._registry[schema]?.[0] // Otherwise, return the first factory
   }
 }

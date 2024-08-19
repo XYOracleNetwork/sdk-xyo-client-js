@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/node": "^22.4.0",
+    "@types/node": "^22.4.1",
     "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.20",
     "@xylabs/tsconfig": "^4.0.0-rc.20",
     "@xyo-network/account": "workspace:^",

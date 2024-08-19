@@ -20,7 +20,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/node": "^22.4.0",
+    "@types/node": "^22.4.1",
     "@types/uuid": "^10.0.0",
     "@xylabs/jest-helpers": "^4.0.2",
     "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.20",

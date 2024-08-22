@@ -33,7 +33,6 @@ export type StorageArchivistConfig = ArchivistConfig<{
   maxEntries?: number
   maxEntrySize?: number
   namespace?: string
-  persistAccount?: boolean
   schema: StorageArchivistConfigSchema
   type?: 'local' | 'session' | 'page'
 }>
@@ -61,10 +60,6 @@ export class StorageArchivist<
 
   get namespace() {
     return this.config?.namespace ?? 'xyo-archivist'
-  }
-
-  get persistAccount() {
-    return this.config?.persistAccount ?? false
   }
 
   override get queries(): string[] {
@@ -191,17 +186,8 @@ export class StorageArchivist<
     })
   }
 
-  protected saveAccount() {
-    if (this.persistAccount) {
-      const account = this.account
-      this.logger?.log(account.address)
-      this.privateStorage.set('privateKey', account.private.hex)
-    }
-  }
-
   protected override async startHandler() {
     await super.startHandler()
-    this.saveAccount()
     return true
   }
 }

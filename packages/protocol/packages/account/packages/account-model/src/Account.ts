@@ -55,10 +55,10 @@ export interface AccountInstance {
   readonly addressBytes: ArrayBuffer
   previousHash: Hash | undefined
   previousHashBytes: ArrayBuffer | undefined
-  readonly private: PrivateKeyInstance
-  readonly public: PublicKeyInstance
-  sign: (hash: ArrayBuffer, previousHash: ArrayBuffer | undefined) => ArrayBuffer | Promise<ArrayBuffer>
-  verify: (msg: ArrayBuffer, signature: ArrayBuffer) => boolean | Promise<boolean>
+  readonly private?: PrivateKeyInstance
+  readonly public?: PublicKeyInstance
+  sign: (hash: ArrayBuffer, previousHash: ArrayBuffer | undefined) => Promise<ArrayBuffer>
+  verify: (msg: ArrayBuffer, signature: ArrayBuffer) => Promise<boolean>
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

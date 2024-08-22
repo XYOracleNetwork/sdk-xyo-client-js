@@ -16,8 +16,8 @@
     "@xyo-network/diviner-payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.20",
-    "@xylabs/tsconfig": "^4.0.0-rc.20",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.30",
+    "@xylabs/tsconfig": "^4.0.0-rc.30",
     "typescript": "^5.5.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -40,6 +40,6 @@
     "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "3.0.5",
+  "version": "3.0.6",
   "type": "module"
 }

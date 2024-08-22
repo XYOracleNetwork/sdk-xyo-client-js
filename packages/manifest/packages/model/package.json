@@ -15,11 +15,11 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@types/node": "^22.4.1",
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.20",
-    "@xylabs/tsconfig": "^4.0.0-rc.20",
+    "@types/node": "^22.5.0",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.30",
+    "@xylabs/tsconfig": "^4.0.0-rc.30",
     "typescript": "^5.5.4",
-    "typescript-json-schema": "^0.64.0"
+    "typescript-json-schema": "^0.65.1"
   },
   "types": "dist/neutral/index.d.ts",
   "exports": {
@@ -47,6 +47,6 @@
     "gen-schema": "yarn typescript-json-schema src/Manifest.ts PackageManifest --required --out dist/PackageManifest.schema.json"
   },
   "sideEffects": false,
-  "version": "3.0.5",
+  "version": "3.0.6",
   "type": "module"
 }

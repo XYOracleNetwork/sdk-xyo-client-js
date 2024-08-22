@@ -1,14 +1,33 @@
 {
   "name": "@xyo-network/node-wrapper",
+  "version": "3.0.6",
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "homepage": "https://xyo.network",
+  "bugs": {
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues",
+    "email": "support@xyo.network"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "license": "LGPL-3.0-only",
   "author": {
-    "email": "support@xyo.network",
     "name": "XYO Development Team",
+    "email": "support@xyo.network",
     "url": "https://xyo.network"
   },
-  "bugs": {
-    "email": "support@xyo.network",
-    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/neutral/index.d.ts",
+      "default": "./dist/neutral/index.mjs"
+    },
+    "./package.json": "./package.json"
   },
+  "module": "dist/neutral/index.mjs",
+  "types": "dist/neutral/index.d.ts",
   "dependencies": {
     "@xylabs/hex": "^4.0.2",
     "@xyo-network/account-model": "workspace:^",
@@ -20,30 +39,11 @@
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.30",
-    "@xylabs/tsconfig": "^4.0.0-rc.30",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0",
+    "@xylabs/tsconfig": "^4.0.0",
     "typescript": "^5.5.4"
   },
-  "description": "Primary SDK for using XYO Protocol 2.0",
-  "types": "dist/neutral/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/neutral/index.d.ts",
-      "default": "./dist/neutral/index.mjs"
-    },
-    "./package.json": "./package.json"
-  },
-  "module": "dist/neutral/index.mjs",
-  "homepage": "https://xyo.network",
-  "license": "LGPL-3.0-only",
   "publishConfig": {
     "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
-  },
-  "sideEffects": false,
-  "version": "3.0.6",
-  "type": "module"
+  }
 }

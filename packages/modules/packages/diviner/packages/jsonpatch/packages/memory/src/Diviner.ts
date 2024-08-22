@@ -5,8 +5,10 @@ import type { JsonPatchDivinerParams } from '@xyo-network/diviner-jsonpatch-mode
 import { JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'
-import type { Operation } from 'json-joy/lib/json-patch/index.js'
-import { applyPatch } from 'json-joy/lib/json-patch/index.js'
+// eslint-disable-next-line import-x/no-internal-modules
+import type { Operation } from 'json-joy-16-19-0/lib/json-patch'
+// eslint-disable-next-line import-x/no-internal-modules
+import { applyPatch } from 'json-joy-16-19-0/lib/json-patch'
 
 export class JsonPatchDiviner<
   TParams extends JsonPatchDivinerParams = JsonPatchDivinerParams,

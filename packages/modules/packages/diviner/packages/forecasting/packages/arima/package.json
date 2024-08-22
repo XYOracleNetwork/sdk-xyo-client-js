@@ -1,16 +1,11 @@
 {
   "$schema": "http://json.schemastore.org/package.json",
   "name": "@xyo-network/diviner-forecasting-method-arima",
-  "publishConfig": {
-    "access": "public"
-  },
   "version": "3.0.6",
   "description": "XYO Archivist",
-  "sideeffects": false,
-  "engines": {
-    "node": ">=16 <17"
-  },
-  "types": "dist/neutral/index.d.ts",
+  "license": "LGPL-3.0-only",
+  "author": "Arie Trouw",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/neutral/index.d.ts",
@@ -19,17 +14,22 @@
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
-  "author": "Arie Trouw",
-  "license": "LGPL-3.0-only",
+  "types": "dist/neutral/index.d.ts",
   "dependencies": {
     "@xyo-network/diviner-forecasting-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "arima": "^0.2.5"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.30",
-    "@xylabs/tsconfig": "^4.0.0-rc.30",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0",
+    "@xylabs/tsconfig": "^4.0.0",
     "typescript": "^5.5.4"
   },
-  "type": "module"
+  "engines": {
+    "node": ">=16 <17"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideeffects": false
 }

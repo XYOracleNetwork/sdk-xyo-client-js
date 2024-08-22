@@ -23,8 +23,8 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@xylabs/delay": "^4.0.2",
-    "@xylabs/ts-scripts-yarn3": "^4.0.0-rc.30",
-    "@xylabs/tsconfig": "^4.0.0-rc.30",
+    "@xylabs/ts-scripts-yarn3": "^4.0.0",
+    "@xylabs/tsconfig": "^4.0.0",
     "esbuild": "^0.23.1",
     "publint": "^0.2.10",
     "typescript": "^5.5.4"

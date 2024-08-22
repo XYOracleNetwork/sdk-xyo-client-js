@@ -70,6 +70,6 @@
     "package-compile": "package-compile-only && yarn bundle && yarn publint"
   },
   "sideEffects": false,
-  "version": "3.0.6",
+  "version": "3.0.7",
   "type": "module"
 }

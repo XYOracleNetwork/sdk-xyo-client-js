@@ -31,7 +31,7 @@
   "dependencies": {
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
-    "json-joy": "~16.23.1",
+    "json-joy-16-19-0": "npm:json-joy@16.19.0",
     "tslib": "^2.6.3"
   },
   "devDependencies": {

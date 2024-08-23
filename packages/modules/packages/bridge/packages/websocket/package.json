@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/bridge-websocket",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -55,8 +55,8 @@
     "socket.io": "^4.7.5"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.0.0",
-    "@xylabs/tsconfig": "^4.0.0",
+    "@xylabs/ts-scripts-yarn3": "^4.0.7",
+    "@xylabs/tsconfig": "^4.0.7",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

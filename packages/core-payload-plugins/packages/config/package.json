@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/config-payload-plugin",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -34,8 +34,8 @@
     "@xyo-network/payload-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.0.0",
-    "@xylabs/tsconfig": "^4.0.0",
+    "@xylabs/ts-scripts-yarn3": "^4.0.7",
+    "@xylabs/tsconfig": "^4.0.7",
     "typescript": "^5.5.4"
   },
   "publishConfig": {

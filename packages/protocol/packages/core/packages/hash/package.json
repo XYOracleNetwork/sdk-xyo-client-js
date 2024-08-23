@@ -1,34 +1,24 @@
 {
   "name": "@xyo-network/hash",
+  "version": "3.0.8",
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "homepage": "https://xyo.network",
+  "bugs": {
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues",
+    "email": "support@xyo.network"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "license": "LGPL-3.0-or-later",
   "author": {
-    "email": "support@xyo.network",
     "name": "XYO Development Team",
+    "email": "support@xyo.network",
     "url": "https://xyo.network"
   },
-  "bugs": {
-    "email": "support@xyo.network",
-    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
-  },
-  "dependencies": {
-    "@xylabs/assert": "^4.0.3",
-    "@xylabs/hex": "^4.0.3",
-    "@xylabs/lodash": "^4.0.3",
-    "@xylabs/object": "^4.0.3",
-    "@xylabs/platform": "^4.0.3",
-    "@xylabs/threads": "^4.0.3",
-    "@xylabs/typeof": "^4.0.3",
-    "@xyo-network/wasm": "workspace:^",
-    "hash-wasm": "^4.11.0"
-  },
-  "description": "Primary SDK for using XYO Protocol 2.0",
-  "devDependencies": {
-    "@xylabs/delay": "^4.0.3",
-    "@xylabs/ts-scripts-yarn3": "^4.0.0",
-    "@xylabs/tsconfig": "^4.0.0",
-    "esbuild": "^0.23.1",
-    "publint": "^0.2.10",
-    "typescript": "^5.5.4"
-  },
+  "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
       "browser": {
@@ -44,32 +34,43 @@
         }
       }
     },
-    "./worker/subtleHash-bundle.js": {
-      "browser": "./dist/browser/worker/subtleHash-bundle.js"
+    "./worker/subtleHash-bundle.mjs": {
+      "browser": "./dist/browser/worker/subtleHash-bundle.mjs"
     },
-    "./worker/wasmHash-bundle.js": {
-      "browser": "./dist/browser/worker/wasmHash-bundle.js"
+    "./worker/wasmHash-bundle.mjs": {
+      "browser": "./dist/browser/worker/wasmHash-bundle.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
-  "homepage": "https://xyo.network",
-  "license": "LGPL-3.0-or-later",
+  "scripts": {
+    "bundle": "yarn subtleHashBundle && yarn wasmHashBundle",
+    "package-build": "echo build && package-build-only && yarn bundle && yarn publint",
+    "package-compile": "echo compile && package-compile-only && yarn bundle && yarn publint",
+    "subtleHashBundle": "esbuild src/worker/subtleHash.ts --bundle --outfile=dist/browser/worker/subtleHash-bundle.mjs --target=chrome120,firefox120,safari14,edge120",
+    "wasmHashBundle": "esbuild src/worker/wasmHash.ts --bundle --outfile=dist/browser/worker/wasmHash-bundle.mjs --target=chrome120,firefox120,safari14,edge120"
+  },
+  "dependencies": {
+    "@xylabs/assert": "^4.0.3",
+    "@xylabs/hex": "^4.0.3",
+    "@xylabs/lodash": "^4.0.3",
+    "@xylabs/object": "^4.0.3",
+    "@xylabs/platform": "^4.0.3",
+    "@xylabs/threads": "^4.0.3",
+    "@xylabs/typeof": "^4.0.3",
+    "@xyo-network/wasm": "workspace:^",
+    "hash-wasm": "^4.11.0"
+  },
+  "devDependencies": {
+    "@xylabs/delay": "^4.0.3",
+    "@xylabs/ts-scripts-yarn3": "^4.0.7",
+    "@xylabs/tsconfig": "^4.0.7",
+    "esbuild": "^0.23.1",
+    "publint": "^0.2.10",
+    "typescript": "^5.5.4"
+  },
   "publishConfig": {
     "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
-  },
-  "scripts": {
-    "subtleHashBundle": "esbuild src/worker/subtleHash.ts --bundle --outfile=dist/browser/worker/subtleHash-bundle.js --target=chrome120,firefox120,safari14,edge120",
-    "wasmHashBundle": "esbuild src/worker/wasmHash.ts --bundle --outfile=dist/browser/worker/wasmHash-bundle.js --target=chrome120,firefox120,safari14,edge120",
-    "bundle": "yarn subtleHashBundle && yarn wasmHashBundle",
-    "package-compile": "package-compile-only && yarn bundle && yarn publint"
-  },
-  "sideEffects": false,
-  "version": "3.0.7",
-  "type": "module"
+  }
 }

@@ -1,27 +1,24 @@
 {
   "name": "@xyo-network/manifest-model",
+  "version": "3.0.8",
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "homepage": "https://xyo.network",
+  "bugs": {
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues",
+    "email": "support@xyo.network"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "license": "LGPL-3.0-only",
   "author": {
-    "email": "support@xyo.network",
     "name": "XYO Development Team",
+    "email": "support@xyo.network",
     "url": "https://xyo.network"
   },
-  "bugs": {
-    "email": "support@xyo.network",
-    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
-  },
-  "description": "Primary SDK for using XYO Protocol 2.0",
-  "dependencies": {
-    "@xylabs/hex": "^4.0.3",
-    "@xyo-network/payload-model": "workspace:^"
-  },
-  "devDependencies": {
-    "@types/node": "^22.5.0",
-    "@xylabs/ts-scripts-yarn3": "^4.0.0",
-    "@xylabs/tsconfig": "^4.0.0",
-    "typescript": "^5.5.4",
-    "typescript-json-schema": "^0.65.1"
-  },
-  "types": "dist/neutral/index.d.ts",
+  "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/neutral/index.d.ts",
@@ -33,20 +30,24 @@
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
-  "homepage": "https://xyo.network",
-  "license": "LGPL-3.0-only",
+  "types": "dist/neutral/index.d.ts",
+  "scripts": {
+    "gen-schema": "yarn typescript-json-schema src/Manifest.ts PackageManifest --required --out dist/PackageManifest.schema.json",
+    "package-build": "yarn gen-schema && yarn package-build-only",
+    "package-compile": "yarn gen-schema && yarn package-compile-only"
+  },
+  "dependencies": {
+    "@xylabs/hex": "^4.0.3",
+    "@xyo-network/payload-model": "workspace:^"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "@xylabs/ts-scripts-yarn3": "^4.0.7",
+    "@xylabs/tsconfig": "^4.0.7",
+    "typescript": "^5.5.4",
+    "typescript-json-schema": "^0.65.1"
+  },
   "publishConfig": {
     "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
-  },
-  "scripts": {
-    "package-compile": "yarn gen-schema && yarn package-compile-only",
-    "gen-schema": "yarn typescript-json-schema src/Manifest.ts PackageManifest --required --out dist/PackageManifest.schema.json"
-  },
-  "sideEffects": false,
-  "version": "3.0.7",
-  "type": "module"
+  }
 }

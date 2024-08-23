@@ -10,7 +10,8 @@ import type {
   ArchivistModule,
   ArchivistNextOptions,
   ArchivistNextQuery,
-  AttachableArchivistInstance } from '@xyo-network/archivist-model'
+  AttachableArchivistInstance,
+} from '@xyo-network/archivist-model'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -86,9 +87,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   }
 
   async insert(payloads: Payload[]): Promise<PayloadWithMeta[]> {
-    const queryPayload: ArchivistInsertQuery = {
-      schema: ArchivistInsertQuerySchema,
-    }
+    const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
     return await this.sendQuery(queryPayload, payloads)
   }
 

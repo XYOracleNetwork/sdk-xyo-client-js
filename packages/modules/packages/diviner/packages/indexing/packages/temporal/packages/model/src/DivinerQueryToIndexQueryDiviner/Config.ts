@@ -5,7 +5,8 @@ import { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema } from './
 
 export type TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema =
   `${TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema}.config`
-export const TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema: TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema = `${TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema}.config`
+export const TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema: TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema
+= `${TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema}.config`
 
 /**
  * Diviner Config for a Diviner which transforms a Diviner Query to an Index Query

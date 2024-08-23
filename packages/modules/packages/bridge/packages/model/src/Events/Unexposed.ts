@@ -1,5 +1,7 @@
 import type { EventData } from '@xyo-network/module-events'
-import type { Module, ModuleEventArgs, ModuleInstance } from '@xyo-network/module-model'
+import type {
+  Module, ModuleEventArgs, ModuleInstance,
+} from '@xyo-network/module-model'
 
 export type UnexposedEventArgs<T extends Module = Module> = ModuleEventArgs<
   T,

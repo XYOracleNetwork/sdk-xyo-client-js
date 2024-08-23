@@ -24,7 +24,8 @@ import type {
   ModuleParams,
   ModuleQueryHandlerResult,
   ModuleQueryResult,
-  ModuleResolver } from '@xyo-network/module-model'
+  ModuleResolver,
+} from '@xyo-network/module-model'
 import {
   AddressPreviousHashSchema,
   DeadModuleError,
@@ -34,7 +35,9 @@ import {
 } from '@xyo-network/module-model'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { ModuleError, Payload, WithMeta } from '@xyo-network/payload-model'
+import type {
+  ModuleError, Payload, WithMeta,
+} from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType, ModuleErrorSchema } from '@xyo-network/payload-model'
 import type { QueryPayload } from '@xyo-network/query-payload-plugin'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
@@ -73,7 +76,9 @@ export abstract class AbstractModuleProxy<
   protected _state: Payload[] | undefined = undefined
   protected _stateInProcess = false
 
-  private _spamTrap = new LRUCache<string, number>({ max: 1000, ttl: 1000 * 60, ttlAutopurge: true })
+  private _spamTrap = new LRUCache<string, number>({
+    max: 1000, ttl: 1000 * 60, ttlAutopurge: true,
+  })
 
   constructor(params: TParams) {
     params.addToResolvers = false
@@ -94,8 +99,7 @@ export abstract class AbstractModuleProxy<
 
   override get queries(): string[] {
     const queryPayloads = assertEx(this._state, () => 'Module state not found.  Make sure proxy has been started').filter(item =>
-      isPayloadOfSchemaType<QueryPayload>(QuerySchema)(item),
-    ) as QueryPayload[]
+      isPayloadOfSchemaType<QueryPayload>(QuerySchema)(item)) as QueryPayload[]
     return queryPayloads.map(payload => payload.query)
   }
 
@@ -181,14 +185,20 @@ export abstract class AbstractModuleProxy<
         }
         this.params.onQuerySendStarted?.({ payloads, query })
         const result = await this.proxyQueryHandler<T>(query, payloads)
-        this.params.onQuerySendFinished?.({ payloads, query, result, status: 'success' })
+        this.params.onQuerySendFinished?.({
+          payloads, query, result, status: 'success',
+        })
         if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
           forget(this.storeToArchivists(result.flat()))
         }
-        forget(this.emit('moduleQueried', { mod: this, payloads, query, result }))
+        forget(this.emit('moduleQueried', {
+          mod: this, payloads, query, result,
+        }))
         return result
       } catch (ex) {
-        this.params.onQuerySendFinished?.({ payloads, query, status: 'failure' })
+        this.params.onQuerySendFinished?.({
+          payloads, query, status: 'failure',
+        })
         const error = ex as Error
         this._lastError = error
         // this.status = 'dead'

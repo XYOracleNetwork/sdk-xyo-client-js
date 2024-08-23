@@ -1,4 +1,6 @@
-import type { Address, Hash, Hex } from '@xylabs/hex'
+import type {
+  Address, Hash, Hex,
+} from '@xylabs/hex'
 import type { EmptyObject } from '@xylabs/object'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 

@@ -3,7 +3,9 @@ import { generateMnemonic } from '@scure/bip39'
 import { wordlist as englishWordlist } from '@scure/bip39/wordlists/english'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
-import { Address, Hex, hexFromHexString } from '@xylabs/hex'
+import {
+  Address, Hex, hexFromHexString,
+} from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
 import { staticImplements } from '@xylabs/static-implements'
 import {
@@ -14,7 +16,9 @@ import {
 } from '@xyo-network/account-model'
 import type { PrivateKeyInstance } from '@xyo-network/key-model'
 import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
-import { defaultPath, HDNodeWallet, Mnemonic } from 'ethers'
+import {
+  defaultPath, HDNodeWallet, Mnemonic,
+} from 'ethers'
 
 import { Account } from './Account.ts'
 import { PrivateKey } from './Key/index.ts'

@@ -13,7 +13,8 @@ import type {
   ModuleInstance,
   ModuleRepository,
   ModuleResolverInstance,
-  ObjectFilterOptions } from '@xyo-network/module-model'
+  ObjectFilterOptions,
+} from '@xyo-network/module-model'
 import {
   duplicateModules,
   ObjectResolverPriority,
@@ -50,7 +51,9 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
     const localResolver = new SimpleModuleResolver({ allowNameResolution: params.allowNameResolution, root: params.root })
     this.addResolver(localResolver)
     const { max = 100, ttl = 1000 * 5 /* five seconds */ } = params.cache ?? {}
-    this._cache = new LRUCache<ModuleIdentifier, ModuleInstance>({ max, ttl, ...params.cache })
+    this._cache = new LRUCache<ModuleIdentifier, ModuleInstance>({
+      max, ttl, ...params.cache,
+    })
     this._localResolver = localResolver
   }
 

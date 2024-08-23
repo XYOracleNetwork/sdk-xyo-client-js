@@ -8,7 +8,8 @@ import type {
   AttachableModuleInstance,
   Module,
   ModuleDescription,
-  ModuleDescriptionPayload } from '@xyo-network/module-model'
+  ModuleDescriptionPayload,
+} from '@xyo-network/module-model'
 import {
   AddressSchema,
   ModuleDescriptionSchema,

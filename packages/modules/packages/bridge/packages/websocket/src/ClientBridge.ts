@@ -3,8 +3,12 @@ import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractBridge } from '@xyo-network/bridge-abstract'
-import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { creatableModule, ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
+import {
+  BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions,
+} from '@xyo-network/bridge-model'
+import {
+  creatableModule, ModuleInstance, ModuleQueryResult,
+} from '@xyo-network/module-model'
 import { Payload, Schema } from '@xyo-network/payload-model'
 import { Semaphore } from 'async-mutex'
 import { LRUCache } from 'lru-cache'

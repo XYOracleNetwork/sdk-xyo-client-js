@@ -7,9 +7,13 @@ import type { AccountInstance } from '@xyo-network/account-model'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { removeEmptyFields, sortFields } from '@xyo-network/hash'
-import type { PayloadBuilderOptions, WithoutMeta, WithoutSchema } from '@xyo-network/payload-builder'
+import type {
+  PayloadBuilderOptions, WithoutMeta, WithoutSchema,
+} from '@xyo-network/payload-builder'
 import { PayloadBuilder, PayloadBuilderBase } from '@xyo-network/payload-builder'
-import type { ModuleError, Payload, Schema, WithMeta } from '@xyo-network/payload-model'
+import type {
+  ModuleError, Payload, Schema, WithMeta,
+} from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
 export type GeneratedBoundWitnessFields = 'addresses' | 'payload_hashes' | 'payload_schemas' | 'previous_hashes'
@@ -56,7 +60,9 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
 
   constructor(options?: BoundWitnessBuilderOptions<TBoundWitness, TPayload>) {
     super({ ...options, schema: BoundWitnessSchema })
-    const { accounts, payloadHashes, payloadSchemas, payloads, sourceQuery, timestamp, destination } = options ?? {}
+    const {
+      accounts, payloadHashes, payloadSchemas, payloads, sourceQuery, timestamp, destination,
+    } = options ?? {}
     this._accounts = accounts ?? []
     this._payloadHashes = payloadHashes
     this._payloadSchemas = payloadSchemas
@@ -124,7 +130,9 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     const previous_hashes = accounts.map(account => account.previousHash ?? null)
     const payload_hashes = payloads ? await PayloadBuilder.dataHashes(payloads) : []
     const payload_schemas = payloads?.map(({ schema }) => schema)
-    return { addresses, payload_hashes, payload_schemas, previous_hashes, timestamp } as WithoutSchema<WithoutMeta<T>>
+    return {
+      addresses, payload_hashes, payload_schemas, previous_hashes, timestamp,
+    } as WithoutSchema<WithoutMeta<T>>
   }
 
   protected static override async metaFields(

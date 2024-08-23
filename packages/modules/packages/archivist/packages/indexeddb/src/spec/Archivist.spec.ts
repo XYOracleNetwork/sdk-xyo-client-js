@@ -119,11 +119,15 @@ describe('IndexedDbArchivist', () => {
         const storeName2 = 'testStoreName2'
         const archivist1 = await IndexedDbArchivist.create({
           account,
-          config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName: storeName1 },
+          config: {
+            dbName, schema: IndexedDbArchivistConfigSchema, storeName: storeName1,
+          },
         })
         const archivist2 = await IndexedDbArchivist.create({
           account,
-          config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName: storeName2 },
+          config: {
+            dbName, schema: IndexedDbArchivistConfigSchema, storeName: storeName2,
+          },
         })
 
         expect(isArchivistInstance(archivist1)).toBeTruthy()
@@ -145,7 +149,9 @@ describe('IndexedDbArchivist', () => {
     beforeAll(async () => {
       archivistModule = await IndexedDbArchivist.create({
         account,
-        config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
+        config: {
+          dbName, schema: IndexedDbArchivistConfigSchema, storeName,
+        },
       })
       sources = await fillDb(archivistModule)
     })
@@ -165,7 +171,9 @@ describe('IndexedDbArchivist', () => {
     beforeAll(async () => {
       archivistModule = await IndexedDbArchivist.create({
         account,
-        config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
+        config: {
+          dbName, schema: IndexedDbArchivistConfigSchema, storeName,
+        },
       })
       sources = await fillDb(archivistModule)
     })
@@ -187,7 +195,9 @@ describe('IndexedDbArchivist', () => {
     beforeAll(async () => {
       archivistModule = await IndexedDbArchivist.create({
         account,
-        config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
+        config: {
+          dbName, schema: IndexedDbArchivistConfigSchema, storeName,
+        },
       })
       sources = await fillDb(archivistModule)
     })
@@ -292,7 +302,9 @@ describe('IndexedDbArchivist', () => {
       beforeAll(async () => {
         archivistModule = await IndexedDbArchivist.create({
           account,
-          config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
+          config: {
+            dbName, schema: IndexedDbArchivistConfigSchema, storeName,
+          },
         })
         sources = await fillDb(archivistModule)
       })
@@ -332,7 +344,9 @@ describe('IndexedDbArchivist', () => {
       beforeAll(async () => {
         archivistModule = await IndexedDbArchivist.create({
           account,
-          config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
+          config: {
+            dbName, schema: IndexedDbArchivistConfigSchema, storeName,
+          },
         })
       })
       it('handles duplicate insertions', async () => {
@@ -363,7 +377,9 @@ describe('IndexedDbArchivist', () => {
     it('next', async () => {
       const archivist = await IndexedDbArchivist.create({
         account: 'random',
-        config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
+        config: {
+          dbName, schema: IndexedDbArchivistConfigSchema, storeName,
+        },
       })
       const account = await Account.random()
 
@@ -407,11 +423,15 @@ describe('IndexedDbArchivist', () => {
       expect(batch1Desc).toBeArrayOfSize(2)
       expect(batch1Desc?.[0].$hash).toEqual(payloads2[1].$hash)
 
-      const batch2Desc = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch1Desc?.[1]), order: 'desc' })
+      const batch2Desc = await archivist.next?.({
+        limit: 2, offset: await PayloadBuilder.hash(batch1Desc?.[1]), order: 'desc',
+      })
       expect(batch2Desc).toBeArrayOfSize(2)
       expect(batch2Desc?.[1].$hash).toEqual(payloads1[0].$hash)
 
-      const batch3Desc = await archivist.next?.({ limit: 20, offset: await PayloadBuilder.hash(batch1Desc?.[1]), order: 'desc' })
+      const batch3Desc = await archivist.next?.({
+        limit: 20, offset: await PayloadBuilder.hash(batch1Desc?.[1]), order: 'desc',
+      })
       expect(batch3Desc).toBeArrayOfSize(2)
       expect(batch3Desc?.[1].$hash).toEqual(payloads1[0].$hash)
     })

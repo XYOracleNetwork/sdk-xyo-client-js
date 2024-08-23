@@ -33,7 +33,8 @@ export interface ModuleConfigFields {
 
   readonly retry?: RetryConfig
 
-  /** @field The query schemas and allowed/disallowed addresses which are allowed to issue them against the module. If both allowed and disallowed is specified, then disallowed takes priority. */
+  /** @field The query schemas and allowed/disallowed addresses which are allowed to issue them against the module.
+   * If both allowed and disallowed is specified, then disallowed takes priority. */
   readonly security?: ModuleSecurityConfig
 
   /** @field sign every query */

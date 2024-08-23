@@ -17,7 +17,9 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
+import {
+  Payload, PayloadWithMeta, Schema, WithMeta,
+} from '@xyo-network/payload-model'
 
 export interface FileSystemArchivistData {
   payloads: Payload[]

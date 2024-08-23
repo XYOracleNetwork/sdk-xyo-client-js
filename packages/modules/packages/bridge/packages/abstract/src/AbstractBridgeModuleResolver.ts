@@ -1,15 +1,16 @@
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
-import type { BridgeInstance, QuerySendFinishedEventArgs, QuerySendStartedEventArgs } from '@xyo-network/bridge-model'
+import type {
+  BridgeInstance, QuerySendFinishedEventArgs, QuerySendStartedEventArgs,
+} from '@xyo-network/bridge-model'
 import type {
   ArchivingModuleConfig,
   CacheConfig,
   ModuleFilterOptions,
   ModuleIdentifier,
-  ModuleInstance } from '@xyo-network/module-model'
-import {
-  ObjectResolverPriority,
+  ModuleInstance,
 } from '@xyo-network/module-model'
+import { ObjectResolverPriority } from '@xyo-network/module-model'
 import type { ModuleResolverParams } from '@xyo-network/module-resolver'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 

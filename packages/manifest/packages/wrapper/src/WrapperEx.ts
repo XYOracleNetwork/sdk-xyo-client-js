@@ -1,8 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
-import type { ModuleManifest, NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
+import type {
+  ModuleManifest, NodeManifest, PackageManifestPayload,
+} from '@xyo-network/manifest-model'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
-import type { ModuleIdentifierTransformer, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
+import type {
+  ModuleIdentifierTransformer, ModuleInstance, ModuleParams,
+} from '@xyo-network/module-model'
 import { isModuleName } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import type { NodeInstance } from '@xyo-network/node-model'

@@ -5,10 +5,9 @@ import type { Payload } from '@xyo-network/payload-model'
 import type {
   SentinelAutomationPayload,
   SentinelInstance,
-  SentinelIntervalAutomationPayload } from '@xyo-network/sentinel-model'
-import {
-  isSentinelIntervalAutomation,
+  SentinelIntervalAutomationPayload,
 } from '@xyo-network/sentinel-model'
+import { isSentinelIntervalAutomation } from '@xyo-network/sentinel-model'
 
 import { SentinelIntervalAutomationWrapper } from './SentinelIntervalAutomationWrapper.ts'
 

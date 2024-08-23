@@ -3,7 +3,8 @@ import { hexFromArrayBuffer, hexFromHexString } from '@xylabs/hex'
 import type {
   MercatorBoundingBox,
   MercatorLngLat,
-  MercatorTile } from '@xyo-network/sdk-geo'
+  MercatorTile,
+} from '@xyo-network/sdk-geo'
 import {
   boundingBoxToCenter,
   GeoJson,

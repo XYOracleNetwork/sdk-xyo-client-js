@@ -8,7 +8,9 @@ import jsonpath from 'jsonpath'
  * @returns The payload transformer for the JSON Path transform expression
  */
 export const toPayloadTransformer = (transformExpression: JsonPathTransformExpression) => {
-  const { defaultValue, destinationField, sourcePathExpression } = transformExpression
+  const {
+    defaultValue, destinationField, sourcePathExpression,
+  } = transformExpression
   const transformer: PayloadTransformer = (x: Payload) => {
     const source = jsonpath.value(x, sourcePathExpression)
     // TODO: If the expression should return multiple values, use jsonpath.query

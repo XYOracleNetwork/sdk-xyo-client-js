@@ -4,10 +4,9 @@ import type {
   PayloadPointerPayload,
   PayloadRule,
   PayloadSchemaRule,
-  PayloadTimestampOrderRule } from '@xyo-network/diviner-payload-pointer-model'
-import {
-  PayloadPointerSchema,
+  PayloadTimestampOrderRule,
 } from '@xyo-network/diviner-payload-pointer-model'
+import { PayloadPointerSchema } from '@xyo-network/diviner-payload-pointer-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
 export const createPointer = async (

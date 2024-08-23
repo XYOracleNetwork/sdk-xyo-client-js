@@ -13,7 +13,9 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
   [
     'Adds a value',
     {
-      operations: [{ op: 'add', path: '/value', value: 'foo' }],
+      operations: [{
+        op: 'add', path: '/value', value: 'foo',
+      }],
       schema: JsonPatchDivinerConfigSchema,
     },
     [{ schema: 'network.xyo.test' }],
@@ -31,7 +33,9 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
   [
     'Replaces a schema',
     {
-      operations: [{ op: 'replace', path: '/schema', value: 'network.xyo.debug' }],
+      operations: [{
+        op: 'replace', path: '/schema', value: 'network.xyo.debug',
+      }],
       schema: JsonPatchDivinerConfigSchema,
     },
     [{ schema: 'network.xyo.test' }],
@@ -40,7 +44,9 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
   [
     'Replaces a value',
     {
-      operations: [{ op: 'replace', path: '/value', value: 'bar' }],
+      operations: [{
+        op: 'replace', path: '/value', value: 'bar',
+      }],
       schema: JsonPatchDivinerConfigSchema,
     },
     [{ schema: 'network.xyo.test', value: 'foo' }],
@@ -49,7 +55,9 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
   [
     'Moves a value',
     {
-      operations: [{ from: '/value', op: 'move', path: '/target' }],
+      operations: [{
+        from: '/value', op: 'move', path: '/target',
+      }],
       schema: JsonPatchDivinerConfigSchema,
     },
     [{ schema: 'network.xyo.test', value: 'foo' }],
@@ -58,16 +66,22 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
   [
     'Copies a value',
     {
-      operations: [{ from: '/value', op: 'copy', path: '/target' }],
+      operations: [{
+        from: '/value', op: 'copy', path: '/target',
+      }],
       schema: JsonPatchDivinerConfigSchema,
     },
     [{ schema: 'network.xyo.test', value: 'foo' }],
-    [{ schema: 'network.xyo.test', target: 'foo', value: 'foo' }],
+    [{
+      schema: 'network.xyo.test', target: 'foo', value: 'foo',
+    }],
   ],
   [
     'Filters by schema',
     {
-      operations: [{ op: 'test', path: '/schema', value: 'network.xyo.test' }],
+      operations: [{
+        op: 'test', path: '/schema', value: 'network.xyo.test',
+      }],
       schema: JsonPatchDivinerConfigSchema,
     },
     [
@@ -79,7 +93,9 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
   [
     'Filters by value',
     {
-      operations: [{ op: 'test', path: '/value', value: 'foo' }],
+      operations: [{
+        op: 'test', path: '/value', value: 'foo',
+      }],
       schema: JsonPatchDivinerConfigSchema,
     },
     [
@@ -92,20 +108,32 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
     'Handles multiple operations',
     {
       operations: [
-        { op: 'test', path: '/schema', value: 'network.xyo.test' },
-        { op: 'add', path: '/value', value: 'foo' },
-        { from: '/value', op: 'copy', path: '/target' },
-        { op: 'replace', path: '/target', value: 'bar' },
+        {
+          op: 'test', path: '/schema', value: 'network.xyo.test',
+        },
+        {
+          op: 'add', path: '/value', value: 'foo',
+        },
+        {
+          from: '/value', op: 'copy', path: '/target',
+        },
+        {
+          op: 'replace', path: '/target', value: 'bar',
+        },
       ],
       schema: JsonPatchDivinerConfigSchema,
     },
     [{ schema: 'network.xyo.test' }, { schema: 'network.xyo.debug' }],
-    [{ schema: 'network.xyo.test', target: 'bar', value: 'foo' }],
+    [{
+      schema: 'network.xyo.test', target: 'bar', value: 'foo',
+    }],
   ],
   [
     'Filters multiple by schema',
     {
-      operations: [{ op: 'test', path: '/schema', value: 'network.xyo.test' }],
+      operations: [{
+        op: 'test', path: '/schema', value: 'network.xyo.test',
+      }],
       schema: JsonPatchDivinerConfigSchema,
     },
     [
@@ -129,7 +157,9 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
   [
     'Filters if property null',
     {
-      operations: [{ op: 'test', path: '/value', value: null }],
+      operations: [{
+        op: 'test', path: '/value', value: null,
+      }],
       schema: JsonPatchDivinerConfigSchema,
     },
     [{ schema: 'network.xyo.test', value: null }],
@@ -138,7 +168,9 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
   [
     'Filters if property not null',
     {
-      operations: [{ not: true, op: 'test', path: '/value', value: null }],
+      operations: [{
+        not: true, op: 'test', path: '/value', value: null,
+      }],
       schema: JsonPatchDivinerConfigSchema,
     },
     [{ schema: 'network.xyo.test', value: 'foo' }],

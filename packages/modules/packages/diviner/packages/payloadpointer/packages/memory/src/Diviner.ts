@@ -7,7 +7,8 @@ import { asDivinerInstance } from '@xyo-network/diviner-model'
 import type { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import type {
   PayloadPointerDivinerParams,
-  PointerPayload } from '@xyo-network/diviner-payload-pointer-model'
+  PointerPayload,
+} from '@xyo-network/diviner-payload-pointer-model'
 import {
   isPointerPayload,
   PayloadPointerDivinerConfigSchema,

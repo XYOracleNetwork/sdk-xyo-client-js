@@ -41,8 +41,18 @@ describe('HttpBridge', () => {
 
     const host: HttpBridgeConfig['host'] = { port }
     const client: HttpBridgeConfig['client'] = { discoverRoots: 'start', url }
-    hostBridge = await HttpBridge.create({ account, config: { host, name: 'TestBridgeHost', schema, security } })
-    clientBridge = await HttpBridge.create({ account, config: { client, name: 'TestBridgeClient', schema, security } })
+    hostBridge = await HttpBridge.create({
+      account,
+      config: {
+        host, name: 'TestBridgeHost', schema, security,
+      },
+    })
+    clientBridge = await HttpBridge.create({
+      account,
+      config: {
+        client, name: 'TestBridgeClient', schema, security,
+      },
+    })
 
     // Register Host/Client Bridges
     await hostNode.register(hostBridge)

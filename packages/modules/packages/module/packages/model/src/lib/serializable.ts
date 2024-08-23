@@ -1,6 +1,8 @@
 // Inspired by https://stackoverflow.com/a/49079549/2803259
 
-import { every, isArray, isBoolean, isNull, isNumber, isPlainObject, isString, isUndefined, overSome } from '@xylabs/lodash'
+import {
+  every, isArray, isBoolean, isNull, isNumber, isPlainObject, isString, isUndefined, overSome,
+} from '@xylabs/lodash'
 
 const JSONPrimitiveChecks = [isUndefined, isNull, isBoolean, isNumber, isString]
 const JSONComplexChecks = [isPlainObject, isArray]

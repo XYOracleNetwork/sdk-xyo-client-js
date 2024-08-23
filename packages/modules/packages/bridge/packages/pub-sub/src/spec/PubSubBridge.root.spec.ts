@@ -63,7 +63,9 @@ describe('PubSubBridge', () => {
     const queryBoundWitnessDivinerAccount = await Account.create()
     const queryBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
       account: queryBoundWitnessDivinerAccount,
-      config: { archivist: queryArchivist.address, name: 'queryBoundWitnessDiviner', schema: MemoryBoundWitnessDiviner.defaultConfigSchema },
+      config: {
+        archivist: queryArchivist.address, name: 'queryBoundWitnessDiviner', schema: MemoryBoundWitnessDiviner.defaultConfigSchema,
+      },
     })
 
     await intermediateNode.register(queryBoundWitnessDiviner)
@@ -81,7 +83,9 @@ describe('PubSubBridge', () => {
     const responseBoundWitnessDivinerAccount = await Account.create()
     const responseBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
       account: responseBoundWitnessDivinerAccount,
-      config: { archivist: responseArchivist.address, name: 'responseBoundWitnessDiviner', schema: MemoryBoundWitnessDiviner.defaultConfigSchema },
+      config: {
+        archivist: responseArchivist.address, name: 'responseBoundWitnessDiviner', schema: MemoryBoundWitnessDiviner.defaultConfigSchema,
+      },
     })
 
     await intermediateNode.register(responseBoundWitnessDiviner)
@@ -135,13 +139,13 @@ describe('PubSubBridge', () => {
         client: {
           intersect,
           pollFrequency,
-          queryCache: {
-            ttl,
-          },
+          queryCache: { ttl },
           stateStore,
         },
         discoverRoots: 'lazy',
-        host: { intersect, pollFrequency, stateStore },
+        host: {
+          intersect, pollFrequency, stateStore,
+        },
         name: 'pubSubBridge',
         roots: [hostNodeContainer.address],
         schema: PubSubBridge.defaultConfigSchema,

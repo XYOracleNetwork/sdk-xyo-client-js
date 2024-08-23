@@ -1,14 +1,14 @@
 import { AsObjectFactory } from '@xylabs/object'
-import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
+import {
+  IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory,
+} from '@xyo-network/module-model'
 
 import type { BridgeInstance } from './Instance.ts'
 import type { BridgeModule } from './Module.ts'
 import { BridgeConnectQuerySchema, BridgeDisconnectQuerySchema } from './Queries/index.ts'
 
 export const isBridgeInstance = new IsInstanceFactory<BridgeInstance>().create(
-  {
-    expose: 'function',
-  },
+  { expose: 'function' },
   [isModuleInstance],
 )
 export const isBridgeModule = new IsModuleFactory<BridgeModule>().create([BridgeConnectQuerySchema, BridgeDisconnectQuerySchema])

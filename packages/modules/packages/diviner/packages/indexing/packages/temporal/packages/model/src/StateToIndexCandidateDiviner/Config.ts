@@ -4,7 +4,8 @@ import type { DivinerConfig, SearchableStorage } from '@xyo-network/diviner-mode
 import { TemporalIndexingDivinerStateToIndexCandidateDivinerSchema } from './Schema.ts'
 
 export type TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema = `${TemporalIndexingDivinerStateToIndexCandidateDivinerSchema}.config`
-export const TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema: TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema = `${TemporalIndexingDivinerStateToIndexCandidateDivinerSchema}.config`
+export const TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema: TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema
+= `${TemporalIndexingDivinerStateToIndexCandidateDivinerSchema}.config`
 
 /**
  * Diviner Config for a Diviner which transforms a Diviner State to Index Candidates

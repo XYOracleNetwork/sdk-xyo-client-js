@@ -22,7 +22,9 @@ describe('MemoryArchivist', () => {
     })
     const viewArchivist = await ViewArchivist.create({
       account: 'random',
-      config: { name: 'test', originArchivist: originArchivist.address, schema: ViewArchivist.defaultConfigSchema },
+      config: {
+        name: 'test', originArchivist: originArchivist.address, schema: ViewArchivist.defaultConfigSchema,
+      },
     })
 
     expect(isArchivistInstance(viewArchivist)).toBeTruthy()

@@ -14,9 +14,7 @@ describe('BoundWitnessWrapper', () => {
     const bw: () => Promise<BoundWitness> = async () =>
       (
         await BoundWitnessWrapper.parse({
-          $meta: {
-            signatures: [],
-          },
+          $meta: { signatures: [] },
           addresses: [],
           payload_hashes: await Promise.all(payloads.map(p => PayloadBuilder.dataHash(p))),
           payload_schemas: payloads.map(p => p.schema),

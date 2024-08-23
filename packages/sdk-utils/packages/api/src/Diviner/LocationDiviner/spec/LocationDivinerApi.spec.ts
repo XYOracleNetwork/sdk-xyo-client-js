@@ -4,7 +4,8 @@ import type { ApiConfig } from '@xyo-network/api-models'
 import { LocationDivinerApi } from '../LocationDivinerApi.ts'
 import type {
   LocationHeatmapQueryCreationRequest,
-  LocationTimeRangeQueryCreationRequest } from '../Queries/index.ts'
+  LocationTimeRangeQueryCreationRequest,
+} from '../Queries/index.ts'
 import {
   locationHeatmapQuerySchema,
   LocationTimeRangeQuerySchema,
@@ -12,9 +13,7 @@ import {
 import { LocationWitnessSchema } from '../Witnesses/index.ts'
 
 const getLocationApiConfig = (): ApiConfig => {
-  return {
-    apiDomain: process.env.LOCATION_API_DOMAIN || 'http://localhost:8082',
-  }
+  return { apiDomain: process.env.LOCATION_API_DOMAIN || 'http://localhost:8082' }
 }
 
 const getArchiveConfig = (): ApiConfig => {

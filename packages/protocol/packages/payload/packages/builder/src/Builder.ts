@@ -1,10 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
 import { omitBy } from '@xylabs/lodash'
-import type { AnyObject, JsonArray, JsonObject } from '@xylabs/object'
+import type {
+  AnyObject, JsonArray, JsonObject,
+} from '@xylabs/object'
 import { isJsonObject } from '@xylabs/object'
 import { PayloadHasher } from '@xyo-network/hash'
-import type { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
+import type {
+  Payload, PayloadWithMeta, WithMeta,
+} from '@xyo-network/payload-model'
 
 import type { WithoutMeta, WithoutSchema } from './BuilderBase.ts'
 import { PayloadBuilderBase, removeMetaAndSchema } from './BuilderBase.ts'
@@ -31,7 +35,9 @@ export class PayloadBuilder<
       return await Promise.all(payload.map(payload => this.build(payload, options)))
     } else {
       const { stamp = false, validate = true } = options
-      const { schema, $hash: incomingDataHash, $meta: incomingMeta = {} } = payload as WithMeta<T>
+      const {
+        schema, $hash: incomingDataHash, $meta: incomingMeta = {},
+      } = payload as WithMeta<T>
 
       // check for legacy signatures
       const { _signatures } = payload as { _signatures?: JsonArray }
@@ -46,7 +52,9 @@ export class PayloadBuilder<
       if ($meta.timestamp === undefined && stamp) {
         $meta.timestamp = Date.now()
       }
-      const hashableFields: WithMeta<Payload> = { ...dataHashableFields, $hash, schema }
+      const hashableFields: WithMeta<Payload> = {
+        ...dataHashableFields, $hash, schema,
+      }
 
       if (Object.keys($meta).length > 0) {
         hashableFields.$meta = $meta
@@ -207,7 +215,9 @@ export class PayloadBuilder<
 
   async build(options?: BuildOptions): Promise<WithMeta<T>> {
     const dataHashableFields = await this.dataHashableFields()
-    return await PayloadBuilder.build<T>({ ...dataHashableFields, $meta: this._$meta, schema: this._schema } as Payload as T, options)
+    return await PayloadBuilder.build<T>({
+      ...dataHashableFields, $meta: this._$meta, schema: this._schema,
+    } as Payload as T, options)
   }
 
   async hashableFields() {

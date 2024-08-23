@@ -7,10 +7,9 @@ import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import type {
   BoundWitnessDivinerParams,
-  BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import {
-  isBoundWitnessDivinerQueryPayload,
+  BoundWitnessDivinerQueryPayload,
 } from '@xyo-network/diviner-boundwitness-model'
+import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import type { WithMeta } from '@xyo-network/payload-model'
 
 export interface EqualityComparisonOperators {
@@ -76,7 +75,9 @@ export class MemoryBoundWitnessDiviner<
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
-    const { addresses, payload_hashes, payload_schemas, limit, offset, order = 'desc', sourceQuery, destination, timestamp } = filter
+    const {
+      addresses, payload_hashes, payload_schemas, limit, offset, order = 'desc', sourceQuery, destination, timestamp,
+    } = filter
     let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitness) as WithMeta<BoundWitness>[]
     if (order === 'desc') bws = bws.reverse()
     const allAddresses = addresses?.map(address => hexFromHexString(address)).filter(exists)

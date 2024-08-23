@@ -22,9 +22,13 @@ describe('PayloadPointerDiviner', () => {
     const account = Account.random()
     const schemaA = getTestSchemaName()
     const schemaB = getTestSchemaName()
-    const payloadBaseA = (async () => PayloadBuilder.build({ ...(await getNewPayload()), schema: schemaA, timestamp: Date.now() }))()
+    const payloadBaseA = (async () => PayloadBuilder.build({
+      ...(await getNewPayload()), schema: schemaA, timestamp: Date.now(),
+    }))()
     const payloadA: Promise<PayloadWrapper> = (async () => PayloadWrapper.wrap(await payloadBaseA))()
-    const payloadBaseB = (async () => PayloadBuilder.build({ ...(await getNewPayload()), schema: schemaB, timestamp: Date.now() }))()
+    const payloadBaseB = (async () => PayloadBuilder.build({
+      ...(await getNewPayload()), schema: schemaB, timestamp: Date.now(),
+    }))()
     const payloadB: Promise<PayloadWrapper> = (async () => PayloadWrapper.wrap(await payloadBaseB))()
     const schemas = [schemaA, schemaB]
     let node: NodeInstance

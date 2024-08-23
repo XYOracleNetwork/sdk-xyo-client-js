@@ -1,6 +1,8 @@
 import { HDWallet } from '@xyo-network/account'
 import type { PackageManifestPayload } from '@xyo-network/manifest-model'
-import { asNodeInstance, isNodeInstance, isNodeModule } from '@xyo-network/node-model'
+import {
+  asNodeInstance, isNodeInstance, isNodeModule,
+} from '@xyo-network/node-model'
 
 import { ManifestWrapper } from '../Wrapper'
 import simpleNodeViewManifest from './simple-node-view-manifest.json'

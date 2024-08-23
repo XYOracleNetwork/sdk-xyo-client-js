@@ -1,4 +1,6 @@
-import type { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
+import type {
+  Module, ModuleFilter, ModuleResolver,
+} from '@xyo-network/module-model'
 
 export interface ModuleResolvedEventArgs {
   filter?: ModuleFilter

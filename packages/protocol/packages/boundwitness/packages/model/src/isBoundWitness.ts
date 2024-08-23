@@ -1,5 +1,7 @@
 import type { WithMeta } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithMeta, notPayloadOfSchemaType } from '@xyo-network/payload-model'
+import {
+  isPayloadOfSchemaType, isPayloadOfSchemaTypeWithMeta, notPayloadOfSchemaType,
+} from '@xyo-network/payload-model'
 
 import type { BoundWitness } from './BoundWitness/index.ts'
 import { BoundWitnessSchema } from './BoundWitness/index.ts'

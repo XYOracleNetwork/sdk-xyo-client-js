@@ -92,7 +92,9 @@ describe('GenericPayloadDiviner', () => {
         it('only return single payload of that schema (desc)', async () => {
           const schemas = ['network.xyo.debug']
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
-            .fields({ limit: 1, order: 'desc', schemas })
+            .fields({
+              limit: 1, order: 'desc', schemas,
+            })
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
@@ -102,7 +104,9 @@ describe('GenericPayloadDiviner', () => {
         it('only return single payload of that schema (asc)', async () => {
           const schemas = ['network.xyo.debug']
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
-            .fields({ limit: 1, order: 'asc', schemas })
+            .fields({
+              limit: 1, order: 'asc', schemas,
+            })
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBe(1)

@@ -3,7 +3,9 @@ import type { ARIMAOptions } from 'arima'
 
 import { configurableArima } from '../configurable/index.ts'
 
-export const arimaOpts: ARIMAOptions = { d: 1, p: 2, q: 2 }
+export const arimaOpts: ARIMAOptions = {
+  d: 1, p: 2, q: 2,
+}
 
 export const arimaForecastingName = 'arimaForecasting'
 

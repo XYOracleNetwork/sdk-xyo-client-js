@@ -10,7 +10,8 @@ import type {
   ModuleConfig,
   ModuleFilterOptions,
   ModuleIdentifier,
-  ModuleInstance } from '@xyo-network/module-model'
+  ModuleInstance,
+} from '@xyo-network/module-model'
 import {
   asModuleInstance,
   isModuleInstance,

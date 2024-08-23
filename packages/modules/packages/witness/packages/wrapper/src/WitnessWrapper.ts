@@ -5,7 +5,8 @@ import type { Payload } from '@xyo-network/payload-model'
 import type {
   WitnessInstance,
   WitnessModule,
-  WitnessObserveQuery } from '@xyo-network/witness-model'
+  WitnessObserveQuery,
+} from '@xyo-network/witness-model'
 import {
   isWitnessInstance,
   isWitnessModule,

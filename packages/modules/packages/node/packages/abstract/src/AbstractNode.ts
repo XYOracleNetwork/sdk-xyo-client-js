@@ -15,10 +15,9 @@ import type {
   ModuleIdentifier,
   ModuleInstance,
   ModuleQueryHandlerResult,
-  ModuleQueryResult } from '@xyo-network/module-model'
-import {
-  AddressSchema,
+  ModuleQueryResult,
 } from '@xyo-network/module-model'
+import { AddressSchema } from '@xyo-network/module-model'
 import type {
   AttachableNodeInstance,
   ChildCertification,
@@ -32,7 +31,8 @@ import type {
   NodeModuleEventData,
   NodeParams,
   NodeQueries,
-  NodeRegisteredQuery } from '@xyo-network/node-model'
+  NodeRegisteredQuery,
+} from '@xyo-network/node-model'
 import {
   ChildCertificationSchema,
   NodeAttachedQuerySchema,
@@ -81,7 +81,9 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
 
   async attachQuery(id: ModuleIdentifier, external?: boolean, account?: AccountInstance): Promise<ModuleQueryResult<AddressPayload>> {
     this._noOverride('attachQuery')
-    const queryPayload: NodeAttachQuery = { external, id, schema: NodeAttachQuerySchema }
+    const queryPayload: NodeAttachQuery = {
+      external, id, schema: NodeAttachQuerySchema,
+    }
     return await this.sendQueryRaw(queryPayload, [], account)
   }
 

@@ -70,7 +70,9 @@ export class IndexedDbBoundWitnessDiviner<
     if (!query) return []
 
     const result = await this.tryUseDb(async (db) => {
-      const { addresses, payload_hashes, payload_schemas, limit, offset, order } = query
+      const {
+        addresses, payload_hashes, payload_schemas, limit, offset, order,
+      } = query
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
       const results: TOut[] = []

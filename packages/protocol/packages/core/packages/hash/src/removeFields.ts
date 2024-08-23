@@ -1,5 +1,7 @@
 import { assertEx } from '@xylabs/assert'
-import { mapValues, merge, omitBy, pickBy } from '@xylabs/lodash'
+import {
+  mapValues, merge, omitBy, pickBy,
+} from '@xylabs/lodash'
 import type { EmptyObject } from '@xylabs/object'
 import { isObject } from '@xylabs/object'
 type ValueKeyIteratee<T> = (value: T, key: string) => unknown

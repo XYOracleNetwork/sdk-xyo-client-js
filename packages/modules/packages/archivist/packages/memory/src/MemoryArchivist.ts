@@ -4,7 +4,9 @@ import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { fulfilled, Promisable } from '@xylabs/promise'
-import { AbstractArchivist, addStorageMeta, removeStorageMeta, sortByStorageMeta, WithStorageMeta } from '@xyo-network/archivist-abstract'
+import {
+  AbstractArchivist, addStorageMeta, removeStorageMeta, sortByStorageMeta, WithStorageMeta,
+} from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -19,9 +21,13 @@ import {
   AttachableArchivistInstance,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
+import {
+  AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams,
+} from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
+import {
+  Payload, PayloadWithMeta, Schema, WithMeta,
+} from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 export type MemoryArchivistConfigSchema = 'network.xyo.archivist.memory.config'
@@ -94,9 +100,7 @@ export class MemoryArchivist<
     const settled = await Promise.allSettled(
       compact(
         Object.values((await this.parentArchivists()).commit ?? [])?.map(async (parent) => {
-          const queryPayload: ArchivistInsertQuery = {
-            schema: ArchivistInsertQuerySchema,
-          }
+          const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
           const query = await this.bindQuery(queryPayload, payloads)
           return (await parent?.query(query[0], query[1]))?.[0]
         }),
@@ -143,7 +147,9 @@ export class MemoryArchivist<
   }
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
-    const { limit, offset, order } = options ?? {}
+    const {
+      limit, offset, order,
+    } = options ?? {}
     let all = await this.allHandler()
     if (order === 'desc') {
       all = all.reverse()

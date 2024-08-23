@@ -3,7 +3,8 @@ import type {
   CreatableModuleFactory,
   CreatableModuleRegistry,
   LabeledCreatableModuleFactory,
-  Labels } from '@xyo-network/module-model'
+  Labels,
+} from '@xyo-network/module-model'
 import {
   hasAllLabels,
   hasLabels,

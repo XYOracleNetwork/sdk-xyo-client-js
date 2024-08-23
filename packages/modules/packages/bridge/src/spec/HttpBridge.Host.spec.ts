@@ -2,7 +2,8 @@ import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/bridge-http'
 import type {
   AsyncQueryBusIntersectConfig,
   PubSubBridgeConfig,
-  PubSubBridgeParams } from '@xyo-network/bridge-pub-sub'
+  PubSubBridgeParams,
+} from '@xyo-network/bridge-pub-sub'
 import {
   PubSubBridge,
   PubSubBridgeConfigSchema,
@@ -36,14 +37,18 @@ describe.skip('HttpBridge with PubSubBridge', () => {
 
     const bridge = await HttpBridge.create({
       account: 'random',
-      config: { discoverRoots: 'start', name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: {
+        discoverRoots: 'start', name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true },
+      },
     })
 
     await bridge?.start?.()
     await memNode.register(bridge)
     await memNode.attach(bridge?.address, true)
 
-    const config: PubSubBridgeConfig = { client: { intersect }, host: { intersect }, name: 'PubSubBridgeArie', schema: PubSubBridgeConfigSchema }
+    const config: PubSubBridgeConfig = {
+      client: { intersect }, host: { intersect }, name: 'PubSubBridgeArie', schema: PubSubBridgeConfigSchema,
+    }
     const psParams: PubSubBridgeParams = { account: 'random', config }
     const psBridge = await PubSubBridge.create(psParams)
     await memNode.register(psBridge)

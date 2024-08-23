@@ -4,7 +4,8 @@ import type {
   DivinerDivineQuery,
   DivinerInstance,
   DivinerModule,
-  DivinerParams } from '@xyo-network/diviner-model'
+  DivinerParams,
+} from '@xyo-network/diviner-model'
 import {
   DivinerDivineQuerySchema,
   isDivinerInstance,
@@ -12,7 +13,9 @@ import {
 } from '@xyo-network/diviner-model'
 import type { ModuleQueryResult } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
-import type { Payload, WithMeta, WithSources } from '@xyo-network/payload-model'
+import type {
+  Payload, WithMeta, WithSources,
+} from '@xyo-network/payload-model'
 
 constructableModuleWrapper()
 export class DivinerWrapper<TWrappedModule extends DivinerModule<DivinerParams>, TIn extends Payload = Payload, TOut extends Payload = Payload>

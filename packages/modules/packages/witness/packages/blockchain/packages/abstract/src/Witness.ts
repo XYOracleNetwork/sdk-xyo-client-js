@@ -3,7 +3,9 @@ import type { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
-import type { WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness-model'
+import type {
+  WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams,
+} from '@xyo-network/witness-model'
 import type { Provider } from 'ethers'
 
 /** @deprecated use EvmWitnessConfigSchema version instead */

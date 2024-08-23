@@ -81,8 +81,7 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
               toUint8Array(await PayloadBuilder.dataHash(this.payload)),
               toUint8Array(address),
               toUint8Array(this.obj.$meta?.signatures?.[index]),
-            ),
-          ) ?? [],
+            )) ?? [],
         )
       ).flat(),
     ]

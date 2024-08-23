@@ -6,7 +6,8 @@ import type { Payload } from '@xyo-network/payload-model'
 import type {
   SentinelInstance,
   SentinelModule,
-  SentinelReportQuery } from '@xyo-network/sentinel-model'
+  SentinelReportQuery,
+} from '@xyo-network/sentinel-model'
 import {
   isSentinelInstance,
   isSentinelModule,

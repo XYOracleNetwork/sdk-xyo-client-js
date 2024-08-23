@@ -20,11 +20,15 @@ export const getTestNode = async (): Promise<NodeInstance> => {
   const archivist = await MemoryArchivist.create({ account: 'random', config: { schema: MemoryArchivistConfigSchema, name: ArchivistName } })
   const payloadDiviner = await MemoryPayloadDiviner.create({
     account: 'random',
-    config: { schema: PayloadDivinerConfigSchema, name: PayloadDivinerName, archivist: ArchivistName },
+    config: {
+      schema: PayloadDivinerConfigSchema, name: PayloadDivinerName, archivist: ArchivistName,
+    },
   })
   const boundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
     account: 'random',
-    config: { schema: BoundWitnessDivinerConfigSchema, name: BoundWitnessDivinerName, archivist: ArchivistName },
+    config: {
+      schema: BoundWitnessDivinerConfigSchema, name: BoundWitnessDivinerName, archivist: ArchivistName,
+    },
   })
   const config: PayloadPointerDivinerConfig = {
     schema: PayloadPointerDivinerConfigSchema,

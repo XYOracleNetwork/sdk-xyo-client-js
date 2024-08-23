@@ -3,7 +3,9 @@ import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractBridge } from '@xyo-network/bridge-abstract'
-import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
+import {
+  BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions,
+} from '@xyo-network/bridge-model'
 import { PackageManifestPayload } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
@@ -61,7 +63,9 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
 
   get discoverCacheConfig(): LRUCache.Options<string, Payload[], unknown> {
     const discoverCacheConfig: CacheConfig | undefined = {}
-    return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
+    return {
+      max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig,
+    }
   }
 
   get worker(): Worker {

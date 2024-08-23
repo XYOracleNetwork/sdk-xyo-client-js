@@ -38,7 +38,9 @@ import {
   ModuleTypeCheck,
   ObjectResolverPriority,
 } from '@xyo-network/module-model'
-import { ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import {
+  ModuleError, ModuleErrorSchema, Payload, Query, WithMeta,
+} from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 import type { ModuleWrapperParams } from './models.ts'
@@ -90,7 +92,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   eventData = {} as TWrappedModule['eventData']
 
-  protected readonly cachedCalls = new LRUCache<string, Payload[]>({ max: 1000, ttl: 1000 * 60, ttlAutopurge: true })
+  protected readonly cachedCalls = new LRUCache<string, Payload[]>({
+    max: 1000, ttl: 1000 * 60, ttlAutopurge: true,
+  })
 
   protected readonly wrapperParams: ModuleWrapperParams<TWrappedModule>
 

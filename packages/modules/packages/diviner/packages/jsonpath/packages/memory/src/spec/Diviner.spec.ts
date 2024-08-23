@@ -34,13 +34,17 @@ describe('JsonPathDiviner', () => {
     [
       'transforms with default value if source property is missing',
       [{ schema: 'network.xyo.test.source.a' }],
-      [{ defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a' }],
+      [{
+        defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a',
+      }],
       [{ c: 0, schema: 'network.xyo.test.destination' }],
     ],
     [
       'transforms with default value if source property is undefined',
       [{ schema: 'network.xyo.test.source.a' }],
-      [{ defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a' }],
+      [{
+        defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a',
+      }],
       [{ c: 0, schema: 'network.xyo.test.destination' }],
     ],
     // TODO: Since this returns an array, it will not work with the current
@@ -80,19 +84,25 @@ describe('JsonPathDiviner', () => {
     [
       'does not transform with default value if source property is null',
       [{ a: null, schema: 'network.xyo.test.source.a' }],
-      [{ defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a' }],
+      [{
+        defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a',
+      }],
       [{ c: null, schema: 'network.xyo.test.destination' }],
     ],
     [
       'does not transform with default value if source property is false',
       [{ a: false, schema: 'network.xyo.test.source.a' }],
-      [{ defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a' }],
+      [{
+        defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a',
+      }],
       [{ c: false, schema: 'network.xyo.test.destination' }],
     ],
     [
       'does not transform with default value if source property is falsy',
       [{ a: 0, schema: 'network.xyo.test.source.a' }],
-      [{ defaultValue: 1, destinationField: 'c', sourcePathExpression: '$.a' }],
+      [{
+        defaultValue: 1, destinationField: 'c', sourcePathExpression: '$.a',
+      }],
       [{ c: 0, schema: 'network.xyo.test.destination' }],
     ],
   ]

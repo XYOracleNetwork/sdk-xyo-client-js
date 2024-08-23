@@ -44,9 +44,7 @@ describe('Sentinel', () => {
     const params: MemorySentinelParams<SentinelConfig> = {
       account: 'random',
       config: {
-        archiving: {
-          archivists: [archivistA.address, archivistB.address],
-        },
+        archiving: { archivists: [archivistA.address, archivistB.address] },
         schema: SentinelConfigSchema,
         synchronous: true,
         tasks: [{ mod: witnessA.address }, { mod: witnessB.address }],

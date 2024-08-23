@@ -108,7 +108,9 @@ describe('MemoryBoundWitnessDiviner', () => {
         it('only return single bw that contains that schema', async () => {
           const payload_schemas = ['network.xyo.debug']
           const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
-            .fields({ limit: 1, order: 'asc', payload_schemas })
+            .fields({
+              limit: 1, order: 'asc', payload_schemas,
+            })
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
@@ -118,7 +120,9 @@ describe('MemoryBoundWitnessDiviner', () => {
         it('only return single bw that contains that schema (desc)', async () => {
           const payload_schemas = ['network.xyo.debug']
           const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
-            .fields({ limit: 1, order: 'desc', payload_schemas })
+            .fields({
+              limit: 1, order: 'desc', payload_schemas,
+            })
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBe(1)

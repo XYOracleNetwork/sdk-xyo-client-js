@@ -15,7 +15,8 @@ import type {
   BridgeParams,
   BridgeQueries,
   BridgeUnexposeOptions,
-  ModuleFilterPayload } from '@xyo-network/bridge-model'
+  ModuleFilterPayload,
+} from '@xyo-network/bridge-model'
 import {
   BridgeConfigSchema,
   BridgeConnectQuerySchema,
@@ -32,7 +33,8 @@ import type {
   ModuleIdentifier,
   ModuleInstance,
   ModuleQueryHandlerResult,
-  ModuleResolverInstance } from '@xyo-network/module-model'
+  ModuleResolverInstance,
+} from '@xyo-network/module-model'
 import {
   AddressSchema,
   isAddressModuleFilter,
@@ -214,8 +216,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     const resolvedAddresses = (
       await Promise.all(
         archivists.map(async archivist =>
-          (await Promise.all((await this.parents()).map(parent => resolvePathToAddress(parent, archivist)))).filter(exists),
-        ),
+          (await Promise.all((await this.parents()).map(parent => resolvePathToAddress(parent, archivist)))).filter(exists)),
       )
     )
       .flat()

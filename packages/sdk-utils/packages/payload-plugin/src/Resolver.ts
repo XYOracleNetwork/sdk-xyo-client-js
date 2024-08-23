@@ -16,9 +16,7 @@ export class PayloadPluginResolver {
     /** @param plugins The initial set of plugins */
     plugins?: PayloadPlugin<Payload>[],
     /** @param defaultPlugin Specifies the plugin to be used if no plugins resolve */
-    defaultPlugin = createPayloadPlugin<Payload>({
-      schema: PayloadSchema,
-    }),
+    defaultPlugin = createPayloadPlugin<Payload>({ schema: PayloadSchema }),
   ) {
     for (const plugin of plugins ?? []) this.register(plugin)
     this.defaultPlugin = defaultPlugin

@@ -8,7 +8,9 @@ import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
-import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module-model'
+import {
+  isModule, isModuleInstance, isModuleObject,
+} from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import type { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -28,7 +30,9 @@ describe('Various StorageArchivist types', () => {
       (async () =>
         await StorageArchivist.create({
           account: 'random',
-          config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'local' },
+          config: {
+            namespace: 'test', schema: StorageArchivistConfigSchema, type: 'local',
+          },
         }))(),
     ],
     [
@@ -36,7 +40,9 @@ describe('Various StorageArchivist types', () => {
       (async () =>
         await StorageArchivist.create({
           account: 'random',
-          config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'session' },
+          config: {
+            namespace: 'test', schema: StorageArchivistConfigSchema, type: 'session',
+          },
         }))(),
     ],
     [
@@ -44,7 +50,9 @@ describe('Various StorageArchivist types', () => {
       (async () =>
         await StorageArchivist.create({
           account: 'random',
-          config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'page' },
+          config: {
+            namespace: 'test', schema: StorageArchivistConfigSchema, type: 'page',
+          },
         }))(),
     ],
   ]
@@ -90,12 +98,16 @@ test('Archivist Private Key Save', async () => {
   const account = await Account.random()
   const storage = await StorageArchivist.create({
     account,
-    config: { namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
+    config: {
+      namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local',
+    },
   })
   const address = storage.address
   const storage2 = await StorageArchivist.create({
     account,
-    config: { namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
+    config: {
+      namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local',
+    },
   })
   expect(storage2.address).toBe(address)
 })
@@ -105,7 +117,9 @@ test('Archivist passed account', async () => {
 
   const storage = (await StorageArchivist.create({
     account,
-    config: { namespace: 'main', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
+    config: {
+      namespace: 'main', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local',
+    },
   })) as StorageArchivist
 
   expect(storage['account'].address).toBe(account.address)

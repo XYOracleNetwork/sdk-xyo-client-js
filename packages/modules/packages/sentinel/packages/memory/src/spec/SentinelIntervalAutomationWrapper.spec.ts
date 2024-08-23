@@ -14,24 +14,36 @@ describe('SentinelIntervalAutomationWrapper', () => {
   describe('next', () => {
     it('when more remains', () => {
       const remaining = 2
-      const input = { frequency, frequencyUnits, remaining, schema, start, type } as const
+      const input = {
+        frequency, frequencyUnits, remaining, schema, start, type,
+      } as const
       const sut = new SentinelIntervalAutomationWrapper(input)
       const actual = sut.next().payload
-      expect(actual).toEqual({ ...input, remaining: 1, start: expect.any(Number) })
+      expect(actual).toEqual({
+        ...input, remaining: 1, start: expect.any(Number),
+      })
     })
     it('with one remaining', () => {
       const remaining = 1
-      const input = { frequency, frequencyUnits, remaining, schema, start, type } as const
+      const input = {
+        frequency, frequencyUnits, remaining, schema, start, type,
+      } as const
       const sut = new SentinelIntervalAutomationWrapper(input)
       const actual = sut.next().payload
-      expect(actual).toEqual({ ...input, remaining: 0, start: Number.POSITIVE_INFINITY })
+      expect(actual).toEqual({
+        ...input, remaining: 0, start: Number.POSITIVE_INFINITY,
+      })
     })
     it('with zero remaining', () => {
       const remaining = 0
-      const input = { frequency, frequencyUnits, remaining, schema, start, type } as const
+      const input = {
+        frequency, frequencyUnits, remaining, schema, start, type,
+      } as const
       const sut = new SentinelIntervalAutomationWrapper(input)
       const actual = sut.next().payload
-      expect(actual).toEqual({ ...input, remaining: 0, start: Number.POSITIVE_INFINITY })
+      expect(actual).toEqual({
+        ...input, remaining: 0, start: Number.POSITIVE_INFINITY,
+      })
     })
   })
 })

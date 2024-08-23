@@ -7,7 +7,9 @@ import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-
 import { isBoundWitness, notBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import type { ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
+import type {
+  ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult,
+} from '@xyo-network/module-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 import type {
   CustomSentinelInstance,
@@ -17,7 +19,8 @@ import type {
   SentinelModuleEventData,
   SentinelParams,
   SentinelQueries,
-  SentinelReportQuery } from '@xyo-network/sentinel-model'
+  SentinelReportQuery,
+} from '@xyo-network/sentinel-model'
 import {
   SentinelConfigSchema,
   SentinelReportQuerySchema,
@@ -85,7 +88,9 @@ export abstract class AbstractSentinel<
     const boundwitnesses = payloads?.filter(isBoundWitness) ?? []
     const outPayloads = payloads?.filter(notBoundWitness) ?? []
     const boundwitness = boundwitnesses.find(bw => bw.addresses.includes(this.address))
-    await this.emit('reportEnd', { boundwitness, inPayloads, mod: this, outPayloads })
+    await this.emit('reportEnd', {
+      boundwitness, inPayloads, mod: this, outPayloads,
+    })
   }
 
   protected async generateJob() {

@@ -5,7 +5,9 @@ import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerS
 
 export type TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema =
   `${TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema}.config`
-export const TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema = `${TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema}.config`
+// eslint-disable-next-line @stylistic/max-len
+export const TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
+ = `${TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema}.config`
 
 /**
  * Diviner Config for a Diviner which transforms an Index Query Response to a Diviner Query Response

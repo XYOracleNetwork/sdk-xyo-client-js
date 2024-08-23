@@ -14,7 +14,9 @@ import type {
 } from '@xyo-network/module-model'
 import type { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AbstractNode } from '@xyo-network/node-abstract'
-import type { AttachableNodeInstance, ChildCertificationFields, NodeConfig, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
+import type {
+  AttachableNodeInstance, ChildCertificationFields, NodeConfig, NodeModuleEventData, NodeParams,
+} from '@xyo-network/node-model'
 import { isNodeModule } from '@xyo-network/node-model'
 import { Mutex } from 'async-mutex'
 

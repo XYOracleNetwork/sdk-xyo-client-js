@@ -22,7 +22,9 @@ export class NameRegistrarTransformer implements ModuleIdentifierTransformer {
       if (cachedResult) return cachedResult
 
       // not cached, so check registrar
-      const query = { domain: nameParts[0], order: 'desc' as const, schema: PayloadDivinerQuerySchema, tld: nameParts[1] }
+      const query = {
+        domain: nameParts[0], order: 'desc' as const, schema: PayloadDivinerQuerySchema, tld: nameParts[1],
+      }
       const result = await this.registrarDiviner?.divine([query])
       const resultPayload = result?.shift()
       if (!resultPayload) {

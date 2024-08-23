@@ -2,10 +2,14 @@ import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type { HuriPayload } from '@xyo-network/diviner-huri'
 import { HuriSchema } from '@xyo-network/diviner-huri'
-import type { DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
+import type {
+  DivinerInstance, DivinerModuleEventData, DivinerParams,
+} from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
-import type { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
+import type {
+  Payload, Schema, WithMeta,
+} from '@xyo-network/payload-model'
 
 import type { ArchivistPayloadDivinerConfig } from './Config.ts'
 import { ArchivistPayloadDivinerConfigSchema } from './Config.ts'

@@ -70,7 +70,9 @@ describe('MemoryArchivist', () => {
     expect(batch1Desc).toBeArrayOfSize(2)
     expect(batch1Desc?.[0].$hash).toEqual(payloads2[1].$hash)
 
-    const batch2Desc = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch2?.[1]), order: 'desc' })
+    const batch2Desc = await archivist.next?.({
+      limit: 2, offset: await PayloadBuilder.hash(batch2?.[1]), order: 'desc',
+    })
     expect(batch2Desc).toBeArrayOfSize(2)
     expect(batch2Desc?.[1].$hash).toEqual(payloads1[0].$hash)
   })

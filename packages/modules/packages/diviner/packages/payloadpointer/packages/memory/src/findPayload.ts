@@ -16,7 +16,9 @@ import { combineRules } from './combineRules.ts'
 const limit = 1
 
 const createBoundWitnessFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): BoundWitnessDivinerQueryPayload[] => {
-  const { addresses, order = 'desc', schemas, timestamp } = searchCriteria
+  const {
+    addresses, order = 'desc', schemas, timestamp,
+  } = searchCriteria
   const query: BoundWitnessDivinerQueryPayload = {
     addresses,
     limit,
@@ -29,8 +31,12 @@ const createBoundWitnessFilterFromSearchCriteria = (searchCriteria: PayloadSearc
 }
 
 const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): Payload[] => {
-  const { order = 'desc', schemas, timestamp } = searchCriteria
-  const query: PayloadDivinerQueryPayload = { limit, order, schema: PayloadDivinerQuerySchema, schemas, timestamp }
+  const {
+    order = 'desc', schemas, timestamp,
+  } = searchCriteria
+  const query: PayloadDivinerQueryPayload = {
+    limit, order, schema: PayloadDivinerQuerySchema, schemas, timestamp,
+  }
   return [query]
 }
 

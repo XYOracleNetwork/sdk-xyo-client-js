@@ -11,7 +11,9 @@ import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
+import type {
+  Payload, Schema, WithMeta,
+} from '@xyo-network/payload-model'
 import type { IDBPDatabase, IDBPObjectStore } from 'idb'
 import { openDB } from 'idb'
 
@@ -89,7 +91,9 @@ export class IndexedDbPayloadDiviner<
     const query = payloads?.find(isPayloadDivinerQueryPayload) as TIn
     if (!query) return []
     const result = await this.tryUseDb(async (db) => {
-      const { schemas, limit, offset, order, ...props } = removeFields(query as unknown as WithMeta<TIn> & { sources?: Hash[] }, [
+      const {
+        schemas, limit, offset, order, ...props
+      } = removeFields(query as unknown as WithMeta<TIn> & { sources?: Hash[] }, [
         'hash',
         'schema',
         '$meta',

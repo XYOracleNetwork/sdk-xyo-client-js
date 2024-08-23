@@ -68,7 +68,9 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     boundWitnesses.push(boundWitnessA, boundWitnessB, boundWitnessC)
     archivist = await IndexedDbArchivist.create({
       account: 'random',
-      config: { dbName, schema: IndexedDbArchivist.defaultConfigSchema, storeName },
+      config: {
+        dbName, schema: IndexedDbArchivist.defaultConfigSchema, storeName,
+      },
     })
     await archivist.insert(boundWitnesses)
     sut = await IndexedDbBoundWitnessDiviner.create({
@@ -164,7 +166,9 @@ describe('IndexedDbBoundWitnessDiviner', () => {
       it('returns payloads from the beginning', async () => {
         for (const [i, boundWitness] of boundWitnesses.entries()) {
           const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
-            .fields({ limit: 1, offset: i, order: 'asc' })
+            .fields({
+              limit: 1, offset: i, order: 'asc',
+            })
             .build()
           const results = await sut.divine([query])
           expect(results).toBeArrayOfSize(1)
@@ -177,7 +181,9 @@ describe('IndexedDbBoundWitnessDiviner', () => {
       it('returns payloads from the end', async () => {
         for (let i = 0; i < boundWitnesses.length; i++) {
           const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
-            .fields({ limit: 1, offset: i, order: 'desc' })
+            .fields({
+              limit: 1, offset: i, order: 'desc',
+            })
             .build()
           const results = await sut.divine([query])
           expect(results).toBeArrayOfSize(1)

@@ -5,7 +5,8 @@ import { PayloadStatsDiviner } from '@xyo-network/diviner-payload-stats-abstract
 import type {
   PayloadStatsDivinerParams,
   PayloadStatsPayload,
-  PayloadStatsQueryPayload } from '@xyo-network/diviner-payload-stats-model'
+  PayloadStatsQueryPayload,
+} from '@xyo-network/diviner-payload-stats-model'
 import {
   isPayloadStatsQueryPayload,
   PayloadStatsDivinerConfigSchema,

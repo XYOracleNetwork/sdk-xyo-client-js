@@ -5,7 +5,8 @@ import type {
   NameObjectFilter,
   ObjectFilter,
   ObjectFilterOptions,
-  QueryObjectFilter } from './ObjectFilter.ts'
+  QueryObjectFilter,
+} from './ObjectFilter.ts'
 import {
   isAddressObjectFilter,
   isNameObjectFilter,

@@ -3,9 +3,7 @@ const config: XyTsupConfig = {
   compile: {
     browser: {},
     node: {},
-    neutral: {
-      src: true,
-    },
+    neutral: { src: true },
   },
 }
 

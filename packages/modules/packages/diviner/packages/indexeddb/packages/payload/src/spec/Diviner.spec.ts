@@ -70,7 +70,9 @@ describe('IndexedDbPayloadDiviner', () => {
 
     archivist = await IndexedDbArchivist.create({
       account: 'random',
-      config: { dbName, schema: IndexedDbArchivist.defaultConfigSchema, storage: { indexes: [urlIndex] }, storeName },
+      config: {
+        dbName, schema: IndexedDbArchivist.defaultConfigSchema, storage: { indexes: [urlIndex] }, storeName,
+      },
     })
     await archivist.insert(payloads)
     sut = await IndexedDbPayloadDiviner.create({
@@ -183,7 +185,9 @@ describe('IndexedDbPayloadDiviner', () => {
       it('returns payloads from the beginning', async () => {
         for (const [i, boundWitness] of payloads.entries()) {
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
-            .fields({ limit: 1, offset: i, order: 'asc' })
+            .fields({
+              limit: 1, offset: i, order: 'asc',
+            })
             .build()
           const results = await sut.divine([query])
           expect(results).toBeArrayOfSize(1)
@@ -196,7 +200,9 @@ describe('IndexedDbPayloadDiviner', () => {
       it('returns payloads from the end', async () => {
         for (let i = 0; i < payloads.length; i++) {
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
-            .fields({ limit: 1, offset: i, order: 'desc' })
+            .fields({
+              limit: 1, offset: i, order: 'desc',
+            })
             .build()
           const results = await sut.divine([query])
           expect(results).toBeArrayOfSize(1)

@@ -4,7 +4,9 @@ import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { BridgeExposeOptions, BridgeModule } from '@xyo-network/bridge-model'
-import { AnyConfigSchema, creatableModule, ModuleInstance } from '@xyo-network/module-model'
+import {
+  AnyConfigSchema, creatableModule, ModuleInstance,
+} from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Server, Socket } from 'socket.io'
 

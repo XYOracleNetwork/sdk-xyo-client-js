@@ -4,15 +4,16 @@
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
 import type { ApiConfig } from '@xyo-network/api-models'
-import type {
-  AttachableArchivistInstance } from '@xyo-network/archivist-model'
+import type { AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import {
   asArchivistInstance,
   asAttachableArchivistInstance,
   isAttachableArchivistInstance,
 } from '@xyo-network/archivist-model'
 import type { ModuleDescriptionPayload } from '@xyo-network/module-model'
-import { isModule, isModuleInstance, isModuleObject, ModuleDescriptionSchema } from '@xyo-network/module-model'
+import {
+  isModule, isModuleInstance, isModuleObject, ModuleDescriptionSchema,
+} from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance, isNodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -29,9 +30,7 @@ const schema = HttpBridgeConfigSchema
 const security = { allowAnonymous: true }
 
 export const getApiConfig = (): ApiConfig => {
-  return {
-    apiDomain: process.env.ARCHIVIST_API_DOMAIN || 'https://beta.api.archivist.xyo.network',
-  }
+  return { apiDomain: process.env.ARCHIVIST_API_DOMAIN || 'https://beta.api.archivist.xyo.network' }
 }
 
 export const getArchivist = async (config: ApiConfig = getApiConfig()): Promise<AttachableArchivistInstance> => {
@@ -41,7 +40,12 @@ export const getArchivist = async (config: ApiConfig = getApiConfig()): Promise<
 export const tryGetArchivist = async (config: ApiConfig = getApiConfig()): Promise<AttachableArchivistInstance | undefined> => {
   const url = config.root ? `${config.apiDomain}/${config.root}` : config.apiDomain
   const account = await HDWallet.random()
-  const bridge = await HttpBridge.create({ account, config: { client: { discoverRoots, url }, schema, security } })
+  const bridge = await HttpBridge.create({
+    account,
+    config: {
+      client: { discoverRoots, url }, schema, security,
+    },
+  })
   await bridge.start()
   const mod = await bridge.resolve(archivistName)
   return isAttachableArchivistInstance(mod) ? mod : undefined
@@ -67,7 +71,9 @@ describe('HttpBridge', () => {
 
     const bridge = await HttpBridge.create({
       account: 'random',
-      config: { discoverRoots: 'start', name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: {
+        discoverRoots: 'start', name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true },
+      },
     })
 
     await bridge?.start?.()
@@ -141,7 +147,9 @@ describe('HttpBridge', () => {
 
     const bridge = await HttpBridge.create({
       account: 'random',
-      config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: {
+        nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true },
+      },
     })
 
     await bridge.getRoots()

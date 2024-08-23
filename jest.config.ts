@@ -5,9 +5,7 @@ const generateJestConfig = ({ esModules }: { esModules: string[] }) => {
     extensionsToTreatAsEsm: ['.ts'],
     globalSetup: './jestSetup/globalSetup.ts',
     globalTeardown: './jestSetup/globalTeardown.ts',
-    moduleNameMapper: {
-      '^(\\.{1,2}/.*)\\.js$': '$1',
-    },
+    moduleNameMapper: { '^(\\.{1,2}/.*)\\.js$': '$1' },
     preset: 'ts-jest',
     setupFiles: ['dotenv/config'],
     setupFilesAfterEnv: ['jest-sorted', 'jest-extended/all', './jestSetup/setupFiles.ts'],

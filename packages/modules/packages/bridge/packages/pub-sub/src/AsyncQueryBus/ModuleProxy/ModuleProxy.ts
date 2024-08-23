@@ -12,10 +12,9 @@ import type {
   ModuleInstance,
   ModuleName,
   ModuleQueryResult,
-  ResolveHelperConfig } from '@xyo-network/module-model'
-import {
-  ResolveHelper,
+  ResolveHelperConfig,
 } from '@xyo-network/module-model'
+import { ResolveHelper } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 
 import type { AsyncQueryBusClient } from '../AsyncQueryBusClient.ts'

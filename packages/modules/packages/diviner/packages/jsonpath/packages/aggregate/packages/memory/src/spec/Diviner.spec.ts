@@ -31,9 +31,7 @@ describe('JsonPathAggregateDiviner', () => {
     const timestampA = 1_234_567_890
     const timestampPayloadA = { schema: 'network.xyo.timestamp', timestamp: timestampA }
     const imageThumbnailPayloadA: ImageThumbnail = {
-      http: {
-        status: 200,
-      },
+      http: { status: 200 },
       schema: 'network.xyo.image.thumbnail',
       sourceUrl: 'https://node.xyo.network',
       url: 'data',
@@ -41,18 +39,14 @@ describe('JsonPathAggregateDiviner', () => {
     const timestampB = 1_234_567_891
     const timestampPayloadB = { schema: 'network.xyo.timestamp', timestamp: timestampB }
     const imageThumbnailPayloadB: ImageThumbnail = {
-      http: {
-        status: 500,
-      },
+      http: { status: 500 },
       schema: 'network.xyo.image.thumbnail',
       sourceUrl: 'https://www.google.com',
     }
     const timestampC = 1_234_567_892
     const timestampPayloadC = { schema: 'network.xyo.timestamp', timestamp: timestampC }
     const imageThumbnailPayloadC: ImageThumbnail = {
-      http: {
-        ipAddress: '192.169.1.1',
-      },
+      http: { ipAddress: '192.169.1.1' },
       schema: 'network.xyo.image.thumbnail',
       sourceUrl: 'https://explore.xyo.network',
     }
@@ -73,7 +67,9 @@ describe('JsonPathAggregateDiviner', () => {
         expect(index?.status).toBe(thumbnail.http?.status)
       }
       beforeAll(async () => {
-        const config = { destinationSchema, schema: JsonPathAggregateDiviner.defaultConfigSchema, schemaTransforms }
+        const config = {
+          destinationSchema, schema: JsonPathAggregateDiviner.defaultConfigSchema, schemaTransforms,
+        }
         diviner = await JsonPathAggregateDiviner.create({ account, config })
       })
       const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
@@ -151,7 +147,9 @@ describe('JsonPathAggregateDiviner', () => {
         expect(index?.status).toBe(thumbnail.http?.status)
       }
       beforeAll(async () => {
-        const config = { destinationSchema, schema: JsonPathAggregateDiviner.defaultConfigSchema, schemaTransforms }
+        const config = {
+          destinationSchema, schema: JsonPathAggregateDiviner.defaultConfigSchema, schemaTransforms,
+        }
         diviner = await JsonPathAggregateDiviner.create({ account, config })
       })
       const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {

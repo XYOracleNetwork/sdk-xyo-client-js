@@ -9,13 +9,14 @@ import type {
   Order,
   PayloadDivinerConfig,
   PayloadDivinerParams,
-  PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import {
-  isPayloadDivinerQueryPayload,
+  PayloadDivinerQueryPayload,
 } from '@xyo-network/diviner-payload-model'
+import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import type { EventListener } from '@xyo-network/module-events'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
+import type {
+  Payload, Schema, WithMeta,
+} from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
 const DEFAULT_INDEX_BATCH_SIZE = 100 as const
@@ -112,8 +113,10 @@ export class GenericPayloadDiviner<
 
     await this.updateIndex()
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { $hash, $meta, schema, schemas, order, limit, offset, ...props } = filter
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      $hash, $meta, schema, schemas, order, limit, offset, ...props
+    } = filter
     let all: WithMeta<TOut>[] = this.all(order, offset)
     if (all) {
       if (schemas?.length) all = all.filter(payload => schemas.includes(payload.schema))
@@ -128,8 +131,7 @@ export class GenericPayloadDiviner<
                   const prop = payload?.[property]
                   // TODO: This seems to be written just to check arrays, and now that $meta is there, need to check type?
                   return Array.isArray(prop) && prop.includes?.(value)
-                }),
-              )
+                }))
               : all.filter(payload => payload?.[property] === filter)
         }
       }

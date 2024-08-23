@@ -10,7 +10,8 @@ import type { WitnessModule, WitnessParams } from '@xyo-network/witness-model'
 import type {
   PayloadSetDivinerPlugin,
   PayloadSetPlugin,
-  PayloadSetWitnessPlugin } from './Plugin.ts'
+  PayloadSetWitnessPlugin,
+} from './Plugin.ts'
 import {
   isPayloadSetDivinerPlugin,
   isPayloadSetWitnessPlugin,

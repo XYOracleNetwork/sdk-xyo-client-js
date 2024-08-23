@@ -12,18 +12,10 @@ const dumpErrors = (errors: Error[]) => {
 PayloadValidator.setSchemaNameValidatorFactory(schema => new SchemaNameValidator(schema))
 
 const testPayloadNoSchema: Payload = {} as Payload
-const testPayloadMixedCase: Payload = {
-  schema: 'network.xyo.testMixedCaseSchema',
-} as Payload
-const testPayloadTooFewLevels: Payload = {
-  schema: 'network.xyo',
-} as Payload
-const testPayloadDoesNotExist: Payload = {
-  schema: 'network.dfd-sf-sf-s.blahblah',
-} as Payload
-const testPayloadValid: Payload = {
-  schema: 'network.xyo.test',
-} as Payload
+const testPayloadMixedCase: Payload = { schema: 'network.xyo.testMixedCaseSchema' } as Payload
+const testPayloadTooFewLevels: Payload = { schema: 'network.xyo' } as Payload
+const testPayloadDoesNotExist: Payload = { schema: 'network.dfd-sf-sf-s.blahblah' } as Payload
+const testPayloadValid: Payload = { schema: 'network.xyo.test' } as Payload
 
 test('all [missing schema]', async () => {
   const validator = new PayloadValidator(testPayloadNoSchema)

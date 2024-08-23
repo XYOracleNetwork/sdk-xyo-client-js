@@ -23,9 +23,7 @@ import TemporalStateToIndexCandidateDivinerManifest from './TemporalStateToIndex
 describe('TemporalStateToIndexCandidateDiviner', () => {
   const sourceUrl = 'https://placekitten.com/200/300'
   const thumbnailHttpSuccess = {
-    http: {
-      status: 200,
-    },
+    http: { status: 200 },
     schema: 'network.xyo.image.thumbnail',
     sourceHash: '7f39363514d9d9b958a5a993edeba35cb44f912c7072ed9ddd628728ac0fd681',
     sourceUrl,
@@ -42,17 +40,13 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
   }
 
   const thumbnailCodeFail = {
-    http: {
-      code: 'FAILED',
-    },
+    http: { code: 'FAILED' },
     schema: 'network.xyo.image.thumbnail',
     sourceUrl,
   }
 
   const thumbnailWitnessFail = {
-    http: {
-      ipAddress: '104.17.96.13',
-    },
+    http: { ipAddress: '104.17.96.13' },
     schema: 'network.xyo.image.thumbnail',
     sourceUrl,
   }

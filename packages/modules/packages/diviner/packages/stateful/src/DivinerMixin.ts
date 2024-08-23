@@ -11,7 +11,8 @@ import type {
   ModuleInstance,
   ModuleParams,
   ModuleState,
-  StateDictionary } from '@xyo-network/module-model'
+  StateDictionary,
+} from '@xyo-network/module-model'
 import {
   isModuleState,
   ModuleStateSchema,

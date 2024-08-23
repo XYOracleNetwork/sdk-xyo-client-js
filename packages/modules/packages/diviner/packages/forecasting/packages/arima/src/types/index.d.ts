@@ -35,7 +35,9 @@ declare interface ARIMAOptions {
 declare type PredictionResult = [predictions: number[], meanSquareErrors: number[]]
 
 declare module 'arima' {
-  export { ARIMAMethod, ARIMAOptions, OptimizationMethod, PredictionResult }
+  export {
+    ARIMAMethod, ARIMAOptions, OptimizationMethod, PredictionResult,
+  }
 
   export default class ARIMA {
     constructor(options: ARIMAOptions)

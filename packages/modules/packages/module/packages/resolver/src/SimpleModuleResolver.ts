@@ -11,7 +11,8 @@ import type {
   ModuleName,
   ModuleRepository,
   ModuleResolverInstance,
-  ObjectFilterOptions } from '@xyo-network/module-model'
+  ObjectFilterOptions,
+} from '@xyo-network/module-model'
 import {
   isAddressModuleFilter,
   isModuleName,
@@ -182,8 +183,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
               return supported && queryable
             }, true) || supported
           )
-        }, false),
-      ),
+        }, false)),
     ) as T[]
   }
 }

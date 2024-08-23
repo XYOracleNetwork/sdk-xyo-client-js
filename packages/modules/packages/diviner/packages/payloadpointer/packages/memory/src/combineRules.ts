@@ -4,7 +4,8 @@ import type { Address } from '@xylabs/hex'
 import type { Order } from '@xyo-network/diviner-payload-model'
 import type {
   PayloadRule,
-  PayloadSearchCriteria } from '@xyo-network/diviner-payload-pointer-model'
+  PayloadSearchCriteria,
+} from '@xyo-network/diviner-payload-pointer-model'
 import {
   isPayloadAddressRule,
   isPayloadSchemaRule,

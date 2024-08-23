@@ -9,7 +9,9 @@ describe('removeEmptyFields', () => {
       testNullObject: { t: null, x: undefined },
       testNumber: 5,
       testObject: { t: 1 },
-      testSomeNullObject: { s: 1, t: null, x: undefined },
+      testSomeNullObject: {
+        s: 1, t: null, x: undefined,
+      },
       testString: 'hi',
       testUndefined: undefined,
     }

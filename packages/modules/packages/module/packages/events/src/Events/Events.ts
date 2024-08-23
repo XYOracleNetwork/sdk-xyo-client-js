@@ -4,12 +4,15 @@ import { forget } from '@xylabs/forget'
 import type { BaseParams } from '@xylabs/object'
 import { Base } from '@xylabs/object'
 
-import type { EventAnyListener, EventArgs, EventData, EventFunctions, EventListener, EventName } from '../model/index.ts'
+import type {
+  EventAnyListener, EventArgs, EventData, EventFunctions, EventListener, EventName,
+} from '../model/index.ts'
 
 /**
 Emittery can collect and log debug information.
 
-To enable this feature set the `DEBUG` environment variable to `emittery` or `*`. Additionally, you can set the static `isDebugEnabled` variable to true on the Emittery class, or `myEmitter.debug.enabled` on an instance of it for debugging a single instance.
+To enable this feature set the `DEBUG` environment variable to `emittery` or `*`. Additionally, you can set the static `isDebugEnabled` variable to true
+on the Emittery class, or `myEmitter.debug.enabled` on an instance of it for debugging a single instance.
 
 See API for more information on how debugging works.
 */

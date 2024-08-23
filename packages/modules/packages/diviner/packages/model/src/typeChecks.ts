@@ -1,5 +1,7 @@
 import { AsObjectFactory } from '@xylabs/object'
-import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
+import {
+  IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory,
+} from '@xyo-network/module-model'
 
 import type { DivinerInstance } from './Instance.ts'
 import type { DivinerModule } from './Module.ts'

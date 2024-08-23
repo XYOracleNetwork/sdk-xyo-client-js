@@ -1,6 +1,8 @@
 import type { Module, ModuleEventData } from '@xyo-network/module-model'
 
-import type { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './EventsModels/index.ts'
+import type {
+  ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData,
+} from './EventsModels/index.ts'
 import type { NodeParams } from './Params.ts'
 
 export interface NodeModuleEventData

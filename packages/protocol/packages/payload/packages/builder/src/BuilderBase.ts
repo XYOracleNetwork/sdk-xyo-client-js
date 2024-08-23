@@ -5,7 +5,9 @@ import type { AnyObject, JsonObject } from '@xylabs/object'
 import { isJsonObject, toJson } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import { removeEmptyFields } from '@xyo-network/hash'
-import type { Payload, Schema, WithMeta, WithOptionalMeta } from '@xyo-network/payload-model'
+import type {
+  Payload, Schema, WithMeta, WithOptionalMeta,
+} from '@xyo-network/payload-model'
 
 import type { PayloadBuilderOptions } from './Options.ts'
 
@@ -34,7 +36,9 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
   protected _schema: Schema
 
   constructor(readonly options: O) {
-    const { schema, fields, meta } = options
+    const {
+      schema, fields, meta,
+    } = options
     this._schema = schema
     this._fields = removeEmptyFields(fields ?? {}) as WithoutSchema<WithoutMeta<T>>
     this._$meta = meta
@@ -77,8 +81,10 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
   // we do not require sending in $hash since it will be generated anyway
   fields(fields: WithOptionalSchema<WithOptionalMeta<T>>) {
     if (fields) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { $meta, $hash, schema, ...fieldsOnly } = fields
+      const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        $meta, $hash, schema, ...fieldsOnly
+      } = fields
       if ($meta) {
         this.$meta($meta)
       }

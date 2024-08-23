@@ -5,12 +5,13 @@ import type {
   JsonPathAggregateDivinerParams,
   PayloadTransformer,
   SchemaToJsonPathTransformExpressionsDictionary,
-  SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
-import {
-  JsonPathAggregateDivinerConfigSchema,
+  SchemaToPayloadTransformersDictionary,
 } from '@xyo-network/diviner-jsonpath-aggregate-model'
+import { JsonPathAggregateDivinerConfigSchema } from '@xyo-network/diviner-jsonpath-aggregate-model'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import type { Payload, Schema, WithOptionalMeta } from '@xyo-network/payload-model'
+import type {
+  Payload, Schema, WithOptionalMeta,
+} from '@xyo-network/payload-model'
 import { PayloadSchema } from '@xyo-network/payload-model'
 import { combinationsByBoundwitness, combinationsBySchema } from '@xyo-network/payload-utils'
 

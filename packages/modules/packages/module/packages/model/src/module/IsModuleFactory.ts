@@ -1,4 +1,6 @@
-import type { AnyObject, EmptyObject, TypeCheck } from '@xylabs/object'
+import type {
+  AnyObject, EmptyObject, TypeCheck,
+} from '@xylabs/object'
 import type { AnyNonPromise } from '@xylabs/promise'
 
 import { asModuleObject } from './asModuleObject.ts'

@@ -1,6 +1,8 @@
 import type { Address } from '@xylabs/hex'
 import type { AccountInstance } from '@xyo-network/account-model'
-import type { AddressPayload, AttachableModuleInstance, ModuleIdentifier, ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
+import type {
+  AddressPayload, AttachableModuleInstance, ModuleIdentifier, ModuleInstance, ModuleQueryResult,
+} from '@xyo-network/module-model'
 
 import type { ChildCertification, ChildCertificationFields } from './ChildCertification.ts'
 import type { NodeModule, NodeModuleEventData } from './Node.ts'

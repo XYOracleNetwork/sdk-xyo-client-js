@@ -1,7 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import { DivinerConfig, DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
+import {
+  DivinerConfig, DivinerInstance, DivinerModuleEventData, DivinerParams,
+} from '@xyo-network/diviner-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 

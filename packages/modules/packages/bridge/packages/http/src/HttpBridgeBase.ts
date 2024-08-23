@@ -16,7 +16,9 @@ import {
   QuerySendFinishedEventArgs,
   QuerySendStartedEventArgs,
 } from '@xyo-network/bridge-model'
-import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import {
+  ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema,
+} from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
   creatableModule,
@@ -27,7 +29,9 @@ import {
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
-import { isPayloadOfSchemaType, Payload, Schema, WithMeta } from '@xyo-network/payload-model'
+import {
+  isPayloadOfSchemaType, Payload, Schema, WithMeta,
+} from '@xyo-network/payload-model'
 import { Mutex, Semaphore } from 'async-mutex'
 import type { AxiosError } from 'axios'
 import { LRUCache } from 'lru-cache'

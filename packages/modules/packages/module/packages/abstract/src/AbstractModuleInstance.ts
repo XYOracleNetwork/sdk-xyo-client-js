@@ -25,7 +25,8 @@ import type {
   ModuleQueryResult,
   ModuleStateQuery,
   ObjectFilterOptions,
-  ResolveHelperConfig } from '@xyo-network/module-model'
+  ResolveHelperConfig,
+} from '@xyo-network/module-model'
 import {
   duplicateModules,
   isAddressModuleFilter,
@@ -43,7 +44,9 @@ import {
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import type { NodeInstance } from '@xyo-network/node-model'
 import { asNodeInstance } from '@xyo-network/node-model'
-import type { Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import type {
+  Payload, Query, WithMeta,
+} from '@xyo-network/payload-model'
 
 import { AbstractModule } from './AbstractModule.ts'
 

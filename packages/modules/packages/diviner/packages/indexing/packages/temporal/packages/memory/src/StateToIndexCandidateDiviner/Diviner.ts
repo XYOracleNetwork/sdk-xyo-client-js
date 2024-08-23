@@ -9,13 +9,12 @@ import type { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abst
 import type { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import type { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
-import type {
-  TemporalIndexingDivinerStateToIndexCandidateDivinerParams } from '@xyo-network/diviner-temporal-indexing-model'
-import {
-  TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema,
-} from '@xyo-network/diviner-temporal-indexing-model'
+import type { TemporalIndexingDivinerStateToIndexCandidateDivinerParams } from '@xyo-network/diviner-temporal-indexing-model'
+import { TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema } from '@xyo-network/diviner-temporal-indexing-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import type { Labels, ModuleIdentifier, ModuleState } from '@xyo-network/module-model'
+import type {
+  Labels, ModuleIdentifier, ModuleState,
+} from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload, Schema } from '@xyo-network/payload-model'
@@ -88,7 +87,9 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     const boundWitnessDiviner = await this.getBoundWitnessDivinerForStore()
     if (!boundWitnessDiviner) return [lastState]
     const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
-      .fields({ limit: this.payloadDivinerLimit, offset, order, payload_schemas: this.payload_schemas })
+      .fields({
+        limit: this.payloadDivinerLimit, offset, order, payload_schemas: this.payload_schemas,
+      })
       .build()
     const batch = await boundWitnessDiviner.divine([query])
     if (batch.length === 0) return [lastState]

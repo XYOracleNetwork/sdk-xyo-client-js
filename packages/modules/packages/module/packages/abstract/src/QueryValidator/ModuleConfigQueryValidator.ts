@@ -1,6 +1,8 @@
 import type { Address } from '@xylabs/hex'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import type { AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQueries } from '@xyo-network/module-model'
+import type {
+  AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQueries,
+} from '@xyo-network/module-model'
 import type { Schema } from '@xyo-network/payload-model'
 
 import type { Queryable, QueryValidator } from './QueryValidator.ts'

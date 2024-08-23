@@ -1,7 +1,8 @@
 import type {
   Payload,
   WithMeta,
-  WithSources } from '@xyo-network/payload-model'
+  WithSources,
+} from '@xyo-network/payload-model'
 import {
   isPayloadOfSchemaType,
   isPayloadOfSchemaTypeWithMeta,

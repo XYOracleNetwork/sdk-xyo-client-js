@@ -1,5 +1,7 @@
 import { assertEx } from '@xylabs/assert'
-import type { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
+import type {
+  Payload, PayloadWithMeta, WithMeta,
+} from '@xyo-network/payload-model'
 
 export interface StorageMeta {
   _sequence: bigint
@@ -26,8 +28,7 @@ export const sortByStorageMeta = <T extends PayloadWithMeta>(payloads: WithStora
       ? -direction
       : a._sequence > b._sequence
         ? direction
-        : 0,
-  )
+        : 0)
 }
 
 export function removeStorageMeta<T extends Payload>(payload: WithOptionalStorageMeta<WithMeta<T>>): WithMeta<T>

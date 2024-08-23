@@ -14,7 +14,9 @@ describe('PayloadBuilder', () => {
     testNullObject: { t: null, x: null },
     testNumber: 5,
     testObject: { t: 1 },
-    testSomeNullObject: { s: 1, t: null, x: null },
+    testSomeNullObject: {
+      s: 1, t: null, x: null,
+    },
     testString: 'hello there.  this is a pretty long string.  what do you think?',
   }
   const bigObject = {

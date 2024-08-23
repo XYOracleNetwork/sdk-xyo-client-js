@@ -8,7 +8,9 @@ describe('HttpBridge', () => {
   beforeEach(async () => {
     httpBridge = await HttpBridge.create({
       account: 'random',
-      config: { name: 'TestBridge', nodeUrl: 'http://localhost:8080', schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: {
+        name: 'TestBridge', nodeUrl: 'http://localhost:8080', schema: HttpBridgeConfigSchema, security: { allowAnonymous: true },
+      },
     })
   })
 

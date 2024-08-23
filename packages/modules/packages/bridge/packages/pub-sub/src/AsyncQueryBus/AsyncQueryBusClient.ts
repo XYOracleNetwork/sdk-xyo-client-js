@@ -9,7 +9,9 @@ import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-bound
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import type { CacheConfig, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { ModuleError, Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
+import type {
+  ModuleError, Payload, PayloadWithMeta, WithMeta,
+} from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase.ts'
@@ -27,7 +29,9 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
 
   get queryCacheConfig(): LRUCache.Options<Address, Pending | ModuleQueryResult, unknown> {
     const queryCacheConfig: CacheConfig | undefined = this.config?.queryCache === true ? {} : this.config?.queryCache
-    return { max: 100, ttl: 1000 * 60, ...queryCacheConfig }
+    return {
+      max: 100, ttl: 1000 * 60, ...queryCacheConfig,
+    }
   }
 
   get started() {
@@ -153,7 +157,9 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
         await Promise.allSettled(
           pendingCommands.map(async ([sourceQuery, status]) => {
             if (status === Pending) {
-              const divinerQuery: BoundWitnessDivinerQueryPayload = { limit: 1, order: 'desc', schema: BoundWitnessDivinerQuerySchema, sourceQuery }
+              const divinerQuery: BoundWitnessDivinerQueryPayload = {
+                limit: 1, order: 'desc', schema: BoundWitnessDivinerQuerySchema, sourceQuery,
+              }
               const result = await responseBoundWitnessDiviner.divine([divinerQuery])
               if (result && result.length > 0) {
                 const response = result.find(isBoundWitnessWithMeta)

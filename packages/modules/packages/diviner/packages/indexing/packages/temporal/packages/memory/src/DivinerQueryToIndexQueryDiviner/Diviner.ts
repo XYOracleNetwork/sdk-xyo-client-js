@@ -4,8 +4,7 @@ import { jsonPathToTransformersDictionary, reducePayloads } from '@xyo-network/d
 import type { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import type {
-  TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerParams } from '@xyo-network/diviner-temporal-indexing-model'
+import type { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerParams } from '@xyo-network/diviner-temporal-indexing-model'
 import {
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
   TemporalIndexingDivinerResultIndexSchema,

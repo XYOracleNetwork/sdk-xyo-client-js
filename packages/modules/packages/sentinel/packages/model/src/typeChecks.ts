@@ -1,5 +1,7 @@
 import { AsObjectFactory } from '@xylabs/object'
-import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
+import {
+  IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory,
+} from '@xyo-network/module-model'
 
 import type { SentinelInstance } from './Instance.ts'
 import type { SentinelModule } from './Module.ts'

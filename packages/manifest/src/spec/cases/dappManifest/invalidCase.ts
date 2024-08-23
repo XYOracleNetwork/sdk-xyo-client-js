@@ -1,9 +1,7 @@
 export const invalidDappPackageManifestSchema = {
   external: {
     modules1: [
-      {
-        name: 0,
-      },
+      { name: 0 },
     ],
   },
   nodes: [

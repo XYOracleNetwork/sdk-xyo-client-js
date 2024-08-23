@@ -7,7 +7,8 @@ import type {
   NumberPayload,
   NumberRangePayload,
   RangeDivinerConfig,
-  RangePayload } from '@xyo-network/diviner-range-model'
+  RangePayload,
+} from '@xyo-network/diviner-range-model'
 import {
   BigIntSchema,
   isBigIntRangePayload,

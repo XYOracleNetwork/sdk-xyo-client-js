@@ -9,7 +9,8 @@ import { jsonPathToTransformersDictionary } from '@xyo-network/diviner-jsonpath-
 import type { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
 import type {
   TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
-  TemporalIndexingDivinerResultIndex } from '@xyo-network/diviner-temporal-indexing-model'
+  TemporalIndexingDivinerResultIndex,
+} from '@xyo-network/diviner-temporal-indexing-model'
 import {
   TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema,
   TemporalIndexingDivinerResultIndexSchema,

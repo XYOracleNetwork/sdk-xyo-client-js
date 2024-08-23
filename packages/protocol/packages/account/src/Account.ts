@@ -1,6 +1,8 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
-import { Address, Hash, hexFromArrayBuffer } from '@xylabs/hex'
+import {
+  Address, Hash, hexFromArrayBuffer,
+} from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
 import { staticImplements } from '@xylabs/static-implements'
 import {
@@ -14,7 +16,9 @@ import {
 import type { PrivateKeyInstance, PublicKeyInstance } from '@xyo-network/key-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Mutex } from 'async-mutex'
-import { HDNodeWallet, Mnemonic, randomBytes } from 'ethers'
+import {
+  HDNodeWallet, Mnemonic, randomBytes,
+} from 'ethers'
 
 import { Elliptic } from './Elliptic.ts'
 import { EllipticKey, PrivateKey } from './Key/index.ts'

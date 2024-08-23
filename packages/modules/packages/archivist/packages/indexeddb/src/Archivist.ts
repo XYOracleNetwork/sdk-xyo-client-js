@@ -16,8 +16,12 @@ import {
 } from '@xyo-network/archivist-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta, Schema } from '@xyo-network/payload-model'
-import { IDBPCursorWithValue, IDBPDatabase, openDB } from 'idb'
+import {
+  Payload, PayloadWithMeta, Schema,
+} from '@xyo-network/payload-model'
+import {
+  IDBPCursorWithValue, IDBPDatabase, openDB,
+} from 'idb'
 
 import { IndexedDbArchivistConfigSchema } from './Config.ts'
 import { IndexedDbArchivistParams } from './Params.ts'
@@ -38,9 +42,18 @@ export class IndexedDbArchivist<
   static readonly defaultDbName = 'archivist'
   static readonly defaultDbVersion = 1
   static readonly defaultStoreName = 'payloads'
-  private static readonly dataHashIndex: IndexDescription = { key: { $hash: 1 }, multiEntry: false, unique: false }
-  private static readonly hashIndex: IndexDescription = { key: { _hash: 1 }, multiEntry: false, unique: true }
-  private static readonly schemaIndex: IndexDescription = { key: { schema: 1 }, multiEntry: false, unique: false }
+  private static readonly dataHashIndex: IndexDescription = {
+    key: { $hash: 1 }, multiEntry: false, unique: false,
+  }
+
+  private static readonly hashIndex: IndexDescription = {
+    key: { _hash: 1 }, multiEntry: false, unique: true,
+  }
+
+  private static readonly schemaIndex: IndexDescription = {
+    key: { schema: 1 }, multiEntry: false, unique: false,
+  }
+
   // eslint-disable-next-line @typescript-eslint/member-ordering
   static readonly hashIndexName = buildStandardIndexName(IndexedDbArchivist.hashIndex)
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -245,8 +258,7 @@ export class IndexedDbArchivist<
           // Otherwise, find by data hash
           return this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.dataHashIndexName, hash)
         }),
-      ),
-    )
+      ))
 
     const found = new Set<string>()
     return (
@@ -305,7 +317,9 @@ export class IndexedDbArchivist<
   }
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<StoredPayload[]> {
-    const { limit, offset, order } = options ?? {}
+    const {
+      limit, offset, order,
+    } = options ?? {}
     return await this.useDb(async (db) => {
       return await this.getFromOffset(db, this.storeName, order, limit ?? 10, offset)
     })
@@ -324,7 +338,9 @@ export class IndexedDbArchivist<
    * @returns The initialized DB
    */
   private async getInitializedDb(): Promise<IDBPDatabase<PayloadStore>> {
-    const { dbName, dbVersion, indexes, storeName, logger } = this
+    const {
+      dbName, dbVersion, indexes, storeName, logger,
+    } = this
     return await openDB<PayloadStore>(dbName, dbVersion, {
       blocked(currentVersion, blockedVersion, event) {
         logger.warn(`IndexedDbArchivist: Blocked from upgrading from ${currentVersion} to ${blockedVersion}`, event)
@@ -361,7 +377,9 @@ export class IndexedDbArchivist<
         // Name the store
         store.name = storeName
         // Create an index on the hash
-        for (const { key, multiEntry, unique } of indexes) {
+        for (const {
+          key, multiEntry, unique,
+        } of indexes) {
           const indexKeys = Object.keys(key)
           const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys
           const indexName = buildStandardIndexName({ key, unique })

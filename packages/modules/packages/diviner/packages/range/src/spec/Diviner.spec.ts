@@ -1,11 +1,15 @@
 import { hexFrom } from '@xylabs/hex'
-import { BigIntSchema, NumberSchema, RangeSchema } from '@xyo-network/diviner-range-model'
+import {
+  BigIntSchema, NumberSchema, RangeSchema,
+} from '@xyo-network/diviner-range-model'
 
 import { RangeDiviner } from '../Diviner.ts'
 describe('RangeDiviner', () => {
   it('Number', async () => {
     const diviner = await RangeDiviner.create({ account: 'random' })
-    const payloads = await diviner.divine([{ count: 20, schema: RangeSchema, start: 10 }])
+    const payloads = await diviner.divine([{
+      count: 20, schema: RangeSchema, start: 10,
+    }])
     expect(payloads).toBeArrayOfSize(20)
     expect(payloads[0].schema).toBe(NumberSchema)
     expect(payloads[0].value).toBe(10)

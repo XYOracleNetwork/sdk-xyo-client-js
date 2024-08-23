@@ -2,9 +2,7 @@ export const validDappPackageManifestSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   external: {
     modules: [
-      {
-        name: 'SomeModule',
-      },
+      { name: 'SomeModule' },
     ],
   },
   nodes: [

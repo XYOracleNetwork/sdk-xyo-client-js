@@ -2,7 +2,9 @@ import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import type { DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
+import type {
+  DivinerInstance, DivinerModuleEventData, DivinerParams,
+} from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'
@@ -38,8 +40,7 @@ export class HuriPayloadDiviner<
       () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
     const huriList = huriPayloads.flatMap((huriPayload, index) =>
-      huriPayload.huri.map(huri => new Huri(huri, { token: huriPayload.tokens?.[index] })),
-    )
+      huriPayload.huri.map(huri => new Huri(huri, { token: huriPayload.tokens?.[index] })))
 
     const settled = await Promise.allSettled(huriList.map(huri => huri.fetch()))
     return compact(settled.filter(fulfilled).map(settle => settle.value)) as TOut[]

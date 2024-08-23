@@ -11,8 +11,10 @@ export type PayloadWithMeta<T extends void | EmptyObject | WithSchema = void, S 
 
 export const unMeta = <T extends WithMeta<Payload>>(payload?: T): T | undefined => {
   if (payload) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { $meta, $hash, ...result } = payload
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      $meta, $hash, ...result
+    } = payload
     return result as T
   }
 }

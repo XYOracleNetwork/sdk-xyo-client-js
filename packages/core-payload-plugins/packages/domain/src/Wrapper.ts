@@ -93,7 +93,11 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
   private async fetchAlias(alias: Alias, huriOptions?: HuriOptions): Promise<FetchedAlias | null> {
     const huri = new Huri(alias.huri, huriOptions)
     const payload = await huri.fetch()
-    return payload ? { alias, huri, payload: payload } : null
+    return payload
+      ? {
+          alias, huri, payload: payload,
+        }
+      : null
   }
 
   private async findArchivistUri(hash?: Hash): Promise<string | undefined> {

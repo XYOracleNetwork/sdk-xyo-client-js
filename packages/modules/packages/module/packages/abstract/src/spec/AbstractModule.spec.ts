@@ -22,20 +22,8 @@ describe('AbstractModule', () => {
 
   it('should validate config', () => {
     class TestClass {}
-    const invalidConfig = {
-      config: {
-        options: {
-          foo: new TestClass(),
-        },
-      },
-    }
-    const validConfig = {
-      config: {
-        options: {
-          foo: 'foo',
-        },
-      },
-    }
+    const invalidConfig = { config: { options: { foo: new TestClass() } } }
+    const validConfig = { config: { options: { foo: 'foo' } } }
     expect(sut['validateConfig'](invalidConfig)).toBeFalse()
     expect(sut['validateConfig'](validConfig)).toBeTrue()
   })

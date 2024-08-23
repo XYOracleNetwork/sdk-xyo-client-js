@@ -5,7 +5,8 @@ import { BoundWitnessStatsDiviner } from '@xyo-network/diviner-boundwitness-stat
 import type {
   BoundWitnessStatsDivinerParams,
   BoundWitnessStatsPayload,
-  BoundWitnessStatsQueryPayload } from '@xyo-network/diviner-boundwitness-stats-model'
+  BoundWitnessStatsQueryPayload,
+} from '@xyo-network/diviner-boundwitness-stats-model'
 import {
   BoundWitnessStatsDivinerConfigSchema,
   BoundWitnessStatsDivinerSchema,

@@ -7,7 +7,8 @@ import type {
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
-  ModuleInstance } from '@xyo-network/module-model'
+  ModuleInstance,
+} from '@xyo-network/module-model'
 import {
   isAddressModuleFilter,
   isNameModuleFilter,
@@ -19,7 +20,8 @@ import type {
   AttachableNodeInstance,
   NodeConfig,
   NodeModuleEventData,
-  NodeParams } from '@xyo-network/node-model'
+  NodeParams,
+} from '@xyo-network/node-model'
 import {
   asNodeInstance,
   isNodeModule,

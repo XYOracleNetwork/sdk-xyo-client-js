@@ -2,7 +2,9 @@ import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'
-import type { Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import type {
+  Payload, Query, WithMeta,
+} from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { BoundWitnessWrapper } from './BoundWitnessWrapper.ts'

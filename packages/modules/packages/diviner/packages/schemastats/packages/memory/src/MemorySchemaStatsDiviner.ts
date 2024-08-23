@@ -5,7 +5,8 @@ import { SchemaStatsDiviner } from '@xyo-network/diviner-schema-stats-abstract'
 import type {
   SchemaStatsDivinerParams,
   SchemaStatsPayload,
-  SchemaStatsQueryPayload } from '@xyo-network/diviner-schema-stats-model'
+  SchemaStatsQueryPayload,
+} from '@xyo-network/diviner-schema-stats-model'
 import {
   isSchemaStatsQueryPayload,
   SchemaStatsDivinerConfigSchema,

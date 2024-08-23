@@ -12,15 +12,20 @@ import type {
   DivinerInstance,
   DivinerModuleEventData,
   DivinerParams,
-  DivinerQueries } from '@xyo-network/diviner-model'
+  DivinerQueries,
+} from '@xyo-network/diviner-model'
 import {
   DivinerConfigSchema,
   DivinerDivineQuerySchema,
 } from '@xyo-network/diviner-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import type { ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
+import type {
+  ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult,
+} from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema, WithMeta, WithSources } from '@xyo-network/payload-model'
+import type {
+  Payload, Schema, WithMeta, WithSources,
+} from '@xyo-network/payload-model'
 
 export abstract class AbstractDiviner<
   TParams extends DivinerParams = DivinerParams,
@@ -52,7 +57,9 @@ export abstract class AbstractDiviner<
       await this.emit('divineStart', { inPayloads: payloads, mod: this })
       const resultPayloads: TOut[]
         = (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
-      await this.emit('divineEnd', { errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads })
+      await this.emit('divineEnd', {
+        errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads,
+      })
       return await Promise.all(resultPayloads.map(payload => PayloadBuilder.build(payload)))
     })
   }

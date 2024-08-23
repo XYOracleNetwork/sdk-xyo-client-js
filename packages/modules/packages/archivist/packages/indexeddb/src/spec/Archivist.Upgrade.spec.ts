@@ -69,7 +69,9 @@ describe('IndexedDbArchivist.Upgrade', () => {
       [2, 2, '9a688c8d-18a2-4093-a107-560aafd5d256', '569ccb65-96ee-4b5d-ad20-d8556bb0b72b'],
     ]
     it.each(cases)('handles reopening', async (oldVersion, newVersion, dbName, storeName) => {
-      const oldConfig: IndexedDbArchivistConfig = { dbName, schema: IndexedDbArchivistConfigSchema, storeName }
+      const oldConfig: IndexedDbArchivistConfig = {
+        dbName, schema: IndexedDbArchivistConfigSchema, storeName,
+      }
       if (oldVersion) oldConfig.dbVersion = oldVersion
       let archivistModule = await IndexedDbArchivist.create({ account, config: oldConfig })
       expect(archivistModule).toBeDefined()
@@ -77,7 +79,9 @@ describe('IndexedDbArchivist.Upgrade', () => {
       const payloads = await fillDb(archivistModule)
       let all = await archivistModule?.all?.()
       expect(all?.length).toBe(payloads.length)
-      const newConfig: IndexedDbArchivistConfig = { dbName, schema: IndexedDbArchivistConfigSchema, storeName }
+      const newConfig: IndexedDbArchivistConfig = {
+        dbName, schema: IndexedDbArchivistConfigSchema, storeName,
+      }
       if (newVersion) newConfig.dbVersion = newVersion
       archivistModule = await IndexedDbArchivist.create({ account, config: newConfig })
       expect(archivistModule).toBeDefined()
@@ -92,7 +96,9 @@ describe('IndexedDbArchivist.Upgrade', () => {
       [2, 3, 'e371f396-0c5b-42ff-9472-04282afdef10', '5ce3bc2e-49ac-45c1-8fce-ab68961d327d'],
     ]
     it.each(cases)('handles upgrade', async (oldVersion, newVersion, dbName, storeName) => {
-      const oldConfig: IndexedDbArchivistConfig = { dbName, schema: IndexedDbArchivistConfigSchema, storeName }
+      const oldConfig: IndexedDbArchivistConfig = {
+        dbName, schema: IndexedDbArchivistConfigSchema, storeName,
+      }
       if (oldVersion) oldConfig.dbVersion = oldVersion
       let archivistModule = await IndexedDbArchivist.create({ account, config: oldConfig })
       expect(archivistModule).toBeDefined()
@@ -100,7 +106,9 @@ describe('IndexedDbArchivist.Upgrade', () => {
       const payloads = await fillDb(archivistModule)
       let all = await archivistModule?.all?.()
       expect(all?.length).toBe(payloads.length)
-      const newConfig: IndexedDbArchivistConfig = { dbName, schema: IndexedDbArchivistConfigSchema, storeName }
+      const newConfig: IndexedDbArchivistConfig = {
+        dbName, schema: IndexedDbArchivistConfigSchema, storeName,
+      }
       if (newVersion) newConfig.dbVersion = newVersion
       archivistModule = await IndexedDbArchivist.create({ account, config: newConfig })
       expect(archivistModule).toBeDefined()

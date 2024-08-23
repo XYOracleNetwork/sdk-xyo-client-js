@@ -13,7 +13,8 @@ import type {
   ModuleName,
   ModuleResolver,
   ModuleResolverInstance,
-  ObjectFilterOptions } from '@xyo-network/module-model'
+  ObjectFilterOptions,
+} from '@xyo-network/module-model'
 import {
   isAddressModuleFilter,
   isNameModuleFilter,

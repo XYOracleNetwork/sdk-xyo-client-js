@@ -7,7 +7,8 @@ import type {
   InstanceTypeCheck,
   ModuleIdentifier,
   ModuleManifestQuery,
-  ModuleQueryResult } from '@xyo-network/module-model'
+  ModuleQueryResult,
+} from '@xyo-network/module-model'
 import {
   AddressSchema,
   ModuleManifestQuerySchema,
@@ -22,7 +23,8 @@ import type {
   NodeDetachQuery,
   NodeInstance,
   NodeModule,
-  NodeRegisteredQuery } from '@xyo-network/node-model'
+  NodeRegisteredQuery,
+} from '@xyo-network/node-model'
 import {
   ChildCertificationSchema,
   isNodeInstance,
@@ -49,13 +51,17 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
   protected _attachedMutex = new Mutex()
 
   async attach(id: ModuleIdentifier, external?: boolean): Promise<Address | undefined> {
-    const queryPayload: NodeAttachQuery = { external, id, schema: NodeAttachQuerySchema }
+    const queryPayload: NodeAttachQuery = {
+      external, id, schema: NodeAttachQuerySchema,
+    }
     const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<AddressPayload>>(AddressSchema))
     return payloads.pop()?.address
   }
 
   async attachQuery(id: ModuleIdentifier, external?: boolean, account?: AccountInstance): Promise<ModuleQueryResult<AddressPayload>> {
-    const queryPayload: NodeAttachQuery = { external, id, schema: NodeAttachQuerySchema }
+    const queryPayload: NodeAttachQuery = {
+      external, id, schema: NodeAttachQuerySchema,
+    }
     return await this.sendQueryRaw(queryPayload, [], account)
   }
 

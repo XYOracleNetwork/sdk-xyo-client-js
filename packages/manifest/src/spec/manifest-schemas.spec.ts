@@ -7,7 +7,9 @@ import packageManifestSchemaCompiled from '../compilations/schema.json'
 import dappPackageManifestSchema from '../dapp-package-manifest-schema.json'
 import packageManifestSchema from '../schema.json'
 import sharedDefinitions from '../shared/definitions-schema.json'
-import { invalidDappPackageManifestSchema, invalidPackageManifestSchema, validDappPackageManifestSchema, validPackageManifestSchema } from './cases'
+import {
+  invalidDappPackageManifestSchema, invalidPackageManifestSchema, validDappPackageManifestSchema, validPackageManifestSchema,
+} from './cases'
 
 const cases = [
   {
@@ -42,13 +44,17 @@ const cases = [
   },
 ]
 
-describe.each(cases)('ManifestSchemas', ({ compiled, describeName, expectedErrorCount, validCase, invalidCase, schemaToTest }) => {
+describe.each(cases)('ManifestSchemas', ({
+  compiled, describeName, expectedErrorCount, validCase, invalidCase, schemaToTest,
+}) => {
   describe(describeName, () => {
     let validate: ValidateFunction | undefined
 
     beforeEach(() => {
       const ajvSchemaOptions = compiled ? {} : { schemas: [sharedDefinitions] }
-      const ajv = new Ajv({ allErrors: true, strict: true, ...ajvSchemaOptions })
+      const ajv = new Ajv({
+        allErrors: true, strict: true, ...ajvSchemaOptions,
+      })
       // see if you can export the super set
       validate = ajv.compile(schemaToTest)
       // validate.schema

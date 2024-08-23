@@ -8,7 +8,9 @@ import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-
 import type { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import type { DivinerInstance } from '@xyo-network/diviner-model'
 import { isDivinerInstance } from '@xyo-network/diviner-model'
-import type { ModuleConfig, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import type {
+  ModuleConfig, ModuleIdentifier, ModuleInstance,
+} from '@xyo-network/module-model'
 import { ResolveHelper } from '@xyo-network/module-model'
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'

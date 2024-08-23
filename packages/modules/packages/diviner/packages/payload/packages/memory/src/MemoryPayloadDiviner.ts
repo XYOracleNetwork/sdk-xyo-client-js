@@ -24,7 +24,9 @@ export class MemoryPayloadDiviner<
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
-    const { schemas, limit, offset, hash, order = 'desc', timestamp, ...props } = removeFields(filter as WithMeta<TIn>, ['schema', '$meta', '$hash'])
+    const {
+      schemas, limit, offset, hash, order = 'desc', timestamp, ...props
+    } = removeFields(filter as WithMeta<TIn>, ['schema', '$meta', '$hash'])
     let all = (await archivist.all?.()) as WithMeta<TOut>[]
     if (all) {
       if (order === 'desc') all = all.reverse()
@@ -53,8 +55,7 @@ export class MemoryPayloadDiviner<
                   const prop = payload?.[property]
                   // TODO: This seems to be written just to check arrays, and now that $meta is there, need to check type?
                   return Array.isArray(prop) && prop.includes?.(value)
-                }),
-              )
+                }))
               : all.filter(payload => payload?.[property] === filter)
         }
       }

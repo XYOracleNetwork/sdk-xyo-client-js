@@ -15,9 +15,11 @@ export class IndexedDbPreviousHashStore implements PreviousHashStore {
   private readonly db: Promise<IDBPDatabase<PreviousHashStoreSchemaV1>>
 
   constructor() {
-    this.db = openDB<PreviousHashStoreSchemaV1>(this.dbName, IndexedDbPreviousHashStore.CurrentSchemaVersion, {
-      upgrade: db => db.createObjectStore(this.storeName),
-    })
+    this.db = openDB<PreviousHashStoreSchemaV1>(
+      this.dbName,
+      IndexedDbPreviousHashStore.CurrentSchemaVersion,
+      { upgrade: db => db.createObjectStore(this.storeName) },
+    )
   }
 
   /**

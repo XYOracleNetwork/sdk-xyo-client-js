@@ -2,7 +2,9 @@
 import { Account } from '@xyo-network/account'
 import { asModuleInstance } from '@xyo-network/module-model'
 
-import { asNodeInstance, MemoryNode, NodeConfigSchema, NodeWrapper } from '../index.ts'
+import {
+  asNodeInstance, MemoryNode, NodeConfigSchema, NodeWrapper,
+} from '../index.ts'
 
 /**
  * @group node

@@ -31,7 +31,9 @@ describe.skip('WebsocketBridge', () => {
 
     const host = await WebsocketBridge.create({
       account: 'random',
-      config: { host: {}, name: 'TestHostBridge', schema: WebsocketBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: {
+        host: {}, name: 'TestHostBridge', schema: WebsocketBridgeConfigSchema, security: { allowAnonymous: true },
+      },
     })
 
     await memHostNode.register(host)
@@ -39,7 +41,9 @@ describe.skip('WebsocketBridge', () => {
 
     const bridge = await WebsocketClientBridge.create({
       account: 'random',
-      config: { client: { url }, name: 'TestClientBridge', schema: WebsocketBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: {
+        client: { url }, name: 'TestClientBridge', schema: WebsocketBridgeConfigSchema, security: { allowAnonymous: true },
+      },
     })
 
     await memClientNode.register(bridge)

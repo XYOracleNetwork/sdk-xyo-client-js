@@ -9,7 +9,8 @@ import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-bound
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import type {
   ModuleIdentifier,
-  ModuleInstance } from '@xyo-network/module-model'
+  ModuleInstance,
+} from '@xyo-network/module-model'
 import {
   asModuleInstance,
   ModuleConfigSchema,
@@ -100,8 +101,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
         assertEx(
           asModuleInstance(await resolveAddressToInstance(this.rootModule, exposedModule)),
           () => `Unable to resolve listeningModule [${exposedModule}]`,
-        ),
-      ),
+        )),
     )
   }
 
@@ -185,9 +185,13 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
               // so there's no chance of multiple commands at the same time
               await this.commitState(localModule.address, query.timestamp)
             }
-            this.params.onQueryFulfillFinished?.({ payloads: queryPayloads, query, result, status: 'success' })
+            this.params.onQueryFulfillFinished?.({
+              payloads: queryPayloads, query, result, status: 'success',
+            })
           } catch (error) {
-            this.params.onQueryFulfillFinished?.({ payloads: queryPayloads, query, status: 'failure' })
+            this.params.onQueryFulfillFinished?.({
+              payloads: queryPayloads, query, status: 'failure',
+            })
             this.logger?.error(`Error processing query ${queryHash} for module ${localModuleName}: ${error}`)
           }
         }

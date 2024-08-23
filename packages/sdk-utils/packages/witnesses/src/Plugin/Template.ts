@@ -1,3 +1,1 @@
-export const pluginTemplate = () => ({
-  schema: 'network.xyo.plugin',
-})
+export const pluginTemplate = () => ({ schema: 'network.xyo.plugin' })

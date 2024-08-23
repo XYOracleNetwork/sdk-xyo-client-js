@@ -4,7 +4,9 @@ import { DistinctDivinerConfigSchema } from '@xyo-network/diviner-distinct-model
 import type { DivinerParams } from '@xyo-network/diviner-model'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, PayloadWithMeta, Schema } from '@xyo-network/payload-model'
+import type {
+  Payload, PayloadWithMeta, Schema,
+} from '@xyo-network/payload-model'
 
 export type DistinctDivinerParams = DivinerParams<AnyConfigSchema<DistinctDivinerConfig>>
 

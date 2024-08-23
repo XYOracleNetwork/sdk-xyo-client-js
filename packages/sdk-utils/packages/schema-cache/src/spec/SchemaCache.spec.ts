@@ -10,11 +10,7 @@ import { SchemaSchema } from '@xyo-network/schema-payload-plugin'
 import { SchemaCache } from '../SchemaCache'
 
 const exampleDomainConfig: DomainPayload = {
-  aliases: {
-    [SchemaSchema]: {
-      huri: '548476cc8388e97c7a724c77ffc89b8b858b66ee009750797405d264c570b260',
-    },
-  },
+  aliases: { [SchemaSchema]: { huri: '548476cc8388e97c7a724c77ffc89b8b858b66ee009750797405d264c570b260' } },
   networks: [
     {
       name: 'Main',

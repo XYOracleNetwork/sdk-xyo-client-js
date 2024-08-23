@@ -14,11 +14,17 @@ import {
   useRequestCounters,
 } from '@xylabs/sdk-api-express-ecs'
 import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BridgeExposeOptions, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
+import {
+  BridgeExposeOptions, BridgeParams, BridgeUnexposeOptions,
+} from '@xyo-network/bridge-model'
 // import { standardResponses } from '@xyo-network/express-node-middleware'
-import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleQueryResult, resolveAddressToInstanceUp } from '@xyo-network/module-model'
+import {
+  AnyConfigSchema, creatableModule, ModuleInstance, ModuleQueryResult, resolveAddressToInstanceUp,
+} from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import express, { Application, Request, Response } from 'express'
+import express, {
+  Application, Request, Response,
+} from 'express'
 import { StatusCodes } from 'http-status-codes'
 
 import { HttpBridgeBase } from './HttpBridgeBase.ts'

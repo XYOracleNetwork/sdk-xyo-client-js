@@ -4,7 +4,8 @@ import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
 import type {
   SentinelConfig,
-  SentinelIntervalAutomationPayload } from '@xyo-network/sentinel-model'
+  SentinelIntervalAutomationPayload,
+} from '@xyo-network/sentinel-model'
 import {
   SentinelConfigSchema,
   SentinelIntervalAutomationSchema,

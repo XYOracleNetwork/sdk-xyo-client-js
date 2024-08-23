@@ -1,8 +1,7 @@
 import type { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { isPayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import type {
-  TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig } from '@xyo-network/diviner-temporal-indexing-model'
+import type { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig } from '@xyo-network/diviner-temporal-indexing-model'
 import {
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
   TemporalIndexingDivinerResultIndexSchema,

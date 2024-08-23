@@ -7,7 +7,9 @@ import { forget } from '@xylabs/forget'
 import type { Address, Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import type { Logger } from '@xylabs/logger'
-import { ConsoleLogger, IdLogger, LogLevel } from '@xylabs/logger'
+import {
+  ConsoleLogger, IdLogger, LogLevel,
+} from '@xylabs/logger'
 import { Base, globallyUnique } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import { PromiseEx } from '@xylabs/promise'
@@ -41,7 +43,8 @@ import type {
   ModuleQueryHandlerResult,
   ModuleQueryResult,
   ModuleResolverInstance,
-  ModuleStatus } from '@xyo-network/module-model'
+  ModuleStatus,
+} from '@xyo-network/module-model'
 import {
   AddressPreviousHashSchema,
   AddressSchema,
@@ -58,7 +61,9 @@ import {
   serializableField,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { ModuleError, Payload, Query, Schema, WithMeta } from '@xyo-network/payload-model'
+import type {
+  ModuleError, Payload, Query, Schema, WithMeta,
+} from '@xyo-network/payload-model'
 import type { QueryPayload } from '@xyo-network/query-payload-plugin'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
 import type { WalletInstance } from '@xyo-network/wallet-model'
@@ -346,7 +351,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         resultPayloads.push(timestamp)
       }
       const result = await this.bindQueryResult(sourceQuery, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads)
-      const args: ModuleQueriedEventArgs = { mod: this, payloads, query: sourceQuery, result }
+      const args: ModuleQueriedEventArgs = {
+        mod: this, payloads, query: sourceQuery, result,
+      }
       await this.emit('moduleQueried', args)
       return result
     })
@@ -591,8 +598,16 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const address = this.address
     const name = this.modName
     const previousHash = this.address
-    const moduleAccount = name ? { address, name, schema: AddressSchema } : { address, schema: AddressSchema }
-    const moduleAccountPreviousHash = previousHash ? { address, previousHash, schema: AddressPreviousHashSchema } : { address, schema: AddressSchema }
+    const moduleAccount = name
+      ? {
+          address, name, schema: AddressSchema,
+        }
+      : { address, schema: AddressSchema }
+    const moduleAccountPreviousHash = previousHash
+      ? {
+          address, previousHash, schema: AddressPreviousHashSchema,
+        }
+      : { address, schema: AddressSchema }
     return [moduleAccount, moduleAccountPreviousHash]
   }
 

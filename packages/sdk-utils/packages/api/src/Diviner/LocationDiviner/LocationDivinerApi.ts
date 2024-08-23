@@ -13,9 +13,7 @@ class LocationDivinerApi {
   }
 
   private get axiosRequestConfig(): RawAxiosRequestConfig {
-    return {
-      transformResponse: getLocationDivinerApiResponseTransformer(),
-    }
+    return { transformResponse: getLocationDivinerApiResponseTransformer() }
   }
 
   async getLocationQuery(hash: string) {

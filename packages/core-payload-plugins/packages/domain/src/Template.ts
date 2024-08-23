@@ -2,11 +2,7 @@ import type { DomainPayload } from './Payload.ts'
 import { DomainSchema } from './Schema.ts'
 
 export const domainConfigTemplate = (): DomainPayload => ({
-  aliases: {
-    'com.example.id': {
-      huri: '',
-    },
-  },
+  aliases: { 'com.example.id': { huri: '' } },
   networks: [
     {
       name: '',

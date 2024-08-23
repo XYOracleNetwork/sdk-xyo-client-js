@@ -6,7 +6,9 @@ import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import type { ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
+import type {
+  ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult,
+} from '@xyo-network/module-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload, Schema } from '@xyo-network/payload-model'
@@ -16,7 +18,8 @@ import type {
   WitnessModuleEventData,
   WitnessObserveQuery,
   WitnessParams,
-  WitnessQueries } from '@xyo-network/witness-model'
+  WitnessQueries,
+} from '@xyo-network/witness-model'
 import {
   WitnessConfigSchema,
   WitnessObserveQuerySchema,
@@ -65,7 +68,9 @@ export abstract class AbstractWitness<
       await archivist.insert(outPayloads)
     }
 
-    await this.emit('observeEnd', { inPayloads, mod: this, outPayloads } as TEventData['observeEnd'])
+    await this.emit('observeEnd', {
+      inPayloads, mod: this, outPayloads,
+    } as TEventData['observeEnd'])
 
     return outPayloads
   }

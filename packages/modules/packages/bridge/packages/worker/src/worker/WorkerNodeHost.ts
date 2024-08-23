@@ -9,7 +9,9 @@ import type { PackageManifestPayload } from '@xyo-network/manifest'
 import { ManifestWrapper } from '@xyo-network/manifest'
 import type { NodeInstance } from '@xyo-network/node-model'
 
-import type { Message, QueryMessage, QueryResultMessage } from '../WorkerBridge.ts'
+import type {
+  Message, QueryMessage, QueryResultMessage,
+} from '../WorkerBridge.ts'
 
 export type QueryEvent = MessageEvent<QueryMessage>
 
@@ -68,10 +70,14 @@ export class WorkerNodeHost {
       switch (message.type) {
         case 'xyoQuery': {
           const message: QueryMessage = event.data
-          const { address, msgId, query, payloads } = message
+          const {
+            address, msgId, query, payloads,
+          } = message
           const mod = address ? await node.resolve(address, { direction: 'down' }) : node
           if (mod) {
-            const result: QueryResultMessage = { address, msgId, result: await mod.query(query, payloads) }
+            const result: QueryResultMessage = {
+              address, msgId, result: await mod.query(query, payloads),
+            }
             self.postMessage(result)
           }
           break

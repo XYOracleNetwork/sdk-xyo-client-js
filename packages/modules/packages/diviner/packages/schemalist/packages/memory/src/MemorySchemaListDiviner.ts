@@ -6,7 +6,8 @@ import { SchemaListDiviner } from '@xyo-network/diviner-schema-list-abstract'
 import type {
   SchemaListDivinerParams,
   SchemaListPayload,
-  SchemaListQueryPayload } from '@xyo-network/diviner-schema-list-model'
+  SchemaListQueryPayload,
+} from '@xyo-network/diviner-schema-list-model'
 import {
   isSchemaListQueryPayload,
   SchemaListDivinerConfigSchema,

@@ -18,7 +18,8 @@ import type {
   ArchivistNextQuery,
   ArchivistParams,
   ArchivistQueries,
-  AttachableArchivistInstance } from '@xyo-network/archivist-model'
+  AttachableArchivistInstance,
+} from '@xyo-network/archivist-model'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -34,10 +35,14 @@ import {
 import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import type { ModuleConfig, ModuleIdentifier, ModuleName, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
+import type {
+  ModuleConfig, ModuleIdentifier, ModuleName, ModuleQueryHandlerResult, ModuleQueryResult,
+} from '@xyo-network/module-model'
 import { duplicateModules } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
+import type {
+  Payload, PayloadWithMeta, Schema, WithMeta,
+} from '@xyo-network/payload-model'
 
 const NOT_IMPLEMENTED = 'Not implemented' as const
 
@@ -430,8 +435,7 @@ export abstract class AbstractArchivist<
       !this.requireAllParents || archivistModules.length === archivists.length,
       () =>
         `Failed to find some archivists (set allRequired to false if ok): [${archivists.filter(archivist =>
-          archivistModules.map(mod => !(mod.address === archivist || mod.modName === archivist)),
-        )}]`,
+          archivistModules.map(mod => !(mod.address === archivist || mod.modName === archivist)))}]`,
     )
 
     // eslint-disable-next-line unicorn/no-array-reduce

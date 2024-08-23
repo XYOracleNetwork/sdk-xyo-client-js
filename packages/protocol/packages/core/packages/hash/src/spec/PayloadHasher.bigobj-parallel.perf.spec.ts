@@ -9,7 +9,9 @@ describe('Hasher - BigObject Parallel ', () => {
     testNullObject: { t: null, x: undefined },
     testNumber: 5,
     testObject: { t: 1 },
-    testSomeNullObject: { s: 1, t: null, x: undefined },
+    testSomeNullObject: {
+      s: 1, t: null, x: undefined,
+    },
     testString: 'hello there.  this is a pretty long string.  what do you think?',
     testUndefined: undefined,
   }
@@ -21,7 +23,9 @@ describe('Hasher - BigObject Parallel ', () => {
     testNumber: 5,
     testObjArray: [testObject],
     testObject: { t: 1 },
-    testSomeNullObject: { s: 1, t: null, x: undefined },
+    testSomeNullObject: {
+      s: 1, t: null, x: undefined,
+    },
     testString: 'hello there.  this is a pretty long string.  what do you think?',
     testUndefined: undefined,
   }

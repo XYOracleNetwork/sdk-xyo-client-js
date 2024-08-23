@@ -8,7 +8,9 @@ import type { Logger } from '@xylabs/logger'
 import { IdLogger } from '@xylabs/logger'
 import { toJsonString } from '@xylabs/object'
 
-import type { ModuleFilter, ModuleFilterOptions, ModuleInstance, ModuleResolver } from '../instance/index.ts'
+import type {
+  ModuleFilter, ModuleFilterOptions, ModuleInstance, ModuleResolver,
+} from '../instance/index.ts'
 import { asModuleInstance } from '../instance/index.ts'
 import { duplicateModules } from '../lib/index.ts'
 import type { ModuleIdentifier } from '../ModuleIdentifier.ts'
@@ -88,15 +90,23 @@ export class ResolveHelper extends ResolveHelperStatic {
   static async resolve<T extends ModuleInstance = ModuleInstance>(
     config: ResolveHelperConfig,
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
-    { maxDepth = 3, required = 'log', ...options }: ModuleFilterOptions<T> = {},
+    {
+ maxDepth = 3, required = 'log', ...options
+}: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
-    const { transformers, mod, logger = this.defaultLogger, dead = false, upResolver, downResolver, privateResolver } = config
+    const {
+      transformers, mod, logger = this.defaultLogger, dead = false, upResolver, downResolver, privateResolver,
+    } = config
     const log = logger ? new IdLogger(logger, () => `ResolveHelper [${mod.id}][${idOrFilter}]`) : undefined
 
-    const downLocalOptions: ModuleFilterOptions<T> = { ...options, direction: 'down', maxDepth, required: false }
+    const downLocalOptions: ModuleFilterOptions<T> = {
+      ...options, direction: 'down', maxDepth, required: false,
+    }
     const upLocalOptions: ModuleFilterOptions<T> = { ...downLocalOptions, direction: 'up' }
 
-    const childOptions: ModuleFilterOptions<T> = { ...options, maxDepth: maxDepth - 1, required: false }
+    const childOptions: ModuleFilterOptions<T> = {
+      ...options, maxDepth: maxDepth - 1, required: false,
+    }
 
     const direction = options?.direction ?? 'all'
     const up = direction === 'up' || direction === 'all'

@@ -8,7 +8,8 @@ import type {
   ArchivistConfig,
   ArchivistInsertQuery,
   ArchivistModuleEventData,
-  ArchivistParams } from '@xyo-network/archivist-model'
+  ArchivistParams,
+} from '@xyo-network/archivist-model'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -19,7 +20,9 @@ import {
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
+import type {
+  Payload, PayloadWithMeta, Schema, WithMeta,
+} from '@xyo-network/payload-model'
 import Cookies from 'js-cookie'
 
 export type CookieArchivistConfigSchema = 'network.xyo.archivist.cookie.config'
@@ -102,9 +105,7 @@ export class CookieArchivist<
       const settled = await Promise.allSettled(
         (
           Object.values((await this.parentArchivists()).commit ?? [])?.map(async (parent) => {
-            const queryPayload: WithMeta<ArchivistInsertQuery> = await PayloadBuilder.build({
-              schema: ArchivistInsertQuerySchema,
-            })
+            const queryPayload: WithMeta<ArchivistInsertQuery> = await PayloadBuilder.build({ schema: ArchivistInsertQuerySchema })
             const query = await this.bindQuery(queryPayload, payloads)
             return (await parent?.query(query[0], query[1]))?.[0]
           })

@@ -1,6 +1,8 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 import type { StringKeyObject } from '@xylabs/object'
-import { AddressValue, Elliptic, HDWallet } from '@xyo-network/account'
+import {
+  AddressValue, Elliptic, HDWallet,
+} from '@xyo-network/account'
 import { PayloadBuilder } from '@xyo-network/payload'
 import type { Payload } from '@xyo-network/payload-model'
 

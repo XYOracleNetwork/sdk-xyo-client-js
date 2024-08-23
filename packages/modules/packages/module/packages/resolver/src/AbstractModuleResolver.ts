@@ -9,7 +9,8 @@ import type {
   ModuleIdentifier,
   ModuleInstance,
   ModuleResolverInstance,
-  ObjectFilterOptions } from '@xyo-network/module-model'
+  ObjectFilterOptions,
+} from '@xyo-network/module-model'
 import {
   asModuleInstance,
   ObjectResolverPriority,
@@ -51,8 +52,7 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
         asModuleInstance<T>(value, () => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           return `resolveHandler returned invalid result (*) [${(value as any)?.constructor?.name}][${toJsonString(value)}]`
-        }),
-      )
+        }))
     }
     switch (typeof idOrFilter) {
       case 'string': {
@@ -71,8 +71,7 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
           asModuleInstance<T>(value, () => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             return `resolveHandler returned invalid result (filter) [${(value as any)?.constructor?.name}][${toJsonString(value)}]`
-          }),
-        )
+          }))
       }
     }
   }

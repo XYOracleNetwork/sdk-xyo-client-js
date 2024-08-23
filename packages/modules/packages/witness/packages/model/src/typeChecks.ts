@@ -1,5 +1,7 @@
 import { AsObjectFactory } from '@xylabs/object'
-import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
+import {
+  IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory,
+} from '@xyo-network/module-model'
 
 import type { WitnessInstance } from './Instance.ts'
 import type { WitnessModule } from './Module.ts'

@@ -89,7 +89,7 @@
     "@typescript-eslint/eslint-plugin": "^8.2.0",
     "@typescript-eslint/parser": "^8.2.0",
     "@xylabs/eslint-config-flat": "^4.0.0",
-    "@xylabs/forget": "^4.0.2",
+    "@xylabs/forget": "^4.0.3",
     "@xylabs/ts-scripts-yarn3": "^4.0.0",
     "@xylabs/tsconfig": "^4.0.0",
     "@xylabs/tsconfig-dom-jest": "^4.0.0",

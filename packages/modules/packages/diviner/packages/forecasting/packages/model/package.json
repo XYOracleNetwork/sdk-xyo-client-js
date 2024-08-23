@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.0.2",
-    "@xylabs/promise": "^4.0.2",
+    "@xylabs/hex": "^4.0.3",
+    "@xylabs/promise": "^4.0.3",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"

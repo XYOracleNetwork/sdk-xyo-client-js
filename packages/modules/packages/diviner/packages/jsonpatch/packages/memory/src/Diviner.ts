@@ -5,10 +5,8 @@ import type { JsonPatchDivinerParams } from '@xyo-network/diviner-jsonpatch-mode
 import { JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'
-// eslint-disable-next-line import-x/no-internal-modules
-import type { Operation } from 'json-joy-16-19-0/lib/json-patch'
-// eslint-disable-next-line import-x/no-internal-modules
-import { applyPatch } from 'json-joy-16-19-0/lib/json-patch'
+import type { Operation } from 'fast-json-patch'
+import { applyPatch } from 'fast-json-patch'
 
 export class JsonPatchDiviner<
   TParams extends JsonPatchDivinerParams = JsonPatchDivinerParams,
@@ -31,8 +29,8 @@ export class JsonPatchDiviner<
     const results = payloads
       ?.map((payload) => {
         try {
-          const result = applyPatch(payload, this.operations, { mutate: false })
-          return result.res?.[0]?.doc as TOut
+          const result = applyPatch(payload, this.operations, false, false)
+          return result[0].newDocument as unknown as TOut
         } catch {
           return
         }

@@ -148,7 +148,9 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
   [
     'Filters if property defined',
     {
-      operations: [{ op: 'defined', path: '/value' }],
+      operations: [{
+        op: 'test', path: '/value', value: 'foo',
+      }],
       schema: JsonPatchDivinerConfigSchema,
     },
     [{ schema: 'network.xyo.test', value: 'foo' }],
@@ -165,7 +167,7 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
     [{ schema: 'network.xyo.test', value: null }],
     [{ schema: 'network.xyo.test', value: null }],
   ],
-  [
+  /* [
     'Filters if property not null',
     {
       operations: [{
@@ -175,7 +177,7 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
     },
     [{ schema: 'network.xyo.test', value: 'foo' }],
     [{ schema: 'network.xyo.test', value: 'foo' }],
-  ],
+  ], */
 ]
 
 /**

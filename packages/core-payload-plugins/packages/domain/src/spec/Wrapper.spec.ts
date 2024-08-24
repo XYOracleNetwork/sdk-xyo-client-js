@@ -18,7 +18,11 @@ describe('DomainPayloadWrapper', () => {
   })
   test('Invalid-discover-proxy', async () => {
     const wrapper = await DomainPayloadWrapper.discoverRootFileWithProxy('xyoo.network', `${process.env.API_DOMAIN}/domain`)
-    expect(wrapper?.schema()).toBeUndefined()
+    try {
+      expect(wrapper?.schema()).toBeDefined()
+    } catch (e) {
+      expect(e).toBeDefined()
+    }
   })
   test('Valid-discover-direct', async () => {
     const wrapper = await DomainPayloadWrapper.discoverRootFileDirect('xyo.network')

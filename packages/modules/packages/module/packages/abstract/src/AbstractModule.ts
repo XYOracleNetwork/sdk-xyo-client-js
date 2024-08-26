@@ -263,7 +263,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   static factory<TModule extends AttachableModuleInstance>(
     this: CreatableModule<TModule>,
-    params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
+    params: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ): CreatableModuleFactory<TModule> {
     return ModuleFactory.withParams(this, params)
   }

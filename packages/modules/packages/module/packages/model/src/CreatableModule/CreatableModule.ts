@@ -9,7 +9,7 @@ export type CreatableModuleFactory<T extends AttachableModuleInstance | void = v
   CreatableModule<T extends AttachableModuleInstance ? T : AttachableModuleInstance>,
   'new' | 'create'
 > & {
-  create<T extends AttachableModuleInstance>(this: CreatableModuleFactory<T>, params?: T['params']): Promise<T>
+  create<T extends AttachableModuleInstance>(this: CreatableModuleFactory<T>, params: T['params']): Promise<T>
 }
 
 export interface CreatableModule<T extends AttachableModuleInstance = AttachableModuleInstance> {
@@ -18,8 +18,8 @@ export interface CreatableModule<T extends AttachableModuleInstance = Attachable
   defaultLogger?: Logger
   new (privateConstructorKey: string, params: T['params'], account: AccountInstance, address: Address): T
   _noOverride(functionName: string): void
-  create<T extends AttachableModuleInstance>(this: CreatableModule<T>, params?: T['params']): Promise<T>
-  factory<T extends AttachableModuleInstance>(this: CreatableModule<T>, params?: T['params']): CreatableModuleFactory<T>
+  create<T extends AttachableModuleInstance>(this: CreatableModule<T>, params: T['params']): Promise<T>
+  factory<T extends AttachableModuleInstance>(this: CreatableModule<T>, params: T['params']): CreatableModuleFactory<T>
 }
 
 /**

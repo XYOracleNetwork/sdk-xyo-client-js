@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/id-payload-plugin",
-  "version": "3.0.14",
+  "version": "3.0.15",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {

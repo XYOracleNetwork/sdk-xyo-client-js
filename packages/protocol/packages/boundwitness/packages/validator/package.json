@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/arraybuffer": "^4.0.3",
-    "@xylabs/lodash": "^4.0.3",
-    "@xylabs/typeof": "^4.0.3",
+    "@xylabs/arraybuffer": "^4.0.5",
+    "@xylabs/lodash": "^4.0.5",
+    "@xylabs/typeof": "^4.0.5",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/payload": "workspace:^",

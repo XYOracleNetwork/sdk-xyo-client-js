@@ -885,10 +885,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bitauth/libauth-1-19-1@npm:@bitauth/libauth@1.19.1":
-  version: 1.19.1
-  resolution: "@bitauth/libauth@npm:1.19.1"
-  checksum: 10/325e396bdbed4af15861085db8b702a9a5083fea9f22c451598ca574d25edf1d344b22b7576b082da5bab8a46d9b31ea42f206e1ad4d5c1b02e877b62448c1aa
+"@bitauth/libauth@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@bitauth/libauth@npm:3.0.0"
+  checksum: 10/3158091c462f16cc1e9df8b4bbf35e6fa3f85dde1d8f6337344d4c0102b4f0b55a0768472d6ef88c297a9050772b6ee0ff4bc65174f5c4e6af7721dd9d7eac1c
   languageName: node
   linkType: hard
 
@@ -4108,7 +4108,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/protocol/packages/account"
   dependencies:
-    "@bitauth/libauth-1-19-1": "npm:@bitauth/libauth@1.19.1"
+    "@bitauth/libauth": "npm:^3.0.0"
     "@scure/bip39": "npm:^1.3.0"
     "@xylabs/arraybuffer": "npm:^4.0.5"
     "@xylabs/assert": "npm:^4.0.5"

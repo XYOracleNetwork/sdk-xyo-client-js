@@ -1,5 +1,5 @@
-import type { Secp256k1 } from '@bitauth/libauth-1-19-1'
-import { instantiateSecp256k1 } from '@bitauth/libauth-1-19-1'
+import type { Secp256k1 } from '@bitauth/libauth'
+import { instantiateSecp256k1 } from '@bitauth/libauth'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import { Data } from '@xyo-network/data'
@@ -41,7 +41,7 @@ export class Elliptic {
 
   static async publicKeyFromPrivateKey(privateKey: ArrayBuffer, prefix = false): Promise<ArrayBuffer> {
     const { derivePublicKeyUncompressed } = await this.secp256k1()
-    const fullPublicKey = derivePublicKeyUncompressed(new Uint8Array(privateKey))
+    const fullPublicKey = toUint8Array(derivePublicKeyUncompressed(new Uint8Array(privateKey)))
     return prefix ? fullPublicKey : fullPublicKey.slice(1)
   }
 
@@ -62,7 +62,7 @@ export class Elliptic {
 
   static async sign(hash: ArrayBuffer, key: ArrayBuffer) {
     const { signMessageHashCompact } = await this.secp256k1()
-    return signMessageHashCompact(new Uint8Array(key), toUint8Array(hash))
+    return toUint8Array(signMessageHashCompact(new Uint8Array(key), toUint8Array(hash)))
   }
 
   static async verify(msg: ArrayBuffer, signature: ArrayBuffer, address: ArrayBuffer) {
@@ -70,7 +70,7 @@ export class Elliptic {
     if (verifier && this.wasmSupport.canUseWasm) {
       for (const recoveryId of recoveryIds) {
         try {
-          const recoveredPublicKey = verifier.recoverPublicKeyUncompressed(toUint8Array(signature), recoveryId, toUint8Array(msg)).slice(1)
+          const recoveredPublicKey = toUint8Array(verifier.recoverPublicKeyUncompressed(toUint8Array(signature), recoveryId, toUint8Array(msg)).slice(1))
           const recoveredAddress = this.addressFromPublicKey(recoveredPublicKey)
           if (compareArrayBuffers(address, recoveredAddress)) {
             return true

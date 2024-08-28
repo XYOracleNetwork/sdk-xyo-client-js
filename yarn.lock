@@ -4412,7 +4412,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/boundwitness-loader@workspace:packages/protocol/packages/boundwitness/packages/loader":
+"@xyo-network/boundwitness-loader@workspace:^, @xyo-network/boundwitness-loader@workspace:packages/protocol/packages/boundwitness/packages/loader":
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-loader@workspace:packages/protocol/packages/boundwitness/packages/loader"
   dependencies:
@@ -4491,6 +4491,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^4.0.7"
     "@xylabs/tsconfig": "npm:^4.0.7"
     "@xyo-network/boundwitness-builder": "workspace:^"
+    "@xyo-network/boundwitness-loader": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/boundwitness-validator": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"

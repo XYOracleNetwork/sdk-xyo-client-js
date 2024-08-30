@@ -10,4 +10,16 @@ describe('Quadkey', () => {
     expect(center?.lat).toBe(48.378_236)
     expect(center?.lng).toBe(-146.25)
   })
+  test('Zero Children', () => {
+    const qk = Quadkey.Zero
+    expect(qk.base16String).toBe('00000000000000000000000000000000000000000000000000000000000000')
+    expect(qk.zoom).toBe(0)
+    expect(qk.base4Hash).toBe('')
+    const children = qk?.children
+    expect(children?.length).toBe(4)
+    expect(children?.[0].base4Hash).toBe('0')
+    expect(children?.[1].base4Hash).toBe('1')
+    expect(children?.[2].base4Hash).toBe('2')
+    expect(children?.[3].base4Hash).toBe('3')
+  })
 })

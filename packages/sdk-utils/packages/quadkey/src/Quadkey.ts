@@ -55,6 +55,9 @@ export class Quadkey {
   }
 
   get base4Hash() {
+    if (this.id === 0n && this.zoom === 0) {
+      return ''
+    }
     return this.id.toString(4).padStart(this.zoom, '0')
   }
 

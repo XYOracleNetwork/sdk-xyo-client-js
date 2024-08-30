@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/boundwitness",
-  "version": "3.1.0",
+  "version": "3.1.4",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -30,6 +30,7 @@
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
     "@xyo-network/boundwitness-builder": "workspace:^",
+    "@xyo-network/boundwitness-loader": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-validator": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^"

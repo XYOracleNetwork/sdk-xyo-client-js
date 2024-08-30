@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-wrapper",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.0.5",
+    "@xylabs/hex": "^4.0.9",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",

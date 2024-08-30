@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/bridge-http",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -39,13 +39,13 @@
   "module": "dist/neutral/index-browser.mjs",
   "types": "dist/neutral/index-browser.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.0.5",
-    "@xylabs/axios": "^4.0.5",
-    "@xylabs/exists": "^4.0.5",
-    "@xylabs/forget": "^4.0.5",
-    "@xylabs/hex": "^4.0.5",
-    "@xylabs/object": "^4.0.5",
-    "@xylabs/promise": "^4.0.5",
+    "@xylabs/assert": "^4.0.9",
+    "@xylabs/axios": "^4.0.9",
+    "@xylabs/exists": "^4.0.9",
+    "@xylabs/forget": "^4.0.9",
+    "@xylabs/hex": "^4.0.9",
+    "@xylabs/object": "^4.0.9",
+    "@xylabs/promise": "^4.0.9",
     "@xylabs/sdk-api-express-ecs": "^2.0.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/node": "^22.5.0",
+    "@types/node": "^22.5.1",
     "@xylabs/ts-scripts-yarn3": "^4.0.7",
     "@xylabs/tsconfig": "^4.0.7",
     "@xyo-network/account": "workspace:^",

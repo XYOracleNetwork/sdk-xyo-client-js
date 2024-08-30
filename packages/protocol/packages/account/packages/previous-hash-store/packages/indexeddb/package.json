@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/previous-hash-store-indexeddb",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,12 +29,12 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/node/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.0.5",
+    "@xylabs/hex": "^4.0.9",
     "@xyo-network/previous-hash-store-model": "workspace:^",
     "idb": "^8.0.0"
   },
   "devDependencies": {
-    "@types/node": "^22.5.0",
+    "@types/node": "^22.5.1",
     "@types/uuid": "10.0.0",
     "@xylabs/ts-scripts-yarn3": "^4.0.7",
     "@xylabs/tsconfig": "^4.0.7",

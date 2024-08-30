@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/hash",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -52,18 +52,18 @@
     "wasmHashBundle": "esbuild src/worker/wasmHash.ts --bundle --outfile=dist/browser/worker/wasmHash-bundle.mjs --target=chrome120,firefox120,safari14,edge120"
   },
   "dependencies": {
-    "@xylabs/assert": "^4.0.5",
-    "@xylabs/hex": "^4.0.5",
-    "@xylabs/lodash": "^4.0.5",
-    "@xylabs/object": "^4.0.5",
-    "@xylabs/platform": "^4.0.5",
-    "@xylabs/threads": "^4.0.5",
-    "@xylabs/typeof": "^4.0.5",
+    "@xylabs/assert": "^4.0.9",
+    "@xylabs/hex": "^4.0.9",
+    "@xylabs/lodash": "^4.0.9",
+    "@xylabs/object": "^4.0.9",
+    "@xylabs/platform": "^4.0.9",
+    "@xylabs/threads": "^4.0.9",
+    "@xylabs/typeof": "^4.0.9",
     "@xyo-network/wasm": "workspace:^",
     "hash-wasm": "^4.11.0"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.0.5",
+    "@xylabs/delay": "^4.0.9",
     "@xylabs/ts-scripts-yarn3": "^4.0.7",
     "@xylabs/tsconfig": "^4.0.7",
     "esbuild": "^0.23.1",

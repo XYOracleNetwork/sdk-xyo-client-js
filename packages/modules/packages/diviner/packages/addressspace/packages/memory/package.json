@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-address-space-memory",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.0.5",
-    "@xylabs/hex": "^4.0.5",
+    "@xylabs/assert": "^4.0.9",
+    "@xylabs/hex": "^4.0.9",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-address-space-abstract": "workspace:^",

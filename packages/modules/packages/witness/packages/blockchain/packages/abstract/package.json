@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/witness-blockchain-abstract",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.0.5",
-    "@xylabs/object": "^4.0.5",
-    "@xylabs/promise": "^4.0.5",
+    "@xylabs/assert": "^4.0.9",
+    "@xylabs/object": "^4.0.9",
+    "@xylabs/promise": "^4.0.9",
     "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
@@ -39,7 +39,7 @@
     "ethers": "6.13.2"
   },
   "devDependencies": {
-    "@xylabs/jest-helpers": "^4.0.5",
+    "@xylabs/jest-helpers": "^4.0.9",
     "@xylabs/ts-scripts-yarn3": "^4.0.7",
     "@xylabs/tsconfig": "^4.0.7",
     "ethers": "6.13.2",

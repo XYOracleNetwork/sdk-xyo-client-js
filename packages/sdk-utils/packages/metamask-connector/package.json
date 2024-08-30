@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/metamask-connector",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -30,7 +30,7 @@
   "types": "dist/browser/index.d.ts",
   "dependencies": {
     "@metamask/providers": "^17.1.2",
-    "@xylabs/forget": "^4.0.5",
+    "@xylabs/forget": "^4.0.9",
     "ethers": "6.13.2"
   },
   "devDependencies": {

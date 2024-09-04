@@ -1,4 +1,5 @@
-import { createServer as createHttpServer, Server as HttpServer } from 'node:http'
+import type { Server as HttpServer } from 'node:http'
+import { createServer as createHttpServer } from 'node:http'
 
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
@@ -64,7 +65,7 @@ export class WebsocketBridge<
       throw new Error('Socket Server already started')
     }
     const host = assertEx(this.host, () => 'No Host Configured')
-    this.httpServer = createHttpServer()
+    this.httpServer = createHttpServer() as HttpServer
     this.server = new Server(this.httpServer)
 
     this.server.on('connection', (socket: Socket) => {

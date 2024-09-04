@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@scure/base": "^1.1.7",
+    "@scure/base": "^1.1.8",
     "@xylabs/arraybuffer": "^4.0.9",
     "@xylabs/assert": "^4.0.9",
     "@xylabs/hex": "^4.0.9",

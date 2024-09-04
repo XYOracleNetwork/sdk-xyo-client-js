@@ -38,7 +38,7 @@
     "test": "node --experimental-vm-modules ../../../../../../node_modules/.bin/jest ."
   },
   "dependencies": {
-    "@scure/bip39": "^1.3.0",
+    "@scure/bip39": "^1.4.0",
     "@xylabs/assert": "^4.0.9",
     "@xylabs/forget": "^4.0.9",
     "@xylabs/hex": "^4.0.9",

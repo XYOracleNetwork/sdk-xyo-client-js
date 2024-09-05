@@ -29,8 +29,8 @@
         "types": "./dist/node/index.d.ts",
         "default": "./dist/node/index.mjs"
       },
-      "module": "./dist/neutral/index-browser.mjs",
-      "types": "./dist/neutral/index-browser.d.ts"
+      "types": "./dist/neutral/index-browser.d.ts",
+      "default": "./dist/neutral/index-browser.mjs"
     },
     "./package.json": "./package.json"
   },

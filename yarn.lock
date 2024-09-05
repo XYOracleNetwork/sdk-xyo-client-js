@@ -3172,12 +3172,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:^22.5.0, @types/node@npm:^22.5.3":
-  version: 22.5.3
-  resolution: "@types/node@npm:22.5.3"
+"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:^22.5.0, @types/node@npm:^22.5.4":
+  version: 22.5.4
+  resolution: "@types/node@npm:22.5.4"
   dependencies:
     undici-types: "npm:~6.19.2"
-  checksum: 10/a969c8df3becf326938ff17b0bd9114b0d1d3c5fe6292c8a9f3db1576a3567dc6db4e7b253830bbfcd92cb49e0d799592d56daf56d8a0c1446d0ea6658324450
+  checksum: 10/d46e0abf437b36bdf89011287aa43873d68ea6f2521a11b5c9a033056fd0d07af36daf51439010e8d41c62c55d0b00e9b5e09ed00bb2617723f73f28a873903a
   languageName: node
   linkType: hard
 
@@ -4121,7 +4121,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/api@workspace:packages/sdk-utils/packages/api"
   dependencies:
-    "@types/node": "npm:^22.5.3"
+    "@types/node": "npm:^22.5.4"
     "@types/uuid": "npm:^10.0.0"
     "@xylabs/axios": "npm:^4.0.9"
     "@xylabs/jest-helpers": "npm:^4.0.9"
@@ -4399,7 +4399,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-model@workspace:packages/protocol/packages/boundwitness/packages/model"
   dependencies:
-    "@types/node": "npm:^22.5.3"
+    "@types/node": "npm:^22.5.4"
     "@xylabs/hex": "npm:^4.0.9"
     "@xylabs/object": "npm:^4.0.9"
     "@xylabs/ts-scripts-yarn3": "npm:^4.0.7"
@@ -4509,7 +4509,7 @@ __metadata:
   resolution: "@xyo-network/bridge-http@workspace:packages/modules/packages/bridge/packages/http"
   dependencies:
     "@types/express": "npm:^4.17.21"
-    "@types/node": "npm:^22.5.3"
+    "@types/node": "npm:^22.5.4"
     "@xylabs/assert": "npm:^4.0.9"
     "@xylabs/axios": "npm:^4.0.9"
     "@xylabs/exists": "npm:^4.0.9"
@@ -4738,7 +4738,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/core@workspace:packages/protocol/packages/core"
   dependencies:
-    "@types/node": "npm:^22.5.3"
+    "@types/node": "npm:^22.5.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.0.7"
     "@xylabs/tsconfig": "npm:^4.0.7"
     "@xyo-network/data": "workspace:^"
@@ -6169,7 +6169,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/core-payload-plugins/packages/domain"
   dependencies:
-    "@types/node": "npm:^22.5.3"
+    "@types/node": "npm:^22.5.4"
     "@xylabs/axios": "npm:^4.0.9"
     "@xylabs/hex": "npm:^4.0.9"
     "@xylabs/object": "npm:^4.0.9"
@@ -6265,7 +6265,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/key-model@workspace:packages/protocol/packages/account/packages/keypair-model"
   dependencies:
-    "@types/node": "npm:^22.5.3"
+    "@types/node": "npm:^22.5.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.0.7"
     "@xylabs/tsconfig": "npm:^4.0.7"
     "@xyo-network/data": "workspace:^"
@@ -6277,7 +6277,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest-model@workspace:packages/manifest/packages/model"
   dependencies:
-    "@types/node": "npm:^22.5.3"
+    "@types/node": "npm:^22.5.4"
     "@xylabs/hex": "npm:^4.0.9"
     "@xylabs/ts-scripts-yarn3": "npm:^4.0.7"
     "@xylabs/tsconfig": "npm:^4.0.7"
@@ -6817,7 +6817,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/indexeddb"
   dependencies:
-    "@types/node": "npm:^22.5.3"
+    "@types/node": "npm:^22.5.4"
     "@types/uuid": "npm:10.0.0"
     "@xylabs/hex": "npm:^4.0.9"
     "@xylabs/ts-scripts-yarn3": "npm:^4.0.7"
@@ -6845,7 +6845,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/storage"
   dependencies:
-    "@types/node": "npm:^22.5.3"
+    "@types/node": "npm:^22.5.4"
     "@types/uuid": "npm:^10.0.0"
     "@xylabs/hex": "npm:^4.0.9"
     "@xylabs/ts-scripts-yarn3": "npm:^4.0.7"
@@ -7154,7 +7154,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/typeof@workspace:packages/shared/packages/typeof"
   dependencies:
-    "@types/node": "npm:^22.5.3"
+    "@types/node": "npm:^22.5.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.0.7"
     "@xylabs/tsconfig": "npm:^4.0.7"
     typescript: "npm:^5.5.4"

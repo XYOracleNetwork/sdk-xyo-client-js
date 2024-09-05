@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/bridge-http",
-  "version": "3.1.6",
+  "version": "3.1.7",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/node": "^22.5.3",
+    "@types/node": "^22.5.4",
     "@xylabs/ts-scripts-yarn3": "^4.0.7",
     "@xylabs/tsconfig": "^4.0.7",
     "@xyo-network/account": "workspace:^",

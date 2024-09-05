@@ -32,7 +32,9 @@
           "types": "./types.node.d.ts",
           "default": "./dist/node/index.mjs"
         }
-      }
+      },
+      "module": "./dist/neutral/index.mjs",
+      "types": "./dist/neutral/index.d.ts"
     },
     "./package.json": "./package.json"
   },

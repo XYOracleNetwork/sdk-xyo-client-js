@@ -28,7 +28,9 @@
       "import": {
         "types": "./dist/node/index.d.ts",
         "default": "./dist/node/index.mjs"
-      }
+      },
+      "module": "./dist/neutral/index.mjs",
+      "types": "./dist/neutral/index.d.ts"
     },
     "./package.json": "./package.json"
   },

@@ -32,12 +32,14 @@
           "types": "./dist/node/index.d.ts",
           "default": "./dist/node/index.mjs"
         }
-      }
+      },
+      "module": "./dist/neutral/index.mjs",
+      "types": "./dist/neutral/index.d.ts"
     },
     "./package.json": "./package.json"
   },
-  "module": "dist/neutral/index-browser.mjs",
-  "types": "dist/neutral/index-browser.d.ts",
+  "module": "dist/neutral/index.mjs",
+  "types": "dist/neutral/index.d.ts",
   "dependencies": {
     "@xylabs/assert": "^4.0.9",
     "@xylabs/axios": "^4.0.9",

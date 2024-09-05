@@ -32,7 +32,9 @@
           "types": "./dist/node/index.d.ts",
           "default": "./dist/node/index.mjs"
         }
-      }
+      },
+      "module": "./dist/neutral/index.mjs",
+      "types": "./dist/neutral/index.d.ts"
     },
     "./worker/subtleHash-bundle.mjs": {
       "browser": "./dist/browser/worker/subtleHash-bundle.mjs"

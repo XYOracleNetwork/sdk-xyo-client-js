@@ -1,4 +1,4 @@
-import * as matchers from 'jest-extended'
+import { default as matchers } from 'jest-extended'
 import { expect, vi } from 'vitest'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

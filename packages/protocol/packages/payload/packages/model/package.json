@@ -37,7 +37,7 @@
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
-  "types": "types.node.d.ts",
+  "types": "dist/neutral/index.d.ts",
   "dependencies": {
     "@xylabs/hex": "^4.0.9",
     "@xylabs/object": "^4.0.9"

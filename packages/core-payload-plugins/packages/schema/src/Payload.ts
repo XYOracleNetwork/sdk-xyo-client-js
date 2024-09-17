@@ -29,14 +29,14 @@ export type SchemaPayload = Payload<{
 /**
  * Identity function for determining if an object is an Schema
  */
-export const isSchema = isPayloadOfSchemaType<SchemaPayload>(SchemaSchema)
+export const isSchemaPayload = isPayloadOfSchemaType<SchemaPayload>(SchemaSchema)
 
 /**
  * Identity function for determining if an object is an Schema with sources
  */
-export const isSchemaWithSources = isPayloadOfSchemaTypeWithSources<SchemaPayload>(SchemaSchema)
+export const isSchemaPayloadWithSources = isPayloadOfSchemaTypeWithSources<SchemaPayload>(SchemaSchema)
 
 /**
  * Identity function for determining if an object is an Schema with meta
  */
-export const isSchemaWithMeta = isPayloadOfSchemaTypeWithMeta<SchemaPayload>(SchemaSchema)
+export const isSchemaPayloadWithMeta = isPayloadOfSchemaTypeWithMeta<SchemaPayload>(SchemaSchema)

@@ -30,6 +30,7 @@
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
     "@xylabs/arraybuffer": "^4.0.9",
+    "@xylabs/hex": "^4.0.10",
     "@xylabs/lodash": "^4.0.9",
     "@xylabs/typeof": "^4.0.9",
     "@xyo-network/account": "workspace:^",

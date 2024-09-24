@@ -3745,6 +3745,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/hex@npm:^4.0.10":
+  version: 4.0.10
+  resolution: "@xylabs/hex@npm:4.0.10"
+  checksum: 10/cad87986ced0e46e66c305d88dfd753772bd99701fe3b1fdbe97dee4d3ad05f7505dabbb1f5db9506c90caa69eeb8984b1031ebb5205c40839beb269982a5e73
+  languageName: node
+  linkType: hard
+
 "@xylabs/hex@npm:^4.0.9":
   version: 4.0.9
   resolution: "@xylabs/hex@npm:4.0.9"
@@ -4414,6 +4421,7 @@ __metadata:
   resolution: "@xyo-network/boundwitness-validator@workspace:packages/protocol/packages/boundwitness/packages/validator"
   dependencies:
     "@xylabs/arraybuffer": "npm:^4.0.9"
+    "@xylabs/hex": "npm:^4.0.10"
     "@xylabs/lodash": "npm:^4.0.9"
     "@xylabs/ts-scripts-yarn3": "npm:^4.0.7"
     "@xylabs/tsconfig": "npm:^4.0.7"

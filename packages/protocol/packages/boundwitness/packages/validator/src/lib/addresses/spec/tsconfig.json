@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+  },
+  "extends": "@xylabs/tsconfig-jest"
+}

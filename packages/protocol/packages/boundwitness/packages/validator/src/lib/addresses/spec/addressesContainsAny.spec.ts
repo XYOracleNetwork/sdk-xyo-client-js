@@ -56,7 +56,7 @@ describe('BoundWitnessValidator', () => {
         const [bw] = await new BoundWitnessBuilder().payload(payload).build()
         expect(addressesContainsAny(bw, addresses)).toBeFalse()
       })
-      it.only('with all signers but one', async () => {
+      it('with all signers but one', async () => {
         const less = [...signers().slice(0, -1), await HDWallet.random()]
         const [bw] = await new BoundWitnessBuilder().signers(less).payload(payload).build()
         expect(addressesContainsAny(bw, addresses)).toBeFalse()

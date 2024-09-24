@@ -15,16 +15,16 @@ describe('BoundWitnessValidator', () => {
   })
   describe('returns true', () => {
     const cases: [string, () => WalletInstance[]][] = [
-      ['for no wallet', () => []],
-      ['for single wallet', () => oneWallet],
-      ['for multiple wallets', () => twoWallets],
+      ['with no signer', () => []],
+      ['with single signer', () => oneWallet],
+      ['with multiple signer', () => twoWallets],
     ]
     describe.each(cases)('%s when all sign', (_, signers) => {
       let addresses: Address[]
       beforeAll(() => {
         addresses = signers().map(x => x.address)
       })
-      it.skip('addresses empty', async () => {
+      it('addresses empty', async () => {
         const all = signers()
         const [bw] = await new BoundWitnessBuilder().signers(all).payload(payload).build()
         expect(addressesContainsAll(bw, [])).toBeTrue()

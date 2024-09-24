@@ -19,7 +19,7 @@ describe('addressesContainsAny', () => {
   }
   describe('returns true', () => {
     const cases: [string, () => WalletInstance[]][] = [
-      ['with no wallets', () => []],
+      // ['with no wallets', () => []],
       ['with single wallet', () => oneWallet],
       ['with multiple wallets', () => twoWallets],
     ]
@@ -34,22 +34,23 @@ describe('addressesContainsAny', () => {
       })
       it('with all wallets as signers and all wallet addresses supplied', async () => {
         const bw = await buildBoundWitness(wallets())
-        expect(addressesContainsAny(bw, addresses)).toBe(wallets().length > 0) // Should be true if wallets exist
+        expect(addressesContainsAny(bw, addresses)).toBeTrue() // Should be true if wallets exist
       })
       it('with all wallets (and extra wallets) as signers and all wallet addresses supplied', async () => {
         const extraSigners = [...wallets(), await HDWallet.random()]
         const bw = await buildBoundWitness(extraSigners)
-        expect(addressesContainsAny(bw, addresses)).toBe(wallets().length > 0) // Should still be true with extras
+        expect(addressesContainsAny(bw, addresses)).toBeTrue() // Should still be true with extras
       })
       it('with only one matching signer', async () => {
         const extraSigners = [await HDWallet.random(), ...wallets()]
         const bw = await buildBoundWitness(extraSigners)
-        expect(addressesContainsAny(bw, addresses)).toBe(wallets().length > 0) // Should return true with one match
+        expect(addressesContainsAny(bw, addresses)).toBeTrue() // Should return true with one match
       })
     })
   })
   describe('returns false', () => {
     const cases: [string, () => WalletInstance[]][] = [
+      ['with no wallets', () => []],
       ['with single wallet', () => oneWallet],
       ['with multiple wallets', () => twoWallets],
     ]

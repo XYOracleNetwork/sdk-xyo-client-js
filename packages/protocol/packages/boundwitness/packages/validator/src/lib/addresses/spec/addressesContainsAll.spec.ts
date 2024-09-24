@@ -26,12 +26,16 @@ describe('addressesContainsAll', () => {
       ['with single wallet', () => oneWallet],
       ['with multiple wallets', () => twoWallets],
     ]
+    it('with no signers and empty addresses supplied', async () => {
+      const bw = await buildBoundWitness([])
+      expect(addressesContainsAll(bw, [])).toBeTrue()
+    })
     describe.each(cases)('%s', (_, wallets) => {
       let addresses: Address[]
       beforeAll(() => {
         addresses = wallets().map(x => x.address)
       })
-      it('with no signers and empty addresses supplied', async () => {
+      it('with  all wallets as signers and empty addresses supplied', async () => {
         const bw = await buildBoundWitness(wallets())
         expect(addressesContainsAll(bw, [])).toBeTrue()
       })

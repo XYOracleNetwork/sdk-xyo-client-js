@@ -23,23 +23,33 @@ describe('BoundWitnessValidator', () => {
       addresses = signers().map(x => x.address)
     })
     describe('returns true', () => {
-      it('when all addresses present in boundwitness', async () => {
-        const [bw] = await new BoundWitnessBuilder().signers(signers()).payload(payload).build()
+      it('when addresses empty', async () => {
+        const all = signers()
+        const [bw] = await new BoundWitnessBuilder().signers(all).payload(payload).build()
+        expect(addressesContainsAll(bw, [])).toBeTrue()
+      })
+      it('when all addresses present in boundwitness addresses', async () => {
+        const all = signers()
+        const [bw] = await new BoundWitnessBuilder().signers(all).payload(payload).build()
         expect(addressesContainsAll(bw, addresses)).toBeTrue()
       })
-      it('when extra addresses present in boundwitness', async () => {
+      it('when all addresses present in boundwitness addresses with extra addresses', async () => {
         const extra = [...signers(), await HDWallet.random()]
         const [bw] = await new BoundWitnessBuilder().signers(extra).payload(payload).build()
         expect(addressesContainsAll(bw, addresses)).toBeTrue()
       })
     })
     describe('returns false', () => {
-      it('when one address not present in boundwitness', async () => {
+      it('when no addresses in boundwitness addresses', async () => {
+        const [bw] = await new BoundWitnessBuilder().payload(payload).build()
+        expect(addressesContainsAll(bw, addresses)).toBeFalse()
+      })
+      it('when missing one address in boundwitness addresses', async () => {
         const less = [...signers().slice(0, -1), await HDWallet.random()]
         const [bw] = await new BoundWitnessBuilder().signers(less).payload(payload).build()
         expect(addressesContainsAll(bw, addresses)).toBeFalse()
       })
-      it('when all addresses not present in boundwitness', async () => {
+      it('when missing all addresses in boundwitness addresses', async () => {
         const none = [await HDWallet.random(), await HDWallet.random()]
         const [bw] = await new BoundWitnessBuilder().signers(none).payload(payload).build()
         expect(addressesContainsAll(bw, addresses)).toBeFalse()

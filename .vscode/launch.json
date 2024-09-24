@@ -10,12 +10,40 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/diviner/packages/payloadpointer/packages/memory/src/spec/Diviner.payloadPointer.schema.spec.ts"
+        "packages/protocol/packages/boundwitness/packages/validator/src/lib/addresses/spec/addressesContainsAll.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "cwd": "${workspaceFolder}",
       "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "Vite",
+      "request": "launch",
+      "type": "node",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": [
+        "--run",
+        "--inspect-brk",
+        "--no-file-parallelism",
+        "packages/protocol/packages/boundwitness/packages/validator/src/lib/addresses/spec/addressesContainsAll.spec.ts"
+      ],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "**/node_modules/**"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.*",
+        "${workspaceFolder}/node_modules/**/*.*"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "cwd": "${workspaceRoot}",
+      "env": {
+        "NODE_ENV": "test"
+      },
+      "envFile": "${workspaceRoot}/.env",
     }
   ]
 }

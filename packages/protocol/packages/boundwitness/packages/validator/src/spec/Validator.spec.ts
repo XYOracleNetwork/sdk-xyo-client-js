@@ -5,7 +5,7 @@ import type { Payload } from '@xyo-network/payload'
 import { PayloadBuilder } from '@xyo-network/payload'
 import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 
-import { BoundWitnessValidator } from '../Validator'
+import { BoundWitnessValidator } from '../Validator.ts'
 
 const dumpErrors = (errors: Error[]) => {
   for (const error of errors) {

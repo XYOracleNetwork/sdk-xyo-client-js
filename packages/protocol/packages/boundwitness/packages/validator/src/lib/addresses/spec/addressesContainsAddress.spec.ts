@@ -32,7 +32,7 @@ describe('addressesContainsAddress', () => {
       expect(addressesContainsAddress(bw, address)).toBeTrue()
     })
 
-    it('with extra signers and the address is still present', async () => {
+    it('with extra signers and the address is present', async () => {
       const extraSigners = [...twoWallets, await HDWallet.random()]
       const bw = await buildBoundWitness(extraSigners)
       const address = twoWallets[1].address

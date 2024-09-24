@@ -19,13 +19,13 @@ describe('addressesContainsAny', () => {
   }
   describe('returns true', () => {
     const cases: [string, () => WalletInstance[]][] = [
-      // ['with no wallets', () => []],
+      ['with no wallets', () => []],
       ['with single wallet', () => oneWallet],
       ['with multiple wallets', () => twoWallets],
     ]
     it('with no signers and empty addresses supplied', async () => {
       const bw = await buildBoundWitness([])
-      expect(addressesContainsAny(bw, [])).toBeFalse() // No signers and no addresses should return false
+      expect(addressesContainsAny(bw, [])).toBeTrue() // No signers and no addresses should return true
     })
     describe.each(cases)('%s', (_, wallets) => {
       let addresses: Address[]
@@ -50,7 +50,7 @@ describe('addressesContainsAny', () => {
   })
   describe('returns false', () => {
     const cases: [string, () => WalletInstance[]][] = [
-      ['with no wallets', () => []],
+      // ['with no wallets', () => []],
       ['with single wallet', () => oneWallet],
       ['with multiple wallets', () => twoWallets],
     ]

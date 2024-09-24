@@ -4,7 +4,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 
 import { addressesContainsAddress } from '../addressesContainsAddress.ts'
 
-describe('BoundWitnessValidator - addressesContainsAddress', () => {
+describe('addressesContainsAddress', () => {
   const payload = { schema: 'network.xyo.test', value: Date.now() }
   let oneWallet: WalletInstance[] = []
   let twoWallets: WalletInstance[] = []

@@ -1,7 +1,7 @@
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import type { Schema } from '@xyo-network/payload-model'
 
-import { boundWitnessContainsAny } from '../util/index.ts'
+import { boundWitnessArrayPropertyContainsAny } from '../util/index.ts'
 
 /**
  * Checks if the boundwitness contains any of the payload schemas. If the payload schemas array
@@ -12,5 +12,5 @@ import { boundWitnessContainsAny } from '../util/index.ts'
  * @returns True if the boundwitness contains any of the payload schemas
  */
 export const payloadSchemasContainsAny = (bw: BoundWitness, payloadSchemas: Schema[]): boolean => {
-  return boundWitnessContainsAny(bw, 'payload_schemas', payloadSchemas)
+  return boundWitnessArrayPropertyContainsAny(bw, 'payload_schemas', payloadSchemas)
 }

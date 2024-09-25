@@ -1,7 +1,7 @@
 import type { Hash } from '@xylabs/hex'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 
-import { boundWitnessContainsAll } from '../util/index.ts'
+import { boundWitnessArrayPropertyContainsAll } from '../util/index.ts'
 
 /**
  * Checks if the boundwitness contains all of the payload hashes
@@ -10,5 +10,5 @@ import { boundWitnessContainsAll } from '../util/index.ts'
  * @returns True if the boundwitness contains all of the payload hashes
  */
 export const payloadHashesContainsAll = (bw: BoundWitness, payloadHashes: Hash[]): boolean => {
-  return boundWitnessContainsAll(bw, 'payload_hashes', payloadHashes)
+  return boundWitnessArrayPropertyContainsAll(bw, 'payload_hashes', payloadHashes)
 }

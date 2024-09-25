@@ -9,7 +9,7 @@ import type { BoundWitnessArrayProperty, BoundWitnessArrayPropertyValue } from '
  * @param value The value to check for in the property
  * @returns True if the boundwitness property contains the value
  */
-export const boundWitnessContainsValue = <P extends BoundWitnessArrayProperty>(
+export const boundWitnessArrayPropertyContains = <P extends BoundWitnessArrayProperty>(
   bw: BoundWitness,
   prop: P,
   value: BoundWitnessArrayPropertyValue<P>,

@@ -1,3 +1,3 @@
-export * from './boundWitnessContainsAll.ts'
-export * from './boundWitnessContainsAny.ts'
-export * from './boundWitnessContainsValue.ts'
+export * from './boundWitnessArrayPropertyContains.ts'
+export * from './boundWitnessArrayPropertyContainsAll.ts'
+export * from './boundWitnessArrayPropertyContainsAny.ts'

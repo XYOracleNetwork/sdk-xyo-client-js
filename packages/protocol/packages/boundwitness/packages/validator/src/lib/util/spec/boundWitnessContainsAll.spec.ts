@@ -3,9 +3,9 @@ import type { WalletInstance } from '@xyo-network/account'
 import { HDWallet } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 
-import { boundWitnessContainsAll } from '../boundWitnessContainsAll.ts'
+import { boundWitnessArrayPropertyContainsAll } from '../boundWitnessArrayPropertyContainsAll.ts'
 
-describe('boundWitnessContainsAll', () => {
+describe('boundWitnessArrayPropertyContainsAll', () => {
   const payload = { schema: 'network.xyo.test', value: Date.now() }
   let oneWallet: WalletInstance[] = []
   let twoWallets: WalletInstance[] = []
@@ -28,7 +28,7 @@ describe('boundWitnessContainsAll', () => {
     ]
     it('with no signers and empty addresses supplied', async () => {
       const bw = await buildBoundWitness([])
-      expect(boundWitnessContainsAll(bw, 'addresses', [])).toBeTrue()
+      expect(boundWitnessArrayPropertyContainsAll(bw, 'addresses', [])).toBeTrue()
     })
     describe.each(cases)('%s', (_, wallets) => {
       let addresses: Address[]
@@ -37,16 +37,16 @@ describe('boundWitnessContainsAll', () => {
       })
       it('with  all wallets as signers and empty addresses supplied', async () => {
         const bw = await buildBoundWitness(wallets())
-        expect(boundWitnessContainsAll(bw, 'addresses', [])).toBeTrue()
+        expect(boundWitnessArrayPropertyContainsAll(bw, 'addresses', [])).toBeTrue()
       })
       it('with all wallets as signers and all wallet addresses supplied', async () => {
         const bw = await buildBoundWitness(wallets())
-        expect(boundWitnessContainsAll(bw, 'addresses', addresses)).toBeTrue()
+        expect(boundWitnessArrayPropertyContainsAll(bw, 'addresses', addresses)).toBeTrue()
       })
       it('with all wallets (and extra wallets) as signers and all wallet addresses supplied', async () => {
         const extraSigners = [...wallets(), await HDWallet.random()]
         const bw = await buildBoundWitness(extraSigners)
-        expect(boundWitnessContainsAll(bw, 'addresses', addresses)).toBeTrue()
+        expect(boundWitnessArrayPropertyContainsAll(bw, 'addresses', addresses)).toBeTrue()
       })
     })
   })
@@ -62,17 +62,17 @@ describe('boundWitnessContainsAll', () => {
       })
       it('with no signers and all wallet addresses supplied', async () => {
         const [bw] = await new BoundWitnessBuilder().payload(payload).build()
-        expect(boundWitnessContainsAll(bw, 'addresses', addresses)).toBeFalse()
+        expect(boundWitnessArrayPropertyContainsAll(bw, 'addresses', addresses)).toBeFalse()
       })
       it('with all signers except one and all wallet addresses supplied', async () => {
         const lessSigners = [...wallets().slice(0, -1), await HDWallet.random()]
         const bw = await buildBoundWitness(lessSigners)
-        expect(boundWitnessContainsAll(bw, 'addresses', addresses)).toBeFalse()
+        expect(boundWitnessArrayPropertyContainsAll(bw, 'addresses', addresses)).toBeFalse()
       })
       it('with all different signers and all wallet addresses supplied', async () => {
         const differentSigners = [await HDWallet.random(), await HDWallet.random()]
         const bw = await buildBoundWitness(differentSigners)
-        expect(boundWitnessContainsAll(bw, 'addresses', addresses)).toBeFalse()
+        expect(boundWitnessArrayPropertyContainsAll(bw, 'addresses', addresses)).toBeFalse()
       })
     })
   })

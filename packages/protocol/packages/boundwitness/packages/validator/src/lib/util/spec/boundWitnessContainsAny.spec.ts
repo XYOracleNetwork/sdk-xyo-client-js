@@ -3,9 +3,9 @@ import type { WalletInstance } from '@xyo-network/account'
 import { HDWallet } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 
-import { addressesContainsAny } from '../arrayContainsAny.ts'
+import { boundWitnessContainsAny } from '../boundWitnessContainsAny.ts'
 
-describe('addressesContainsAny', () => {
+describe('boundWitnessContainsAny', () => {
   const payload = { schema: 'network.xyo.test', value: Date.now() }
   let oneWallet: WalletInstance[] = []
   let twoWallets: WalletInstance[] = []
@@ -25,7 +25,7 @@ describe('addressesContainsAny', () => {
     ]
     it('with no signers and empty addresses supplied', async () => {
       const bw = await buildBoundWitness([])
-      expect(addressesContainsAny(bw, [])).toBeTrue() // No signers and no addresses should return true
+      expect(boundWitnessContainsAny(bw, 'addresses', [])).toBeTrue() // No signers and no addresses should return true
     })
     describe.each(cases)('%s', (_, wallets) => {
       let addresses: Address[]
@@ -34,17 +34,17 @@ describe('addressesContainsAny', () => {
       })
       it('with all wallets as signers and all wallet addresses supplied', async () => {
         const bw = await buildBoundWitness(wallets())
-        expect(addressesContainsAny(bw, addresses)).toBeTrue() // Should be true if wallets exist
+        expect(boundWitnessContainsAny(bw, 'addresses', addresses)).toBeTrue() // Should be true if wallets exist
       })
       it('with all wallets (and extra wallets) as signers and all wallet addresses supplied', async () => {
         const extraSigners = [...wallets(), await HDWallet.random()]
         const bw = await buildBoundWitness(extraSigners)
-        expect(addressesContainsAny(bw, addresses)).toBeTrue() // Should still be true with extras
+        expect(boundWitnessContainsAny(bw, 'addresses', addresses)).toBeTrue() // Should still be true with extras
       })
       it('with only one matching signer', async () => {
         const extraSigners = [await HDWallet.random(), ...wallets()]
         const bw = await buildBoundWitness(extraSigners)
-        expect(addressesContainsAny(bw, addresses)).toBeTrue() // Should return true with one match
+        expect(boundWitnessContainsAny(bw, 'addresses', addresses)).toBeTrue() // Should return true with one match
       })
     })
   })
@@ -61,17 +61,17 @@ describe('addressesContainsAny', () => {
       })
       it('with no signers and all wallet addresses supplied', async () => {
         const [bw] = await new BoundWitnessBuilder().payload(payload).build()
-        expect(addressesContainsAny(bw, addresses)).toBeFalse() // No signers, no match
+        expect(boundWitnessContainsAny(bw, 'addresses', addresses)).toBeFalse() // No signers, no match
       })
       it('with signers that do not include any of the wallet addresses supplied', async () => {
         const differentSigners = [await HDWallet.random(), await HDWallet.random()]
         const bw = await buildBoundWitness(differentSigners)
-        expect(addressesContainsAny(bw, addresses)).toBeFalse() // None of the wallet addresses are in the bound witness
+        expect(boundWitnessContainsAny(bw, 'addresses', addresses)).toBeFalse() // None of the wallet addresses are in the bound witness
       })
       it('with extra signers and no wallet addresses supplied', async () => {
         const extraSigners = [await HDWallet.random(), await HDWallet.random()]
         const bw = await buildBoundWitness(extraSigners)
-        expect(addressesContainsAny(bw, addresses)).toBeFalse() // None of the supplied addresses match
+        expect(boundWitnessContainsAny(bw, 'addresses', addresses)).toBeFalse() // None of the supplied addresses match
       })
     })
   })

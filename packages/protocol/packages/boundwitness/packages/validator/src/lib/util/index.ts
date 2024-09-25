@@ -1,3 +1,3 @@
-export * from './arrayContainsAll.ts'
-export * from './arrayContainsAny.ts'
-export * from './arrayContainsValue.ts'
+export * from './boundWitnessContainsAll.ts'
+export * from './boundWitnessContainsAny.ts'
+export * from './boundWitnessContainsValue.ts'

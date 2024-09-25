@@ -1,6 +1,8 @@
 import type { Address } from '@xylabs/hex'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 
+import { boundWitnessContainsValue } from '../util/index.ts'
+
 /**
  * Checks if the boundwitness contains the addresses
  * @param bw The boundwitness to check
@@ -8,5 +10,5 @@ import type { BoundWitness } from '@xyo-network/boundwitness-model'
  * @returns True if the boundwitness contains the addresses
  */
 export const addressesContainsAddress = (bw: BoundWitness, address: Address): boolean => {
-  return bw.addresses?.includes(address)
+  return boundWitnessContainsValue(bw, 'addresses', address)
 }

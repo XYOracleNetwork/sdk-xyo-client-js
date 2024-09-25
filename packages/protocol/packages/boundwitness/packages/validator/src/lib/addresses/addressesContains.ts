@@ -9,6 +9,6 @@ import { boundWitnessContainsValue } from '../util/index.ts'
  * @param addresses The address to check for
  * @returns True if the boundwitness contains the addresses
  */
-export const addressesContainsAddress = (bw: BoundWitness, address: Address): boolean => {
+export const addressesContains = (bw: BoundWitness, address: Address): boolean => {
   return boundWitnessContainsValue(bw, 'addresses', address)
 }

@@ -9,6 +9,6 @@ import { boundWitnessContainsValue } from '../util/index.ts'
  * @param payloadHash The payload hash to check for
  * @returns True if the boundwitness contains the payload hash
  */
-export const payloadHashesContainsHash = (bw: BoundWitness, payloadHash: Hash): boolean => {
+export const payloadHashesContains = (bw: BoundWitness, payloadHash: Hash): boolean => {
   return boundWitnessContainsValue(bw, 'payload_hashes', payloadHash)
 }

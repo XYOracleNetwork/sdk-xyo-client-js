@@ -12,6 +12,6 @@ export type BoundWitnessArrayProperty = keyof Pick<BoundWitness,
 >
 
 /**
- * A helper type to get the correct type for the `values` argument based on the `prop`
+ * The value of the underlying array type for the BoundWitness array property
  */
 export type BoundWitnessArrayPropertyValue<P extends BoundWitnessArrayProperty> = BoundWitness[P] extends (infer T)[] ? T : never

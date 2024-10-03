@@ -194,13 +194,13 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
 
     app.get<AddressPathParams, ModuleQueryResult>(
       '/:address',
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+
       asyncHandler(async (req, res) => await this.handleGet(req, res)),
     )
     app.post<AddressPathParams, ModuleQueryResult, PostAddressRequestBody>(
       '/:address',
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      asyncHandler(async (req, res) => await this.handlePost(req, res)),
+
+      asyncHandler(async (req, res) => { await this.handlePost(req, res) }),
     )
     return app
   }

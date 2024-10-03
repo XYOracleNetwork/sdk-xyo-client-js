@@ -1,0 +1,7 @@
+ignores:
+  [
+    "@types/node",
+    "fake-indexeddb",
+    "typescript",
+    "tslib"
+  ]

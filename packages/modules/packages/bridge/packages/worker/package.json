@@ -41,12 +41,12 @@
   },
   "dependencies": {
     "@scure/bip39": "^1.4.0",
-    "@xylabs/assert": "^4.0.9",
-    "@xylabs/forget": "^4.0.9",
-    "@xylabs/hex": "^4.0.9",
-    "@xylabs/logger": "^4.0.9",
-    "@xylabs/object": "^4.0.9",
-    "@xylabs/promise": "^4.0.9",
+    "@xylabs/assert": "^4.0.10",
+    "@xylabs/forget": "^4.0.10",
+    "@xylabs/hex": "^4.0.10",
+    "@xylabs/logger": "^4.0.10",
+    "@xylabs/object": "^4.0.10",
+    "@xylabs/promise": "^4.0.10",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -58,12 +58,12 @@
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/sentinel-model": "workspace:^",
-    "lru-cache": "^11.0.0"
+    "lru-cache": "^11.0.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.0.7",
     "@xylabs/tsconfig": "^4.0.7",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.2"
   },
   "publishConfig": {
     "access": "public"

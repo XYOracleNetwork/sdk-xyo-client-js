@@ -29,23 +29,23 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.0.9",
-    "@xylabs/exists": "^4.0.9",
-    "@xylabs/hex": "^4.0.9",
-    "@xylabs/lodash": "^4.0.9",
-    "@xylabs/object": "^4.0.9",
-    "@xylabs/promise": "^4.0.9",
+    "@xylabs/assert": "^4.0.10",
+    "@xylabs/exists": "^4.0.10",
+    "@xylabs/hex": "^4.0.10",
+    "@xylabs/lodash": "^4.0.10",
+    "@xylabs/object": "^4.0.10",
+    "@xylabs/promise": "^4.0.10",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
-    "lru-cache": "^11.0.0"
+    "lru-cache": "^11.0.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.0.7",
     "@xylabs/tsconfig": "^4.0.7",
     "jest": "^29.7.0",
-    "jest-mock-extended": "^3.0.7",
-    "typescript": "^5.5.4"
+    "jest-mock-extended": "^4.0.0-beta1",
+    "typescript": "^5.6.2"
   },
   "publishConfig": {
     "access": "public"

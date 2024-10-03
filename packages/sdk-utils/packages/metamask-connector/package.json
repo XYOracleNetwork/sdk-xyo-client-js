@@ -29,14 +29,14 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/browser/index.d.ts",
   "dependencies": {
-    "@metamask/providers": "^17.1.2",
-    "@xylabs/forget": "^4.0.9",
-    "ethers": "6.13.2"
+    "@metamask/providers": "^17.2.1",
+    "@xylabs/forget": "^4.0.10",
+    "ethers": "6.13.3"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.0.7",
     "@xylabs/tsconfig-dom": "^4.0.7",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.2"
   },
   "publishConfig": {
     "access": "public"

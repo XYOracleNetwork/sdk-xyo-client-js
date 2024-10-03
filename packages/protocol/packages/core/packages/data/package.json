@@ -29,16 +29,16 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@scure/base": "^1.1.8",
-    "@xylabs/arraybuffer": "^4.0.9",
-    "@xylabs/assert": "^4.0.9",
-    "@xylabs/hex": "^4.0.9",
-    "ethers": "6.13.2"
+    "@scure/base": "^1.1.9",
+    "@xylabs/arraybuffer": "^4.0.10",
+    "@xylabs/assert": "^4.0.10",
+    "@xylabs/hex": "^4.0.10",
+    "ethers": "6.13.3"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.0.7",
     "@xylabs/tsconfig": "^4.0.7",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.2"
   },
   "publishConfig": {
     "access": "public"

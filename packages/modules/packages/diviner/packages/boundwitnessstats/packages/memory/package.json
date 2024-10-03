@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.0.9",
-    "@xylabs/hex": "^4.0.9",
+    "@xylabs/assert": "^4.0.10",
+    "@xylabs/hex": "^4.0.10",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:^",
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:^",
@@ -40,7 +40,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.0.7",
     "@xylabs/tsconfig": "^4.0.7",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.2"
   },
   "publishConfig": {
     "access": "public"

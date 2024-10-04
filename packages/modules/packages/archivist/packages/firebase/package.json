@@ -42,6 +42,7 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
+    "@firebase/app-compat": "^0.2.42",
     "@firebase/rules-unit-testing": "^3.0.4",
     "@xylabs/object": "^4.0.10",
     "@xylabs/ts-scripts-yarn3": "^4.0.7",

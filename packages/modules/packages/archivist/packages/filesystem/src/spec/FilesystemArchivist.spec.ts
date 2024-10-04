@@ -1,4 +1,4 @@
-import { FilesystemArchivist, FilesystemArchivistConfigSchema } from '../FilesystemArchivist'
+import { FilesystemArchivist, FilesystemArchivistConfigSchema } from '../FilesystemArchivist.ts'
 
 /**
  * @group module

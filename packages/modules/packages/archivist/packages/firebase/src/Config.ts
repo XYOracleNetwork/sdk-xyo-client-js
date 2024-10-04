@@ -1,22 +1,12 @@
 import type { ArchivistConfig } from '@xyo-network/archivist-model'
 
-import { IndexedDbArchivistSchema } from './Schema.ts'
+import { FirebaseArchivistSchema } from './Schema.ts'
 
-export type IndexedDbArchivistConfigSchema = `${IndexedDbArchivistSchema}.config`
-export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = `${IndexedDbArchivistSchema}.config`
+export type FirebaseArchivistConfigSchema = `${FirebaseArchivistSchema}.config`
+export const FirebaseArchivistConfigSchema: FirebaseArchivistConfigSchema = `${FirebaseArchivistSchema}.config`
 
-export type IndexedDbArchivistConfig = ArchivistConfig<{
-  /**
-   * The database name
-   */
-  dbName?: string
-  /**
-   * The version of the DB, defaults to 1
-   */
-  dbVersion?: number
-  schema: IndexedDbArchivistConfigSchema
-  /**
-   * The name of the object store
-   */
-  storeName?: string
+export type FirebaseArchivistConfig = ArchivistConfig<{
+  collection?: string
+  dbId?: string
+  schema: FirebaseArchivistConfigSchema
 }>

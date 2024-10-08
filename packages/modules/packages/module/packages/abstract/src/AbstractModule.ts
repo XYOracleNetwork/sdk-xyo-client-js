@@ -372,7 +372,13 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       = queryConfig ? new ModuleConfigQueryValidator(Object.assign({}, this.config, queryConfig)).queryable : this.moduleConfigQueryValidator
     const validators = [this.supportedQueryValidator, configValidator]
 
-    return validators.every(validator => validator(query, payloads))
+    const results = await Promise.all(validators.map(validator => validator(query, payloads)))
+    for (const result of results) {
+      if (!result) {
+        return false
+      }
+    }
+    return true
   }
 
   start(_timeout?: number): Promisable<boolean> {

@@ -52,7 +52,7 @@ export class WebsocketBridge<
 
   override async stopHandler(): Promise<boolean> {
     if (this.host) {
-      this.stopServer()
+      await this.stopServer()
     }
     return await super.stopHandler()
   }
@@ -81,8 +81,8 @@ export class WebsocketBridge<
     this.httpServer.listen(host.port ?? DEFAULT_HOST_PORT)
   }
 
-  private stopServer() {
-    this.server?.close()
+  private async stopServer() {
+    await this.server?.close()
     this.server = undefined
     this.httpServer?.close()
     this.httpServer = undefined

@@ -1,5 +1,7 @@
 import { config } from 'dotenv'
 config()
+import '@jest/globals'
+
 import type { Config } from 'jest'
 import type { SuperTest, Test } from 'supertest'
 

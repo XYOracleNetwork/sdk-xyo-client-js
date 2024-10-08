@@ -29,14 +29,14 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.0.10",
-    "@xylabs/error": "^4.0.10",
-    "@xylabs/forget": "^4.0.10",
-    "@xylabs/object": "^4.0.10",
-    "@xylabs/promise": "^4.0.10"
+    "@xylabs/assert": "^4.1.0",
+    "@xylabs/error": "^4.1.0",
+    "@xylabs/forget": "^4.1.0",
+    "@xylabs/object": "^4.1.0",
+    "@xylabs/promise": "^4.1.0"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.0.10",
+    "@xylabs/delay": "^4.1.0",
     "@xylabs/ts-scripts-yarn3": "^4.1.0",
     "@xylabs/tsconfig": "^4.1.0",
     "@xylabs/tsconfig-jest": "^4.1.0",

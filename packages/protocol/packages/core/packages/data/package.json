@@ -30,9 +30,9 @@
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
     "@scure/base": "^1.1.9",
-    "@xylabs/arraybuffer": "^4.0.10",
-    "@xylabs/assert": "^4.0.10",
-    "@xylabs/hex": "^4.0.10",
+    "@xylabs/arraybuffer": "^4.1.0",
+    "@xylabs/assert": "^4.1.0",
+    "@xylabs/hex": "^4.1.0",
     "ethers": "6.13.3"
   },
   "devDependencies": {

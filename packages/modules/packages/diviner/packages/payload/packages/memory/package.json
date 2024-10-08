@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.0.10",
-    "@xylabs/object": "^4.0.10",
+    "@xylabs/assert": "^4.1.0",
+    "@xylabs/object": "^4.1.0",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-payload-abstract": "workspace:^",
     "@xyo-network/diviner-payload-model": "workspace:^",
@@ -38,7 +38,7 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.0.10",
+    "@xylabs/delay": "^4.1.0",
     "@xylabs/ts-scripts-yarn3": "^4.1.0",
     "@xylabs/tsconfig": "^4.1.0",
     "@xyo-network/archivist-memory": "workspace:^",

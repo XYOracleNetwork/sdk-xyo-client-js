@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.0.10",
-    "@xylabs/object": "^4.0.10",
-    "@xylabs/promise": "^4.0.10",
+    "@xylabs/assert": "^4.1.0",
+    "@xylabs/object": "^4.1.0",
+    "@xylabs/promise": "^4.1.0",
     "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
@@ -39,7 +39,7 @@
     "ethers": "6.13.3"
   },
   "devDependencies": {
-    "@xylabs/jest-helpers": "^4.0.10",
+    "@xylabs/jest-helpers": "^4.1.0",
     "@xylabs/ts-scripts-yarn3": "^4.1.0",
     "@xylabs/tsconfig": "^4.1.0",
     "ethers": "6.13.3",

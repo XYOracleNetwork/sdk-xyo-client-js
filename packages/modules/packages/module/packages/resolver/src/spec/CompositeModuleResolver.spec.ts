@@ -1,9 +1,11 @@
 import type { ModuleInstance } from '@xyo-network/module-model'
 import { ModuleConfigSchema, ModuleStateQuerySchema } from '@xyo-network/module-model'
-import type { MockProxy } from 'jest-mock-extended'
-import { mock } from 'jest-mock-extended'
+import type { MockedObject } from 'vitest'
+import {
+  beforeEach, describe, it, vi,
+} from 'vitest'
 
-import { CompositeModuleResolver } from '../CompositeModuleResolver'
+import { CompositeModuleResolver } from '../CompositeModuleResolver.ts'
 
 const moduleAName = 'moduleA'
 const moduleBName = 'moduleB'
@@ -15,35 +17,41 @@ const moduleCName = 'moduleC'
 
 describe('CompositeModuleResolver', () => {
   describe('with multiple resolvers', () => {
-    let moduleA: MockProxy<ModuleInstance>
-    let moduleB: MockProxy<ModuleInstance>
-    let moduleC: MockProxy<ModuleInstance>
+    let moduleA: MockedObject<ModuleInstance>
+    let moduleB: MockedObject<ModuleInstance>
+    let moduleC: MockedObject<ModuleInstance>
     let resolverA: CompositeModuleResolver
     let resolverB: CompositeModuleResolver
 
     let sut: CompositeModuleResolver
     beforeEach(() => {
-      moduleA = mock<ModuleInstance>({
+      moduleA = vi.mocked<Partial<ModuleInstance>>({
         address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a',
         config: { name: moduleAName, schema: ModuleConfigSchema },
         modName: moduleAName,
+        manifest: vi.fn(),
+        state: vi.fn(),
         queries: [ModuleStateQuerySchema],
-        query: jest.fn(),
-      })
-      moduleB = mock<ModuleInstance>({
+        query: vi.fn(),
+      }, true) as MockedObject<ModuleInstance>
+      moduleB = vi.mocked<Partial<ModuleInstance>>({
         address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b',
         config: { name: moduleBName, schema: ModuleConfigSchema },
         modName: moduleBName,
+        manifest: vi.fn(),
+        state: vi.fn(),
         queries: [ModuleStateQuerySchema],
-        query: jest.fn(),
-      })
-      moduleC = mock<ModuleInstance>({
+        query: vi.fn(),
+      }, true) as MockedObject<ModuleInstance>
+      moduleC = vi.mocked<Partial<ModuleInstance>>({
         address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381c',
         config: { name: moduleCName, schema: ModuleConfigSchema },
         modName: moduleCName,
+        manifest: vi.fn(),
+        state: vi.fn(),
         queries: [ModuleStateQuerySchema],
-        query: jest.fn(),
-      })
+        query: vi.fn(),
+      }, true) as MockedObject<ModuleInstance>
       resolverA = new CompositeModuleResolver({ root: moduleB })
       resolverA.add(moduleA)
       resolverA.add(moduleC)
@@ -57,13 +65,15 @@ describe('CompositeModuleResolver', () => {
       it('adds module to resolvers', async () => {
         const address = 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381d'
         const name = 'mod'
-        const mod = mock<ModuleInstance>({
+        const mod = vi.mocked<Partial<ModuleInstance>>({
           address,
           config: { name, schema: ModuleConfigSchema },
+          manifest: vi.fn(),
           modName: name,
           queries: [ModuleStateQuerySchema],
-          query: jest.fn(),
-        })
+          query: vi.fn(),
+          state: vi.fn(),
+        }, true) as MockedObject<ModuleInstance>
         expect(sut.add(mod)).toEqual(sut)
         expect(await sut.resolve({ address: [address] })).toBeArrayOfSize(1)
         expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(1)

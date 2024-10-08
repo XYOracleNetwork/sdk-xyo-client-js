@@ -63,7 +63,7 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^22.7.4",
+    "@types/node": "^22.7.5",
     "@xylabs/ts-scripts-yarn3": "^4.0.7",
     "@xylabs/tsconfig": "^4.0.7",
     "@xyo-network/account": "workspace:^",

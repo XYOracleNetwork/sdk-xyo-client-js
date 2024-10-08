@@ -41,8 +41,8 @@
     "lru-cache": "^11.0.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.0.7",
-    "@xylabs/tsconfig": "^4.0.7",
+    "@xylabs/ts-scripts-yarn3": "^4.1.0",
+    "@xylabs/tsconfig": "^4.1.0",
     "jest": "^29.7.0",
     "jest-mock-extended": "^4.0.0-beta1",
     "typescript": "^5.6.2"

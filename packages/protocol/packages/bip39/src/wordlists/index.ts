@@ -1,4 +1,3 @@
-/* eslint-disable import-x/no-internal-modules */
 import { wordlist as czech } from '@scure/bip39/wordlists/czech'
 import { wordlist as english } from '@scure/bip39/wordlists/english'
 import { wordlist as french } from '@scure/bip39/wordlists/french'

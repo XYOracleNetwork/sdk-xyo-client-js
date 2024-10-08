@@ -138,7 +138,7 @@ export class BoundWitnessWrapper<
     if (depth === 0) return this
 
     const innerBoundwitnessIndex: number = this.payloadSchemas.indexOf(BoundWitnessSchema)
-    if (innerBoundwitnessIndex > -1) {
+    if (innerBoundwitnessIndex !== -1) {
       const innerBoundwitnessHash: Hash = this.payloadHashes[innerBoundwitnessIndex]
       const innerBoundwitnessPayload = asBoundWitness<WithMeta<TBoundWitness>>(
         (await PayloadBuilder.toDataHashMap(this.payloads))[innerBoundwitnessHash],

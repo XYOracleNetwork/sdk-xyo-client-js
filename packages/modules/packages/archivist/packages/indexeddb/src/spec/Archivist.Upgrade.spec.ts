@@ -25,18 +25,18 @@ import type { IndexedDbArchivistConfig } from '../Config.ts'
 import { IndexedDbArchivistConfigSchema } from '../Config.ts'
 
 // Augment window with prototypes to ensure instance of comparisons work
-window.IDBCursor = IDBCursor
-window.IDBCursorWithValue = IDBCursorWithValue
-window.IDBDatabase = IDBDatabase
-window.IDBFactory = IDBFactory
-window.IDBIndex = IDBIndex
-window.IDBKeyRange = IDBKeyRange
-window.IDBObjectStore = IDBObjectStore
-window.IDBOpenDBRequest = IDBOpenDBRequest
-window.IDBRequest = IDBRequest
-window.IDBTransaction = IDBTransaction
-window.IDBVersionChangeEvent = IDBVersionChangeEvent
-window.indexedDB = indexedDB
+globalThis.IDBCursor = IDBCursor
+globalThis.IDBCursorWithValue = IDBCursorWithValue
+globalThis.IDBDatabase = IDBDatabase
+globalThis.IDBFactory = IDBFactory
+globalThis.IDBIndex = IDBIndex
+globalThis.IDBKeyRange = IDBKeyRange
+globalThis.IDBObjectStore = IDBObjectStore
+globalThis.IDBOpenDBRequest = IDBOpenDBRequest
+globalThis.IDBRequest = IDBRequest
+globalThis.IDBTransaction = IDBTransaction
+globalThis.IDBVersionChangeEvent = IDBVersionChangeEvent
+globalThis.indexedDB = indexedDB
 
 /**
  * @group module

@@ -5,7 +5,7 @@ import { BrowserProvider } from 'ethers'
 
 export class MetaMaskConnector {
   private account = ''
-  private ethereum = window.ethereum as MetaMaskInpageProvider
+  private ethereum = globalThis.ethereum as MetaMaskInpageProvider
 
   private listeners: Listener[] = []
   private provider: BrowserProvider | undefined
@@ -15,7 +15,7 @@ export class MetaMaskConnector {
     if (provider) {
       this.provider = provider
     } else if (this.ethereum) {
-      this.provider = new BrowserProvider(window.ethereum)
+      this.provider = new BrowserProvider(globalThis.ethereum)
     }
   }
 

@@ -2,5 +2,5 @@
   "compilerOptions": {
     "lib": ["esnext"],
   },
-  "extends": "@xylabs/tsconfig-jest"
+  "extends": "@xylabs/tsconfig"
 }

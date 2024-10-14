@@ -1,7 +1,4 @@
 {
-  "compilerOptions": {
-    
-  },
   "exclude": ["dist", "./dist", "./**/dist", "./**/docs", ".*"],
   "extends": "@xylabs/tsconfig"
 }

@@ -29,18 +29,17 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.1.0",
-    "@xylabs/error": "^4.1.0",
-    "@xylabs/forget": "^4.1.0",
-    "@xylabs/object": "^4.1.0",
-    "@xylabs/promise": "^4.1.0"
+    "@xylabs/assert": "^4.2.0",
+    "@xylabs/error": "^4.2.0",
+    "@xylabs/forget": "^4.2.0",
+    "@xylabs/object": "^4.2.0",
+    "@xylabs/promise": "^4.2.0"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.1.0",
-    "@xylabs/ts-scripts-yarn3": "^4.1.0",
+    "@xylabs/delay": "^4.2.0",
+    "@xylabs/ts-scripts-yarn3": "^4.2.1",
     "@xylabs/tsconfig": "^4.1.0",
-    "@xylabs/tsconfig-jest": "^4.1.0",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   },
   "publishConfig": {
     "access": "public"

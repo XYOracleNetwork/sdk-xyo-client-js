@@ -29,12 +29,11 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/browser/index.d.ts",
   "dependencies": {
-    "@firebase/app": "^0.10.12",
+    "@firebase/app": "^0.10.13",
     "@firebase/firestore": "^4.7.3",
-    "@xylabs/assert": "^4.1.0",
-    "@xylabs/exists": "^4.1.0",
-    "@xylabs/hex": "^4.1.0",
-    "@xylabs/lodash": "^4.1.0",
+    "@xylabs/assert": "^4.2.0",
+    "@xylabs/exists": "^4.2.0",
+    "@xylabs/hex": "^4.2.0",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -42,16 +41,11 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@firebase/app-compat": "^0.2.42",
     "@firebase/rules-unit-testing": "^3.0.4",
-    "@xylabs/object": "^4.1.0",
-    "@xylabs/ts-scripts-yarn3": "^4.1.0",
-    "@xylabs/tsconfig": "^4.1.0",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/id-payload-plugin": "workspace:^",
-    "@xyo-network/payload-wrapper": "workspace:^",
-    "firebase": "^10.14.0",
-    "typescript": "^5.6.2"
+    "@xylabs/ts-scripts-yarn3": "^4.2.1",
+    "@xylabs/tsconfig": "^4.2.1",
+    "firebase": "^10.14.1",
+    "typescript": "^5.6.3"
   },
   "publishConfig": {
     "access": "public"

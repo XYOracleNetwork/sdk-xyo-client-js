@@ -30,15 +30,15 @@
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
     "@scure/base": "^1.1.9",
-    "@xylabs/arraybuffer": "^4.1.0",
-    "@xylabs/assert": "^4.1.0",
-    "@xylabs/hex": "^4.1.0",
-    "ethers": "6.13.3"
+    "@xylabs/arraybuffer": "^4.2.0",
+    "@xylabs/assert": "^4.2.0",
+    "@xylabs/hex": "^4.2.0",
+    "ethers": "6.13.4"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.1.0",
-    "@xylabs/tsconfig": "^4.1.0",
-    "typescript": "^5.6.2"
+    "@xylabs/ts-scripts-yarn3": "^4.2.1",
+    "@xylabs/tsconfig": "^4.2.1",
+    "typescript": "^5.6.3"
   },
   "publishConfig": {
     "access": "public"

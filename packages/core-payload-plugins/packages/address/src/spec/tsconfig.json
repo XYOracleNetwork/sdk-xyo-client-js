@@ -5,5 +5,5 @@
     "experimentalDecorators": true,
 
   },
-  "extends": "@xylabs/tsconfig-jest"
+  "extends": "@xylabs/tsconfig"
 }

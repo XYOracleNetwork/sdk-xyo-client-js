@@ -1,4 +1,4 @@
 {
   "exclude": [".yarn", "dist", "**/dist", "./**/docs"],
-  "extends": "@xylabs/tsconfig"
+  "extends": "./tsconfig.json"
 }

@@ -1,2 +1,2 @@
-export * from './invalidCase'
-export * from './validCase'
+export * from './invalidCase.ts'
+export * from './validCase.ts'

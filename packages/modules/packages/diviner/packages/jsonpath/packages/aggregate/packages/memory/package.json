@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.1.0",
-    "@xylabs/exists": "^4.1.0",
+    "@xylabs/assert": "^4.2.0",
+    "@xylabs/exists": "^4.2.0",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:^",
@@ -41,13 +41,13 @@
     "@xyo-network/payload-utils": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.1.0",
-    "@xylabs/tsconfig": "^4.1.0",
+    "@xylabs/ts-scripts-yarn3": "^4.2.1",
+    "@xylabs/tsconfig": "^4.2.1",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/diviner-jsonpath-model": "workspace:^",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   },
   "publishConfig": {
     "access": "public"

@@ -31,13 +31,12 @@
   "dependencies": {
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
-    "fast-json-patch": "^3.1.1",
-    "tslib": "^2.7.0"
+    "fast-json-patch": "^3.1.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.1.0",
-    "@xylabs/tsconfig": "^4.1.0",
-    "typescript": "^5.6.2"
+    "@xylabs/ts-scripts-yarn3": "^4.2.1",
+    "@xylabs/tsconfig": "^4.2.1",
+    "typescript": "^5.6.3"
   },
   "publishConfig": {
     "access": "public"

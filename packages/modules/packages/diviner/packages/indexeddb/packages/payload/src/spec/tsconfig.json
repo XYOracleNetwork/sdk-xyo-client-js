@@ -3,5 +3,5 @@
     "lib": ["esnext", "dom"]
 
   },
-  "extends": "@xylabs/tsconfig-jest"
+  "extends": "@xylabs/tsconfig"
 }

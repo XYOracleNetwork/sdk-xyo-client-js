@@ -1,4 +1,3 @@
-/* eslint-disable import-x/no-internal-modules */
 import type { ValidateFunction } from 'ajv'
 import { Ajv } from 'ajv'
 
@@ -9,7 +8,7 @@ import packageManifestSchema from '../schema.json'
 import sharedDefinitions from '../shared/definitions-schema.json'
 import {
   invalidDappPackageManifestSchema, invalidPackageManifestSchema, validDappPackageManifestSchema, validPackageManifestSchema,
-} from './cases'
+} from './cases/index.ts'
 
 const cases = [
   {

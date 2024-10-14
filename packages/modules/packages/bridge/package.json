@@ -37,12 +37,12 @@
     "@xyo-network/bridge-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.1.0",
-    "@xylabs/tsconfig": "^4.1.0",
+    "@xylabs/ts-scripts-yarn3": "^4.2.1",
+    "@xylabs/tsconfig": "^4.2.1",
     "@xyo-network/bridge-pub-sub": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   },
   "publishConfig": {
     "access": "public"

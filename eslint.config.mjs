@@ -1,15 +1,27 @@
 // eslint.config.mjs
 
-
-import {   typescriptConfig,
+import {
+  typescriptConfig,
   unicornConfig,
   workspacesConfig,
   rulesConfig,
-  importConfig } from '@xylabs/eslint-config-flat'
+  importConfig,
+} from '@xylabs/eslint-config-flat'
 
 export default [
   {
-    ignores: ['.yarn/**', 'jest.config.cjs', '**/dist/**', 'dist', 'build/**', 'node_modules/**', 'public', '.storybook', 'storybook-static', 'eslint.config.mjs', '**/docs/**/*.js'],
+    ignores: [
+      '.yarn/**',
+      'jest.config.cjs',
+      '**/dist/**',
+      'dist',
+      'build/**',
+      'node_modules/**',
+      'public',
+      '.storybook',
+      'storybook-static',
+      '**/docs/**/*.js',
+    ],
   },
   unicornConfig,
   workspacesConfig,
@@ -18,7 +30,7 @@ export default [
     ...typescriptConfig,
     rules: {
       ...typescriptConfig.rules,
-      '@typescript-eslint/consistent-type-imports': ['warn']
+      '@typescript-eslint/consistent-type-imports': ['warn'],
     },
   },
   {
@@ -51,7 +63,22 @@ export default [
     ...importConfig,
     rules: {
       ...importConfig.rules,
+      'import-x/no-internal-modules': [
+        'warn',
+        {
+          allow: [
+            '**/*.json', // Allow JSON imports
+            'vitest/**', // Allow vitest internal imports
+            '@*/**', // Allow imports from any @scoped package
+            // Allow imports to any index.js file
+            '**/index.js',
+            '**/index.ts',
+            '**/index.jsx',
+            '**/index.tsx',
+          ],
+        },
+      ],
       'import-x/no-cycle': ['warn', { maxDepth: 5 }],
-    }
-  }
+    },
+  },
 ]

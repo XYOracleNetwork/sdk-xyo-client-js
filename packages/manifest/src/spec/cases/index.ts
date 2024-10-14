@@ -1,2 +1,2 @@
-export * from './dappManifest'
-export * from './manifest'
+export * from './dappManifest/index.ts'
+export * from './manifest/index.ts'

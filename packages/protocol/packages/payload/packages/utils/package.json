@@ -29,19 +29,19 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/exists": "^4.1.0",
-    "@xylabs/hex": "^4.1.0",
-    "@xylabs/set": "^4.1.0",
+    "@xylabs/exists": "^4.2.0",
+    "@xylabs/hex": "^4.2.0",
+    "@xylabs/set": "^4.2.0",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/hash": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.1.0",
-    "@xylabs/tsconfig": "^4.1.0",
+    "@xylabs/ts-scripts-yarn3": "^4.2.1",
+    "@xylabs/tsconfig": "^4.2.1",
     "@xyo-network/boundwitness-builder": "workspace:^",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   },
   "publishConfig": {
     "access": "public"

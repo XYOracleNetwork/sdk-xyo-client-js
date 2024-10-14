@@ -29,10 +29,10 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.1.0",
-    "@xylabs/hex": "^4.1.0",
-    "@xylabs/lodash": "^4.1.0",
-    "@xylabs/object": "^4.1.0",
+    "@xylabs/assert": "^4.2.0",
+    "@xylabs/hex": "^4.2.0",
+    "@xylabs/lodash": "^4.2.0",
+    "@xylabs/object": "^4.2.0",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-validator": "workspace:^",
     "@xyo-network/payload": "workspace:^",
@@ -41,9 +41,9 @@
     "@xyo-network/payload-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.1.0",
-    "@xylabs/tsconfig": "^4.1.0",
-    "typescript": "^5.6.2"
+    "@xylabs/ts-scripts-yarn3": "^4.2.1",
+    "@xylabs/tsconfig": "^4.2.1",
+    "typescript": "^5.6.3"
   },
   "publishConfig": {
     "access": "public"

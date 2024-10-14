@@ -4,5 +4,5 @@
     "experimentalDecorators": true,
     "types": ["node", "jest"]
   },
-  "extends": "@xylabs/tsconfig-jest"
+  "extends": "@xylabs/tsconfig"
 }

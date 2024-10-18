@@ -1,9 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
 import { asHash, hexFromArrayBuffer } from '@xylabs/hex'
-import { omitBy } from '@xylabs/lodash'
 import type { EmptyObject } from '@xylabs/object'
-import { ObjectWrapper } from '@xylabs/object'
+import { ObjectWrapper, omitBy } from '@xylabs/object'
 import { subtle } from '@xylabs/platform'
 import type { ModuleThread, Worker } from '@xylabs/threads'
 import { Pool, spawn } from '@xylabs/threads'
@@ -22,9 +21,9 @@ export type WorkerModule<Keys extends string> = {
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
 
-const omitByPredicate = (prefix: string) => (_: unknown, key: string) => {
-  assertEx(typeof key === 'string', () => `Invalid key type [${key}, ${typeof key}]`)
-  return key.startsWith(prefix)
+const omitByPredicate = <T extends object>(prefix: string) => (_: T[keyof T], key: keyof T) => {
+  assertEx(typeof key === 'string', () => `Invalid key type [${String(key)}, ${typeof key}]`)
+  return String(key).startsWith(prefix)
 }
 
 export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {

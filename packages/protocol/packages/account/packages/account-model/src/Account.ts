@@ -1,5 +1,5 @@
+import { isArrayBuffer } from '@xylabs/arraybuffer'
 import type { Address, Hash } from '@xylabs/hex'
-import { isArrayBuffer } from '@xylabs/lodash'
 import type { PrivateKeyInstance, PublicKeyInstance } from '@xyo-network/key-model'
 import type { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 

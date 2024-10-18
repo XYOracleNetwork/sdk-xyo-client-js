@@ -1,7 +1,7 @@
+import { uniq, uniqBy } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
-import { uniq, uniqBy } from '@xylabs/lodash'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -142,7 +142,7 @@ export class IndexedDbArchivist<
 
   protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
     // Filter duplicates to prevent unnecessary DB queries
-    const uniqueHashes = uniq(hashes)
+    const uniqueHashes = [...new Set(hashes)]
     const pairs = await PayloadBuilder.hashPairs(await this.getHandler(uniqueHashes))
     const hashesToDelete = pairs.flatMap<Hash>(pair => [pair[0].$hash, pair[1]])
     // Remove any duplicates

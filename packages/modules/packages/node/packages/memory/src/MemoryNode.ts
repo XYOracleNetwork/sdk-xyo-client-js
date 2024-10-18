@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import type { Address } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
-import { compact } from '@xylabs/lodash'
 import type { Promisable } from '@xylabs/promise'
 import type { EventListener } from '@xyo-network/module-events'
 import type {
@@ -218,7 +218,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     const notifiedAddresses: string[] = []
     // send attach events for all existing attached modules
     const childModules = await node.resolve('*', { direction: 'down' })
-    return compact(
+    return (
       childModules.map((child) => {
         // don't report self
         if (node.address === child.address) {
@@ -233,8 +233,8 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
         notifiedAddresses.push(child.address)
 
         return child
-      }),
-    )
+      })
+    ).filter(exists)
   }
 
   private async notifyOfExistingModulesAttached(childModules: Module[]) {

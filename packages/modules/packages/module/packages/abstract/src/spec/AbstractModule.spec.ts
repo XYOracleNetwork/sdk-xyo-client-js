@@ -2,7 +2,7 @@ import { ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { ModuleConfigSchema } from '@xyo-network/module-model'
 import type { Schema } from '@xyo-network/payload-model'
 
-import { AbstractModuleInstance } from '../AbstractModuleInstance'
+import { AbstractModuleInstance } from '../AbstractModuleInstance.ts'
 export class TestAbstractModule extends AbstractModuleInstance {
   static override readonly configSchemas: Schema[] = [ModuleConfigSchema]
 }
@@ -21,11 +21,13 @@ describe('AbstractModule', () => {
   })
 
   it('should validate config', () => {
-    class TestClass {}
+    class TestClass {
+      foo = () => 10
+    }
     const invalidConfig = { config: { options: { foo: new TestClass() } } }
     const validConfig = { config: { options: { foo: 'foo' } } }
-    expect(sut['validateConfig'](invalidConfig)).toBeFalse()
-    expect(sut['validateConfig'](validConfig)).toBeTrue()
+    expect(sut['validateConfig'](invalidConfig)).toBe(false)
+    expect(sut['validateConfig'](validConfig)).toBe(true)
   })
   describe('manifest', () => {
     it('returns manifest', async () => {
@@ -38,7 +40,7 @@ describe('AbstractModule', () => {
     it('returns state', async () => {
       const response = await sut.state()
       // console.log(`state: ${toJsonString(response, 5)}`)
-      expect(response.some(p => p.schema === ModuleManifestPayloadSchema)).toBeTrue()
+      expect(response.some(p => p.schema === ModuleManifestPayloadSchema)).toBe(true)
     })
   })
 })

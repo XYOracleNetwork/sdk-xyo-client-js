@@ -2,6 +2,9 @@ import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistConfigSchema } from '@xyo-network/archivist-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
+import {
+  describe, expect, test,
+} from 'vitest'
 
 const rootNodeName = 'root'
 const nodeAName = 'nodeA'
@@ -46,9 +49,9 @@ describe('SimpleModuleResolverDeep', () => {
     expect(rootNodeResolve?.address).toBe(rootNode.address)
 
     const resolvedModuleA = await rootNode.resolve(moduleAName)
-    expect([moduleA.address, moduleB.address]).toInclude(resolvedModuleA?.address ?? '')
+    expect([moduleA.address, moduleB.address].includes(resolvedModuleA?.address ?? '')).toBe(true)
     const resolvedModuleB = await rootNode.resolve(moduleBName)
-    expect([moduleA.address, moduleB.address]).toInclude(resolvedModuleB?.address ?? '')
+    expect([moduleA.address, moduleB.address].includes(resolvedModuleB?.address ?? '')).toBe(true)
 
     const resolvedModuleAMulti = await rootNode.resolve(`${nodeAName}:${moduleAName}`)
     expect(resolvedModuleAMulti?.address).toBe(moduleA.address)
@@ -56,6 +59,6 @@ describe('SimpleModuleResolverDeep', () => {
     expect(resolvedModuleBMulti?.address).toBe(moduleB.address)
 
     const resolvedModuleAMultiTooFar = await rootNode.resolve(`${rootNodeName}:${moduleAName}`)
-    expect(resolvedModuleAMultiTooFar).toBeUndefined()
+    expect(!!resolvedModuleAMultiTooFar).toBe(false)
   })
 })

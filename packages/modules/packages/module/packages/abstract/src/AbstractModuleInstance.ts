@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import type { Address } from '@xylabs/hex'
-import { compact } from '@xylabs/lodash'
 import { globallyUnique } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import type { AccountInstance } from '@xyo-network/account-model'
@@ -313,7 +312,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     const archivists = this.archiving?.archivists
     if (!archivists) return []
     const resolved = await Promise.all(archivists.map(archivist => this.resolve(archivist)))
-    return compact(resolved.map(mod => asArchivistInstance(mod)))
+    return (resolved.map(mod => asArchivistInstance(mod))).filter(exists)
   }
 
   protected async sendQuery<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(

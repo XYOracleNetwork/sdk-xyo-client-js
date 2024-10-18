@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { compact } from '@xylabs/lodash'
+import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type {
@@ -43,6 +43,6 @@ export class HuriPayloadDiviner<
       huriPayload.huri.map(huri => new Huri(huri, { token: huriPayload.tokens?.[index] })))
 
     const settled = await Promise.allSettled(huriList.map(huri => huri.fetch()))
-    return compact(settled.filter(fulfilled).map(settle => settle.value)) as TOut[]
+    return (settled.filter(fulfilled).map(settle => settle.value)).filter(exists) as TOut[]
   }
 }

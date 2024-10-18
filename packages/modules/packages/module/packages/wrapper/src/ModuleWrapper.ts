@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
-import { compact } from '@xylabs/lodash'
 import { Logger } from '@xylabs/logger'
 import { Base } from '@xylabs/object'
 import { Promisable, PromiseEx } from '@xylabs/promise'
@@ -204,11 +203,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   static missingRequiredQueries(mod: Module): string[] {
     const modQueries = mod.queries
-    return compact(
+    return (
       this.requiredQueries.map((query) => {
         return modQueries.includes(query) ? null : query
-      }),
-    )
+      })
+    ).filter(exists)
   }
 
   static tryWrap<TModuleWrapper extends ModuleWrapper>(

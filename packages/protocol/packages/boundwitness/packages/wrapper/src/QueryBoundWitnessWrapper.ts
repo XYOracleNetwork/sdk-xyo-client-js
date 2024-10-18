@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { compact } from '@xylabs/lodash'
+import { exists } from '@xylabs/exists'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'
 import type {
@@ -38,7 +38,7 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
     this._payloadsWithoutQuery
       = this._payloadsWithoutQuery
       ?? (await Promise.all(
-        compact((await PayloadBuilder.filterExclude(this.payloads, this.payload.query)).map(payload => PayloadWrapper.wrap(payload))),
+        (await PayloadBuilder.filterExclude(this.payloads, this.payload.query)).map(payload => PayloadWrapper.wrap(payload)).filter(exists),
       ))
     return this._payloadsWithoutQuery
   }

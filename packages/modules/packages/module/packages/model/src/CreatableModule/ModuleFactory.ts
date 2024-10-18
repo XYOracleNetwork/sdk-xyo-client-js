@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { merge } from '@xylabs/lodash'
 import type { Logger } from '@xylabs/logger'
 import type { Schema } from '@xyo-network/payload-model'
 
@@ -61,12 +60,13 @@ export class ModuleFactory<TModule extends AttachableModuleInstance> implements 
   create<T extends AttachableModuleInstance>(this: CreatableModuleFactory<T>, params: TModule['params']): Promise<T> {
     const factory = this as ModuleFactory<T>
     const schema = factory.creatableModule.defaultConfigSchema
-    const mergedParams: TModule['params'] = merge(
-      {},
-      factory.defaultParams,
-      params,
-      { config: merge({}, factory.defaultParams?.config, params.config, { schema }) },
-    )
+    const mergedParams: TModule['params'] = {
+      ...factory.defaultParams,
+      ...params,
+      config: {
+        ...factory.defaultParams?.config, ...params.config, schema,
+      },
+    } as TModule['params']
     return factory.creatableModule.create<T>(mergedParams)
   }
 

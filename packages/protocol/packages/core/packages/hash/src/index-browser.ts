@@ -1,4 +1,3 @@
 export { BrowserPayloadHasher as PayloadHasher } from './BrowserPayloadHasher.ts'
 export * from './removeEmptyFields.ts'
-export * from './removeFields.ts'
 export * from './sortFields.ts'

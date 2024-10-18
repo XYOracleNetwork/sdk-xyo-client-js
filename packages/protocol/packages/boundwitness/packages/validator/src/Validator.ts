@@ -1,5 +1,5 @@
+import { uniq } from '@xylabs/array'
 import { toUint8Array } from '@xylabs/arraybuffer'
-import { uniq } from '@xylabs/lodash'
 import { validateType } from '@xylabs/typeof'
 import { Elliptic } from '@xyo-network/account'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -36,7 +36,7 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
 
   addressesUniqueness(): Error[] {
     const errors: Error[] = []
-    const { addresses } = this.obj
+    const { addresses = [] } = this.obj
     const uniqAddresses = uniq(addresses)
     if (addresses?.length !== uniqAddresses?.length) errors.push(new Error('addresses must be unique'))
     return errors

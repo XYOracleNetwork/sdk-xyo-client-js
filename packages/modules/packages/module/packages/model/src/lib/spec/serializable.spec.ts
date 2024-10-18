@@ -1,66 +1,78 @@
-import { serializable, serializableField } from '../serializable.ts'
+import {
+  describe, expect, it,
+} from 'vitest'
+
+import { isSerializable } from '../serializable.ts'
 
 /**
  * @group module
  */
 
-describe('serializableField', () => {
+describe('isSerializable', () => {
   it('string', () => {
-    expect(serializableField('HI')).toBeTrue()
+    expect(isSerializable('HI')).toBe(true)
   })
 
   it('number', () => {
-    expect(serializableField(23_454)).toBeTrue()
+    expect(isSerializable(23_454)).toBe(true)
   })
 
   it('null', () => {
-    expect(serializableField(null)).toBeTrue()
+    expect(isSerializable(null)).toBe(true)
   })
 
   it('undefined', () => {
     // eslint-disable-next-line unicorn/no-useless-undefined
-    expect(serializableField(undefined)).toBeTrue()
+    expect(isSerializable(undefined)).toBe(false)
   })
 
   it('Class', () => {
     class TestClass {
       foo = 'foo'
     }
-    expect(serializableField(new TestClass())).toBeFalse()
+    expect(isSerializable(new TestClass())).toBe(true)
+  })
+
+  it('Class', () => {
+    class TestClass {
+      foo = 'foo'
+      fooFunc = () => 10
+    }
+    expect(isSerializable(new TestClass())).toBe(false)
   })
 
   it('Map', () => {
-    expect(serializableField(new Map())).toBeFalse()
+    expect(isSerializable(new Map())).toBe(false)
   })
 
   it('Symbol', () => {
-    expect(serializableField(Symbol())).toBeFalse()
+    expect(isSerializable(Symbol())).toBe(false)
   })
 
   it('Set', () => {
-    expect(serializableField(new Set())).toBeFalse()
+    expect(isSerializable(new Set())).toBe(false)
   })
 
   it('plain obj', () => {
-    expect(serializableField({ p: 1, p2: 'hi' })).toBeTrue()
+    expect(isSerializable({ p: 1, p2: 'hi' })).toBe(true)
   })
 })
 
 describe('serializable', () => {
   it('plain obj with func', () => {
     expect(
-      serializable({
+      isSerializable({
         p: 1,
         p2: () => {
           return
         },
       }),
-    ).toBeFalse()
+    ).toBe(false)
   })
 
   it('nested obj with func', () => {
     expect(
-      serializable({
+      isSerializable({
         n: {
           nn: {
             nnm: () => {
@@ -72,20 +84,20 @@ describe('serializable', () => {
         p: 1,
         p2: 'hi',
       }),
-    ).toBeFalse()
+    ).toBe(false)
   })
 
   it('array with func', () => {
-    expect(serializable([1, 2, 3, () => false])).toBeFalse()
+    expect(isSerializable([1, 2, 3, () => false])).toBe(false)
   })
 
   it('array with nested obj', () => {
-    expect(serializable([1, 2, 3, { nn: { nnm: 'Hi', nnn: 1 } }])).toBeTrue()
+    expect(isSerializable([1, 2, 3, { nn: { nnm: 'Hi', nnn: 1 } }])).toBe(true)
   })
 
   it('array with nested obj with func', () => {
     expect(
-      serializable([
+      isSerializable([
         1,
         2,
         3,
@@ -98,12 +110,6 @@ describe('serializable', () => {
           },
         },
       ]),
-    ).toBeFalse()
-  })
-
-  it('maximum depth', () => {
-    const complexObj = { p: { p: { p: { p: { p: { p: 'foo' } } } } } }
-    expect(serializable(complexObj, 6)).toBeNull()
-    expect(serializable(complexObj, 7)).toBeTrue()
+    ).toBe(false)
   })
 })

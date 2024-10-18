@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import type { Hash } from '@xylabs/hex'
-import { compact } from '@xylabs/lodash'
 import type { Promisable, PromisableArray } from '@xylabs/promise'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
@@ -135,45 +135,44 @@ export class StorageArchivist<
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     const payloads = await this.all()
     assertEx(payloads.length > 0, () => 'Nothing to commit')
-    const settled = await Promise.allSettled(
-      compact(
-        Object.values((await this.parentArchivists()).commit ?? [])?.map(async (parent) => {
-          const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
-          const query = await this.bindQuery(queryPayload, payloads)
-          return (await parent?.query(query[0], query[1]))?.[0]
-        }),
-      ),
-    )
+    const settled = (await Promise.allSettled(
+      Object.values((await this.parentArchivists()).commit ?? [])?.map(async (parent) => {
+        const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
+        const query = await this.bindQuery(queryPayload, payloads)
+        return (await parent?.query(query[0], query[1]))?.[0]
+      }),
+    )).filter(exists)
     // TODO - rather than clear, delete the payloads that come back as successfully inserted
     await this.clear()
-    return compact(settled.filter(fulfilled).map(result => result.value))
+    return (settled.filter(fulfilled).map(result => result.value)).filter(exists)
   }
 
   protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
-    return compact(
+    return (
       await Promise.all(
         hashes.map((hash) => {
           this.storage.remove(hash)
           return hash
         }),
-      ),
-    )
+      )
+    ).filter(exists)
   }
 
   protected override getHandler(hashes: string[]): Promisable<PayloadWithMeta[]> {
     const found = new Set<string>()
-    return compact(
+    return (
       hashes.map((hash) => {
         return this.storage.get(hash)
-      }),
-    ).filter((payload) => {
-      if (found.has(payload.$hash)) {
-        return false
-      } else {
-        found.add(payload.$hash)
-        return true
-      }
-    })
+      })
+    ).filter(exists)
+      .filter((payload) => {
+        if (found.has(payload.$hash)) {
+          return false
+        } else {
+          found.add(payload.$hash)
+          return true
+        }
+      })
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {

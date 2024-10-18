@@ -65,6 +65,7 @@
     "compat",
     "copyfiles",
     "cryengine",
+    "deepmerge",
     "depcheck",
     "dmarc",
     "DNSSEC",

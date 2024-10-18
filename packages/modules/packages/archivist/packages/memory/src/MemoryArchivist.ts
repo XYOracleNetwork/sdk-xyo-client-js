@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
-import { compact } from '@xylabs/lodash'
 import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { fulfilled, Promisable } from '@xylabs/promise'
 import {
@@ -85,7 +84,7 @@ export class MemoryArchivist<
   }
 
   protected override allHandler(): Promisable<PayloadWithMeta[]> {
-    const all = compact(this.cache.dump().map(([, item]) => item.value))
+    const all = this.cache.dump().map(([, item]) => item.value).filter(exists)
     return sortByStorageMeta(all).map(payload => removeStorageMeta(payload))
   }
 
@@ -98,16 +97,14 @@ export class MemoryArchivist<
   protected override async commitHandler(): Promise<WithMeta<BoundWitness>[]> {
     const payloads = assertEx(await this.allHandler(), () => 'Nothing to commit')
     const settled = await Promise.allSettled(
-      compact(
-        Object.values((await this.parentArchivists()).commit ?? [])?.map(async (parent) => {
-          const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
-          const query = await this.bindQuery(queryPayload, payloads)
-          return (await parent?.query(query[0], query[1]))?.[0]
-        }),
-      ),
+      Object.values((await this.parentArchivists()).commit ?? [])?.map(async (parent) => {
+        const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
+        const query = await this.bindQuery(queryPayload, payloads)
+        return (await parent?.query(query[0], query[1]))?.[0]
+      }).filter(exists),
     )
     await this.clearHandler()
-    return compact(settled.filter(fulfilled).map(result => result.value))
+    return settled.filter(fulfilled).map(result => result.value).filter(exists)
   }
 
   protected override deleteHandler(hashes: Hash[]): Promisable<Hash[]> {
@@ -125,16 +122,14 @@ export class MemoryArchivist<
   }
 
   protected override getHandler(hashes: Hash[]): Promisable<PayloadWithMeta[]> {
-    return compact(
-      hashes.map((hash) => {
-        const resolvedHash = this.dataHashIndex.get(hash) ?? hash
-        const result = this.cache.get(resolvedHash)
-        if (resolvedHash !== hash && !result) {
-          throw new Error('Missing referenced payload')
-        }
-        return removeStorageMeta(result)
-      }),
-    )
+    return hashes.map((hash) => {
+      const resolvedHash = this.dataHashIndex.get(hash) ?? hash
+      const result = this.cache.get(resolvedHash)
+      if (resolvedHash !== hash && !result) {
+        throw new Error('Missing referenced payload')
+      }
+      return removeStorageMeta(result)
+    }).filter(exists)
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {

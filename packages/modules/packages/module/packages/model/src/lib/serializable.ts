@@ -1,35 +1,30 @@
-// Inspired by https://stackoverflow.com/a/49079549/2803259
+export const isSerializable = (value: unknown, maxDepth = 10): boolean => {
+  if (maxDepth <= 0) {
+    return false
+  }
+  if (value === null || typeof value === 'boolean' || typeof value === 'number' || typeof value === 'string') {
+    return true
+  }
 
-import {
-  every, isArray, isBoolean, isNull, isNumber, isPlainObject, isString, isUndefined, overSome,
-} from '@xylabs/lodash'
+  if (Array.isArray(value)) {
+    return value.every(item => isSerializable(item, maxDepth - 1))
+  }
 
-const JSONPrimitiveChecks = [isUndefined, isNull, isBoolean, isNumber, isString]
-const JSONComplexChecks = [isPlainObject, isArray]
+  if (typeof value === 'object') {
+    if (value instanceof Date || value instanceof RegExp) {
+      return true
+    }
 
-export const serializable = (field: unknown, depth?: number): boolean | null => {
-  let depthExceeded = false
-  const decrementDepth = () => (depth ? depth-- : undefined)
-
-  const recursiveSerializable = (field: unknown) => {
-    if (depth !== undefined && depth < 1) {
-      depthExceeded = true
+    // Check for non-serializable objects like Set and Map
+    if (value instanceof Set || value instanceof Map) {
       return false
     }
 
-    // decrement during every recursion
-    decrementDepth()
-
-    const nestedSerializable = (field: unknown): boolean => overSome(JSONComplexChecks)(field) && every(field as object, recursiveSerializable)
-
-    return overSome([...JSONPrimitiveChecks, nestedSerializable])(field)
+    if (value !== null && value !== undefined) {
+      return Object.values(value).every(item => isSerializable(item, maxDepth - 1))
+    }
   }
 
-  const valid = recursiveSerializable(field)
-
-  return depthExceeded ? null : valid
-}
-
-export const serializableField = (field: unknown) => {
-  return overSome([...JSONPrimitiveChecks, ...JSONComplexChecks])(field)
+  // Exclude functions, symbols, undefined, and BigInt explicitly
+  return false
 }

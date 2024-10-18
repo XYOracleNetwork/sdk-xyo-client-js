@@ -1,8 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
-import { omitBy } from '@xylabs/lodash'
 import type { AnyObject, JsonObject } from '@xylabs/object'
-import { isJsonObject, toJson } from '@xylabs/object'
+import {
+  isJsonObject, omitBy, toJson,
+} from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import { removeEmptyFields } from '@xyo-network/hash'
 import type {

@@ -41,6 +41,7 @@ export default [
           paths: [
             ...rulesConfig.rules['no-restricted-imports'][1].paths,
             '@types/node',
+            '@xylabs/lodash',
             '@xyo-network/archivist',
             '@xyo-network/bridge',
             '@xyo-network/core',

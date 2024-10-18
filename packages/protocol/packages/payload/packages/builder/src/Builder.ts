@@ -1,10 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
-import { omitBy } from '@xylabs/lodash'
 import type {
   AnyObject, JsonArray, JsonObject,
 } from '@xylabs/object'
-import { isJsonObject } from '@xylabs/object'
+import { isJsonObject, omitBy } from '@xylabs/object'
 import { PayloadHasher } from '@xyo-network/hash'
 import type {
   Payload, PayloadWithMeta, WithMeta,
@@ -19,9 +18,9 @@ export interface BuildOptions {
   validate?: boolean
 }
 
-const omitByPredicate = (prefix: string) => (_: unknown, key: string) => {
-  assertEx(typeof key === 'string', () => `Invalid key type [${key}, ${typeof key}]`)
-  return key.startsWith(prefix)
+const omitByPredicate = <T extends object>(prefix: string) => (_: T[keyof T], key: keyof T) => {
+  assertEx(typeof key === 'string', () => `Invalid key type [${String(key)}, ${typeof key}]`)
+  return (key as string).startsWith(prefix)
 }
 
 export class PayloadBuilder<

@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import type { Address } from '@xylabs/hex'
 import { asAddress } from '@xylabs/hex'
-import { compact } from '@xylabs/lodash'
 import { toJsonString } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
@@ -109,11 +109,11 @@ export abstract class AbstractModuleProxy<
 
   static missingRequiredQueries(mod: Module): string[] {
     const moduleQueries = mod.queries
-    return compact(
+    return (
       this.requiredQueries.map((query) => {
         return moduleQueries.includes(query) ? null : query
-      }),
-    )
+      })
+    ).filter(exists)
   }
 
   async addressPreviousHash(): Promise<AddressPreviousHashPayload> {

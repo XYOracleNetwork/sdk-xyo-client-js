@@ -5,7 +5,6 @@ import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import type { Address, Hash } from '@xylabs/hex'
-import { compact } from '@xylabs/lodash'
 import type { Logger } from '@xylabs/logger'
 import {
   ConsoleLogger, IdLogger, LogLevel,
@@ -50,6 +49,7 @@ import {
   AddressSchema,
   DeadModuleError,
   isModuleName,
+  isSerializable,
   ModuleAddressQuerySchema,
   ModuleConfigSchema,
   ModuleDescriptionSchema,
@@ -58,7 +58,6 @@ import {
   ModuleStateQuerySchema,
   ModuleSubscribeQuerySchema,
   ObjectResolverPriority,
-  serializableField,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
@@ -558,7 +557,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       config: config.schema,
       schema: ConfigSchema,
     })
-    return compact([config, configSchema, address, ...queries])
+    return ([config, configSchema, address, ...queries]).filter(exists)
   }
 
   protected async generateDescribe(): Promise<ModuleDescriptionPayload> {
@@ -573,12 +572,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
     const discover = await this.generateConfigAndAddress()
 
-    description.children = compact(
+    description.children = (
       discover?.map((payload) => {
         const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
         return address == this.address ? undefined : address
-      }) ?? [],
-    )
+      }) ?? []
+    ).filter(exists)
 
     return description
   }
@@ -689,7 +688,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
             )
           }
 
-          if (!serializableField(value)) {
+          if (!isSerializable(value)) {
             this.logger?.warn(`Fields that are not serializable to JSON are not allowed in config [${parents?.join('.')}.${key}]`)
             return false
           }

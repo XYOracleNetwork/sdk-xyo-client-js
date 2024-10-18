@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import type { Address } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
-import { compact } from '@xylabs/lodash'
 import type { Promisable } from '@xylabs/promise'
 import type {
   ModuleFilter,
@@ -157,23 +157,23 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
   }
 
   private resolveByAddress<T extends ModuleInstance = ModuleInstance>(modules: Record<Address, ModuleInstance>, address: Address[]): T[] {
-    return compact(
+    return (
       address.map((address) => {
         return modules[address]
-      }),
-    ) as T[]
+      })
+    ).filter(exists) as T[]
   }
 
   private resolveByName<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], name: ModuleName[]): T[] {
-    return compact(
+    return (
       name.map((name) => {
         return modules.find(mod => mod.modName === name)
-      }),
-    ) as T[]
+      })
+    ).filter(exists) as T[]
   }
 
   private resolveByQuery<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], query: string[][]): T[] {
-    return compact(
+    return (
       modules.filter(mod =>
         query?.reduce((supported, queryList) => {
           return (
@@ -183,7 +183,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
               return supported && queryable
             }, true) || supported
           )
-        }, false)),
-    ) as T[]
+        }, false))
+    ).filter(exists) as T[]
   }
 }

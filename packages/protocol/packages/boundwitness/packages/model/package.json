@@ -34,9 +34,9 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@types/node": "^22.7.6",
-    "@xylabs/ts-scripts-yarn3": "^4.2.1",
-    "@xylabs/tsconfig": "^4.2.1",
+    "@types/node": "^22.7.7",
+    "@xylabs/ts-scripts-yarn3": "^4.2.3",
+    "@xylabs/tsconfig": "^4.2.3",
     "typescript": "^5.6.3"
   },
   "publishConfig": {

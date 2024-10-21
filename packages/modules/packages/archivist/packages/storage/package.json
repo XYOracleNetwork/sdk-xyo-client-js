@@ -43,8 +43,8 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^4.2.2",
-    "@xylabs/ts-scripts-yarn3": "^4.2.1",
-    "@xylabs/tsconfig": "^4.2.1",
+    "@xylabs/ts-scripts-yarn3": "^4.2.3",
+    "@xylabs/tsconfig": "^4.2.3",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",

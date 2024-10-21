@@ -63,9 +63,9 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^22.7.6",
-    "@xylabs/ts-scripts-yarn3": "^4.2.1",
-    "@xylabs/tsconfig": "^4.2.1",
+    "@types/node": "^22.7.7",
+    "@xylabs/ts-scripts-yarn3": "^4.2.3",
+    "@xylabs/tsconfig": "^4.2.3",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/bridge-abstract": "workspace:^",

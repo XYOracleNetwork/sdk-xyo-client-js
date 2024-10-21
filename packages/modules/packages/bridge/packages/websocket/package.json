@@ -53,8 +53,8 @@
     "socket.io": "^4.8.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.2.1",
-    "@xylabs/tsconfig": "^4.2.1",
+    "@xylabs/ts-scripts-yarn3": "^4.2.3",
+    "@xylabs/tsconfig": "^4.2.3",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

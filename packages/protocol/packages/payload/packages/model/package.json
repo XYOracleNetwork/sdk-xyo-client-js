@@ -37,8 +37,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.2.2",
-    "@xylabs/object": "^4.2.2"
+    "@xylabs/hex": "^4.3.2",
+    "@xylabs/object": "^4.3.2"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.2.3",

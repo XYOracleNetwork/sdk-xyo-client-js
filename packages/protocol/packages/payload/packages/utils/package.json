@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/exists": "^4.2.2",
-    "@xylabs/hex": "^4.2.2",
-    "@xylabs/set": "^4.2.2",
+    "@xylabs/exists": "^4.3.2",
+    "@xylabs/hex": "^4.3.2",
+    "@xylabs/set": "^4.3.2",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/hash": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",

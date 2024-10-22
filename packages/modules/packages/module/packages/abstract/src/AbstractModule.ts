@@ -22,6 +22,7 @@ import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type { ConfigPayload } from '@xyo-network/config-payload-plugin'
 import { ConfigSchema } from '@xyo-network/config-payload-plugin'
 import type { ModuleManifestPayload } from '@xyo-network/manifest-model'
+import { BaseEmitter } from '@xyo-network/module-event-emitter'
 import type {
   AddressPayload,
   AddressPreviousHashPayload,
@@ -68,7 +69,6 @@ import { QuerySchema } from '@xyo-network/query-payload-plugin'
 import type { WalletInstance } from '@xyo-network/wallet-model'
 import { LRUCache } from 'lru-cache'
 
-import { BaseEmitter } from './BaseEmitter.ts'
 import { determineAccount } from './determineAccount.ts'
 import { ModuleErrorBuilder } from './Error.ts'
 import type { Queryable } from './QueryValidator/index.ts'

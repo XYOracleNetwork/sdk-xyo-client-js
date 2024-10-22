@@ -1,5 +1,4 @@
 export * from './AbstractModule.ts'
 export * from './AbstractModuleInstance.ts'
-export * from './BaseEmitter.ts'
 export * from './Error.ts'
 export * from './QueryValidator/index.ts'

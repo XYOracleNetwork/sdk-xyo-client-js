@@ -26,6 +26,9 @@ import {
   IDBVersionChangeEvent,
   indexedDB,
 } from 'fake-indexeddb'
+import {
+  beforeAll, describe, expect, it,
+} from 'vitest'
 
 import { IndexedDbArchivist } from '../Archivist.ts'
 import { IndexedDbArchivistConfigSchema } from '../Config.ts'
@@ -183,8 +186,8 @@ describe('IndexedDbArchivist', () => {
       expect(getResult?.length).toBe(sources.length)
       const dataHashes = (await PayloadBuilder.dataHashes(getResult)) ?? []
       const deleteResult = await archivistModule.delete?.(dataHashes)
-      expect(deleteResult).toBeArrayOfSize(dataHashes.length)
-      expect(await archivistModule.all?.()).toBeEmpty()
+      expect(deleteResult.length).toBe(dataHashes.length)
+      expect((await archivistModule.all?.()).length).toBe(0)
     })
   })
   describe('get', () => {
@@ -225,7 +228,7 @@ describe('IndexedDbArchivist', () => {
       const hashThatDoesNotExist = '0000000000000000000000000000000000000000000000000000000000000000'
       const getResult = await archivistModule.get([hashThatDoesNotExist])
       expect(getResult).toBeDefined()
-      expect(getResult).toBeArrayOfSize(0)
+      expect(getResult.length).toBe(0)
     })
     describe('by hash', () => {
       let payload1: PayloadWithMeta
@@ -263,18 +266,18 @@ describe('IndexedDbArchivist', () => {
         it('returns value using hash', async () => {
           const result = await archivistModule.get([dataHash1])
           expect(result).toBeDefined()
-          expect(result).toBeArrayOfSize(1)
+          expect(result.length).toBe(1)
         })
         it('deduplicates multiple hashes', async () => {
           const result = await archivistModule.get([dataHash1, dataHash2])
           expect(result).toBeDefined()
-          expect(result).toBeArrayOfSize(1)
+          expect(result.length).toBe(1)
         })
         it('returns the first occurrence of the hash', async () => {
           // Same data hash contained by multiple root hashes
           const result = await archivistModule.get([dataHash2])
           expect(result).toBeDefined()
-          expect(result).toBeArrayOfSize(1)
+          expect(result.length).toBe(1)
           // Returns the first occurrence of the data hash
           expect(result[0]).toEqual(payload1)
         })
@@ -283,12 +286,12 @@ describe('IndexedDbArchivist', () => {
         it('returns value using hash', async () => {
           const result = await archivistModule.get([rootHash1])
           expect(result).toBeDefined()
-          expect(result).toBeArrayOfSize(1)
+          expect(result.length).toBe(1)
         })
         it('deduplicates multiple hashes', async () => {
           const result = await archivistModule.get([rootHash1, rootHash1])
           expect(result).toBeDefined()
-          expect(result).toBeArrayOfSize(1)
+          expect(result.length).toBe(1)
         })
       })
     })
@@ -366,7 +369,7 @@ describe('IndexedDbArchivist', () => {
         // Ensure the DB has only one instance of the payload written to it
         const allResult = await archivistModule.all?.()
         expect(allResult).toBeDefined()
-        expect(allResult).toBeArrayOfSize(1)
+        expect(allResult.length).toBe(1)
       })
     })
   })
@@ -407,32 +410,32 @@ describe('IndexedDbArchivist', () => {
       // console.log(toJsonString([bw, payloads, errors], 10))
 
       const batch1 = await archivist.next?.({ limit: 2 })
-      expect(batch1).toBeArrayOfSize(2)
+      expect(batch1.length).toBe(2)
       expect(batch1?.[0].$hash).toEqual(payloads1[0].$hash)
 
       const batch2 = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch1?.[1]) })
-      expect(batch2).toBeArrayOfSize(2)
+      expect(batch2.length).toBe(2)
       expect(batch2?.[0].$hash).toEqual(payloads2[0].$hash)
 
       const batch3 = await archivist.next?.({ limit: 20, offset: await PayloadBuilder.hash(batch1?.[1]) })
-      expect(batch3).toBeArrayOfSize(2)
+      expect(batch3.length).toBe(2)
       expect(batch3?.[0].$hash).toEqual(payloads2[0].$hash)
 
       // desc
       const batch1Desc = await archivist.next?.({ limit: 2, order: 'desc' })
-      expect(batch1Desc).toBeArrayOfSize(2)
+      expect(batch1Desc.length).toBe(2)
       expect(batch1Desc?.[0].$hash).toEqual(payloads2[1].$hash)
 
       const batch2Desc = await archivist.next?.({
         limit: 2, offset: await PayloadBuilder.hash(batch1Desc?.[1]), order: 'desc',
       })
-      expect(batch2Desc).toBeArrayOfSize(2)
+      expect(batch2Desc.length).toBe(2)
       expect(batch2Desc?.[1].$hash).toEqual(payloads1[0].$hash)
 
       const batch3Desc = await archivist.next?.({
         limit: 20, offset: await PayloadBuilder.hash(batch1Desc?.[1]), order: 'desc',
       })
-      expect(batch3Desc).toBeArrayOfSize(2)
+      expect(batch3Desc.length).toBe(2)
       expect(batch3Desc?.[1].$hash).toEqual(payloads1[0].$hash)
     })
   })

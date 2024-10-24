@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^4.3.2",
+    "@xylabs/object": "^4.3.2",
     "@xylabs/ts-scripts-yarn3": "^4.2.3",
     "@xylabs/tsconfig": "^4.2.3",
     "@xyo-network/account": "workspace:^",

@@ -9,6 +9,7 @@ import type {
   ArchivistInsertQuery,
   ArchivistInstance,
   ArchivistModuleEventData,
+  ArchivistNextOptions,
   ArchivistParams,
 } from '@xyo-network/archivist-model'
 import {
@@ -28,6 +29,8 @@ import type { StoreBase, StoreType } from 'store2'
 import store from 'store2'
 
 const storeTypes = store as unknown as StoreType
+
+type WithStorageMeta<T extends Payload = Payload> = WithMeta<T> & { _timestamp: number }
 
 export type StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'
 export const StorageArchivistConfigSchema: StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'
@@ -92,24 +95,6 @@ export class StorageArchivist<
     return this._storage
   }
 
-  /* override async loadAccount(account?: AccountInstance, persistAccount?: boolean, privateStorage?: StoreBase, _logger?: Logger) {
-    if (!this._account) {
-      if (persistAccount) {
-        const privateKey = privateStorage?.get('privateKey')
-        if (privateKey) {
-          try {
-            this._account = await Account.create({ privateKey })
-            return this._account
-          } catch (ex) {
-            console.error(`Error reading Account from storage [${ex}] - Recreating Account`)
-            privateStorage?.remove('privateKey')
-          }
-        }
-      }
-    }
-    return await super.loadAccount()
-  } */
-
   protected override allHandler(): PromisableArray<PayloadWithMeta> {
     const found = new Set<string>()
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
@@ -123,6 +108,8 @@ export class StorageArchivist<
           return true
         }
       })
+      .sort((a, b) => a._timestamp - b._timestamp)
+      .map(payload => this.removeStorageMeta(payload))
   }
 
   protected override clearHandler(): void | Promise<void> {
@@ -158,6 +145,35 @@ export class StorageArchivist<
     ).filter(exists)
   }
 
+  protected getFromOffset(
+    order: 'asc' | 'desc' = 'asc',
+    limit: number = 10,
+    offset?: Hash,
+  ): WithStorageMeta[] {
+    const offsetHash = offset ? (this.storage.get(offset) as PayloadWithMeta | undefined)?.$hash : undefined
+    const found = new Set<string>()
+    const payloads: WithStorageMeta[] = Object.entries(this.storage.getAll())
+      .map(([, value]) => value)
+      .filter((payload) => {
+        if (found.has(payload.$hash)) {
+          return false
+        } else {
+          found.add(payload.$hash)
+          return true
+        }
+      })
+      .sort((a, b) => {
+        return order === 'asc' ? a._timestamp - b._timestamp : b._timestamp - a._timestamp
+      })
+    if (offsetHash) {
+      const index = payloads.findIndex(payload => payload.$hash === offsetHash)
+      if (index !== -1) {
+        return payloads.slice(index + 1, index + 1 + limit)
+      }
+    }
+    return payloads.slice(0, limit)
+  }
+
   protected override getHandler(hashes: string[]): Promisable<PayloadWithMeta[]> {
     const found = new Set<string>()
     return (
@@ -172,22 +188,42 @@ export class StorageArchivist<
           found.add(payload.$hash)
           return true
         }
-      })
+      }).map(payload => this.removeStorageMeta(payload))
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
+    let timestamp = Date.now()
     const pairs = await PayloadBuilder.hashPairs(payloads)
     return pairs.map(([payload, hash]) => {
-      const value = JSON.stringify(payload)
+      const storagePayload = this.addStorageMeta(payload, timestamp++)
+      const value = JSON.stringify(storagePayload)
+      console.log('insert.storagePayloads:', storagePayload)
       assertEx(value.length < this.maxEntrySize, () => `Payload too large [${hash}, ${value.length}]`)
-      this.storage.set(hash, payload)
-      this.storage.set(payload.$hash, payload)
+      this.storage.set(hash, storagePayload)
+      this.storage.set(payload.$hash, storagePayload)
       return payload
     })
+  }
+
+  protected override nextHandler(options?: ArchivistNextOptions): Promisable<PayloadWithMeta[]> {
+    const {
+      limit, offset, order,
+    } = options ?? {}
+    return this.getFromOffset(order, limit ?? 10, offset)
   }
 
   protected override async startHandler() {
     await super.startHandler()
     return true
+  }
+
+  private addStorageMeta<T extends Payload = Payload>(payload: WithMeta<T>, _timestamp: number): WithStorageMeta<T> {
+    return { ...payload, _timestamp }
+  }
+
+  private removeStorageMeta<T extends Payload = Payload>(payload: WithStorageMeta<T>): WithMeta<T> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { _timestamp, ...rest } = payload
+    return rest as WithMeta<T>
   }
 }

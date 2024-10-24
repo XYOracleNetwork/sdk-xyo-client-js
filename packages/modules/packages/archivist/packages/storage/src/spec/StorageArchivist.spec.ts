@@ -99,14 +99,14 @@ test('Archivist Private Key Save', async () => {
   const storage = await StorageArchivist.create({
     account,
     config: {
-      namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local',
+      namespace: 'test', schema: StorageArchivistConfigSchema, type: 'local',
     },
   })
   const address = storage.address
   const storage2 = await StorageArchivist.create({
     account,
     config: {
-      namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local',
+      namespace: 'test', schema: StorageArchivistConfigSchema, type: 'local',
     },
   })
   expect(storage2.address).toBe(address)
@@ -118,7 +118,7 @@ test('Archivist passed account', async () => {
   const storage = (await StorageArchivist.create({
     account,
     config: {
-      namespace: 'main', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local',
+      namespace: 'main', schema: StorageArchivistConfigSchema, type: 'local',
     },
   })) as StorageArchivist
 
@@ -129,13 +129,13 @@ test('Archivist Parent Reads', async () => {
   const parent = await MemoryArchivist.create({ account: 'random' })
   const memoryNode = await MemoryNode.create({ account: 'random' })
 
-  expect(isModuleObject(parent)).toBeTrue()
+  expect(isModuleObject(parent)).toBe(true)
 
-  expect(isModule(parent)).toBeTrue()
+  expect(isModule(parent)).toBe(true)
 
-  expect(isModuleInstance(parent)).toBeTrue()
+  expect(isModuleInstance(parent)).toBe(true)
 
-  expect(isArchivistInstance(parent)).toBeTrue()
+  expect(isArchivistInstance(parent)).toBe(true)
 
   await memoryNode.register(parent)
   await memoryNode.attach(parent.address, true)
@@ -145,7 +145,6 @@ test('Archivist Parent Reads', async () => {
     config: {
       namespace: 'test',
       parents: { read: [parent.address] },
-      persistAccount: true,
       schema: StorageArchivistConfigSchema,
       type: 'local',
     },
@@ -159,9 +158,9 @@ test('Archivist Parent Reads', async () => {
 
   const inserted = await parent.insert([wrapper.payload])
 
-  expect(inserted).toBeArrayOfSize(1)
+  expect(inserted.length).toBe(1)
 
   const fromStorage = await storage.get([await wrapper.dataHash()])
 
-  expect(fromStorage).toBeArrayOfSize(1)
+  expect(fromStorage.length).toBe(1)
 })

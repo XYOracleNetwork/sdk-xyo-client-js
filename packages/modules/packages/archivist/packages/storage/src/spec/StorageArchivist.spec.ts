@@ -14,6 +14,10 @@ import {
 import { MemoryNode } from '@xyo-network/node-memory'
 import type { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import {
+  describe, expect,
+  it, test,
+} from 'vitest'
 
 import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchivist.ts'
 

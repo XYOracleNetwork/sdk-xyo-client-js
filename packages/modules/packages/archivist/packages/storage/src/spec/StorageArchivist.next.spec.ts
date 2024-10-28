@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-import { toJsonString } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {

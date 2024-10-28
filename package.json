@@ -78,15 +78,15 @@
     "@xyo-network/shared": "workspace:^"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.9",
+    "@babel/core": "^7.26.0",
     "@jest/globals": "^29.7.0",
     "@stylistic/eslint-plugin": "^2.9.0",
-    "@types/jest": "^29.5.13",
+    "@types/jest": "^29.5.14",
     "@types/supertest": "^6.0.2",
-    "@typescript-eslint/eslint-plugin": "^8.11.0",
-    "@typescript-eslint/parser": "^8.11.0",
+    "@typescript-eslint/eslint-plugin": "^8.12.1",
+    "@typescript-eslint/parser": "^8.12.1",
     "@xylabs/eslint-config-flat": "^4.2.3",
-    "@xylabs/forget": "^4.3.2",
+    "@xylabs/forget": "^4.3.3",
     "@xylabs/ts-scripts-yarn3": "^4.2.3",
     "@xylabs/tsconfig": "^4.2.3",
     "@xylabs/tsconfig-dom-jest": "^4.1.0",
@@ -110,7 +110,7 @@
     "typedoc": "^0.26.10",
     "typedoc-material-theme": "^1.1.0",
     "typescript": "^5.6.3",
-    "vitest": "^2.1.3"
+    "vitest": "^2.1.4"
   },
   "packageManager": "yarn@4.5.1",
   "volta": {

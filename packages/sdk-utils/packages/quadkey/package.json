@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.3.2",
-    "@xylabs/hex": "^4.3.2",
+    "@xylabs/assert": "^4.3.3",
+    "@xylabs/hex": "^4.3.3",
     "@xyo-network/sdk-geo": "^3.0.2",
     "mapbox-gl": "^3.7.0"
   },

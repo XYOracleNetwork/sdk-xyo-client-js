@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.3.3",
-    "@xylabs/object": "^4.3.3",
-    "@xylabs/promise": "^4.3.3",
+    "@xylabs/hex": "^4.3.4",
+    "@xylabs/object": "^4.3.4",
+    "@xylabs/promise": "^4.3.4",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/module-events": "workspace:^",
     "@xyo-network/module-model": "workspace:^",

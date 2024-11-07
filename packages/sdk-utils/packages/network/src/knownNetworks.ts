@@ -39,4 +39,16 @@ const local = async (): Promise<NetworkPayload> => {
   }
 }
 
-export const knownNetworks = async (): Promise<NetworkPayload[]> => [await kerplunk(), await main(), await local()]
+const custom = async (): Promise<NetworkPayload> => {
+  return {
+    name: 'Custom',
+    nodes: [
+      (await NetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network'))?.payload,
+      (await NetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network'))?.payload,
+    ].filter(Boolean) as NetworkNodePayload[],
+    schema: NetworkSchema,
+    slug: 'custom',
+  }
+}
+
+export const knownNetworks = async (): Promise<NetworkPayload[]> => [await kerplunk(), await main(), await local(), await custom()]

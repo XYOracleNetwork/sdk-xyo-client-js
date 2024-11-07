@@ -29,18 +29,18 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/delay": "^4.3.3",
-    "@xylabs/error": "^4.3.3",
+    "@xylabs/delay": "^4.3.4",
+    "@xylabs/error": "^4.3.4",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/huri": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "ajv": "^8.17.1",
     "axios": "^1.7.7",
-    "lru-cache": "^11.0.1"
+    "lru-cache": "^11.0.2"
   },
   "devDependencies": {
-    "@xylabs/assert": "^4.3.3",
+    "@xylabs/assert": "^4.3.4",
     "@xylabs/ts-scripts-yarn3": "^4.2.3",
     "@xylabs/tsconfig-dom": "^4.2.3",
     "@xyo-network/network": "workspace:^",

@@ -32,11 +32,11 @@
     "@xylabs/assert": "^4.3.4",
     "@xylabs/hex": "^4.3.4",
     "@xyo-network/sdk-geo": "^3.0.2",
-    "mapbox-gl": "^3.7.0"
+    "mapbox-gl": "^3.8.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.2.3",
-    "@xylabs/tsconfig": "^4.2.3",
+    "@xylabs/ts-scripts-yarn3": "^4.2.4",
+    "@xylabs/tsconfig": "^4.2.4",
     "typescript": "^5.6.3"
   },
   "publishConfig": {

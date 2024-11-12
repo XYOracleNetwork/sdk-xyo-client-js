@@ -46,8 +46,8 @@
   },
   "devDependencies": {
     "@types/uuid": "^10.0.0",
-    "@xylabs/ts-scripts-yarn3": "^4.2.3",
-    "@xylabs/tsconfig": "^4.2.3",
+    "@xylabs/ts-scripts-yarn3": "^4.2.4",
+    "@xylabs/tsconfig": "^4.2.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
@@ -60,7 +60,7 @@
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/wallet-model": "workspace:^",
     "typescript": "^5.6.3",
-    "uuid": "^11.0.2"
+    "uuid": "^11.0.3"
   },
   "publishConfig": {
     "access": "public"

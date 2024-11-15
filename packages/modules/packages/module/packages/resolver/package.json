@@ -29,11 +29,11 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.3.4",
-    "@xylabs/exists": "^4.3.4",
-    "@xylabs/hex": "^4.3.4",
-    "@xylabs/object": "^4.3.4",
-    "@xylabs/promise": "^4.3.4",
+    "@xylabs/assert": "^4.3.6",
+    "@xylabs/exists": "^4.3.6",
+    "@xylabs/hex": "^4.3.6",
+    "@xylabs/object": "^4.3.6",
+    "@xylabs/promise": "^4.3.6",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -45,7 +45,7 @@
     "jest": "^29.7.0",
     "jest-mock-extended": "^4.0.0-beta1",
     "typescript": "^5.6.3",
-    "vitest": "^2.1.4"
+    "vitest": "^2.1.5"
   },
   "publishConfig": {
     "access": "public"

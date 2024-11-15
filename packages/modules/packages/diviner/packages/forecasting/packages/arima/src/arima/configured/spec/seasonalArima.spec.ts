@@ -1,8 +1,14 @@
+import '@xylabs/vitest-extended'
+
 import type { Payload } from '@xyo-network/payload-model'
 
 import { seasonalArimaForecastingMethod } from '../seasonalArima.ts'
 
 const twoPi = 2 * Math.PI
+
+import {
+  describe, expect, it,
+} from 'vitest'
 
 const transformer = (payload: Payload) => (payload as Payload<{ data: number }>)?.data || Number.NaN
 

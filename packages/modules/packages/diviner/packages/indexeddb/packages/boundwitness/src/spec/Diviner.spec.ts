@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import '@xylabs/vitest-extended'
 
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -25,6 +26,10 @@ import {
   IDBVersionChangeEvent,
   indexedDB,
 } from 'fake-indexeddb'
+import {
+  beforeAll, describe, expect,
+  it,
+} from 'vitest'
 
 import { IndexedDbBoundWitnessDiviner } from '../Diviner.ts'
 

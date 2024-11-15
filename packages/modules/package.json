@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@swc/core": "1.9.2",
-    "@xylabs/delay": "^4.3.4",
+    "@xylabs/delay": "^4.3.6",
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
     "@xyo-network/account": "workspace:^",
@@ -59,7 +59,7 @@
     "@xyo-network/witness-adhoc": "workspace:^",
     "@xyo-network/witness-model": "workspace:^",
     "typescript": "^5.6.3",
-    "vitest": "^2.1.4"
+    "vitest": "^2.1.5"
   },
   "publishConfig": {
     "access": "public"

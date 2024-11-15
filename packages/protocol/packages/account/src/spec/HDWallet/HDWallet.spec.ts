@@ -4,7 +4,7 @@ import {
   defaultPath, Mnemonic, SigningKey,
 } from 'ethers'
 
-import { HDWallet } from '../../HDWallet'
+import { HDWallet } from '../../HDWallet.ts'
 
 /**
  * The wallet types that can be tested
@@ -68,9 +68,9 @@ const snapshotWalletInstances = (walletA: Wallet, walletB: Wallet) => {
 const expectWalletsEqual = (sutA: WalletInstance, sutB: Wallet) => {
   expect(sutA.address).toEqual(formatHexString(sutB.address))
   expect(sutA.privateKey).toEqual(sutB.privateKey)
-  expect(sutA.private.hex).toEqual(formatHexString(sutB.privateKey))
+  expect(sutA.private?.hex).toEqual(formatHexString(sutB.privateKey))
   expect(sutA.publicKey).toEqual(sutB.publicKey)
-  expect(sutA.public.hex).toEqual(toUncompressedPublicKey(sutB.publicKey))
+  expect(sutA.public?.hex).toEqual(toUncompressedPublicKey(sutB.publicKey))
 }
 
 /**
@@ -173,7 +173,7 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
 }
 
 test('HDWallet tests generator is defined', () => {
-  expect(generateHDWalletTests).toBeFunction()
+  expect(typeof generateHDWalletTests).toBe('function')
 })
 
 test('Same address, two paths', async () => {
@@ -204,4 +204,10 @@ test('Random Wallet', async () => {
   expect(sut.extendedKey).toBeDefined()
   expect(sut.path).toBeDefined()
   expect(sut.path).toBe(defaultPath)
+})
+
+test('HDWallet can be created from mnemonic', async () => {
+  const sut = await HDWallet.fromPhrase('abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about', "m/44'/0'/0'/0/0")
+  expect(sut).toBeDefined()
+  console.log('address', sut.privateKey)
 })

@@ -15,6 +15,6 @@
 
 describe('Node Wallet Test - Commented Out', () => {
   it('Stub', () => {
-    expect(true).toBeTrue()
+    expect(true).toBe(true)
   })
 })

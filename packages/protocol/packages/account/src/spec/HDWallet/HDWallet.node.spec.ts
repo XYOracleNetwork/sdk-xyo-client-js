@@ -1,5 +1,5 @@
-import { HDWallet } from '../../HDWallet'
-import { generateHDWalletTests } from './HDWallet.spec'
+import { HDWallet } from '../../HDWallet.ts'
+import { generateHDWalletTests } from './HDWallet.spec.ts'
 
 /**
  * @group nodejs

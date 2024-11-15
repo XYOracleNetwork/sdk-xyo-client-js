@@ -1,6 +1,6 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 
-import { Elliptic } from '../Elliptic'
+import { Elliptic } from '../Elliptic.ts'
 
 describe('AddressValue', () => {
   const valid: [string, string, string][] = [
@@ -70,7 +70,7 @@ describe('AddressValue', () => {
   describe('verify', () => {
     it.each(valid)('Verifies a signature', async (message, signature, address) => {
       const result = await Elliptic.verify(toUint8Array(message), toUint8Array(signature), toUint8Array(address))
-      expect(result).toBeTrue()
+      expect(result).toBeTruthy()
     })
   })
 })

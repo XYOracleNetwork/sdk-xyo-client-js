@@ -29,7 +29,7 @@ describe('PrivateKey', () => {
       const data = toUint8Array(hash)
       const wasmSignature = await privateKey.sign(data)
       const wasmVerify = await privateKey.verify(data, wasmSignature)
-      expect(wasmVerify).toBeTrue()
+      expect(wasmVerify).toBeTruthy()
     })
     // TODO: Negative verification testing
     test('wasm vs js (performance-serial)', async () => {

@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { Account } from '@xyo-network/account'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -5,6 +7,10 @@ import type { NodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import type { PayloadPointerDiviner } from '../Diviner.ts'
 import {

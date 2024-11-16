@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { delay } from '@xylabs/delay'
 import type { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Account } from '@xyo-network/account'
@@ -14,8 +16,13 @@ import { MemorySentinel } from '@xyo-network/sentinel-memory'
 import type { ReportEndEventArgs, SentinelConfig } from '@xyo-network/sentinel-model'
 import { SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
+import {
+  beforeEach,
+  describe, expect,
+  it, test,
+} from 'vitest'
 
-import { SentinelWrapper } from '../Wrapper'
+import { SentinelWrapper } from '../Wrapper.ts'
 
 /**
  * @group sentinel

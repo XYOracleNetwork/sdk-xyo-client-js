@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
@@ -19,6 +21,11 @@ import type { ModuleAttachedEventArgs } from '@xyo-network/node-model'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import type { Payload } from '@xyo-network/payload'
 import { isPayloadOfSchemaType } from '@xyo-network/payload'
+import {
+  beforeAll,
+  beforeEach,
+  describe, expect, it,
+} from 'vitest'
 
 /**
  * @group node

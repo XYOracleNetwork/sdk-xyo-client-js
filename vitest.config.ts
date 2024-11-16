@@ -5,6 +5,7 @@ dotenv.config()
 
 export default defineConfig({
   test: {
+    environment: 'node',
     globals: true,
     setupFiles: ['./vitest.startup.ts'],
   },

@@ -1,4 +1,6 @@
 /* eslint-disable max-statements */
+import '@xylabs/vitest-extended'
+
 import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistPayloadDiviner, ArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner-archivist'
@@ -7,6 +9,10 @@ import { HuriSchema } from '@xyo-network/diviner-huri'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import type { Payload } from '@xyo-network/payload'
 import { PayloadBuilder, PayloadSchema } from '@xyo-network/payload'
+import {
+  describe, expect,
+  it,
+} from 'vitest'
 
 import { MemoryNode } from '../../index.ts'
 

@@ -3,6 +3,9 @@ import type { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import {
   defaultPath, Mnemonic, SigningKey,
 } from 'ethers'
+import {
+  describe, expect, it, test,
+} from 'vitest'
 
 import { HDWallet } from '../../HDWallet.ts'
 

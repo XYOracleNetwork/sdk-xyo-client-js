@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import type { AccountInstance } from '@xyo-network/account'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -7,6 +9,10 @@ import { AddressHistoryDivinerConfigSchema, AddressHistoryQuerySchema } from '@x
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { WithMeta } from '@xyo-network/payload-model'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { AddressHistoryDiviner } from '../Diviner.ts'
 
@@ -61,7 +67,7 @@ describe('AddressHistoryDiviner', () => {
       it('returns divined result for all addresses', async () => {
         const result = (await diviner.divine()) as WithMeta<BoundWitness>[]
         expect(result.length).toBe(1)
-        expect(result[0].addresses).toInclude(wrapperAccount.address)
+        expect(result[0].addresses.includes(wrapperAccount.address)).toBeTrue()
       })
     })
   })

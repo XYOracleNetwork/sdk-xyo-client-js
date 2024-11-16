@@ -1,12 +1,17 @@
+import '@xylabs/vitest-extended'
+
 import type {
   PayloadAddressRule, PayloadRule, PayloadSchemaRule, PayloadTimestampOrderRule,
 } from '@xyo-network/diviner-payload-pointer-model'
+import {
+  describe, expect, it, vi,
+} from 'vitest'
 
 import { combineRules } from '../combineRules.ts'
 
 // Mock Date.now
-const now = new Date()
-jest.useFakeTimers().setSystemTime(now)
+const now = Date.now()
+vi.spyOn(Date, 'now').mockReturnValue(now)
 
 const validRules = (): PayloadRule[][] => {
   return [[{ schema: 'network.xyo.debug' }], [{ order: 'desc', timestamp: Date.now() }]]

@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/logger": "^4.3.6"
+    "@xylabs/logger": "^4.3.13"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.2.4",

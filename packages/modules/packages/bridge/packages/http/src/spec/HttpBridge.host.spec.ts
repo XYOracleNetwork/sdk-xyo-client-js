@@ -1,9 +1,16 @@
+import '@xylabs/vitest-extended'
+
 import type { ModuleDescriptionPayload } from '@xyo-network/module-model'
 import { ModuleDescriptionSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { getPort } from 'get-port-please'
+import {
+  beforeAll,
+  beforeEach,
+  describe, expect, it,
+} from 'vitest'
 
 import type { HttpBridgeConfig } from '../HttpBridgeConfig.ts'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
@@ -105,7 +112,7 @@ describe('HttpBridge', () => {
           await hostBridge.expose(exposedMod.address)
         })
         it('should be exposed on host', async () => {
-          expect(await hostBridge.exposed()).toInclude(exposedMod.address)
+          expect((await hostBridge.exposed()).includes(exposedMod.address)).toBeTrue()
         })
         it.skip('should be resolvable from client', async () => {
           // TODO: Implement .connect on HttpBridge and call here before resolving

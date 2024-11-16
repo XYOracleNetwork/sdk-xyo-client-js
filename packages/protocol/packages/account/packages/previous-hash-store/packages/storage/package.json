@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.3.6",
+    "@xylabs/hex": "^4.3.13",
     "@xyo-network/previous-hash-store-model": "workspace:^",
     "store2": "^2.14.3"
   },

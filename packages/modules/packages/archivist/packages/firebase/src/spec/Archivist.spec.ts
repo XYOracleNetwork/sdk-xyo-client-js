@@ -2,6 +2,10 @@ import fs from 'node:fs'
 
 import type { RulesTestEnvironment } from '@firebase/rules-unit-testing'
 import { initializeTestEnvironment } from '@firebase/rules-unit-testing'
+import {
+  afterAll,
+  beforeAll, expect, test,
+} from 'vitest'
 
 import { FirebaseArchivist } from '../Archivist.ts'
 import { FirebaseArchivistConfigSchema } from '../Config.ts'
@@ -12,7 +16,12 @@ beforeAll(async () => {
   // Initialize the test environment with the Firestore emulator
   testEnv = await initializeTestEnvironment({
     projectId: 'test-project', // Specify your project ID
-    firestore: { rules: fs.readFileSync('firestore.rules', 'utf8') }, // Load Firestore security rules
+    firestore: {
+      rules: fs.readFileSync(
+        'packages/modules/packages/archivist/packages/firebase/src/spec/firestore.rules',
+        'utf8',
+      ),
+    }, // Load Firestore security rules
   })
 })
 

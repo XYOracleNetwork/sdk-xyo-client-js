@@ -1,6 +1,9 @@
 import { ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { ModuleConfigSchema } from '@xyo-network/module-model'
 import type { Schema } from '@xyo-network/payload-model'
+import {
+  beforeAll, describe, expect, it,
+} from 'vitest'
 
 import { AbstractModuleInstance } from '../AbstractModuleInstance.ts'
 export class TestAbstractModule extends AbstractModuleInstance {

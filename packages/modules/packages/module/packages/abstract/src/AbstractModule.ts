@@ -17,7 +17,9 @@ import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import {
+  type BoundWitness, isQueryBoundWitness, type QueryBoundWitness,
+} from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type { ConfigPayload } from '@xyo-network/config-payload-plugin'
 import { ConfigSchema } from '@xyo-network/config-payload-plugin'
@@ -314,7 +316,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   ): Promise<ModuleQueryResult> {
     this._checkDead()
     this._noOverride('query')
-    const sourceQuery = await PayloadBuilder.build(assertEx(QueryBoundWitnessWrapper.unwrap(query), () => 'Invalid query'))
+    const sourceQuery = await PayloadBuilder.build(assertEx(isQueryBoundWitness(query) ? query : undefined, () => 'Unable to parse query'))
     return await this.busy(async () => {
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []

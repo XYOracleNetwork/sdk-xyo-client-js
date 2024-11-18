@@ -1,8 +1,7 @@
-import { ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { ModuleConfigSchema, ModuleDetailsError } from '@xyo-network/module-model'
 import type { Schema } from '@xyo-network/payload-model'
 import {
-  beforeAll, describe, expect, it,
+  describe, expect,
   test,
 } from 'vitest'
 

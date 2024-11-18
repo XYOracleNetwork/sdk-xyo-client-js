@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { isQueryBoundWitness, type QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'
 import type {
   Payload, Query, WithMeta,
@@ -21,17 +21,32 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
         /* if (!wrapper.valid) {
           console.warn(`Parsed invalid QueryBoundWitness ${JSON.stringify(wrapper.errors.map((error) => error.message))}`)
         } */
-        return castWrapper instanceof QueryBoundWitnessWrapper
+        const result = castWrapper instanceof QueryBoundWitnessWrapper
           ? castWrapper
-          : (
-              new QueryBoundWitnessWrapper<T>(
-                await PayloadBuilder.build(obj as QueryBoundWitness),
-                payloads ? await Promise.all(payloads.map(payload => PayloadBuilder.build(payload))) : undefined,
+          : isQueryBoundWitness(obj)
+            ? (
+                new QueryBoundWitnessWrapper<T>(
+                  await PayloadBuilder.build(obj),
+                  payloads ? await Promise.all(payloads.map(payload => PayloadBuilder.build(payload))) : undefined,
+                )
               )
-            )
+            : undefined
+        if (result === undefined) {
+          throw new Error('Unable to parse. Failed isQueryBoundWitness.')
+        }
+        return result
       }
     }
     throw new Error(`Unable to parse [${typeof obj}]`)
+  }
+
+  static async tryParseQuery<T extends Query>(obj: unknown): Promise<QueryBoundWitnessWrapper<T> | undefined> {
+    if (obj === undefined) return undefined
+    try {
+      return await this.parseQuery<T>(obj)
+    } catch {
+      return undefined
+    }
   }
 
   async getPayloadsWithoutQuery(): Promise<PayloadWrapper<Payload>[]> {

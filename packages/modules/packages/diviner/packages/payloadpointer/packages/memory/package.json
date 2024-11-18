@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-payload-pointer-memory",
-  "version": "3.3.3",
+  "version": "3.4.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -48,6 +48,7 @@
     "@types/uuid": "^10.0.0",
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
+    "@xylabs/vitest-extended": "^4.3.13",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
@@ -60,7 +61,8 @@
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/wallet-model": "workspace:^",
     "typescript": "^5.6.3",
-    "uuid": "^11.0.3"
+    "uuid": "^11.0.3",
+    "vitest": "^2.1.5"
   },
   "publishConfig": {
     "access": "public"

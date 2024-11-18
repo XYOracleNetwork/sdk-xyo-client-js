@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-js",
-  "version": "3.3.3",
+  "version": "3.4.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -65,8 +65,8 @@
   },
   "resolutions": {
     "axios": "^1",
-    "ethers": "^6",
     "eslint": "9.14.0",
+    "ethers": "^6",
     "fake-indexeddb": "^4",
     "quick-lru": "^5"
   },

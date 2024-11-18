@@ -1,5 +1,6 @@
-import type { ObjectTypeShape, TypeCheck } from '@xylabs/object'
+import type { TypeCheck } from '@xylabs/object'
 import { IsObjectFactory } from '@xylabs/object'
+import type { ObjectTypeShape } from '@xylabs/typeof'
 
 import { isModule } from '../module/index.ts'
 import type { ModuleInstance } from './Instance.ts'

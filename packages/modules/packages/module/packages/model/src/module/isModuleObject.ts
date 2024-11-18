@@ -1,5 +1,5 @@
-import type { ObjectTypeShape } from '@xylabs/object'
 import { IsObjectFactory } from '@xylabs/object'
+import type { ObjectTypeShape } from '@xylabs/typeof'
 
 import type { Module } from './Module.ts'
 

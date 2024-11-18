@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { IdentityDiviner } from '@xyo-network/diviner-identity'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {

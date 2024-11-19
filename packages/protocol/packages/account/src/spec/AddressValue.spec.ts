@@ -1,4 +1,7 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { Elliptic } from '../Elliptic.ts'
 

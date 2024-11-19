@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import type { Address, Hex } from '@xylabs/hex'
 import type { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import {

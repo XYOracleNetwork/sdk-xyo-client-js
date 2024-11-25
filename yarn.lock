@@ -6018,6 +6018,7 @@ __metadata:
     "@xylabs/promise": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account-model": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
@@ -6028,6 +6029,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/witness-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6111,10 +6113,10 @@ __metadata:
     "@types/node": "npm:^22.9.3"
     "@types/uuid": "npm:^10.0.0"
     "@xylabs/axios": "npm:^4.4.4"
-    "@xylabs/jest-helpers": "npm:^4.4.4"
     "@xylabs/object": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/api-models": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
@@ -6123,9 +6125,9 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/query-payload-plugin": "workspace:^"
     axios: "npm:^1.7.7"
-    jest: "npm:^29.7.0"
     typescript: "npm:^5.7.2"
     uuid: "npm:^11.0.3"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6175,6 +6177,7 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:^"
     js-cookie: "npm:^3.0.5"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6238,6 +6241,7 @@ __metadata:
     "@xylabs/promise": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-abstract": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
@@ -6247,6 +6251,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     lru-cache: "npm:^11.0.2"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6279,6 +6284,7 @@ __metadata:
     "@xylabs/promise": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-abstract": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
@@ -6313,6 +6319,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6323,6 +6330,7 @@ __metadata:
     "@xylabs/hex": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/account-model": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
@@ -6332,6 +6340,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6376,6 +6385,7 @@ __metadata:
     "@xylabs/object": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/account-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
@@ -6385,6 +6395,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     async-mutex: "npm:^0.5.0"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6404,6 +6415,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     async-mutex: "npm:^0.5.0"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6431,6 +6443,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
     "@xylabs/typeof": "npm:^4.4.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/boundwitness-builder": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
@@ -6439,6 +6452,7 @@ __metadata:
     "@xyo-network/payload-validator": "workspace:^"
     "@xyo-network/schema-name-validator": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6607,6 +6621,7 @@ __metadata:
     "@xylabs/timer": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
@@ -6627,6 +6642,7 @@ __metadata:
     async-mutex: "npm:^0.5.0"
     lru-cache: "npm:^11.0.2"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6640,6 +6656,7 @@ __metadata:
     "@xylabs/promise": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
@@ -6657,6 +6674,7 @@ __metadata:
     socket.io: "npm:^4.8.1"
     socket.io-client: "npm:^4.8.1"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6709,6 +6727,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/bridge-abstract": "workspace:^"
     "@xyo-network/bridge-http": "workspace:^"
     "@xyo-network/bridge-model": "workspace:^"
@@ -6718,6 +6737,7 @@ __metadata:
     "@xyo-network/node-memory": "workspace:^"
     "@xyo-network/node-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6728,9 +6748,11 @@ __metadata:
     "@xylabs/object": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6776,8 +6798,10 @@ __metadata:
     "@xylabs/hex": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     ethers: "npm:6.13.4"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6825,6 +6849,7 @@ __metadata:
     "@xylabs/hex": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
@@ -6841,6 +6866,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -6934,6 +6960,7 @@ __metadata:
     "@xylabs/hex": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/archivist-wrapper": "workspace:^"
@@ -6946,6 +6973,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -7043,6 +7071,7 @@ __metadata:
     "@xylabs/hex": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/boundwitness-builder": "workspace:^"
@@ -7053,6 +7082,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -7210,6 +7240,7 @@ __metadata:
     "@xylabs/object": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/diviner-abstract": "workspace:^"
     "@xyo-network/diviner-distinct-model": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
@@ -7217,6 +7248,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -7421,6 +7453,7 @@ __metadata:
     "@xylabs/exists": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/diviner-abstract": "workspace:^"
     "@xyo-network/diviner-jsonpatch-model": "workspace:^"
@@ -7428,6 +7461,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     fast-json-patch: "npm:^3.1.1"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -7464,6 +7498,7 @@ __metadata:
     "@xylabs/exists": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/account-model": "workspace:^"
     "@xyo-network/boundwitness-builder": "workspace:^"
@@ -7477,6 +7512,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-utils": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -7514,6 +7550,7 @@ __metadata:
     "@xylabs/assert": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/diviner-abstract": "workspace:^"
     "@xyo-network/diviner-jsonpath-model": "workspace:^"
@@ -7523,6 +7560,7 @@ __metadata:
     "@xyo-network/wallet-model": "workspace:^"
     jsonpath: "npm:^1.1.1"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -7615,6 +7653,7 @@ __metadata:
     "@xylabs/object": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/archivist-indexeddb": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
@@ -7628,6 +7667,7 @@ __metadata:
     async-mutex: "npm:^0.5.0"
     fake-indexeddb: "npm:^6.0.0"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -7642,6 +7682,7 @@ __metadata:
     "@xylabs/object": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/archivist-indexeddb": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
@@ -7654,6 +7695,7 @@ __metadata:
     fake-indexeddb: "npm:^6.0.0"
     idb: "npm:^8.0.0"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -7666,6 +7708,7 @@ __metadata:
     "@xylabs/object": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/diviner-payload-abstract": "workspace:^"
@@ -7674,6 +7717,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -7850,12 +7894,14 @@ __metadata:
     "@xylabs/hex": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/diviner-abstract": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/diviner-range-model": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -7982,6 +8028,7 @@ __metadata:
     "@xylabs/hex": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
@@ -8001,6 +8048,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8015,6 +8063,7 @@ __metadata:
     "@xylabs/hex": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
@@ -8041,6 +8090,7 @@ __metadata:
     "@xyo-network/payload-utils": "workspace:^"
     "@xyo-network/witness-timestamp": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8095,6 +8145,7 @@ __metadata:
     "@types/jsonpath": "npm:^0.2.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/diviner-transform-abstract": "workspace:^"
     "@xyo-network/diviner-transform-model": "workspace:^"
@@ -8102,6 +8153,7 @@ __metadata:
     "@xyo-network/value-payload-plugin": "workspace:^"
     jsonpath: "npm:^1.1.1"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8226,6 +8278,7 @@ __metadata:
     "@xylabs/promise": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-abstract": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
@@ -8235,6 +8288,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8251,11 +8305,13 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
     "@xylabs/typeof": "npm:^4.4.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/wasm": "workspace:^"
     esbuild: "npm:^0.24.0"
     hash-wasm: "npm:^4.12.0"
     publint: "npm:^0.2.12"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8269,9 +8325,11 @@ __metadata:
     "@xylabs/hex": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8323,6 +8381,7 @@ __metadata:
     "@xylabs/object": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/manifest-model": "workspace:^"
     "@xyo-network/module-factory-locator": "workspace:^"
@@ -8333,6 +8392,7 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/wallet-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8342,10 +8402,12 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/manifest-model": "workspace:^"
     "@xyo-network/manifest-wrapper": "workspace:^"
     ajv: "npm:^8.17.1"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8376,6 +8438,7 @@ __metadata:
     "@xylabs/promise": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/account-model": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
@@ -8422,7 +8485,9 @@ __metadata:
     "@xylabs/promise": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8464,6 +8529,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
     "@xylabs/typeof": "npm:^4.4.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/manifest-model": "workspace:^"
@@ -8485,6 +8551,7 @@ __metadata:
     "@xylabs/promise": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/diviner-payload-model": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
@@ -8544,6 +8611,7 @@ __metadata:
     "@xylabs/delay": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
@@ -8736,9 +8804,11 @@ __metadata:
     "@xylabs/promise": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/hash": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8750,7 +8820,9 @@ __metadata:
     "@xylabs/object": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8779,12 +8851,14 @@ __metadata:
     "@xylabs/set": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/boundwitness-builder": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/hash": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8796,9 +8870,11 @@ __metadata:
     "@xylabs/promise": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/schema-name-validator": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8867,6 +8943,7 @@ __metadata:
     idb: "npm:^8.0.0"
     typescript: "npm:^5.7.2"
     uuid: "npm:^11.0.3"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8894,6 +8971,7 @@ __metadata:
     store2: "npm:^2.14.3"
     typescript: "npm:^5.7.2"
     uuid: "npm:^11.0.3"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8932,9 +9010,11 @@ __metadata:
     "@xylabs/hex": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/sdk-geo": "npm:^3.0.2"
     mapbox-gl: "npm:^3.8.0"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8944,9 +9024,11 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8959,6 +9041,7 @@ __metadata:
     "@xylabs/error": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig-dom": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/huri": "workspace:^"
     "@xyo-network/network": "workspace:^"
@@ -8969,6 +9052,7 @@ __metadata:
     axios: "npm:^1.7.7"
     lru-cache: "npm:^11.0.2"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -8989,9 +9073,11 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -9094,6 +9180,7 @@ __metadata:
     "@xylabs/promise": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/abstract-witness": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
@@ -9108,6 +9195,7 @@ __metadata:
     "@xyo-network/witness-adhoc": "workspace:^"
     "@xyo-network/witness-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -9202,9 +9290,11 @@ __metadata:
     "@xylabs/object": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -9246,6 +9336,7 @@ __metadata:
     "@xylabs/promise": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/abstract-witness": "workspace:^"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
@@ -9254,6 +9345,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/witness-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -9295,6 +9387,7 @@ __metadata:
     "@xylabs/object": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/abstract-witness": "workspace:^"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
@@ -9302,6 +9395,7 @@ __metadata:
     "@xyo-network/value-payload-plugin": "workspace:^"
     "@xyo-network/witness-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 
@@ -9376,6 +9470,7 @@ __metadata:
     "@xylabs/promise": "npm:^4.4.4"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
+    "@xylabs/vitest-extended": "npm:^4.4.4"
     "@xyo-network/abstract-witness": "workspace:^"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/account-model": "workspace:^"
@@ -9384,6 +9479,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/witness-model": "workspace:^"
     typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.5"
   languageName: unknown
   linkType: soft
 

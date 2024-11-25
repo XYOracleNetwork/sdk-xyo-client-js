@@ -45,12 +45,14 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
+    "@xylabs/vitest-extended": "^4.4.4",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "fake-indexeddb": "^6.0.0",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.5"
   },
   "publishConfig": {
     "access": "public"

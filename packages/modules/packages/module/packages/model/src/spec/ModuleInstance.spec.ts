@@ -8,7 +8,7 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import { includesReservedModuleIdentifierCharacter, isModuleIdentifierPart } from '../ModuleIdentifier'
+import { includesReservedModuleIdentifierCharacter, isModuleIdentifierPart } from '../ModuleIdentifier.ts'
 
 describe('ModuleInstance', () => {
   it('isReservedModuleIdentifierCharacter', () => {

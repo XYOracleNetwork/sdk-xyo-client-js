@@ -42,6 +42,7 @@
     "@xylabs/delay": "^4.4.4",
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
+    "@xylabs/vitest-extended": "^4.4.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",

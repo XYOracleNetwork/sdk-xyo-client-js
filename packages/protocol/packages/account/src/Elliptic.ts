@@ -9,7 +9,7 @@ import { Mutex } from 'async-mutex'
 const wasmSupportStatic = new WasmSupport(['bigInt', 'mutableGlobals', 'referenceTypes', 'saturatedFloatToInt', 'signExtensions', 'simd'])
 const recoveryIds = [0, 1, 2, 3] as const
 
-function compareArrayBuffers(b1: ArrayBuffer, b2: ArrayBuffer) {
+function compareArrayBuffers(b1: ArrayBufferLike, b2: ArrayBufferLike) {
   if (b1.byteLength !== b2.byteLength) {
     return false
   }
@@ -31,7 +31,7 @@ export class Elliptic {
   protected static _secp256k1: Secp256k1 | undefined
   private static _secp256k1Mutex = new Mutex()
 
-  static addressFromPublicKey(key: ArrayBuffer): ArrayBuffer {
+  static addressFromPublicKey(key: ArrayBufferLike): ArrayBufferLike {
     return new Data(64, key).keccak256.slice(12)
   }
 
@@ -39,10 +39,11 @@ export class Elliptic {
     return this.secp256k1()
   }
 
-  static async publicKeyFromPrivateKey(privateKey: ArrayBuffer, prefix = false): Promise<ArrayBuffer> {
+  static async publicKeyFromPrivateKey(privateKey: ArrayBufferLike, prefix = false): Promise<ArrayBufferLike> {
     const { derivePublicKeyUncompressed } = await this.secp256k1()
-    const fullPublicKey = toUint8Array(derivePublicKeyUncompressed(new Uint8Array(privateKey)))
-    return prefix ? fullPublicKey : fullPublicKey.slice(1)
+    const derivedPublicKey = derivePublicKeyUncompressed(new Uint8Array(privateKey))
+    const fullPublicKey = typeof derivedPublicKey === 'string' ? toUint8Array(derivedPublicKey) : derivedPublicKey
+    return (prefix ? fullPublicKey : fullPublicKey.slice(1)).buffer
   }
 
   static ready() {
@@ -60,17 +61,19 @@ export class Elliptic {
     })
   }
 
-  static async sign(hash: ArrayBuffer, key: ArrayBuffer) {
+  static async sign(hash: ArrayBufferLike, key: ArrayBufferLike) {
     const { signMessageHashCompact } = await this.secp256k1()
-    return toUint8Array(signMessageHashCompact(new Uint8Array(key), toUint8Array(hash)))
+    const signature = signMessageHashCompact(new Uint8Array(key), toUint8Array(hash))
+    return (typeof signature === 'string' ? toUint8Array(signature) : signature).buffer
   }
 
-  static async verify(msg: ArrayBuffer, signature: ArrayBuffer, address: ArrayBuffer) {
+  static async verify(msg: ArrayBufferLike, signature: ArrayBufferLike, address: ArrayBufferLike) {
     const verifier = await this.secp256k1()
     if (verifier && this.wasmSupport.canUseWasm) {
       for (const recoveryId of recoveryIds) {
         try {
-          const recoveredPublicKey = toUint8Array(verifier.recoverPublicKeyUncompressed(toUint8Array(signature), recoveryId, toUint8Array(msg)).slice(1))
+          const rawRecoveredPublicKey = verifier.recoverPublicKeyUncompressed(toUint8Array(signature), recoveryId, toUint8Array(msg))
+          const recoveredPublicKey = (typeof rawRecoveredPublicKey === 'string' ? toUint8Array(rawRecoveredPublicKey) : rawRecoveredPublicKey).slice(1).buffer
           const recoveredAddress = this.addressFromPublicKey(recoveredPublicKey)
           if (compareArrayBuffers(address, recoveredAddress)) {
             return true

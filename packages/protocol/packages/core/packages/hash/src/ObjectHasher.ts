@@ -13,20 +13,19 @@ import { removeEmptyFields } from './removeEmptyFields.ts'
 import { sortFields } from './sortFields.ts'
 import { subtleHashFunc, wasmHashFunc } from './worker/index.ts'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type WorkerFunction = ((...args: any[]) => any) | (() => any)
+export type WorkerFunction = ((...args: unknown[]) => unknown) | (() => unknown)
 export type WorkerModule<Keys extends string> = {
   [key in Keys]: WorkerFunction
 }
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
 
-const omitByPredicate = <T extends object>(prefix: string) => (_: T[keyof T], key: keyof T) => {
+const omitByPredicate = <T extends EmptyObject>(prefix: string) => (_: T[keyof T], key: keyof T) => {
   assertEx(typeof key === 'string', () => `Invalid key type [${String(key)}, ${typeof key}]`)
   return String(key).startsWith(prefix)
 }
 
-export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {
+export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {
   static allowHashPooling = true
   static allowSubtle = true
   static createBrowserWorker?: (url?: URL) => Worker | undefined
@@ -47,10 +46,6 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
 
   static readonly wasmInitialized = wasmSupportStatic.initialize()
   static readonly wasmSupport = wasmSupportStatic
-
-  // These get set to null if they fail to create and then we just don't use workers - needed for storybook
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private static _jsHashPool?: Pool<ModuleThread<WorkerModule<any>>> | null
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static _subtleHashPool?: Pool<ModuleThread<WorkerModule<any>>> | null
@@ -112,14 +107,14 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   static async hash<T extends EmptyObject>(obj: T): Promise<Hash> {
     const stringToHash = this.stringifyHashFields(obj)
 
-    if (PayloadHasher.allowSubtle) {
+    if (ObjectHasher.allowSubtle) {
       try {
         const enc = new TextEncoder()
         const data = enc.encode(stringToHash)
         const hashArray = await this.subtleHash(data)
         return hexFromArrayBuffer(hashArray, { bitLength: 256 })
       } catch {
-        PayloadHasher.allowSubtle = false
+        ObjectHasher.allowSubtle = false
       }
     }
 
@@ -205,3 +200,6 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     return PayloadHasher.json(this.obj, meta)
   }
 }
+
+/** @deprecated use PayloadBuilder or ObjectHasher instead */
+export class PayloadHasher<T extends object> extends ObjectHasher<T> {}

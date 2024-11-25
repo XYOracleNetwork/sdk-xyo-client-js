@@ -1,5 +1,9 @@
-import { describeIf } from '@xylabs/jest-helpers'
+import '@xylabs/vitest-extended'
+
 import type { ApiConfig } from '@xyo-network/api-models'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { LocationDivinerApi } from '../LocationDivinerApi.ts'
 import type {
@@ -11,6 +15,8 @@ import {
   LocationTimeRangeQuerySchema,
 } from '../Queries/index.ts'
 import { LocationWitnessSchema } from '../Witnesses/index.ts'
+
+const describeIf = <T>(expr?: T | null) => (expr ? describe : describe.skip)
 
 const getLocationApiConfig = (): ApiConfig => {
   return { apiDomain: process.env.LOCATION_API_DOMAIN || 'http://localhost:8082' }

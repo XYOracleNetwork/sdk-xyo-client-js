@@ -14,7 +14,7 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   protected _isPrivateKey = true
   protected _public: PublicKeyInstance
 
-  protected constructor(privateConstructorKey: string, value: ArrayBuffer, publicKey: PublicKeyInstance) {
+  protected constructor(privateConstructorKey: string, value: ArrayBufferLike, publicKey: PublicKeyInstance) {
     assertEx(PrivateKey.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     super(32, value)
     this._public = publicKey
@@ -24,7 +24,7 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
     return this._public
   }
 
-  static async create(value: ArrayBuffer) {
+  static async create(value: ArrayBufferLike) {
     return new PrivateKey(this.privateConstructorKey, value, await PublicKey.fromPrivate(value))
   }
 
@@ -32,11 +32,11 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
     return (value as PrivateKey)._isPrivateKey
   }
 
-  async sign(hash: ArrayBuffer): Promise<ArrayBuffer> {
+  async sign(hash: ArrayBufferLike): Promise<ArrayBufferLike> {
     return await Elliptic.sign(hash, this.bytes)
   }
 
-  async verify(msg: ArrayBuffer, signature: ArrayBuffer): Promise<boolean> {
+  async verify(msg: ArrayBufferLike, signature: ArrayBufferLike): Promise<boolean> {
     return await Elliptic.verify(msg, signature, this.public.address.bytes)
   }
 }

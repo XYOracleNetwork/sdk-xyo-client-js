@@ -1,4 +1,9 @@
+import '@xylabs/vitest-extended'
+
 import { PayloadPluginResolver } from '@xyo-network/payload-plugin'
+import {
+  describe, expect, test,
+} from 'vitest'
 
 import { ValuePayloadPlugin } from '../Plugin.ts'
 

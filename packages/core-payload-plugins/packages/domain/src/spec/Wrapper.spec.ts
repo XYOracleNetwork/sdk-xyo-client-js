@@ -1,3 +1,9 @@
+import '@xylabs/vitest-extended'
+
+import {
+  describe, expect, test,
+} from 'vitest'
+
 import { DomainSchema } from '../Schema.ts'
 import { DomainPayloadWrapper } from '../Wrapper.ts'
 

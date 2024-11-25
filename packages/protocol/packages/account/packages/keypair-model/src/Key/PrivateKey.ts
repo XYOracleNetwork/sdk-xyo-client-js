@@ -2,16 +2,16 @@ import type { EllipticKeyInstance } from './EllipticKey.ts'
 import type { PublicKeyInstance } from './PublicKey.ts'
 
 export interface PrivateKeyConfig {
-  privateKeyData?: ArrayBuffer
+  privateKeyData?: ArrayBufferLike
 }
 
 export interface PrivateKeyInstance extends EllipticKeyInstance {
   public: PublicKeyInstance
-  sign: (hash: ArrayBuffer) => ArrayBuffer | Promise<ArrayBuffer>
-  verify: (msg: ArrayBuffer, signature: ArrayBuffer) => boolean | Promise<boolean>
+  sign: (hash: ArrayBufferLike) => ArrayBufferLike | Promise<ArrayBufferLike>
+  verify: (msg: ArrayBufferLike, signature: ArrayBufferLike) => boolean | Promise<boolean>
 }
 
 export interface PrivateKeyStatic {
-  create(value: ArrayBuffer): Promise<PrivateKeyInstance>
+  create(value: ArrayBufferLike): Promise<PrivateKeyInstance>
   isPrivateKey(value: unknown): boolean
 }

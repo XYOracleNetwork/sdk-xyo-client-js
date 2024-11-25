@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
@@ -5,6 +7,9 @@ import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner-address-sp
 import { AddressSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { MemoryAddressSpaceDiviner } from '../MemoryAddressSpaceDiviner.ts'
 

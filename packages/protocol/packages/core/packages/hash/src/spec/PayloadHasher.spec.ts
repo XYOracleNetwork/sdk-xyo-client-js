@@ -1,3 +1,9 @@
+import '@xylabs/vitest-extended'
+
+import {
+  beforeAll, describe, expect, test,
+} from 'vitest'
+
 import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher.ts'
 
 const perfIterations = 50

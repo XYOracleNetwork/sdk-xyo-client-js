@@ -1,7 +1,12 @@
+import '@xylabs/vitest-extended'
+
 import { hexFrom } from '@xylabs/hex'
 import {
   BigIntSchema, NumberSchema, RangeSchema,
 } from '@xyo-network/diviner-range-model'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { RangeDiviner } from '../Diviner.ts'
 describe('RangeDiviner', () => {

@@ -1,3 +1,9 @@
+import '@xylabs/vitest-extended'
+
+import {
+  describe, expect, it,
+} from 'vitest'
+
 import type { WithMeta } from '../Meta.ts'
 import type { Payload } from '../Payload.ts'
 

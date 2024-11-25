@@ -1,13 +1,15 @@
+import type { EmptyObject } from '@xylabs/object'
+
 import { createBrowserWorker } from './createBrowserWorker.ts'
 import { createNodeWorker } from './createNodeWorker.ts'
-import { PayloadHasher } from './PayloadHasher.ts'
+import { ObjectHasher } from './ObjectHasher.ts'
 
 // We put both in here so that things will work in jsdom/jest
 
-PayloadHasher.createBrowserWorker = createBrowserWorker
-PayloadHasher.createNodeWorker = createNodeWorker
+ObjectHasher.createBrowserWorker = createBrowserWorker
+ObjectHasher.createNodeWorker = createNodeWorker
 
-export class BrowserPayloadHasher extends PayloadHasher {
+export class BrowserObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectHasher<T> {
   static override createBrowserWorker = createBrowserWorker
   static override createNodeWorker = createNodeWorker
   static override subtleHashWorkerUrl = (() => {
@@ -26,3 +28,6 @@ export class BrowserPayloadHasher extends PayloadHasher {
     }
   })()
 }
+
+/** @deprecated use BrowserObjectHasher instead */
+export class BrowserPayloadHasher<T extends EmptyObject = EmptyObject> extends BrowserObjectHasher<T> {}

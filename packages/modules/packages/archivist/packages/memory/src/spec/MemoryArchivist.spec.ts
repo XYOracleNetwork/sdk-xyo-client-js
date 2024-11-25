@@ -1,7 +1,12 @@
+import '@xylabs/vitest-extended'
+
 import { toJsonString } from '@xylabs/object'
 import { HDWallet } from '@xyo-network/account'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { MemoryArchivist } from '../MemoryArchivist.ts'
 

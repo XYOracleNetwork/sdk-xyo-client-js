@@ -1,11 +1,17 @@
+import '@xylabs/vitest-extended'
+
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type { ModuleQueries } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import {
+  expect,
+  test,
+} from 'vitest'
 
-import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchivist'
+import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchivist.ts'
 
 /**
  * @group module
@@ -21,7 +27,6 @@ test('Archivist Parent Write Through', async () => {
     config: {
       namespace: 'test',
       parents: { write: [memory.address] },
-      persistAccount: true,
       schema: StorageArchivistConfigSchema,
       type: 'local',
     },

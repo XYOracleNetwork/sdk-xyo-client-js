@@ -1,4 +1,4 @@
-import { toArrayBuffer, toUint8Array } from '@xylabs/arraybuffer'
+import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import type { Address, Hash } from '@xylabs/hex'
 import { hexFromArrayBuffer } from '@xylabs/hex'
@@ -86,7 +86,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     )
   }
 
-  protected get previousHashBuffers(): (ArrayBuffer | null)[] {
+  protected get previousHashBuffers(): (ArrayBufferLike | null)[] {
     return this._accounts.map(account => account.previousHashBytes ?? null)
   }
 
@@ -168,7 +168,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
 
   protected static async signatures(accounts: AccountInstance[], hash: Hash, previousHashes: (Hash | ArrayBuffer | null)[]): Promise<string[]> {
     const hashBytes = toArrayBuffer(hash)
-    const previousHashesBytes = previousHashes?.map(ph => (ph ? toUint8Array(ph) : undefined))
+    const previousHashesBytes = previousHashes?.map(ph => (ph ? toArrayBuffer(ph) : undefined))
     return await Promise.all(accounts.map(async (account, index) => hexFromArrayBuffer(await account.sign(hashBytes, previousHashesBytes[index]))))
   }
 
@@ -294,7 +294,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   protected async signatures(_hash: Hash, previousHashes: (Hash | ArrayBuffer | null)[]): Promise<string[]> {
     uniqueAccounts(this._accounts, true)
     const hash = toArrayBuffer(_hash)
-    const previousHashesBytes = previousHashes.map(ph => (ph ? toUint8Array(ph) : undefined))
+    const previousHashesBytes = previousHashes.map(ph => (ph ? toArrayBuffer(ph) : undefined))
     return await Promise.all(this._accounts.map(async (account, index) => hexFromArrayBuffer(await account.sign(hash, previousHashesBytes[index]))))
   }
 

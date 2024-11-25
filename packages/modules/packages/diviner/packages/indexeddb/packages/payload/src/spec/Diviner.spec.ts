@@ -4,6 +4,8 @@
 /// <reference lib="dom" />
 /* eslint-disable max-nested-callbacks */
 
+import '@xylabs/vitest-extended'
+
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import type { IndexDescription } from '@xyo-network/archivist-model'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
@@ -25,6 +27,9 @@ import {
   IDBVersionChangeEvent,
   indexedDB,
 } from 'fake-indexeddb'
+import {
+  beforeAll, describe, expect, it,
+} from 'vitest'
 
 import { IndexedDbPayloadDiviner } from '../Diviner.ts'
 

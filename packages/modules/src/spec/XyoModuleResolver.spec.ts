@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistGetQuerySchema } from '@xyo-network/archivist-model'
@@ -5,6 +7,10 @@ import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 import type { WitnessInstance } from '@xyo-network/witness-model'
 import { WitnessObserveQuerySchema } from '@xyo-network/witness-model'
+import {
+  beforeAll,
+  describe, expect, test,
+} from 'vitest'
 
 /**
  * @group module

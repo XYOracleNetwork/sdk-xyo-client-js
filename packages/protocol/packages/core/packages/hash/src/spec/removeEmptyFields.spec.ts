@@ -1,4 +1,10 @@
-import { removeEmptyFields } from '../removeEmptyFields'
+import '@xylabs/vitest-extended'
+
+import {
+  describe, expect, test,
+} from 'vitest'
+
+import { removeEmptyFields } from '../removeEmptyFields.ts'
 
 describe('removeEmptyFields', () => {
   test('deep', () => {

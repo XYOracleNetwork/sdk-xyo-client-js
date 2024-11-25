@@ -1,4 +1,6 @@
 /* eslint-disable max-statements */
+import '@xylabs/vitest-extended'
+
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import type { AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
@@ -9,6 +11,10 @@ import {
 } from '@xyo-network/node-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 import type { AttachableWitnessInstance } from '@xyo-network/witness-model'
+import {
+  beforeAll,
+  describe, expect, test,
+} from 'vitest'
 
 /**
  * @group module

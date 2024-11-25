@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
@@ -19,13 +21,17 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
 import { TimestampSchema } from '@xyo-network/witness-timestamp'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { TemporalIndexingDiviner } from '../Diviner.ts'
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../DivinerQueryToIndexQueryDiviner/index.ts'
 import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../IndexCandidateToIndexDiviner/index.ts'
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner/index.ts'
 import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../StateToIndexCandidateDiviner/index.ts'
-import imageThumbnailDivinerManifest from './TemporalDiviner.json'
+import imageThumbnailDivinerManifest from './TemporalDiviner.json' assert {type: 'json'}
 
 type ImageThumbnail = Payload<{
   http?: {

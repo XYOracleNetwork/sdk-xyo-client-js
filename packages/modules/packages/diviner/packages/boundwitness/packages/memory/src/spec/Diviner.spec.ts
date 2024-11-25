@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -7,6 +9,10 @@ import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitnes
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { MemoryBoundWitnessDiviner } from '../MemoryBoundWitnessDiviner.ts'
 

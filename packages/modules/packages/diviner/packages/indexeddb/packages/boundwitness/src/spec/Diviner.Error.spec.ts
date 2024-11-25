@@ -21,6 +21,10 @@ import {
   IDBVersionChangeEvent,
   indexedDB,
 } from 'fake-indexeddb'
+import {
+  beforeAll, describe, expect,
+  it,
+} from 'vitest'
 
 import { IndexedDbBoundWitnessDiviner } from '../Diviner.ts'
 

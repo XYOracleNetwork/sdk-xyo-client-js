@@ -1,3 +1,9 @@
+import '@xylabs/vitest-extended'
+
+import {
+  describe, expect, test,
+} from 'vitest'
+
 import { Quadkey } from '../Quadkey.ts'
 
 describe('Quadkey', () => {

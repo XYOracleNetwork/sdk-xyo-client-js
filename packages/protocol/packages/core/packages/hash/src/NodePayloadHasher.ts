@@ -1,8 +1,13 @@
+import type { EmptyObject } from '@xylabs/object'
+
 import { createNodeWorker } from './createNodeWorker.ts'
-import { PayloadHasher } from './PayloadHasher.ts'
+import { ObjectHasher } from './ObjectHasher.ts'
 
-PayloadHasher.createNodeWorker = createNodeWorker
+ObjectHasher.createNodeWorker = createNodeWorker
 
-export class NodePayloadHasher extends PayloadHasher {
+export class NodeObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectHasher<T> {
   static override createNodeWorker = createNodeWorker
 }
+
+/** @deprecated use NodeObjectHasher instead */
+export class NodePayloadHasher<T extends EmptyObject = EmptyObject> extends NodeObjectHasher<T> {}

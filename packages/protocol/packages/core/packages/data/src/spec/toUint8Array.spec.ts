@@ -1,10 +1,15 @@
+import '@xylabs/vitest-extended'
+
 import { base58 } from '@scure/base'
 import { toUint8Array } from '@xylabs/arraybuffer'
+import {
+  describe, expect, test,
+} from 'vitest'
 
 describe('toUint8Array', () => {
   test('Uint8Array Round Trip', () => {
     const testArray = Uint8Array.from([0, 1, 2, 3])
-    const testArrayPrime = toUint8Array(testArray)
+    const testArrayPrime = toUint8Array(testArray.buffer)
     expect(testArray.length).toBe(testArrayPrime.length)
     for (const [i, element] of testArray.entries()) {
       expect(element).toBe(testArrayPrime[i])

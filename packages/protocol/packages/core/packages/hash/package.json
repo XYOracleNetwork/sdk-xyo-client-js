@@ -50,22 +50,22 @@
     "wasmHashBundle": "esbuild src/worker/wasmHash.ts --bundle --outfile=dist/browser/worker/wasmHash-bundle.mjs --target=chrome120,firefox120,safari14,edge120"
   },
   "dependencies": {
-    "@xylabs/assert": "^4.3.13",
-    "@xylabs/hex": "^4.3.13",
-    "@xylabs/object": "^4.3.13",
-    "@xylabs/platform": "^4.3.13",
-    "@xylabs/threads": "^4.3.13",
-    "@xylabs/typeof": "^4.3.13",
+    "@xylabs/assert": "^4.4.4",
+    "@xylabs/hex": "^4.4.4",
+    "@xylabs/object": "^4.4.4",
+    "@xylabs/platform": "^4.4.4",
+    "@xylabs/threads": "^4.4.4",
+    "@xylabs/typeof": "^4.4.4",
     "@xyo-network/wasm": "workspace:^",
-    "hash-wasm": "^4.11.0"
+    "hash-wasm": "^4.12.0"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.3.13",
+    "@xylabs/delay": "^4.4.4",
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
     "esbuild": "^0.24.0",
     "publint": "^0.2.12",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.2"
   },
   "publishConfig": {
     "access": "public"

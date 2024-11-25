@@ -1,4 +1,6 @@
 /* eslint-disable max-statements */
+import '@xylabs/vitest-extended'
+
 import { ConsoleLogger, LogLevel } from '@xylabs/logger'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -11,9 +13,12 @@ import { asNodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import {
+  describe, expect, it,
+} from 'vitest'
 
-import type { AsyncQueryBusIntersectConfig } from '../AsyncQueryBus'
-import { PubSubBridge } from '../PubSubBridge'
+import type { AsyncQueryBusIntersectConfig } from '../AsyncQueryBus/index.ts'
+import { PubSubBridge } from '../PubSubBridge.ts'
 
 /**
  * @group module

@@ -1,6 +1,12 @@
+import '@xylabs/vitest-extended'
+
 import type { WalletInstance } from '@xyo-network/account'
 import { HDWallet } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { boundWitnessArrayPropertyContains } from '../boundWitnessArrayPropertyContains.ts'
 

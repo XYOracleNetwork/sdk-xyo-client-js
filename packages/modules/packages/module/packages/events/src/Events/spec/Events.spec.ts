@@ -1,7 +1,12 @@
+import '@xylabs/vitest-extended'
+
 import { delay } from '@xylabs/delay'
 import type { Promisable } from '@xylabs/promise'
+import {
+  describe, expect, it,
+} from 'vitest'
 
-import { Events } from '../Events'
+import { Events } from '../Events.ts'
 
 type TestEvents = {
   test: { test: boolean }

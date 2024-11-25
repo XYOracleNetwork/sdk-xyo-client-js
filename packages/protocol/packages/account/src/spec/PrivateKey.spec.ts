@@ -1,9 +1,16 @@
-import { toUint8Array } from '@xylabs/arraybuffer'
+import { toArrayBuffer } from '@xylabs/arraybuffer'
 import type { PrivateKeyInstance } from '@xyo-network/key-model'
 
 import { PrivateKey } from '../Key/index.ts'
 
 const verifyTestIterations = 10
+
+import '@xylabs/vitest-extended'
+
+import {
+  beforeAll,
+  describe, expect, it, test,
+} from 'vitest'
 
 describe('PrivateKey', () => {
   const privateKeyBytes = '7f71bc5644f8f521f7e9b73f7a391e82c05432f8a9d36c44d6b1edbf1d8db62f'
@@ -19,14 +26,14 @@ describe('PrivateKey', () => {
     // 'cb3c59cd01d32271512287200a63d69e7c49936ec4a6b9c1e12c34faf2e2909a',
   ]
   const hash = hashes[0]
-  const data = toUint8Array(hash)
+  const data = toArrayBuffer(hash)
   describe('verify', () => {
     let privateKey: PrivateKeyInstance
     beforeAll(async () => {
-      privateKey = await PrivateKey.create(toUint8Array(privateKeyBytes))
+      privateKey = await PrivateKey.create(toArrayBuffer(privateKeyBytes))
     })
     it.each(hashes)('Verification is consistent', async (hash) => {
-      const data = toUint8Array(hash)
+      const data = toArrayBuffer(hash)
       const wasmSignature = await privateKey.sign(data)
       const wasmVerify = await privateKey.verify(data, wasmSignature)
       expect(wasmVerify).toBeTruthy()

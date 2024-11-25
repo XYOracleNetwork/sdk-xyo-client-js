@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { toUint8Array } from '@xylabs/arraybuffer'
 import type { StringKeyObject } from '@xylabs/object'
 import {
@@ -5,8 +7,11 @@ import {
 } from '@xyo-network/account'
 import { PayloadBuilder } from '@xyo-network/payload'
 import type { Payload } from '@xyo-network/payload-model'
+import {
+  describe, expect, it,
+} from 'vitest'
 
-import { BoundWitnessBuilder } from '../Builder'
+import { BoundWitnessBuilder } from '../Builder.ts'
 
 const schema = 'network.xyo.temp'
 const payload1: Payload<StringKeyObject & { schema: string }> = {
@@ -52,9 +57,9 @@ describe('BoundWitnessBuilder', () => {
         const [actual] = await builder.build()
         expect(actual).toBeDefined()
         if (actual.$meta?.signatures) {
-          const addr = new AddressValue(toUint8Array(actual.addresses[0]))
+          const addr = new AddressValue(toUint8Array(actual.addresses[0]).buffer)
           expect(addr.hex).toBe(actual.addresses[0])
-          const verify = await Elliptic.verify(toUint8Array(actual.$hash), toUint8Array(actual.$meta.signatures[0]), addr.bytes)
+          const verify = await Elliptic.verify(toUint8Array(actual.$hash).buffer, toUint8Array(actual.$meta.signatures[0]).buffer, addr.bytes)
           expect(verify).toBe(true)
         }
       })

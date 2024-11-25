@@ -2,6 +2,12 @@ import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher.ts'
 
 const perfIterations = 1000
 
+import '@xylabs/vitest-extended'
+
+import {
+  beforeAll, describe, expect, test,
+} from 'vitest'
+
 describe('Hasher - Subtle performance', () => {
   const testObject = {
     testArray: [1, 2, 3],

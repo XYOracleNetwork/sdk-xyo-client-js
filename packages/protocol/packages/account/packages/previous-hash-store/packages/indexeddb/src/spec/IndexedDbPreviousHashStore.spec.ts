@@ -18,6 +18,9 @@ import {
   indexedDB,
 } from 'fake-indexeddb'
 import { v4 as uuid } from 'uuid'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { IndexedDbPreviousHashStore } from '../IndexedDbPreviousHashStore.ts'
 

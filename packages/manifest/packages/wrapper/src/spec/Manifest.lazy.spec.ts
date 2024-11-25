@@ -1,9 +1,14 @@
+import '@xylabs/vitest-extended'
+
 import { HDWallet } from '@xyo-network/account'
 import type { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 import { AddressSchema } from '@xyo-network/module-model'
+import {
+  describe, expect, test,
+} from 'vitest'
 
-import { ManifestWrapper } from '../Wrapper'
-import simpleNodeInlineLazyManifest from './simple-node-inline-lazy-manifest.json'
+import { ManifestWrapper } from '../Wrapper.ts'
+import simpleNodeInlineLazyManifest from './simple-node-inline-lazy-manifest.json' assert {type: 'json'}
 
 describe('Manifest', () => {
   describe('Create Node from Manifest [Lazy]', () => {

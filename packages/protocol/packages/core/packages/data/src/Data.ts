@@ -6,20 +6,13 @@ import { keccak256 } from 'ethers'
 
 import { AbstractData } from './AbstractData.ts'
 
-export interface DataInstance {
-  base58: string
-  bytes: ArrayBuffer
-  hex: Hex
-  keccak256: Uint8Array
-}
-
-export class Data extends AbstractData implements DataInstance {
-  private _bytes?: ArrayBuffer
+export class Data extends AbstractData {
+  private _bytes?: ArrayBufferLike
   private _length: number
 
-  constructor(length: number, bytes?: ArrayBuffer, base?: number) {
+  constructor(length: number, bytes?: ArrayBufferLike, base?: number) {
     super()
-    this._bytes = toUint8Array(bytes, length, base)
+    this._bytes = toUint8Array(bytes, length, base)?.buffer
     this._length = length
   }
 

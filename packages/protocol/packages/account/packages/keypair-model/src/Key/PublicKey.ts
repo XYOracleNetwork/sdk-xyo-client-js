@@ -3,10 +3,10 @@ import type { EllipticKeyInstance } from './EllipticKey.ts'
 
 export interface PublicKeyInstance extends EllipticKeyInstance {
   get address(): AddressValueInstance
-  verify(msg: ArrayBuffer, signature: ArrayBuffer): boolean | Promise<boolean>
+  verify(msg: ArrayBufferLike, signature: ArrayBufferLike): boolean | Promise<boolean>
 }
 
 export interface PublicKeyStatic {
-  create(bytes: ArrayBuffer): Promise<PublicKeyInstance>
+  create(bytes: ArrayBufferLike): Promise<PublicKeyInstance>
   isPublicKey(value: unknown): boolean
 }

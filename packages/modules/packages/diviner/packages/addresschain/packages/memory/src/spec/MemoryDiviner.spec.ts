@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
@@ -9,6 +11,9 @@ import { NodeConfigSchema } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { WithMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { MemoryAddressChainDiviner } from '../MemoryDiviner.ts'
 

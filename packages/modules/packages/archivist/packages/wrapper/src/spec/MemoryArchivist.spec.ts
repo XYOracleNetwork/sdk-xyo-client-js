@@ -4,6 +4,9 @@
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { ArchivistWrapper } from '../ArchivistWrapper.ts'
 

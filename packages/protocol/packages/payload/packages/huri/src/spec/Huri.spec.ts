@@ -1,6 +1,11 @@
+import '@xylabs/vitest-extended'
+
 import { axios } from '@xylabs/axios'
 import { delay } from '@xylabs/delay'
 import type { Payload } from '@xyo-network/payload-model'
+import {
+  describe, expect, it, test,
+} from 'vitest'
 
 import { Huri } from '../Huri.ts'
 
@@ -67,18 +72,20 @@ describe.skip('Huri', () => {
       const result = await huri.fetch()
       expect(result?.schema).toBe('network.xyo.schema')
     })
-    it('Valid Huri with token', (done) => {
-      const token = 'abc123'
-      const huri = new Huri('http://localhost:8080/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057', { token })
-      expect(huri.token).toBe(token)
-      axios.interceptors.request.use((config) => {
-        const tokenValue = config.headers.get('Authorization')
-        expect(tokenValue).toBe(`Bearer ${token}`)
-        done()
-        return config
+    it('Valid Huri with token', async () => {
+      return await new Promise((resolve) => {
+        const token = 'abc123'
+        const huri = new Huri('http://localhost:8080/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057', { token })
+        expect(huri.token).toBe(token)
+        axios.interceptors.request.use((config) => {
+          const tokenValue = config.headers.get('Authorization')
+          expect(tokenValue).toBe(`Bearer ${token}`)
+          resolve(true)
+          return config
+        })
+        // ignore result since token is fake
+        huri.fetch().catch(() => {})
       })
-      // ignore result since token is fake
-      huri.fetch().catch(() => {})
     })
     it('Invalid Huri', async () => {
       const huri = new Huri('http://localhost:8080/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653bad')

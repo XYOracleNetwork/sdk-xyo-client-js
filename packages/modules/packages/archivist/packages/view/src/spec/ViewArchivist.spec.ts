@@ -6,6 +6,9 @@ import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { ViewArchivist } from '../ViewArchivist.ts'
 

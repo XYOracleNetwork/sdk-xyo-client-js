@@ -1,4 +1,9 @@
+import '@xylabs/vitest-extended'
+
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { intraBoundwitnessSchemaCombinations } from '../intraBoundwitnessSchemaCombinations.ts'
 

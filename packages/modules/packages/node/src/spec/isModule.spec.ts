@@ -1,6 +1,11 @@
 /* eslint-disable unicorn/no-useless-undefined */
+import '@xylabs/vitest-extended'
+
 import { Account } from '@xyo-network/account'
 import { isModuleInstance } from '@xyo-network/module-model'
+import {
+  describe, expect, test,
+} from 'vitest'
 
 import {
   isNodeInstance, MemoryNode, NodeConfigSchema, NodeWrapper,

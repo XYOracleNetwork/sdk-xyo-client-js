@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
@@ -10,8 +12,12 @@ import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { MemoryNode } from '@xyo-network/node-memory'
 import type { WithMeta } from '@xyo-network/payload-model'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
-import SentinelManifest from './Sentinel.Interval.spec.json'
+import SentinelManifest from './Sentinel.Interval.spec.json' assert {type: 'json'}
 
 /**
  * @group sentinel

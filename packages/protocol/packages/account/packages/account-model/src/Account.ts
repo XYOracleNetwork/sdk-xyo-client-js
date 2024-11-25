@@ -9,14 +9,14 @@ export interface PhraseInitializationConfig {
   phrase: string
 }
 export interface PrivateKeyInitializationConfig {
-  privateKey: ArrayBuffer
+  privateKey: ArrayBufferLike
 }
 export interface MnemonicInitializationConfig {
   mnemonic: string
   path?: string
 }
 export interface AccountOptions {
-  previousHash?: ArrayBuffer
+  previousHash?: ArrayBufferLike
 }
 
 export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitializationConfig | MnemonicInitializationConfig
@@ -52,13 +52,13 @@ export const isInitializationConfig = (value: unknown): value is InitializationC
 
 export interface AccountInstance {
   readonly address: Address
-  readonly addressBytes: ArrayBuffer
+  readonly addressBytes: ArrayBufferLike
   previousHash: Hash | undefined
-  previousHashBytes: ArrayBuffer | undefined
+  previousHashBytes: ArrayBufferLike | undefined
   readonly private?: PrivateKeyInstance
   readonly public?: PublicKeyInstance
-  sign: (hash: ArrayBuffer, previousHash: ArrayBuffer | undefined) => Promise<ArrayBuffer>
-  verify: (msg: ArrayBuffer, signature: ArrayBuffer) => Promise<boolean>
+  sign: (hash: ArrayBufferLike, previousHash: ArrayBufferLike | undefined) => Promise<ArrayBufferLike>
+  verify: (msg: ArrayBufferLike, signature: ArrayBufferLike) => Promise<boolean>
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -69,6 +69,6 @@ export const isAccountInstance = (account: any): account is AccountInstance => {
 export interface AccountStatic<T extends AccountInstance = AccountInstance, C extends AccountConfig = AccountConfig> {
   previousHashStore?: PreviousHashStore
   create(options?: C): Promise<T>
-  fromPrivateKey(key: ArrayBuffer | string): Promise<AccountInstance>
+  fromPrivateKey(key: ArrayBufferLike | string): Promise<AccountInstance>
   random(): Promise<AccountInstance>
 }

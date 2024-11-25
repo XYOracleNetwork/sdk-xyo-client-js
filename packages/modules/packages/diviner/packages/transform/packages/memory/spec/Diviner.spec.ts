@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import type { AccountInstance } from '@xyo-network/account'
 import { Account } from '@xyo-network/account'
 import type { Transform } from '@xyo-network/diviner-transform-model'
@@ -5,8 +7,12 @@ import { TransformDivinerConfigSchema } from '@xyo-network/diviner-transform-mod
 import type { Payload } from '@xyo-network/payload-model'
 import type { Value } from '@xyo-network/value-payload-plugin'
 import { isValuePayloadWithMeta, ValueSchema } from '@xyo-network/value-payload-plugin'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
-import { MemoryTransformDiviner } from '../src'
+import { MemoryTransformDiviner } from '../src/index.ts'
 
 const cases: [transform: Transform, payload: Payload, expected: Value][] = [
   [

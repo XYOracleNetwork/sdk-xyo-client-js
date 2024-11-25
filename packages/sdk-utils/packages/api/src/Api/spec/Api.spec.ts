@@ -1,7 +1,12 @@
+import '@xylabs/vitest-extended'
+
 import type { AddressPayload } from '@xyo-network/module-model'
 import { AddressSchema } from '@xyo-network/module-model'
 import type { QueryPayload } from '@xyo-network/query-payload-plugin'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { getApi } from './ApiUtil.spec.ts'
 

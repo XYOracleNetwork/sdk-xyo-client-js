@@ -2,7 +2,8 @@ import type { ModuleInstance } from '@xyo-network/module-model'
 import { ModuleConfigSchema, ModuleStateQuerySchema } from '@xyo-network/module-model'
 import type { MockedObject } from 'vitest'
 import {
-  beforeEach, describe, it, vi,
+  beforeEach, describe, expect,
+  it, vi,
 } from 'vitest'
 
 import { CompositeModuleResolver } from '../CompositeModuleResolver.ts'

@@ -1,4 +1,10 @@
-import { isScalarJsonPathExpression } from '../isScalarJsonPathExpression'
+import '@xylabs/vitest-extended'
+
+import {
+  describe, expect, it,
+} from 'vitest'
+
+import { isScalarJsonPathExpression } from '../isScalarJsonPathExpression.ts'
 
 describe('isScalarJsonPathExpression', () => {
   describe('should return true for scalar values', () => {

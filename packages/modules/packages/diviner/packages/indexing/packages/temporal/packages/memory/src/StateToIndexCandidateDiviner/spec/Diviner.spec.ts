@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
 import type { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -13,9 +15,13 @@ import { isModuleStateWithMeta, ModuleStateSchema } from '@xyo-network/module-mo
 import type { MemoryNode } from '@xyo-network/node-memory'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
 import { TimestampSchema } from '@xyo-network/witness-timestamp'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../Diviner.ts'
-import TemporalStateToIndexCandidateDivinerManifest from './TemporalStateToIndexCandidateDiviner.json'
+import TemporalStateToIndexCandidateDivinerManifest from './TemporalStateToIndexCandidateDiviner.json' assert {type: 'json'}
 
 /**
  * @group slow

@@ -1,7 +1,13 @@
+import '@xylabs/vitest-extended'
+
 import type { Address } from '@xylabs/hex'
 import type { WalletInstance } from '@xyo-network/account'
 import { HDWallet } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { addressesContainsAll } from '../addressesContainsAll.ts'
 

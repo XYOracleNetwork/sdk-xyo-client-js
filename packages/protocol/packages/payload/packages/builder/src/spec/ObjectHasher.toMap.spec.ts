@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import '@xylabs/vitest-extended'
+
 import type { AnyObject } from '@xylabs/object'
-import { PayloadHasher } from '@xyo-network/hash'
+import { ObjectHasher } from '@xyo-network/hash'
 import type { Payload } from '@xyo-network/payload-model'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { PayloadBuilder } from '../index.ts'
 
@@ -76,8 +82,8 @@ describe('PayloadBuilder', () => {
     ],
   ]
   beforeAll(async () => {
-    PayloadHasher.wasmSupport.allowWasm = true
-    await PayloadHasher.wasmInitialized
+    ObjectHasher.wasmSupport.allowWasm = true
+    await ObjectHasher.wasmInitialized
   })
   it.each(cases)('%s', async (_title, sources) => {
     const map = await PayloadBuilder.toDataHashMap(sources)

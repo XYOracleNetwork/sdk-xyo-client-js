@@ -1,11 +1,17 @@
+import '@xylabs/vitest-extended'
+
 import type { ValidateFunction } from 'ajv'
 import { Ajv } from 'ajv'
+import {
+  beforeEach,
+  describe, expect, it,
+} from 'vitest'
 
-import dappPackageManifestSchemaCompiled from '../compilations/dapp-package-manifest-schema.json'
-import packageManifestSchemaCompiled from '../compilations/schema.json'
-import dappPackageManifestSchema from '../dapp-package-manifest-schema.json'
-import packageManifestSchema from '../schema.json'
-import sharedDefinitions from '../shared/definitions-schema.json'
+import dappPackageManifestSchemaCompiled from '../compilations/dapp-package-manifest-schema.json' assert { type: 'json' }
+import packageManifestSchemaCompiled from '../compilations/schema.json' assert { type: 'json' }
+import dappPackageManifestSchema from '../dapp-package-manifest-schema.json' assert { type: 'json' }
+import packageManifestSchema from '../schema.json' assert { type: 'json' }
+import sharedDefinitions from '../shared/definitions-schema.json' assert { type: 'json' }
 import {
   invalidDappPackageManifestSchema, invalidPackageManifestSchema, validDappPackageManifestSchema, validPackageManifestSchema,
 } from './cases/index.ts'

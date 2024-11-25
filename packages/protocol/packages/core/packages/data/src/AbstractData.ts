@@ -1,13 +1,24 @@
-export abstract class AbstractData {
+import type { Hex } from '@xylabs/hex'
+
+export interface DataInstance {
+  base58: string
+  bytes: ArrayBufferLike
+  hex: Hex
+  keccak256: ArrayBufferLike
+}
+
+export abstract class AbstractData implements DataInstance {
   get length() {
     return this.bytes.byteLength
   }
 
-  abstract get bytes(): ArrayBuffer
+  abstract get base58(): string
 
-  abstract get hex(): string
+  abstract get bytes(): ArrayBufferLike
 
-  abstract get keccak256(): ArrayBuffer
+  abstract get hex(): Hex
+
+  abstract get keccak256(): ArrayBufferLike
 
   static is(value: unknown): value is AbstractData {
     return value instanceof AbstractData

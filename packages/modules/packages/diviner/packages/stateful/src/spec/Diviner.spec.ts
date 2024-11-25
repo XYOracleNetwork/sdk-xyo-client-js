@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -11,9 +13,13 @@ import type { ModuleState } from '@xyo-network/module-model'
 import type { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload, WithMeta } from '@xyo-network/payload-model'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { StatefulDiviner } from '../Diviner.ts'
-import TestManifest from './TestManifest.json'
+import TestManifest from './TestManifest.json' assert {type: 'json'}
 
 class TestStatefulDiviner extends StatefulDiviner {
   callCommitState(state: WithMeta<ModuleState>) {

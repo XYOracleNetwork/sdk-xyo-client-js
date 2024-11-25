@@ -1,6 +1,12 @@
+import '@xylabs/vitest-extended'
+
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import type { Payload } from '@xyo-network/payload-model'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../Diviner.ts'
 

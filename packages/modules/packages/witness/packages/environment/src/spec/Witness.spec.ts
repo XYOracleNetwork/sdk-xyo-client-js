@@ -1,10 +1,16 @@
+import '@xylabs/vitest-extended'
+
 import { Account } from '@xyo-network/account'
 import { isValuePayload } from '@xyo-network/value-payload-plugin'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { EnvironmentWitnessConfigSchema } from '../Config.ts'
-import type { EnvironmentSubset } from '../Payload'
-import { EnvironmentSubsetSchema } from '../Payload'
-import { EnvironmentWitness } from '../Witness'
+import type { EnvironmentSubset } from '../Payload.ts'
+import { EnvironmentSubsetSchema } from '../Payload.ts'
+import { EnvironmentWitness } from '../Witness.ts'
 
 /**
  * @group witness

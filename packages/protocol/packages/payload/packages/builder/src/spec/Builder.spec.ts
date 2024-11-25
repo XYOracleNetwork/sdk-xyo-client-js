@@ -4,6 +4,12 @@ import { PayloadBuilder } from '../Builder.ts'
 
 const schema = 'network.xyo.temp'
 
+import '@xylabs/vitest-extended'
+
+import {
+  describe, expect, test,
+} from 'vitest'
+
 describe('PayloadBuilder', () => {
   test('build', async () => {
     let builder = new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })

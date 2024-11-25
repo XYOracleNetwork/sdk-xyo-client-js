@@ -1,11 +1,17 @@
 /* eslint-disable max-nested-callbacks */
 
+import '@xylabs/vitest-extended'
+
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { PayloadWithMeta } from '@xyo-network/payload-model'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { MemoryPayloadDiviner } from '../MemoryPayloadDiviner.ts'
 

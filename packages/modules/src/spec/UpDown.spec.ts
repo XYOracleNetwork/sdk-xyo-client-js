@@ -1,7 +1,12 @@
+import '@xylabs/vitest-extended'
+
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistConfigSchema } from '@xyo-network/archivist-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
+import {
+  describe, expect, test,
+} from 'vitest'
 
 const rootNodeName = 'root'
 const nodeAName = 'nodeA'

@@ -1,3 +1,7 @@
+import '@xylabs/vitest-extended'
+
+import { expect, test } from 'vitest'
+
 import { FilesystemArchivist, FilesystemArchivistConfigSchema } from '../FilesystemArchivist.ts'
 
 /**

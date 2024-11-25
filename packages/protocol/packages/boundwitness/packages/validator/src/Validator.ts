@@ -1,5 +1,5 @@
 import { uniq } from '@xylabs/array'
-import { toUint8Array } from '@xylabs/arraybuffer'
+import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { validateType } from '@xylabs/typeof'
 import { Elliptic } from '@xyo-network/account'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -16,7 +16,7 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
     return BoundWitnessSchema
   }
 
-  static async validateSignature(hash: ArrayBuffer, address: ArrayBuffer, signature?: ArrayBuffer): Promise<Error[]> {
+  static async validateSignature(hash: ArrayBufferLike, address: ArrayBufferLike, signature?: ArrayBufferLike): Promise<Error[]> {
     if (!signature) {
       return [new Error(`Missing signature [${address}]`)]
     }
@@ -78,9 +78,9 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
         await Promise.all(
           this.obj.addresses?.map<Promise<Error[]>>(async (address, index) =>
             BoundWitnessValidator.validateSignature(
-              toUint8Array(await PayloadBuilder.dataHash(this.payload)),
-              toUint8Array(address),
-              toUint8Array(this.obj.$meta?.signatures?.[index]),
+              toArrayBuffer(await PayloadBuilder.dataHash(this.payload)),
+              toArrayBuffer(address),
+              toArrayBuffer(this.obj.$meta?.signatures?.[index]),
             )) ?? [],
         )
       ).flat(),

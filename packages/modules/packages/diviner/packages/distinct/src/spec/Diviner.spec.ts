@@ -1,5 +1,10 @@
+import '@xylabs/vitest-extended'
+
 import type { AnyObject } from '@xylabs/object'
 import type { Payload } from '@xyo-network/payload-model'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { DistinctDiviner } from '../Diviner.ts'
 describe('RangeDiviner', () => {

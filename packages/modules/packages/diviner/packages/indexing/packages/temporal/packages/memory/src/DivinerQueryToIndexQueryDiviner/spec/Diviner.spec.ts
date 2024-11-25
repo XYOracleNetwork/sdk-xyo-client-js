@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import type { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { isPayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
@@ -9,6 +11,10 @@ import {
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../Diviner.ts'
 

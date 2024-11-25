@@ -19,6 +19,9 @@ import {
   IDBVersionChangeEvent,
   indexedDB,
 } from 'fake-indexeddb'
+import {
+  beforeAll, describe, expect, it,
+} from 'vitest'
 
 import { IndexedDbArchivist } from '../Archivist.ts'
 import type { IndexedDbArchivistConfig } from '../Config.ts'

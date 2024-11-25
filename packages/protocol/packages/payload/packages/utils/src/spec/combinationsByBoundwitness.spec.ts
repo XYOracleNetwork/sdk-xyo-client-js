@@ -1,5 +1,11 @@
+import '@xylabs/vitest-extended'
+
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { combinationsByBoundwitness } from '../combinationsByBoundwitness.ts'
 

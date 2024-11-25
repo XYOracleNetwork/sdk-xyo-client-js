@@ -1,7 +1,13 @@
+import '@xylabs/vitest-extended'
+
 import { delay } from '@xylabs/delay'
 import type { AnyObject } from '@xylabs/object'
+import {
+  beforeAll,
+  describe, expect, test,
+} from 'vitest'
 
-import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher'
+import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher.ts'
 
 const perfIterations = 1000
 

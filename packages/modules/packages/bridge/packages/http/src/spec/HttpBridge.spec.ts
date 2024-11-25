@@ -1,6 +1,8 @@
 /* eslint-disable complexity */
 /* eslint-disable max-statements */
 
+import '@xylabs/vitest-extended'
+
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
 import type { ApiConfig } from '@xyo-network/api-models'
@@ -20,6 +22,9 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
 import { HttpBridge } from '../HttpBridgeFull.ts'
@@ -57,7 +62,7 @@ export const tryGetArchivist = async (config: ApiConfig = getApiConfig()): Promi
  */
 
 describe('HttpBridge', () => {
-  const baseUrl = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
+  const baseUrl = `${process.env.API_DOMAIN ?? 'http://localhost:8080'}`
 
   console.log(`HttpBridge:baseUrl ${baseUrl}`)
   const cases = [

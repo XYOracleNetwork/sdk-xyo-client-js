@@ -1,5 +1,8 @@
+import '@xylabs/vitest-extended'
+
 import type { ApiConfig } from '@xyo-network/api-models'
 import { v4 as uuid } from 'uuid'
+import { expect, test } from 'vitest'
 
 import { ArchivistApi } from '../Api.ts'
 

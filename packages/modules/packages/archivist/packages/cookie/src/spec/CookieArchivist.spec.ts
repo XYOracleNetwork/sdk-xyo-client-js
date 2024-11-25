@@ -8,8 +8,9 @@ import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { expect, test } from 'vitest'
 
-import { CookieArchivist, CookieArchivistConfigSchema } from '../CookieArchivist'
+import { CookieArchivist, CookieArchivistConfigSchema } from '../CookieArchivist.ts'
 
 const testArchivistRoundTrip = (archivistPromise: Promisable<ArchivistInstance>, name: string) => {
   test(`Archivist RoundTrip [${name}]`, async () => {

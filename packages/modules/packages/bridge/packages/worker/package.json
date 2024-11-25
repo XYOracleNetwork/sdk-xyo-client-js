@@ -40,13 +40,13 @@
     "test": "node --experimental-vm-modules ../../../../../../node_modules/.bin/jest ."
   },
   "dependencies": {
-    "@scure/bip39": "^1.4.0",
-    "@xylabs/assert": "^4.3.13",
-    "@xylabs/forget": "^4.3.13",
-    "@xylabs/hex": "^4.3.13",
-    "@xylabs/logger": "^4.3.13",
-    "@xylabs/object": "^4.3.13",
-    "@xylabs/promise": "^4.3.13",
+    "@scure/bip39": "^1.5.0",
+    "@xylabs/assert": "^4.4.4",
+    "@xylabs/forget": "^4.4.4",
+    "@xylabs/hex": "^4.4.4",
+    "@xylabs/logger": "^4.4.4",
+    "@xylabs/object": "^4.4.4",
+    "@xylabs/promise": "^4.4.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -63,7 +63,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.2"
   },
   "publishConfig": {
     "access": "public"

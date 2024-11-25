@@ -2,6 +2,12 @@
  * @group module
  */
 
+import '@xylabs/vitest-extended'
+
+import {
+  describe, expect, it,
+} from 'vitest'
+
 import { includesReservedModuleIdentifierCharacter, isModuleIdentifierPart } from '../ModuleIdentifier'
 
 describe('ModuleInstance', () => {

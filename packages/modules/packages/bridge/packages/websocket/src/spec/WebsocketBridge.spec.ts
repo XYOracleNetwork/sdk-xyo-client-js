@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import type { ModuleDescriptionPayload } from '@xyo-network/module-model'
 import { ModuleDescriptionSchema } from '@xyo-network/module-model'
@@ -7,6 +9,9 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { WebsocketBridge } from '../Bridge.ts'
 import { WebsocketClientBridge } from '../ClientBridge.ts'
@@ -18,7 +23,7 @@ import { WebsocketBridgeConfigSchema } from '../Config.ts'
  */
 
 describe.skip('WebsocketBridge', () => {
-  const url = `${process.env.API_WEBSOCKET_DOMAIN}` ?? 'ws://localhost:8080'
+  const url = `${process.env.API_WEBSOCKET_DOMAIN ?? 'ws://localhost:8080'}`
 
   console.log(`WebsocketBridge:url ${url}`)
 

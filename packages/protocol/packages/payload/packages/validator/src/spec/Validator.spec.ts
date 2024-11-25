@@ -1,7 +1,10 @@
+import '@xylabs/vitest-extended'
+
 import type { Payload } from '@xyo-network/payload-model'
 import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
+import { expect, test } from 'vitest'
 
-import { PayloadValidator } from '../Validator'
+import { PayloadValidator } from '../Validator.ts'
 
 const dumpErrors = (errors: Error[]) => {
   for (const error of errors) {

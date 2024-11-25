@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import type { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
@@ -6,6 +8,10 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
 import { TimestampSchema } from '@xyo-network/witness-timestamp'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../Diviner.ts'
 

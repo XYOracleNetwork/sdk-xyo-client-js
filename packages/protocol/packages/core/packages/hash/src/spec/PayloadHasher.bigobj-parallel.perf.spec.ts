@@ -1,5 +1,12 @@
 /* eslint-disable max-statements */
-import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher'
+import '@xylabs/vitest-extended'
+
+import {
+  beforeAll,
+  describe, expect, test,
+} from 'vitest'
+
+import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher.ts'
 
 describe('Hasher - BigObject Parallel ', () => {
   const testObject = {

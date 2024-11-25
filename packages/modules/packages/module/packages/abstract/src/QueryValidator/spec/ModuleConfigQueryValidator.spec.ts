@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import type { Address, Hex } from '@xylabs/hex'
 import type { AccountInstance } from '@xyo-network/account'
 import { Account } from '@xyo-network/account'
@@ -6,8 +8,12 @@ import type { CosigningAddressSet, ModuleConfig } from '@xyo-network/module-mode
 import { ModuleConfigSchema, ModuleStateQuerySchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Schema } from '@xyo-network/payload-model'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
-import { ModuleConfigQueryValidator } from '../ModuleConfigQueryValidator'
+import { ModuleConfigQueryValidator } from '../ModuleConfigQueryValidator.ts'
 
 const schema = ModuleStateQuerySchema
 

@@ -1,4 +1,10 @@
-import { isValidAbsoluteWalletPath, isValidRelativeWalletPath } from '../isValidWalletPath'
+import '@xylabs/vitest-extended'
+
+import {
+  describe, expect, it,
+} from 'vitest'
+
+import { isValidAbsoluteWalletPath, isValidRelativeWalletPath } from '../isValidWalletPath.ts'
 
 describe('isValidRelativeWalletPath', () => {
   const validPaths = ['m', 'm/0/4', "m/44'/0'/0'", "m/44'/60'/0'/0/0", "m/44'/60'/0'/0/1", "m/49'/0'/0'", "m/84'/0'/0'", "m/84'/0'/0'/0"]

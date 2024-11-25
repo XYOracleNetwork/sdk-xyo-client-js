@@ -1,12 +1,17 @@
+import '@xylabs/vitest-extended'
+
 import { HDWallet } from '@xyo-network/account'
 import type {
   ModuleManifest, NodeManifest, PackageManifestPayload,
 } from '@xyo-network/manifest-model'
 import { AddressSchema } from '@xyo-network/module-model'
+import {
+  describe, expect, test,
+} from 'vitest'
 
 import { ManifestWrapper } from '../Wrapper.ts'
-import simpleNodeChildManifest from './simple-node-child.json'
-import simpleNodeParentManifest from './simple-node-parent.json'
+import simpleNodeChildManifest from './simple-node-child.json' assert {type: 'json'}
+import simpleNodeParentManifest from './simple-node-parent.json' assert {type: 'json'}
 
 describe('Manifest', () => {
   describe('Create Node from Manifest', () => {

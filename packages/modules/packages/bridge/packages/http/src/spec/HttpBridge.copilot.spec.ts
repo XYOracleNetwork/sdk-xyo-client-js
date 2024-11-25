@@ -1,6 +1,13 @@
-import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
-import type { HttpBridgeParams } from '../HttpBridgeFull'
-import { HttpBridge } from '../HttpBridgeFull'
+import '@xylabs/vitest-extended'
+
+import {
+  beforeEach,
+  describe, expect, it,
+} from 'vitest'
+
+import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
+import type { HttpBridgeParams } from '../HttpBridgeFull.ts'
+import { HttpBridge } from '../HttpBridgeFull.ts'
 
 describe('HttpBridge', () => {
   let httpBridge: HttpBridge<HttpBridgeParams>
@@ -38,7 +45,7 @@ describe('HttpBridge', () => {
   it('should throw error on call to exposeHandler', async () => {
     try {
       await httpBridge.exposeHandler('test')
-      fail('exposeHandler should have thrown an error')
+      expect('').toBe('exposeHandler should have thrown an error')
     } catch (error) {
       expect(error).toBeInstanceOf(Error)
     }
@@ -47,7 +54,7 @@ describe('HttpBridge', () => {
   it('should throw error on call to unexposeHandler', async () => {
     try {
       await httpBridge.unexposeHandler('test')
-      fail('unexposeHandler should have thrown an error')
+      expect('').toBe('unexposeHandler should have thrown an error')
     } catch (error) {
       expect(error).toBeInstanceOf(Error)
     }

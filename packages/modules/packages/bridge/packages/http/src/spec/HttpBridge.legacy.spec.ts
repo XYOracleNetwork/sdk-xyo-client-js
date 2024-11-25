@@ -1,6 +1,11 @@
+import '@xylabs/vitest-extended'
+
 import { MemoryNode } from '@xyo-network/node-memory'
 import type { NodeInstance } from '@xyo-network/node-model'
 import { NodeConfigSchema } from '@xyo-network/node-model'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
 import { HttpBridge } from '../HttpBridgeFull.ts'
@@ -11,7 +16,7 @@ import { HttpBridge } from '../HttpBridgeFull.ts'
  */
 
 describe('HttpBridge', () => {
-  const baseUrl = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
+  const baseUrl = `${process.env.API_DOMAIN ?? 'http://localhost:8080'}`
 
   console.log(`HttpBridge:baseUrl ${baseUrl}`)
   it('Discover', async () => {

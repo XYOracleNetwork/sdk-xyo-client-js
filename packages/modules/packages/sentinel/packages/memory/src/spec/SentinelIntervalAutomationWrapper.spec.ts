@@ -1,6 +1,11 @@
-import { SentinelIntervalAutomationSchema } from '@xyo-network/sentinel-model'
+import '@xylabs/vitest-extended'
 
-import { SentinelIntervalAutomationWrapper } from '../SentinelIntervalAutomationWrapper'
+import { SentinelIntervalAutomationSchema } from '@xyo-network/sentinel-model'
+import {
+  describe, expect, it,
+} from 'vitest'
+
+import { SentinelIntervalAutomationWrapper } from '../SentinelIntervalAutomationWrapper.ts'
 
 /*
  * @group sentinel

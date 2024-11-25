@@ -1,5 +1,14 @@
+import '@xylabs/vitest-extended'
+
 import type { Socket } from 'socket.io-client'
 import { io as Client } from 'socket.io-client'
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe, expect, test,
+} from 'vitest'
 
 import { BridgeCommands, createServer } from '../socketServer.ts'
 
@@ -15,38 +24,37 @@ describe.skip('WebsocketBridge', () => {
   const moduleAddressA = 'f4f4fa193a3b785bcf3f9902d031d49f1cf01a11'
   const moduleAddressB = '0d8cf1ea18281a34c166624ff9d4e5a473d05ae5'
 
-  beforeAll((done) => {
+  beforeAll(() => {
     ioServer = createServer(port)
     ioServer.start()
-    done()
   })
 
-  afterAll((done) => {
+  afterAll(() => {
     ioServer.stop()
-    done()
   })
 
-  beforeEach((done) => {
-    moduleClientA = Client(serverUrl, {
-      forceNew: true,
-      reconnection: true,
-      reconnectionAttempts: 5,
-      reconnectionDelay: 0,
-      transports: ['websocket'],
-    })
-    moduleClientA.on('connect', () => {
-      done()
+  beforeEach(async () => {
+    await new Promise((resolve) => {
+      moduleClientA = Client(serverUrl, {
+        forceNew: true,
+        reconnection: true,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 0,
+        transports: ['websocket'],
+      })
+      moduleClientA.on('connect', () => {
+        resolve(1)
+      })
     })
   })
 
-  afterEach((done) => {
+  afterEach(() => {
     if (moduleClientA.connected) {
       moduleClientA.disconnect()
     }
-    done()
   })
 
-  test('should communicate between modules', (done) => {
+  test('should communicate between modules', () => {
     const moduleClientB = Client(serverUrl, {
       forceNew: true,
       reconnection: true,
@@ -62,7 +70,6 @@ describe.skip('WebsocketBridge', () => {
     moduleClientB.on('message', (received) => {
       expect(received).toBe(query)
       moduleClientB.disconnect()
-      done()
     })
     moduleClientA.emit(BridgeCommands.bridge, moduleAddressA)
   })

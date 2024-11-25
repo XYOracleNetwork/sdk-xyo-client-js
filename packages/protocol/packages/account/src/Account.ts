@@ -41,10 +41,10 @@ function getPrivateKeyFromPhrase(phrase: string, path?: string): string {
 export class Account extends EllipticKey implements AccountInstance {
   static previousHashStore: PreviousHashStore | undefined = undefined
   static readonly uniqueName = globallyUnique('Account', Account, 'xyo')
-  protected static _addressMap: Record<string, WeakRef<Account>> = {}
+  protected static _addressMap: Record<string, WeakRef<AccountInstance>> = {}
   protected static _protectedConstructorKey = Symbol()
   protected _node: HDNodeWallet | undefined = undefined
-  protected _previousHash?: ArrayBuffer
+  protected _previousHash?: ArrayBufferLike
 
   private readonly _privateKey: PrivateKeyInstance
   private readonly _signingMutex = new Mutex()
@@ -81,7 +81,7 @@ export class Account extends EllipticKey implements AccountInstance {
   }
 
   static async create(opts?: AccountConfig): Promise<AccountInstance> {
-    let privateKeyToUse: ArrayBuffer | undefined
+    let privateKeyToUse: Uint8Array | undefined
     let node: HDNodeWallet | undefined
     if (opts) {
       if (nameOf<PhraseInitializationConfig>('phrase') in opts) {
@@ -97,12 +97,12 @@ export class Account extends EllipticKey implements AccountInstance {
     privateKeyToUse = privateKeyToUse ?? randomBytes(32)
 
     return (
-      await new Account(Account._protectedConstructorKey, await PrivateKey.create(privateKeyToUse), node).loadPreviousHash(opts?.previousHash)
+      await new Account(Account._protectedConstructorKey, await PrivateKey.create(privateKeyToUse.buffer), node).loadPreviousHash(opts?.previousHash)
     ).verifyUniqueAddress()
   }
 
-  static async fromPrivateKey(key: ArrayBuffer | string): Promise<AccountInstance> {
-    const privateKey = typeof key === 'string' ? toUint8Array(key.padStart(64, '0')) : key
+  static async fromPrivateKey(key: ArrayBufferLike | string): Promise<AccountInstance> {
+    const privateKey = typeof key === 'string' ? toUint8Array(key.padStart(64, '0')).buffer : key
     return await Account.create({ privateKey })
   }
 
@@ -119,21 +119,21 @@ export class Account extends EllipticKey implements AccountInstance {
     return await Promise.resolve(this)
   }
 
-  async loadPreviousHash(previousHash?: ArrayBuffer | string): Promise<this> {
+  async loadPreviousHash(previousHash?: ArrayBufferLike | string): Promise<this> {
     return await this._signingMutex.runExclusive(async () => {
       if (previousHash) {
-        this._previousHash = previousHash ? toUint8Array(previousHash, 32) : undefined
+        this._previousHash = previousHash ? toUint8Array(previousHash, 32).buffer : undefined
       } else {
         const previousHashStoreValue = await Account.previousHashStore?.getItem(this.address)
         if (previousHashStoreValue) {
-          this._previousHash = toUint8Array(previousHashStoreValue, 32)
+          this._previousHash = toUint8Array(previousHashStoreValue, 32).buffer
         }
       }
       return this
     })
   }
 
-  async sign(hash: ArrayBuffer, previousHash: ArrayBuffer | undefined): Promise<ArrayBuffer> {
+  async sign(hash: ArrayBufferLike, previousHash: ArrayBufferLike | undefined): Promise<ArrayBufferLike> {
     await Elliptic.initialize()
     return await this._signingMutex.runExclusive(async () => {
       const currentPreviousHash = this.previousHash
@@ -149,7 +149,7 @@ export class Account extends EllipticKey implements AccountInstance {
       )
 
       const signature = this.private.sign(hash)
-      const newPreviousHash = toUint8Array(hash, 32)
+      const newPreviousHash = toUint8Array(hash, 32).buffer
       this._previousHash = newPreviousHash
       if (Account.previousHashStore) {
         await Account.previousHashStore.setItem(this.address, hexFromArrayBuffer(newPreviousHash, { prefix: false }))
@@ -158,7 +158,7 @@ export class Account extends EllipticKey implements AccountInstance {
     })
   }
 
-  async verify(msg: ArrayBuffer, signature: ArrayBuffer): Promise<boolean> {
+  async verify(msg: ArrayBufferLike, signature: ArrayBufferLike): Promise<boolean> {
     await Elliptic.initialize()
     return await Elliptic.verify(msg, signature, this.addressBytes)
   }

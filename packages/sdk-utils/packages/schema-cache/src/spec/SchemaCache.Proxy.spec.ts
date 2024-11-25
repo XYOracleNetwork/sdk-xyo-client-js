@@ -1,3 +1,5 @@
+import '@xylabs/vitest-extended'
+
 import { assertEx } from '@xylabs/assert'
 import type { DomainPayload } from '@xyo-network/domain-payload-plugin'
 import { DomainSchema } from '@xyo-network/domain-payload-plugin'
@@ -6,6 +8,10 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import { PayloadSchema } from '@xyo-network/payload-model'
 import { SchemaSchema } from '@xyo-network/schema-payload-plugin'
+import {
+  beforeEach,
+  describe, expect, test,
+} from 'vitest'
 
 import { SchemaCache } from '../SchemaCache.ts'
 

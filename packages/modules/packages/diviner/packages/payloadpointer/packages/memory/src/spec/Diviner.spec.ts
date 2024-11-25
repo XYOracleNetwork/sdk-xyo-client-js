@@ -1,6 +1,11 @@
+import '@xylabs/vitest-extended'
+
 import { HDWallet } from '@xyo-network/account'
 import { PayloadPointerDivinerConfigSchema } from '@xyo-network/diviner-payload-pointer-model'
 import type { WalletInstance } from '@xyo-network/wallet-model'
+import {
+  beforeAll, describe, expect, it,
+} from 'vitest'
 
 import { PayloadPointerDiviner } from '../Diviner.ts'
 

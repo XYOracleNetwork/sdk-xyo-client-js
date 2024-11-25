@@ -1,5 +1,7 @@
 /** @jest-environment jsdom */
 
+import '@xylabs/vitest-extended'
+
 import type { Hash } from '@xylabs/hex'
 import type { EmptyObject } from '@xylabs/object'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
@@ -22,6 +24,9 @@ import {
   IDBVersionChangeEvent,
   indexedDB,
 } from 'fake-indexeddb'
+import {
+  beforeAll, describe, expect, it,
+} from 'vitest'
 
 import { GenericPayloadDiviner, GenericPayloadDivinerConfigSchema } from '../Diviner.ts'
 

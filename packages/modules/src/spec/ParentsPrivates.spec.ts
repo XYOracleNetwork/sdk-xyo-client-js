@@ -8,6 +8,12 @@ const rootPrivateNodeName = 'rootPrivateNode'
 const rootPrivateName = 'rootPrivate'
 const moduleAName = 'module'
 
+import '@xylabs/vitest-extended'
+
+import {
+  describe, expect, test,
+} from 'vitest'
+
 /**
  * @group module
  */

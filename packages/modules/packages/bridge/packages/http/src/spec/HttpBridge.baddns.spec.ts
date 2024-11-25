@@ -1,4 +1,9 @@
+import '@xylabs/vitest-extended'
+
 import { MemoryNode } from '@xyo-network/node-memory'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
 import { HttpBridge } from '../HttpBridgeFull.ts'

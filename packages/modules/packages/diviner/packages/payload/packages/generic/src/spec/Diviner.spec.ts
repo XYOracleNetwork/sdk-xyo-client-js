@@ -1,4 +1,6 @@
 /* eslint-disable max-nested-callbacks */
+import '@xylabs/vitest-extended'
+
 import type { Hash } from '@xylabs/hex'
 import type { EmptyObject } from '@xylabs/object'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -7,6 +9,10 @@ import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { PayloadWithMeta } from '@xyo-network/payload-model'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { GenericPayloadDiviner, GenericPayloadDivinerConfigSchema } from '../Diviner.ts'
 

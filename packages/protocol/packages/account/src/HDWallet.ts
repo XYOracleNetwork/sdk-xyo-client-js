@@ -25,7 +25,7 @@ import { PrivateKey } from './Key/index.ts'
 @staticImplements<WalletStatic>()
 export class HDWallet extends Account implements WalletInstance {
   static override readonly uniqueName = globallyUnique('HDWallet', HDWallet, 'xyo')
-  protected static override _addressMap: Record<Address, WeakRef<HDWallet>> = {}
+  protected static override _addressMap: Record<Address, WeakRef<WalletInstance>> = {}
 
   constructor(
     key: unknown,
@@ -39,8 +39,8 @@ export class HDWallet extends Account implements WalletInstance {
     return hexFromHexString(this.node.address, { prefix: false })
   }
 
-  override get addressBytes(): ArrayBuffer {
-    return toUint8Array(this.address, undefined, 16)
+  override get addressBytes(): ArrayBufferLike {
+    return toUint8Array(this.address, undefined, 16).buffer
   }
 
   get chainCode(): string {
@@ -116,8 +116,8 @@ export class HDWallet extends Account implements WalletInstance {
     return await this.fromMnemonic(Mnemonic.fromPhrase(phrase), path)
   }
 
-  static async fromSeed(seed: string | Uint8Array): Promise<WalletInstance> {
-    const node = HDNodeWallet.fromSeed(seed)
+  static async fromSeed(seed: string | ArrayBufferLike): Promise<WalletInstance> {
+    const node = HDNodeWallet.fromSeed(toUint8Array(seed))
     const createdWallet = await this.createFromNodeInternal(node)
     return this.getCachedWalletOrCacheNewWallet(createdWallet)
   }
@@ -130,14 +130,14 @@ export class HDWallet extends Account implements WalletInstance {
     return await this.fromMnemonic(Mnemonic.fromPhrase(HDWallet.generateMnemonic()))
   }
 
-  protected static async createFromNodeInternal(node: HDNodeWallet, previousHash?: string): Promise<HDWallet> {
+  protected static async createFromNodeInternal(node: HDNodeWallet, previousHash?: string): Promise<WalletInstance> {
     const privateKey = toUint8Array(node.privateKey.replace('0x', ''))
     assertEx(!privateKey || privateKey?.length === 32, () => `Private key must be 32 bytes [${privateKey?.length}]`)
-    const newWallet = await new HDWallet(Account._protectedConstructorKey, node, await PrivateKey.create(privateKey)).loadPreviousHash(previousHash)
+    const newWallet = await new HDWallet(Account._protectedConstructorKey, node, await PrivateKey.create(privateKey.buffer)).loadPreviousHash(previousHash)
     return HDWallet._addressMap[newWallet.address]?.deref() ?? newWallet
   }
 
-  protected static getCachedWalletOrCacheNewWallet(createdWallet: HDWallet): HDWallet {
+  protected static getCachedWalletOrCacheNewWallet(createdWallet: WalletInstance): WalletInstance {
     const existingWallet = this._addressMap[createdWallet.address]?.deref()
     if (existingWallet) {
       return existingWallet

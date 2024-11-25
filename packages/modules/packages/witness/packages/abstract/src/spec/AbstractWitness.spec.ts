@@ -9,6 +9,12 @@ import { WitnessWrapper } from '@xyo-network/witness-wrapper'
 import { AbstractWitness } from '../AbstractWitness'
 */
 
+import '@xylabs/vitest-extended'
+
+import {
+  describe, expect, it,
+} from 'vitest'
+
 /**
  * @group witness
  * @group module

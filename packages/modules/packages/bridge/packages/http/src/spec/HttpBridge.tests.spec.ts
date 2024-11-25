@@ -1,5 +1,10 @@
 /* eslint-disable max-nested-callbacks */
+import '@xylabs/vitest-extended'
+
 import type { AbstractBridge } from '@xyo-network/bridge-abstract'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 // TODO: Implement standard test suite for all Bridges here and then run
 // against specific bridges

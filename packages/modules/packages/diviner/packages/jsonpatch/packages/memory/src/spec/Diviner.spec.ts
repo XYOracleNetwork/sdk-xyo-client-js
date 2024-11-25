@@ -1,8 +1,14 @@
+import '@xylabs/vitest-extended'
+
 import type { WalletInstance } from '@xyo-network/account'
 import { HDWallet } from '@xyo-network/account'
 import type { JsonPatchDivinerConfig } from '@xyo-network/diviner-jsonpatch-model'
 import { JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
 import type { Payload } from '@xyo-network/payload-model'
+import {
+  beforeAll,
+  describe, expect, it,
+} from 'vitest'
 
 import { JsonPatchDiviner } from '../Diviner.ts'
 

@@ -1,8 +1,13 @@
+import '@xylabs/vitest-extended'
+
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
+import {
+  describe, expect, it,
+} from 'vitest'
 
-import { ArchivistWrapper } from '../ArchivistWrapper'
+import { ArchivistWrapper } from '../ArchivistWrapper.ts'
 
 /**
  * @group module

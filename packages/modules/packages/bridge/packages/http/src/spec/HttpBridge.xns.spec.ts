@@ -1,8 +1,13 @@
+import '@xylabs/vitest-extended'
+
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { ResolveHelper } from '@xyo-network/module-model'
 import { NameRegistrarTransformer } from '@xyo-network/module-resolver'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
+import {
+  describe, expect, it,
+} from 'vitest'
 
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
 import { HttpBridge } from '../HttpBridgeFull.ts'

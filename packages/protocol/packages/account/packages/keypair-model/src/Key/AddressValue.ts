@@ -4,7 +4,7 @@ export interface AddressValueInstance extends EllipticKeyInstance {}
 
 export interface AddressValueStatic {
   new (address: ArrayBuffer): AddressValueInstance
-  addressFromAddressOrPublicKey(bytes: ArrayBuffer): ArrayBuffer
-  addressFromPublicKey(key: ArrayBuffer): ArrayBuffer
+  addressFromAddressOrPublicKey(bytes: ArrayBufferLike): ArrayBufferLike
+  addressFromPublicKey(key: ArrayBufferLike): ArrayBufferLike
   isAddress(value: unknown): boolean
 }

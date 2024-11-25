@@ -1,9 +1,14 @@
+import '@xylabs/vitest-extended'
+
 import type { AnyObject } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
 import type { Payload } from '@xyo-network/payload'
 import { PayloadBuilder } from '@xyo-network/payload'
+import {
+  describe, expect, it,
+} from 'vitest'
 
-import { BoundWitnessBuilder } from '../Builder'
+import { BoundWitnessBuilder } from '../Builder.ts'
 
 const schema = 'network.xyo.test'
 

@@ -9,15 +9,15 @@ import { EllipticKey } from './EllipticKey.ts'
 export class AddressValue extends EllipticKey implements AddressValueInstance {
   private _isAddress = true
 
-  constructor(address: ArrayBuffer) {
+  constructor(address: ArrayBufferLike) {
     super(20, AddressValue.addressFromAddressOrPublicKey(address))
   }
 
-  static addressFromAddressOrPublicKey(bytes: ArrayBuffer) {
+  static addressFromAddressOrPublicKey(bytes: ArrayBufferLike) {
     return bytes.byteLength === 20 ? bytes : AddressValue.addressFromPublicKey(bytes)
   }
 
-  static addressFromPublicKey(key: ArrayBuffer): ArrayBuffer {
+  static addressFromPublicKey(key: ArrayBufferLike): ArrayBufferLike {
     return new Data(64, key).keccak256.slice(12)
   }
 

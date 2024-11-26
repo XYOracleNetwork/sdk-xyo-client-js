@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Same address, two paths 1`] = `"1eefd4fb703a43ce5ded91bdff2820a7a3999ca8"`;
+
+exports[`Same address, two paths 2`] = `"1b9eedc3466de680d07b1e14ae69281c14fa47be"`;
+
+exports[`Same address, two paths 3`] = `"1b9eedc3466de680d07b1e14ae69281c14fa47be"`;
+
+exports[`Same address, two paths 4`] = `"e34188f2e84688b036f47bc2ad57aca1085cc95a"`;

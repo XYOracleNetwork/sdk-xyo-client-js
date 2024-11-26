@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.4.5",
-    "@xylabs/exists": "^4.4.5",
-    "@xylabs/promise": "^4.4.5",
+    "@xylabs/assert": "^4.4.9",
+    "@xylabs/exists": "^4.4.9",
+    "@xylabs/promise": "^4.4.9",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/huri": "workspace:^",

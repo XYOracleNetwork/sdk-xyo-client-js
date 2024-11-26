@@ -1,0 +1,841 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 1`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 2`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 3`] = `
+{
+  "address": "012167a8cd67f0f20fbfc54212ac9bba982dbae3",
+  "path": "m/44'/60'/0'/0/0/0/4",
+  "privateKey": "0x61ee4d0dc8d33ebfa9b7726c4600db4048240651dd8ac2119d5f59d28332f8ad",
+  "publicKey": "0x037697e2cf043b8e96c43694f440fbe0ec01f29dedb9f1ff7e1007742b32fe7523",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 4`] = `
+[
+  {
+    "address": "012167a8cd67f0f20fbfc54212ac9bba982dbae3",
+    "path": "m/44'/60'/0'/0/0/0/4",
+    "privateKey": "0x61ee4d0dc8d33ebfa9b7726c4600db4048240651dd8ac2119d5f59d28332f8ad",
+    "publicKey": "0x037697e2cf043b8e96c43694f440fbe0ec01f29dedb9f1ff7e1007742b32fe7523",
+  },
+  {
+    "address": "012167a8cd67f0f20fbfc54212ac9bba982dbae3",
+    "path": "m/44'/60'/0'/0/0/0/4",
+    "privateKey": "0x61ee4d0dc8d33ebfa9b7726c4600db4048240651dd8ac2119d5f59d28332f8ad",
+    "publicKey": "0x037697e2cf043b8e96c43694f440fbe0ec01f29dedb9f1ff7e1007742b32fe7523",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 5`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 6`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 7`] = `
+{
+  "address": "6ab24a1bcccc3ff79e8f826b7cc5bf583b5e9c57",
+  "path": "m/44'/60'/0'/0/0/44'/0'/0'",
+  "privateKey": "0x345ae736b1203dc38ede87bb44edffe039b8c6432fe591f835723ba00295d216",
+  "publicKey": "0x02f1ae68e6ed8f9100c3f1c8a3c7356faeaad8aaf0e5175d5a3105c5b3223c5818",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 8`] = `
+[
+  {
+    "address": "6ab24a1bcccc3ff79e8f826b7cc5bf583b5e9c57",
+    "path": "m/44'/60'/0'/0/0/44'/0'/0'",
+    "privateKey": "0x345ae736b1203dc38ede87bb44edffe039b8c6432fe591f835723ba00295d216",
+    "publicKey": "0x02f1ae68e6ed8f9100c3f1c8a3c7356faeaad8aaf0e5175d5a3105c5b3223c5818",
+  },
+  {
+    "address": "6ab24a1bcccc3ff79e8f826b7cc5bf583b5e9c57",
+    "path": "m/44'/60'/0'/0/0/44'/0'/0'",
+    "privateKey": "0x345ae736b1203dc38ede87bb44edffe039b8c6432fe591f835723ba00295d216",
+    "publicKey": "0x02f1ae68e6ed8f9100c3f1c8a3c7356faeaad8aaf0e5175d5a3105c5b3223c5818",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 9`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 10`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 11`] = `
+{
+  "address": "5e0e54445fdd4e453fca8216b056226c5ef6a2f1",
+  "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/0",
+  "privateKey": "0x0f2012c26b02b57d233bde81f718a33d24a9331f9716521f0be31c79f69d4fef",
+  "publicKey": "0x03350c7ada7a25ffea5b1dcdd380366eb21879ad074463583053cb7ad7d3acd712",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 12`] = `
+[
+  {
+    "address": "5e0e54445fdd4e453fca8216b056226c5ef6a2f1",
+    "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/0",
+    "privateKey": "0x0f2012c26b02b57d233bde81f718a33d24a9331f9716521f0be31c79f69d4fef",
+    "publicKey": "0x03350c7ada7a25ffea5b1dcdd380366eb21879ad074463583053cb7ad7d3acd712",
+  },
+  {
+    "address": "5e0e54445fdd4e453fca8216b056226c5ef6a2f1",
+    "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/0",
+    "privateKey": "0x0f2012c26b02b57d233bde81f718a33d24a9331f9716521f0be31c79f69d4fef",
+    "publicKey": "0x03350c7ada7a25ffea5b1dcdd380366eb21879ad074463583053cb7ad7d3acd712",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 13`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 14`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 15`] = `
+{
+  "address": "3654cafa0b49eef056adc7dce5f745b08f98498d",
+  "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/1",
+  "privateKey": "0x00689c78fca99bb3f0c6d116478b3b5250af3b3e4c5cc8bf211b6dca638806d0",
+  "publicKey": "0x0296ba5a05dbb3f0e33b10625422731a36b38de07aa66f947c58d2b5e55a35b6e4",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 16`] = `
+[
+  {
+    "address": "3654cafa0b49eef056adc7dce5f745b08f98498d",
+    "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/1",
+    "privateKey": "0x00689c78fca99bb3f0c6d116478b3b5250af3b3e4c5cc8bf211b6dca638806d0",
+    "publicKey": "0x0296ba5a05dbb3f0e33b10625422731a36b38de07aa66f947c58d2b5e55a35b6e4",
+  },
+  {
+    "address": "3654cafa0b49eef056adc7dce5f745b08f98498d",
+    "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/1",
+    "privateKey": "0x00689c78fca99bb3f0c6d116478b3b5250af3b3e4c5cc8bf211b6dca638806d0",
+    "publicKey": "0x0296ba5a05dbb3f0e33b10625422731a36b38de07aa66f947c58d2b5e55a35b6e4",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 17`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 18`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 19`] = `
+{
+  "address": "f2a43815de64547920effab3112c6af940454fff",
+  "path": "m/44'/60'/0'/0/0/49'/0'/0'",
+  "privateKey": "0x30f1f720d600844413a45e51faf88f98d3de353a79b9b869723dc889ac28e5be",
+  "publicKey": "0x02ec2d8adf5152cabb85480d2d5d695765cc9227406543dd7a85ac8bc6e4b35001",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 20`] = `
+[
+  {
+    "address": "f2a43815de64547920effab3112c6af940454fff",
+    "path": "m/44'/60'/0'/0/0/49'/0'/0'",
+    "privateKey": "0x30f1f720d600844413a45e51faf88f98d3de353a79b9b869723dc889ac28e5be",
+    "publicKey": "0x02ec2d8adf5152cabb85480d2d5d695765cc9227406543dd7a85ac8bc6e4b35001",
+  },
+  {
+    "address": "f2a43815de64547920effab3112c6af940454fff",
+    "path": "m/44'/60'/0'/0/0/49'/0'/0'",
+    "privateKey": "0x30f1f720d600844413a45e51faf88f98d3de353a79b9b869723dc889ac28e5be",
+    "publicKey": "0x02ec2d8adf5152cabb85480d2d5d695765cc9227406543dd7a85ac8bc6e4b35001",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 21`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 22`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 23`] = `
+{
+  "address": "e072bfa0adf20b46997aa346333683de09765ce6",
+  "path": "m/44'/60'/0'/0/0/84'/0'/0'",
+  "privateKey": "0xf28cddb3a0134f549978da00d9333afbf9d2f791a6c972f7df0ad9d2881e8fd4",
+  "publicKey": "0x02a1cc422be52d92df32ff0a1fd95cc61ccd26d220069624184a96a5dcee6b0b4c",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 24`] = `
+[
+  {
+    "address": "e072bfa0adf20b46997aa346333683de09765ce6",
+    "path": "m/44'/60'/0'/0/0/84'/0'/0'",
+    "privateKey": "0xf28cddb3a0134f549978da00d9333afbf9d2f791a6c972f7df0ad9d2881e8fd4",
+    "publicKey": "0x02a1cc422be52d92df32ff0a1fd95cc61ccd26d220069624184a96a5dcee6b0b4c",
+  },
+  {
+    "address": "e072bfa0adf20b46997aa346333683de09765ce6",
+    "path": "m/44'/60'/0'/0/0/84'/0'/0'",
+    "privateKey": "0xf28cddb3a0134f549978da00d9333afbf9d2f791a6c972f7df0ad9d2881e8fd4",
+    "publicKey": "0x02a1cc422be52d92df32ff0a1fd95cc61ccd26d220069624184a96a5dcee6b0b4c",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 25`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 26`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 27`] = `
+{
+  "address": "09a9478624b423318d0b5c69b08896c9c961af4b",
+  "path": "m/44'/60'/0'/0/0/84'/0'/0'/0",
+  "privateKey": "0x7d28a667a6acafc0da52d58d854c53266e8c8b3e2b836ccc4b8ad243be92caff",
+  "publicKey": "0x029526fc69eaa9c75901e0e9fc8b3ecb6697608b14e6a7a4b7506a17ae659e37f5",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > constructor > works repeatably & interoperably with Ethers 28`] = `
+[
+  {
+    "address": "09a9478624b423318d0b5c69b08896c9c961af4b",
+    "path": "m/44'/60'/0'/0/0/84'/0'/0'/0",
+    "privateKey": "0x7d28a667a6acafc0da52d58d854c53266e8c8b3e2b836ccc4b8ad243be92caff",
+    "publicKey": "0x029526fc69eaa9c75901e0e9fc8b3ecb6697608b14e6a7a4b7506a17ae659e37f5",
+  },
+  {
+    "address": "09a9478624b423318d0b5c69b08896c9c961af4b",
+    "path": "m/44'/60'/0'/0/0/84'/0'/0'/0",
+    "privateKey": "0x7d28a667a6acafc0da52d58d854c53266e8c8b3e2b836ccc4b8ad243be92caff",
+    "publicKey": "0x029526fc69eaa9c75901e0e9fc8b3ecb6697608b14e6a7a4b7506a17ae659e37f5",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > returns cached instances on subsequent requests 1`] = `
+{
+  "address": "3654cafa0b49eef056adc7dce5f745b08f98498d",
+  "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/1",
+  "privateKey": "0x00689c78fca99bb3f0c6d116478b3b5250af3b3e4c5cc8bf211b6dca638806d0",
+  "publicKey": "0x0296ba5a05dbb3f0e33b10625422731a36b38de07aa66f947c58d2b5e55a35b6e4",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > returns cached instances on subsequent requests 2`] = `
+[
+  {
+    "address": "3654cafa0b49eef056adc7dce5f745b08f98498d",
+    "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/1",
+    "privateKey": "0x00689c78fca99bb3f0c6d116478b3b5250af3b3e4c5cc8bf211b6dca638806d0",
+    "publicKey": "0x0296ba5a05dbb3f0e33b10625422731a36b38de07aa66f947c58d2b5e55a35b6e4",
+  },
+  {
+    "address": "3654cafa0b49eef056adc7dce5f745b08f98498d",
+    "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/1",
+    "privateKey": "0x00689c78fca99bb3f0c6d116478b3b5250af3b3e4c5cc8bf211b6dca638806d0",
+    "publicKey": "0x0296ba5a05dbb3f0e33b10625422731a36b38de07aa66f947c58d2b5e55a35b6e4",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 1`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 2`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 3`] = `
+{
+  "address": "012167a8cd67f0f20fbfc54212ac9bba982dbae3",
+  "path": "m/44'/60'/0'/0/0/0/4",
+  "privateKey": "0x61ee4d0dc8d33ebfa9b7726c4600db4048240651dd8ac2119d5f59d28332f8ad",
+  "publicKey": "0x037697e2cf043b8e96c43694f440fbe0ec01f29dedb9f1ff7e1007742b32fe7523",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 4`] = `
+[
+  {
+    "address": "012167a8cd67f0f20fbfc54212ac9bba982dbae3",
+    "path": "m/44'/60'/0'/0/0/0/4",
+    "privateKey": "0x61ee4d0dc8d33ebfa9b7726c4600db4048240651dd8ac2119d5f59d28332f8ad",
+    "publicKey": "0x037697e2cf043b8e96c43694f440fbe0ec01f29dedb9f1ff7e1007742b32fe7523",
+  },
+  {
+    "address": "012167a8cd67f0f20fbfc54212ac9bba982dbae3",
+    "path": "m/44'/60'/0'/0/0/0/4",
+    "privateKey": "0x61ee4d0dc8d33ebfa9b7726c4600db4048240651dd8ac2119d5f59d28332f8ad",
+    "publicKey": "0x037697e2cf043b8e96c43694f440fbe0ec01f29dedb9f1ff7e1007742b32fe7523",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 5`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 6`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 7`] = `
+{
+  "address": "6ab24a1bcccc3ff79e8f826b7cc5bf583b5e9c57",
+  "path": "m/44'/60'/0'/0/0/44'/0'/0'",
+  "privateKey": "0x345ae736b1203dc38ede87bb44edffe039b8c6432fe591f835723ba00295d216",
+  "publicKey": "0x02f1ae68e6ed8f9100c3f1c8a3c7356faeaad8aaf0e5175d5a3105c5b3223c5818",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 8`] = `
+[
+  {
+    "address": "6ab24a1bcccc3ff79e8f826b7cc5bf583b5e9c57",
+    "path": "m/44'/60'/0'/0/0/44'/0'/0'",
+    "privateKey": "0x345ae736b1203dc38ede87bb44edffe039b8c6432fe591f835723ba00295d216",
+    "publicKey": "0x02f1ae68e6ed8f9100c3f1c8a3c7356faeaad8aaf0e5175d5a3105c5b3223c5818",
+  },
+  {
+    "address": "6ab24a1bcccc3ff79e8f826b7cc5bf583b5e9c57",
+    "path": "m/44'/60'/0'/0/0/44'/0'/0'",
+    "privateKey": "0x345ae736b1203dc38ede87bb44edffe039b8c6432fe591f835723ba00295d216",
+    "publicKey": "0x02f1ae68e6ed8f9100c3f1c8a3c7356faeaad8aaf0e5175d5a3105c5b3223c5818",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 9`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 10`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 11`] = `
+{
+  "address": "5e0e54445fdd4e453fca8216b056226c5ef6a2f1",
+  "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/0",
+  "privateKey": "0x0f2012c26b02b57d233bde81f718a33d24a9331f9716521f0be31c79f69d4fef",
+  "publicKey": "0x03350c7ada7a25ffea5b1dcdd380366eb21879ad074463583053cb7ad7d3acd712",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 12`] = `
+[
+  {
+    "address": "5e0e54445fdd4e453fca8216b056226c5ef6a2f1",
+    "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/0",
+    "privateKey": "0x0f2012c26b02b57d233bde81f718a33d24a9331f9716521f0be31c79f69d4fef",
+    "publicKey": "0x03350c7ada7a25ffea5b1dcdd380366eb21879ad074463583053cb7ad7d3acd712",
+  },
+  {
+    "address": "5e0e54445fdd4e453fca8216b056226c5ef6a2f1",
+    "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/0",
+    "privateKey": "0x0f2012c26b02b57d233bde81f718a33d24a9331f9716521f0be31c79f69d4fef",
+    "publicKey": "0x03350c7ada7a25ffea5b1dcdd380366eb21879ad074463583053cb7ad7d3acd712",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 13`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 14`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 15`] = `
+{
+  "address": "3654cafa0b49eef056adc7dce5f745b08f98498d",
+  "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/1",
+  "privateKey": "0x00689c78fca99bb3f0c6d116478b3b5250af3b3e4c5cc8bf211b6dca638806d0",
+  "publicKey": "0x0296ba5a05dbb3f0e33b10625422731a36b38de07aa66f947c58d2b5e55a35b6e4",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 16`] = `
+[
+  {
+    "address": "3654cafa0b49eef056adc7dce5f745b08f98498d",
+    "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/1",
+    "privateKey": "0x00689c78fca99bb3f0c6d116478b3b5250af3b3e4c5cc8bf211b6dca638806d0",
+    "publicKey": "0x0296ba5a05dbb3f0e33b10625422731a36b38de07aa66f947c58d2b5e55a35b6e4",
+  },
+  {
+    "address": "3654cafa0b49eef056adc7dce5f745b08f98498d",
+    "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/1",
+    "privateKey": "0x00689c78fca99bb3f0c6d116478b3b5250af3b3e4c5cc8bf211b6dca638806d0",
+    "publicKey": "0x0296ba5a05dbb3f0e33b10625422731a36b38de07aa66f947c58d2b5e55a35b6e4",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 17`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 18`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 19`] = `
+{
+  "address": "f2a43815de64547920effab3112c6af940454fff",
+  "path": "m/44'/60'/0'/0/0/49'/0'/0'",
+  "privateKey": "0x30f1f720d600844413a45e51faf88f98d3de353a79b9b869723dc889ac28e5be",
+  "publicKey": "0x02ec2d8adf5152cabb85480d2d5d695765cc9227406543dd7a85ac8bc6e4b35001",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 20`] = `
+[
+  {
+    "address": "f2a43815de64547920effab3112c6af940454fff",
+    "path": "m/44'/60'/0'/0/0/49'/0'/0'",
+    "privateKey": "0x30f1f720d600844413a45e51faf88f98d3de353a79b9b869723dc889ac28e5be",
+    "publicKey": "0x02ec2d8adf5152cabb85480d2d5d695765cc9227406543dd7a85ac8bc6e4b35001",
+  },
+  {
+    "address": "f2a43815de64547920effab3112c6af940454fff",
+    "path": "m/44'/60'/0'/0/0/49'/0'/0'",
+    "privateKey": "0x30f1f720d600844413a45e51faf88f98d3de353a79b9b869723dc889ac28e5be",
+    "publicKey": "0x02ec2d8adf5152cabb85480d2d5d695765cc9227406543dd7a85ac8bc6e4b35001",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 21`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 22`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 23`] = `
+{
+  "address": "e072bfa0adf20b46997aa346333683de09765ce6",
+  "path": "m/44'/60'/0'/0/0/84'/0'/0'",
+  "privateKey": "0xf28cddb3a0134f549978da00d9333afbf9d2f791a6c972f7df0ad9d2881e8fd4",
+  "publicKey": "0x02a1cc422be52d92df32ff0a1fd95cc61ccd26d220069624184a96a5dcee6b0b4c",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 24`] = `
+[
+  {
+    "address": "e072bfa0adf20b46997aa346333683de09765ce6",
+    "path": "m/44'/60'/0'/0/0/84'/0'/0'",
+    "privateKey": "0xf28cddb3a0134f549978da00d9333afbf9d2f791a6c972f7df0ad9d2881e8fd4",
+    "publicKey": "0x02a1cc422be52d92df32ff0a1fd95cc61ccd26d220069624184a96a5dcee6b0b4c",
+  },
+  {
+    "address": "e072bfa0adf20b46997aa346333683de09765ce6",
+    "path": "m/44'/60'/0'/0/0/84'/0'/0'",
+    "privateKey": "0xf28cddb3a0134f549978da00d9333afbf9d2f791a6c972f7df0ad9d2881e8fd4",
+    "publicKey": "0x02a1cc422be52d92df32ff0a1fd95cc61ccd26d220069624184a96a5dcee6b0b4c",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 25`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 26`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 27`] = `
+{
+  "address": "09a9478624b423318d0b5c69b08896c9c961af4b",
+  "path": "m/44'/60'/0'/0/0/84'/0'/0'/0",
+  "privateKey": "0x7d28a667a6acafc0da52d58d854c53266e8c8b3e2b836ccc4b8ad243be92caff",
+  "publicKey": "0x029526fc69eaa9c75901e0e9fc8b3ecb6697608b14e6a7a4b7506a17ae659e37f5",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works repeatably & interoperably from phrase & extended key 28`] = `
+[
+  {
+    "address": "09a9478624b423318d0b5c69b08896c9c961af4b",
+    "path": "m/44'/60'/0'/0/0/84'/0'/0'/0",
+    "privateKey": "0x7d28a667a6acafc0da52d58d854c53266e8c8b3e2b836ccc4b8ad243be92caff",
+    "publicKey": "0x029526fc69eaa9c75901e0e9fc8b3ecb6697608b14e6a7a4b7506a17ae659e37f5",
+  },
+  {
+    "address": "09a9478624b423318d0b5c69b08896c9c961af4b",
+    "path": "m/44'/60'/0'/0/0/84'/0'/0'/0",
+    "privateKey": "0x7d28a667a6acafc0da52d58d854c53266e8c8b3e2b836ccc4b8ad243be92caff",
+    "publicKey": "0x029526fc69eaa9c75901e0e9fc8b3ecb6697608b14e6a7a4b7506a17ae659e37f5",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works when paths provided absolutely 1`] = `
+{
+  "address": "148c7da67c48a8c6da464ba8b3619c2fd4037a43",
+  "path": "m/44'/60'/0'/0/1",
+  "privateKey": "0xedd1743fd3d99c73a7bd08913cbbb9e9f8eb83bb0a6252ef9936859a32e80896",
+  "publicKey": "0x02847ce60dc4a5350d7e4e7ff0ee6d4555aed4bedee79d9daf4e701c78f088b912",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works when paths provided absolutely 2`] = `
+[
+  {
+    "address": "148c7da67c48a8c6da464ba8b3619c2fd4037a43",
+    "path": "m/44'/60'/0'/0/1",
+    "privateKey": "0xedd1743fd3d99c73a7bd08913cbbb9e9f8eb83bb0a6252ef9936859a32e80896",
+    "publicKey": "0x02847ce60dc4a5350d7e4e7ff0ee6d4555aed4bedee79d9daf4e701c78f088b912",
+  },
+  {
+    "address": "148c7da67c48a8c6da464ba8b3619c2fd4037a43",
+    "path": "m/44'/60'/0'/0/1",
+    "privateKey": "0xedd1743fd3d99c73a7bd08913cbbb9e9f8eb83bb0a6252ef9936859a32e80896",
+    "publicKey": "0x02847ce60dc4a5350d7e4e7ff0ee6d4555aed4bedee79d9daf4e701c78f088b912",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works when paths provided incrementally 1`] = `
+{
+  "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+  "path": "m/44'/60'/0'/0/0",
+  "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+  "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works when paths provided incrementally 2`] = `
+[
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works when paths provided incrementally 3`] = `
+{
+  "address": "3654cafa0b49eef056adc7dce5f745b08f98498d",
+  "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/1",
+  "privateKey": "0x00689c78fca99bb3f0c6d116478b3b5250af3b3e4c5cc8bf211b6dca638806d0",
+  "publicKey": "0x0296ba5a05dbb3f0e33b10625422731a36b38de07aa66f947c58d2b5e55a35b6e4",
+}
+`;
+
+exports[`Node Wallet Test > HDWallet: Node > derivePath > works when paths provided incrementally 4`] = `
+[
+  {
+    "address": "3654cafa0b49eef056adc7dce5f745b08f98498d",
+    "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/1",
+    "privateKey": "0x00689c78fca99bb3f0c6d116478b3b5250af3b3e4c5cc8bf211b6dca638806d0",
+    "publicKey": "0x0296ba5a05dbb3f0e33b10625422731a36b38de07aa66f947c58d2b5e55a35b6e4",
+  },
+  {
+    "address": "3654cafa0b49eef056adc7dce5f745b08f98498d",
+    "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/1",
+    "privateKey": "0x00689c78fca99bb3f0c6d116478b3b5250af3b3e4c5cc8bf211b6dca638806d0",
+    "publicKey": "0x0296ba5a05dbb3f0e33b10625422731a36b38de07aa66f947c58d2b5e55a35b6e4",
+  },
+]
+`;
+
+exports[`Same address, two paths 1`] = `"1eefd4fb703a43ce5ded91bdff2820a7a3999ca8"`;
+
+exports[`Same address, two paths 2`] = `"1b9eedc3466de680d07b1e14ae69281c14fa47be"`;
+
+exports[`Same address, two paths 3`] = `"1b9eedc3466de680d07b1e14ae69281c14fa47be"`;
+
+exports[`Same address, two paths 4`] = `"e34188f2e84688b036f47bc2ad57aca1085cc95a"`;

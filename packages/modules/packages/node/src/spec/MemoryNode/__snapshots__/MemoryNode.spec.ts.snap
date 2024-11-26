@@ -1,0 +1,65 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MemoryNode > description > node with child modules > serializes to JSON consistently 1`] = `
+"{
+  "address": "a1df01bbdaa05f2294cdd6fbd92aace3086fe408",
+  "queries": [
+    "network.xyo.query.node.attach",
+    "network.xyo.query.node.certify",
+    "network.xyo.query.node.detach",
+    "network.xyo.query.node.attached",
+    "network.xyo.query.node.registered",
+    "network.xyo.query.module.address",
+    "network.xyo.query.module.subscribe",
+    "network.xyo.query.module.manifest",
+    "network.xyo.query.module.state"
+  ],
+  "schema": "network.xyo.module.description",
+  "children": [
+    "e8cae43b8ef15e6e2166b7560b2df802ac28fe53",
+    "ee84477649f67bcda3c604ad361313bdd9976c0f"
+  ]
+}"
+`;
+
+exports[`MemoryNode > description > node with nested nodes and mods > serializes to JSON consistently 1`] = `
+"{
+  "address": "a1df01bbdaa05f2294cdd6fbd92aace3086fe408",
+  "queries": [
+    "network.xyo.query.node.attach",
+    "network.xyo.query.node.certify",
+    "network.xyo.query.node.detach",
+    "network.xyo.query.node.attached",
+    "network.xyo.query.node.registered",
+    "network.xyo.query.module.address",
+    "network.xyo.query.module.subscribe",
+    "network.xyo.query.module.manifest",
+    "network.xyo.query.module.state"
+  ],
+  "schema": "network.xyo.module.description",
+  "children": [
+    "4c3e913823664e68ce252e256b8c442172dbec4a",
+    "e8cae43b8ef15e6e2166b7560b2df802ac28fe53",
+    "ee84477649f67bcda3c604ad361313bdd9976c0f"
+  ]
+}"
+`;
+
+exports[`MemoryNode > description > node without child modules > serializes to JSON consistently 1`] = `
+"{
+  "address": "a1df01bbdaa05f2294cdd6fbd92aace3086fe408",
+  "queries": [
+    "network.xyo.query.node.attach",
+    "network.xyo.query.node.certify",
+    "network.xyo.query.node.detach",
+    "network.xyo.query.node.attached",
+    "network.xyo.query.node.registered",
+    "network.xyo.query.module.address",
+    "network.xyo.query.module.subscribe",
+    "network.xyo.query.module.manifest",
+    "network.xyo.query.module.state"
+  ],
+  "schema": "network.xyo.module.description",
+  "children": []
+}"
+`;

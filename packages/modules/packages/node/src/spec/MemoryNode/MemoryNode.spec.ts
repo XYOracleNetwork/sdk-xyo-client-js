@@ -1,6 +1,5 @@
-import '@xylabs/vitest-extended'
-
 import { delay } from '@xylabs/delay'
+import { matchers } from '@xylabs/vitest-matchers'
 import { HDWallet } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -26,6 +25,8 @@ import {
   beforeEach,
   describe, expect, it,
 } from 'vitest'
+
+expect.extend(matchers)
 
 /**
  * @group node
@@ -238,10 +239,8 @@ describe('MemoryNode', () => {
         expect(description?.children).toBeArrayOfSize(0)
       })
       it('serializes to JSON consistently', async () => {
-        /* TODO: Joel
         const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
-        */
       })
     })
     describe('node with child modules', () => {
@@ -270,10 +269,8 @@ describe('MemoryNode', () => {
         // description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        /* TODO: Joel
         const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
-        */
       })
     })
     describe('node with nested nodes and mods', () => {
@@ -310,10 +307,8 @@ describe('MemoryNode', () => {
         // description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        /* TODO: Joel
         const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
-        */
       })
       it('clone-all', async () => {
         const newNode = await MemoryNodeHelper.attachToNewNode(node, '*')
@@ -437,8 +432,6 @@ describe('MemoryNode', () => {
   })
 })
 
-/*
 const prettyPrintDescription = (description?: ModuleDescription) => {
   return JSON.stringify(description, null, 2)
 }
-  */

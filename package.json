@@ -87,11 +87,10 @@
     "@typescript-eslint/eslint-plugin": "^8.16.0",
     "@typescript-eslint/parser": "^8.16.0",
     "@xylabs/eslint-config-flat": "^4.2.4",
-    "@xylabs/forget": "^4.4.4",
+    "@xylabs/forget": "^4.4.5",
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
-    "@xylabs/tsconfig-dom-jest": "^4.1.0",
-    "@xylabs/vitest-extended": "^4.4.4",
+    "@xylabs/vitest-extended": "^4.4.5",
     "dotenv": "^16.4.5",
     "eslint": "^9.15.0",
     "eslint-import-resolver-typescript": "^3.6.3",
@@ -105,7 +104,7 @@
     "typescript": "^5.7.2",
     "vitest": "^2.1.5"
   },
-  "packageManager": "yarn@4.5.1",
+  "packageManager": "yarn@4.5.3",
   "volta": {
     "node": "22.3.0",
     "yarn": "1.22.22"

@@ -238,8 +238,8 @@ describe('MemoryNode', () => {
         expect(description?.children).toBeArrayOfSize(0)
       })
       it('serializes to JSON consistently', async () => {
-        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         /* TODO: Joel
+        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
         */
       })
@@ -270,8 +270,8 @@ describe('MemoryNode', () => {
         // description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         /* TODO: Joel
+        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
         */
       })
@@ -310,8 +310,8 @@ describe('MemoryNode', () => {
         // description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         /* TODO: Joel
+        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
         */
       })
@@ -437,6 +437,8 @@ describe('MemoryNode', () => {
   })
 })
 
+/*
 const prettyPrintDescription = (description?: ModuleDescription) => {
   return JSON.stringify(description, null, 2)
 }
+  */

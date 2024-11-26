@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import type { Address, Hex } from '@xylabs/hex'
+// import type { Address, Hex } from '@xylabs/hex'
 import type { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import {
   defaultPath, Mnemonic, SigningKey,
@@ -20,12 +20,14 @@ type Wallet = HDWallet | WalletInstance
 /**
  * The serializable information of a wallet
  */
+/*
 interface WalletSnapshot {
   address: Address
   path: string | null
   privateKey: Hex
   publicKey: Hex
 }
+  */
 
 /**
  * Converts a compressed public key to an uncompressed public key
@@ -46,6 +48,7 @@ const formatHexString = (unformatted: string): string => unformatted.toLowerCase
  * @param wallet The wallet to snapshot
  * @returns The snapshot representation of the wallet
  */
+/*
 const toWalletSnapshot = (wallet: Wallet): WalletSnapshot => {
   const {
     address, path, privateKey, publicKey,
@@ -54,6 +57,7 @@ const toWalletSnapshot = (wallet: Wallet): WalletSnapshot => {
     address, path, privateKey, publicKey,
   }
 }
+  */
 
 /**
  * Snapshots the instances of two wallets to ensure repeatability
@@ -62,7 +66,7 @@ const toWalletSnapshot = (wallet: Wallet): WalletSnapshot => {
  * @param walletA The first wallet to snapshot
  * @param walletB The second wallet to snapshot
  */
-const snapshotWalletInstances = (walletA: Wallet, walletB: Wallet) => {
+const snapshotWalletInstances = (_walletA: Wallet, _walletB: Wallet) => {
   /* TODO: Joel
   expect(toWalletSnapshot(walletA)).toMatchSnapshot()
   expect([toWalletSnapshot(walletA), toWalletSnapshot(walletB)]).toMatchSnapshot()

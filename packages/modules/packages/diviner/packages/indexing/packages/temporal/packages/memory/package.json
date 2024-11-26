@@ -29,10 +29,10 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.4.4",
-    "@xylabs/assert": "^4.4.4",
-    "@xylabs/exists": "^4.4.4",
-    "@xylabs/hex": "^4.4.4",
+    "@xylabs/array": "^4.4.5",
+    "@xylabs/assert": "^4.4.5",
+    "@xylabs/exists": "^4.4.5",
+    "@xylabs/hex": "^4.4.5",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -54,10 +54,10 @@
     "@xyo-network/witness-timestamp": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.4.4",
+    "@xylabs/delay": "^4.4.5",
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
-    "@xylabs/vitest-extended": "^4.4.4",
+    "@xylabs/vitest-extended": "^4.4.5",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",

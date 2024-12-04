@@ -396,6 +396,10 @@ export abstract class AbstractArchivist<
         resultPayloads.push(...(await this.insertQueryHandler(wrappedQuery, payloads)))
         break
       }
+      case ArchivistNextQuerySchema: {
+        resultPayloads.push(...(await this.nextHandler(queryPayload)))
+        break
+      }
       default: {
         const result = await super.queryHandler(query, payloads)
         if (this.config.storeQueries) {

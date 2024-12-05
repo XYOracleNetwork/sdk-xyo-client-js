@@ -26,7 +26,7 @@
         "--run",
         "--inspect-brk",
         "--no-file-parallelism",
-        "packages/protocol/packages/boundwitness/packages/validator/src/lib/addresses/spec/addressesContainsAny.spec.ts"
+        "packages/protocol/packages/boundwitness/packages/builder/src/spec/Builder.sequence.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

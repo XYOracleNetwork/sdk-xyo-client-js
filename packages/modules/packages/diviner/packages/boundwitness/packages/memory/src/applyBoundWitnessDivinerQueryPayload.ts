@@ -14,7 +14,7 @@ const hasTimestamp = (bw: BoundWitness): bw is WithTimestamp => bw.timestamp !==
 export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivinerQueryPayload, payloads: Payload[] = []) => {
   if (!filter) return []
   const {
-    addresses, payload_hashes, payload_schemas, limit, offset, order = 'desc', sourceQuery, destination, timestamp,
+    addresses, payload_hashes, payload_schemas, limit, offset, order = 'desc', query, destination, timestamp,
   } = filter
 
   let bws = payloads.filter(isBoundWitness) as WithMeta<BoundWitness>[]
@@ -23,7 +23,7 @@ export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivine
   if (allAddresses?.length) bws = bws.filter(bw => containsAll(bw.addresses, allAddresses))
   if (payload_hashes?.length) bws = bws.filter(bw => containsAll(bw.payload_hashes, payload_hashes))
   if (payload_schemas?.length) bws = bws.filter(bw => containsAll(bw.payload_schemas, payload_schemas))
-  if (sourceQuery) bws = bws.filter(bw => (bw?.$meta as { sourceQuery?: string })?.sourceQuery === sourceQuery)
+  if (query) bws = bws.filter(bw => (bw?.$meta as { sourceQuery?: string })?.sourceQuery === query)
   // If there's a destination filter of the right kind
   if (destination && Array.isArray(destination) && destination?.length > 0) {
     const targetFilter = assertEx(destination, () => 'Missing destination')

@@ -1,4 +1,6 @@
-import type { Address, Hex } from '@xylabs/hex'
+import {
+  type Address, type Hex, isAddress,
+} from '@xylabs/hex'
 import { matchers } from '@xylabs/vitest-matchers'
 import type { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import {
@@ -104,6 +106,11 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
     describe('constructor', () => {
       it('can be created from mnemonic', async () => {
         const sut = await HDWallet.fromPhrase(phrase)
+        console.log('address', sut.address)
+        console.log('privateKeyX', sut.privateKey)
+        const mnemonic = Mnemonic.fromPhrase(phrase)
+        console.log('mnemonic.entropy', mnemonic.entropy)
+        expect(isAddress(sut.address)).toBe(true)
         expect(sut).toBeDefined()
       })
       it.each(paths)('works repeatably & interoperably with Ethers', async (path: string) => {
@@ -217,5 +224,5 @@ test('Random Wallet', async () => {
 test('HDWallet can be created from mnemonic', async () => {
   const sut = await HDWallet.fromPhrase('abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about', "m/44'/0'/0'/0/0")
   expect(sut).toBeDefined()
-  console.log('address', sut.privateKey)
+  console.log('privateKey', sut.privateKey)
 })

@@ -89,3 +89,57 @@ describe('PayloadBuilder', () => {
     expect(Object.keys(actualNoStamp.testSomeNullObject as object).length).toBe(2)
   })
 })
+
+describe('PayloadBuilder', () => {
+  test('hash', async () => {
+    const value = {
+      currentLocation: {
+        coords: {
+          accuracy: 5,
+          altitude: 15,
+          altitudeAccuracy: 15,
+          heading: 90,
+          latitude: 37.7749,
+          longitude: -122.4194,
+          speed: 2.5,
+        },
+        timestamp: 1_609_459_200_000,
+      },
+      schema: 'network.xyo.location.current',
+    }
+    const dh = await PayloadBuilder.dataHash(value)
+    const h = await PayloadBuilder.hash(value)
+    expect(dh).toBe('0c1f0c80481b0f391a677eab542a594a192081325b6416acc3dc99db23355ee2')
+    expect(h).toBe('5a4bb96eb1af7840321cb8a3503ab944957c06111869cc0746e985f49061e746')
+  })
+})
+
+describe('PayloadBuilder', () => {
+  test('hash', async () => {
+    const value = {
+      $hash: '6f731b3956114fd0d18820dbbe1116f9e36dc8d803b0bb049302f7109037468f',
+      $meta: {
+        client: 'ios',
+        signatures: ['fad86c98252b937a65be61f2307ce6d427a08425b4aee1c90fea0b446e9c862f46b6a36fea69450f83dadf9a2409c4f9ddc2e39a3dc222ae06f81b19eb2a17e6'],
+      },
+      addresses: ['e3b3bb3cdc49e13f9ac5f48d52915368de43afec'],
+      payload_hashes: ['c915c56dd93b5e0db509d1a63ca540cfb211e11f03039b05e19712267bb8b6db'],
+      payload_schemas: ['network.xyo.test'],
+      previous_hashes: [null],
+      schema: 'network.xyo.boundwitness',
+    }
+    const value2 = {
+      addresses: ['e3b3bb3cdc49e13f9ac5f48d52915368de43afec'],
+      payload_hashes: ['c915c56dd93b5e0db509d1a63ca540cfb211e11f03039b05e19712267bb8b6db'],
+      payload_schemas: ['network.xyo.test'],
+      previous_hashes: [null],
+      schema: 'network.xyo.boundwitness',
+    }
+    const dh = await PayloadBuilder.dataHash(value)
+    const dh2 = await PayloadBuilder.dataHash(value2)
+    const h = await PayloadBuilder.hash(value)
+    expect(dh).toBe(dh2)
+    expect(dh).toBe('6f731b3956114fd0d18820dbbe1116f9e36dc8d803b0bb049302f7109037468f')
+    expect(h).toBe('c267291c8169e428aaedbbf52792f9378ee03910401ef882b653a75f85370722')
+  })
+})

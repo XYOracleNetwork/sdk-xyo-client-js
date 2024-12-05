@@ -29,18 +29,18 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.4.9",
+    "@xylabs/hex": "^4.4.10",
     "@xyo-network/previous-hash-store-model": "workspace:^",
     "store2": "^2.14.3"
   },
   "devDependencies": {
-    "@types/node": "^22.10.0",
+    "@types/node": "^22.10.1",
     "@types/uuid": "^10.0.0",
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
     "typescript": "^5.7.2",
     "uuid": "^11.0.3",
-    "vitest": "^2.1.5"
+    "vitest": "^2.1.8"
   },
   "publishConfig": {
     "access": "public"

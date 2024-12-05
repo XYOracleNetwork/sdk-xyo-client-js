@@ -37,13 +37,13 @@
   "module": "dist/neutral/index-browser.mjs",
   "types": "dist/neutral/index-browser.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.4.9",
-    "@xylabs/axios": "^4.4.9",
-    "@xylabs/exists": "^4.4.9",
-    "@xylabs/forget": "^4.4.9",
-    "@xylabs/hex": "^4.4.9",
-    "@xylabs/object": "^4.4.9",
-    "@xylabs/promise": "^4.4.9",
+    "@xylabs/assert": "^4.4.10",
+    "@xylabs/axios": "^4.4.10",
+    "@xylabs/exists": "^4.4.10",
+    "@xylabs/forget": "^4.4.10",
+    "@xylabs/hex": "^4.4.10",
+    "@xylabs/object": "^4.4.10",
+    "@xylabs/promise": "^4.4.10",
     "@xylabs/sdk-api-express-ecs": "^2.1.0",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
@@ -56,17 +56,17 @@
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "async-mutex": "^0.5.0",
-    "axios": "^1.7.8",
+    "axios": "^1.7.9",
     "express": "^4.21.1",
     "http-status-codes": "^2.3.0",
     "lru-cache": "^11.0.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^22.10.0",
+    "@types/node": "^22.10.1",
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
-    "@xylabs/vitest-extended": "^4.4.9",
+    "@xylabs/vitest-extended": "^4.4.10",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/bridge-abstract": "workspace:^",
@@ -78,7 +78,7 @@
     "@xyo-network/payload-wrapper": "workspace:^",
     "get-port-please": "^3.1.2",
     "typescript": "^5.7.2",
-    "vitest": "^2.1.5"
+    "vitest": "^2.1.8"
   },
   "publishConfig": {
     "access": "public"

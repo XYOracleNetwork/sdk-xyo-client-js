@@ -13,13 +13,16 @@ export type BoundWitnessFields = {
   }
   /** @field Array of signatures by the accounts that are listed in addresses */
   addresses: Address[]
-  blockNumber?: number
+  /** @field sequential number (if this boundwitness is part of a multi-party chain) */
+  block?: Hex
+  /** @field unique id of a multi-party chain */
+  chain?: Hex
   error_hashes?: Hash[]
   payload_hashes: Hash[]
   payload_schemas: Schema[]
   previous_hashes: (Hash | null)[]
   /** @field Hash of the QueryBoundWitness that caused this BoundWitness to be created  */
-  sourceQuery?: Hash
+  query?: Hash
   timestamp: number
 }
 

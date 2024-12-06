@@ -8,13 +8,15 @@ import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-bound
 import type { Payload, WithMeta } from '@xyo-network/payload-model'
 
 type WithTimestamp = BoundWitness & { timestamp: number }
+type WithBlock = BoundWitness & { block: number }
 const hasTimestamp = (bw: BoundWitness): bw is WithTimestamp => bw.timestamp !== undefined
+const hasBlock = (bw: BoundWitness): bw is WithBlock => bw.timestamp !== undefined
 
 // eslint-disable-next-line complexity
 export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivinerQueryPayload, payloads: Payload[] = []) => {
   if (!filter) return []
   const {
-    addresses, payload_hashes, payload_schemas, limit, offset, order = 'desc', query, destination, timestamp,
+    addresses, payload_hashes, payload_schemas, block, limit, offset, order = 'desc', sourceQuery, destination, timestamp,
   } = filter
 
   let bws = payloads.filter(isBoundWitness) as WithMeta<BoundWitness>[]
@@ -23,7 +25,7 @@ export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivine
   if (allAddresses?.length) bws = bws.filter(bw => containsAll(bw.addresses, allAddresses))
   if (payload_hashes?.length) bws = bws.filter(bw => containsAll(bw.payload_hashes, payload_hashes))
   if (payload_schemas?.length) bws = bws.filter(bw => containsAll(bw.payload_schemas, payload_schemas))
-  if (query) bws = bws.filter(bw => (bw?.$meta as { sourceQuery?: string })?.sourceQuery === query)
+  if (sourceQuery) bws = bws.filter(bw => (bw?.$meta as { sourceQuery?: string })?.sourceQuery === sourceQuery)
   // If there's a destination filter of the right kind
   if (destination && Array.isArray(destination) && destination?.length > 0) {
     const targetFilter = assertEx(destination, () => 'Missing destination')
@@ -38,11 +40,17 @@ export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivine
         : false
     })
   }
+  if (block !== undefined) {
+    bws
+      = order === 'desc'
+        ? bws.filter(hasBlock).filter(bw => bw.block && bw.block <= block)
+        : bws.filter(hasBlock).filter(bw => bw.block && bw.block >= block)
+  }
   if (timestamp !== undefined) {
     bws
       = order === 'desc'
-        ? bws.filter(hasTimestamp).filter(bw => bw.timestamp <= timestamp)
-        : bws.filter(hasTimestamp).filter(bw => bw.timestamp >= timestamp)
+        ? bws.filter(hasTimestamp).filter(bw => bw.timestamp && bw.timestamp <= timestamp)
+        : bws.filter(hasTimestamp).filter(bw => bw.timestamp && bw.timestamp >= timestamp)
   }
   const parsedLimit = limit ?? bws.length
   const parsedOffset = offset ?? 0

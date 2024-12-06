@@ -14,16 +14,20 @@ export type BoundWitnessFields = {
   /** @field Array of signatures by the accounts that are listed in addresses */
   addresses: Address[]
   /** @field sequential number (if this boundwitness is part of a multi-party chain) */
-  block?: Hex
+  block?: number
   /** @field unique id of a multi-party chain */
   chain?: Hex
   error_hashes?: Hash[]
   payload_hashes: Hash[]
   payload_schemas: Schema[]
   previous_hashes: (Hash | null)[]
-  /** @field Hash of the QueryBoundWitness that caused this BoundWitness to be created  */
-  query?: Hash
-  timestamp: number
+  timestamp?: number
+  /**
+   * @field sequential number of the tower (if this boundwitness is part of a multi-party chain)
+   * The tower should always be zero until block reaches 2^32 which then causes it to rollover to 0
+   * and increases the tower by 1
+  */
+  tower?: number
 }
 
 export type BoundWitness<T extends Payload | EmptyObject | void = void> = Payload<

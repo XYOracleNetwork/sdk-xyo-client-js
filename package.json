@@ -73,9 +73,9 @@
   "dependencies": {
     "@xyo-network/core-payload-plugins": "workspace:^",
     "@xyo-network/manifest": "workspace:^",
-    "@xyo-network/modules": "workspace:^",
-    "@xyo-network/protocol": "workspace:^",
-    "@xyo-network/sdk-utils": "workspace:^",
+    "@xyo-network/modules": "2.29.0",
+    "@xyo-network/protocol": "2.41.4",
+    "@xyo-network/sdk-utils": "2.102.5",
     "@xyo-network/shared": "workspace:^"
   },
   "devDependencies": {

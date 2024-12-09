@@ -5,8 +5,6 @@ import type { Schema, WithSchema } from './Schema.ts'
 
 /** Meta fields for a payload - Either both $hash and $meta should exist or neither */
 export interface PayloadMetaFields<TAdditionalMeta extends EmptyObject | void = void> extends EmptyObject {
-  /** Hash of the body of the payload excluding the items in the $meta object */
-  $hash: Hash
   /** Meta data that should be included in the main hash of the payload */
   $meta?: TAdditionalMeta extends void ? JsonObject : TAdditionalMeta
 }

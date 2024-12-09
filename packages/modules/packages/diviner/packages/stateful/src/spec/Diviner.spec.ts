@@ -11,8 +11,7 @@ import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { ModuleState } from '@xyo-network/module-model'
 import type { MemoryNode } from '@xyo-network/node-memory'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithMeta } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -22,7 +21,7 @@ import { StatefulDiviner } from '../Diviner.ts'
 import TestManifest from './TestManifest.json' assert {type: 'json'}
 
 class TestStatefulDiviner extends StatefulDiviner {
-  callCommitState(state: WithMeta<ModuleState>) {
+  callCommitState(state: ModuleState) {
     return this.commitState(state)
   }
 
@@ -77,7 +76,7 @@ describe('TestStatefulDiviner', () => {
       ]
 
       it.each(cases)('returns state', async (state) => {
-        await sut.callCommitState(await PayloadBuilder.build(state))
+        await sut.callCommitState(state)
         const results = await sut.callRetrieveState()
         expect(results).toMatchObject(state)
       })

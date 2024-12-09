@@ -1,7 +1,7 @@
 import type { Hash } from '@xylabs/hex'
 import type { Promisable, PromisableArray } from '@xylabs/promise'
 import type { ModuleQueryFunctions } from '@xyo-network/module-model'
-import type { Payload, WithMeta } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 import type { NextOptions } from './NextOptions.ts'
 
@@ -26,9 +26,9 @@ export interface Archivist<
   TWriteResponse extends Payload = Payload,
   TWrite extends Payload = TReadResponse & Payload,
   TId = Hash,
-> extends ReadArchivist<WithMeta<TReadResponse>, TId>,
-  WriteArchivist<WithMeta<TReadResponse>, WithMeta<TWriteResponse>, TWrite, TId>,
-  StashArchivist<WithMeta<TWriteResponse>> {}
+> extends ReadArchivist<TReadResponse, TId>,
+  WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>,
+  StashArchivist<TWriteResponse> {}
 
 export interface ArchivistQueryFunctions<
   TReadResponse extends Payload = Payload,

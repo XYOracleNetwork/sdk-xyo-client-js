@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import type { Address } from '@xylabs/hex'
 import type { Promisable } from '@xylabs/promise'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithMeta } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import { isAnyPayload } from '@xyo-network/payload-model'
 
 export type PayloadLoader = (address: Address) => Promise<Payload | null>
@@ -17,7 +17,7 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> {
 
   protected constructor(public payload: TPayload) {}
 
-  static unwrap<TPayload extends Payload = Payload>(payload?: TPayload): WithMeta<TPayload> | undefined
+  static unwrap<TPayload extends Payload = Payload>(payload?: TPayload): TPayload | undefined
   static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
     payload: TPayload | TWrapper,
   ): TPayload

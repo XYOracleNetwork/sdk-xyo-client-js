@@ -2,7 +2,7 @@ import { uniq, uniqBy } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
-import { AbstractArchivist } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist, WithStorageMeta } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -16,9 +16,7 @@ import {
 } from '@xyo-network/archivist-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import {
-  Payload, PayloadWithMeta, Schema,
-} from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import {
   IDBPCursorWithValue, IDBPDatabase, openDB,
 } from 'idb'
@@ -26,10 +24,8 @@ import {
 import { IndexedDbArchivistConfigSchema } from './Config.ts'
 import { IndexedDbArchivistParams } from './Params.ts'
 
-type StoredPayload = PayloadWithMeta & { _hash: string }
-
 export interface PayloadStore {
-  [s: string]: StoredPayload
+  [s: string]: WithStorageMeta
 }
 
 @creatableModule()
@@ -129,11 +125,11 @@ export class IndexedDbArchivist<
     return [IndexedDbArchivist.dataHashIndex, IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex, ...(this.config?.storage?.indexes ?? [])]
   }
 
-  protected override async allHandler(): Promise<StoredPayload[]> {
+  protected override async allHandler(): Promise<Payload[]> {
     // Get all payloads from the store
     const payloads = await this.useDb(db => db.getAll(this.storeName))
     // Remove any metadata before returning to the client
-    return await Promise.all(payloads.map(payload => PayloadBuilder.build(payload)))
+    return payloads
   }
 
   protected override async clearHandler(): Promise<void> {
@@ -144,7 +140,10 @@ export class IndexedDbArchivist<
     // Filter duplicates to prevent unnecessary DB queries
     const uniqueHashes = [...new Set(hashes)]
     const pairs = await PayloadBuilder.hashPairs(await this.getHandler(uniqueHashes))
-    const hashesToDelete = pairs.flatMap<Hash>(pair => [pair[0].$hash, pair[1]])
+    const hashesToDelete = (await Promise.all(pairs.map(async (pair) => {
+      const dataHash0 = await PayloadBuilder.dataHash(pair[0])
+      return [dataHash0, pair[1]]
+    }))).flat()
     // Remove any duplicates
     const distinctHashes = [...new Set(hashesToDelete)]
     return await this.useDb(async (db) => {
@@ -181,7 +180,7 @@ export class IndexedDbArchivist<
     storeName: string,
     indexName: string,
     key: IDBValidKey,
-  ): Promise<[number, StoredPayload] | undefined> {
+  ): Promise<[number, WithStorageMeta] | undefined> {
     const transaction = db.transaction(storeName, 'readonly')
     const store = transaction.objectStore(storeName)
     const index = store.index(indexName)
@@ -204,7 +203,7 @@ export class IndexedDbArchivist<
     order: 'asc' | 'desc' = 'asc',
     limit: number = 10,
     offset?: Hash,
-  ): Promise<StoredPayload[]> {
+  ): Promise<WithStorageMeta[]> {
     const transaction = db.transaction(storeName, 'readonly')
     const store = transaction.objectStore(storeName)
     const hashIndex = store.index(IndexedDbArchivist.hashIndexName)
@@ -227,7 +226,7 @@ export class IndexedDbArchivist<
     }
 
     let remaining = limit
-    const result: StoredPayload[] = []
+    const result: WithStorageMeta[] = []
     while (remaining) {
       const value = primaryCursor?.value
       if (value) {
@@ -246,7 +245,7 @@ export class IndexedDbArchivist<
     return result
   }
 
-  protected override async getHandler(hashes: string[]): Promise<StoredPayload[]> {
+  protected override async getHandler(hashes: string[]): Promise<WithStorageMeta[]> {
     const payloads = await this.useDb(db =>
       Promise.all(
         // Filter duplicates to prevent unnecessary DB queries
@@ -281,7 +280,7 @@ export class IndexedDbArchivist<
     )
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     // Get the unique pairs of payloads and their hashes
     const uniquePayloadHashPairs = uniqBy(await PayloadBuilder.hashPairs(payloads), ([, _hash]) => _hash)
     return await this.useDb(async (db) => {
@@ -293,7 +292,7 @@ export class IndexedDbArchivist<
       // Get the object store
       const store = tx.objectStore(this.storeName)
       // Return only the payloads that were successfully inserted
-      const inserted: PayloadWithMeta[] = []
+      const inserted: Payload[] = []
       try {
         await Promise.all(
           uniquePayloadHashPairs.map(async ([payload, _hash]) => {
@@ -316,7 +315,7 @@ export class IndexedDbArchivist<
     })
   }
 
-  protected override async nextHandler(options?: ArchivistNextOptions): Promise<StoredPayload[]> {
+  protected override async nextHandler(options?: ArchivistNextOptions): Promise<WithStorageMeta[]> {
     const {
       limit, offset, order,
     } = options ?? {}

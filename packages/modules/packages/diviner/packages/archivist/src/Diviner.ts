@@ -7,9 +7,7 @@ import type {
 } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
-import type {
-  Payload, Schema, WithMeta,
-} from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
 import type { ArchivistPayloadDivinerConfig } from './Config.ts'
 import { ArchivistPayloadDivinerConfigSchema } from './Config.ts'
@@ -38,6 +36,6 @@ export class ArchivistPayloadDiviner<
     )
     const hashes = huriPayloads.flatMap(huriPayload => huriPayload.huri.map(huri => new Huri(huri).hash))
     const activeArchivist = await this.archivistInstance()
-    return ((await activeArchivist?.get(hashes)) as WithMeta<TOut>[]) ?? []
+    return ((await activeArchivist?.get(hashes)) as TOut[]) ?? []
   }
 }

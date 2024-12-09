@@ -8,7 +8,7 @@ import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-bound
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -25,28 +25,28 @@ describe('MemoryBoundWitnessDiviner', () => {
   let archivist: MemoryArchivist
   let sut: MemoryBoundWitnessDiviner
   let node: MemoryNode
-  let payloadA: PayloadWithMeta<{ schema: string; url: string }>
-  let payloadB: PayloadWithMeta<{ foo: string[]; schema: string }>
-  let payloadC: PayloadWithMeta<{ foo: string[]; schema: string }>
-  let payloadD: PayloadWithMeta<{ foo: string[]; schema: string }>
-  const bws: WithMeta<BoundWitness>[] = []
+  let payloadA: Payload<{ schema: string; url: string }>
+  let payloadB: Payload<{ foo: string[]; schema: string }>
+  let payloadC: Payload<{ foo: string[]; schema: string }>
+  let payloadD: Payload<{ foo: string[]; schema: string }>
+  const bws: BoundWitness[] = []
   beforeAll(async () => {
-    payloadA = await PayloadBuilder.build({
+    payloadA = {
       schema: 'network.xyo.test',
       url: 'https://xyo.network',
-    })
-    payloadB = await PayloadBuilder.build({
+    }
+    payloadB = {
       foo: ['bar', 'baz'],
       schema: 'network.xyo.debug',
-    })
-    payloadC = await PayloadBuilder.build({
+    }
+    payloadC = {
       foo: ['one', 'two'],
       schema: 'network.xyo.debug',
-    })
-    payloadD = await PayloadBuilder.build({
+    }
+    payloadD = {
       foo: ['aaa', 'bbb'],
       schema: 'network.xyo.debug',
-    })
+    }
 
     const account = await Account.random()
 

@@ -16,10 +16,7 @@ import {
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
-import {
-  Payload, PayloadWithMeta, Schema, WithMeta,
-} from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export interface FileSystemArchivistData {
   payloads: Payload[]
@@ -59,20 +56,14 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return assertEx(this._memoryArchivist)
   }
 
-  private static async dataFromRawJson(rawJson: string) {
+  private static dataFromRawJson(rawJson: string) {
     const data: FileSystemArchivistData = JSON.parse(rawJson)
     assertEx(typeof data === 'object', () => 'Archivist Data must be object')
     assertEx(Array.isArray(data.payloads), () => 'Archivist Data "payloads" field must be array of payloads')
-    data.payloads = await this.payloadsFromRawPayloads(data.payloads)
     return data
   }
 
-  private static async payloadsFromRawPayloads(rawPayloads: Payload[]) {
-    // validation should be done in here.  I don't believe parse does much validation yet.
-    return await Promise.all(rawPayloads.map(async payload => await PayloadBuilder.build(payload)))
-  }
-
-  protected override allHandler(): PromisableArray<PayloadWithMeta> {
+  protected override allHandler(): PromisableArray<Payload> {
     return this.memoryArchivist.all()
   }
 
@@ -80,7 +71,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return this.memoryArchivist.clear()
   }
 
-  protected override async commitHandler(): Promise<WithMeta<BoundWitness>[]> {
+  protected override async commitHandler(): Promise<BoundWitness[]> {
     return await this.memoryArchivist.commit()
   }
 
@@ -88,11 +79,11 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return this.memoryArchivist.delete(hashes)
   }
 
-  protected override async getHandler(hashes: Hash[]): Promise<PayloadWithMeta[]> {
+  protected override async getHandler(hashes: Hash[]): Promise<Payload[]> {
     return await this.memoryArchivist.get(hashes)
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     return await this.memoryArchivist.insert(payloads)
   }
 
@@ -100,8 +91,8 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     await super.startHandler()
     this._memoryArchivist = await MemoryArchivist.create({ account: await HDWallet.random() })
     try {
-      const data = await FilesystemArchivist.dataFromRawJson(await this.rawJsonFromFile())
-      await this._memoryArchivist.insert(await Promise.all(data.payloads.map(payload => PayloadBuilder.build(payload))))
+      const data = FilesystemArchivist.dataFromRawJson(await this.rawJsonFromFile())
+      await this._memoryArchivist.insert(data.payloads)
     } catch (ex) {
       handleError(ex, (error) => {
         this.logger?.error(error.message)

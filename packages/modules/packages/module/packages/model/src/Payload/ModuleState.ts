@@ -1,4 +1,4 @@
-import type { Payload, WithMeta } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 export interface StateDictionary {
@@ -15,8 +15,4 @@ export type ModuleState<T extends StateDictionary = StateDictionary> = Payload<S
 
 export const isModuleState = <T extends StateDictionary = StateDictionary>(payload?: Payload | null): payload is ModuleState<T> => {
   return isPayloadOfSchemaType<ModuleState<T>>(ModuleStateSchema)(payload)
-}
-
-export const isModuleStateWithMeta = <T extends StateDictionary = StateDictionary>(payload?: Payload | null): payload is WithMeta<ModuleState<T>> => {
-  return isPayloadOfSchemaType<WithMeta<ModuleState<T>>>(ModuleStateSchema)(payload)
 }

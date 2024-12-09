@@ -3,6 +3,7 @@
  */
 
 import type { Hash } from '@xylabs/hex'
+import type { AnyObject } from '@xylabs/object'
 import { toJsonString } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account'
 import { Account } from '@xyo-network/account'
@@ -10,7 +11,7 @@ import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   IDBCursor,
@@ -38,7 +39,7 @@ import { IndexedDbArchivistConfigSchema } from '../Config.ts'
  * @group archivist
  */
 describe('IndexedDbArchivist', () => {
-  type TestPayload = PayloadWithMeta<{ salt: string; schema: string }>
+  type TestPayload = Payload<{ salt: string; schema: string }>
 
   // Augment window with prototypes to ensure instance of comparisons work
   globalThis.IDBCursor = IDBCursor
@@ -55,11 +56,9 @@ describe('IndexedDbArchivist', () => {
   globalThis.indexedDB = indexedDB
 
   const fillDb = async (db: ArchivistInstance, count: number = 10): Promise<TestPayload[]> => {
-    const sources = await Promise.all(
-      Array.from({ length: count }).map(async (_, i) => {
-        return await PayloadBuilder.build({ salt: `${i}`, schema: IdSchema })
-      }),
-    )
+    const sources = Array.from({ length: count }).map((_, i) => {
+      return { salt: `${i}`, schema: IdSchema }
+    })
     for (const source of sources) {
       await db.insert([source])
     }
@@ -231,28 +230,28 @@ describe('IndexedDbArchivist', () => {
       expect(getResult.length).toBe(0)
     })
     describe('by hash', () => {
-      let payload1: PayloadWithMeta
-      let payload2: PayloadWithMeta
+      let payload1: Payload<AnyObject>
+      let payload2: Payload<AnyObject>
       let dataHash1: Hash
       let dataHash2: Hash
       let rootHash1: Hash
       let rootHash2: Hash
       beforeAll(async () => {
         const salt = '650123f6-191e-4cc4-a813-f7a29dcbfb0e'
-        payload1 = await PayloadBuilder.build({
+        payload1 = {
           _signatures: [
             '12bed6aa884f5b7ffc08e19790b5db0da724b8b7471138dcbec090a0798861db0da8255f0d9297ba981b2cbbea65d9eadabac6632124f10f22c709d333a1f285',
           ],
           salt,
           schema: IdSchema,
-        })
-        payload2 = await PayloadBuilder.build({
+        }
+        payload2 = {
           _signatures: [
             '22bed6aa884f5b7ffc08e19790b5db0da724b8b7471138dcbec090a0798861db0da8255f0d9297ba981b2cbbea65d9eadabac6632124f10f22c709d333a1f285',
           ],
           salt,
           schema: IdSchema,
-        })
+        }
         dataHash1 = await PayloadBuilder.dataHash(payload1)
         dataHash2 = await PayloadBuilder.dataHash(payload2)
         rootHash1 = await PayloadBuilder.hash(payload1)
@@ -300,7 +299,7 @@ describe('IndexedDbArchivist', () => {
     describe('with unique data', () => {
       const dbName = 'bd86d2dd-dc48-4621-8c1f-105ba2e90287'
       const storeName = 'f8d14049-2966-4198-a2ab-1c096a949315'
-      let sources: PayloadWithMeta[] = []
+      let sources: Payload[] = []
       let archivistModule: ArchivistInstance
       beforeAll(async () => {
         archivistModule = await IndexedDbArchivist.create({
@@ -319,7 +318,7 @@ describe('IndexedDbArchivist', () => {
             expect(getResult).toBeDefined()
             expect(getResult.length).toBe(1)
             const [result] = getResult
-            expect(PayloadBuilder.withoutMeta(result)).toEqual(PayloadBuilder.withoutMeta(source))
+            expect(PayloadBuilder.omitClientMeta(result)).toEqual(PayloadBuilder.omitClientMeta(source))
             const resultHash = await PayloadBuilder.dataHash(result)
             expect(resultHash).toBe(sourceHash)
           }),
@@ -333,7 +332,7 @@ describe('IndexedDbArchivist', () => {
             expect(getResult).toBeDefined()
             expect(getResult.length).toBe(1)
             const [result] = getResult
-            expect(PayloadBuilder.withoutMeta(result)).toEqual(PayloadBuilder.withoutMeta(source))
+            expect(PayloadBuilder.omitClientMeta(result)).toEqual(PayloadBuilder.omitClientMeta(source))
             const resultHash = await PayloadBuilder.hash(result)
             expect(resultHash).toBe(sourceHash)
           }),
@@ -354,7 +353,7 @@ describe('IndexedDbArchivist', () => {
       })
       it('handles duplicate insertions', async () => {
         // Insert same payload twice
-        const source = await PayloadBuilder.build({ salt: '2d515e1d-d82c-4545-9903-3eded7fefa7c', schema: IdSchema })
+        const source = { salt: '2d515e1d-d82c-4545-9903-3eded7fefa7c', schema: IdSchema }
         // First insertion should succeed and return the inserted payload
         expect(await archivistModule.insert([source])).toEqual([source])
         // Second insertion should succeed but return empty array since no new data was inserted
@@ -387,15 +386,15 @@ describe('IndexedDbArchivist', () => {
       const account = await Account.random()
 
       const payloads1 = [
-        await PayloadBuilder.build({ schema: 'network.xyo.test', value: 1 }),
-        await PayloadBuilder.build({ schema: 'network.xyo.test', value: 2 }),
+        { schema: 'network.xyo.test', value: 1 },
+        { schema: 'network.xyo.test', value: 2 },
       ]
 
       // console.log('Payloads1:', toJsonString(await PayloadBuilder.hashPairs(payloads1), 10))
 
       const payloads2 = [
-        await PayloadBuilder.build({ schema: 'network.xyo.test', value: 3 }),
-        await PayloadBuilder.build({ schema: 'network.xyo.test', value: 4 }),
+        { schema: 'network.xyo.test', value: 3 },
+        { schema: 'network.xyo.test', value: 4 },
       ]
 
       // console.log('Payloads2:', toJsonString(await PayloadBuilder.hashPairs(payloads2), 10))
@@ -411,32 +410,32 @@ describe('IndexedDbArchivist', () => {
 
       const batch1 = await archivist.next?.({ limit: 2 })
       expect(batch1.length).toBe(2)
-      expect(batch1?.[0].$hash).toEqual(payloads1[0].$hash)
+      expect(await PayloadBuilder.dataHash(batch1?.[0])).toEqual(await PayloadBuilder.dataHash(payloads1[0]))
 
       const batch2 = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch1?.[1]) })
       expect(batch2.length).toBe(2)
-      expect(batch2?.[0].$hash).toEqual(payloads2[0].$hash)
+      expect(await PayloadBuilder.dataHash(batch2?.[0])).toEqual(await PayloadBuilder.dataHash(payloads2[0]))
 
       const batch3 = await archivist.next?.({ limit: 20, offset: await PayloadBuilder.hash(batch1?.[1]) })
       expect(batch3.length).toBe(2)
-      expect(batch3?.[0].$hash).toEqual(payloads2[0].$hash)
+      expect(await PayloadBuilder.dataHash(batch3?.[0])).toEqual(await PayloadBuilder.dataHash(payloads2[0]))
 
       // desc
       const batch1Desc = await archivist.next?.({ limit: 2, order: 'desc' })
       expect(batch1Desc.length).toBe(2)
-      expect(batch1Desc?.[0].$hash).toEqual(payloads2[1].$hash)
+      expect(await PayloadBuilder.dataHash(batch1Desc?.[0])).toEqual(await PayloadBuilder.dataHash(payloads2[1]))
 
       const batch2Desc = await archivist.next?.({
         limit: 2, offset: await PayloadBuilder.hash(batch1Desc?.[1]), order: 'desc',
       })
       expect(batch2Desc.length).toBe(2)
-      expect(batch2Desc?.[1].$hash).toEqual(payloads1[0].$hash)
+      expect(await PayloadBuilder.dataHash(batch2Desc?.[1])).toEqual(await PayloadBuilder.dataHash(payloads1[0]))
 
       const batch3Desc = await archivist.next?.({
         limit: 20, offset: await PayloadBuilder.hash(batch1Desc?.[1]), order: 'desc',
       })
       expect(batch3Desc.length).toBe(2)
-      expect(batch3Desc?.[1].$hash).toEqual(payloads1[0].$hash)
+      expect(await PayloadBuilder.dataHash(batch3Desc?.[1])).toEqual(await PayloadBuilder.dataHash(payloads1[0]))
     })
   })
 })

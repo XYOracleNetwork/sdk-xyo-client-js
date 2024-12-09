@@ -14,9 +14,7 @@ import type {
 import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import type { EventListener } from '@xyo-network/module-events'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  Payload, Schema, WithMeta,
-} from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
 const DEFAULT_INDEX_BATCH_SIZE = 100 as const
@@ -45,8 +43,8 @@ export class GenericPayloadDiviner<
   static override readonly configSchemas: Schema[] = [...super.configSchemas, GenericPayloadDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = GenericPayloadDivinerConfigSchema
 
-  protected indexMaps: Record<string, WithMeta<TOut>[]> = {}
-  protected payloadPairs: [WithMeta<TOut>, Hash][] = []
+  protected indexMaps: Record<string, TOut[]> = {}
+  protected payloadPairs: [TOut, Hash][] = []
 
   private _archivistInstance?: ArchivistInstance
   private _indexOffset?: Hash
@@ -104,20 +102,19 @@ export class GenericPayloadDiviner<
     })
   }
 
-  protected override async divineHandler(payloads?: TIn[]): Promise<WithMeta<TOut>[]> {
+  protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     const filters = payloads?.filter(isPayloadDivinerQueryPayload) ?? []
     assertEx(filters.length < 2, () => 'Multiple PayloadDivinerQuery payloads may not be specified')
-    const filter = assertEx(filters.shift(), () => 'No PayloadDivinerQuery specified') as unknown as WithMeta<
+    const filter = assertEx(filters.shift(), () => 'No PayloadDivinerQuery specified') as unknown as
       PayloadDivinerQueryPayload<EmptyObject, Hash>
-    >
 
     await this.updateIndex()
 
     const {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      $hash, $meta, schema, schemas, order, limit, offset, ...props
+      schema, schemas, order, limit, offset, ...props
     } = filter
-    let all: WithMeta<TOut>[] = this.all(order, offset)
+    let all: TOut[] = this.all(order, offset)
     if (all) {
       if (schemas?.length) all = all.filter(payload => schemas.includes(payload.schema))
       if (Object.keys(props).length > 0) {
@@ -176,7 +173,7 @@ export class GenericPayloadDiviner<
   protected async updateIndex() {
     await this._updatePayloadPairsMutex.runExclusive(async () => {
       const archivist = await this.archivistInstance(true)
-      let newPayloads = (await archivist.next({ limit: 100, offset: this._indexOffset })) as WithMeta<TOut>[]
+      let newPayloads = (await archivist.next({ limit: 100, offset: this._indexOffset })) as TOut[]
       while (newPayloads.length > 0) {
         const prevOffset = this._indexOffset
         this._indexOffset = await PayloadBuilder.hash(assertEx(newPayloads.at(-1)))
@@ -185,7 +182,7 @@ export class GenericPayloadDiviner<
         }
         assertEx(this.payloadPairs.length + newPayloads.length <= this.maxIndexSize, () => 'maxIndexSize exceeded')
         await this.indexPayloads(newPayloads)
-        newPayloads = (await archivist.next({ limit: 100, offset: this._indexOffset })) as WithMeta<TOut>[]
+        newPayloads = (await archivist.next({ limit: 100, offset: this._indexOffset })) as TOut[]
       }
     })
   }

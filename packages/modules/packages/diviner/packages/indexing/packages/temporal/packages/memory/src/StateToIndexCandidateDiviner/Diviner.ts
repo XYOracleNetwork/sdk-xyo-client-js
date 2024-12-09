@@ -3,7 +3,7 @@ import { exists } from '@xylabs/exists'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import type { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
@@ -96,7 +96,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     // Get source data
     const sourceArchivist = await this.getArchivistForStore()
     if (!sourceArchivist) return [lastState]
-    const bws = batch.filter(isBoundWitnessWithMeta)
+    const bws = batch.filter(isBoundWitness)
     const indexCandidates: IndexCandidate[] = (await Promise.all(bws.map(bw => this.getPayloadsInBoundWitness(bw, sourceArchivist))))
       .filter(exists)
       .flat()

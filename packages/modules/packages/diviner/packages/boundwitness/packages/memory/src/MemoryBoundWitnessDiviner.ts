@@ -7,7 +7,6 @@ import type {
   BoundWitnessDivinerQueryPayload,
 } from '@xyo-network/diviner-boundwitness-model'
 import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import type { WithMeta } from '@xyo-network/payload-model'
 
 import { applyBoundWitnessDivinerQueryPayload } from './applyBoundWitnessDivinerQueryPayload.ts'
 
@@ -70,7 +69,7 @@ export class MemoryBoundWitnessDiviner<
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
-    let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitness) as WithMeta<BoundWitness>[]
-    return applyBoundWitnessDivinerQueryPayload(filter, bws) as WithMeta<TOut>[]
+    let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitness) as BoundWitness[]
+    return applyBoundWitnessDivinerQueryPayload(filter, bws) as TOut[]
   }
 }

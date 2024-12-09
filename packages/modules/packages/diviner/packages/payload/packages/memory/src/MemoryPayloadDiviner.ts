@@ -6,7 +6,7 @@ import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import type { PayloadDivinerParams, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithMeta } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 import { hasTimestamp } from './hasTimestamp.ts'
 
@@ -20,14 +20,14 @@ export class MemoryPayloadDiviner<
     TOut
   >,
 > extends PayloadDiviner<TParams, TIn, TOut, TEventData> {
-  protected override async divineHandler(payloads?: TIn[]): Promise<WithMeta<TOut>[]> {
+  protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const {
       schemas, limit, offset, hash, order = 'desc', timestamp, ...props
-    } = removeFields(filter as WithMeta<TIn>, ['schema', '$meta', '$hash'])
-    let all = (await archivist.all?.()) as WithMeta<TOut>[]
+    } = removeFields(filter as TIn, ['schema'])
+    let all = (await archivist.all?.()) as TOut[]
     if (all) {
       if (order === 'desc') all = all.reverse()
       if (schemas?.length) all = all.filter(payload => schemas.includes(payload.schema))

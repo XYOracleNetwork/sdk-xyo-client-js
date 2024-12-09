@@ -1,7 +1,5 @@
 import type { Payload } from '@xyo-network/payload-model'
-import {
-  isPayloadOfSchemaType, isPayloadOfSchemaTypeWithMeta, isPayloadOfSchemaTypeWithSources,
-} from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources } from '@xyo-network/payload-model'
 
 export const HashLeaseEstimateSchema = 'network.xyo.hash.lease.estimate' as const
 export type HashLeaseEstimateSchema = typeof HashLeaseEstimateSchema
@@ -31,11 +29,6 @@ export type HashLeaseEstimate = Payload<HashLeaseEstimateFields, HashLeaseEstima
  * Identity function for HashLeaseEstimate payload
  */
 export const isHashLeaseEstimate = isPayloadOfSchemaType<HashLeaseEstimate>(HashLeaseEstimateSchema)
-
-/**
- * Identity function for HashLeaseEstimate payload with meta
- */
-export const isHashLeaseEstimateWithMeta = isPayloadOfSchemaTypeWithMeta<HashLeaseEstimate>(HashLeaseEstimateSchema)
 
 /**
  * Identity function for HashLeaseEstimate payload with sources

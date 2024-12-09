@@ -3,7 +3,7 @@ import { assertEx } from '@xylabs/assert'
 import type { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { isQueryBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import { isQueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { isBridgeInstance } from '@xyo-network/bridge-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
@@ -18,7 +18,7 @@ import {
   ResolveHelper,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Schema, WithMeta } from '@xyo-network/payload-model'
+import type { Schema } from '@xyo-network/payload-model'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase.ts'
 import type { AsyncQueryBusHostParams } from './model/index.ts'
@@ -132,7 +132,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
   }
 
   // eslint-disable-next-line complexity
-  protected callLocalModule = async (localModule: ModuleInstance, query: WithMeta<QueryBoundWitness>) => {
+  protected callLocalModule = async (localModule: ModuleInstance, query: QueryBoundWitness) => {
     this._idle = false
     this._lastQueryTime = Date.now()
     const localModuleName = localModule.id
@@ -144,7 +144,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       await this.responsesArchivist(),
       () => `Unable to contact responsesArchivist [${this.config?.intersect?.queries?.archivist}]`,
     )
-    const queryDestination = (query.$meta as { destination?: string[] })?.destination
+    const queryDestination = (query as { $destination?: string[] })?.$destination
     if (queryDestination && queryDestination?.includes(localModule.address)) {
       // Find the query
       const queryIndex = query.payload_hashes.indexOf(query.query)
@@ -156,7 +156,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
           const queryPayloads = await queryArchivist.get(query.payload_hashes)
           this.params.onQueryFulfillStarted?.({ payloads: queryPayloads, query })
           const queryPayloadsDict = await PayloadBuilder.toAllHashMap(queryPayloads)
-          const queryHash = (await PayloadBuilder.build(query)).$hash
+          const queryHash = await PayloadBuilder.dataHash(query)
           // Check that we have all the arguments for the command
           if (!containsAll(Object.keys(queryPayloadsDict), query.payload_hashes)) {
             this.logger?.error(`Error processing command ${queryHash} for module ${localModuleName}, missing payloads`)
@@ -220,7 +220,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
         timestamp: prevState + 1,
       }
       const result = await queriesBoundWitnessDiviner.divine([divinerQuery])
-      const queries = result.filter(isQueryBoundWitnessWithMeta)
+      const queries = result.filter(isQueryBoundWitness)
       const nextState = queries.length > 0 ? Math.max(...queries.map(c => c.timestamp ?? prevState)) + 1 : Date.now()
       // TODO: This needs to be thought through as we can't use a distributed timestamp
       // because of collisions. We need to use the timestamp of the store so there's no

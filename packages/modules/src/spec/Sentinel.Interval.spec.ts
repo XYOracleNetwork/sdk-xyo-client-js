@@ -11,7 +11,6 @@ import type { PackageManifestPayload } from '@xyo-network/manifest'
 import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { MemoryNode } from '@xyo-network/node-memory'
-import type { WithMeta } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -97,7 +96,7 @@ describe('Sentinel.Interval', () => {
     }
     const initialState = await addressStatePayloadDiviner?.divine([lastStateQuery])
     const statePayloads
-      = initialState?.filter((p): p is WithMeta<{ offset?: number; schema: string }> => p.schema === 'network.xyo.module.state') ?? []
+      = initialState?.filter((p): p is { offset?: number; schema: string } => p.schema === 'network.xyo.module.state') ?? []
     const offset = statePayloads?.[0]?.offset ?? 0
     const payloadDiviner = asDivinerInstance(await node.resolve('PayloadDiviner'))
     const payloadDivinerQuery = {

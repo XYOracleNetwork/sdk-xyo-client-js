@@ -11,9 +11,7 @@ import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import type { ModuleState, StateDictionary } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  Payload, Schema, WithMeta,
-} from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
 import { StatefulDivinerConfigSchema } from './Config.ts'
 import type { StatefulDivinerParams } from './Params.ts'
@@ -40,7 +38,7 @@ export abstract class StatefulDiviner<
   /**
    * The last state
    */
-  protected _lastState?: WithMeta<ModuleState<TState>>
+  protected _lastState?: ModuleState<TState>
 
   /**
    * Commit the internal state of the Diviner process. This is similar
@@ -49,7 +47,7 @@ export abstract class StatefulDiviner<
    * external stores.
    * @param nextState The state to commit
    */
-  protected async commitState(nextState: WithMeta<ModuleState<TState>>) {
+  protected async commitState(nextState: ModuleState<TState>) {
     // Don't commit state if no state has changed
     if (nextState.state.offset === this._lastState?.state.offset) return
     this._lastState = nextState
@@ -95,7 +93,7 @@ export abstract class StatefulDiviner<
    * Retrieves the last state of the Diviner process. Used to recover state after
    * preemptions, reboots, etc.
    */
-  protected async retrieveState(): Promise<WithMeta<ModuleState<TState>> | undefined> {
+  protected async retrieveState(): Promise<ModuleState<TState> | undefined> {
     if (this._lastState) return this._lastState
     let hash: Hash = ''
     const diviner = await this.getBoundWitnessDivinerForStateStore()
@@ -130,7 +128,7 @@ export abstract class StatefulDiviner<
       const archivist = await this.getArchivistForStateStore()
       const payload = (await archivist.get([hash])).find(isModuleState<TState>)
       if (payload) {
-        return payload as WithMeta<ModuleState<TState>>
+        return payload as ModuleState<TState>
       }
     }
     return undefined

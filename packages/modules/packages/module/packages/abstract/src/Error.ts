@@ -1,7 +1,7 @@
 import type { Hash } from '@xylabs/hex'
 import type { JsonValue } from '@xylabs/object'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { ModuleError, WithMeta } from '@xyo-network/payload-model'
+import type { ModuleError } from '@xyo-network/payload-model'
 import { ModuleErrorSchema } from '@xyo-network/payload-model'
 
 export class ModuleErrorBuilder extends PayloadBuilder<ModuleError> {
@@ -14,7 +14,7 @@ export class ModuleErrorBuilder extends PayloadBuilder<ModuleError> {
     super({ schema: ModuleErrorSchema })
   }
 
-  override build(): Promise<WithMeta<ModuleError>> {
+  override build(): ModuleError {
     this.fields({
       details: this._details,
       message: this._message,

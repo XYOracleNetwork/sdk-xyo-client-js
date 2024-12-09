@@ -24,7 +24,7 @@ import type {
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
-  Payload, Schema, WithMeta, WithSources,
+  Payload, Schema, WithSources,
 } from '@xyo-network/payload-model'
 
 export abstract class AbstractDiviner<
@@ -49,7 +49,7 @@ export abstract class AbstractDiviner<
   }
 
   /** @function divine The main entry point for a diviner.  Do not override this function.  Implement/override divineHandler for custom functionality */
-  divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<WithSources<WithMeta<TOut>>[]> {
+  divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<WithSources<TOut>[]> {
     this._noOverride('divine')
     return this.busy(async () => {
       const retryConfig = retryConfigIn ?? this.config.retry
@@ -60,7 +60,7 @@ export abstract class AbstractDiviner<
       await this.emit('divineEnd', {
         errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads,
       })
-      return await Promise.all(resultPayloads.map(payload => PayloadBuilder.build(payload)))
+      return resultPayloads
     })
   }
 

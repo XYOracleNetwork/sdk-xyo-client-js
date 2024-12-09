@@ -8,7 +8,7 @@ import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-mo
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { PayloadWithMeta } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -26,20 +26,20 @@ describe('MemoryPayloadDiviner', () => {
   let archivist: MemoryArchivist
   let sut: MemoryPayloadDiviner
   let node: MemoryNode
-  let payloadA: PayloadWithMeta<{ schema: string; timestamp: number; url: string }>
-  let payloadB: PayloadWithMeta<{ foo: string[]; schema: string; timestamp: number }>
+  let payloadA: Payload<{ schema: string; timestamp: number; url: string }>
+  let payloadB: Payload<{ foo: string[]; schema: string; timestamp: number }>
   beforeAll(async () => {
-    payloadA = await PayloadBuilder.build({
+    payloadA = {
       schema: 'network.xyo.test',
       url: 'https://xyo.network',
       timestamp: Date.now(),
-    })
+    }
     await delay(2)
-    payloadB = await PayloadBuilder.build({
+    payloadB = {
       foo: ['bar', 'baz'],
       schema: 'network.xyo.debug',
       timestamp: Date.now(),
-    })
+    }
 
     archivist = await MemoryArchivist.create({
       account: 'random',

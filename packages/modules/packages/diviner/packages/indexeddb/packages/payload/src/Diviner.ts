@@ -10,10 +10,7 @@ import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/divin
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  Payload, Schema, WithMeta,
-} from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 import type { IDBPDatabase, IDBPObjectStore } from 'idb'
 import { openDB } from 'idb'
 
@@ -93,11 +90,9 @@ export class IndexedDbPayloadDiviner<
     const result = await this.tryUseDb(async (db) => {
       const {
         schemas, limit, offset, order, ...props
-      } = removeFields(query as unknown as WithMeta<TIn> & { sources?: Hash[] }, [
+      } = removeFields(query as unknown as TIn & { sources?: Hash[] }, [
         'hash',
         'schema',
-        '$meta',
-        '$hash',
       ])
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
@@ -152,7 +147,7 @@ export class IndexedDbPayloadDiviner<
       }
       await tx.done
       // Remove any metadata before returning to the client
-      return await Promise.all(results.map(payload => PayloadBuilder.build(payload)))
+      return results
     })
     return result ?? []
   }

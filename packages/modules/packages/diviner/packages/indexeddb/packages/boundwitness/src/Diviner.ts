@@ -6,7 +6,6 @@ import { BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-mo
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Schema } from '@xyo-network/payload-model'
 import type { IDBPDatabase } from 'idb'
 import { openDB } from 'idb'
@@ -121,9 +120,7 @@ export class IndexedDbBoundWitnessDiviner<
       await tx.done
       // Remove any metadata before returning to the client
       return await Promise.all(
-        results.filter(isBoundWitness).map((bw) => {
-          return PayloadBuilder.build(bw)
-        }),
+        results.filter(isBoundWitness),
       )
     })
     return result ?? []

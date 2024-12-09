@@ -6,12 +6,13 @@ const schema = 'network.xyo.temp'
 
 import '@xylabs/vitest-extended'
 
+import { ObjectHasher } from '@xyo-network/hash'
 import {
   describe, expect, test,
 } from 'vitest'
 
 describe('PayloadBuilder', () => {
-  test('build', async () => {
+  test('build', () => {
     let builder = new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })
     expect(builder).toBeDefined()
     builder = builder.fields({
@@ -35,7 +36,7 @@ describe('PayloadBuilder', () => {
     })
     expect(builder).toBeDefined()
 
-    const actual = await builder.build({ stamp: true })
+    const actual = builder.build()
 
     expect(actual).toBeDefined()
     expect(actual._timestamp).toBeUndefined()
@@ -44,7 +45,6 @@ describe('PayloadBuilder', () => {
     expect(actual._testUnderscore).toBeUndefined()
     expect(actual.$testDollar).toBeUndefined()
     expect(actual.schema).toBeDefined()
-    expect(actual.$meta?.timestamp).toBeNumber()
     expect(Object.keys(actual).length).toBeGreaterThan(1)
     expect(Object.keys(actual.testSomeNullObject as object).length).toBe(2)
 
@@ -77,14 +77,13 @@ describe('PayloadBuilder', () => {
     })
     expect(builderNoStamp).toBeDefined()
 
-    const actualNoStamp = await builderNoStamp.build({ stamp: false })
+    const actualNoStamp = builderNoStamp.build()
 
     expect(actualNoStamp).toBeDefined()
     expect(actualNoStamp._timestamp).toBeUndefined()
     expect(actualNoStamp._client).toBeUndefined()
     expect(actualNoStamp._hash).toBeUndefined()
     expect(actualNoStamp.schema).toBeDefined()
-    expect(actualNoStamp.$meta?.timestamp).toBeUndefined()
     expect(Object.keys(actualNoStamp).length).toBeGreaterThan(1)
     expect(Object.keys(actualNoStamp.testSomeNullObject as object).length).toBe(2)
   })
@@ -141,5 +140,32 @@ describe('PayloadBuilder', () => {
     expect(dh).toBe(dh2)
     expect(dh).toBe('6f731b3956114fd0d18820dbbe1116f9e36dc8d803b0bb049302f7109037468f')
     expect(h).toBe('c267291c8169e428aaedbbf52792f9378ee03910401ef882b653a75f85370722')
+  })
+})
+
+describe('temp', () => {
+  test('kotlin-data-hash', async () => {
+    const payload = {
+      $meta: {
+        client: 'android',
+        signatures: ['493178d0b896818e2185ca424738cd6d4cac94990af9c1a238c02e51baa387b3354058c32ef0e601c8e6201ff677bf97885169140e6e36778dc41ecd6bf362d7'],
+      },
+      addresses: ['9858effd232b4033e47d90003d41ec34ecaeda94'],
+      payload_hashes: ['4ca087085f26a7c3961b450457a8e44307f331ecf2580bb952fdacdcb7be4cd7'],
+      payload_schemas: ['network.xyo.test'],
+      previous_hashes: [null],
+      schema: 'network.xyo.boundwitness',
+    }
+    const payload2String = ObjectHasher.stringifyHashFields(payload)
+    const enc = new TextEncoder()
+    const data = enc.encode(payload2String)
+    var total = 0
+    for (const datum of data) {
+      total += datum
+    }
+    console.log('total', total)
+    console.log('len', data.length)
+    const hash2 = await ObjectHasher.hash(payload)
+    expect(hash2).toBe('cb8b63aaaa8da5763f3e62541421c48b9b2356b4b9da24f58359072b89549e66')
   })
 })

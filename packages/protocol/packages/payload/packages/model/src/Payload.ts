@@ -1,13 +1,7 @@
 import type { Hash } from '@xylabs/hex'
-import type { EmptyObject, JsonObject } from '@xylabs/object'
+import type { EmptyObject } from '@xylabs/object'
 
 import type { Schema, WithSchema } from './Schema.ts'
-
-/** Meta fields for a payload - Either both $hash and $meta should exist or neither */
-export interface PayloadMetaFields<TAdditionalMeta extends EmptyObject | void = void> extends EmptyObject {
-  /** Meta data that should be included in the main hash of the payload */
-  $meta?: TAdditionalMeta extends void ? JsonObject : TAdditionalMeta
-}
 
 /** Additional fields for a payload */
 export interface PayloadFields extends EmptyObject {

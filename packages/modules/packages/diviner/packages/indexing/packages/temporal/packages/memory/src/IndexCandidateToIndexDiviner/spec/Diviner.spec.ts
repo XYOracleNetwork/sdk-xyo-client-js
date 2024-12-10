@@ -89,17 +89,14 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
       ]
       describe('with single result', () => {
         it.each(cases)('transforms single result', async (timestamp, thumbnail) => {
-          const builtTimestamp = await PayloadBuilder.build(timestamp)
-          const builtThumbnail = await PayloadBuilder.build(thumbnail)
-          const [boundWitness] = await (await new BoundWitnessBuilder().payloads([builtTimestamp, builtThumbnail])).build()
-          const result = await diviner.divine([boundWitness, builtTimestamp, builtThumbnail])
-          await validateSingleResult([boundWitness, builtTimestamp, builtThumbnail], result)
+          const [boundWitness] = await (await new BoundWitnessBuilder().payloads([timestamp, thumbnail])).build()
+          const result = await diviner.divine([boundWitness, timestamp, thumbnail])
+          await validateSingleResult([boundWitness, timestamp, thumbnail], result)
         })
         it('transforms BW with multiple results inside', async () => {
           const payloads = cases.flat()
-          const builtPayloads = await PayloadBuilder.build(payloads)
-          const [boundWitness] = await (await new BoundWitnessBuilder().payloads(builtPayloads)).build()
-          const results = await diviner.divine([boundWitness, ...builtPayloads])
+          const [boundWitness] = await (await new BoundWitnessBuilder().payloads(payloads)).build()
+          const results = await diviner.divine([boundWitness, ...payloads])
           expect(results).toBeArrayOfSize(Math.pow(cases.length, cases[0].length))
           let resultIndex = 0
           for (let i = 0; i < cases.length; i++) {

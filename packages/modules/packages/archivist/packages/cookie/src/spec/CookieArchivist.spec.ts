@@ -39,20 +39,20 @@ const testArchivistRoundTrip = (archivistPromise: Promisable<ArchivistInstance>,
 
 const testArchivistAll = (archivistPromise: Promisable<ArchivistInstance>, name: string) => {
   test(`Archivist All [${name}]`, async () => {
-    const idPayload = {
-      salt: Date.now().toString(),
-      schema: IdSchema,
-    }
     const archivist = await archivistPromise
     await archivist.clear?.()
     for (let x = 0; x < 10; x++) {
-      await archivist.insert([await PayloadBuilder.build(idPayload)])
+      const idPayload = {
+        salt: Date.now().toString(),
+        schema: IdSchema,
+      }
+      await archivist.insert([idPayload])
       await delay(10)
     }
     const getResult = await archivist.all?.()
     expect(getResult).toBeDefined()
     // this is 11 here since we double store all these and every one has the same dataHash
-    expect(getResult?.length).toBe(2)
+    expect(getResult?.length).toBe(10)
   })
 }
 

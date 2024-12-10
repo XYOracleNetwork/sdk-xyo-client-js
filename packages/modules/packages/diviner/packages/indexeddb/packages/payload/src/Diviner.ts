@@ -108,8 +108,8 @@ export class IndexedDbPayloadDiviner<
       const valueFilters: ValueFilter[]
         = props
           ? Object.entries(props)
-            .map(([key, value]) => payloadValueFilter(key, value))
-            .filter(exists)
+              .map(([key, value]) => payloadValueFilter(key, value))
+              .filter(exists)
           : []
       let cursor
         = suggestedIndex

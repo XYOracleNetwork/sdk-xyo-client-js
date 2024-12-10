@@ -22,17 +22,18 @@ export class QueryBoundWitnessBuilder<
   override async dataHashableFields(): Promise<TBoundWitness> {
     const fields = {
       ...(await super.dataHashableFields()),
-      query: PayloadBuilder.dataHash(assertEx(this._query, () => 'No Query Specified')),
+      query: await PayloadBuilder.dataHash(assertEx(this._query, () => 'No Query Specified')),
       schema: QueryBoundWitnessSchema,
-    } as Omit<TBoundWitness, '$hash' | '$meta'>
+    } as TBoundWitness
     if (this._additional) {
       fields.additional = this._additional
     }
-    return fields as TBoundWitness
+    return { ...fields } as TBoundWitness
   }
 
   query<T extends TQuery>(query: T) {
     this.payload(query)
+    this._query = query
     return this
   }
 }

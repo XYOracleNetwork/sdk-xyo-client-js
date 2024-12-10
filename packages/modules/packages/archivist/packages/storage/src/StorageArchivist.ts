@@ -98,10 +98,10 @@ export class StorageArchivist<
     return Object.entries(this.storage.getAll())
       .map(([, value]) => value)
       .filter((payload) => {
-        if (found.has(payload.$hash)) {
+        if (found.has(payload._dataHash)) {
           return false
         } else {
-          found.add(payload.$hash)
+          found.add(payload._dataHash)
           return true
         }
       })
@@ -152,10 +152,10 @@ export class StorageArchivist<
     const payloads: WithStorageMeta[] = Object.entries(this.storage.getAll())
       .map(([, value]) => value)
       .filter((payload) => {
-        if (found.has(payload.$hash)) {
+        if (found.has(payload._dataHash)) {
           return false
         } else {
-          found.add(payload.$hash)
+          found.add(payload._dataHash)
           return true
         }
       })
@@ -179,10 +179,10 @@ export class StorageArchivist<
       })
     ).filter(exists)
       .filter((payload) => {
-        if (found.has(payload.$hash)) {
+        if (found.has(payload._dataHash)) {
           return false
         } else {
-          found.add(payload.$hash)
+          found.add(payload._dataHash)
           return true
         }
       }).map(payload => PayloadBuilder.omitStorageMeta(payload))

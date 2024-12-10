@@ -4,7 +4,6 @@ import { Account } from '@xyo-network/account'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { NodeInstance } from '@xyo-network/node-model'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
@@ -28,13 +27,17 @@ describe('PayloadPointerDiviner', () => {
     const account = Account.random()
     const schemaA = getTestSchemaName()
     const schemaB = getTestSchemaName()
-    const payloadBaseA = (async () => PayloadBuilder.build({
-      ...(await getNewPayload()), schema: schemaA, timestamp: Date.now(),
-    }))()
+    const payloadBaseA = (async () => {
+      return {
+        ...(await getNewPayload()), schema: schemaA, timestamp: Date.now(),
+      }
+    })()
     const payloadA: Promise<PayloadWrapper> = (async () => PayloadWrapper.wrap(await payloadBaseA))()
-    const payloadBaseB = (async () => PayloadBuilder.build({
-      ...(await getNewPayload()), schema: schemaB, timestamp: Date.now(),
-    }))()
+    const payloadBaseB = (async () => {
+      return {
+        ...(await getNewPayload()), schema: schemaB, timestamp: Date.now(),
+      }
+    })()
     const payloadB: Promise<PayloadWrapper> = (async () => PayloadWrapper.wrap(await payloadBaseB))()
     const schemas = [schemaA, schemaB]
     let node: NodeInstance

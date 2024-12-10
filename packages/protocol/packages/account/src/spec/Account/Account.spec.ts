@@ -44,7 +44,7 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
       expect(wallet.public).toBeDefined()
       expect(wallet.address).toBeDefined()
       const previousHash = wallet.previousHash
-      const signature = await wallet.sign(testVectorHash, toArrayBuffer(previousHash))
+      const [signature] = await wallet.sign(testVectorHash, toArrayBuffer(previousHash))
       const valid = await wallet.verify(testVectorHash, signature)
       expect(valid).toBeTrue()
     })
@@ -52,7 +52,7 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
     test('Sign-testVectors', async () => {
       const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
       const previousHash = wallet.previousHash
-      const signature = await wallet.sign(testVectorHash, toArrayBuffer(previousHash))
+      const [signature] = await wallet.sign(testVectorHash, toArrayBuffer(previousHash))
       const expectedSignature = toArrayBuffer(testVectorSignature)
 
       expect(signature).toEqual(expectedSignature)
@@ -78,7 +78,7 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
     test('Sign-random-string', async () => {
       const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
       const previousHash = wallet.previousHash
-      const signature = await wallet.sign(testVectorHash, toArrayBuffer(previousHash))
+      const [signature] = await wallet.sign(testVectorHash, toArrayBuffer(previousHash))
       expect(signature.byteLength).toBe(64)
       const valid = await wallet.verify(testVectorHash, signature)
       expect(valid).toBeTrue()

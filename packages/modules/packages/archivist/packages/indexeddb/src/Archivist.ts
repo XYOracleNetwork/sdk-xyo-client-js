@@ -39,7 +39,7 @@ export class IndexedDbArchivist<
   static readonly defaultDbVersion = 1
   static readonly defaultStoreName = 'payloads'
   private static readonly dataHashIndex: IndexDescription = {
-    key: { $hash: 1 }, multiEntry: false, unique: false,
+    key: { _dataHash: 1 }, multiEntry: false, unique: false,
   }
 
   private static readonly hashIndex: IndexDescription = {

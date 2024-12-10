@@ -7,6 +7,7 @@ import type { Promisable } from '@xylabs/promise'
 import { removeEmptyFields } from '@xyo-network/hash'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 
+import { PayloadBuilder } from './Builder.ts'
 import type { PayloadBuilderOptions } from './Options.ts'
 
 export type WithOptionalSchema<T extends Payload> = Omit<T, 'schema'> & Partial<T>
@@ -14,12 +15,12 @@ export type WithOptionalSchema<T extends Payload> = Omit<T, 'schema'> & Partial<
 export type WithoutSchema<T extends WithOptionalSchema<Payload>> = Omit<T, 'schema'>
 
 export const removeMetaAndSchema = <T extends Payload>(payload: Partial<WithOptionalSchema<T>>): WithoutSchema<T> => {
-  const { ...result } = payload
+  const { ...result } = PayloadBuilder.omitMeta(payload as T) as WithOptionalSchema<T>
   delete result.schema
   return result as Omit<T, 'schema'>
 }
 
-const omitByPredicate = (prefix: string) => (_: unknown, key: string) => {
+const omitByPrefixPredicate = (prefix: string) => (_: unknown, key: string) => {
   assertEx(typeof key === 'string', () => `Invalid key type [${key}, ${typeof key}]`)
   return key.startsWith(prefix)
 }
@@ -31,7 +32,7 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
   constructor(readonly options: O) {
     const { schema, fields } = options
     this._schema = schema
-    this._fields = removeMetaAndSchema(removeEmptyFields(fields ?? {}))
+    this._fields = removeMetaAndSchema(removeEmptyFields(structuredClone(fields ?? {})))
   }
 
   static dataHashableFields<T extends Payload>(
@@ -44,19 +45,19 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
       cleanFields === undefined || isJsonObject(cleanFields),
       () => `Fields must be JsonObject: ${JSON.stringify(toJson(cleanFields), null, 2)}`,
     )
-    return omitBy(omitBy(cleanFields as object, omitByPredicate('$')), omitByPredicate('_')) as T
+    return this.omitMeta(cleanFields) as T
   }
 
-  static omitClientMeta<T extends Payload>(payload: T): T {
-    return omitBy(payload, omitByPredicate('$')) as T
+  static omitClientMeta<T extends Payload>(payload: T, maxDepth = 100): T {
+    return omitBy(payload, omitByPrefixPredicate('$'), maxDepth) as T
   }
 
-  static omitMeta<T extends Payload>(payload: T): T {
-    return this.omitStorageMeta(this.omitClientMeta(payload))
+  static omitMeta<T extends Payload>(payload: T, maxDepth = 100): T {
+    return this.omitStorageMeta(this.omitClientMeta(payload, maxDepth), maxDepth)
   }
 
   static omitStorageMeta<T extends Payload>(payload: T, maxDepth = 100): T {
-    return omitBy(payload, omitByPredicate('_'), maxDepth) as T
+    return omitBy(payload, omitByPrefixPredicate('_'), maxDepth) as T
   }
 
   async dataHashableFields() {
@@ -67,17 +68,14 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
     )
   }
 
-  // we do not require sending in $hash since it will be generated anyway
   fields(fields: WithOptionalSchema<T>) {
     if (fields) {
-      const {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        schema, ...fieldsOnly
-      } = fields
+      const fieldsClone = structuredClone(fields)
+      const { schema } = fieldsClone
       if (schema) {
         this.schema(schema)
       }
-      this._fields = removeMetaAndSchema<T>(fields)
+      this._fields = removeEmptyFields(removeMetaAndSchema<T>(fieldsClone))
     }
     return this
   }

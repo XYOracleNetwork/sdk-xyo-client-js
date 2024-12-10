@@ -49,16 +49,16 @@ describe('PayloadBuilder', () => {
     expect(Object.keys(actual.testSomeNullObject as object).length).toBe(2)
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect((actual as any).testUnderscoreObject._test).toBeDefined()
+    expect((actual as any).testUnderscoreObject._test).toBeUndefined()
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect((actual as any).testUnderscoreObjectInArray[0]._test).toBeDefined()
+    expect((actual as any).testUnderscoreObjectInArray[0]._test).toBeUndefined()
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect((actual as any).testDollarObject.$test).toBeDefined()
+    expect((actual as any).testDollarObject.$test).toBeUndefined()
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect((actual as any).testDollarObjectInArray[0].$test).toBeDefined()
+    expect((actual as any).testDollarObjectInArray[0].$test).toBeUndefined()
 
     let builderNoStamp = new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })
     expect(builderNoStamp).toBeDefined()
@@ -92,6 +92,7 @@ describe('PayloadBuilder', () => {
 describe('PayloadBuilder', () => {
   test('hash', async () => {
     const value = {
+      $meta_field: 'yo',
       currentLocation: {
         coords: {
           accuracy: 5,
@@ -109,7 +110,7 @@ describe('PayloadBuilder', () => {
     const dh = await PayloadBuilder.dataHash(value)
     const h = await PayloadBuilder.hash(value)
     expect(dh).toBe('0c1f0c80481b0f391a677eab542a594a192081325b6416acc3dc99db23355ee2')
-    expect(h).toBe('5a4bb96eb1af7840321cb8a3503ab944957c06111869cc0746e985f49061e746')
+    expect(h).toBe('d1685b23bbc87c0260620fa6ff3581ffd48574bd326cb472425d4db787af487f')
   })
 })
 
@@ -134,6 +135,7 @@ describe('PayloadBuilder', () => {
       previous_hashes: [null],
       schema: 'network.xyo.boundwitness',
     }
+    console.log('payload', PayloadBuilder.omitMeta(value))
     const dh = await PayloadBuilder.dataHash(value)
     const dh2 = await PayloadBuilder.dataHash(value2)
     const h = await PayloadBuilder.hash(value)
@@ -166,6 +168,6 @@ describe('temp', () => {
     console.log('total', total)
     console.log('len', data.length)
     const hash2 = await ObjectHasher.hash(payload)
-    expect(hash2).toBe('cb8b63aaaa8da5763f3e62541421c48b9b2356b4b9da24f58359072b89549e66')
+    expect(hash2).toBe('79f9ff8083f5b1dde361d48b583821bd2b78723a29b422c8d6aefaed5bcba981')
   })
 })

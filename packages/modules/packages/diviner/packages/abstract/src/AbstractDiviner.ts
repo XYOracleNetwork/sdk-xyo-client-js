@@ -60,7 +60,7 @@ export abstract class AbstractDiviner<
       await this.emit('divineEnd', {
         errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads,
       })
-      return resultPayloads
+      return resultPayloads.map(payload => PayloadBuilder.omitStorageMeta(payload))
     })
   }
 

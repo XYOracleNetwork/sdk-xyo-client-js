@@ -124,11 +124,11 @@ export class GenericPayloadDiviner<
           all
             = Array.isArray(filter)
               ? all.filter(payload =>
-                filter.every((value) => {
-                  const prop = payload?.[property]
-                  // TODO: This seems to be written just to check arrays, and now that $meta is there, need to check type?
-                  return Array.isArray(prop) && prop.includes?.(value)
-                }))
+                  filter.every((value) => {
+                    const prop = payload?.[property]
+                    // TODO: This seems to be written just to check arrays, and now that $meta is there, need to check type?
+                    return Array.isArray(prop) && prop.includes?.(value)
+                  }))
               : all.filter(payload => payload?.[property] === filter)
         }
       }

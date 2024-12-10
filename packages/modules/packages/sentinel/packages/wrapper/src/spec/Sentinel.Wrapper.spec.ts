@@ -77,7 +77,7 @@ describe('Sentinel', () => {
           expect(archivistPayloads).toBeArrayOfSize(payloads.length + 1)
           const panelPayloads = await Promise.all(
             payloads.map((payload) => {
-              return PayloadBuilder.build(payload)
+              return PayloadBuilder.omitStorageMeta(payload)
             }),
           )
           expect(archivistPayloads).toContainValues(panelPayloads)

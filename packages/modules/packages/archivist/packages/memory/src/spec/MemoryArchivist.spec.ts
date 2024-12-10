@@ -31,13 +31,11 @@ describe('MemoryArchivist', () => {
   it('should return same items inserted', async () => {
     const archivist = await MemoryArchivist.create({ account: 'random' })
 
-    const payloads = [await PayloadBuilder.build({ schema: 'network.xyo.test' }, { stamp: false })]
-    expect(payloads[0].$meta?.timestamp).toBeUndefined()
+    const payloads = [{ schema: 'network.xyo.test' }]
     const result = await archivist.insert(payloads)
 
     expect(result.length).toEqual(payloads.length)
     expect(result[0].schema).toEqual(payloads[0].schema)
-    expect(result[0].$meta?.timestamp).toBeUndefined()
   })
 
   it('next', async () => {
@@ -45,13 +43,13 @@ describe('MemoryArchivist', () => {
     const account = await HDWallet.random()
 
     const payloads1 = [
-      await PayloadBuilder.build({ schema: 'network.xyo.test', value: 1 }),
-      await PayloadBuilder.build({ schema: 'network.xyo.test', value: 2 }),
+      { schema: 'network.xyo.test', value: 1 },
+      { schema: 'network.xyo.test', value: 2 },
     ]
 
     const payloads2 = [
-      await PayloadBuilder.build({ schema: 'network.xyo.test', value: 3 }),
-      await PayloadBuilder.build({ schema: 'network.xyo.test', value: 4 }),
+      { schema: 'network.xyo.test', value: 3 },
+      { schema: 'network.xyo.test', value: 4 },
     ]
     await archivist.insert(payloads1)
     console.log(toJsonString(payloads1, 10))
@@ -64,21 +62,21 @@ describe('MemoryArchivist', () => {
 
     const batch1 = await archivist.next?.({ limit: 2 })
     expect(batch1).toBeArrayOfSize(2)
-    expect(batch1?.[0].$hash).toEqual(payloads1[0].$hash)
+    expect(await PayloadBuilder.dataHash(batch1?.[0])).toEqual(await PayloadBuilder.dataHash(payloads1[0]))
 
     const batch2 = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch1?.[0]) })
     expect(batch2).toBeArrayOfSize(2)
-    expect(batch2?.[1].$hash).toEqual(payloads2[0].$hash)
+    expect(await PayloadBuilder.dataHash(batch2?.[1])).toEqual(await PayloadBuilder.dataHash(payloads2[0]))
 
     // desc
     const batch1Desc = await archivist.next?.({ limit: 2, order: 'desc' })
     expect(batch1Desc).toBeArrayOfSize(2)
-    expect(batch1Desc?.[0].$hash).toEqual(payloads2[1].$hash)
+    expect(await PayloadBuilder.dataHash(batch1Desc?.[0])).toEqual(await PayloadBuilder.dataHash(payloads2[1]))
 
     const batch2Desc = await archivist.next?.({
       limit: 2, offset: await PayloadBuilder.hash(batch2?.[1]), order: 'desc',
     })
     expect(batch2Desc).toBeArrayOfSize(2)
-    expect(batch2Desc?.[1].$hash).toEqual(payloads1[0].$hash)
+    expect(await PayloadBuilder.dataHash(batch2Desc?.[1])).toEqual(await PayloadBuilder.dataHash(payloads1[0]))
   })
 })

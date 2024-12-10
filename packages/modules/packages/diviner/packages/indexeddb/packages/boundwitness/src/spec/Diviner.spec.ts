@@ -141,23 +141,23 @@ describe('IndexedDbBoundWitnessDiviner', () => {
   describe('with order', () => {
     describe('not set', () => {
       it('returns payloads in ascending order', async () => {
-        const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema }).build()
+        const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema }).build()
         const results = await sut.divine([query])
         expect(results).toEqual(boundWitnesses)
       })
     })
     describe('asc', () => {
-      it('returns payloads in ascending order', async () => {
-        const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+      it('returns payloads in ascending order', () => {
+        const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
           .fields({ order: 'asc' })
           .build()
-        const results = await sut.divine([query])
+        const results = sut.divine([query])
         expect(results).toEqual(boundWitnesses)
       })
     })
     describe('desc', () => {
       it('returns payloads in descending order', async () => {
-        const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+        const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
           .fields({ order: 'desc' })
           .build()
         const results = await sut.divine([query])
@@ -169,7 +169,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     describe('when ascending order', () => {
       it('returns payloads from the beginning', async () => {
         for (const [i, boundWitness] of boundWitnesses.entries()) {
-          const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+          const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
             .fields({
               limit: 1, offset: i, order: 'asc',
             })
@@ -184,7 +184,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     describe('when descending order', () => {
       it('returns payloads from the end', async () => {
         for (let i = 0; i < boundWitnesses.length; i++) {
-          const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+          const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
             .fields({
               limit: 1, offset: i, order: 'desc',
             })

@@ -9,7 +9,6 @@ import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-ch
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { WithMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   describe, expect, it,
@@ -57,13 +56,13 @@ describe('MemoryAddressHistoryDiviner', () => {
           address: wrapperAccount.address,
           archivist: archivist.address,
           schema: AddressChainDivinerConfigSchema,
-          startHash: (await PayloadBuilder.build(all[5])).$hash,
+          startHash: (await PayloadBuilder.dataHash(all[5])),
         },
       })
       await node.register(diviner)
       await node.attach(diviner.address)
 
-      const result = (await diviner.divine()) as WithMeta<BoundWitness>[]
+      const result = (await diviner.divine()) as BoundWitness[]
       expect(result.length).toBe(3)
       expect(result[0].schema).toBe(BoundWitnessSchema)
       expect(result[0].addresses).toContain(wrapperAddress)

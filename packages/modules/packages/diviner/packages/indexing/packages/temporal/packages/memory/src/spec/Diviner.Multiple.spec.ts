@@ -80,8 +80,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
     schema: 'network.xyo.image.thumbnail',
     sourceUrl,
   }
-  const witnessedThumbnails = (async () =>
-    await PayloadBuilder.build([thumbnailHttpSuccess, thumbnailHttpFail, thumbnailCodeFail, thumbnailWitnessFail]))()
+  const witnessedThumbnails = [thumbnailHttpSuccess, thumbnailHttpFail, thumbnailCodeFail, thumbnailWitnessFail]
 
   let sut: TemporalIndexingDiviner
   let node: MemoryNode
@@ -107,7 +106,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
 
     // Insert previously witnessed payloads into thumbnail archivist
     const timestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [boundWitness, payloads] = await new BoundWitnessBuilder().payloads([timestamp, ...(await witnessedThumbnails)]).build()
+    const [boundWitness, payloads] = await new BoundWitnessBuilder().payloads([timestamp, ...witnessedThumbnails]).build()
 
     const thumbnailArchivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
     await thumbnailArchivist.insert([boundWitness, ...payloads])

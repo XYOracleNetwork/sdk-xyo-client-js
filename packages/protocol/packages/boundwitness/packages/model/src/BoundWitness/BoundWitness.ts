@@ -15,18 +15,12 @@ export interface BoundWitnessRequiredFields {
 }
 
 export type BoundWitnessOptionalFields = {
-  /** @field sequential number (if this boundwitness is part of a multi-party chain) */
-  block?: number
-  /** @field unique id of a multi-party chain */
+  /** @field sequential number (if this boundwitness is part of a multi-party chain) zero padded to 32 characters */
+  block?: Hex
+  /** @field unique id of a multi-party chain (usually staking contract address) */
   chain?: Hex
-  error_hashes?: Hash[]
-  timestamp?: number
-  /**
-   * @field sequential number of the tower (if this boundwitness is part of a multi-party chain)
-   * The tower should always be zero until block reaches 2^32 which then causes it to rollover to 0
-   * and increases the tower by 1
-  */
-  tower?: number
+  error_hashes?: Hash[] // query bw
+  timestamp?: number // move to meta {$}
 }
 
 export interface BoundWitnessFields extends BoundWitnessRequiredFields, BoundWitnessOptionalFields {}

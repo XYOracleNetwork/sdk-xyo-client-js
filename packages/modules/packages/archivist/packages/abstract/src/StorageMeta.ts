@@ -4,7 +4,7 @@ import type { Payload } from '@xyo-network/payload-model'
 export interface StorageMeta {
   _dataHash: Hash
   _hash: Hash
-  // this sequence number must be a 0 padded string representation of a 128 bit sequence number
+  // this sequence number must be a 0 padded string representation of a 18 byte sequence number
   _sequence: Hex // zero padded epoch/index (when returned, has address as suffix) - to be used as a universal cursor
 }
 

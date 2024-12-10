@@ -3,7 +3,6 @@ import { exists } from '@xylabs/exists'
 import type { Hash } from '@xylabs/hex'
 import type { Promisable, PromisableArray } from '@xylabs/promise'
 import { fulfilled } from '@xylabs/promise'
-import type { WithStorageMeta } from '@xyo-network/archivist-abstract'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import type {
   ArchivistConfig,
@@ -12,6 +11,7 @@ import type {
   ArchivistModuleEventData,
   ArchivistNextOptions,
   ArchivistParams,
+  WithStorageMeta,
 } from '@xyo-network/archivist-model'
 import {
   ArchivistAllQuerySchema,
@@ -147,7 +147,6 @@ export class StorageArchivist<
     limit: number = 10,
     offset?: Hash,
   ): WithStorageMeta[] {
-    const offsetHash = offset ? (this.storage.get(offset) as WithStorageMeta | undefined)?._dataHash : undefined
     const found = new Set<string>()
     const payloads: WithStorageMeta[] = Object.entries(this.storage.getAll())
       .map(([, value]) => value)
@@ -160,13 +159,11 @@ export class StorageArchivist<
         }
       })
       .sort((a, b) => {
-        return order === 'asc' ? a._timestamp - b._timestamp : b._timestamp - a._timestamp
+        return order === 'asc' ? a._sequence - b._sequence : b._sequence - a._sequence
       })
-    if (offsetHash) {
-      const index = payloads.findIndex(payload => payload._dataHash === offsetHash)
-      if (index !== -1) {
-        return payloads.slice(index + 1, index + 1 + limit)
-      }
+    const index = payloads.findIndex(payload => payload._hash === offset)
+    if (index !== -1) {
+      return payloads.slice(index + 1, index + 1 + limit)
     }
     return payloads.slice(0, limit)
   }
@@ -189,8 +186,8 @@ export class StorageArchivist<
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
-    return await Promise.all(payloads.map(async (payload, index) => {
-      const storagePayload = await StorageArchivist.addSequencedStorageMeta(payload, index)
+    return await Promise.all(payloads.map(async (payload) => {
+      const storagePayload = await StorageArchivist.addSequencedStorageMeta(payload)
       const value = JSON.stringify(storagePayload)
       console.log('insert.storagePayloads:', storagePayload)
       assertEx(value.length < this.maxEntrySize, () => `Payload too large [${storagePayload._hash}, ${value.length}]`)

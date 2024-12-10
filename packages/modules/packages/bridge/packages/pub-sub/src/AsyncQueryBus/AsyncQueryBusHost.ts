@@ -179,11 +179,11 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
             if (insertResult.length === 0) {
               this.logger?.error(`Error replying to query ${queryHash} addressed to module: ${localModuleName}`)
             }
-            if (query?.timestamp) {
+            if (query?.$timestamp) {
               // TODO: This needs to be thought through as we can't use a distributed timestamp
               // because of collisions. We need to ensure we are using the timestamp of the store
               // so there's no chance of multiple commands at the same time
-              await this.commitState(localModule.address, query.timestamp)
+              await this.commitState(localModule.address, query.$timestamp)
             }
             this.params.onQueryFulfillFinished?.({
               payloads: queryPayloads, query, result, status: 'success',
@@ -221,7 +221,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       }
       const result = await queriesBoundWitnessDiviner.divine([divinerQuery])
       const queries = result.filter(isQueryBoundWitness)
-      const nextState = queries.length > 0 ? Math.max(...queries.map(c => c.timestamp ?? prevState)) + 1 : Date.now()
+      const nextState = queries.length > 0 ? Math.max(...queries.map(c => c.$timestamp ?? prevState)) + 1 : Date.now()
       // TODO: This needs to be thought through as we can't use a distributed timestamp
       // because of collisions. We need to use the timestamp of the store so there's no
       // chance of multiple commands at the same time

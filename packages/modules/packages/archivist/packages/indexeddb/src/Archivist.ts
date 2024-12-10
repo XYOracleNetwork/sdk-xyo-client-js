@@ -2,7 +2,7 @@ import { uniq, uniqBy } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
-import { AbstractArchivist, WithStorageMeta } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -13,6 +13,7 @@ import {
   ArchivistNextQuerySchema,
   buildStandardIndexName,
   IndexDescription,
+  WithStorageMeta,
 } from '@xyo-network/archivist-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -282,7 +283,7 @@ export class IndexedDbArchivist<
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     // Get the unique pairs of payloads and their hashes
-    const uniquePayloadHashPairs = uniqBy(await PayloadBuilder.hashPairs(payloads), ([, _hash]) => _hash)
+    const payloadWithStorageMeta = await IndexedDbArchivist.addStorageMeta(payloads)
     return await this.useDb(async (db) => {
       // Perform all inserts via a single transaction to ensure atomicity
       // with respect to checking for the pre-existence of the hash.
@@ -295,13 +296,13 @@ export class IndexedDbArchivist<
       const inserted: Payload[] = []
       try {
         await Promise.all(
-          uniquePayloadHashPairs.map(async ([payload, _hash]) => {
+          payloadWithStorageMeta.map(async (payload) => {
             // Check if the root hash already exists
-            const existingRootHash = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
+            const existingRootHash = await store.index(IndexedDbArchivist.hashIndexName).get(payload._hash)
             // If it does not already exist
             if (!existingRootHash) {
               // Insert the payload
-              await store.put({ ...payload, _hash })
+              await store.put(payload)
               // Add it to the inserted list
               inserted.push(payload)
             }

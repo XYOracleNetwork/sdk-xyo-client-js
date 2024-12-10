@@ -19,8 +19,6 @@ export type BoundWitnessOptionalFields = {
   block?: Hex
   /** @field unique id of a multi-party chain (usually staking contract address) */
   chain?: Hex
-  error_hashes?: Hash[] // query bw
-  timestamp?: number // move to meta {$}
 }
 
 export interface BoundWitnessFields extends BoundWitnessRequiredFields, BoundWitnessOptionalFields {}
@@ -32,6 +30,15 @@ export type UnsignedBoundWitness<T extends Payload | EmptyObject | void = void> 
       : BoundWitnessSchema
 >
 
-export type Signed<T> = T & { $signatures: Hex[] }
+export type Signed<T> = T & {
+  $signatures: Hex[]
+  $timestamp?: number
+}
+
+export type WithMetaTimestamp = BoundWitness & { $timestamp: number }
+export type WithBlock = BoundWitness & { block: Hex }
+
+export const hasMetaTimestamp = (bw: BoundWitness): bw is WithMetaTimestamp => bw.$timestamp !== undefined && typeof bw.$timestamp === 'number'
+export const hasBlock = (bw: BoundWitness): bw is WithBlock => bw.block !== undefined && typeof bw.block === 'string'
 
 export type BoundWitness<T extends Payload | EmptyObject | void = void> = Signed<UnsignedBoundWitness<T>>

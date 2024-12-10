@@ -1,6 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Address, Hash } from '@xylabs/hex'
+import {
+  type Address, type Hash, type Hex,
+  isHash,
+  isHex,
+  toHex,
+} from '@xylabs/hex'
 import { globallyUnique, omitBy } from '@xylabs/object'
 import type { Promisable, PromisableArray } from '@xylabs/promise'
 import { difference } from '@xylabs/set'
@@ -19,6 +24,7 @@ import type {
   ArchivistParams,
   ArchivistQueries,
   AttachableArchivistInstance,
+  WithStorageMeta,
 } from '@xyo-network/archivist-model'
 import {
   ArchivistAllQuerySchema,
@@ -31,6 +37,7 @@ import {
   ArchivistNextQuerySchema,
   asArchivistInstance,
   isArchivistInstance,
+  StorageMetaConstants,
 } from '@xyo-network/archivist-model'
 import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -42,15 +49,7 @@ import { duplicateModules } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 
-import type { WithStorageMeta } from './StorageMeta.ts'
-import { maxSequenceIndex, maxSequenceStringCharacters } from './StorageMeta.ts'
-
 const NOT_IMPLEMENTED = 'Not implemented' as const
-
-function bigintToZeroPaddedString(value: bigint, totalLength: number) {
-  const stringValue = value.toString()
-  return stringValue.padStart(totalLength, '0')
-}
 
 export interface ActionConfig {
   emitEvents?: boolean
@@ -90,21 +89,45 @@ export abstract class AbstractArchivist<
     return !!this.config?.storeParentReads
   }
 
-  static async addSequencedStorageMeta<T extends Payload = Payload>(payload: T, sequence: bigint): Promise<WithStorageMeta<T>>
-  static async addSequencedStorageMeta<T extends Payload = Payload>(payload: T, index: number): Promise<WithStorageMeta<T>>
-  static async addSequencedStorageMeta<T extends Payload = Payload>(payload: T, indexOrSequence: number | bigint): Promise<WithStorageMeta<T>> {
-    const sequence = typeof indexOrSequence === 'number' ? this.sequenceNumber(indexOrSequence) : indexOrSequence
-    const sequenceString = bigintToZeroPaddedString(sequence, maxSequenceStringCharacters)
+  static async addSequencedStorageMeta<T extends Payload = Payload>(payload: T, hash?: Hash, dataHash?: Hash): Promise<WithStorageMeta<T>> {
+    assertEx(hash === undefined || isHash(hash), () => 'Invalid hash')
+    assertEx(dataHash === undefined || isHash(dataHash), () => 'Invalid dataHash')
+    const _hash = hash ?? await PayloadBuilder.hash(payload)
     return {
       ...payload,
-      _sequence: sequenceString,
-      _dataHash: await PayloadBuilder.dataHash(payload),
-      _hash: await PayloadBuilder.hash(payload),
+      _sequence: this.buildSequence(Date.now(), _hash.slice(-(StorageMetaConstants.nonceBytes * 2)) as Hex),
+      _dataHash: dataHash ?? await PayloadBuilder.dataHash(payload),
+      _hash,
     }
   }
 
-  static async addStorageMeta<T extends Payload>(payloads: T[]): Promise<WithStorageMeta<T>[]> {
-    return (await Promise.all(payloads.map((p, index) => this.addSequencedStorageMeta(p, index)))) as WithStorageMeta<T>[]
+  static async addStorageMeta<T extends Payload>(payload: T): Promise<WithStorageMeta<T>>
+  static async addStorageMeta<T extends Payload>(payloads: T[]): Promise<WithStorageMeta<T>[]>
+  static async addStorageMeta<T extends Payload>(payloads: T | T[]): Promise<WithStorageMeta<T>[] | WithStorageMeta<T>> {
+    return Array.isArray(payloads)
+      ? await (async () => {
+        const pairs = await PayloadBuilder.hashPairs(payloads)
+        return await Promise.all(pairs.map(async ([payload, hash]) => await this.addSequencedStorageMeta(
+          payload,
+          hash,
+        )))
+      })()
+      : this.addSequencedStorageMeta(
+          payloads,
+        )
+  }
+
+  static buildSequence(epoch: number, nonce: Hex): Hex {
+    assertEx(
+      epoch <= StorageMetaConstants.maxEpoch,
+      () => `epoch must be less than or equal to ${StorageMetaConstants.maxEpoch} [${epoch}]`,
+    )
+    assertEx(isHex(nonce), () => 'nonce must be a Hex type')
+    assertEx(
+      nonce.length === StorageMetaConstants.nonceBytes * 2,
+      () => `nonce must be ${StorageMetaConstants.nonceBytes} bytes [${nonce.length}] <- Hex String Length`,
+    )
+    return `${toHex(epoch, { byteSize: 4 })}${nonce}` as Hex
   }
 
   static removeStorageMeta<T extends Payload = Payload>(payloads: T[]): WithStorageMeta<T>[]
@@ -114,11 +137,6 @@ export abstract class AbstractArchivist<
       return payload.map(p => this.removeStorageMeta(p)) as WithStorageMeta<T>[]
     }
     return payload ? omitBy(payload, (_, key) => key.startsWith('_')) as WithStorageMeta<T> : null
-  }
-
-  static sequenceNumber(index: number) {
-    assertEx(index < maxSequenceIndex, () => `index may not be larger than ${maxSequenceIndex}`)
-    return BigInt(Date.now()) * maxSequenceIndex + BigInt(index)
   }
 
   static sortByStorageMeta<T extends Payload>(payloads: WithStorageMeta<T>[], direction: -1 | 1 = 1) {
@@ -134,7 +152,7 @@ export abstract class AbstractArchivist<
     this._noOverride('all')
     return this.busy(async () => {
       await this.started('throw')
-      return await this.allHandler()
+      return PayloadBuilder.omitStorageMeta(await this.allHandler())
     })
   }
 
@@ -333,7 +351,7 @@ export abstract class AbstractArchivist<
     if (this.storeParentReads) {
       await this.insertWithConfig(parentFoundPayloads)
     }
-    return [...foundPayloads, ...parentFoundPayloads]
+    return PayloadBuilder.omitStorageMeta([...foundPayloads, ...parentFoundPayloads])
   }
 
   protected head(): Promisable<Payload | undefined> {
@@ -374,7 +392,7 @@ export abstract class AbstractArchivist<
       await this.emit('inserted', { mod: this, payloads: insertedPayloads })
     }
 
-    return insertedPayloads
+    return PayloadBuilder.omitStorageMeta(insertedPayloads)
   }
 
   protected nextHandler(_options?: ArchivistNextOptions): Promisable<Payload[]> {
@@ -383,7 +401,7 @@ export abstract class AbstractArchivist<
 
   protected async nextWithConfig(options?: ArchivistNextOptions, _config?: InsertConfig): Promise<Payload[]> {
     const foundPayloads = await this.nextHandler(options)
-    return foundPayloads
+    return PayloadBuilder.omitStorageMeta(foundPayloads)
   }
 
   protected async parentArchivists() {
@@ -454,7 +472,7 @@ export abstract class AbstractArchivist<
     if (this.config.storeQueries) {
       await this.insertHandler([query])
     }
-    return resultPayloads
+    return PayloadBuilder.omitStorageMeta(resultPayloads)
   }
 
   protected async writeToParent(parent: ArchivistInstance, payloads: Payload[]): Promise<Payload[]> {

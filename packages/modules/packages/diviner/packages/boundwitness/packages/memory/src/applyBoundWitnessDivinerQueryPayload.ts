@@ -3,14 +3,11 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { hexFromHexString } from '@xylabs/hex'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import {
+  hasBlock, hasMetaTimestamp, isBoundWitness,
+} from '@xyo-network/boundwitness-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import type { Payload } from '@xyo-network/payload-model'
-
-type WithTimestamp = BoundWitness & { timestamp: number }
-type WithBlock = BoundWitness & { block: number }
-const hasTimestamp = (bw: BoundWitness): bw is WithTimestamp => bw.timestamp !== undefined
-const hasBlock = (bw: BoundWitness): bw is WithBlock => bw.timestamp !== undefined
 
 // eslint-disable-next-line complexity
 export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivinerQueryPayload, payloads: Payload[] = []) => {
@@ -43,14 +40,14 @@ export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivine
   if (block !== undefined) {
     bws
       = order === 'desc'
-        ? bws.filter(hasBlock).filter(bw => bw.block && bw.block <= block)
-        : bws.filter(hasBlock).filter(bw => bw.block && bw.block >= block)
+        ? bws.filter(hasBlock).filter(bw => bw.block <= block)
+        : bws.filter(hasBlock).filter(bw => bw.block >= block)
   }
   if (timestamp !== undefined) {
     bws
       = order === 'desc'
-        ? bws.filter(hasTimestamp).filter(bw => bw.timestamp && bw.timestamp <= timestamp)
-        : bws.filter(hasTimestamp).filter(bw => bw.timestamp && bw.timestamp >= timestamp)
+        ? bws.filter(hasMetaTimestamp).filter(bw => bw.$timestamp <= timestamp)
+        : bws.filter(hasMetaTimestamp).filter(bw => bw.$timestamp >= timestamp)
   }
   const parsedLimit = limit ?? bws.length
   const parsedOffset = offset ?? 0

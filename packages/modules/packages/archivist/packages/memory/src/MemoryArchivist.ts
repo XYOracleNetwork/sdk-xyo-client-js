@@ -3,7 +3,7 @@ import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
 import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { fulfilled, Promisable } from '@xylabs/promise'
-import { AbstractArchivist, WithStorageMeta } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -16,6 +16,7 @@ import {
   ArchivistNextOptions,
   ArchivistNextQuerySchema,
   AttachableArchivistInstance,
+  WithStorageMeta,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
@@ -131,8 +132,8 @@ export class MemoryArchivist<
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     const pairs = await PayloadBuilder.hashPairs(payloads)
-    const insertedPayloads = await Promise.all(pairs.map(async ([payload, hash], index) => {
-      return this.cache.get(hash) ?? await this.insertPayloadIntoCache(payload, hash, index)
+    const insertedPayloads = await Promise.all(pairs.map(async ([payload, hash]) => {
+      return this.cache.get(hash) ?? await this.insertPayloadIntoCache(payload)
     }))
 
     return MemoryArchivist.removeStorageMeta(insertedPayloads)
@@ -151,11 +152,10 @@ export class MemoryArchivist<
     return allPairs.slice(startIndex, limit ? startIndex + limit : undefined).map(([payload]) => payload)
   }
 
-  private async insertPayloadIntoCache(payload: Payload, hash: Hash, index = 0): Promise<WithStorageMeta<Payload>> {
-    const dataHash = await PayloadBuilder.dataHash(payload)
-    const withMeta = await MemoryArchivist.addSequencedStorageMeta(payload, index)
-    this.cache.set(hash, withMeta)
-    this.dataHashIndex.set(dataHash, hash)
+  private async insertPayloadIntoCache(payload: Payload): Promise<WithStorageMeta<Payload>> {
+    const withMeta = await MemoryArchivist.addStorageMeta(payload)
+    this.cache.set(withMeta._hash, withMeta)
+    this.dataHashIndex.set(withMeta._dataHash, withMeta._hash)
     return withMeta
   }
 

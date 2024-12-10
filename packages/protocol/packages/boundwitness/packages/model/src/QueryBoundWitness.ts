@@ -1,4 +1,4 @@
-import type { Hash } from '@xylabs/hex'
+import type { Address, Hash } from '@xylabs/hex'
 
 import type { BoundWitness } from './BoundWitness/index.ts'
 import { BoundWitnessSchema } from './BoundWitness/index.ts'
@@ -8,7 +8,12 @@ export type QueryBoundWitnessSchema = BoundWitnessSchema
 export const QueryBoundWitnessSchema: QueryBoundWitnessSchema = BoundWitnessSchema
 
 export type UnsignedQueryBoundWitness = BoundWitness<{
+  // address that initiated the query
+  $destination?: Address
+  // address for which the query is intended
+  $source?: Address
   additional?: Hash[]
+  error_hashes?: Hash[]
   query: Hash
   resultSet?: string
   schema: QueryBoundWitnessSchema

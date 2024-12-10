@@ -112,8 +112,8 @@ describe('IndexedDbPayloadDiviner.Errors', () => {
       })
       it('returns values', async () => {
         const result = await sut.divine([{ schema: PayloadDivinerQuerySchema }])
-        expect(PayloadBuilder.withoutMeta(result)).toMatchObject(
-          PayloadBuilder.withoutMeta(await Promise.all(values.map(value => PayloadBuilder.build(value)))),
+        expect(result.map(i => PayloadBuilder.omitMeta(i))).toMatchObject(
+          values.map(i => PayloadBuilder.omitMeta(i)),
         )
       })
     })

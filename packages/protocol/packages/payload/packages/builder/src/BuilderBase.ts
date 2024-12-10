@@ -48,16 +48,28 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
     return this.omitMeta(cleanFields) as T
   }
 
-  static omitClientMeta<T extends Payload>(payload: T, maxDepth = 100): T {
-    return omitBy(payload, omitByPrefixPredicate('$'), maxDepth) as T
+  static omitClientMeta<T extends Payload>(payload: T, maxDepth?: number): T
+  static omitClientMeta<T extends Payload>(payloads: T[], maxDepth?: number): T[]
+  static omitClientMeta<T extends Payload>(payloads: T | T[], maxDepth = 100): T | T[] {
+    return Array.isArray(payloads)
+      ? payloads.map(payload => this.omitClientMeta(payload, maxDepth)) as T[]
+      : omitBy(payloads, omitByPrefixPredicate('$'), maxDepth) as T
   }
 
-  static omitMeta<T extends Payload>(payload: T, maxDepth = 100): T {
-    return this.omitStorageMeta(this.omitClientMeta(payload, maxDepth), maxDepth)
+  static omitMeta<T extends Payload>(payload: T, maxDepth?: number): T
+  static omitMeta<T extends Payload>(payloads: T[], maxDepth?: number): T[]
+  static omitMeta<T extends Payload>(payloads: T | T[], maxDepth = 100): T | T[] {
+    return Array.isArray(payloads)
+      ? this.omitStorageMeta(this.omitClientMeta(payloads, maxDepth), maxDepth)
+      : this.omitStorageMeta(this.omitClientMeta(payloads, maxDepth), maxDepth)
   }
 
-  static omitStorageMeta<T extends Payload>(payload: T, maxDepth = 100): T {
-    return omitBy(payload, omitByPrefixPredicate('_'), maxDepth) as T
+  static omitStorageMeta<T extends Payload>(payload: T, maxDepth?: number): T
+  static omitStorageMeta<T extends Payload>(payloads: T[], maxDepth?: number): T[]
+  static omitStorageMeta<T extends Payload>(payloads: T | T[], maxDepth = 100): T | T[] {
+    return Array.isArray(payloads)
+      ? payloads.map(payload => this.omitStorageMeta(payload, maxDepth)) as T[]
+      : omitBy(payloads, omitByPrefixPredicate('_'), maxDepth) as T
   }
 
   async dataHashableFields() {

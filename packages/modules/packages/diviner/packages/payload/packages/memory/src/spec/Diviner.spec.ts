@@ -80,14 +80,14 @@ describe('GenericPayloadDiviner', () => {
       describe('single', () => {
         it.each(['network.xyo.test', 'network.xyo.debug'])('only returns payloads of that schema', async (schema) => {
           const schemas = [schema]
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
           expect(results.every(result => result.schema === schema)).toBe(true)
         })
         it('only return single payload of that schema', async () => {
           const schemas = ['network.xyo.debug']
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
             .fields({ limit: 1, schemas })
             .build()
           const results = await sut.divine([query])
@@ -97,19 +97,20 @@ describe('GenericPayloadDiviner', () => {
         })
         it('only return single payload of that schema (desc)', async () => {
           const schemas = ['network.xyo.debug']
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
             .fields({
               limit: 1, order: 'desc', schemas,
             })
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
+          expect(results[0]).toEqual(payloadD)
           expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(payloadD))
           expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })
         it('only return single payload of that schema (asc)', async () => {
           const schemas = ['network.xyo.debug']
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
             .fields({
               limit: 1, order: 'asc', schemas,
             })

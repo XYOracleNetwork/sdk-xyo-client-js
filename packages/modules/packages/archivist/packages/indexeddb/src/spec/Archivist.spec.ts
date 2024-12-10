@@ -239,14 +239,14 @@ describe('IndexedDbArchivist', () => {
       beforeAll(async () => {
         const salt = '650123f6-191e-4cc4-a813-f7a29dcbfb0e'
         payload1 = {
-          _signatures: [
+          $some: [
             '12bed6aa884f5b7ffc08e19790b5db0da724b8b7471138dcbec090a0798861db0da8255f0d9297ba981b2cbbea65d9eadabac6632124f10f22c709d333a1f285',
           ],
           salt,
           schema: IdSchema,
         }
         payload2 = {
-          _signatures: [
+          $some: [
             '22bed6aa884f5b7ffc08e19790b5db0da724b8b7471138dcbec090a0798861db0da8255f0d9297ba981b2cbbea65d9eadabac6632124f10f22c709d333a1f285',
           ],
           salt,

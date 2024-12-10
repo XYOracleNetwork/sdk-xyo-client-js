@@ -93,13 +93,13 @@ export class MemoryForecastingDiviner<
         addresses, limit, payload_schemas, schema: BoundWitnessDivinerQuerySchema, timestamp,
       }
       const boundWitnesses = (await bwDiviner.divine([query])).filter(
-        bw => bw.timestamp && bw.timestamp >= startTimestamp && bw.timestamp <= stopTimestamp,
+        bw => bw.$timestamp && bw.$timestamp >= startTimestamp && bw.$timestamp <= stopTimestamp,
       )
       if (boundWitnesses.length === 0) break
 
       // Update the timestamp value for the next batch
       timestamp = boundWitnesses
-        .map(bw => bw.timestamp)
+        .map(bw => bw.$timestamp)
         .filter(exists)
         // eslint-disable-next-line unicorn/no-array-reduce
         .reduce((a, b) => Math.min(a, b), Number.MAX_SAFE_INTEGER)

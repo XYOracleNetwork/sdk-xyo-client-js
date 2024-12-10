@@ -66,9 +66,9 @@ describe('IndexedDbBoundWitnessDiviner', () => {
   }
   const boundWitnesses: BoundWitness[] = []
   beforeAll(async () => {
-    const [boundWitnessA] = await (await new BoundWitnessBuilder().payloads([payloadA])).build()
-    const [boundWitnessB] = await (await new BoundWitnessBuilder().payloads([payloadB])).build()
-    const [boundWitnessC] = await (await new BoundWitnessBuilder().payloads([payloadA, payloadB])).build()
+    const [boundWitnessA] = await (new BoundWitnessBuilder().payloads([payloadA])).build()
+    const [boundWitnessB] = await (new BoundWitnessBuilder().payloads([payloadB])).build()
+    const [boundWitnessC] = await (new BoundWitnessBuilder().payloads([payloadA, payloadB])).build()
     boundWitnesses.push(boundWitnessA, boundWitnessB, boundWitnessC)
     archivist = await IndexedDbArchivist.create({
       account: 'random',
@@ -106,7 +106,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
           'returns only bound witnesses with payload_schemas that contain the schema',
           async (schema) => {
             const payload_schemas = [schema]
-            const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+            const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
               .fields({ payload_schemas })
               .build()
             const results = await sut.divine([query])
@@ -147,11 +147,11 @@ describe('IndexedDbBoundWitnessDiviner', () => {
       })
     })
     describe('asc', () => {
-      it('returns payloads in ascending order', () => {
+      it('returns payloads in ascending order', async () => {
         const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
           .fields({ order: 'asc' })
           .build()
-        const results = sut.divine([query])
+        const results = await sut.divine([query])
         expect(results).toEqual(boundWitnesses)
       })
     })

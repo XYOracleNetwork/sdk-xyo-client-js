@@ -1,4 +1,4 @@
-import { uniq, uniqBy } from '@xylabs/array'
+import { uniq } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
@@ -13,11 +13,12 @@ import {
   ArchivistNextQuerySchema,
   buildStandardIndexName,
   IndexDescription,
-  WithStorageMeta,
 } from '@xyo-network/archivist-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  Payload, Schema, WithStorageMeta,
+} from '@xyo-network/payload-model'
 import {
   IDBPCursorWithValue, IDBPDatabase, openDB,
 } from 'idb'
@@ -283,7 +284,7 @@ export class IndexedDbArchivist<
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     // Get the unique pairs of payloads and their hashes
-    const payloadWithStorageMeta = await IndexedDbArchivist.addStorageMeta(payloads)
+    const payloadWithStorageMeta = await PayloadBuilder.addStorageMeta(payloads)
     return await this.useDb(async (db) => {
       // Perform all inserts via a single transaction to ensure atomicity
       // with respect to checking for the pre-existence of the hash.

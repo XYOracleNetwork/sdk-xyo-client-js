@@ -1,7 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
-import type { Hash } from '@xylabs/hex'
-import type { EmptyObject, JsonObject } from '@xylabs/object'
+import {
+  type Hash, type Hex, toHex,
+} from '@xylabs/hex'
+import { type EmptyObject, toJsonString } from '@xylabs/object'
 import type { ArchivistInstance, ArchivistModuleEventData } from '@xyo-network/archivist-model'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
@@ -14,7 +16,10 @@ import type {
 import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import type { EventListener } from '@xyo-network/module-events'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  type Payload, type Schema, StorageMetaConstants,
+  type WithStorageMeta,
+} from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
 const DEFAULT_INDEX_BATCH_SIZE = 100 as const
@@ -43,8 +48,8 @@ export class GenericPayloadDiviner<
   static override readonly configSchemas: Schema[] = [...super.configSchemas, GenericPayloadDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = GenericPayloadDivinerConfigSchema
 
-  protected indexMaps: Record<string, TOut[]> = {}
-  protected payloadPairs: [TOut, Hash][] = []
+  protected indexMaps: Record<string, WithStorageMeta<TOut>[]> = {}
+  protected payloadsWithMeta: WithStorageMeta<TOut>[] = []
 
   private _archivistInstance?: ArchivistInstance
   private _indexOffset?: Hash
@@ -67,15 +72,15 @@ export class GenericPayloadDiviner<
   }
 
   protected allAsc(offset?: Hash) {
-    const pairs = this.payloadPairs
-    const startIndex = (offset ? (pairs.findIndex(([, hash]) => hash === offset) ?? -1) : -1) + 1
-    return pairs.slice(startIndex).map(([payload]) => payload)
+    const payloads = this.payloadsWithMeta.sort((a, b) => a._sequence > b._sequence ? 1 : -1)
+    const startIndex = (offset ? (payloads.findIndex(payload => payload._hash === offset) ?? -1) : -1) + 1
+    return payloads.slice(startIndex)
   }
 
   protected allDesc(offset?: Hash) {
-    const pairs = [...this.payloadPairs].reverse()
-    const startIndex = (offset ? (pairs.findIndex(([, hash]) => hash === offset) ?? -1) : -1) + 1
-    return pairs.slice(startIndex).map(([payload]) => payload)
+    const payloads = this.payloadsWithMeta.sort((a, b) => a._sequence > b._sequence ? -1 : 1)
+    const startIndex = (offset ? (payloads.findIndex(payloads => payloads._hash === offset) ?? -1) : -1) + 1
+    return payloads.slice(startIndex)
   }
 
   protected override async archivistInstance(): Promise<ArchivistInstance | undefined>
@@ -97,7 +102,7 @@ export class GenericPayloadDiviner<
   protected async clearIndex() {
     await this._updatePayloadPairsMutex.runExclusive(() => {
       this._indexOffset = undefined
-      this.payloadPairs = []
+      this.payloadsWithMeta = []
       this.indexMaps = {}
     })
   }
@@ -173,31 +178,32 @@ export class GenericPayloadDiviner<
   protected async updateIndex() {
     await this._updatePayloadPairsMutex.runExclusive(async () => {
       const archivist = await this.archivistInstance(true)
-      let newPayloads = (await archivist.next({ limit: 100, offset: this._indexOffset })) as TOut[]
+      let newPayloads = await PayloadBuilder.addStorageMeta((await archivist.next({ limit: 100, offset: this._indexOffset })) as TOut[])
       while (newPayloads.length > 0) {
         const prevOffset = this._indexOffset
         this._indexOffset = await PayloadBuilder.hash(assertEx(newPayloads.at(-1)))
         if (this._indexOffset === prevOffset) {
           this.logger.warn('next offset not found', prevOffset)
         }
-        assertEx(this.payloadPairs.length + newPayloads.length <= this.maxIndexSize, () => 'maxIndexSize exceeded')
+        assertEx(this.payloadsWithMeta.length + newPayloads.length <= this.maxIndexSize, () => 'maxIndexSize exceeded')
         await this.indexPayloads(newPayloads)
-        newPayloads = (await archivist.next({ limit: 100, offset: this._indexOffset })) as TOut[]
+        newPayloads = await PayloadBuilder.addStorageMeta((await archivist.next({ limit: 100, offset: this._indexOffset })) as TOut[])
       }
     })
   }
 
   private async indexPayloads(payloads: TOut[]): Promise<Hash> {
-    const pairs = await PayloadBuilder.hashPairs(payloads)
-    this.payloadPairs.push(...pairs)
+    const payloadsWithMeta = (await PayloadBuilder.addStorageMeta(payloads))
+      .map((payload, index) => ({ ...payload, _sequence: `${Date.now()}${toHex(index, { byteSize: StorageMetaConstants.nonceBytes })}` as Hex }))
+    this.payloadsWithMeta.push(...payloadsWithMeta)
 
     // update the custom indexes
     for (const index of this.indexes ?? []) {
       this.indexMaps[index] = this.indexMaps[index] ?? []
-      for (const [payload] of pairs) {
-        if ((payload as unknown as JsonObject)[index] !== undefined) this.indexMaps[index].push(payload)
+      for (const payload of payloadsWithMeta) {
+        this.indexMaps[index].push(payload)
       }
     }
-    return assertEx(pairs.at(-1))[1]
+    return assertEx(payloadsWithMeta.at(-1), () => 'No payloads to index')._hash
   }
 }

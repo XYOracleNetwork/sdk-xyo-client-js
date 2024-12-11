@@ -1,6 +1,7 @@
 /* eslint-disable max-nested-callbacks */
 import '@xylabs/vitest-extended'
 
+import { delay } from '@xylabs/delay'
 import type { Hash } from '@xylabs/hex'
 import type { EmptyObject } from '@xylabs/object'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -51,8 +52,14 @@ describe('GenericPayloadDiviner', () => {
       account: 'random',
       config: { name: 'test', schema: MemoryArchivist.defaultConfigSchema },
     })
-    await archivist.insert([payloadA, payloadB])
-    await archivist.insert([payloadC, payloadD])
+    await archivist.insert([payloadA])
+    await delay(1)
+    await archivist.insert([payloadB])
+    await delay(1)
+    await archivist.insert([payloadC])
+    await delay(1)
+    await archivist.insert([payloadD])
+    await delay(1)
     // const all = await archivist.all()
     // console.log(all)
     sut = await GenericPayloadDiviner.create({
@@ -81,7 +88,7 @@ describe('GenericPayloadDiviner', () => {
       describe('single', () => {
         it.each(['network.xyo.test', 'network.xyo.debug'])('only returns payloads of that schema', async (schema) => {
           const schemas = [schema]
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({ schemas })
             .build()
           const results = await sut.divine([query])
@@ -90,7 +97,7 @@ describe('GenericPayloadDiviner', () => {
         })
         it('only return single payload of that schema', async () => {
           const schemas = ['network.xyo.debug']
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({ limit: 1, schemas })
             .build()
           const results = await sut.divine([query])
@@ -100,25 +107,27 @@ describe('GenericPayloadDiviner', () => {
         })
         it('only return single payload of that schema (desc)', async () => {
           const schemas = ['network.xyo.debug']
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({
               limit: 1, order: 'desc', schemas,
             })
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
+          expect(results[0]).toStrictEqual(payloadD)
           expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(payloadD))
           expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })
         it('only return single payload of that schema (asc)', async () => {
           const schemas = ['network.xyo.debug']
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({
               limit: 1, order: 'asc', schemas,
             })
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
+          expect(results[0]).toStrictEqual(payloadB)
           expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(payloadB))
           expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })
@@ -126,7 +135,7 @@ describe('GenericPayloadDiviner', () => {
       describe('multiple', () => {
         it('only returns payloads of that schema', async () => {
           const schemas = ['network.xyo.test', 'network.xyo.debug']
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({ schemas })
             .build()
           const results = await sut.divine([query])
@@ -137,19 +146,20 @@ describe('GenericPayloadDiviner', () => {
       describe('paging', () => {
         it('test paging with multiple calls (asc)', async () => {
           const schemas = ['network.xyo.test', 'network.xyo.debug']
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({
               limit: 2, order: 'asc', schemas,
             })
             .build()
           const results = await sut.divine([query])
           const resultHashes = await PayloadBuilder.hashes(results)
+          expect(results).toStrictEqual([payloadA, payloadB])
           expect(results.length).toBe(2)
           expect(resultHashes[0]).toBe(await PayloadBuilder.hash(payloadA))
           expect(resultHashes[1]).toBe(await PayloadBuilder.hash(payloadB))
 
           const offset = resultHashes[1]
-          const query2 = await new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
+          const query2 = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({
               limit: 2, offset, order: 'asc', schemas,
             })
@@ -161,7 +171,7 @@ describe('GenericPayloadDiviner', () => {
           expect(resultHashes2[1]).toBe(await PayloadBuilder.hash(payloadD))
           const offset2 = resultHashes2[1]
 
-          const query3 = await new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
+          const query3 = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({
               limit: 2, offset: offset2, order: 'asc', schemas,
             })
@@ -171,7 +181,7 @@ describe('GenericPayloadDiviner', () => {
         })
         it('test paging with multiple calls (desc)', async () => {
           const schemas = ['network.xyo.test', 'network.xyo.debug']
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({
               limit: 2, order: 'desc', schemas,
             })
@@ -183,7 +193,7 @@ describe('GenericPayloadDiviner', () => {
           expect(resultHashes[1]).toBe(await PayloadBuilder.hash(payloadC))
 
           const offset = resultHashes[1]
-          const query2 = await new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
+          const query2 = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({
               limit: 2, offset, order: 'desc', schemas,
             })
@@ -195,7 +205,7 @@ describe('GenericPayloadDiviner', () => {
           expect(resultHashes2[1]).toBe(await PayloadBuilder.hash(payloadA))
           const offset2 = resultHashes2[1]
 
-          const query3 = await new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
+          const query3 = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({
               limit: 2, offset: offset2, order: 'desc', schemas,
             })
@@ -210,7 +220,7 @@ describe('GenericPayloadDiviner', () => {
         it('only returns payloads with that property', async () => {
           type WithUrl = { url?: string }
           const url = payloadA.url
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash> & WithUrl>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash> & WithUrl>({ schema: PayloadDivinerQuerySchema })
             .fields({ url })
             .build()
           const results = await sut.divine([query])
@@ -222,7 +232,7 @@ describe('GenericPayloadDiviner', () => {
         const cases: string[][] = [['bar'], ['baz'], ['bar', 'baz']]
         it.each(cases)('only returns payloads that have an array containing all the values supplied', async (...foo) => {
           type WithFoo = { foo?: string[] }
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash> & WithFoo>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash> & WithFoo>({ schema: PayloadDivinerQuerySchema })
             .fields({ foo })
             .build()
           const results = await sut.divine([query])

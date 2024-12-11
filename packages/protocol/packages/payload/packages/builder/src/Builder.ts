@@ -1,7 +1,16 @@
-import type { Hash } from '@xylabs/hex'
+import { assertEx } from '@xylabs/assert'
+import type {
+  Hash,
+  Hex,
+} from '@xylabs/hex'
+import {
+  isHash, isHex, toHex,
+} from '@xylabs/hex'
 import type { AnyObject } from '@xylabs/object'
 import { ObjectHasher } from '@xyo-network/hash'
-import type { Payload } from '@xyo-network/payload-model'
+import {
+  type Payload, StorageMetaConstants, type WithStorageMeta,
+} from '@xyo-network/payload-model'
 
 import { PayloadBuilderBase } from './BuilderBase.ts'
 import type { PayloadBuilderOptions } from './Options.ts'
@@ -10,6 +19,47 @@ export class PayloadBuilder<
   T extends Payload = Payload<AnyObject>,
   O extends PayloadBuilderOptions<T> = PayloadBuilderOptions<T>,
 > extends PayloadBuilderBase<T, O> {
+  static async addSequencedStorageMeta<T extends Payload = Payload>(payload: T, hash?: Hash, dataHash?: Hash): Promise<WithStorageMeta<T>> {
+    assertEx(hash === undefined || isHash(hash), () => 'Invalid hash')
+    assertEx(dataHash === undefined || isHash(dataHash), () => 'Invalid dataHash')
+    const _hash = hash ?? await PayloadBuilder.hash(payload)
+    return {
+      ...payload,
+      _sequence: this.buildSequence(Date.now(), _hash.slice(-(StorageMetaConstants.nonceBytes * 2)) as Hex),
+      _dataHash: dataHash ?? await PayloadBuilder.dataHash(payload),
+      _hash,
+    }
+  }
+
+  static async addStorageMeta<T extends Payload>(payload: T): Promise<WithStorageMeta<T>>
+  static async addStorageMeta<T extends Payload>(payloads: T[]): Promise<WithStorageMeta<T>[]>
+  static async addStorageMeta<T extends Payload>(payloads: T | T[]): Promise<WithStorageMeta<T>[] | WithStorageMeta<T>> {
+    return Array.isArray(payloads)
+      ? await (async () => {
+        const pairs = await PayloadBuilder.hashPairs(payloads)
+        return await Promise.all(pairs.map(async ([payload, hash]) => await this.addSequencedStorageMeta(
+          payload,
+          hash,
+        )))
+      })()
+      : this.addSequencedStorageMeta(
+          payloads,
+        )
+  }
+
+  static buildSequence(epoch: number, nonce: Hex): Hex {
+    assertEx(
+      epoch <= StorageMetaConstants.maxEpoch,
+      () => `epoch must be less than or equal to ${StorageMetaConstants.maxEpoch} [${epoch}]`,
+    )
+    assertEx(isHex(nonce), () => 'nonce must be a Hex type')
+    assertEx(
+      nonce.length === StorageMetaConstants.nonceBytes * 2,
+      () => `nonce must be ${StorageMetaConstants.nonceBytes} bytes [${nonce.length}] <- Hex String Length`,
+    )
+    return `${toHex(epoch, { byteSize: 4 })}${nonce}` as Hex
+  }
+
   static async dataHash<T extends Payload>(payload: T): Promise<Hash> {
     return await ObjectHasher.hash(this.omitMeta(payload))
   }
@@ -80,6 +130,15 @@ export class PayloadBuilder<
   static async hashes<T extends Payload>(payloads: T[]): Promise<Hash[]>
   static async hashes<T extends Payload>(payloads?: T[]): Promise<Hash[] | undefined> {
     return await ObjectHasher.hashes(payloads)
+  }
+
+  static sortByStorageMeta<T extends Payload>(payloads: WithStorageMeta<T>[], direction: -1 | 1 = 1) {
+    return payloads.sort((a, b) =>
+      a._sequence < b._sequence
+        ? -direction
+        : a._sequence > b._sequence
+          ? direction
+          : 0)
   }
 
   static async toAllHashMap<T extends Payload>(payloads: T[]): Promise<Record<Hash, T>> {

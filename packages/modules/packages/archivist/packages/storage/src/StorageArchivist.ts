@@ -11,7 +11,6 @@ import type {
   ArchivistModuleEventData,
   ArchivistNextOptions,
   ArchivistParams,
-  WithStorageMeta,
 } from '@xyo-network/archivist-model'
 import {
   ArchivistAllQuerySchema,
@@ -23,7 +22,9 @@ import {
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import type {
+  Payload, Schema, WithStorageMeta,
+} from '@xyo-network/payload-model'
 import type { StoreBase, StoreType } from 'store2'
 import store from 'store2'
 
@@ -187,7 +188,7 @@ export class StorageArchivist<
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     return await Promise.all(payloads.map(async (payload) => {
-      const storagePayload = await StorageArchivist.addSequencedStorageMeta(payload)
+      const storagePayload = await PayloadBuilder.addSequencedStorageMeta(payload)
       const value = JSON.stringify(storagePayload)
       console.log('insert.storagePayloads:', storagePayload)
       assertEx(value.length < this.maxEntrySize, () => `Payload too large [${storagePayload._hash}, ${value.length}]`)

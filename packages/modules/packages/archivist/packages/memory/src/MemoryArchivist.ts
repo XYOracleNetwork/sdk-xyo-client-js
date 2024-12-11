@@ -16,14 +16,15 @@ import {
   ArchivistNextOptions,
   ArchivistNextQuerySchema,
   AttachableArchivistInstance,
-  WithStorageMeta,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  Payload, Schema, WithStorageMeta,
+} from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 export type MemoryArchivistConfigSchema = 'network.xyo.archivist.memory.config'
@@ -82,7 +83,7 @@ export class MemoryArchivist<
 
   protected override allHandler(): Promisable<Payload[]> {
     const all = this.cache.dump().map(([, item]) => item.value).filter(exists)
-    return MemoryArchivist.sortByStorageMeta(all).map(payload => MemoryArchivist.removeStorageMeta(payload))
+    return PayloadBuilder.sortByStorageMeta(all)
   }
 
   protected override clearHandler(): void | Promise<void> {
@@ -126,7 +127,7 @@ export class MemoryArchivist<
       if (resolvedHash !== hash && !result) {
         throw new Error('Missing referenced payload')
       }
-      return MemoryArchivist.removeStorageMeta(result)
+      return result
     }).filter(exists)
   }
 
@@ -136,7 +137,7 @@ export class MemoryArchivist<
       return this.cache.get(hash) ?? await this.insertPayloadIntoCache(payload)
     }))
 
-    return MemoryArchivist.removeStorageMeta(insertedPayloads)
+    return insertedPayloads
   }
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<Payload[]> {
@@ -153,7 +154,7 @@ export class MemoryArchivist<
   }
 
   private async insertPayloadIntoCache(payload: Payload): Promise<WithStorageMeta<Payload>> {
-    const withMeta = await MemoryArchivist.addStorageMeta(payload)
+    const withMeta = await PayloadBuilder.addStorageMeta(payload)
     this.cache.set(withMeta._hash, withMeta)
     this.dataHashIndex.set(withMeta._dataHash, withMeta._hash)
     return withMeta

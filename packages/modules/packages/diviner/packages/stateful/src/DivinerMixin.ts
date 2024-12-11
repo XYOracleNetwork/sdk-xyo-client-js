@@ -18,6 +18,7 @@ import {
   ModuleStateSchema,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import type { WithStorageMeta } from '@xyo-network/payload-model'
 
 import type { StatefulDivinerConfig } from './Config.ts'
 
@@ -141,7 +142,7 @@ export const StatefulModuleMixin = <
         const archivist = await this.getArchivistForStore()
         const payload = (await archivist.get([hash])).find(isModuleState<TState>)
         if (payload) {
-          return payload as ModuleState<TState>
+          return payload as WithStorageMeta<ModuleState<TState>>
         }
       }
       return undefined

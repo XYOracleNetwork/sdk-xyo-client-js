@@ -1,13 +1,27 @@
-import type { Hash, Hex } from '@xylabs/hex'
+import {
+  type Hash, type Hex, isHash,
+} from '@xylabs/hex'
 
 import type { Payload } from './Payload.ts'
 
-export interface StorageMeta {
+export interface SequenceMeta {
+  _sequence: Hex
+}
+
+export type WithPartialSequenceMeta<T extends Payload = Payload> = Partial<WithSequenceMeta<T>>
+
+export type WithSequenceMeta<T extends Payload = Payload> = T & SequenceMeta
+
+export interface HashMeta {
   _dataHash: Hash
   _hash: Hash
-  // this sequence number must be a 0 padded string representation of a 18 byte sequence number
-  _sequence: Hex // zero padded epoch/index (when returned, has address as suffix) - to be used as a universal cursor
 }
+
+export type WithPartialHashMeta<T extends Payload = Payload> = Partial<WithHashMeta<T>>
+
+export type WithHashMeta<T extends Payload = Payload> = T & HashMeta
+
+export interface StorageMeta extends SequenceMeta, HashMeta {}
 
 export type WithPartialStorageMeta<T extends Payload = Payload> = Partial<WithStorageMeta<T>>
 
@@ -28,6 +42,18 @@ const StorageMetaLocalConstants = {
 export const StorageMetaConstants = {
   qualifiedSequenceBytes: StorageMetaLocalConstants.localSequenceBytes + StorageMetaComponentConstants.addressBytes,
   ...StorageMetaLocalConstants,
+}
+
+export const isSequenceMeta = (value: unknown): value is SequenceMeta => {
+  return (value as WithSequenceMeta)?._sequence !== undefined
+}
+
+export const isHashMeta = (value: unknown): value is HashMeta => {
+  return isHash((value as WithHashMeta)?._hash) && isHash((value as WithHashMeta)?._dataHash)
+}
+
+export const isStorageMeta = (value: unknown): value is StorageMeta => {
+  return isSequenceMeta(value) && isHashMeta(value)
 }
 
 // "00005a7f354762f3ac1bc5ddc6cfd08d14" is and example of a local sequence string

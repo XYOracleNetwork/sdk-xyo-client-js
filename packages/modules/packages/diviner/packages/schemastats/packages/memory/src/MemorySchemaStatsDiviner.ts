@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import type { Address } from '@xylabs/hex'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { SchemaStatsDiviner } from '@xyo-network/diviner-schema-stats-abstract'
 import type {
   SchemaStatsDivinerParams,
@@ -23,8 +23,7 @@ export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams =
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, () => 'Archivist does not support "all"')()
     const filtered = all
-      .filter(isBoundWitness)
-      .filter(isBoundWitness)
+      .filter(isBoundWitnessWithStorageMeta)
       .filter(bw => bw.addresses.includes(address))
     // eslint-disable-next-line unicorn/no-array-reduce
     const counts: Record<string, number> = filtered.reduce(

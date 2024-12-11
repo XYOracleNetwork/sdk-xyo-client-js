@@ -64,6 +64,14 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
       : this.omitStorageMeta(this.omitClientMeta(payloads, maxDepth), maxDepth)
   }
 
+  static omitPrivateStorageMeta<T extends Payload>(payload: T, maxDepth?: number): T
+  static omitPrivateStorageMeta<T extends Payload>(payloads: T[], maxDepth?: number): T[]
+  static omitPrivateStorageMeta<T extends Payload>(payloads: T | T[], maxDepth = 100): T | T[] {
+    return Array.isArray(payloads)
+      ? payloads.map(payload => this.omitPrivateStorageMeta(payload, maxDepth)) as T[]
+      : omitBy(payloads, omitByPrefixPredicate('_'), maxDepth) as T
+  }
+
   static omitStorageMeta<T extends Payload>(payload: T, maxDepth?: number): T
   static omitStorageMeta<T extends Payload>(payloads: T[], maxDepth?: number): T[]
   static omitStorageMeta<T extends Payload>(payloads: T | T[], maxDepth = 100): T | T[] {

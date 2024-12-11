@@ -4,7 +4,7 @@ import type { Address } from '@xylabs/hex'
 import { ArchivistGetQuerySchema, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitness, isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type { AddressHistoryDivinerParams } from '@xyo-network/diviner-address-history-model'
 import { AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history-model'
@@ -43,7 +43,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
       await Promise.all(
         archivists.map(async (archivist) => {
           const all = await archivist.all?.()
-          return all?.filter(isBoundWitness)
+          return all?.filter(isBoundWitnessWithStorageMeta)
         }),
       )
     )

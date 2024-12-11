@@ -81,7 +81,7 @@ export class MemoryArchivist<
     return this.config?.max ?? 10_000
   }
 
-  protected override allHandler(): Promisable<Payload[]> {
+  protected override allHandler(): Promisable<WithStorageMeta<Payload>[]> {
     const all = this.cache.dump().map(([, item]) => item.value).filter(exists)
     return PayloadBuilder.sortByStorageMeta(all)
   }
@@ -120,7 +120,7 @@ export class MemoryArchivist<
     return deletedHashes
   }
 
-  protected override getHandler(hashes: Hash[]): Promisable<Payload[]> {
+  protected override getHandler(hashes: Hash[]): Promisable<WithStorageMeta<Payload>[]> {
     return hashes.map((hash) => {
       const resolvedHash = this.dataHashIndex.get(hash) ?? hash
       const result = this.cache.get(resolvedHash)
@@ -131,7 +131,7 @@ export class MemoryArchivist<
     }).filter(exists)
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
     const pairs = await PayloadBuilder.hashPairs(payloads)
     const insertedPayloads = await Promise.all(pairs.map(async ([payload, hash]) => {
       return this.cache.get(hash) ?? await this.insertPayloadIntoCache(payload)
@@ -140,17 +140,16 @@ export class MemoryArchivist<
     return insertedPayloads
   }
 
-  protected override async nextHandler(options?: ArchivistNextOptions): Promise<Payload[]> {
+  protected override async nextHandler(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
     const {
-      limit, offset, order,
+      limit, cursor, order,
     } = options ?? {}
     let all = await this.allHandler()
     if (order === 'desc') {
       all = all.reverse()
     }
-    const allPairs = await PayloadBuilder.hashPairs(all)
-    const startIndex = offset ? allPairs.findIndex(([, hash]) => hash === offset) + 1 : 0
-    return allPairs.slice(startIndex, limit ? startIndex + limit : undefined).map(([payload]) => payload)
+    const startIndex = cursor ? all.findIndex(({ _sequence }) => _sequence === cursor) + 1 : 0
+    return all.slice(startIndex, limit ? startIndex + limit : undefined)
   }
 
   private async insertPayloadIntoCache(payload: Payload): Promise<WithStorageMeta<Payload>> {

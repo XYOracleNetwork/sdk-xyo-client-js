@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import type {
   BoundWitnessDivinerParams,
@@ -69,7 +69,7 @@ export class MemoryBoundWitnessDiviner<
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
-    let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitness) as BoundWitness[]
+    let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitnessWithStorageMeta)
     return applyBoundWitnessDivinerQueryPayload(filter, bws) as TOut[]
   }
 }

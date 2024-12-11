@@ -3,7 +3,7 @@ import { forget } from '@xylabs/forget'
 import {
   type Hash, type Hex, toHex,
 } from '@xylabs/hex'
-import { type EmptyObject, toJsonString } from '@xylabs/object'
+import { type EmptyObject } from '@xylabs/object'
 import type { ArchivistInstance, ArchivistModuleEventData } from '@xyo-network/archivist-model'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
@@ -52,7 +52,7 @@ export class GenericPayloadDiviner<
   protected payloadsWithMeta: WithStorageMeta<TOut>[] = []
 
   private _archivistInstance?: ArchivistInstance
-  private _indexOffset?: Hash
+  private _cursor?: Hex
   private _updatePayloadPairsMutex = new Mutex()
 
   protected get indexBatchSize() {
@@ -101,7 +101,7 @@ export class GenericPayloadDiviner<
 
   protected async clearIndex() {
     await this._updatePayloadPairsMutex.runExclusive(() => {
-      this._indexOffset = undefined
+      this._cursor = undefined
       this.payloadsWithMeta = []
       this.indexMaps = {}
     })
@@ -178,16 +178,16 @@ export class GenericPayloadDiviner<
   protected async updateIndex() {
     await this._updatePayloadPairsMutex.runExclusive(async () => {
       const archivist = await this.archivistInstance(true)
-      let newPayloads = await PayloadBuilder.addStorageMeta((await archivist.next({ limit: 100, offset: this._indexOffset })) as TOut[])
+      let newPayloads = await PayloadBuilder.addStorageMeta((await archivist.next({ limit: 100, cursor: this._cursor })) as WithStorageMeta<TOut>[])
       while (newPayloads.length > 0) {
-        const prevOffset = this._indexOffset
-        this._indexOffset = await PayloadBuilder.hash(assertEx(newPayloads.at(-1)))
-        if (this._indexOffset === prevOffset) {
-          this.logger.warn('next offset not found', prevOffset)
+        const prevCursor = this._cursor
+        this._cursor = newPayloads.at(-1)?._sequence
+        if (this._cursor === prevCursor) {
+          this.logger.warn('next cursor not found', this._cursor, prevCursor)
         }
         assertEx(this.payloadsWithMeta.length + newPayloads.length <= this.maxIndexSize, () => 'maxIndexSize exceeded')
         await this.indexPayloads(newPayloads)
-        newPayloads = await PayloadBuilder.addStorageMeta((await archivist.next({ limit: 100, offset: this._indexOffset })) as TOut[])
+        newPayloads = await PayloadBuilder.addStorageMeta((await archivist.next({ limit: 100, cursor: this._cursor })) as WithStorageMeta<TOut>[])
       }
     })
   }

@@ -20,7 +20,9 @@ import {
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import type {
+  Payload, Schema, WithStorageMeta,
+} from '@xyo-network/payload-model'
 import Cookies from 'js-cookie'
 
 export type CookieArchivistConfigSchema = 'network.xyo.archivist.cookie.config'
@@ -72,7 +74,7 @@ export class CookieArchivist<
     ]
   }
 
-  protected override allHandler(): PromisableArray<Payload> {
+  protected override allHandler(): PromisableArray<WithStorageMeta<Payload>> {
     try {
       return Object.entries(Cookies.get())
         .filter(([key]) => key.startsWith(`${this.namespace}-`))
@@ -130,7 +132,7 @@ export class CookieArchivist<
     return deletedPairs.map(([, hash]) => hash)
   }
 
-  protected override getHandler(hashes: Hash[]): Promisable<Payload[]> {
+  protected override getHandler(hashes: Hash[]): Promisable<WithStorageMeta<Payload>[]> {
     return (
       hashes.map((hash) => {
         const cookieString = Cookies.get(this.keyFromHash(hash))
@@ -139,17 +141,16 @@ export class CookieArchivist<
     ).filter(exists)
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
     try {
-      const pairs = await PayloadBuilder.hashPairs(payloads)
-      const resultPayloads: Payload[] = await Promise.all(
-        pairs.map(async ([payload, hash]) => {
-          const value = JSON.stringify(payload)
-          assertEx(value.length < this.maxEntrySize, () => `Payload too large [${hash}, ${value.length}]`)
-          Cookies.set(this.keyFromHash(hash), value)
-          const dataHash = await PayloadBuilder.dataHash(payload)
-          Cookies.set(this.keyFromHash(dataHash), value)
-          return payload
+      const resultPayloads: WithStorageMeta<Payload>[] = await Promise.all(
+        payloads.map(async (payload) => {
+          const payloadWithMeta = await PayloadBuilder.addSequencedStorageMeta(payload)
+          const value = JSON.stringify(payloadWithMeta)
+          assertEx(value.length < this.maxEntrySize, () => `Payload too large [${payloadWithMeta._hash}, ${value.length}]`)
+          Cookies.set(this.keyFromHash(payloadWithMeta._hash), value)
+          Cookies.set(this.keyFromHash(payloadWithMeta._dataHash), value)
+          return payloadWithMeta
         }),
       )
       return resultPayloads

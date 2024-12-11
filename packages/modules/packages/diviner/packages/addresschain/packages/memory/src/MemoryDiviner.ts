@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressChainDiviner } from '@xyo-network/diviner-address-chain-abstract'
 import type { AddressChainDivinerConfig } from '@xyo-network/diviner-address-chain-model'
@@ -55,7 +55,7 @@ export class MemoryAddressChainDiviner<
     console.log('archivistFindHash')
     let index = 0
     if (archivists[index]) {
-      const result = (await archivists[index].get([hash])).findLast(isBoundWitness)
+      const result = (await archivists[index].get([hash])).findLast(isBoundWitnessWithStorageMeta)
       if (result) {
         return result
       }

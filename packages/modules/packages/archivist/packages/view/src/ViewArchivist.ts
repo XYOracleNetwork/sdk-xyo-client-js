@@ -19,7 +19,9 @@ import {
   ModuleLimitationViewLabel,
   ModuleParams,
 } from '@xyo-network/module-model'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  Payload, Schema, WithStorageMeta,
+} from '@xyo-network/payload-model'
 
 export const ViewArchivistConfigSchema = 'network.xyo.archivist.view.config' as const
 export type ViewArchivistConfigSchema = typeof ViewArchivistConfigSchema
@@ -60,15 +62,15 @@ export class ViewArchivist<
     return this._originArchivistInstance
   }
 
-  protected override async allHandler(): Promise<Payload[]> {
+  protected override async allHandler(): Promise<WithStorageMeta<Payload>[]> {
     return (await (await this.originArchivistInstance()).all?.()) ?? []
   }
 
-  protected override async getHandler(hashes: Hash[]): Promise<Payload[]> {
+  protected override async getHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     return await (await this.originArchivistInstance()).get(hashes)
   }
 
-  protected override async nextHandler(options?: ArchivistNextOptions): Promise<Payload[]> {
+  protected override async nextHandler(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
     return (await (await this.originArchivistInstance()).next?.(options)) ?? []
   }
 }

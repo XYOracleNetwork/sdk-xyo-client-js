@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Hash } from '@xylabs/hex'
+import type { Hash, Hex } from '@xylabs/hex'
 import type { Promisable, PromisableArray } from '@xylabs/promise'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
@@ -93,7 +93,7 @@ export class StorageArchivist<
     return this._storage
   }
 
-  protected override allHandler(): PromisableArray<Payload> {
+  protected override allHandler(): PromisableArray<WithStorageMeta<Payload>> {
     const found = new Set<string>()
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     return Object.entries(this.storage.getAll())
@@ -143,33 +143,24 @@ export class StorageArchivist<
     ).filter(exists)
   }
 
-  protected getFromOffset(
+  protected getFromCursor(
     order: 'asc' | 'desc' = 'asc',
     limit: number = 10,
-    offset?: Hash,
+    cursor?: Hex,
   ): WithStorageMeta[] {
-    const found = new Set<string>()
     const payloads: WithStorageMeta[] = Object.entries(this.storage.getAll())
       .map(([, value]) => value)
-      .filter((payload) => {
-        if (found.has(payload._dataHash)) {
-          return false
-        } else {
-          found.add(payload._dataHash)
-          return true
-        }
-      })
       .sort((a, b) => {
         return order === 'asc' ? a._sequence - b._sequence : b._sequence - a._sequence
       })
-    const index = payloads.findIndex(payload => payload._hash === offset)
+    const index = payloads.findIndex(payload => payload._sequence === cursor)
     if (index !== -1) {
       return payloads.slice(index + 1, index + 1 + limit)
     }
     return payloads.slice(0, limit)
   }
 
-  protected override getHandler(hashes: string[]): Promisable<Payload[]> {
+  protected override getHandler(hashes: string[]): Promisable<WithStorageMeta<Payload>[]> {
     const found = new Set<string>()
     return (
       hashes.map((hash) => {
@@ -186,7 +177,7 @@ export class StorageArchivist<
       }).map(payload => PayloadBuilder.omitStorageMeta(payload))
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
     return await Promise.all(payloads.map(async (payload) => {
       const storagePayload = await PayloadBuilder.addSequencedStorageMeta(payload)
       const value = JSON.stringify(storagePayload)
@@ -194,15 +185,15 @@ export class StorageArchivist<
       assertEx(value.length < this.maxEntrySize, () => `Payload too large [${storagePayload._hash}, ${value.length}]`)
       this.storage.set(storagePayload._hash, storagePayload)
       this.storage.set(storagePayload._dataHash, storagePayload)
-      return payload
+      return storagePayload
     }))
   }
 
-  protected override nextHandler(options?: ArchivistNextOptions): Promisable<Payload[]> {
+  protected override nextHandler(options?: ArchivistNextOptions): Promisable<WithStorageMeta<Payload>[]> {
     const {
-      limit, offset, order,
+      limit, cursor, order,
     } = options ?? {}
-    return this.getFromOffset(order, limit ?? 10, offset)
+    return this.getFromCursor(order, limit ?? 10, cursor)
   }
 
   protected override async startHandler() {

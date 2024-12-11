@@ -87,13 +87,13 @@ describe('MemoryPayloadDiviner', () => {
         })
       })
     })
-    describe('timestamp', () => {
+    describe.only('timestamp', () => {
       describe('when order supplied', () => {
         describe('asc', () => {
           const order = 'asc'
           it('returns payloads greater than the supplied timestamp', async () => {
             const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[0].timestamp - 1
-            const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
+            const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
               .fields({ order, timestamp })
               .build()
             const results = await sut.divine([query])

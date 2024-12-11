@@ -115,6 +115,7 @@
     "SRTM",
     "systeminformation",
     "testdata",
+    "thunked",
     "transferables",
     "treeshake",
     "tsup",

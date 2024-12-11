@@ -7251,6 +7251,7 @@ __metadata:
   resolution: "@xyo-network/diviner-payload-generic@workspace:packages/modules/packages/diviner/packages/payload/packages/generic"
   dependencies:
     "@xylabs/assert": "npm:^4.4.12"
+    "@xylabs/delay": "npm:^4.4.12"
     "@xylabs/forget": "npm:^4.4.12"
     "@xylabs/hex": "npm:^4.4.12"
     "@xylabs/object": "npm:^4.4.12"

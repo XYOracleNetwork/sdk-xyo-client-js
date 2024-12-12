@@ -154,7 +154,7 @@ describe('GenericPayloadDiviner', () => {
           const results = await sut.divine([query])
           console.warn('results', results)
           const resultSequences = results.map(result => result._sequence)
-          expect(results).toStrictEqual([payloadA, payloadB])
+          expect(PayloadBuilder.omitStorageMeta(results)).toStrictEqual([payloadA, payloadB])
           expect(results.length).toBe(2)
           expect(resultSequences[0]).toBe(await PayloadBuilder.hash(payloadA))
           expect(resultSequences[1]).toBe(await PayloadBuilder.hash(payloadB))

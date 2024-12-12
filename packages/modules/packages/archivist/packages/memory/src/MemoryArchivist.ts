@@ -124,7 +124,7 @@ export class MemoryArchivist<
         }
       })))
       .filter(exists)
-    await this.rebuildDataHashIndex()
+    this.rebuildDataHashIndex()
     return deletedHashes
   }
 
@@ -149,7 +149,6 @@ export class MemoryArchivist<
   }
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
-    this.logger.warn('nextHandler:start', options)
     const {
       limit, cursor, order,
     } = options ?? {}
@@ -160,9 +159,7 @@ export class MemoryArchivist<
     const startIndex = cursor
       ? MemoryArchivist.findIndexFromCursor(all, cursor) + 1
       : 0
-    this.logger.warn('nextHandler:startIndex', startIndex)
     const result = all.slice(startIndex, limit ? startIndex + limit : undefined)
-    this.logger.warn('nextHandler:result', result)
     return result
   }
 
@@ -173,12 +170,11 @@ export class MemoryArchivist<
     return withMeta
   }
 
-  private async rebuildDataHashIndex() {
+  private rebuildDataHashIndex() {
     this._dataHashIndex = new LRUCache<Hash, Hash>({ max: this.max })
-    const pairs = this.cache.dump()
-    for (const [hash, payload] of pairs) {
-      const dataHash = await PayloadBuilder.dataHash(payload.value)
-      this.dataHashIndex.set(dataHash, hash)
+    const payloads = this.cache.dump().map(([, item]) => item.value)
+    for (const payload of payloads) {
+      this.dataHashIndex.set(payload._dataHash, payload._hash)
     }
   }
 }

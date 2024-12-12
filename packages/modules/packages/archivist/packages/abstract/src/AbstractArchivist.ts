@@ -390,13 +390,13 @@ export abstract class AbstractArchivist<
         if (this.config.storeQueries) {
           await this.insertHandler([sanitizedQuery])
         }
-        return result
+        return PayloadBuilder.omitPrivateStorageMeta(result)
       }
     }
     if (this.config.storeQueries) {
       await this.insertHandler([sanitizedQuery])
     }
-    return await PayloadBuilder.addHashMeta(resultPayloads)
+    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
   }
 
   protected async writeToParent(parent: ArchivistInstance, payloads: Payload[]): Promise<Payload[]> {

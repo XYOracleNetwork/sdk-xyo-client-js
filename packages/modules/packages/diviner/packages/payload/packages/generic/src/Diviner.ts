@@ -179,7 +179,7 @@ export class GenericPayloadDiviner<
     this.logger.warn('updateIndex')
     await this._updatePayloadPairsMutex.runExclusive(async () => {
       const archivist = await this.archivistInstance(true)
-      let newPayloads = await PayloadBuilder.addStorageMeta((await archivist.next({ limit: 100, cursor: this._cursor })) as WithStorageMeta<TOut>[])
+      let newPayloads = await archivist.next({ limit: 100, cursor: this._cursor }) as TOut[]
       this.logger.warn('updateIndex:newPayloads', newPayloads)
       while (newPayloads.length > 0) {
         const prevCursor = this._cursor
@@ -189,24 +189,22 @@ export class GenericPayloadDiviner<
           this.logger.warn('next cursor not found', this._cursor, prevCursor)
         }
         assertEx(this.payloadsWithMeta.length + newPayloads.length <= this.maxIndexSize, () => 'maxIndexSize exceeded')
-        await this.indexPayloads(newPayloads)
-        newPayloads = await PayloadBuilder.addStorageMeta((await archivist.next({ limit: 100, cursor: this._cursor })) as WithStorageMeta<TOut>[])
+        this.indexPayloads(newPayloads)
+        newPayloads = await archivist.next({ limit: 100, cursor: this._cursor }) as TOut[]
       }
     })
   }
 
-  private async indexPayloads(payloads: TOut[]): Promise<Hash> {
-    const payloadsWithMeta = (await PayloadBuilder.addStorageMeta(payloads))
-      .map((payload, index) => ({ ...payload, _sequence: `${Date.now()}${toHex(index, { byteSize: StorageMetaConstants.nonceBytes })}` as Hex }))
-    this.payloadsWithMeta.push(...payloadsWithMeta)
+  private indexPayloads(payloads: WithStorageMeta<TOut>[]): Hex {
+    this.payloadsWithMeta.push(...payloads)
 
     // update the custom indexes
     for (const index of this.indexes ?? []) {
       this.indexMaps[index] = this.indexMaps[index] ?? []
-      for (const payload of payloadsWithMeta) {
+      for (const payload of payloads) {
         this.indexMaps[index].push(payload)
       }
     }
-    return assertEx(payloadsWithMeta.at(-1), () => 'No payloads to index')._hash
+    return assertEx(payloads.at(-1), () => 'No payloads to index')._sequence
   }
 }

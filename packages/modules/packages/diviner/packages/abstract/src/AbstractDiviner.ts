@@ -60,7 +60,7 @@ export abstract class AbstractDiviner<
       await this.emit('divineEnd', {
         errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads,
       })
-      return resultPayloads.map(payload => PayloadBuilder.omitStorageMeta(payload))
+      return resultPayloads.map(payload => PayloadBuilder.omitPrivateStorageMeta(payload))
     })
   }
 
@@ -75,7 +75,7 @@ export abstract class AbstractDiviner<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<DivinerQueries>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<DivinerQueries>(query, payloads)
     // remove the query payload
     const cleanPayloads = await PayloadBuilder.filterExclude(payloads, query.query)
     const queryPayload = await wrapper.getQuery()

@@ -85,7 +85,7 @@ describe('GenericPayloadDiviner', () => {
   })
   describe('with filter for', () => {
     describe('schema', () => {
-      describe.only('single', () => {
+      describe('single', () => {
         it.each(['network.xyo.test', 'network.xyo.debug'])('only returns payloads of that schema', async (schema) => {
           const schemas = [schema]
           const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
@@ -143,7 +143,7 @@ describe('GenericPayloadDiviner', () => {
           expect(results.every(result => schemas.includes(result.schema))).toBe(true)
         })
       })
-      describe('paging', () => {
+      describe.only('paging', () => {
         it('test paging with multiple calls (asc)', async () => {
           const schemas = ['network.xyo.test', 'network.xyo.debug']
           const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
@@ -152,6 +152,7 @@ describe('GenericPayloadDiviner', () => {
             })
             .build()
           const results = await sut.divine([query])
+          console.warn('results', results)
           const resultSequences = results.map(result => result._sequence)
           expect(results).toStrictEqual([payloadA, payloadB])
           expect(results.length).toBe(2)

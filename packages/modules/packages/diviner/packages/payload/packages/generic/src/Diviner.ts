@@ -67,19 +67,19 @@ export class GenericPayloadDiviner<
     return this.config.maxIndexSize ?? DEFAULT_MAX_INDEX_SIZE
   }
 
-  protected all(order: Order = 'desc', offset?: Hash) {
-    return order === 'asc' ? this.allAsc(offset) : this.allDesc(offset)
+  protected all(order: Order = 'desc', cursor?: Hex) {
+    return order === 'asc' ? this.allAsc(cursor) : this.allDesc(cursor)
   }
 
-  protected allAsc(offset?: Hash) {
+  protected allAsc(cursor?: Hex) {
     const payloads = this.payloadsWithMeta.sort((a, b) => a._sequence > b._sequence ? 1 : -1)
-    const startIndex = (offset ? (payloads.findIndex(payload => payload._hash === offset) ?? -1) : -1) + 1
+    const startIndex = (cursor ? (payloads.findIndex(payload => payload._sequence === cursor) ?? -1) : -1) + 1
     return payloads.slice(startIndex)
   }
 
-  protected allDesc(offset?: Hash) {
+  protected allDesc(cursor?: Hex) {
     const payloads = this.payloadsWithMeta.sort((a, b) => a._sequence > b._sequence ? -1 : 1)
-    const startIndex = (offset ? (payloads.findIndex(payloads => payloads._hash === offset) ?? -1) : -1) + 1
+    const startIndex = (cursor ? (payloads.findIndex(payloads => payloads._sequence === cursor) ?? -1) : -1) + 1
     return payloads.slice(startIndex)
   }
 
@@ -117,9 +117,9 @@ export class GenericPayloadDiviner<
 
     const {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      schema, schemas, order, limit, offset, ...props
+      schema, schemas, order, limit, cursor, ...props
     } = filter
-    let all: TOut[] = this.all(order, offset)
+    let all: TOut[] = this.all(order, cursor)
     if (all) {
       if (schemas?.length) all = all.filter(payload => schemas.includes(payload.schema))
       if (Object.keys(props).length > 0) {

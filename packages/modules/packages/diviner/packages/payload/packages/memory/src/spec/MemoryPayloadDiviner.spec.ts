@@ -8,13 +8,16 @@ import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-mo
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import {
+  isSequenceMeta, type Payload,
+  StorageMetaConstants,
+  type WithSequenceMeta,
+} from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
 } from 'vitest'
 
-import { hasTimestamp } from '../hasTimestamp.ts'
 import { MemoryPayloadDiviner } from '../MemoryPayloadDiviner.ts'
 
 /**
@@ -26,20 +29,19 @@ describe('MemoryPayloadDiviner', () => {
   let archivist: MemoryArchivist
   let sut: MemoryPayloadDiviner
   let node: MemoryNode
-  let payloadA: Payload<{ schema: string; timestamp: number; url: string }>
-  let payloadB: Payload<{ foo: string[]; schema: string; timestamp: number }>
+  let payloadA: WithSequenceMeta<Payload<{ schema: string; url: string }>>
+  let payloadB: WithSequenceMeta<Payload<{ foo: string[]; schema: string }>>
   beforeAll(async () => {
-    payloadA = {
+    payloadA = await PayloadBuilder.addSequencedStorageMeta({
       schema: 'network.xyo.test',
       url: 'https://xyo.network',
-      timestamp: Date.now(),
-    }
+    })
     await delay(2)
-    payloadB = {
+    payloadB = await PayloadBuilder.addSequencedStorageMeta({
       foo: ['bar', 'baz'],
       schema: 'network.xyo.debug',
       timestamp: Date.now(),
-    }
+    })
 
     archivist = await MemoryArchivist.create({
       account: 'random',
@@ -87,64 +89,64 @@ describe('MemoryPayloadDiviner', () => {
         })
       })
     })
-    describe.only('timestamp', () => {
+    describe.only('sequence', () => {
       describe('when order supplied', () => {
         describe('asc', () => {
           const order = 'asc'
-          it('returns payloads greater than the supplied timestamp', async () => {
-            const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[0].timestamp - 1
+          it('returns payloads greater than the supplied sequence', async () => {
+            const cursor = StorageMetaConstants.minLocalSequence
             const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
-              .fields({ order, timestamp })
+              .fields({ order, cursor })
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every(hasTimestamp)).toBe(true)
-            expect(results.filter(hasTimestamp).every(result => result.timestamp > timestamp)).toBe(true)
+            expect(results.every(isSequenceMeta)).toBe(true)
+            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence > cursor)).toBe(true)
           })
-          it('returns payloads equal to the supplied timestamp', async () => {
-            const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[1].timestamp
+          it('returns payloads equal to the supplied sequence', async () => {
+            const cursor = [payloadA, payloadB].sort()[1]._sequence
             const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
-              .fields({ order, timestamp })
+              .fields({ order, cursor })
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every(hasTimestamp)).toBe(true)
-            expect(results.filter(hasTimestamp).every(result => result.timestamp === timestamp)).toBe(true)
+            expect(results.every(isSequenceMeta)).toBe(true)
+            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence === cursor)).toBe(true)
           })
         })
         describe('desc', () => {
           const order = 'desc'
-          it('returns payloads less than the supplied timestamp', async () => {
-            const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[1].timestamp + 1
+          it('returns payloads less than the supplied sequence', async () => {
+            const cursor = StorageMetaConstants.maxLocalSequence
             const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
-              .fields({ order, timestamp })
+              .fields({ order, cursor })
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every(hasTimestamp)).toBe(true)
-            expect(results.filter(hasTimestamp).every(result => result.timestamp <= timestamp)).toBe(true)
+            expect(results.every(isSequenceMeta)).toBe(true)
+            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence < cursor)).toBe(true)
           })
-          it('returns payloads equal to the supplied timestamp', async () => {
-            const timestamp = [payloadA, payloadB].sort((a, b) => a.timestamp - b.timestamp)[0].timestamp
+          it('returns payloads equal to the supplied sequence', async () => {
+            const cursor = [payloadA, payloadB].sort()[0]._sequence
             const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
-              .fields({ order, timestamp })
+              .fields({ order, cursor })
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every(hasTimestamp)).toBe(true)
-            expect(results.filter(hasTimestamp).every(result => result.timestamp === timestamp)).toBe(true)
+            expect(results.every(isSequenceMeta)).toBe(true)
+            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence === cursor)).toBe(true)
           })
         })
       })
       describe('when order not supplied', () => {
-        it('returns payloads equal to the supplied timestamp', async () => {
+        it('returns payloads equal to the supplied sequence', async () => {
           for (const payload of [payloadA, payloadB]) {
-            const timestamp = payload.timestamp
-            const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ timestamp }).build()
+            const cursor = payload._sequence
+            const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ cursor }).build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every(hasTimestamp)).toBe(true)
-            expect(results.filter(hasTimestamp).every(result => result.timestamp === timestamp)).toBe(true)
+            expect(results.every(isSequenceMeta)).toBe(true)
+            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence === cursor)).toBe(true)
           }
         })
       })

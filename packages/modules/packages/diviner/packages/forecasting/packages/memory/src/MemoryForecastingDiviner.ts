@@ -90,7 +90,7 @@ export class MemoryForecastingDiviner<
     // Loop until there are no more BWs to process or we've got enough payloads to satisfy the training window
     while (more || payloads.length < this.maxTrainingLength) {
       const query: BoundWitnessDivinerQueryPayload = {
-        addresses, limit, payload_schemas, schema: BoundWitnessDivinerQuerySchema, timestamp,
+        addresses, limit, payload_schemas, schema: BoundWitnessDivinerQuerySchema,
       }
       const boundWitnesses = (await bwDiviner.divine([query])).filter(
         bw => bw.$timestamp && bw.$timestamp >= startTimestamp && bw.$timestamp <= stopTimestamp,

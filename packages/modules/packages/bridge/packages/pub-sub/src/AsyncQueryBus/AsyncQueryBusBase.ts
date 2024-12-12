@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import type { Address } from '@xylabs/hex'
+import type { Address, Hex } from '@xylabs/hex'
 import type { TypeCheck } from '@xylabs/object'
 import { Base } from '@xylabs/object'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
@@ -12,6 +12,7 @@ import type {
   ModuleConfig, ModuleIdentifier, ModuleInstance,
 } from '@xyo-network/module-model'
 import { ResolveHelper } from '@xyo-network/module-model'
+import { StorageMetaConstants } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
@@ -22,7 +23,7 @@ const POLLING_FREQUENCY_MAX = 60_000 as const
 const POLLING_FREQUENCY_DEFAULT = 1000 as const
 
 export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryBusParams> extends Base<TParams> {
-  protected _lastState?: LRUCache<Address, number>
+  protected _lastState?: LRUCache<Address, Hex>
   protected _targetConfigs: Record<Address, ModuleConfig> = {}
   protected _targetQueries: Record<Address, string[]> = {}
 
@@ -57,9 +58,9 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
   /**
    * A cache of the last offset of the Diviner process per address
    */
-  protected get lastState(): LRUCache<Address, number> {
+  protected get lastState(): LRUCache<Address, Hex> {
     const requiredConfig = { max: 1000, ttl: 0 }
-    this._lastState = this._lastState ?? new LRUCache<Address, number>(requiredConfig)
+    this._lastState = this._lastState ?? new LRUCache<Address, Hex>(requiredConfig)
     return this._lastState
   }
 
@@ -119,7 +120,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
    * @param address The module address to commit the state for
    * @param nextState The state to commit
    */
-  protected async commitState(address: Address, nextState: number) {
+  protected async commitState(address: Address, nextState: Hex) {
     await Promise.resolve()
     // TODO: Offload to Archivist/Diviner instead of in-memory
     const lastState = this.lastState.get(address)
@@ -131,13 +132,11 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
    * Retrieves the last state of the process. Used to recover state after
    * preemptions, reboots, etc.
    */
-  protected async retrieveState(address: Address): Promise<number> {
+  protected async retrieveState(address: Address): Promise<Hex> {
     await Promise.resolve()
     const state = this.lastState.get(address)
     if (state === undefined) {
-      // If this is a boot we can go back a bit in time
-      // and begin processing recent commands
-      const newState = Date.now() - 1000
+      const newState = StorageMetaConstants.minLocalSequence
       this.lastState.set(address, newState)
       return newState
     } else {

@@ -11,8 +11,9 @@ import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import type { ModuleState, StateDictionary } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  Payload, Schema, WithStorageMeta,
+import {
+  type Payload, type Schema, StorageMetaConstants,
+  type WithStorageMeta,
 } from '@xyo-network/payload-model'
 
 import { StatefulDivinerConfigSchema } from './Config.ts'
@@ -103,7 +104,7 @@ export abstract class StatefulDiviner<
       .fields({
         address: this.account.address,
         limit: 1,
-        offset: 0,
+        cursor: StorageMetaConstants.minLocalSequence,
         order: 'desc',
         payload_schemas: [ModuleStateSchema],
       })

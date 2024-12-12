@@ -2,11 +2,11 @@ import { containsAll } from '@xylabs/array'
 import { exists } from '@xylabs/exists'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitnessSchema, isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import type { Schema } from '@xyo-network/payload-model'
+import { type Schema, StorageMetaConstants } from '@xyo-network/payload-model'
 import type { IDBPDatabase } from 'idb'
 import { openDB } from 'idb'
 
@@ -70,12 +70,12 @@ export class IndexedDbBoundWitnessDiviner<
 
     const result = await this.tryUseDb(async (db) => {
       const {
-        addresses, payload_hashes, payload_schemas, limit, offset, order,
+        addresses, payload_hashes, payload_schemas, limit, cursor, order,
       } = query
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
       const results: TOut[] = []
-      let parsedOffset = offset ?? 0
+      const parsedCursor = cursor ?? StorageMetaConstants.minLocalSequence
       const parsedLimit = limit ?? 10
       const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
       const valueFilters: ValueFilter[] = [
@@ -84,20 +84,19 @@ export class IndexedDbBoundWitnessDiviner<
         bwValueFilter('payload_schemas', payload_schemas),
       ].filter(exists)
       // Only iterate over BWs
-      let cursor = await store.index(IndexedDbArchivist.schemaIndexName).openCursor(IDBKeyRange.only(BoundWitnessSchema), direction)
+      let dbCursor = await store.index(IndexedDbArchivist.schemaIndexName).openCursor(IDBKeyRange.only(BoundWitnessSchema), direction)
 
       // If we're filtering on more than just the schema, we need to
       // iterate through all the results
       if (valueFilters.length === 0) {
         // Skip records until the offset is reached
-        while (cursor && parsedOffset > 0) {
-          cursor = await cursor.advance(parsedOffset)
-          parsedOffset = 0 // Reset offset after skipping
+        while (dbCursor && parsedCursor && parsedCursor < dbCursor.value._sequence) {
+          dbCursor = await dbCursor.advance(1)
         }
       }
       // Collect results up to the limit
-      while (cursor && results.length < parsedLimit) {
-        const value = cursor.value
+      while (dbCursor && results.length < parsedLimit) {
+        const value = dbCursor.value
         if (value) {
           // If we're filtering on more than just the schema
           if (valueFilters.length > 0) {
@@ -112,7 +111,7 @@ export class IndexedDbBoundWitnessDiviner<
           }
         }
         try {
-          cursor = await cursor.continue()
+          dbCursor = await dbCursor.continue()
         } catch {
           break
         }
@@ -120,7 +119,7 @@ export class IndexedDbBoundWitnessDiviner<
       await tx.done
       // Remove any metadata before returning to the client
       return await Promise.all(
-        results.filter(isBoundWitness),
+        results.filter(isBoundWitnessWithStorageMeta),
       )
     })
     return result ?? []

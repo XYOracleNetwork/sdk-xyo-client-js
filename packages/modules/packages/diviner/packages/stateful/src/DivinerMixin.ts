@@ -18,7 +18,7 @@ import {
   ModuleStateSchema,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { WithStorageMeta } from '@xyo-network/payload-model'
+import { StorageMetaConstants, type WithStorageMeta } from '@xyo-network/payload-model'
 
 import type { StatefulDivinerConfig } from './Config.ts'
 
@@ -115,7 +115,7 @@ export const StatefulModuleMixin = <
         .fields({
           // address: this.account.address,
           limit: 1,
-          offset: 0,
+          cursor: StorageMetaConstants.minLocalSequence,
           order: 'desc',
           payload_schemas: [ModuleStateSchema],
         })

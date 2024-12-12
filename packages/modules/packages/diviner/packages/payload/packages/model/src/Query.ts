@@ -1,3 +1,4 @@
+import type { Hex } from '@xylabs/hex'
 import type { EmptyObject } from '@xylabs/object'
 import type { Payload, Query } from '@xyo-network/payload-model'
 
@@ -7,7 +8,7 @@ import { PayloadDivinerSchema } from './Schema.ts'
 export type PayloadDivinerQuerySchema = `${PayloadDivinerSchema}.query`
 export const PayloadDivinerQuerySchema: PayloadDivinerQuerySchema = `${PayloadDivinerSchema}.query`
 
-export type PayloadDivinerQueryPayload<T extends EmptyObject = EmptyObject, O = number> = Query<
+export type PayloadDivinerQueryPayload<T extends EmptyObject = EmptyObject, O = Hex> = Query<
   { schema: PayloadDivinerQuerySchema } & PayloadDivinerPredicate<T, O>
 >
 export const isPayloadDivinerQueryPayload = <T extends EmptyObject = EmptyObject>(x?: Payload | null): x is PayloadDivinerQueryPayload<T> =>

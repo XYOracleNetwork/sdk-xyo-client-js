@@ -1,4 +1,5 @@
 import type { Address, Hash } from '@xylabs/hex'
+import { isStorageMeta, type WithStorageMeta } from '@xyo-network/payload-model'
 
 import type { BoundWitness } from './BoundWitness/index.ts'
 import { BoundWitnessSchema } from './BoundWitness/index.ts'
@@ -22,3 +23,4 @@ export type UnsignedQueryBoundWitness = BoundWitness<{
 export type QueryBoundWitness = UnsignedQueryBoundWitness
 
 export const isQueryBoundWitness = (x?: unknown): x is QueryBoundWitness => isBoundWitness(x) && (x as QueryBoundWitness)?.query !== undefined
+export const isQueryBoundWitnessWithStorageMeta = (x?: unknown): x is WithStorageMeta<QueryBoundWitness> => isQueryBoundWitness(x) && isStorageMeta(x)

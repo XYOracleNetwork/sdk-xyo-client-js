@@ -10,7 +10,9 @@ import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/divin
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  type Payload, type Schema, StorageMetaConstants,
+} from '@xyo-network/payload-model'
 import type { IDBPDatabase, IDBPObjectStore } from 'idb'
 import { openDB } from 'idb'
 
@@ -89,7 +91,7 @@ export class IndexedDbPayloadDiviner<
     if (!query) return []
     const result = await this.tryUseDb(async (db) => {
       const {
-        schemas, limit, offset, order, ...props
+        schemas, limit, cursor, order, ...props
       } = removeFields(query as unknown as TIn & { sources?: Hash[] }, [
         'hash',
         'schema',
@@ -97,7 +99,7 @@ export class IndexedDbPayloadDiviner<
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
       const results: TOut[] = []
-      let parsedOffset = offset ?? 0
+      let parsedCursor = cursor ?? StorageMetaConstants.minLocalSequence
       const parsedLimit = limit ?? 10
       assertEx((schemas?.length ?? 1) === 1, () => 'IndexedDbPayloadDiviner: Only one filter schema supported')
       const filterSchema = schemas?.[0]
@@ -111,7 +113,7 @@ export class IndexedDbPayloadDiviner<
               .map(([key, value]) => payloadValueFilter(key, value))
               .filter(exists)
           : []
-      let cursor
+      let dbCursor
         = suggestedIndex
           // Conditionally filter on schemas
           ? await store.index(suggestedIndex).openCursor(IDBKeyRange.only(keyRangeValue), direction)
@@ -119,13 +121,13 @@ export class IndexedDbPayloadDiviner<
           : await store.openCursor(suggestedIndex, direction)
 
       // Skip records until the offset is reached
-      while (cursor && parsedOffset > 0) {
-        cursor = await cursor.advance(parsedOffset)
-        parsedOffset = 0 // Reset offset after skipping
+      while (dbCursor && parsedCursor) {
+        dbCursor = await dbCursor.advance(1)
+        parsedCursor = StorageMetaConstants.minLocalSequence // Reset offset after skipping
       }
       // Collect results up to the limit
-      while (cursor && results.length < parsedLimit) {
-        const value = cursor.value
+      while (dbCursor && results.length < parsedLimit) {
+        const value = dbCursor.value
         if (value) {
           // If we're filtering on more than just the schema
           if (valueFilters.length > 0) {
@@ -140,7 +142,7 @@ export class IndexedDbPayloadDiviner<
           }
         }
         try {
-          cursor = await cursor.continue()
+          dbCursor = await dbCursor.continue()
         } catch {
           break
         }

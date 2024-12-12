@@ -1,22 +1,24 @@
-import { containsAll } from '@xylabs/array'
+import { containsAll, filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { hexFromHexString } from '@xylabs/hex'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import {
-  hasBlock, hasMetaTimestamp, isBoundWitness,
-} from '@xyo-network/boundwitness-model'
+import { asBlock, isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import type { Payload } from '@xyo-network/payload-model'
+import {
+  type Payload,
+  StorageMetaConstants,
+  type WithStorageMeta,
+} from '@xyo-network/payload-model'
 
 // eslint-disable-next-line complexity
-export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivinerQueryPayload, payloads: Payload[] = []) => {
+export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivinerQueryPayload, payloads: Payload[] = []): BoundWitness[] => {
   if (!filter) return []
   const {
-    addresses, payload_hashes, payload_schemas, block, limit, offset, order = 'desc', sourceQuery, destination, timestamp,
+    addresses, payload_hashes, payload_schemas, block, limit, cursor, order = 'desc', sourceQuery, destination,
   } = filter
 
-  let bws = payloads.filter(isBoundWitness) as BoundWitness[]
+  let bws = payloads.filter(isBoundWitnessWithStorageMeta)
   if (order === 'desc') bws = bws.reverse()
   const allAddresses = addresses?.map(address => hexFromHexString(address)).filter(exists)
   if (allAddresses?.length) bws = bws.filter(bw => containsAll(bw.addresses, allAddresses))
@@ -38,18 +40,12 @@ export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivine
     })
   }
   if (block !== undefined) {
-    bws
-      = order === 'desc'
-        ? bws.filter(hasBlock).filter(bw => bw.block <= block)
-        : bws.filter(hasBlock).filter(bw => bw.block >= block)
-  }
-  if (timestamp !== undefined) {
-    bws
-      = order === 'desc'
-        ? bws.filter(hasMetaTimestamp).filter(bw => bw.$timestamp <= timestamp)
-        : bws.filter(hasMetaTimestamp).filter(bw => bw.$timestamp >= timestamp)
+    bws = (order === 'desc'
+      ? filterAs(bws, asBlock).filter(bw => bw.block <= block)
+      : filterAs(bws, asBlock).filter(bw => bw.block >= block)) as WithStorageMeta<BoundWitness>[]
   }
   const parsedLimit = limit ?? bws.length
-  const parsedOffset = offset ?? 0
+  const parsedCursor = cursor ?? (order === 'desc') ? StorageMetaConstants.maxSequence : StorageMetaConstants.minSequence
+  const parsedOffset = (order === 'desc') ? bws.findIndex(bw => bw._sequence < parsedCursor) : bws.findIndex(bw => bw._sequence < parsedCursor)
   return bws.slice(parsedOffset, parsedLimit)
 }

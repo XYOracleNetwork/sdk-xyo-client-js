@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import type { Hex } from '@xylabs/hex'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -17,7 +18,11 @@ import type {
 } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import type {
+  Payload, Schema,
+  WithStorageMeta,
+} from '@xyo-network/payload-model'
+import { StorageMetaConstants } from '@xyo-network/payload-model'
 import { intraBoundwitnessSchemaCombinations } from '@xyo-network/payload-utils'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
 import { TimestampSchema } from '@xyo-network/witness-timestamp'
@@ -80,15 +85,15 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     // Retrieve the last state from what was passed in
     const lastState = payloads.find(isModuleState<IndexingDivinerState>)
     // If there is no last state, start from the beginning
-    if (!lastState) return [{ schema: ModuleStateSchema, state: { offset: 0 } }]
+    if (!lastState) return [{ schema: ModuleStateSchema, state: { cursor: StorageMetaConstants.minLocalSequence } }]
     // Otherwise, get the last offset
-    const { offset } = lastState.state
+    const { cursor } = lastState.state
     // Get next batch of results starting from the offset
     const boundWitnessDiviner = await this.getBoundWitnessDivinerForStore()
     if (!boundWitnessDiviner) return [lastState]
-    const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+    const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
       .fields({
-        limit: this.payloadDivinerLimit, offset, order, payload_schemas: this.payload_schemas,
+        limit: this.payloadDivinerLimit, cursor: cursor as Hex, order, payload_schemas: this.payload_schemas,
       })
       .build()
     const batch = await boundWitnessDiviner.divine([query])
@@ -100,7 +105,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     const indexCandidates: IndexCandidate[] = (await Promise.all(bws.map(bw => this.getPayloadsInBoundWitness(bw, sourceArchivist))))
       .filter(exists)
       .flat()
-    const nextState = { schema: ModuleStateSchema, state: { ...lastState.state, offset: offset + batch.length } }
+    const nextState = { schema: ModuleStateSchema, state: { ...lastState.state, cursor: batch.at(-1)?._sequence } }
     return [nextState, ...indexCandidates]
   }
 
@@ -139,7 +144,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
       DivinerWrapper<
         BoundWitnessDiviner<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>,
         BoundWitnessDivinerQueryPayload,
-        BoundWitness
+        WithStorageMeta<BoundWitness>
       >
     >(mod, this.account)
   }

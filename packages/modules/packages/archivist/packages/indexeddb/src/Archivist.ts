@@ -17,7 +17,7 @@ import {
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  Payload, Schema, WithStorageMeta,
+  Payload, Schema, StorageMetaConstants, WithStorageMeta,
 } from '@xyo-network/payload-model'
 import {
   IDBPCursorWithValue, IDBPDatabase, openDB,
@@ -130,7 +130,13 @@ export class IndexedDbArchivist<
    * The indexes to create on the store
    */
   private get indexes() {
-    return [IndexedDbArchivist.dataHashIndex, IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex, ...(this.config?.storage?.indexes ?? [])]
+    return [
+      IndexedDbArchivist.dataHashIndex,
+      IndexedDbArchivist.hashIndex,
+      IndexedDbArchivist.schemaIndex,
+      IndexedDbArchivist.sequenceIndex,
+      ...(this.config?.storage?.indexes ?? []),
+    ]
   }
 
   protected override async allHandler(): Promise<WithStorageMeta<Payload>[]> {
@@ -185,12 +191,16 @@ export class IndexedDbArchivist<
     // TODO: We have to handle the case where the cursor is not found, and then find the correct cursor to start with (thunked cursor)
     const transaction = db.transaction(storeName, 'readonly')
     const store = transaction.objectStore(storeName)
-    const sequenceIndex = store.index(IndexedDbArchivist.sequenceIndexName)
+    const sequenceIndex = assertEx(store.index(IndexedDbArchivist.sequenceIndexName), () => 'Failed to get sequence index')
     let sequenceCursor: IDBPCursorWithValue<PayloadStore, [string]> | null | undefined = undefined
-    sequenceCursor = assertEx(await sequenceIndex.openCursor(cursor ?? null, order === 'desc' ? 'prev' : 'next'), () => 'Failed to get cursor')
+    const parsedCursor = cursor === StorageMetaConstants.minLocalSequence ? null : cursor
+    sequenceCursor = assertEx(await sequenceIndex.openCursor(
+      null,
+      order === 'desc' ? 'prev' : 'next',
+    ), () => `Failed to get cursor [${parsedCursor}, ${cursor}]`)
     if (!sequenceCursor?.value) return []
     try {
-      sequenceCursor = await sequenceCursor?.advance(1) // advance to skip the initial value
+      sequenceCursor = parsedCursor ? await sequenceCursor?.continue(parsedCursor) : sequenceCursor // advance to skip the initial value
     } catch {
       return []
     }

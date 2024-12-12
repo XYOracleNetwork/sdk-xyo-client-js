@@ -6,13 +6,14 @@
 
 import '@xylabs/vitest-extended'
 
+import { delay } from '@xylabs/delay'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import type { IndexDescription } from '@xyo-network/archivist-model'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -58,15 +59,16 @@ describe('IndexedDbPayloadDiviner', () => {
   let sut: IndexedDbPayloadDiviner
   let node: MemoryNode
   const urlIndex: IndexDescription = { key: { url: 1 }, name: 'IX_url' }
-  let payloadA: Payload<{ url: string }>
-  let payloadB: Payload<{ foo: string[]; other: string }>
-  let payloads: Payload[]
+  let payloadA: WithStorageMeta<Payload<{ url: string }>>
+  let payloadB: WithStorageMeta<Payload<{ foo: string[]; other: string }>>
+  let payloads: WithStorageMeta<Payload>[]
   beforeAll(async () => {
-    payloadA = await PayloadBuilder.build({
+    payloadA = await PayloadBuilder.addSequencedStorageMeta({
       schema: 'network.xyo.test',
       url: 'https://xyo.network',
     })
-    payloadB = await PayloadBuilder.build({
+    await delay(1)
+    payloadB = await PayloadBuilder.addSequencedStorageMeta({
       foo: ['bar', 'baz'],
       other: 'value',
       schema: 'network.xyo.debug',
@@ -107,7 +109,7 @@ describe('IndexedDbPayloadDiviner', () => {
       describe('single', () => {
         it.each(['network.xyo.test', 'network.xyo.debug'])('only returns payloads of that schema', async (schema) => {
           const schemas = [schema]
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
           expect(results.every(result => result.schema === schema)).toBe(true)
@@ -116,7 +118,7 @@ describe('IndexedDbPayloadDiviner', () => {
       describe.skip('multiple', () => {
         it('only returns payloads of that schema', async () => {
           const schemas = ['network.xyo.test', 'network.xyo.debug']
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
           expect(results.every(result => schemas.includes(result.schema))).toBe(true)
@@ -129,7 +131,7 @@ describe('IndexedDbPayloadDiviner', () => {
           it('only returns payloads with that property', async () => {
             type WithUrl = { url?: string }
             const url = payloadA.url
-            const query = await new PayloadBuilder<PayloadDivinerQueryPayload & WithUrl>({ schema: PayloadDivinerQuerySchema })
+            const query = new PayloadBuilder<PayloadDivinerQueryPayload & WithUrl>({ schema: PayloadDivinerQuerySchema })
               .fields({ url })
               .build()
             const results = await sut.divine([query])
@@ -141,7 +143,7 @@ describe('IndexedDbPayloadDiviner', () => {
           it('only returns payloads with that property', async () => {
             type WithOther = { other?: string }
             const other = payloadB.other
-            const query = await new PayloadBuilder<PayloadDivinerQueryPayload & WithOther>({ schema: PayloadDivinerQuerySchema })
+            const query = new PayloadBuilder<PayloadDivinerQueryPayload & WithOther>({ schema: PayloadDivinerQuerySchema })
               .fields({ other })
               .build()
             const results = await sut.divine([query])
@@ -154,7 +156,7 @@ describe('IndexedDbPayloadDiviner', () => {
         const cases: string[][] = [['bar'], ['baz'], ['bar', 'baz']]
         it.each(cases)('only returns payloads that have an array containing all the values supplied', async (...foo) => {
           type WithFoo = { foo?: string[] }
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload & WithFoo>({ schema: PayloadDivinerQuerySchema }).fields({ foo }).build()
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload & WithFoo>({ schema: PayloadDivinerQuerySchema }).fields({ foo }).build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
           expect(results.every(result => foo.every(v => (result as unknown as WithFoo)?.foo?.includes(v)))).toBe(true)
@@ -165,21 +167,21 @@ describe('IndexedDbPayloadDiviner', () => {
   describe('with order', () => {
     describe('not set', () => {
       it('returns payloads in ascending order', async () => {
-        const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).build()
+        const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).build()
         const results = await sut.divine([query])
         expect(results).toEqual(payloads)
       })
     })
     describe('asc', () => {
       it('returns payloads in ascending order', async () => {
-        const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ order: 'asc' }).build()
+        const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ order: 'asc' }).build()
         const results = await sut.divine([query])
         expect(results).toEqual(payloads)
       })
     })
     describe('desc', () => {
       it('returns payloads in descending order', async () => {
-        const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ order: 'desc' }).build()
+        const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ order: 'desc' }).build()
         const results = await sut.divine([query])
         expect(results).toEqual([...payloads].reverse())
       })
@@ -188,10 +190,10 @@ describe('IndexedDbPayloadDiviner', () => {
   describe('with offset', () => {
     describe('when ascending order', () => {
       it('returns payloads from the beginning', async () => {
-        for (const [i, boundWitness] of payloads.entries()) {
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
+        for (const boundWitness of payloads) {
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
             .fields({
-              limit: 1, offset: i, order: 'asc',
+              limit: 1, cursor: boundWitness._sequence, order: 'asc',
             })
             .build()
           const results = await sut.divine([query])
@@ -204,9 +206,9 @@ describe('IndexedDbPayloadDiviner', () => {
     describe('when descending order', () => {
       it('returns payloads from the end', async () => {
         for (let i = 0; i < payloads.length; i++) {
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
             .fields({
-              limit: 1, offset: i, order: 'desc',
+              limit: 1, cursor: payloads[i]._sequence, order: 'desc',
             })
             .build()
           const results = await sut.divine([query])

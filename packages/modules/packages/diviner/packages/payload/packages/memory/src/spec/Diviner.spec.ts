@@ -3,6 +3,7 @@
 import '@xylabs/vitest-extended'
 
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
+import { GenericPayloadDivinerConfigSchema } from '@xyo-network/diviner-payload-generic'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -58,7 +59,7 @@ describe('GenericPayloadDiviner', () => {
       account: 'random',
       config: {
         archivist: archivist.address,
-        schema: MemoryPayloadDiviner.defaultConfigSchema,
+        schema: GenericPayloadDivinerConfigSchema,
       },
     })
     node = await MemoryNode.create({

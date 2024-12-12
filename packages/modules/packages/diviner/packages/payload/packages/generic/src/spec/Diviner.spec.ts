@@ -152,28 +152,28 @@ describe('GenericPayloadDiviner', () => {
             })
             .build()
           const results = await sut.divine([query])
-          const resultHashes = await PayloadBuilder.hashes(results)
+          const resultSequences = results.map(result => result._sequence)
           expect(results).toStrictEqual([payloadA, payloadB])
           expect(results.length).toBe(2)
-          expect(resultHashes[0]).toBe(await PayloadBuilder.hash(payloadA))
-          expect(resultHashes[1]).toBe(await PayloadBuilder.hash(payloadB))
+          expect(resultSequences[0]).toBe(await PayloadBuilder.hash(payloadA))
+          expect(resultSequences[1]).toBe(await PayloadBuilder.hash(payloadB))
 
-          const offset = resultHashes[1]
+          const cursor = resultSequences[1]
           const query2 = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({
-              limit: 2, offset, order: 'asc', schemas,
+              limit: 2, cursor, order: 'asc', schemas,
             })
             .build()
           const results2 = await sut.divine([query2])
-          const resultHashes2 = await PayloadBuilder.hashes(results2)
+          const resultSequences2 = results2.map(result => result._sequence)
           expect(results2.length).toBe(2)
-          expect(resultHashes2[0]).toBe(await PayloadBuilder.hash(payloadC))
-          expect(resultHashes2[1]).toBe(await PayloadBuilder.hash(payloadD))
-          const offset2 = resultHashes2[1]
+          expect(resultSequences2[0]).toBe(await PayloadBuilder.hash(payloadC))
+          expect(resultSequences2[1]).toBe(await PayloadBuilder.hash(payloadD))
+          const cursor2 = resultSequences2[1]
 
           const query3 = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({
-              limit: 2, offset: offset2, order: 'asc', schemas,
+              limit: 2, cursor: cursor2, order: 'asc', schemas,
             })
             .build()
           const results3 = await sut.divine([query3])
@@ -187,27 +187,27 @@ describe('GenericPayloadDiviner', () => {
             })
             .build()
           const results = await sut.divine([query])
-          const resultHashes = await PayloadBuilder.hashes(results)
+          const resultSequences = results.map(result => result._sequence)
           expect(results.length).toBe(2)
-          expect(resultHashes[0]).toBe(await PayloadBuilder.hash(payloadD))
-          expect(resultHashes[1]).toBe(await PayloadBuilder.hash(payloadC))
+          expect(resultSequences[0]).toBe(await PayloadBuilder.hash(payloadD))
+          expect(resultSequences[1]).toBe(await PayloadBuilder.hash(payloadC))
 
-          const offset = resultHashes[1]
+          const cursor = resultSequences[1]
           const query2 = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({
-              limit: 2, offset, order: 'desc', schemas,
+              limit: 2, cursor, order: 'desc', schemas,
             })
             .build()
           const results2 = await sut.divine([query2])
-          const resultHashes2 = await PayloadBuilder.hashes(results2)
+          const resultSequences2 = results2.map(result => result._sequence)
           expect(results2.length).toBe(2)
-          expect(resultHashes2[0]).toBe(await PayloadBuilder.hash(payloadB))
-          expect(resultHashes2[1]).toBe(await PayloadBuilder.hash(payloadA))
-          const offset2 = resultHashes2[1]
+          expect(resultSequences2[0]).toBe(await PayloadBuilder.hash(payloadB))
+          expect(resultSequences2[1]).toBe(await PayloadBuilder.hash(payloadA))
+          const cursor2 = resultSequences2[1]
 
           const query3 = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({
-              limit: 2, offset: offset2, order: 'desc', schemas,
+              limit: 2, cursor: cursor2, order: 'desc', schemas,
             })
             .build()
           const results3 = await sut.divine([query3])

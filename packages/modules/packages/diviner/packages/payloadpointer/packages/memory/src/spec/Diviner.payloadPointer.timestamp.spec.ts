@@ -5,6 +5,7 @@ import type { AccountInstance } from '@xyo-network/account'
 import { Account } from '@xyo-network/account'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import type { NodeInstance } from '@xyo-network/node-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
@@ -52,13 +53,13 @@ describe('PayloadPointerDiviner', () => {
       const expected = assertEx(payloads.at(0))
       const pointer = await createPointer([[account.address]], [[expectedSchema]], 0, 'asc')
       const result = await sut.divine([pointer])
-      expect(result).toEqual([expected])
+      expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
     })
     it('descending', async () => {
       const expected = assertEx(payloads.at(-1))
       const pointer = await createPointer([[account.address]], [[expectedSchema]], Date.now(), 'desc')
       const result = await sut.divine([pointer])
-      expect(result).toEqual([expected])
+      expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
     })
     it('no matching timestamp', async () => {
       const pointer = await createPointer([[account.address]], [[expectedSchema]], Date.now(), 'asc')

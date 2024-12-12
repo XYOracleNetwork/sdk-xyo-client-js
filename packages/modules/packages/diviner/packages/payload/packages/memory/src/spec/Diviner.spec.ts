@@ -55,10 +55,10 @@ describe('GenericPayloadDiviner', () => {
     const insertedPayloads: WithStorageMeta<Payload>[] = []
     insertedPayloads.push(...await archivist.insert([payloadA, payloadB]), ...await archivist.insert([payloadC, payloadD]))
     console.warn('insertedPayloads', insertedPayloads)
-    payloads = insertedPayloads.sort((a, b) => a._sequence > b._sequence ? 1 : -1)
+    payloads = insertedPayloads.sort(PayloadBuilder.compareStorageMeta)
 
     const all = await archivist.all()
-    const sortedAll = all.sort((a, b) => a._sequence > b._sequence ? 1 : -1)
+    const sortedAll = all.sort(PayloadBuilder.compareStorageMeta)
     console.log(sortedAll)
     sut = await MemoryPayloadDiviner.create({
       account: 'random',

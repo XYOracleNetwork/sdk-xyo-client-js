@@ -49,8 +49,8 @@ describe('next', () => {
     expect(insertedPayloads2).toBeDefined()
     expect(errors).toBeDefined()
 
-    const sortedInsertedPayloads1 = insertedPayloads1.sort((a, b) => a._sequence > b._sequence ? 1 : -1)
-    const sortedInsertedPayloads2 = (insertedPayloads2 as WithStorageMeta<Payload>[]).sort((a, b) => a._sequence > b._sequence ? 1 : -1)
+    const sortedInsertedPayloads1 = insertedPayloads1.sort(PayloadBuilder.compareStorageMeta)
+    const sortedInsertedPayloads2 = (insertedPayloads2 as WithStorageMeta<Payload>[]).sort((PayloadBuilder.compareStorageMeta))
 
     // console.log(toJsonString([bw, payloads, errors], 10))
 

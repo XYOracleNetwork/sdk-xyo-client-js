@@ -106,7 +106,7 @@ export class StorageArchivist<
           return true
         }
       })
-      .sort((a, b) => a._timestamp - b._timestamp)
+      .sort(PayloadBuilder.compareStorageMeta)
       .map(payload => PayloadBuilder.omitStorageMeta(payload))
   }
 
@@ -152,7 +152,7 @@ export class StorageArchivist<
     const payloads: WithStorageMeta[] = all
       .map(value => value)
       .sort((a, b) => {
-        return order === 'asc' ? a._sequence > b._sequence ? 1 : -1 : b._sequence > a._sequence ? 1 : -1
+        return order === 'asc' ? PayloadBuilder.compareStorageMeta(a, b) : PayloadBuilder.compareStorageMeta(b, a)
       })
     const index = payloads.findIndex(payload => payload._sequence === cursor)
     if (index !== -1) {
@@ -179,8 +179,8 @@ export class StorageArchivist<
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
-    return await Promise.all(payloads.map(async (payload) => {
-      const storagePayload = await PayloadBuilder.addSequencedStorageMeta(payload)
+    const storagePayloads = (await PayloadBuilder.addStorageMeta(payloads)).sort(PayloadBuilder.compareStorageMeta)
+    return await Promise.all(storagePayloads.map((storagePayload) => {
       const value = JSON.stringify(storagePayload)
       // console.log('insert.storagePayloads:', storagePayload)
       assertEx(value.length < this.maxEntrySize, () => `Payload too large [${storagePayload._hash}, ${value.length}]`)

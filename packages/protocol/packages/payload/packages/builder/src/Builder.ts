@@ -76,6 +76,10 @@ export class PayloadBuilder<
     return `${toHex(epoch, { byteSize: 4 })}${nonce}` as Hex
   }
 
+  static compareStorageMeta(a: WithStorageMeta<Payload>, b: WithStorageMeta<Payload>) {
+    return a._sequence > b._sequence ? 1 : a._sequence < b._sequence ? -1 : 0
+  }
+
   static async dataHash<T extends Payload>(payload: T): Promise<Hash> {
     return await ObjectHasher.hash(this.omitMeta(payload))
   }

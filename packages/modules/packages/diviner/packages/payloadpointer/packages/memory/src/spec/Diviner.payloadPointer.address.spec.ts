@@ -3,6 +3,7 @@ import '@xylabs/vitest-extended'
 import { Account } from '@xyo-network/account'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import type { NodeInstance } from '@xyo-network/node-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
@@ -56,7 +57,7 @@ describe('PayloadPointerDiviner', () => {
         const expected = getData()
         const pointer = await createPointer([[(await account).address]], [[expected.schema]])
         const result = await sut.divine([pointer])
-        expect(result).toEqual([expected])
+        expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
       })
     })
     describe('multiple address rules', () => {
@@ -65,7 +66,7 @@ describe('PayloadPointerDiviner', () => {
           const expected = payloads[4]
           const pointer = await createPointer([[(await accountC).address], [(await accountD).address]], [[expected.schema]])
           const result = await sut.divine([pointer])
-          expect(result).toEqual([expected])
+          expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
         })
       })
       describe('combined in parallel', () => {
@@ -73,7 +74,7 @@ describe('PayloadPointerDiviner', () => {
           const expected = payloads[4]
           const pointer = await createPointer([[(await accountC).address, (await accountD).address]], [[expected.schema]])
           const result = await sut.divine([pointer])
-          expect(result).toEqual([expected])
+          expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
         })
       })
     })

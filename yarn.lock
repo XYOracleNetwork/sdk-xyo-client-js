@@ -5940,6 +5940,7 @@ __metadata:
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/module-wrapper": "workspace:^"
+    "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
     vitest: "npm:^2.1.8"

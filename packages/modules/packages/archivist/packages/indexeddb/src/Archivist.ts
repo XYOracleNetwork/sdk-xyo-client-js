@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { uniq } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
@@ -200,7 +201,9 @@ export class IndexedDbArchivist<
     ), () => `Failed to get cursor [${parsedCursor}, ${cursor}]`)
     if (!sequenceCursor?.value) return []
     try {
-      sequenceCursor = parsedCursor ? await sequenceCursor?.continue(parsedCursor) : sequenceCursor // advance to skip the initial value
+      sequenceCursor = parsedCursor
+        ? sequenceCursor.value._sequence === parsedCursor ? await sequenceCursor?.advance(1) : await (await sequenceCursor?.continue(parsedCursor))?.advance(1)
+        : sequenceCursor // advance to skip the initial value
     } catch {
       return []
     }
@@ -305,10 +308,13 @@ export class IndexedDbArchivist<
       try {
         await Promise.all(
           payloadWithStorageMeta.map(async (payload) => {
+            // only insert if hash does not already exist
+            if (!await store.index(IndexedDbArchivist.hashIndexName).get(payload._hash)) {
             // Insert the payload
-            await store.put(payload)
-            // Add it to the inserted list
-            inserted.push(payload)
+              await store.put(payload)
+              // Add it to the inserted list
+              inserted.push(payload)
+            }
           }),
         )
       } finally {

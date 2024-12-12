@@ -148,10 +148,11 @@ export class StorageArchivist<
     limit: number = 10,
     cursor?: Hex,
   ): WithStorageMeta[] {
-    const payloads: WithStorageMeta[] = Object.entries(this.storage.getAll())
-      .map(([, value]) => value)
+    const all = Object.values(this.storage.getAll()) as WithStorageMeta[]
+    const payloads: WithStorageMeta[] = all
+      .map(value => value)
       .sort((a, b) => {
-        return order === 'asc' ? a._sequence - b._sequence : b._sequence - a._sequence
+        return order === 'asc' ? a._sequence > b._sequence ? 1 : -1 : b._sequence > a._sequence ? 1 : -1
       })
     const index = payloads.findIndex(payload => payload._sequence === cursor)
     if (index !== -1) {
@@ -181,7 +182,7 @@ export class StorageArchivist<
     return await Promise.all(payloads.map(async (payload) => {
       const storagePayload = await PayloadBuilder.addSequencedStorageMeta(payload)
       const value = JSON.stringify(storagePayload)
-      console.log('insert.storagePayloads:', storagePayload)
+      // console.log('insert.storagePayloads:', storagePayload)
       assertEx(value.length < this.maxEntrySize, () => `Payload too large [${storagePayload._hash}, ${value.length}]`)
       this.storage.set(storagePayload._hash, storagePayload)
       this.storage.set(storagePayload._dataHash, storagePayload)

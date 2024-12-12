@@ -143,7 +143,7 @@ describe('GenericPayloadDiviner', () => {
           expect(results.every(result => schemas.includes(result.schema))).toBe(true)
         })
       })
-      describe.only('paging', () => {
+      describe('paging', () => {
         it('test paging with multiple calls (asc)', async () => {
           const schemas = ['network.xyo.test', 'network.xyo.debug']
           const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })

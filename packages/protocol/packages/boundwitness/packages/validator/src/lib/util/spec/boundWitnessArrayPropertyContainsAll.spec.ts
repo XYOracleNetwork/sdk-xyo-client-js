@@ -26,7 +26,7 @@ describe('boundWitnessArrayPropertyContainsAll', () => {
     return bw
   }
 
-  describe.only('returns true', () => {
+  describe('returns true', () => {
     const cases: [string, () => WalletInstance[]][] = [
       ['with no wallets', () => []],
       ['with single wallet', () => oneWallet],

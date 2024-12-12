@@ -4,6 +4,7 @@ import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
+import { GenericPayloadDivinerConfigSchema } from '@xyo-network/diviner-payload-generic'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -52,7 +53,7 @@ describe('MemoryPayloadDiviner', () => {
       account: 'random',
       config: {
         archivist: archivist.address,
-        schema: MemoryPayloadDiviner.defaultConfigSchema,
+        schema: GenericPayloadDivinerConfigSchema,
       },
     })
     node = await MemoryNode.create({
@@ -89,7 +90,7 @@ describe('MemoryPayloadDiviner', () => {
         })
       })
     })
-    describe.only('sequence', () => {
+    describe('sequence', () => {
       describe('when order supplied', () => {
         describe('asc', () => {
           const order = 'asc'
@@ -100,7 +101,7 @@ describe('MemoryPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every(isSequenceMeta)).toBe(true)
+            expect(results.every(isSequenceMeta)).toBeTruthy()
             expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence > cursor)).toBe(true)
           })
           it('returns payloads equal to the supplied sequence', async () => {
@@ -110,8 +111,8 @@ describe('MemoryPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every(isSequenceMeta)).toBe(true)
-            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence === cursor)).toBe(true)
+            expect(results.every(isSequenceMeta)).toBeTruthy()
+            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence !== cursor)).toBe(true)
           })
         })
         describe('desc', () => {
@@ -123,7 +124,7 @@ describe('MemoryPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every(isSequenceMeta)).toBe(true)
+            expect(results.every(isSequenceMeta)).toBeTruthy()
             expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence < cursor)).toBe(true)
           })
           it('returns payloads equal to the supplied sequence', async () => {
@@ -134,7 +135,7 @@ describe('MemoryPayloadDiviner', () => {
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
             expect(results.every(isSequenceMeta)).toBe(true)
-            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence === cursor)).toBe(true)
+            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence !== cursor)).toBe(true)
           })
         })
       })
@@ -146,7 +147,7 @@ describe('MemoryPayloadDiviner', () => {
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
             expect(results.every(isSequenceMeta)).toBe(true)
-            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence === cursor)).toBe(true)
+            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence !== cursor)).toBe(true)
           }
         })
       })

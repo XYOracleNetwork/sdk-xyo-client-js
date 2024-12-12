@@ -3,6 +3,7 @@
  */
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
   describe, expect, it,
 } from 'vitest'
@@ -23,7 +24,7 @@ describe('MemoryArchivist (Wrapped)', () => {
     const payloads = [{ schema: 'network.xyo.test' }]
     const result = await archivist.insert(payloads)
 
-    expect(result).toEqual(payloads)
+    expect(result[0]._hash).toEqual(await PayloadBuilder.hash(payloads[0]))
     expect(result.length).toEqual(payloads.length)
     expect(result[0].schema).toEqual(payloads[0].schema)
   })

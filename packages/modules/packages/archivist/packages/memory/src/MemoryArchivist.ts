@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Hash } from '@xylabs/hex'
+import { Hash, Hex } from '@xylabs/hex'
 import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { fulfilled, Promisable } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
@@ -81,6 +81,14 @@ export class MemoryArchivist<
     return this.config?.max ?? 10_000
   }
 
+  private static findIndexFromCursor(payloads: WithStorageMeta[], cursor: Hex) {
+    const index = payloads.findIndex(({ _sequence }) => _sequence === cursor)
+    if (index === -1) {
+      return Infinity // move to the end
+    }
+    return index
+  }
+
   protected override allHandler(): Promisable<WithStorageMeta<Payload>[]> {
     const all = this.cache.dump().map(([, item]) => item.value).filter(exists)
     return PayloadBuilder.sortByStorageMeta(all)
@@ -141,6 +149,7 @@ export class MemoryArchivist<
   }
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
+    this.logger.warn('nextHandler:start', options)
     const {
       limit, cursor, order,
     } = options ?? {}
@@ -148,8 +157,13 @@ export class MemoryArchivist<
     if (order === 'desc') {
       all = all.reverse()
     }
-    const startIndex = cursor ? all.findIndex(({ _sequence }) => _sequence === cursor) + 1 : 0
-    return all.slice(startIndex, limit ? startIndex + limit : undefined)
+    const startIndex = cursor
+      ? MemoryArchivist.findIndexFromCursor(all, cursor) + 1
+      : 0
+    this.logger.warn('nextHandler:startIndex', startIndex)
+    const result = all.slice(startIndex, limit ? startIndex + limit : undefined)
+    this.logger.warn('nextHandler:result', result)
+    return result
   }
 
   private async insertPayloadIntoCache(payload: Payload): Promise<WithStorageMeta<Payload>> {

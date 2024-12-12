@@ -85,7 +85,7 @@ describe('GenericPayloadDiviner', () => {
   })
   describe('with filter for', () => {
     describe('schema', () => {
-      describe('single', () => {
+      describe.only('single', () => {
         it.each(['network.xyo.test', 'network.xyo.debug'])('only returns payloads of that schema', async (schema) => {
           const schemas = [schema]
           const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })

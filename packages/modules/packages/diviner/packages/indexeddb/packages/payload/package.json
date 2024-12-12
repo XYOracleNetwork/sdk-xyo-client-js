@@ -44,6 +44,7 @@
     "idb": "^8.0.0"
   },
   "devDependencies": {
+    "@xylabs/delay": "^4.4.13",
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
     "@xylabs/vitest-extended": "^4.4.13",

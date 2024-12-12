@@ -5813,6 +5813,7 @@ __metadata:
   dependencies:
     "@xylabs/array": "npm:^4.4.13"
     "@xylabs/assert": "npm:^4.4.13"
+    "@xylabs/delay": "npm:^4.4.13"
     "@xylabs/exists": "npm:^4.4.13"
     "@xylabs/hex": "npm:^4.4.13"
     "@xylabs/object": "npm:^4.4.13"
@@ -5838,6 +5839,7 @@ __metadata:
   resolution: "@xyo-network/archivist-memory@workspace:packages/modules/packages/archivist/packages/memory"
   dependencies:
     "@xylabs/assert": "npm:^4.4.13"
+    "@xylabs/delay": "npm:^4.4.13"
     "@xylabs/exists": "npm:^4.4.13"
     "@xylabs/hex": "npm:^4.4.13"
     "@xylabs/object": "npm:^4.4.13"
@@ -7283,6 +7285,7 @@ __metadata:
   dependencies:
     "@xylabs/array": "npm:^4.4.13"
     "@xylabs/assert": "npm:^4.4.13"
+    "@xylabs/delay": "npm:^4.4.13"
     "@xylabs/exists": "npm:^4.4.13"
     "@xylabs/hex": "npm:^4.4.13"
     "@xylabs/object": "npm:^4.4.13"
@@ -7309,20 +7312,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-memory@workspace:packages/modules/packages/diviner/packages/payload/packages/memory"
   dependencies:
-    "@xylabs/assert": "npm:^4.4.13"
     "@xylabs/delay": "npm:^4.4.13"
-    "@xylabs/object": "npm:^4.4.13"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
     "@xylabs/vitest-extended": "npm:^4.4.13"
     "@xyo-network/archivist-memory": "workspace:^"
-    "@xyo-network/diviner-model": "workspace:^"
-    "@xyo-network/diviner-payload-abstract": "workspace:^"
     "@xyo-network/diviner-payload-generic": "workspace:^"
-    "@xyo-network/diviner-payload-model": "workspace:^"
     "@xyo-network/node-memory": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
     vitest: "npm:^2.1.8"
   languageName: unknown

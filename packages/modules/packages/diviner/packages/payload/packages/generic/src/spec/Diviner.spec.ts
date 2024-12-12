@@ -9,7 +9,7 @@ import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-mo
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -30,6 +30,7 @@ describe('GenericPayloadDiviner', () => {
   let payloadB: Payload<{ foo: string[]; schema: string }>
   let payloadC: Payload<{ foo: string[]; schema: string }>
   let payloadD: Payload<{ foo: string[]; schema: string }>
+  let insertedPayloads: WithStorageMeta<Payload>[]
   beforeAll(async () => {
     payloadA = {
       schema: 'network.xyo.test',
@@ -52,14 +53,15 @@ describe('GenericPayloadDiviner', () => {
       account: 'random',
       config: { name: 'test', schema: MemoryArchivist.defaultConfigSchema },
     })
-    await archivist.insert([payloadA])
+    const [insertedPayloadA] = await archivist.insert([payloadA])
     await delay(1)
-    await archivist.insert([payloadB])
+    const [insertedPayloadB] = await archivist.insert([payloadB])
     await delay(1)
-    await archivist.insert([payloadC])
+    const [insertedPayloadC] = await archivist.insert([payloadC])
     await delay(1)
-    await archivist.insert([payloadD])
+    const [insertedPayloadD] = await archivist.insert([payloadD])
     await delay(1)
+    insertedPayloads = [insertedPayloadA, insertedPayloadB, insertedPayloadC, insertedPayloadD]
     // const all = await archivist.all()
     // console.log(all)
     sut = await GenericPayloadDiviner.create({
@@ -156,8 +158,8 @@ describe('GenericPayloadDiviner', () => {
           const resultSequences = results.map(result => result._sequence)
           expect(PayloadBuilder.omitStorageMeta(results)).toStrictEqual([payloadA, payloadB])
           expect(results.length).toBe(2)
-          expect(resultSequences[0]).toBe(await PayloadBuilder.hash(payloadA))
-          expect(resultSequences[1]).toBe(await PayloadBuilder.hash(payloadB))
+          expect(resultSequences[0]).toBe(insertedPayloads[0]._sequence)
+          expect(resultSequences[1]).toBe(insertedPayloads[1]._sequence)
 
           const cursor = resultSequences[1]
           const query2 = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
@@ -168,8 +170,8 @@ describe('GenericPayloadDiviner', () => {
           const results2 = await sut.divine([query2])
           const resultSequences2 = results2.map(result => result._sequence)
           expect(results2.length).toBe(2)
-          expect(resultSequences2[0]).toBe(await PayloadBuilder.hash(payloadC))
-          expect(resultSequences2[1]).toBe(await PayloadBuilder.hash(payloadD))
+          expect(resultSequences2[0]).toBe(insertedPayloads[2]._sequence)
+          expect(resultSequences2[1]).toBe(insertedPayloads[3]._sequence)
           const cursor2 = resultSequences2[1]
 
           const query3 = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
@@ -190,8 +192,8 @@ describe('GenericPayloadDiviner', () => {
           const results = await sut.divine([query])
           const resultSequences = results.map(result => result._sequence)
           expect(results.length).toBe(2)
-          expect(resultSequences[0]).toBe(await PayloadBuilder.hash(payloadD))
-          expect(resultSequences[1]).toBe(await PayloadBuilder.hash(payloadC))
+          expect(resultSequences[0]).toBe(insertedPayloads[3]._sequence)
+          expect(resultSequences[1]).toBe(insertedPayloads[2]._sequence)
 
           const cursor = resultSequences[1]
           const query2 = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
@@ -202,8 +204,8 @@ describe('GenericPayloadDiviner', () => {
           const results2 = await sut.divine([query2])
           const resultSequences2 = results2.map(result => result._sequence)
           expect(results2.length).toBe(2)
-          expect(resultSequences2[0]).toBe(await PayloadBuilder.hash(payloadB))
-          expect(resultSequences2[1]).toBe(await PayloadBuilder.hash(payloadA))
+          expect(resultSequences2[0]).toBe(insertedPayloads[1]._sequence)
+          expect(resultSequences2[1]).toBe(insertedPayloads[0]._sequence)
           const cursor2 = resultSequences2[1]
 
           const query3 = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })

@@ -4,6 +4,7 @@ import { Account } from '@xyo-network/account'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { NodeInstance } from '@xyo-network/node-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
@@ -72,7 +73,7 @@ describe('PayloadPointerDiviner', () => {
       ])('returns Payload of schema type', async (schema, expected) => {
         const pointer = await createPointer([[(await account).address]], [[schema]])
         const result = await sut.divine([pointer])
-        expect(result).toEqual([(await expected).payload])
+        expect(PayloadBuilder.omitStorageMeta(result)).toEqual([(await expected).payload])
       })
     })
     describe('multiple schema rules', () => {

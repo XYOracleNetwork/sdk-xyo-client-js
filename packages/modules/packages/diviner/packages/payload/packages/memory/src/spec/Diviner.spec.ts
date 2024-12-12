@@ -8,7 +8,7 @@ import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-mo
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -29,6 +29,7 @@ describe('GenericPayloadDiviner', () => {
   let payloadB: Payload<{ foo: string[]; schema: string }>
   let payloadC: Payload<{ foo: string[]; schema: string }>
   let payloadD: Payload<{ foo: string[]; schema: string }>
+  let payloads: Payload[]
   beforeAll(async () => {
     payloadA = {
       schema: 'network.xyo.test',
@@ -51,10 +52,14 @@ describe('GenericPayloadDiviner', () => {
       account: 'random',
       config: { name: 'test', schema: MemoryArchivist.defaultConfigSchema },
     })
-    await archivist.insert([payloadA, payloadB])
-    await archivist.insert([payloadC, payloadD])
+    const insertedPayloads: WithStorageMeta<Payload>[] = []
+    insertedPayloads.push(...await archivist.insert([payloadA, payloadB]), ...await archivist.insert([payloadC, payloadD]))
+    console.warn('insertedPayloads', insertedPayloads)
+    payloads = insertedPayloads.sort((a, b) => a._sequence > b._sequence ? 1 : -1)
+
     const all = await archivist.all()
-    console.log(all)
+    const sortedAll = all.sort((a, b) => a._sequence > b._sequence ? 1 : -1)
+    console.log(sortedAll)
     sut = await MemoryPayloadDiviner.create({
       account: 'random',
       config: {
@@ -93,7 +98,7 @@ describe('GenericPayloadDiviner', () => {
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
-          expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(payloadD))
+          expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(payloads[3]))
           expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })
         it('only return single payload of that schema (desc)', async () => {
@@ -105,8 +110,8 @@ describe('GenericPayloadDiviner', () => {
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
-          expect(results[0]).toEqual(payloadD)
-          expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(payloadD))
+          expect(PayloadBuilder.omitStorageMeta(results[0])).toEqual(PayloadBuilder.omitStorageMeta(payloads[3]))
+          expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(payloads[3]))
           expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })
         it('only return single payload of that schema (asc)', async () => {

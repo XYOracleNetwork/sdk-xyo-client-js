@@ -1,5 +1,6 @@
 import '@xylabs/vitest-extended'
 
+import { delay } from '@xylabs/delay'
 import { toJsonString } from '@xylabs/object'
 import { HDWallet } from '@xyo-network/account'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
@@ -44,27 +45,40 @@ describe('MemoryArchivist', () => {
 
     const payloads1 = [
       { schema: 'network.xyo.test', value: 1 },
-      { schema: 'network.xyo.test', value: 2 },
     ]
 
     const payloads2 = [
+      { schema: 'network.xyo.test', value: 2 },
+    ]
+
+    const payloads3 = [
       { schema: 'network.xyo.test', value: 3 },
+    ]
+
+    const payloads4 = [
       { schema: 'network.xyo.test', value: 4 },
     ]
+
     await archivist.insert(payloads1)
+    await delay(1)
     console.log(toJsonString(payloads1, 10))
     const [bw, payloads, errors] = await archivist.insertQuery(payloads2, account)
     expect(bw).toBeDefined()
     expect(payloads).toBeDefined()
     expect(errors).toBeDefined()
+    await delay(1)
+    await archivist.insert(payloads3)
+    await delay(1)
+    await archivist.insert(payloads4)
 
     console.log(toJsonString([bw, payloads, errors], 10))
 
     const batch1 = await archivist.next?.({ limit: 2 })
     expect(batch1).toBeArrayOfSize(2)
-    expect(await PayloadBuilder.dataHash(batch1?.[0])).toEqual(await PayloadBuilder.dataHash(payloads1[0]))
+    expect(batch1?.[0]).toEqual(payloads[0])
+    expect(await PayloadBuilder.dataHash(batch1?.[0])).toEqual(await PayloadBuilder.dataHash(payloads[0]))
 
-    const batch2 = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch1?.[0]) })
+    const batch2 = await archivist.next?.({ limit: 2, cursor: batch1?.[0]._sequence })
     expect(batch2).toBeArrayOfSize(2)
     expect(await PayloadBuilder.dataHash(batch2?.[1])).toEqual(await PayloadBuilder.dataHash(payloads2[0]))
 
@@ -74,7 +88,7 @@ describe('MemoryArchivist', () => {
     expect(await PayloadBuilder.dataHash(batch1Desc?.[0])).toEqual(await PayloadBuilder.dataHash(payloads2[1]))
 
     const batch2Desc = await archivist.next?.({
-      limit: 2, offset: await PayloadBuilder.hash(batch2?.[1]), order: 'desc',
+      limit: 2, cursor: await PayloadBuilder.hash(batch2?.[1]), order: 'desc',
     })
     expect(batch2Desc).toBeArrayOfSize(2)
     expect(await PayloadBuilder.dataHash(batch2Desc?.[1])).toEqual(await PayloadBuilder.dataHash(payloads1[0]))

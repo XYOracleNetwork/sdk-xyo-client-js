@@ -38,7 +38,7 @@ export class StorageMetaWrapper {
 
   static hashToNonce(hash: Hash | Hex): Hex {
     assert(hash.length > StorageMetaConstants.nonceBytes * 2, 'Hash must be at least 8 bytes')
-    const truncatedHashHex = toHex(hash.slice(-StorageMetaConstants.nonceBytes), { prefix: false })
+    const truncatedHashHex = toHex(hash.slice(-(StorageMetaConstants.nonceBytes * 2)), { prefix: false })
     return truncatedHashHex
   }
 

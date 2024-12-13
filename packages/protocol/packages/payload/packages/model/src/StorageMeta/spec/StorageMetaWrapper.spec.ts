@@ -1,5 +1,6 @@
 import '@xylabs/vitest-extended'
 
+import type { Address } from '@xylabs/hex'
 import { toHex } from '@xylabs/hex'
 import {
   describe, expect, it,
@@ -12,9 +13,11 @@ describe('StorageMetaWrapper', () => {
     it('parse', () => {
       const now = Date.now()
       const hash = toHex('1269b95d3ebf1b1258a82ccca0b365fabf4b8c99bf8fc852e5045e30ad20fbb1')
-      const wrapper = StorageMetaWrapper.from(now, hash)
+      const address: Address = 'b36d327210f67ad98be881ddf6ad1f1b3e2c5137'
+      const wrapper = StorageMetaWrapper.from(now, hash, address)
       expect(wrapper.epoch()).toBe(StorageMetaWrapper.timestampToEpoch(now))
       expect(wrapper.nonce()).toBe(StorageMetaWrapper.hashToNonce(hash))
+      expect(wrapper.address()).toBe(address)
     })
   })
   describe.skip('with Fully Qualified Sequence', () => {

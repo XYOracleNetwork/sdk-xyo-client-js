@@ -43,8 +43,8 @@ const StorageMetaLocalConstants = {
 
 export const StorageMetaConstants = {
   qualifiedSequenceBytes: StorageMetaLocalConstants.localSequenceBytes + StorageMetaComponentConstants.addressBytes,
-  minSequence: `${StorageMetaLocalConstants}0000000000000000000000000000000000000000` as Hex,
-  maxSequence: `${StorageMetaLocalConstants}ffffffffffffffffffffffffffffffffffffffff` as Hex,
+  minSequence: `${StorageMetaLocalConstants.minLocalSequence}0000000000000000000000000000000000000000` as Hex,
+  maxSequence: `${StorageMetaLocalConstants.maxLocalSequence}ffffffffffffffffffffffffffffffffffffffff` as Hex,
   ...StorageMetaLocalConstants,
 } as const
 

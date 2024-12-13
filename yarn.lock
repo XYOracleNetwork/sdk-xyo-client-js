@@ -8421,6 +8421,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model"
   dependencies:
+    "@xylabs/assert": "npm:^4.4.13"
     "@xylabs/hex": "npm:^4.4.13"
     "@xylabs/object": "npm:^4.4.13"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"

@@ -1,4 +1,9 @@
-import { type Hex, toHex } from '@xylabs/hex'
+import { assertEx } from '@xylabs/assert'
+import {
+  asHex,
+  type Hash, type Hex, toHex,
+} from '@xylabs/hex'
+import { assert } from 'vitest'
 
 import { StorageMetaConstants } from './StorageMeta.ts'
 
@@ -17,11 +22,21 @@ export class StorageMetaWrapper {
 
   static from(timestamp: Hex, hash: Hex, address?: Hex): StorageMetaWrapper
   static from(timestamp: number, hash: Hex, address?: Hex): StorageMetaWrapper
-  static from(timestamp: Hex | number, hash: Hex, address?: Hex): StorageMetaWrapper {
-    const timestampHex = typeof timestamp === 'number' ? toHex(timestamp, { prefix: false }) : timestamp
-    let hexString = timestampHex + hash
+  static from(timestamp: Hex | number, hash: Hex, address?: Hex): StorageMetaWrapper
+  static from(timestamp: Hex, hash: Hash, address?: Hex): StorageMetaWrapper
+  static from(timestamp: number, hash: Hex, address?: Hex): StorageMetaWrapper
+  static from(timestamp: Hex | number, hash: Hash | Hex, address?: Hex): StorageMetaWrapper {
+    // Pad timestamp to 8 bytes
+    const timestampHex = (typeof timestamp === 'number' ? toHex(timestamp, { prefix: false }) : timestamp)
+    const paddedTimestampHex = timestampHex.padStart(StorageMetaConstants.epochBytes * 2, '0')
+
+    // Ensure hash is a valid hash
+    assert(hash.length > StorageMetaConstants.nonceBytes * 2, 'Hash must be at least 8 bytes')
+    const truncatedHashHex = toHex(hash.slice(StorageMetaConstants.nonceBytes), { prefix: false })
+    let hexString = paddedTimestampHex + truncatedHashHex
     if (address) {
-      hexString += address
+      const paddedAddressHex = address.padStart(StorageMetaConstants.addressBytes * 2, '0')
+      hexString += paddedAddressHex
     }
     return new this(hexString)
   }
@@ -30,25 +45,40 @@ export class StorageMetaWrapper {
     return new this(hexString)
   }
 
+  static timestampToEpoch(timestamp: number | Hex): Hex {
+    const timestampHex = (typeof timestamp === 'number' ? toHex(timestamp, { prefix: false }) : timestamp)
+    const paddedTimestampHex = assertEx(asHex(timestampHex.padStart(StorageMetaConstants.epochBytes * 2, '0')))
+    return paddedTimestampHex
+  }
+
   address(): Hex {
-    const offset = StorageMetaConstants.epochBytes + StorageMetaConstants.nonceBytes
-    return toHex(this.getBytesSection(offset, StorageMetaConstants.qualifiedSequenceBytes).buffer, { prefix: false })
+    const start = StorageMetaConstants.epochBytes + StorageMetaConstants.nonceBytes
+    const length = StorageMetaConstants.addressBytes
+    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
+  }
+
+  epoch(): Hex {
+    const start = 0
+    const length = StorageMetaConstants.epochBytes
+    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
   }
 
   hash(): Hex {
-    return toHex(this.getBytesSection(StorageMetaConstants.epochBytes, StorageMetaConstants.qualifiedSequenceBytes).buffer, { prefix: false })
+    const start = StorageMetaConstants.epochBytes
+    const length = StorageMetaConstants.nonceBytes
+    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
   }
 
   localSequence(): Hex {
-    return toHex(this.getBytesSection(0, StorageMetaConstants.localSequenceBytes).buffer, { prefix: false })
+    const start = 0
+    const length = StorageMetaConstants.localSequenceBytes
+    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
   }
 
   qualifiedSequence(): Hex {
-    return toHex(this.getBytesSection(0, StorageMetaConstants.qualifiedSequenceBytes).buffer, { prefix: false })
-  }
-
-  timestamp(): Hex {
-    return toHex(this.getBytesSection(0, StorageMetaConstants.addressBytes).buffer, { prefix: false })
+    const start = 0
+    const length = StorageMetaConstants.qualifiedSequenceBytes
+    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
   }
 
   // Private method to return a section of data as a Uint8Array

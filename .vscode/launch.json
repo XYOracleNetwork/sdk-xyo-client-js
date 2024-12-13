@@ -26,7 +26,7 @@
         "--run",
         "--inspect-brk",
         "--no-file-parallelism",
-        "packages/modules/packages/archivist/packages/memory/src/spec/MemoryArchivist.spec.ts"
+        "packages/protocol/packages/payload/packages/model/src/StorageMeta/spec/StorageMetaWrapper.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

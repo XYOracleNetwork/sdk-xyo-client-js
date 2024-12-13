@@ -39,14 +39,14 @@ const StorageMetaLocalConstants = {
   minLocalSequence: '00000000000000000000000000000000' as Hex,
   maxLocalSequence: 'ffffffffffffffffffffffffffffffff' as Hex,
   ...StorageMetaComponentConstants,
-}
+} as const
 
 export const StorageMetaConstants = {
   qualifiedSequenceBytes: StorageMetaLocalConstants.localSequenceBytes + StorageMetaComponentConstants.addressBytes,
   minSequence: `${StorageMetaLocalConstants}0000000000000000000000000000000000000000` as Hex,
   maxSequence: `${StorageMetaLocalConstants}ffffffffffffffffffffffffffffffffffffffff` as Hex,
   ...StorageMetaLocalConstants,
-}
+} as const
 
 export const isSequenceMeta = (value: unknown): value is SequenceMeta => {
   return (value as WithSequenceMeta)?._sequence !== undefined

@@ -15,7 +15,7 @@ import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { ModuleState } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import type { MemoryNode } from '@xyo-network/node-memory'
-import { StorageMetaConstants } from '@xyo-network/payload-model'
+import { SequenceConstants } from '@xyo-network/payload-model'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
 import { TimestampSchema } from '@xyo-network/witness-timestamp'
 import {
@@ -65,7 +65,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
   let node: MemoryNode
 
   const cursors: Hex[] = [
-    StorageMetaConstants.minLocalSequence,
+    SequenceConstants.minLocalSequence,
   ]
 
   beforeAll(async () => {
@@ -126,7 +126,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
         expect(results.length).toBe(1)
         const state = results.find(isModuleState<IndexingDivinerState>)
         expect(state).toBeDefined()
-        expect(state?.state.cursor).toBe(StorageMetaConstants.minLocalSequence)
+        expect(state?.state.cursor).toBe(SequenceConstants.minLocalSequence)
       })
     })
     describe('with previous state', () => {

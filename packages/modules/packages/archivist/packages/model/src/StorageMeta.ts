@@ -24,7 +24,7 @@ const StorageMetaLocalConstants = {
   ...StorageMetaComponentConstants,
 }
 
-export const StorageMetaConstants = {
+export const SequenceConstants = {
   qualifiedSequenceBytes: StorageMetaLocalConstants.localSequenceBytes + StorageMetaComponentConstants.addressBytes,
   ...StorageMetaLocalConstants,
 }

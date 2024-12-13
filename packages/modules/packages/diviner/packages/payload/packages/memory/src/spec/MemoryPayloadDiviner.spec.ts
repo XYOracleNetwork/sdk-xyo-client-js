@@ -11,7 +11,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
   isSequenceMeta, type Payload,
-  StorageMetaConstants,
+  SequenceConstants,
   type WithSequenceMeta,
 } from '@xyo-network/payload-model'
 import {
@@ -95,7 +95,7 @@ describe('MemoryPayloadDiviner', () => {
         describe('asc', () => {
           const order = 'asc'
           it('returns payloads greater than the supplied sequence', async () => {
-            const cursor = StorageMetaConstants.minLocalSequence
+            const cursor = SequenceConstants.minLocalSequence
             const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
               .fields({ order, cursor })
               .build()
@@ -118,7 +118,7 @@ describe('MemoryPayloadDiviner', () => {
         describe('desc', () => {
           const order = 'desc'
           it('returns payloads less than the supplied sequence', async () => {
-            const cursor = StorageMetaConstants.maxLocalSequence
+            const cursor = SequenceConstants.maxLocalSequence
             const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
               .fields({ order, cursor })
               .build()

@@ -12,7 +12,7 @@ import type {
   ModuleConfig, ModuleIdentifier, ModuleInstance,
 } from '@xyo-network/module-model'
 import { ResolveHelper } from '@xyo-network/module-model'
-import { StorageMetaConstants } from '@xyo-network/payload-model'
+import { SequenceConstants } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
@@ -136,7 +136,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
     await Promise.resolve()
     const state = this.lastState.get(address)
     if (state === undefined) {
-      const newState = StorageMetaConstants.minLocalSequence
+      const newState = SequenceConstants.minLocalSequence
       this.lastState.set(address, newState)
       return newState
     } else {

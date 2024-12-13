@@ -22,7 +22,7 @@ import {
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  Payload, Schema, StorageMetaConstants, WithStorageMeta,
+  Payload, Schema, SequenceConstants, WithStorageMeta,
 } from '@xyo-network/payload-model'
 
 export type ConfigStoreKey = 'indexStore' | 'stateStore'
@@ -180,7 +180,7 @@ export class IndexingDiviner<
       .fields({
         address: accountAddress,
         limit: 1,
-        cursor: StorageMetaConstants.minLocalSequence,
+        cursor: SequenceConstants.minLocalSequence,
         order: 'desc',
         payload_schemas: [ModuleStateSchema],
       })

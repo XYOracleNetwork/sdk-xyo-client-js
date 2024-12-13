@@ -21,7 +21,7 @@ import type {
   Payload, Schema,
   WithStorageMeta,
 } from '@xyo-network/payload-model'
-import { StorageMetaConstants } from '@xyo-network/payload-model'
+import { SequenceConstants } from '@xyo-network/payload-model'
 import { intraBoundwitnessSchemaCombinations } from '@xyo-network/payload-utils'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
 import { TimestampSchema } from '@xyo-network/witness-timestamp'
@@ -84,7 +84,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     // Retrieve the last state from what was passed in
     const lastState = payloads.find(isModuleState<IndexingDivinerState>)
     // If there is no last state, start from the beginning
-    if (!lastState) return [{ schema: ModuleStateSchema, state: { cursor: StorageMetaConstants.minLocalSequence } }]
+    if (!lastState) return [{ schema: ModuleStateSchema, state: { cursor: SequenceConstants.minLocalSequence } }]
     // Otherwise, get the last offset
     const { cursor } = lastState.state
     // Get next batch of results starting from the offset

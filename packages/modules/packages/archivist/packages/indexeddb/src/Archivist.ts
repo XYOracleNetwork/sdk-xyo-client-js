@@ -18,7 +18,7 @@ import {
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  Payload, Schema, StorageMetaConstants, WithStorageMeta,
+  Payload, Schema, SequenceConstants, WithStorageMeta,
 } from '@xyo-network/payload-model'
 import {
   IDBPCursorWithValue, IDBPDatabase, openDB,
@@ -194,7 +194,7 @@ export class IndexedDbArchivist<
     const store = transaction.objectStore(storeName)
     const sequenceIndex = assertEx(store.index(IndexedDbArchivist.sequenceIndexName), () => 'Failed to get sequence index')
     let sequenceCursor: IDBPCursorWithValue<PayloadStore, [string]> | null | undefined = undefined
-    const parsedCursor = cursor === StorageMetaConstants.minLocalSequence ? null : cursor
+    const parsedCursor = cursor === SequenceConstants.minLocalSequence ? null : cursor
     sequenceCursor = assertEx(await sequenceIndex.openCursor(
       null,
       order === 'desc' ? 'prev' : 'next',

@@ -1,11 +1,10 @@
-import {
-  type Hash, type Hex, isHash,
-} from '@xylabs/hex'
+import { type Hash, isHash } from '@xylabs/hex'
 
 import type { Payload } from '../Payload.ts'
+import type { Sequence } from './Sequence.ts'
 
 export interface SequenceMeta {
-  _sequence: Hex
+  _sequence: Sequence
 }
 
 export type WithPartialSequenceMeta<T extends Payload = Payload> = Partial<WithSequenceMeta<T>>

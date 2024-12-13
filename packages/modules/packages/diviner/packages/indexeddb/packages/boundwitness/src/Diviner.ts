@@ -6,7 +6,7 @@ import { BoundWitnessSchema, isBoundWitnessWithStorageMeta } from '@xyo-network/
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { type Schema, StorageMetaConstants } from '@xyo-network/payload-model'
+import { type Schema, SequenceConstants } from '@xyo-network/payload-model'
 import type { IDBPDatabase } from 'idb'
 import { openDB } from 'idb'
 
@@ -75,7 +75,7 @@ export class IndexedDbBoundWitnessDiviner<
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
       const results: TOut[] = []
-      const parsedCursor = cursor ?? StorageMetaConstants.minLocalSequence
+      const parsedCursor = cursor ?? SequenceConstants.minLocalSequence
       const parsedLimit = limit ?? 10
       const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
       const valueFilters: ValueFilter[] = [

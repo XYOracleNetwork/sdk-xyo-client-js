@@ -12,7 +12,7 @@ import type { ModuleState, StateDictionary } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  type Payload, type Schema, StorageMetaConstants,
+  type Payload, type Schema, SequenceConstants,
   type WithStorageMeta,
 } from '@xyo-network/payload-model'
 
@@ -104,7 +104,7 @@ export abstract class StatefulDiviner<
       .fields({
         address: this.account.address,
         limit: 1,
-        cursor: StorageMetaConstants.minLocalSequence,
+        cursor: SequenceConstants.minLocalSequence,
         order: 'desc',
         payload_schemas: [ModuleStateSchema],
       })

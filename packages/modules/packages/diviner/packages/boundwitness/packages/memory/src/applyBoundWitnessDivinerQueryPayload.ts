@@ -7,7 +7,7 @@ import { asBlock, isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitnes
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import {
   type Payload,
-  StorageMetaConstants,
+  SequenceConstants,
   type WithStorageMeta,
 } from '@xyo-network/payload-model'
 
@@ -45,7 +45,7 @@ export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivine
       : filterAs(bws, asBlock).filter(bw => bw.block >= block)) as WithStorageMeta<BoundWitness>[]
   }
   const parsedLimit = limit ?? bws.length
-  const parsedCursor = cursor ?? (order === 'desc') ? StorageMetaConstants.maxSequence : StorageMetaConstants.minSequence
+  const parsedCursor = cursor ?? (order === 'desc') ? SequenceConstants.maxSequence : SequenceConstants.minSequence
   const parsedOffset = (order === 'desc') ? bws.findIndex(bw => bw._sequence < parsedCursor) : bws.findIndex(bw => bw._sequence < parsedCursor)
   return bws.slice(parsedOffset, parsedLimit)
 }

@@ -11,7 +11,7 @@ import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import {
-  type Payload, type Schema, StorageMetaConstants,
+  type Payload, type Schema, SequenceConstants,
 } from '@xyo-network/payload-model'
 import type { IDBPDatabase, IDBPObjectStore } from 'idb'
 import { openDB } from 'idb'
@@ -99,7 +99,7 @@ export class IndexedDbPayloadDiviner<
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
       const results: TOut[] = []
-      let parsedCursor = cursor ?? StorageMetaConstants.minLocalSequence
+      let parsedCursor = cursor ?? SequenceConstants.minLocalSequence
       const parsedLimit = limit ?? 10
       assertEx((schemas?.length ?? 1) === 1, () => 'IndexedDbPayloadDiviner: Only one filter schema supported')
       const filterSchema = schemas?.[0]
@@ -123,7 +123,7 @@ export class IndexedDbPayloadDiviner<
       // Skip records until the offset is reached
       while (dbCursor && parsedCursor) {
         dbCursor = await dbCursor.advance(1)
-        parsedCursor = StorageMetaConstants.minLocalSequence // Reset offset after skipping
+        parsedCursor = SequenceConstants.minLocalSequence // Reset offset after skipping
       }
       // Collect results up to the limit
       while (dbCursor && results.length < parsedLimit) {

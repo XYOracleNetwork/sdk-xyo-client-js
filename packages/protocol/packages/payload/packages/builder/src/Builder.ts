@@ -8,7 +8,7 @@ import type { AnyObject } from '@xylabs/object'
 import { ObjectHasher } from '@xyo-network/hash'
 import {
   type Payload,
-  StorageMetaConstants,
+  SequenceConstants,
   type WithHashMeta,
   type WithStorageMeta,
 } from '@xyo-network/payload-model'
@@ -42,7 +42,7 @@ export class PayloadBuilder<
 
   static async addSequencedStorageMeta<T extends Payload = Payload>(payload: T): Promise<WithStorageMeta<T>> {
     const withHashMeta = await this.addHashMeta(payload)
-    const _sequence = this.buildSequence(Date.now(), withHashMeta._hash.slice(-(StorageMetaConstants.nonceBytes * 2)) as Hex)
+    const _sequence = this.buildSequence(Date.now(), withHashMeta._hash.slice(-(SequenceConstants.nonceBytes * 2)) as Hex)
     return {
       ...withHashMeta,
       _sequence,
@@ -65,13 +65,13 @@ export class PayloadBuilder<
 
   static buildSequence(epoch: number, nonce: Hex): Hex {
     assertEx(
-      epoch <= StorageMetaConstants.maxEpoch,
-      () => `epoch must be less than or equal to ${StorageMetaConstants.maxEpoch} [${epoch}]`,
+      toHex(epoch, { prefix: false, byteSize: SequenceConstants.epochBytes * 2 }) <= SequenceConstants.maxEpoch,
+      () => `epoch must be less than or equal to ${SequenceConstants.maxEpoch} [${epoch}]`,
     )
     assertEx(isHex(nonce), () => 'nonce must be a Hex type')
     assertEx(
-      nonce.length === StorageMetaConstants.nonceBytes * 2,
-      () => `nonce must be ${StorageMetaConstants.nonceBytes} bytes [${nonce.length}] <- Hex String Length`,
+      nonce.length === SequenceConstants.nonceBytes * 2,
+      () => `nonce must be ${SequenceConstants.nonceBytes} bytes [${nonce.length}] <- Hex String Length`,
     )
     return `${toHex(epoch, { byteSize: 4 })}${nonce}` as Hex
   }

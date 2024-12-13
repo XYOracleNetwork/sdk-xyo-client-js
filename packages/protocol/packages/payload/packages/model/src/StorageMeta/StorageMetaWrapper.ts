@@ -26,19 +26,20 @@ export class StorageMetaWrapper {
   static from(timestamp: Hex, hash: Hash, address?: Hex): StorageMetaWrapper
   static from(timestamp: number, hash: Hex, address?: Hex): StorageMetaWrapper
   static from(timestamp: Hex | number, hash: Hash | Hex, address?: Hex): StorageMetaWrapper {
-    // Pad timestamp to 8 bytes
-    const timestampHex = (typeof timestamp === 'number' ? toHex(timestamp, { prefix: false }) : timestamp)
-    const paddedTimestampHex = timestampHex.padStart(StorageMetaConstants.epochBytes * 2, '0')
-
-    // Ensure hash is a valid hash
-    assert(hash.length > StorageMetaConstants.nonceBytes * 2, 'Hash must be at least 8 bytes')
-    const truncatedHashHex = toHex(hash.slice(StorageMetaConstants.nonceBytes), { prefix: false })
-    let hexString = paddedTimestampHex + truncatedHashHex
+    const epoch = StorageMetaWrapper.timestampToEpoch(timestamp)
+    const nonce = StorageMetaWrapper.hashToNonce(hash)
+    let hexString = epoch + nonce
     if (address) {
       const paddedAddressHex = address.padStart(StorageMetaConstants.addressBytes * 2, '0')
       hexString += paddedAddressHex
     }
     return new this(hexString)
+  }
+
+  static hashToNonce(hash: Hash | Hex): Hex {
+    assert(hash.length > StorageMetaConstants.nonceBytes * 2, 'Hash must be at least 8 bytes')
+    const truncatedHashHex = toHex(hash.slice(-StorageMetaConstants.nonceBytes), { prefix: false })
+    return truncatedHashHex
   }
 
   static parse(hexString: string): StorageMetaWrapper {
@@ -63,15 +64,15 @@ export class StorageMetaWrapper {
     return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
   }
 
-  hash(): Hex {
-    const start = StorageMetaConstants.epochBytes
-    const length = StorageMetaConstants.nonceBytes
-    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
-  }
-
   localSequence(): Hex {
     const start = 0
     const length = StorageMetaConstants.localSequenceBytes
+    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
+  }
+
+  nonce(): Hex {
+    const start = StorageMetaConstants.epochBytes
+    const length = StorageMetaConstants.nonceBytes
     return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
   }
 

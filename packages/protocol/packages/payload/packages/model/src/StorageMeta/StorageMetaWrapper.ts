@@ -19,20 +19,30 @@ export class StorageMetaWrapper {
     return new this(hexString)
   }
 
-  // Returns the entire data as a hex string (without 0x prefix)
-  build(): Hex {
-    return toHex(Array.from(this.data, byte => byte.toString(16).padStart(2, '0')).join(''))
+  address(): Hex {
+    const offset = StorageMetaConstants.epochBytes + StorageMetaConstants.nonceBytes
+    return toHex(this.getBytesSection(offset, StorageMetaConstants.qualifiedSequenceBytes).buffer, { prefix: false })
+  }
+
+  hash(): Hex {
+    return toHex(this.getBytesSection(StorageMetaConstants.epochBytes, StorageMetaConstants.qualifiedSequenceBytes).buffer, { prefix: false })
+  }
+
+  localSequence(): Hex {
+    return toHex(this.getBytesSection(0, StorageMetaConstants.localSequenceBytes).buffer, { prefix: false })
+  }
+
+  qualifiedSequence(): Hex {
+    return toHex(this.getBytesSection(0, StorageMetaConstants.qualifiedSequenceBytes).buffer, { prefix: false })
+  }
+
+  timestamp(): Hex {
+    return toHex(this.getBytesSection(0, StorageMetaConstants.addressBytes).buffer, { prefix: false })
   }
 
   // Private method to return a section of data as a Uint8Array
   private getBytesSection(start: number, length: number): Uint8Array {
     return this.data.slice(start, start + length)
-  }
-
-  // Private method to return a section as a hex string
-  private getHexSection(start: number, length: number): string {
-    const slice = this.getBytesSection(start, length)
-    return Array.from(slice, byte => byte.toString(16).padStart(2, '0')).join('')
   }
 
   private hexStringToUint8Array(hexString: string): Uint8Array {

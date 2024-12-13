@@ -8,7 +8,7 @@ import {
 
 import { SequenceParser } from '../SequenceParser.ts'
 
-describe('StorageMetaWrapper', () => {
+describe('SequenceParser', () => {
   const hash: Hash = toHex('1269b95d3ebf1b1258a82ccca0b365fabf4b8c99bf8fc852e5045e30ad20fbb1')
   const address: Address = 'b36d327210f67ad98be881ddf6ad1f1b3e2c5137'
   const timestamp = 1_234_567_890_123

@@ -7320,6 +7320,7 @@ __metadata:
     "@xyo-network/diviner-payload-generic": "workspace:^"
     "@xyo-network/node-memory": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
     vitest: "npm:^2.1.8"
   languageName: unknown

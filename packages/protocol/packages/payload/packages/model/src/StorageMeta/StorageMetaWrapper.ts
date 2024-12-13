@@ -20,6 +20,36 @@ export class StorageMetaWrapper {
     }
   }
 
+  get address(): Hex {
+    const start = StorageMetaConstants.epochBytes + StorageMetaConstants.nonceBytes
+    const length = StorageMetaConstants.addressBytes
+    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
+  }
+
+  get epoch(): Hex {
+    const start = 0
+    const length = StorageMetaConstants.epochBytes
+    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
+  }
+
+  get localSequence(): Hex {
+    const start = 0
+    const length = StorageMetaConstants.localSequenceBytes
+    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
+  }
+
+  get nonce(): Hex {
+    const start = StorageMetaConstants.epochBytes
+    const length = StorageMetaConstants.nonceBytes
+    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
+  }
+
+  get qualifiedSequence(): Hex {
+    const start = 0
+    const length = StorageMetaConstants.qualifiedSequenceBytes
+    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
+  }
+
   static from(timestamp: Hex, hash: Hex, address?: Hex): StorageMetaWrapper
   static from(timestamp: number, hash: Hex, address?: Hex): StorageMetaWrapper
   static from(timestamp: Hex | number, hash: Hex, address?: Hex): StorageMetaWrapper
@@ -50,36 +80,6 @@ export class StorageMetaWrapper {
     const timestampHex = (typeof timestamp === 'number' ? toHex(timestamp, { prefix: false }) : timestamp)
     const paddedTimestampHex = assertEx(asHex(timestampHex.padStart(StorageMetaConstants.epochBytes * 2, '0')))
     return paddedTimestampHex
-  }
-
-  address(): Hex {
-    const start = StorageMetaConstants.epochBytes + StorageMetaConstants.nonceBytes
-    const length = StorageMetaConstants.addressBytes
-    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
-  }
-
-  epoch(): Hex {
-    const start = 0
-    const length = StorageMetaConstants.epochBytes
-    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
-  }
-
-  localSequence(): Hex {
-    const start = 0
-    const length = StorageMetaConstants.localSequenceBytes
-    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
-  }
-
-  nonce(): Hex {
-    const start = StorageMetaConstants.epochBytes
-    const length = StorageMetaConstants.nonceBytes
-    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
-  }
-
-  qualifiedSequence(): Hex {
-    const start = 0
-    const length = StorageMetaConstants.qualifiedSequenceBytes
-    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
   }
 
   // Private method to return a section of data as a Uint8Array

@@ -2,7 +2,7 @@ import {
   type Hash, type Hex, isHash,
 } from '@xylabs/hex'
 
-import type { Payload } from './Payload.ts'
+import type { Payload } from '../Payload.ts'
 
 export interface SequenceMeta {
   _sequence: Hex

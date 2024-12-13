@@ -7,7 +7,7 @@ import { assert } from 'vitest'
 
 import { StorageMetaConstants } from './StorageMeta.ts'
 
-export class StorageMetaWrapper {
+export class SequenceParser {
   private readonly data: Readonly<Uint8Array>
 
   protected constructor(hexString: string) {
@@ -50,14 +50,14 @@ export class StorageMetaWrapper {
     return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
   }
 
-  static from(timestamp: Hex, hash: Hex, address?: Hex): StorageMetaWrapper
-  static from(timestamp: number, hash: Hex, address?: Hex): StorageMetaWrapper
-  static from(timestamp: Hex | number, hash: Hex, address?: Hex): StorageMetaWrapper
-  static from(timestamp: Hex, hash: Hash, address?: Hex): StorageMetaWrapper
-  static from(timestamp: number, hash: Hex, address?: Hex): StorageMetaWrapper
-  static from(timestamp: Hex | number, hash: Hash | Hex, address?: Hex): StorageMetaWrapper {
-    const epoch = StorageMetaWrapper.timestampToEpoch(timestamp)
-    const nonce = StorageMetaWrapper.hashToNonce(hash)
+  static from(timestamp: Hex, hash: Hex, address?: Hex): SequenceParser
+  static from(timestamp: number, hash: Hex, address?: Hex): SequenceParser
+  static from(timestamp: Hex | number, hash: Hex, address?: Hex): SequenceParser
+  static from(timestamp: Hex, hash: Hash, address?: Hex): SequenceParser
+  static from(timestamp: number, hash: Hex, address?: Hex): SequenceParser
+  static from(timestamp: Hex | number, hash: Hash | Hex, address?: Hex): SequenceParser {
+    const epoch = SequenceParser.timestampToEpoch(timestamp)
+    const nonce = SequenceParser.hashToNonce(hash)
     let hexString = epoch + nonce
     if (address) {
       const paddedAddressHex = address.padStart(StorageMetaConstants.addressBytes * 2, '0')
@@ -72,7 +72,7 @@ export class StorageMetaWrapper {
     return truncatedHashHex
   }
 
-  static parse(hexString: string): StorageMetaWrapper {
+  static parse(hexString: string): SequenceParser {
     return new this(hexString)
   }
 

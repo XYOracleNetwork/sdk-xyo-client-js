@@ -1,6 +1,8 @@
 import '@xylabs/vitest-extended'
 
 import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
+import type { Hex } from '@xylabs/hex'
 import { HDWallet } from '@xyo-network/account'
 import type { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
@@ -13,6 +15,7 @@ import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { ModuleState } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import type { MemoryNode } from '@xyo-network/node-memory'
+import { StorageMetaConstants } from '@xyo-network/payload-model'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
 import { TimestampSchema } from '@xyo-network/witness-timestamp'
 import {
@@ -61,6 +64,10 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
   let sut: TemporalIndexingDivinerStateToIndexCandidateDiviner
   let node: MemoryNode
 
+  const cursors: Hex[] = [
+    StorageMetaConstants.minLocalSequence,
+  ]
+
   beforeAll(async () => {
     const wallet = await HDWallet.random()
     const locator = new ModuleFactoryLocator()
@@ -81,7 +88,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
       .payloads([thumbnailHttpSuccess, httpSuccessTimestamp])
       .build()
     const httpFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [httpFailBoundWitness, httpFailPayloads] = await (await new BoundWitnessBuilder().payloads([thumbnailHttpFail, httpFailTimestamp])).build()
+    const [httpFailBoundWitness, httpFailPayloads] = await (new BoundWitnessBuilder().payloads([thumbnailHttpFail, httpFailTimestamp])).build()
 
     const witnessFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
     const [witnessFailBoundWitness, witnessFailPayloads] = await new BoundWitnessBuilder()
@@ -89,19 +96,23 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
       .build()
 
     const codeFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [codeFailBoundWitness, codeFailPayloads] = await (await new BoundWitnessBuilder().payloads([thumbnailCodeFail, codeFailTimestamp])).build()
+    const [codeFailBoundWitness, codeFailPayloads] = await (new BoundWitnessBuilder().payloads([thumbnailCodeFail, codeFailTimestamp])).build()
 
     const thumbnailArchivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
-    await thumbnailArchivist.insert([
-      httpSuccessBoundWitness,
-      ...httpSuccessPayloads,
-      httpFailBoundWitness,
-      ...httpFailPayloads,
-      witnessFailBoundWitness,
-      ...witnessFailPayloads,
-      codeFailBoundWitness,
-      ...codeFailPayloads,
-    ])
+    const testCases = [
+      [httpSuccessBoundWitness, ...httpSuccessPayloads],
+      [httpFailBoundWitness, ...httpFailPayloads],
+      [witnessFailBoundWitness, ...witnessFailPayloads],
+      [codeFailBoundWitness, ...codeFailPayloads],
+    ]
+
+    for (const [bw, ...payloads] of testCases) {
+      const response = await thumbnailArchivist.insert([bw, ...payloads])
+      const cursor = response.at(-1)?._sequence
+      expect(cursor).toBeDefined()
+      cursors.push(assertEx(cursor))
+      await delay(2)
+    }
 
     sut = assertEx(
       asDivinerInstance(await node.resolve('TemporalStateToIndexCandidateDiviner')),
@@ -115,19 +126,17 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
         expect(results.length).toBe(1)
         const state = results.find(isModuleState<IndexingDivinerState>)
         expect(state).toBeDefined()
-        expect(state?.state.offset).toBe(0)
+        expect(state?.state.cursor).toBe(StorageMetaConstants.minLocalSequence)
       })
     })
     describe('with previous state', () => {
-      // Test across all offsets
-      const states: ModuleState<IndexingDivinerState>[] = witnessedThumbnails.map((_, offset) => {
-        return { schema: ModuleStateSchema, state: { offset } }
-      })
-      it.each(states)('return next state and batch results', async (lastState) => {
+      it.each(cursors)('return next state and batch results', async (cursor) => {
+        // Test across all offsets
+        const lastState: ModuleState<IndexingDivinerState> = { schema: ModuleStateSchema, state: { cursor } }
         const results = await sut.divine([lastState])
 
         // Validate expected results length
-        const expectedIndividualResults = witnessedThumbnails.length - lastState.state.offset
+        const expectedIndividualResults = witnessedThumbnails.length - Number.parseInt(lastState.state.cursor, 16)
         // expectedIndividualResults * 3 [BW, ImageThumbnail, TimeStamp] + 1 [ModuleState]
         const expectedResults = expectedIndividualResults * 3 + 1
         expect(results.length).toBe(expectedResults)

@@ -1,8 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
-import {
-  type Hash, type Hex, toHex,
-} from '@xylabs/hex'
+import { type Hash, type Hex } from '@xylabs/hex'
 import { type EmptyObject } from '@xylabs/object'
 import type { ArchivistInstance, ArchivistModuleEventData } from '@xyo-network/archivist-model'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
@@ -17,7 +15,7 @@ import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model
 import type { EventListener } from '@xyo-network/module-events'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  type Payload, type Schema, StorageMetaConstants,
+  type Payload, type Schema,
   type WithStorageMeta,
 } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'

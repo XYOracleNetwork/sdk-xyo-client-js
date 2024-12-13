@@ -26,9 +26,4 @@ describe('StorageMetaWrapper', () => {
       expect (wrapper.qualifiedSequence).toBe('0000011f71fb04cbe5045e30ad20fbb1b36d327210f67ad98be881ddf6ad1f1b3e2c5137')
     })
   })
-  describe.skip('with Fully Qualified Sequence', () => {
-    it('parse', () => {
-      const wrapper = StorageMetaWrapper.parse('0')
-    })
-  })
 })

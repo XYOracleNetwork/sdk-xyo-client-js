@@ -59,8 +59,8 @@ export class PayloadBuilder<
         )))
       })()
       : this.addSequencedStorageMeta(
-        payloads,
-      )
+          payloads,
+        )
   }
 
   static buildSequence(epoch: number, nonce: Hex): Hex {

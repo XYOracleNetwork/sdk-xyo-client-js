@@ -1,10 +1,11 @@
+import { filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import type { Hex } from '@xylabs/hex'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { asBoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import type { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
@@ -89,23 +90,22 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     // Otherwise, get the last offset
     const { cursor } = lastState.state
     // Get next batch of results starting from the offset
-    const boundWitnessDiviner = await this.getBoundWitnessDivinerForStore()
-    if (!boundWitnessDiviner) return [lastState]
-    const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
-      .fields({
-        limit: this.payloadDivinerLimit, cursor: cursor as Hex, order, payload_schemas: this.payload_schemas,
-      })
-      .build()
-    const batch = await boundWitnessDiviner.divine([query])
-    if (batch.length === 0) return [lastState]
-    // Get source data
     const sourceArchivist = await this.getArchivistForStore()
     if (!sourceArchivist) return [lastState]
+    const next = await sourceArchivist.next({
+      limit: this.payloadDivinerLimit, order, cursor,
+    })
+    if (next.length === 0) return [lastState]
+    const batch = filterAs(next, asBoundWitness)
+      .filter(exists)
+      .filter(bw => payloadSchemasContainsAll(bw, this.payload_schemas))
+    // Get source data
     const bws = batch.filter(isBoundWitness)
     const indexCandidates: IndexCandidate[] = (await Promise.all(bws.map(bw => this.getPayloadsInBoundWitness(bw, sourceArchivist))))
       .filter(exists)
       .flat()
-    const nextState = { schema: ModuleStateSchema, state: { ...lastState.state, cursor: batch.at(-1)?._sequence } }
+    const nextCursor = assertEx(next.at(-1)?._sequence, () => `${moduleName}: Expected next to have a sequence`)
+    const nextState: ModuleState = { schema: ModuleStateSchema, state: { ...lastState.state, cursor: nextCursor } }
     return [nextState, ...indexCandidates]
   }
 
@@ -156,4 +156,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     const indexCandidates = await archivist.get([...hashes])
     return [bw, ...indexCandidates]
   }
+}
+function payloadSchemasContainsAll(bw: any, payload_schemas: any) {
+  throw new Error('Function not implemented.')
 }

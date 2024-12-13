@@ -15,6 +15,17 @@ export class StorageMetaWrapper {
     }
   }
 
+  static from(timestamp: Hex, hash: Hex, address?: Hex): StorageMetaWrapper
+  static from(timestamp: number, hash: Hex, address?: Hex): StorageMetaWrapper
+  static from(timestamp: Hex | number, hash: Hex, address?: Hex): StorageMetaWrapper {
+    const timestampHex = typeof timestamp === 'number' ? toHex(timestamp, { prefix: false }) : timestamp
+    let hexString = timestampHex + hash
+    if (address) {
+      hexString += address
+    }
+    return new this(hexString)
+  }
+
   static parse(hexString: string): StorageMetaWrapper {
     return new this(hexString)
   }

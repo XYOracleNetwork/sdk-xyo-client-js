@@ -1,15 +1,14 @@
 import { filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Hex } from '@xylabs/hex'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { asBoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
+import { payloadSchemasContainsAll } from '@xyo-network/boundwitness-validator'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import type { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import type { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
 import type { TemporalIndexingDivinerStateToIndexCandidateDivinerParams } from '@xyo-network/diviner-temporal-indexing-model'
 import { TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema } from '@xyo-network/diviner-temporal-indexing-model'
@@ -18,7 +17,6 @@ import type {
   Labels, ModuleIdentifier, ModuleState,
 } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   Payload, Schema,
   WithStorageMeta,
@@ -82,7 +80,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     return [TimestampSchema, ...(schemas ?? [])]
   }
 
-  protected override async divineHandler(payloads: Payload[] = []): Promise<[ModuleState, ...IndexCandidate[]]> {
+  protected override async divineHandler(payloads: Payload[] = []): Promise<TemporalStateToIndexCandidateDivinerResponse> {
     // Retrieve the last state from what was passed in
     const lastState = payloads.find(isModuleState<IndexingDivinerState>)
     // If there is no last state, start from the beginning
@@ -105,7 +103,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
       .filter(exists)
       .flat()
     const nextCursor = assertEx(next.at(-1)?._sequence, () => `${moduleName}: Expected next to have a sequence`)
-    const nextState: ModuleState = { schema: ModuleStateSchema, state: { ...lastState.state, cursor: nextCursor } }
+    const nextState: ModuleState<IndexingDivinerState> = { schema: ModuleStateSchema, state: { ...lastState.state, cursor: nextCursor } }
     return [nextState, ...indexCandidates]
   }
 
@@ -156,7 +154,4 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     const indexCandidates = await archivist.get([...hashes])
     return [bw, ...indexCandidates]
   }
-}
-function payloadSchemasContainsAll(bw: any, payload_schemas: any) {
-  throw new Error('Function not implemented.')
 }

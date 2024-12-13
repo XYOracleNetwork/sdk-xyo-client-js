@@ -27,27 +27,6 @@ export type WithPartialStorageMeta<T extends Payload = Payload> = Partial<WithSt
 
 export type WithStorageMeta<T extends Payload = Payload> = T & StorageMeta
 
-const StorageMetaComponentConstants = {
-  epochBytes: 8,
-  nonceBytes: 8,
-  addressBytes: 20,
-}
-
-const StorageMetaLocalConstants = {
-  maxEpoch: Math.pow(256, StorageMetaComponentConstants.epochBytes) - 1,
-  localSequenceBytes: StorageMetaComponentConstants.epochBytes + StorageMetaComponentConstants.nonceBytes,
-  minLocalSequence: '00000000000000000000000000000000' as Hex,
-  maxLocalSequence: 'ffffffffffffffffffffffffffffffff' as Hex,
-  ...StorageMetaComponentConstants,
-} as const
-
-export const StorageMetaConstants = {
-  qualifiedSequenceBytes: StorageMetaLocalConstants.localSequenceBytes + StorageMetaComponentConstants.addressBytes,
-  minSequence: `${StorageMetaLocalConstants.minLocalSequence}0000000000000000000000000000000000000000` as Hex,
-  maxSequence: `${StorageMetaLocalConstants.maxLocalSequence}ffffffffffffffffffffffffffffffffffffffff` as Hex,
-  ...StorageMetaLocalConstants,
-} as const
-
 export const isSequenceMeta = (value: unknown): value is SequenceMeta => {
   return (value as WithSequenceMeta)?._sequence !== undefined
 }

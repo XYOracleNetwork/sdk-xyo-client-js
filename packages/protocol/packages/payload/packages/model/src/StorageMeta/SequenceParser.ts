@@ -1,109 +1,127 @@
+import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import {
-  asHex,
-  type Hash, type Hex, toHex,
+  type Address,
+  type Hash, type Hex,
+  isAddress,
+  toHex,
 } from '@xylabs/hex'
-import { assert } from 'vitest'
 
-import { StorageMetaConstants } from './StorageMeta.ts'
+import type {
+  Epoch, LocalSequence, Nonce, QualifiedSequence,
+  Sequence,
+} from './Sequence.ts'
+import {
+  isQualifiedSequence, isSequence, SequenceConstants,
+} from './Sequence.ts'
 
 export class SequenceParser {
+  protected static privateConstructorKey = Date.now().toString()
+
   private readonly data: Readonly<Uint8Array>
 
-  protected constructor(hexString: string) {
-    if (hexString.length > StorageMetaConstants.localSequenceBytes) {
-      const cleanHex = toHex(hexString, { prefix: false })
-      this.data = this.hexStringToUint8Array(cleanHex)
-    } else {
-      const cleanHex = toHex(hexString, { prefix: false }) + '0'.repeat(StorageMetaConstants.qualifiedSequenceBytes - hexString.length)
-      this.data = this.hexStringToUint8Array(cleanHex)
-    }
+  protected constructor(privateConstructorKey: string, hex: Hex) {
+    assertEx(SequenceParser.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
+    const paddedHex = toHex(hex, {
+      prefix: false,
+      byteSize: (hex.length <= SequenceConstants.localSequenceBytes * 2)
+        ? SequenceConstants.localSequenceBytes
+        : SequenceConstants.qualifiedSequenceBytes,
+    })
+    this.data = toUint8Array(paddedHex)
   }
 
-  get address(): Hex {
-    const start = StorageMetaConstants.epochBytes + StorageMetaConstants.nonceBytes
-    const length = StorageMetaConstants.addressBytes
-    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
+  get address(): Address {
+    const start = SequenceConstants.localSequenceBytes
+    const end = SequenceConstants.qualifiedSequenceBytes
+    return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
-  get epoch(): Hex {
+  get epoch(): Epoch {
     const start = 0
-    const length = StorageMetaConstants.epochBytes
-    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
+    const end = SequenceConstants.epochBytes
+    return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
-  get localSequence(): Hex {
+  get localSequence(): LocalSequence {
     const start = 0
-    const length = StorageMetaConstants.localSequenceBytes
-    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
+    const end = SequenceConstants.localSequenceBytes
+    return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
-  get nonce(): Hex {
-    const start = StorageMetaConstants.epochBytes
-    const length = StorageMetaConstants.nonceBytes
-    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
+  get nonce(): Nonce {
+    const start = SequenceConstants.epochBytes
+    const end = SequenceConstants.localSequenceBytes
+    return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
-  get qualifiedSequence(): Hex {
+  get qualifiedSequence(): QualifiedSequence {
     const start = 0
-    const length = StorageMetaConstants.qualifiedSequenceBytes
-    return toHex(this.getBytesSection(start, length).buffer, { prefix: false })
+    const end = SequenceConstants.qualifiedSequenceBytes
+    return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
-  static from(timestamp: Hex, hash: Hex, address?: Hex): SequenceParser
-  static from(timestamp: number, hash: Hex, address?: Hex): SequenceParser
-  static from(timestamp: Hex | number, hash: Hex, address?: Hex): SequenceParser
-  static from(timestamp: Hex, hash: Hash, address?: Hex): SequenceParser
-  static from(timestamp: number, hash: Hex, address?: Hex): SequenceParser
-  static from(timestamp: Hex | number, hash: Hash | Hex, address?: Hex): SequenceParser {
-    const epoch = SequenceParser.timestampToEpoch(timestamp)
-    const nonce = SequenceParser.hashToNonce(hash)
-    let hexString = epoch + nonce
-    if (address) {
-      const paddedAddressHex = address.padStart(StorageMetaConstants.addressBytes * 2, '0')
-      hexString += paddedAddressHex
+  static from(sequence: Sequence, address?: Address): SequenceParser
+  static from(timestamp: Hex, hash: Hash, address?: Address): SequenceParser
+  static from(timestamp: Hex, hash: Hex, address?: Address): SequenceParser
+  static from(timestamp: Hex, nonce: Nonce, address?: Address): SequenceParser
+  static from(timestamp: number, hash: Hash, address?: Address): SequenceParser
+  static from(timestamp: number, hash: Hex, address?: Address): SequenceParser
+  static from(timestamp: number, nonce: Nonce, address?: Address): SequenceParser
+  static from(timestampOrSequence: Sequence | Hex | number, nonceOrAddress: Hash | Nonce, address?: Address): SequenceParser {
+    if (isSequence(timestampOrSequence)) {
+      if (nonceOrAddress) {
+        assertEx(!isQualifiedSequence(timestampOrSequence), () => 'Providing both a qualified sequence and a address is not allowed')
+        assertEx(isAddress(nonceOrAddress), () => 'Invalid address provided')
+        return new this(SequenceParser.privateConstructorKey, (timestampOrSequence + address) as Hex)
+      }
+      return new this(SequenceParser.privateConstructorKey, timestampOrSequence)
     }
-    return new this(hexString)
+    const epoch = SequenceParser.toEpoch(timestampOrSequence)
+    const nonce = SequenceParser.toNonce(nonceOrAddress)
+    const addressHex: Hex = address ? toHex(address, { byteSize: 20 }) : '' as Hex
+    const hexString = (epoch + nonce + addressHex) as Hex
+    assertEx(isSequence(hexString), () => 'Invalid sequence')
+    return new this(SequenceParser.privateConstructorKey, hexString)
   }
 
-  static hashToNonce(hash: Hash | Hex): Hex {
-    assert(hash.length > StorageMetaConstants.nonceBytes * 2, 'Hash must be at least 8 bytes')
-    const truncatedHashHex = toHex(hash.slice(-(StorageMetaConstants.nonceBytes * 2)), { prefix: false })
-    return truncatedHashHex
-  }
-
-  static parse(hexString: string): SequenceParser {
-    return new this(hexString)
-  }
-
-  static timestampToEpoch(timestamp: number | Hex): Hex {
-    const timestampHex = (typeof timestamp === 'number' ? toHex(timestamp, { prefix: false }) : timestamp)
-    const paddedTimestampHex = assertEx(asHex(timestampHex.padStart(StorageMetaConstants.epochBytes * 2, '0')))
-    return paddedTimestampHex
-  }
-
-  // Private method to return a section of data as a Uint8Array
-  private getBytesSection(start: number, length: number): Uint8Array {
-    return this.data.slice(start, start + length)
-  }
-
-  private hexStringToUint8Array(hexString: string): Uint8Array {
-    // Remove optional 0x prefix
-    const cleanHex = hexString.startsWith('0x') ? hexString.slice(2) : hexString
-
-    // Ensure even length
-    if (cleanHex.length % 2 !== 0) {
-      throw new Error('Hex string must have an even number of characters.')
+  static parse(value: Hex | string | ArrayBufferLike): SequenceParser {
+    const hex = toHex(value)
+    if (isSequence(hex)) {
+      return new this(SequenceParser.privateConstructorKey, hex)
     }
+    throw new Error('Invalid sequence')
+  }
 
-    const byteCount = cleanHex.length / 2
-    const uint8Array = new Uint8Array(byteCount)
-
-    for (let i = 0; i < byteCount; i++) {
-      const byteHex = cleanHex.slice(i * 2, i * 2 + 2)
-      uint8Array[i] = Number.parseInt(byteHex, 16)
+  // can convert a short number/hex to an epoch (treats it as the whole value) or extract an epoch from a sequence
+  static toEpoch(value: number | Hex | Epoch): Epoch {
+    assertEx(
+      typeof value !== 'number' || Number.isInteger(value),
+      () => 'Value must be in integer',
+    )
+    const hex = toHex(value, { prefix: false })
+    if (hex.length < SequenceConstants.epochBytes * 2) {
+      return toHex(value, { prefix: false, byteSize: SequenceConstants.epochBytes }) as Epoch
     }
+    if (isSequence(hex)) {
+      return hex.slice(0, SequenceConstants.epochBytes * 2) as Epoch
+    }
+    throw new Error('Value could not be converted to epoch')
+  }
 
-    return uint8Array
+  // can convert a short number/hex to a nonce (treats it as the whole value) or extract an nonce from a sequence
+  static toNonce(value: Hash | Hex): Nonce {
+    assertEx(
+      typeof value !== 'number' || Number.isInteger(value),
+      () => 'Value must be in integer',
+    )
+    const hex = toHex(value, { prefix: false })
+    if (hex.length < SequenceConstants.nonceBytes * 2) {
+      return toHex(value, { prefix: false, byteSize: SequenceConstants.nonceBytes }) as Nonce
+    }
+    if (isSequence(hex)) {
+      return hex.slice(SequenceConstants.epochBytes * 2, SequenceConstants.localSequenceBytes * 2) as Hex
+    }
+    throw new Error('Value could not be converted to epoch')
   }
 }

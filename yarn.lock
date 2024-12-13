@@ -7318,9 +7318,9 @@ __metadata:
     "@xylabs/vitest-extended": "npm:^4.4.13"
     "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/diviner-payload-generic": "workspace:^"
+    "@xyo-network/diviner-payload-model": "workspace:^"
     "@xyo-network/node-memory": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.2"
     vitest: "npm:^2.1.8"
   languageName: unknown

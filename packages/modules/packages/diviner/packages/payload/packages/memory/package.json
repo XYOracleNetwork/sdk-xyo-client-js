@@ -29,8 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xyo-network/diviner-payload-generic": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/diviner-payload-generic": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/delay": "^4.4.13",
@@ -38,6 +37,7 @@
     "@xylabs/tsconfig": "^4.2.4",
     "@xylabs/vitest-extended": "^4.4.13",
     "@xyo-network/archivist-memory": "workspace:^",
+    "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "typescript": "^5.7.2",

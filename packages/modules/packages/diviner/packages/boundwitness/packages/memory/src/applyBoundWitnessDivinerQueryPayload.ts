@@ -45,7 +45,7 @@ export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivine
       : filterAs(bws, asBlock).filter(bw => bw.block >= block)) as WithStorageMeta<BoundWitness>[]
   }
   const parsedLimit = limit ?? bws.length
-  const parsedCursor = cursor ?? (order === 'desc') ? SequenceConstants.maxSequence : SequenceConstants.minSequence
+  const parsedCursor = cursor ?? (order === 'desc') ? SequenceConstants.maxLocalSequence : SequenceConstants.maxLocalSequence
   const parsedOffset = (order === 'desc') ? bws.findIndex(bw => bw._sequence < parsedCursor) : bws.findIndex(bw => bw._sequence < parsedCursor)
   return bws.slice(parsedOffset, parsedLimit)
 }

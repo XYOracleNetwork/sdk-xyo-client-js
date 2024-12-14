@@ -1,14 +1,9 @@
-import { assertEx } from '@xylabs/assert'
-import type {
-  Hash,
-  Hex,
-} from '@xylabs/hex'
-import { isHex, toHex } from '@xylabs/hex'
+import type { Hash } from '@xylabs/hex'
 import type { AnyObject } from '@xylabs/object'
 import { ObjectHasher } from '@xyo-network/hash'
 import {
   type Payload,
-  SequenceConstants,
+  SequenceParser,
   type WithHashMeta,
   type WithStorageMeta,
 } from '@xyo-network/payload-model'
@@ -42,7 +37,7 @@ export class PayloadBuilder<
 
   static async addSequencedStorageMeta<T extends Payload = Payload>(payload: T): Promise<WithStorageMeta<T>> {
     const withHashMeta = await this.addHashMeta(payload)
-    const _sequence = this.buildSequence(Date.now(), withHashMeta._hash.slice(-(SequenceConstants.nonceBytes * 2)) as Hex)
+    const _sequence = SequenceParser.from(Date.now(), withHashMeta._hash).localSequence
     return {
       ...withHashMeta,
       _sequence,
@@ -61,19 +56,6 @@ export class PayloadBuilder<
       : this.addSequencedStorageMeta(
           payloads,
         )
-  }
-
-  static buildSequence(epoch: number, nonce: Hex): Hex {
-    assertEx(
-      toHex(epoch, { prefix: false, byteSize: SequenceConstants.epochBytes * 2 }) <= SequenceConstants.maxEpoch,
-      () => `epoch must be less than or equal to ${SequenceConstants.maxEpoch} [${epoch}]`,
-    )
-    assertEx(isHex(nonce), () => 'nonce must be a Hex type')
-    assertEx(
-      nonce.length === SequenceConstants.nonceBytes * 2,
-      () => `nonce must be ${SequenceConstants.nonceBytes} bytes [${nonce.length}] <- Hex String Length`,
-    )
-    return `${toHex(epoch, { byteSize: 4 })}${nonce}` as Hex
   }
 
   static compareStorageMeta(a: WithStorageMeta<Payload>, b: WithStorageMeta<Payload>) {

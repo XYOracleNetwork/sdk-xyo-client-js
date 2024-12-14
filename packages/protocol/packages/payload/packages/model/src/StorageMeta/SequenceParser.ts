@@ -24,9 +24,9 @@ export class SequenceParser {
     assertEx(SequenceParser.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     const paddedHex = toHex(hex, {
       prefix: false,
-      byteSize: (hex.length <= SequenceConstants.localSequenceBytes * 2)
-        ? SequenceConstants.localSequenceBytes
-        : SequenceConstants.qualifiedSequenceBytes,
+      bitLength: (hex.length <= SequenceConstants.localSequenceBytes * 2)
+        ? SequenceConstants.localSequenceBytes * 8
+        : SequenceConstants.qualifiedSequenceBytes * 8,
     })
     this.data = toUint8Array(paddedHex)
   }
@@ -79,9 +79,9 @@ export class SequenceParser {
     }
     const epoch = SequenceParser.toEpoch(timestampOrSequence)
     const nonce = SequenceParser.toNonce(nonceOrAddress)
-    const addressHex: Hex = address ? toHex(address, { byteSize: 20 }) : '' as Hex
+    const addressHex: Hex = address ? toHex(address, { bitLength: SequenceConstants.addressBytes * 8 }) : '' as Hex
     const hexString = (epoch + nonce + addressHex) as Hex
-    assertEx(isSequence(hexString), () => 'Invalid sequence')
+    assertEx(isSequence(hexString), () => `Invalid sequence [${hexString}] [${epoch}, ${nonce}, ${addressHex}]`)
     return new this(SequenceParser.privateConstructorKey, hexString)
   }
 
@@ -90,7 +90,7 @@ export class SequenceParser {
     if (isSequence(hex)) {
       return new this(SequenceParser.privateConstructorKey, hex)
     }
-    throw new Error('Invalid sequence')
+    throw new Error(`Invalid sequence [${value}]`)
   }
 
   // can convert a short number/hex to an epoch (treats it as the whole value) or extract an epoch from a sequence
@@ -100,13 +100,13 @@ export class SequenceParser {
       () => 'Value must be in integer',
     )
     const hex = toHex(value, { prefix: false })
-    if (hex.length < SequenceConstants.epochBytes * 2) {
-      return toHex(value, { prefix: false, byteSize: SequenceConstants.epochBytes }) as Epoch
+    if (hex.length <= SequenceConstants.epochBytes * 2) {
+      return toHex(value, { prefix: false, bitLength: SequenceConstants.epochBytes * 8 }) as Epoch
     }
     if (isSequence(hex)) {
       return hex.slice(0, SequenceConstants.epochBytes * 2) as Epoch
     }
-    throw new Error('Value could not be converted to epoch')
+    throw new Error(`Value could not be converted to epoch [${hex}]`)
   }
 
   // can convert a short number/hex to a nonce (treats it as the whole value) or extract an nonce from a sequence
@@ -116,12 +116,9 @@ export class SequenceParser {
       () => 'Value must be in integer',
     )
     const hex = toHex(value, { prefix: false })
-    if (hex.length < SequenceConstants.nonceBytes * 2) {
-      return toHex(value, { prefix: false, byteSize: SequenceConstants.nonceBytes }) as Nonce
-    }
     if (isSequence(hex)) {
-      return hex.slice(SequenceConstants.epochBytes * 2, SequenceConstants.localSequenceBytes * 2) as Hex
+      return hex.slice(SequenceConstants.epochBytes * 2, SequenceConstants.localSequenceBytes * 2) as Nonce
     }
-    throw new Error('Value could not be converted to epoch')
+    return toHex((hex as string).slice(-SequenceConstants.nonceBytes), { prefix: false, bitLength: SequenceConstants.nonceBytes * 8 }) as Nonce
   }
 }

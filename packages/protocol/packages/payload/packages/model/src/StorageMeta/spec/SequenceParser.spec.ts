@@ -16,14 +16,14 @@ describe('SequenceParser', () => {
 
   describe('epoch', () => {
     it('converts timestamp to epoch correctly', () => {
-      expect(wrapper.epoch).toBe(SequenceParser.timestampToEpoch(timestamp))
+      expect(wrapper.epoch).toBe(SequenceParser.toEpoch(timestamp))
       expect(wrapper.epoch).toBe('0000011f71fb04cb')
     })
   })
 
   describe('nonce', () => {
     it('derives nonce from hash correctly', () => {
-      expect(wrapper.nonce).toBe(SequenceParser.hashToNonce(hash))
+      expect(wrapper.nonce).toBe(SequenceParser.toNonce(hash))
       expect(wrapper.nonce).toBe(hash.slice(-8 * 2))
       expect(wrapper.nonce).toBe('e5045e30ad20fbb1')
     })

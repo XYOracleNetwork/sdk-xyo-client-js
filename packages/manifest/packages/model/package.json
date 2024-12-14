@@ -37,7 +37,7 @@
     "package-compile": "yarn gen-schema && yarn package-compile-only"
   },
   "dependencies": {
-    "@xylabs/hex": "^4.4.13",
+    "@xylabs/hex": "^4.4.14",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {

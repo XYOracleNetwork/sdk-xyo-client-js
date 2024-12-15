@@ -26,7 +26,7 @@
         "--run",
         "--inspect-brk",
         "--no-file-parallelism",
-        "packages/protocol/packages/payload/packages/model/src/StorageMeta/spec/StorageMetaWrapper.spec.ts"
+        "packages/protocol/packages/payload/packages/model/src/StorageMeta/spec/SequenceParser.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

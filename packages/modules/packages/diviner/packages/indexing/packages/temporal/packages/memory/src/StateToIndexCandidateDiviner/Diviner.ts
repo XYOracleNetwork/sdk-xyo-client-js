@@ -1,7 +1,7 @@
 import { filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import type { ArchivistInstance, ArchivistNextOptions } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { asBoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
@@ -86,13 +86,15 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     // If there is no last state, start from the beginning
     if (!lastState) return [{ schema: ModuleStateSchema, state: { cursor: SequenceConstants.minLocalSequence } }]
     // Otherwise, get the last offset
-    const { cursor } = lastState.state
-    // Get next batch of results starting from the offset
+    const { cursor } = lastState?.state
+    // Get the archivist for the store
     const sourceArchivist = await this.getArchivistForStore()
     if (!sourceArchivist) return [lastState]
-    const next = await sourceArchivist.next({
-      limit: this.payloadDivinerLimit, order, cursor,
-    })
+    // Get the next batch of results
+    const nextOffset: ArchivistNextOptions = { limit: this.payloadDivinerLimit, order }
+    if (cursor !== SequenceConstants.minLocalSequence) nextOffset.cursor = cursor
+    // Get next batch of results starting from the offset
+    const next = await sourceArchivist.next(nextOffset)
     if (next.length === 0) return [lastState]
     const batch = filterAs(next, asBoundWitness)
       .filter(exists)

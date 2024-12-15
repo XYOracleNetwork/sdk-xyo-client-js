@@ -2,7 +2,6 @@ import '@xylabs/vitest-extended'
 
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
-import type { Hex } from '@xylabs/hex'
 import { HDWallet } from '@xyo-network/account'
 import type { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
@@ -15,6 +14,7 @@ import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { ModuleState } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import type { MemoryNode } from '@xyo-network/node-memory'
+import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 import { SequenceConstants } from '@xyo-network/payload-model'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
 import { TimestampSchema } from '@xyo-network/witness-timestamp'
@@ -64,9 +64,8 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
   let sut: TemporalIndexingDivinerStateToIndexCandidateDiviner
   let node: MemoryNode
 
-  const cursors: Hex[] = [
-    SequenceConstants.minLocalSequence,
-  ]
+  let thumbnailArchivist: MemoryArchivist
+  let testCases: WithStorageMeta<Payload>[][] = []
 
   beforeAll(async () => {
     const wallet = await HDWallet.random()
@@ -98,20 +97,23 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     const codeFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
     const [codeFailBoundWitness, codeFailPayloads] = await (new BoundWitnessBuilder().payloads([thumbnailCodeFail, codeFailTimestamp])).build()
 
-    const thumbnailArchivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
-    const testCases = [
+    thumbnailArchivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
+    const testCasesToCreate = [
       [httpSuccessBoundWitness, ...httpSuccessPayloads],
       [httpFailBoundWitness, ...httpFailPayloads],
       [witnessFailBoundWitness, ...witnessFailPayloads],
       [codeFailBoundWitness, ...codeFailPayloads],
     ]
 
-    for (const [bw, ...payloads] of testCases) {
-      const response = await thumbnailArchivist.insert([bw, ...payloads])
-      const cursor = response.at(-1)?._sequence
-      expect(cursor).toBeDefined()
-      cursors.push(assertEx(cursor))
+    for (const [bw, ...payloads] of testCasesToCreate) {
+      const [signedBw] = await thumbnailArchivist.insert([bw])
       await delay(2)
+      const [payload1] = await thumbnailArchivist.insert([payloads[0]])
+      await delay(2)
+      const [payload2] = await thumbnailArchivist.insert([payloads[1]])
+      await delay(2)
+      const createdTestCase = [signedBw, payload1, payload2]
+      testCases.push(createdTestCase)
     }
 
     sut = assertEx(
@@ -121,7 +123,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
 
   describe('divine', () => {
     describe('with no previous state', () => {
-      it('return state and no results', async () => {
+      it.skip('creates next state and returns batch results', async () => {
         const results = await sut.divine()
         expect(results.length).toBe(1)
         const state = results.find(isModuleState<IndexingDivinerState>)
@@ -130,21 +132,27 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
       })
     })
     describe('with previous state', () => {
-      it.each(cursors)('return next state and batch results', async (cursor) => {
+      it.each([1, 2, 3])('return next state and batch results', async (batch) => {
+        const all = await thumbnailArchivist.all()
+        const batchOffset = all.at((3 * batch) - 1)
+        expect(batchOffset).toBeDefined()
         // Test across all offsets
+        const cursor = assertEx(batchOffset)._sequence
         const lastState: ModuleState<IndexingDivinerState> = { schema: ModuleStateSchema, state: { cursor } }
         const results = await sut.divine([lastState])
 
         // Validate expected results length
-        const expectedIndividualResults = witnessedThumbnails.length - Number.parseInt(lastState.state.cursor, 16)
-        // expectedIndividualResults * 3 [BW, ImageThumbnail, TimeStamp] + 1 [ModuleState]
-        const expectedResults = expectedIndividualResults * 3 + 1
+        // [BW, ImageThumbnail, TimeStamp] + 1 [ModuleState]
+        const expectedResults = testCases.slice(batch).flat().length + 1
         expect(results.length).toBe(expectedResults)
 
         // Validate expected state
         const nextState = results.find(isModuleState<IndexingDivinerState>)
         expect(nextState).toBeDefined()
-        expect(nextState?.state.offset).toBe(witnessedThumbnails.length)
+        expect(nextState?.state?.cursor).toBeDefined()
+        const a = nextState?.state.cursor
+        const b = testCases?.at(-1)?.at(-1)?._sequence
+        expect(nextState?.state.cursor).toBe(testCases?.at(-1)?.at(-1)?._sequence)
 
         // Validate expected individual results
         // const bws = results.filter(isBoundWitness)

@@ -119,6 +119,7 @@ export class SequenceParser {
     if (isSequence(hex)) {
       return hex.slice(SequenceConstants.epochBytes * 2, SequenceConstants.localSequenceBytes * 2) as Nonce
     }
-    return toHex((hex as string), { prefix: false, bitLength: SequenceConstants.nonceBytes * 8 }).slice(-SequenceConstants.nonceBytes * 2) as Nonce
+    const hash = toHex((hex as string), { prefix: false, bitLength: SequenceConstants.nonceBytes * 8 })
+    return hash.slice(-SequenceConstants.nonceBytes * 2) as Nonce
   }
 }

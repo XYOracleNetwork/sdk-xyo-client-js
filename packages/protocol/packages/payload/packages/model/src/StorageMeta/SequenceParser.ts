@@ -32,32 +32,32 @@ export class SequenceParser {
   }
 
   get address(): Address {
-    const start = SequenceConstants.localSequenceBytes
-    const end = SequenceConstants.qualifiedSequenceBytes
+    const start = SequenceConstants.localSequenceBytes * 2
+    const end = SequenceConstants.qualifiedSequenceBytes * 2
     return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
   get epoch(): Epoch {
     const start = 0
-    const end = SequenceConstants.epochBytes
+    const end = SequenceConstants.epochBytes * 2
     return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
   get localSequence(): LocalSequence {
     const start = 0
-    const end = SequenceConstants.localSequenceBytes
+    const end = SequenceConstants.localSequenceBytes * 2
     return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
   get nonce(): Nonce {
-    const start = SequenceConstants.epochBytes
-    const end = SequenceConstants.localSequenceBytes
+    const start = SequenceConstants.epochBytes * 2
+    const end = SequenceConstants.localSequenceBytes * 2
     return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
   get qualifiedSequence(): QualifiedSequence {
     const start = 0
-    const end = SequenceConstants.qualifiedSequenceBytes
+    const end = SequenceConstants.qualifiedSequenceBytes * 2
     return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
@@ -119,6 +119,6 @@ export class SequenceParser {
     if (isSequence(hex)) {
       return hex.slice(SequenceConstants.epochBytes * 2, SequenceConstants.localSequenceBytes * 2) as Nonce
     }
-    return toHex((hex as string).slice(-SequenceConstants.nonceBytes * 2), { prefix: false, bitLength: SequenceConstants.nonceBytes * 8 }) as Nonce
+    return toHex((hex as string), { prefix: false, bitLength: SequenceConstants.nonceBytes * 8 }).slice(-SequenceConstants.nonceBytes * 2) as Nonce
   }
 }

@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/node/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.4.14",
+    "@xylabs/hex": "^4.4.15",
     "@xyo-network/previous-hash-store-model": "workspace:^",
-    "idb": "^8.0.0"
+    "idb": "^8.0.1"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

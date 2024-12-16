@@ -622,7 +622,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
     await this.started('throw')
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQueries>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQueries>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
@@ -647,7 +647,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         throw new Error(`Unsupported Query [${(queryPayload as Payload).schema}]`)
       }
     }
-    return resultPayloads
+    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
   }
 
   protected async startHandler(): Promise<boolean> {

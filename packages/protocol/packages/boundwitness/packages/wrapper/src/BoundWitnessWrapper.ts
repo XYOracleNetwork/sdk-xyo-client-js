@@ -7,7 +7,7 @@ import {
 } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import type { Payload, WithoutPrivateStorageMeta } from '@xyo-network/payload-model'
 import {
   isPayloadWrapperBase, PayloadWrapper, PayloadWrapperBase,
 } from '@xyo-network/payload-wrapper'
@@ -105,7 +105,7 @@ export class BoundWitnessWrapper<
   }
 
   static async wrap<T extends BoundWitness, P extends Payload>(
-    obj: PayloadWrapperBase<T> | T,
+    obj: PayloadWrapperBase<T> | WithoutPrivateStorageMeta<T>,
     payloads?: P[],
   ): Promise<BoundWitnessWrapper<T, P>> {
     switch (typeof obj) {

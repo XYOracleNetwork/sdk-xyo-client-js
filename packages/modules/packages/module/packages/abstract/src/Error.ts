@@ -20,7 +20,6 @@ export class ModuleErrorBuilder extends PayloadBuilder<ModuleError> {
       message: this._message,
       name: this._name,
       query: this._query,
-      schema: ModuleErrorSchema,
       sources: this._sources,
     })
     return super.build()

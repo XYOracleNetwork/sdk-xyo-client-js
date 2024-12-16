@@ -25,10 +25,10 @@ export interface BoundWitnessChainField {
 }
 
 export interface BoundWitnessOptionalFields extends Partial<BoundWitnessBlockField>, Partial<BoundWitnessChainField> {
-
+  root: Hash
 }
 
-export interface BoundWitnessFields extends BoundWitnessRequiredFields, BoundWitnessOptionalFields {}
+export interface BoundWitnessFields extends BoundWitnessRequiredFields, Partial<BoundWitnessOptionalFields> {}
 
 export type UnsignedBoundWitness<T extends Payload | EmptyObject | void = void> = Payload<
   T extends void ? BoundWitnessFields : BoundWitnessFields & T,

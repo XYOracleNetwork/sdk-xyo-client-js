@@ -3,7 +3,9 @@ import type { Hash } from '@xylabs/hex'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'
-import type { Payload, Query } from '@xyo-network/payload-model'
+import type {
+  Payload, Query, WithoutMeta,
+} from '@xyo-network/payload-model'
 
 import { BoundWitnessBuilder } from '../Builder.ts'
 
@@ -19,7 +21,7 @@ export class QueryBoundWitnessBuilder<
     return this
   }
 
-  override async dataHashableFields(): Promise<TBoundWitness> {
+  override async dataHashableFields(): Promise<WithoutMeta<TBoundWitness>> {
     const fields = {
       ...(await super.dataHashableFields()),
       query: await PayloadBuilder.dataHash(assertEx(this._query, () => 'No Query Specified')),
@@ -28,7 +30,7 @@ export class QueryBoundWitnessBuilder<
     if (this._additional) {
       fields.additional = this._additional
     }
-    return { ...fields } as TBoundWitness
+    return { ...fields } as WithoutMeta<TBoundWitness>
   }
 
   query<T extends TQuery>(query: T) {

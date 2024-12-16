@@ -1,8 +1,7 @@
 import { exists } from '@xylabs/exists'
 import type { SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
-import type { WithoutSchema } from '@xyo-network/payload-builder'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import type { Payload, WithoutSchema } from '@xyo-network/payload-model'
 
 /**
  * Reduces the payloads to a single payload using the supplied transformers

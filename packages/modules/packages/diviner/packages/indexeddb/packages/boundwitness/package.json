@@ -29,8 +29,8 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/browser/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.4.14",
-    "@xylabs/exists": "^4.4.14",
+    "@xylabs/array": "^4.4.15",
+    "@xylabs/exists": "^4.4.15",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -39,12 +39,12 @@
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "idb": "^8.0.0"
+    "idb": "^8.0.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
-    "@xylabs/vitest-extended": "^4.4.14",
+    "@xylabs/vitest-extended": "^4.4.15",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

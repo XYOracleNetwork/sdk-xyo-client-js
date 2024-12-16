@@ -39,7 +39,7 @@
     "@types/jsonpath": "^0.2.4",
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
-    "@xylabs/vitest-extended": "^4.4.14",
+    "@xylabs/vitest-extended": "^4.4.15",
     "@xyo-network/account": "workspace:^",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"

@@ -5,6 +5,7 @@ import {
   type Payload,
   SequenceParser,
   type WithHashMeta,
+  type WithoutStorageMeta,
   type WithStorageMeta,
 } from '@xyo-network/payload-model'
 
@@ -124,7 +125,7 @@ export class PayloadBuilder<
 
   static hashableFields<T extends Payload>(
     payload: T,
-  ): T {
+  ): WithoutStorageMeta<T> {
     return this.omitStorageMeta(payload)
   }
 

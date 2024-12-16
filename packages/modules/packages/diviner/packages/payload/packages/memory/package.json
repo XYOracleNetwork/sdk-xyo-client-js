@@ -32,11 +32,11 @@
     "@xyo-network/diviner-payload-generic": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/assert": "^4.4.14",
-    "@xylabs/delay": "^4.4.14",
+    "@xylabs/assert": "^4.4.15",
+    "@xylabs/delay": "^4.4.15",
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
-    "@xylabs/vitest-extended": "^4.4.14",
+    "@xylabs/vitest-extended": "^4.4.15",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

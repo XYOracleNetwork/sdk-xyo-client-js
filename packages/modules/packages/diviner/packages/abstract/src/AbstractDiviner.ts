@@ -24,7 +24,7 @@ import type {
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
-  Payload, Schema, WithSources,
+  Payload, Schema, WithoutPrivateStorageMeta, WithSources,
 } from '@xyo-network/payload-model'
 
 export abstract class AbstractDiviner<
@@ -49,18 +49,18 @@ export abstract class AbstractDiviner<
   }
 
   /** @function divine The main entry point for a diviner.  Do not override this function.  Implement/override divineHandler for custom functionality */
-  divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<WithSources<TOut>[]> {
+  divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<WithoutPrivateStorageMeta<WithSources<TOut>>[]> {
     this._noOverride('divine')
     return this.busy(async () => {
       const retryConfig = retryConfigIn ?? this.config.retry
       await this.started('throw')
       await this.emit('divineStart', { inPayloads: payloads, mod: this })
-      const resultPayloads: TOut[]
+      const resultPayloads
         = (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
       await this.emit('divineEnd', {
         errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads,
       })
-      return resultPayloads.map(payload => PayloadBuilder.omitPrivateStorageMeta(payload))
+      return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
     })
   }
 
@@ -80,7 +80,7 @@ export abstract class AbstractDiviner<
     const cleanPayloads = await PayloadBuilder.filterExclude(payloads, query.query)
     const queryPayload = await wrapper.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
-    const resultPayloads: Payload[] = []
+    const resultPayloads: WithoutPrivateStorageMeta<Payload>[] = []
     switch (queryPayload.schema) {
       case DivinerDivineQuerySchema: {
         resultPayloads.push(...(await this.divine(cleanPayloads as TIn[])))
@@ -90,7 +90,7 @@ export abstract class AbstractDiviner<
         return super.queryHandler(query, payloads)
       }
     }
-    return resultPayloads
+    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
   }
 
   /** @function divineHandler Implement or override to add custom functionality to a diviner */

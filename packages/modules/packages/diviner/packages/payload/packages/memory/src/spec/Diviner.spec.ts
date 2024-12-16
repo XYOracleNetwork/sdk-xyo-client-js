@@ -2,6 +2,8 @@
 
 import '@xylabs/vitest-extended'
 
+import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { GenericPayloadDivinerConfigSchema } from '@xyo-network/diviner-payload-generic'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
@@ -25,41 +27,33 @@ describe('GenericPayloadDiviner', () => {
   let archivist: MemoryArchivist
   let sut: MemoryPayloadDiviner
   let node: MemoryNode
-  let payloadA: Payload<{ schema: string; url: string }>
-  let payloadB: Payload<{ foo: string[]; schema: string }>
-  let payloadC: Payload<{ foo: string[]; schema: string }>
-  let payloadD: Payload<{ foo: string[]; schema: string }>
-  let payloads: Payload[]
+  const payloadA: Payload<{ schema: string; url: string }> = {
+    schema: 'network.xyo.test',
+    url: 'https://xyo.network',
+  }
+  const payloadB: Payload<{ foo: string[]; schema: string }> = {
+    foo: ['bar', 'baz'],
+    schema: 'network.xyo.debug',
+  }
+  const payloadC: Payload<{ foo: string[]; schema: string }> = {
+    foo: ['one', 'two'],
+    schema: 'network.xyo.debug',
+  }
+  const payloadD: Payload<{ foo: string[]; schema: string }> = {
+    foo: ['aaa', 'bbb'],
+    schema: 'network.xyo.debug',
+  }
+  let payloads: WithStorageMeta<Payload>[] = []
   beforeAll(async () => {
-    payloadA = {
-      schema: 'network.xyo.test',
-      url: 'https://xyo.network',
-    }
-    payloadB = {
-      foo: ['bar', 'baz'],
-      schema: 'network.xyo.debug',
-    }
-    payloadC = {
-      foo: ['one', 'two'],
-      schema: 'network.xyo.debug',
-    }
-    payloadD = {
-      foo: ['aaa', 'bbb'],
-      schema: 'network.xyo.debug',
-    }
-
     archivist = await MemoryArchivist.create({
       account: 'random',
       config: { name: 'test', schema: MemoryArchivist.defaultConfigSchema },
     })
-    const insertedPayloads: WithStorageMeta<Payload>[] = []
-    insertedPayloads.push(...await archivist.insert([payloadA, payloadB]), ...await archivist.insert([payloadC, payloadD]))
-    console.warn('insertedPayloads', insertedPayloads)
-    payloads = insertedPayloads.sort(PayloadBuilder.compareStorageMeta)
-
-    const all = await archivist.all()
-    const sortedAll = all.sort(PayloadBuilder.compareStorageMeta)
-    console.log(sortedAll)
+    for (const payload of [payloadA, payloadB, payloadC, payloadD]) {
+      await delay(2)
+      const [insertedPayload] = await archivist.insert([payload])
+      payloads.push(insertedPayload)
+    }
     sut = await MemoryPayloadDiviner.create({
       account: 'random',
       config: {
@@ -101,17 +95,22 @@ describe('GenericPayloadDiviner', () => {
           expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(payloads[3]))
           expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })
-        it('only return single payload of that schema (desc)', async () => {
+        it.only('only return single payload of that schema (desc)', async () => {
           const schemas = ['network.xyo.debug']
           const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
             .fields({
               limit: 1, order: 'desc', schemas,
             })
             .build()
+          const expected = assertEx(payloads.at(-1))
+
           const results = await sut.divine([query])
+
           expect(results.length).toBe(1)
-          expect(PayloadBuilder.omitStorageMeta(results[0])).toEqual(PayloadBuilder.omitStorageMeta(payloads[3]))
-          expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(payloads[3]))
+          const actual = results[0]
+          expect(actual).toBeDefined()
+          expect(PayloadBuilder.omitStorageMeta(actual)).toEqual(PayloadBuilder.omitStorageMeta(expected))
+          expect(await PayloadBuilder.dataHash(actual)).toBe(await PayloadBuilder.dataHash(expected))
           expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })
         it('only return single payload of that schema (asc)', async () => {

@@ -90,8 +90,7 @@ export class MemoryArchivist<
   }
 
   protected override allHandler(): Promisable<WithStorageMeta<Payload>[]> {
-    const all = this.cache.dump().map(([, item]) => item.value).filter(exists)
-    return PayloadBuilder.sortByStorageMeta(all)
+    return [...this.cache.values()].filter(exists).sort(PayloadBuilder.compareStorageMeta)
   }
 
   protected override clearHandler(): void | Promise<void> {

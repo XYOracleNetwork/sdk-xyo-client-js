@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import '@xylabs/vitest-extended'
 
 import { assertEx } from '@xylabs/assert'
@@ -6,6 +7,7 @@ import { HDWallet } from '@xyo-network/account'
 import type { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import type { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import type { PackageManifestPayload } from '@xyo-network/manifest'
@@ -14,13 +16,17 @@ import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { ModuleState } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import type { MemoryNode } from '@xyo-network/node-memory'
-import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
-import { SequenceConstants } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import type {
+  Payload, Sequence, SequenceMeta, WithStorageMeta,
+} from '@xyo-network/payload-model'
+import { isSequenceMeta, SequenceConstants } from '@xyo-network/payload-model'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
-import { TimestampSchema } from '@xyo-network/witness-timestamp'
+import { isTimestamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import {
   beforeAll,
   describe, expect, it,
+  test,
 } from 'vitest'
 
 import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../Diviner.ts'
@@ -67,6 +73,8 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
   let thumbnailArchivist: MemoryArchivist
   let testCases: WithStorageMeta<Payload>[][] = []
 
+  let first: Sequence | undefined
+
   beforeAll(async () => {
     const wallet = await HDWallet.random()
     const locator = new ModuleFactoryLocator()
@@ -82,19 +90,19 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     expect(mods.length).toBe(privateModules.length + publicModules.length + 1)
 
     // Insert previously witnessed payloads into thumbnail archivist
-    const httpSuccessTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
+    const httpSuccessTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: 1 }
     const [httpSuccessBoundWitness, httpSuccessPayloads] = await new BoundWitnessBuilder()
       .payloads([thumbnailHttpSuccess, httpSuccessTimestamp])
       .build()
-    const httpFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
+    const httpFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: 2 }
     const [httpFailBoundWitness, httpFailPayloads] = await (new BoundWitnessBuilder().payloads([thumbnailHttpFail, httpFailTimestamp])).build()
 
-    const witnessFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
+    const witnessFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: 3 }
     const [witnessFailBoundWitness, witnessFailPayloads] = await new BoundWitnessBuilder()
       .payloads([thumbnailWitnessFail, witnessFailTimestamp])
       .build()
 
-    const codeFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
+    const codeFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: 4 }
     const [codeFailBoundWitness, codeFailPayloads] = await (new BoundWitnessBuilder().payloads([thumbnailCodeFail, codeFailTimestamp])).build()
 
     thumbnailArchivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
@@ -106,7 +114,9 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     ]
 
     for (const [bw, ...payloads] of testCasesToCreate) {
+      await delay(2)
       const [signedBw] = await thumbnailArchivist.insert([bw])
+      if (!first) first = signedBw._sequence
       await delay(2)
       const [payload1] = await thumbnailArchivist.insert([payloads[0]])
       await delay(2)
@@ -133,7 +143,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     })
     describe('with previous state', () => {
       it.each([1, 2, 3])('return next state and batch results', async (batch) => {
-        const all = await thumbnailArchivist.all()
+        const all = (await thumbnailArchivist.all()).sort(PayloadBuilder.compareStorageMeta)
         const batchOffset = all.at((3 * batch) - 1)
         expect(batchOffset).toBeDefined()
         // Test across all offsets
@@ -150,17 +160,13 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
         const nextState = results.find(isModuleState<IndexingDivinerState>)
         expect(nextState).toBeDefined()
         expect(nextState?.state?.cursor).toBeDefined()
-        const a = nextState?.state.cursor
-        const b = testCases?.at(-1)?.at(-1)?._sequence
         expect(nextState?.state.cursor).toBe(testCases?.at(-1)?.at(-1)?._sequence)
 
         // Validate expected individual results
-        // const bws = results.filter(isBoundWitness)
-        // expect(bws).toBeArrayOfSize(expectedIndividualResults)
-        // const images = results.filter(isImageThumbnail)
-        // expect(images).toBeArrayOfSize(expectedIndividualResults)
-        // const timestamps = results.filter(isTimestamp)
-        // expect(timestamps).toBeArrayOfSize(expectedIndividualResults)
+        const bws = results.filter(isBoundWitness)
+        expect(bws.length).toBeGreaterThan(0)
+        const timestamps = results.filter(isTimestamp)
+        expect(timestamps.length).toBeGreaterThan(0)
       })
     })
   })

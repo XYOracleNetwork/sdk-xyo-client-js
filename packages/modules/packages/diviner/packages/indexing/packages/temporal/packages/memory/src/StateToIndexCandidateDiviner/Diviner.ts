@@ -84,14 +84,17 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     // Retrieve the last state from what was passed in
     const lastState = payloads.find(isModuleState<IndexingDivinerState>)
     // If there is no last state, start from the beginning
-    if (!lastState) return [{ schema: ModuleStateSchema, state: { cursor: SequenceConstants.minLocalSequence } }]
-    // Otherwise, get the last offset
-    const { cursor } = lastState?.state
+      ?? { schema: ModuleStateSchema, state: { cursor: SequenceConstants.minLocalSequence } }
+
+    // Get the last cursor
+    const cursor = lastState?.state?.cursor
     // Get the archivist for the store
     const sourceArchivist = await this.getArchivistForStore()
     if (!sourceArchivist) return [lastState]
+
     // Get the next batch of results
     const nextOffset: ArchivistNextOptions = { limit: this.payloadDivinerLimit, order }
+    // Only use the cursor if it's a valid offset
     if (cursor !== SequenceConstants.minLocalSequence) nextOffset.cursor = cursor
     // Get next batch of results starting from the offset
     const next = await sourceArchivist.next(nextOffset)

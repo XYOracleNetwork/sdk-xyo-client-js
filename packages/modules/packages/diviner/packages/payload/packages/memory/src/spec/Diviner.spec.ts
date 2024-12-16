@@ -2,7 +2,6 @@
 
 import '@xylabs/vitest-extended'
 
-import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { GenericPayloadDivinerConfigSchema } from '@xyo-network/diviner-payload-generic'

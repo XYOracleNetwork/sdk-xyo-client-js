@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/node-wrapper",
-  "version": "3.6.0-rc.5",
+  "version": "3.6.0-rc.6",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

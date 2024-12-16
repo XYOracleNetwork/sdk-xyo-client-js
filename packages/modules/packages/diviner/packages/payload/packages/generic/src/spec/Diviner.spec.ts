@@ -1,3 +1,5 @@
+/* eslint-disable max-nested-callbacks */
+
 import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'

@@ -66,18 +66,9 @@ export class GenericPayloadDiviner<
   }
 
   protected all(order: Order = 'desc', cursor?: Hex) {
-    return order === 'asc' ? this.allAsc(cursor) : this.allDesc(cursor)
-  }
-
-  protected allAsc(cursor?: Hex) {
-    const payloads = [...this.payloadsWithMeta].sort(PayloadBuilder.compareStorageMeta)
+    const payloads = this.payloadsWithMeta.toSorted(PayloadBuilder.compareStorageMeta)
+    if (order === 'desc') payloads.reverse()
     const startIndex = (cursor ? (payloads.findIndex(payload => payload._sequence === cursor) ?? -1) : -1) + 1
-    return payloads.slice(startIndex)
-  }
-
-  protected allDesc(cursor?: Hex) {
-    const payloads = [...this.payloadsWithMeta].sort(PayloadBuilder.compareStorageMeta).reverse()
-    const startIndex = (cursor ? (payloads.findIndex(payloads => payloads._sequence === cursor) ?? -1) : -1) + 1
     return payloads.slice(startIndex)
   }
 

@@ -1,4 +1,3 @@
-/* eslint-disable max-nested-callbacks */
 import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
@@ -25,44 +24,33 @@ describe('GenericPayloadDiviner', () => {
   let archivist: MemoryArchivist
   let sut: GenericPayloadDiviner
   let node: MemoryNode
-  let payloadA: Payload<{ schema: string; url: string }>
-  let payloadB: Payload<{ foo: string[]; schema: string }>
-  let payloadC: Payload<{ foo: string[]; schema: string }>
-  let payloadD: Payload<{ foo: string[]; schema: string }>
-  let insertedPayloads: WithStorageMeta<Payload>[]
+  const payloadA: Payload<{ schema: string; url: string }> = {
+    schema: 'network.xyo.test',
+    url: 'https://xyo.network',
+  }
+  const payloadB: Payload<{ foo: string[]; schema: string }> = {
+    foo: ['bar', 'baz'],
+    schema: 'network.xyo.debug',
+  }
+  const payloadC: Payload<{ foo: string[]; schema: string }> = {
+    foo: ['one', 'two'],
+    schema: 'network.xyo.debug',
+  }
+  const payloadD: Payload<{ foo: string[]; schema: string }> = {
+    foo: ['aaa', 'bbb'],
+    schema: 'network.xyo.debug',
+  }
+  let insertedPayloads: WithStorageMeta<Payload>[] = []
   beforeAll(async () => {
-    payloadA = {
-      schema: 'network.xyo.test',
-      url: 'https://xyo.network',
-    }
-    payloadB = {
-      foo: ['bar', 'baz'],
-      schema: 'network.xyo.debug',
-    }
-    payloadC = {
-      foo: ['one', 'two'],
-      schema: 'network.xyo.debug',
-    }
-    payloadD = {
-      foo: ['aaa', 'bbb'],
-      schema: 'network.xyo.debug',
-    }
-
     archivist = await MemoryArchivist.create({
       account: 'random',
       config: { name: 'test', schema: MemoryArchivist.defaultConfigSchema },
     })
-    const [insertedPayloadA] = await archivist.insert([payloadA])
-    await delay(1)
-    const [insertedPayloadB] = await archivist.insert([payloadB])
-    await delay(1)
-    const [insertedPayloadC] = await archivist.insert([payloadC])
-    await delay(1)
-    const [insertedPayloadD] = await archivist.insert([payloadD])
-    await delay(1)
-    insertedPayloads = [insertedPayloadA, insertedPayloadB, insertedPayloadC, insertedPayloadD]
-    // const all = await archivist.all()
-    // console.log(all)
+    for (const payload of [payloadA, payloadB, payloadC, payloadD]) {
+      await delay(2)
+      const [insertedPayload] = await archivist.insert([payload])
+      insertedPayloads.push(insertedPayload)
+    }
     sut = await GenericPayloadDiviner.create({
       account: 'random',
       config: {
@@ -181,7 +169,7 @@ describe('GenericPayloadDiviner', () => {
           const results3 = await sut.divine([query3])
           expect(results3).toBeArrayOfSize(0)
         })
-        it('test paging with multiple calls (desc)', async () => {
+        it.only('test paging with multiple calls (desc)', async () => {
           const schemas = ['network.xyo.test', 'network.xyo.debug']
           const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({

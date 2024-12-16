@@ -26,7 +26,7 @@
         "--run",
         "--inspect-brk",
         "--no-file-parallelism",
-        "packages/modules/packages/diviner/packages/payload/packages/memory/src/spec/Diviner.spec.ts"
+        "packages/modules/packages/diviner/packages/indexeddb/packages/payload/src/spec/Diviner.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

@@ -59,29 +59,28 @@ describe('IndexedDbPayloadDiviner', () => {
   let sut: IndexedDbPayloadDiviner
   let node: MemoryNode
   const urlIndex: IndexDescription = { key: { url: 1 }, name: 'IX_url' }
-  let payloadA: WithStorageMeta<Payload<{ url: string }>>
-  let payloadB: WithStorageMeta<Payload<{ foo: string[]; other: string }>>
-  let payloads: WithStorageMeta<Payload>[]
+  let payloadA: Payload<{ url: string }> = {
+    schema: 'network.xyo.test',
+    url: 'https://xyo.network',
+  }
+  let payloadB: Payload<{ foo: string[]; other: string }> = {
+    foo: ['bar', 'baz'],
+    other: 'value',
+    schema: 'network.xyo.debug',
+  }
+  let insertedPayloads: WithStorageMeta<Payload>[] = []
   beforeAll(async () => {
-    payloadA = await PayloadBuilder.addSequencedStorageMeta({
-      schema: 'network.xyo.test',
-      url: 'https://xyo.network',
-    })
-    await delay(1)
-    payloadB = await PayloadBuilder.addSequencedStorageMeta({
-      foo: ['bar', 'baz'],
-      other: 'value',
-      schema: 'network.xyo.debug',
-    })
-    payloads = [payloadA, payloadB]
-
     archivist = await IndexedDbArchivist.create({
       account: 'random',
       config: {
         dbName, schema: IndexedDbArchivist.defaultConfigSchema, storage: { indexes: [urlIndex] }, storeName,
       },
     })
-    await archivist.insert(payloads)
+    for (const payload of [payloadA, payloadB]) {
+      await delay(2)
+      const [insertedPayload] = await archivist.insert([payload])
+      insertedPayloads.push(insertedPayload)
+    }
     sut = await IndexedDbPayloadDiviner.create({
       account: 'random',
       config: {
@@ -169,28 +168,28 @@ describe('IndexedDbPayloadDiviner', () => {
       it('returns payloads in ascending order', async () => {
         const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).build()
         const results = await sut.divine([query])
-        expect(results).toEqual(payloads)
+        expect(results).toEqual(insertedPayloads)
       })
     })
     describe('asc', () => {
       it('returns payloads in ascending order', async () => {
         const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ order: 'asc' }).build()
         const results = await sut.divine([query])
-        expect(results).toEqual(payloads)
+        expect(results).toEqual(insertedPayloads)
       })
     })
     describe('desc', () => {
       it('returns payloads in descending order', async () => {
         const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ order: 'desc' }).build()
         const results = await sut.divine([query])
-        expect(results).toEqual([...payloads].reverse())
+        expect(results).toEqual([...insertedPayloads].reverse())
       })
     })
   })
   describe('with offset', () => {
     describe('when ascending order', () => {
       it('returns payloads from the beginning', async () => {
-        for (const boundWitness of payloads) {
+        for (const boundWitness of insertedPayloads) {
           const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
             .fields({
               limit: 1, cursor: boundWitness._sequence, order: 'asc',
@@ -205,16 +204,16 @@ describe('IndexedDbPayloadDiviner', () => {
     })
     describe('when descending order', () => {
       it('returns payloads from the end', async () => {
-        for (let i = 0; i < payloads.length; i++) {
+        for (let i = 0; i < insertedPayloads.length; i++) {
           const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
             .fields({
-              limit: 1, cursor: payloads[i]._sequence, order: 'desc',
+              limit: 1, cursor: insertedPayloads[i]._sequence, order: 'desc',
             })
             .build()
           const results = await sut.divine([query])
           expect(results).toBeArrayOfSize(1)
           const [result] = results
-          expect(result).toEqual(payloads[payloads.length - i - 1])
+          expect(result).toEqual(insertedPayloads[insertedPayloads.length - i - 1])
         }
       })
     })

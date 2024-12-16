@@ -75,7 +75,7 @@ describe('SequenceParser', () => {
 
   describe('qualifiedSequence', () => {
     it('concatenates localSequence and address correctly', () => {
-      expect(parsed.localSequence).toBe(`${parsed.epoch}${parsed.nonce}${parsed.address}`)
+      expect(parsed.qualifiedSequence).toBe(`${parsed.epoch}${parsed.nonce}${parsed.address}`)
       expect(parsed.qualifiedSequence).toBe(`${parsed.localSequence}${parsed.address}`)
       expect(parsed.qualifiedSequence).toBe(
         '0000011f71fb04cbe5045e30ad20fbb1b36d327210f67ad98be881ddf6ad1f1b3e2c5137',

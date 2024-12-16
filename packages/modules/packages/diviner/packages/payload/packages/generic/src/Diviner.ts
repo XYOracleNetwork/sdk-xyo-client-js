@@ -165,18 +165,11 @@ export class GenericPayloadDiviner<
 
   // index any new payloads
   protected async updateIndex() {
-    this.logger.warn('updateIndex')
     await this._updatePayloadPairsMutex.runExclusive(async () => {
       const archivist = await this.archivistInstance(true)
       let newPayloads = await archivist.next({ limit: 100, cursor: this._cursor }) as TOut[]
-      this.logger.warn('updateIndex:newPayloads', newPayloads)
       while (newPayloads.length > 0) {
-        const prevCursor = this._cursor
         this._cursor = newPayloads.at(-1)?._sequence
-        this.logger.warn('updateIndex:cursor:setting', this._cursor)
-        if (this._cursor === prevCursor) {
-          this.logger.warn('next cursor not found', this._cursor, prevCursor)
-        }
         assertEx(this.payloadsWithMeta.length + newPayloads.length <= this.maxIndexSize, () => 'maxIndexSize exceeded')
         this.indexPayloads(newPayloads)
         newPayloads = await archivist.next({ limit: 100, cursor: this._cursor }) as TOut[]

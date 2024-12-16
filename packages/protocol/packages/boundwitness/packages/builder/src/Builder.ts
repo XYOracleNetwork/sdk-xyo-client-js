@@ -202,7 +202,7 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  override fields(fields: WithoutMeta<WithoutSchema<TBoundWitness>>): this {
+  override fields(fields: WithoutMeta<WithoutSchema<Omit<TBoundWitness, GeneratedBoundWitnessFields>>>): this {
     const clone = structuredClone(fields) as unknown as Partial<TBoundWitness>
     for (const field of GeneratedBoundWitnessFields) {
       delete clone[field]

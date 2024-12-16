@@ -12,8 +12,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 import {
-  beforeAll,
-  describe, expect, it,
+  beforeAll, describe, expect, it,
 } from 'vitest'
 
 import { MemoryPayloadDiviner } from '../MemoryPayloadDiviner.ts'
@@ -43,7 +42,7 @@ describe('GenericPayloadDiviner', () => {
     foo: ['aaa', 'bbb'],
     schema: 'network.xyo.debug',
   }
-  let payloads: WithStorageMeta<Payload>[] = []
+  const insertedPayloads: WithStorageMeta<Payload>[] = []
   beforeAll(async () => {
     archivist = await MemoryArchivist.create({
       account: 'random',
@@ -52,7 +51,7 @@ describe('GenericPayloadDiviner', () => {
     for (const payload of [payloadA, payloadB, payloadC, payloadD]) {
       await delay(2)
       const [insertedPayload] = await archivist.insert([payload])
-      payloads.push(insertedPayload)
+      insertedPayloads.push(insertedPayload)
     }
     sut = await MemoryPayloadDiviner.create({
       account: 'random',
@@ -92,7 +91,7 @@ describe('GenericPayloadDiviner', () => {
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
-          expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(payloads[3]))
+          expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(insertedPayloads[3]))
           expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })
         it.only('only return single payload of that schema (desc)', async () => {
@@ -102,15 +101,10 @@ describe('GenericPayloadDiviner', () => {
               limit: 1, order: 'desc', schemas,
             })
             .build()
-          const expected = assertEx(payloads.at(-1))
-
           const results = await sut.divine([query])
-
           expect(results.length).toBe(1)
-          const actual = results[0]
-          expect(actual).toBeDefined()
-          expect(PayloadBuilder.omitStorageMeta(actual)).toEqual(PayloadBuilder.omitStorageMeta(expected))
-          expect(await PayloadBuilder.dataHash(actual)).toBe(await PayloadBuilder.dataHash(expected))
+          expect(PayloadBuilder.omitStorageMeta(results[0])).toEqual(PayloadBuilder.omitStorageMeta(insertedPayloads[3]))
+          expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(insertedPayloads[3]))
           expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })
         it('only return single payload of that schema (asc)', async () => {

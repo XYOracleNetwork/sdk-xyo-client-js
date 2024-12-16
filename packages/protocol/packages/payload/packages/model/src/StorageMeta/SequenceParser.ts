@@ -32,32 +32,32 @@ export class SequenceParser {
   }
 
   get address(): Address {
-    const start = SequenceConstants.localSequenceBytes * 2
-    const end = SequenceConstants.qualifiedSequenceBytes * 2
+    const start = SequenceConstants.localSequenceBytes
+    const end = SequenceConstants.qualifiedSequenceBytes
     return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
   get epoch(): Epoch {
     const start = 0
-    const end = SequenceConstants.epochBytes * 2
+    const end = SequenceConstants.epochBytes
     return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
   get localSequence(): LocalSequence {
     const start = 0
-    const end = SequenceConstants.localSequenceBytes * 2
+    const end = SequenceConstants.localSequenceBytes
     return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
   get nonce(): Nonce {
-    const start = SequenceConstants.epochBytes * 2
-    const end = SequenceConstants.localSequenceBytes * 2
+    const start = SequenceConstants.epochBytes
+    const end = SequenceConstants.localSequenceBytes
     return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 
   get qualifiedSequence(): QualifiedSequence {
     const start = 0
-    const end = SequenceConstants.qualifiedSequenceBytes * 2
+    const end = SequenceConstants.qualifiedSequenceBytes
     return toHex(this.data.slice(start, end).buffer, { prefix: false })
   }
 

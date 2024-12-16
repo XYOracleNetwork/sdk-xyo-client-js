@@ -26,7 +26,7 @@
         "--run",
         "--inspect-brk",
         "--no-file-parallelism",
-        "packages/modules/packages/diviner/packages/indexing/packages/temporal/packages/memory/src/StateToIndexCandidateDiviner/spec/Diviner.spec.ts"
+        "packages/protocol/packages/payload/packages/model/src/StorageMeta/spec/SequenceParser.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

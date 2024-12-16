@@ -169,7 +169,7 @@ describe('GenericPayloadDiviner', () => {
           const results3 = await sut.divine([query3])
           expect(results3).toBeArrayOfSize(0)
         })
-        it.only('test paging with multiple calls (desc)', async () => {
+        it('test paging with multiple calls (desc)', async () => {
           const schemas = ['network.xyo.test', 'network.xyo.debug']
           const query = new PayloadBuilder<PayloadDivinerQueryPayload<EmptyObject, Hash>>({ schema: PayloadDivinerQuerySchema })
             .fields({

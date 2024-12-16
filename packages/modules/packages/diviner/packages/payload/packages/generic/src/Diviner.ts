@@ -70,13 +70,13 @@ export class GenericPayloadDiviner<
   }
 
   protected allAsc(cursor?: Hex) {
-    const payloads = this.payloadsWithMeta.sort(PayloadBuilder.compareStorageMeta)
+    const payloads = [...this.payloadsWithMeta].sort(PayloadBuilder.compareStorageMeta)
     const startIndex = (cursor ? (payloads.findIndex(payload => payload._sequence === cursor) ?? -1) : -1) + 1
     return payloads.slice(startIndex)
   }
 
   protected allDesc(cursor?: Hex) {
-    const payloads = this.payloadsWithMeta.sort(PayloadBuilder.compareStorageMeta)
+    const payloads = [...this.payloadsWithMeta].sort(PayloadBuilder.compareStorageMeta).reverse()
     const startIndex = (cursor ? (payloads.findIndex(payloads => payloads._sequence === cursor) ?? -1) : -1) + 1
     return payloads.slice(startIndex)
   }

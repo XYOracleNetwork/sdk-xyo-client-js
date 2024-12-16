@@ -94,7 +94,7 @@ describe('GenericPayloadDiviner', () => {
           expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(insertedPayloads[3]))
           expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })
-        it.only('only return single payload of that schema (desc)', async () => {
+        it('only return single payload of that schema (desc)', async () => {
           const schemas = ['network.xyo.debug']
           const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
             .fields({

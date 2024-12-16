@@ -1,4 +1,3 @@
-/* eslint-disable max-statements */
 import '@xylabs/vitest-extended'
 
 import { assertEx } from '@xylabs/assert'
@@ -18,15 +17,12 @@ import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import type { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
-  Payload, Sequence, SequenceMeta, WithStorageMeta,
+  Payload, Sequence, WithStorageMeta,
 } from '@xyo-network/payload-model'
-import { isSequenceMeta, SequenceConstants } from '@xyo-network/payload-model'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
 import { isTimestamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import {
-  beforeAll,
-  describe, expect, it,
-  test,
+  beforeAll, describe, expect, it,
 } from 'vitest'
 
 import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../Diviner.ts'
@@ -65,7 +61,6 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     schema: 'network.xyo.image.thumbnail',
     sourceUrl,
   }
-  const witnessedThumbnails = [thumbnailHttpSuccess, thumbnailHttpFail, thumbnailCodeFail, thumbnailWitnessFail]
 
   let sut: TemporalIndexingDivinerStateToIndexCandidateDiviner
   let node: MemoryNode
@@ -114,15 +109,12 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     ]
 
     for (const [bw, ...payloads] of testCasesToCreate) {
-      await delay(2)
-      const [signedBw] = await thumbnailArchivist.insert([bw])
-      if (!first) first = signedBw._sequence
-      await delay(2)
-      const [payload1] = await thumbnailArchivist.insert([payloads[0]])
-      await delay(2)
-      const [payload2] = await thumbnailArchivist.insert([payloads[1]])
-      await delay(2)
-      const createdTestCase = [signedBw, payload1, payload2]
+      const createdTestCase = []
+      for (const payload of [bw, ...payloads]) {
+        await delay(2)
+        const [signedPayload] = await thumbnailArchivist.insert([payload])
+        createdTestCase.push(signedPayload)
+      }
       testCases.push(createdTestCase)
     }
 
@@ -133,16 +125,18 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
 
   describe('divine', () => {
     describe('with no previous state', () => {
-      it.skip('creates next state and returns batch results', async () => {
+      it('returns next state and batch results', async () => {
         const results = await sut.divine()
-        expect(results.length).toBe(1)
+        expect(results.length).toBe(testCases.flat().length + 1)
         const state = results.find(isModuleState<IndexingDivinerState>)
         expect(state).toBeDefined()
-        expect(state?.state.cursor).toBe(SequenceConstants.minLocalSequence)
+        const last = results.map(p => p as WithStorageMeta<Payload>).sort(PayloadBuilder.compareStorageMeta).at(-1)
+        expect(last).toBeDefined()
+        expect(state?.state.cursor).toBe(last?._sequence)
       })
     })
     describe('with previous state', () => {
-      it.each([1, 2, 3])('return next state and batch results', async (batch) => {
+      it.each([1, 2, 3])('returns next state and batch results', async (batch) => {
         const all = (await thumbnailArchivist.all()).sort(PayloadBuilder.compareStorageMeta)
         const batchOffset = all.at((3 * batch) - 1)
         expect(batchOffset).toBeDefined()

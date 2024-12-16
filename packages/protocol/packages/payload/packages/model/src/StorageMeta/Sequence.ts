@@ -19,11 +19,11 @@ export const isNonce = (value: unknown): value is Epoch => {
 }
 
 export const isLocalSequence = (value: unknown): value is Sequence => {
-  return isHex(value) && (value as string).length === (SequenceConstants.localSequenceBytes) * 2
+  return isHex(value) && (value as string).length === SequenceConstants.localSequenceBytes * 2
 }
 
 export const isQualifiedSequence = (value: unknown): value is Sequence => {
-  return isHex(value) && (value as string).length === (SequenceConstants.qualifiedSequenceBytes) * 2
+  return isHex(value) && (value as string).length === SequenceConstants.qualifiedSequenceBytes * 2
 }
 
 export const isSequence = (value: unknown): value is Sequence => {
@@ -37,12 +37,12 @@ export const SequenceComponentLengths = {
 }
 
 export const SequenceComponentMinMax = {
-  minEpoch: '0'.repeat(SequenceComponentLengths.epochBytes) as Epoch,
-  maxEpoch: 'f'.repeat(SequenceComponentLengths.epochBytes) as Epoch,
-  minNonce: '0'.repeat(SequenceComponentLengths.nonceBytes) as Nonce,
-  maxNonce: 'f'.repeat(SequenceComponentLengths.nonceBytes) as Nonce,
-  minAddress: '0'.repeat(SequenceComponentLengths.addressBytes) as Address,
-  maxAddress: 'f'.repeat(SequenceComponentLengths.addressBytes) as Address,
+  minEpoch: '0'.repeat(SequenceComponentLengths.epochBytes * 2) as Epoch,
+  maxEpoch: 'f'.repeat(SequenceComponentLengths.epochBytes * 2) as Epoch,
+  minNonce: '0'.repeat(SequenceComponentLengths.nonceBytes * 2) as Nonce,
+  maxNonce: 'f'.repeat(SequenceComponentLengths.nonceBytes * 2) as Nonce,
+  minAddress: '0'.repeat(SequenceComponentLengths.addressBytes * 2) as Address,
+  maxAddress: 'f'.repeat(SequenceComponentLengths.addressBytes * 2) as Address,
 }
 
 export const LocalSequenceConstants = {

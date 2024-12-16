@@ -65,10 +65,8 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
   let sut: TemporalIndexingDivinerStateToIndexCandidateDiviner
   let node: MemoryNode
 
-  let thumbnailArchivist: MemoryArchivist
+  let archivist: MemoryArchivist
   let testCases: WithStorageMeta<Payload>[][] = []
-
-  let first: Sequence | undefined
 
   beforeAll(async () => {
     const wallet = await HDWallet.random()
@@ -100,7 +98,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     const codeFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: 4 }
     const [codeFailBoundWitness, codeFailPayloads] = await (new BoundWitnessBuilder().payloads([thumbnailCodeFail, codeFailTimestamp])).build()
 
-    thumbnailArchivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
+    archivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
     const testCasesToCreate = [
       [httpSuccessBoundWitness, ...httpSuccessPayloads],
       [httpFailBoundWitness, ...httpFailPayloads],
@@ -112,7 +110,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
       const createdTestCase = []
       for (const payload of [bw, ...payloads]) {
         await delay(2)
-        const [signedPayload] = await thumbnailArchivist.insert([payload])
+        const [signedPayload] = await archivist.insert([payload])
         createdTestCase.push(signedPayload)
       }
       testCases.push(createdTestCase)
@@ -137,7 +135,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     })
     describe('with previous state', () => {
       it.each([1, 2, 3])('returns next state and batch results', async (batch) => {
-        const all = (await thumbnailArchivist.all()).sort(PayloadBuilder.compareStorageMeta)
+        const all = (await archivist.all()).sort(PayloadBuilder.compareStorageMeta)
         const batchOffset = all.at((3 * batch) - 1)
         expect(batchOffset).toBeDefined()
         // Test across all offsets

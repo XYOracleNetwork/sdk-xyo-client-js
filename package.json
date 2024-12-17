@@ -41,7 +41,7 @@
     "packages/**/*"
   ],
   "scripts": {
-    "build": "xy build && xy statics",
+    "build": "tsc --noEmit && xy build && xy statics",
     "build-typedoc-site": "typedoc",
     "compile": "./scripts/clear-scrollback-buffer.sh && yarn xy compile",
     "coverage": "yarn jest --coverage --forceExit",

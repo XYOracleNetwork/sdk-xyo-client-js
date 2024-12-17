@@ -94,7 +94,7 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>,
   async dataHashableFields() {
     return await PayloadBuilderBase.dataHashableFields(
       assertEx(this._schema, () => 'Payload: Missing Schema'),
-      // TDOD: Add verification that required fields are present
+      // TODO: Add verification that required fields are present
       this._fields as WithoutSchema<T>,
     )
   }

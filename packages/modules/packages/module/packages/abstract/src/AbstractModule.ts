@@ -336,7 +336,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           this._lastError = error
           // this.status = 'dead'
           errorPayloads.push(
-            await new ModuleErrorBuilder()
+            new ModuleErrorBuilder()
               .sources([await PayloadBuilder.dataHash(sourceQuery)])
               .name(this.modName ?? '<Unknown>')
               .query(sourceQuery.schema)
@@ -515,7 +515,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     additionalSigners: AccountInstance[] = [],
   ): Promise<[QueryBoundWitness, Payload[], Payload[]]> {
     const accounts = [account, ...additionalSigners].filter(exists)
-    const builder = await new QueryBoundWitnessBuilder().payloads(payloads).signers(accounts).query(query)
+    const builder = new QueryBoundWitnessBuilder().payloads(payloads).signers(accounts).query(query)
 
     let additional: Payload[] = []
     if (this.config.certify) {
@@ -537,9 +537,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const witnesses = [this.account, ...additionalWitnesses].filter(exists)
     builder.signers(witnesses)
     const result: ModuleQueryResult = [
-      (await builder.build())[0],
-      payloads,
-      errors ?? [],
+      PayloadBuilder.omitPrivateStorageMeta((await builder.build())[0]),
+      PayloadBuilder.omitPrivateStorageMeta(payloads),
+      PayloadBuilder.omitPrivateStorageMeta(errors ?? []),
     ]
     if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
       forget(this.storeToArchivists(result.flat()))

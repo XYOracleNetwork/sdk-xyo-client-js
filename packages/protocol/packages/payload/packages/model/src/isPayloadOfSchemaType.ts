@@ -7,7 +7,7 @@ export const isPayloadOfSchemaType = <T extends Payload>(schema: string) => {
 
 export const isPayloadOfSchemaTypeWithSources = <T extends Payload>(schema: string) => {
   return (x?: unknown | null): x is WithSources<T> =>
-    isPayloadOfSchemaType<WithSources<T>>(schema)(x) && x.sources !== undefined && Array.isArray(x.sources)
+    isPayloadOfSchemaType<WithSources<T>>(schema)(x) && x.$sources !== undefined && Array.isArray(x.$sources)
 }
 
 export const notPayloadOfSchemaType = <T extends Payload>(schema: string) => {

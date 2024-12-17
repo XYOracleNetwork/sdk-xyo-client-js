@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/object": "^4.4.15",
+    "@xylabs/object": "^4.4.16",
     "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
-    "@xylabs/vitest-extended": "^4.4.15",
+    "@xylabs/vitest-extended": "^4.4.16",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "typescript": "^5.7.2",

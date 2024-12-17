@@ -1,12 +1,13 @@
 import { assertEx } from '@xylabs/assert'
-import type { AnyObject, EmptyObject } from '@xylabs/object'
+import type {
+  AnyObject, DeepOmitStartsWith, EmptyObject,
+} from '@xylabs/object'
 import {
   isJsonObject, omitBy, toJson,
 } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import { removeEmptyFields } from '@xyo-network/hash'
 import type {
-  DeepOmitStartsWith,
   Payload, Schema,
   WithOptionalSchema,
   WithoutClientMeta,

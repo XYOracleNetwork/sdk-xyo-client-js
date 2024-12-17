@@ -73,7 +73,7 @@ export class MemoryForecastingDiviner<
     return getJsonPathTransformer(pathExpression)
   }
 
-  protected override async getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promise<Payload[]> {
+  protected override async getPayloadsInWindow(_startTimestamp: number, _stopTimestamp: number): Promise<Payload[]> {
     const addresses = this.config.witnessAddresses
     const payload_schemas = [assertEx(this.config.witnessSchema, () => 'Missing witnessSchema in config')]
     const payloads: Payload[] = []
@@ -84,7 +84,7 @@ export class MemoryForecastingDiviner<
     ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
     const limit = this.batchLimit
     const witnessSchema = assertEx(this.config.witnessSchema, () => 'Missing witnessSchema in config')
-    let timestamp = stopTimestamp
+    // let timestamp = stopTimestamp
     let more = true
 
     // TODO: Window size vs sample size
@@ -94,17 +94,20 @@ export class MemoryForecastingDiviner<
         addresses, limit, payload_schemas, schema: BoundWitnessDivinerQuerySchema,
       }
       const boundWitnesses = (await bwDiviner.divine([query])).filter(
-        bw => bw.$timestamp && bw.$timestamp >= startTimestamp && bw.$timestamp <= stopTimestamp,
+        // TODO; Replace with sequence
+        // bw => bw.$timestamp && bw.$timestamp >= startTimestamp && bw.$timestamp <= stopTimestamp,
+        _ => true,
       )
       if (boundWitnesses.length === 0) break
 
       // Update the timestamp value for the next batch
-      timestamp = boundWitnesses
+      /* timestamp = boundWitnesses
         .map(bw => bw.$timestamp)
         .filter(exists)
         // eslint-disable-next-line unicorn/no-array-reduce
         .reduce((a, b) => Math.min(a, b), Number.MAX_SAFE_INTEGER)
       if (timestamp === Number.MAX_SAFE_INTEGER) break
+      */
 
       // Set the more flag to false if there are fewer documents returned than the batch size
       more = boundWitnesses.length === limit

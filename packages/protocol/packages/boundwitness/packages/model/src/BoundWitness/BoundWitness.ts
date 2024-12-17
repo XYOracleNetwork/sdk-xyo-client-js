@@ -14,6 +14,11 @@ export interface BoundWitnessRequiredFields {
   previous_hashes: (Hash | null)[]
 }
 
+export interface BoundWitnessMeta {
+  // the query that initiated the bound witness
+  $sourceQuery?: Hash
+}
+
 export interface BoundWitnessBlockField {
   /** @field sequential number (if this boundwitness is part of a multi-party chain) zero padded to 32 characters */
   block: Hex
@@ -35,11 +40,10 @@ export type UnsignedBoundWitness<T extends Payload | EmptyObject | void = void> 
   T extends void ? BoundWitnessSchema
     : T extends Payload ? T['schema']
       : BoundWitnessSchema
->
+> & BoundWitnessMeta
 
 export type Signed<T> = T & {
   $signatures: Hex[]
-  $timestamp?: number
 }
 
 export type WithBlock = BoundWitness & BoundWitnessBlockField

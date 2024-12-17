@@ -9,6 +9,7 @@ import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type {
   AttachableDivinerInstance,
   DivinerDivineQuery,
+  DivinerDivineResult,
   DivinerInstance,
   DivinerModuleEventData,
   DivinerParams,
@@ -24,7 +25,7 @@ import type {
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
-  Payload, Schema, WithoutPrivateStorageMeta, WithSources,
+  Payload, Schema, WithOptionalSources, WithoutPrivateStorageMeta,
 } from '@xyo-network/payload-model'
 
 export abstract class AbstractDiviner<
@@ -49,7 +50,7 @@ export abstract class AbstractDiviner<
   }
 
   /** @function divine The main entry point for a diviner.  Do not override this function.  Implement/override divineHandler for custom functionality */
-  divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<WithoutPrivateStorageMeta<WithSources<TOut>>[]> {
+  divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<DivinerDivineResult<TOut>[]> {
     this._noOverride('divine')
     return this.busy(async () => {
       const retryConfig = retryConfigIn ?? this.config.retry
@@ -94,5 +95,5 @@ export abstract class AbstractDiviner<
   }
 
   /** @function divineHandler Implement or override to add custom functionality to a diviner */
-  protected abstract divineHandler(payloads?: TIn[]): Promisable<WithSources<TOut>[]>
+  protected abstract divineHandler(payloads?: TIn[]): Promisable<WithOptionalSources<TOut>[]>
 }

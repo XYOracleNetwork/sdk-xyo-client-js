@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { QueryBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'
 import type {
   Payload, Query, WithoutMeta,
@@ -25,7 +24,6 @@ export class QueryBoundWitnessBuilder<
     const fields = {
       ...(await super.dataHashableFields()),
       query: await PayloadBuilder.dataHash(assertEx(this._query, () => 'No Query Specified')),
-      schema: QueryBoundWitnessSchema,
     } as TBoundWitness
     if (this._additional) {
       fields.additional = this._additional

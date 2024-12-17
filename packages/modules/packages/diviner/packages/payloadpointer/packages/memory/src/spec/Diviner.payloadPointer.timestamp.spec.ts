@@ -38,8 +38,11 @@ describe('PayloadPointerDiviner', () => {
       sut = await getPayloadPointerDiviner(node)
       account = await Account.random()
       const [bwA, payloadsA] = await getNewBoundWitness([account])
+      await delay(2)
       const [bwB, payloadsB] = await getNewBoundWitness([account])
+      await delay(2)
       const [bwC, payloadsC] = await getNewBoundWitness([account])
+      await delay(2)
       payloads = [...payloadsA, ...payloadsB, ...payloadsC]
       const boundWitnesses = [bwA, bwB, bwC]
       expectedSchema = payloadsA[0].schema

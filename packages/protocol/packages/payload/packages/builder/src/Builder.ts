@@ -179,6 +179,7 @@ export class PayloadBuilder<
     return {
       schema: this._schema,
       ...this._fields,
+      ...this._meta,
     } as T
   }
 }

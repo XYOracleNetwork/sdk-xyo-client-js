@@ -29,10 +29,10 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/axios": "^4.4.16",
-    "@xylabs/hex": "^4.4.16",
-    "@xylabs/object": "^4.4.16",
-    "@xylabs/platform": "^4.4.16",
+    "@xylabs/axios": "^4.4.18",
+    "@xylabs/hex": "^4.4.18",
+    "@xylabs/object": "^4.4.18",
+    "@xylabs/platform": "^4.4.18",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/dns": "workspace:^",
     "@xyo-network/huri": "workspace:^",
@@ -46,7 +46,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
-    "@xylabs/vitest-extended": "^4.4.16",
+    "@xylabs/vitest-extended": "^4.4.18",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   },

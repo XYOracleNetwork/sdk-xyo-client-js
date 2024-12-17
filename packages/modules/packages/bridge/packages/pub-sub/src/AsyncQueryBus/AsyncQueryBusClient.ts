@@ -9,7 +9,9 @@ import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-bound
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import type { CacheConfig, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { ModuleError, Payload } from '@xyo-network/payload-model'
+import type {
+  ModuleError, Payload, WithSources,
+} from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase.ts'
@@ -103,11 +105,11 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
           this.logger?.error('Timeout waiting for query response')
           // Resolve with error to match what a local module would do if it were to error
           // TODO: BW Builder/Sign result as this module?
-          const error: ModuleError = {
+          const error: WithSources<ModuleError> = {
             message: 'Timeout waiting for query response',
             query: 'network.xyo.boundwitness',
             schema: 'network.xyo.error.module',
-            sources: [routedQueryHash],
+            $sources: [routedQueryHash],
           }
           reject(error)
           return

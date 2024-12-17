@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.4.16",
-    "@xylabs/hex": "^4.4.16",
+    "@xylabs/assert": "^4.4.18",
+    "@xylabs/hex": "^4.4.18",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-address-space-abstract": "workspace:^",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
-    "@xylabs/vitest-extended": "^4.4.16",
+    "@xylabs/vitest-extended": "^4.4.18",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

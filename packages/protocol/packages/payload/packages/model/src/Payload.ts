@@ -1,6 +1,6 @@
 import type { Hash } from '@xylabs/hex'
 import type {
-  DeepOmitStartsWith, DeepRestrictToStringKeys, EmptyObject,
+  DeepOmitStartsWith, DeepPickStartsWith, DeepRestrictToStringKeys, EmptyObject,
 } from '@xylabs/object'
 
 import type { Schema, WithSchema } from './Schema.ts'
@@ -51,3 +51,5 @@ export type WithoutMeta<T extends EmptyObject> = WithoutClientMeta<WithoutStorag
 
 export type WithoutSchema<T extends WithOptionalSchema<Payload>> = Omit<T, 'schema'>
 export type WithOptionalSchema<T extends EmptyObject = EmptyObject> = WithoutSchema<T> & Partial<T & SchemaField>
+
+export type WithOnlyClientMeta<T extends EmptyObject> = DeepPickStartsWith<T, '$'>

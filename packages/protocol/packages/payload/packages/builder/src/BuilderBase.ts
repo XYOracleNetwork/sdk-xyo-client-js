@@ -1,14 +1,13 @@
 import { assertEx } from '@xylabs/assert'
-import type {
-  AnyObject, DeepOmitStartsWith, EmptyObject,
-} from '@xylabs/object'
+import type { AnyObject, EmptyObject } from '@xylabs/object'
 import {
-  isJsonObject, omitBy, toJson,
+  isJsonObject, omitByPrefix, pickByPrefix, toJson,
 } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import { removeEmptyFields } from '@xyo-network/hash'
 import type {
   Payload, Schema,
+  WithOnlyClientMeta,
   WithOptionalSchema,
   WithoutClientMeta,
   WithoutMeta,
@@ -19,24 +18,16 @@ import type {
 
 import type { PayloadBuilderOptions } from './Options.ts'
 
-export const omitByPrefix = <T extends EmptyObject, P extends string>(payload: T, prefix: P, maxDepth = 100): DeepOmitStartsWith<T, P> => {
-  return omitBy(payload, omitByPrefixPredicate(prefix), maxDepth) as unknown as DeepOmitStartsWith<T, P>
-}
-
 export const omitSchema = <T extends WithOptionalSchema>(payload: T): WithoutSchema<T> => {
   const result = structuredClone(payload)
   delete result.schema
   return result
 }
 
-const omitByPrefixPredicate = (prefix: string) => (_: unknown, key: string) => {
-  assertEx(typeof key === 'string', () => `Invalid key type [${key}, ${typeof key}]`)
-  return key.startsWith(prefix)
-}
-
 export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>,
   O extends PayloadBuilderOptions<T> = PayloadBuilderOptions<T>> {
   protected _fields?: WithoutMeta<WithoutSchema<T>>
+  protected _meta?: WithOnlyClientMeta<T>
   protected _schema: Schema
 
   constructor(readonly options: O) {
@@ -103,6 +94,12 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>,
   fields(fields: WithoutMeta<WithoutSchema<T>>) {
     // we need to do the cast here since ts seems to not like nested, yet same, generics
     this._fields = omitSchema(PayloadBuilderBase.omitMeta(removeEmptyFields(structuredClone(fields)))) as unknown as WithoutMeta<WithoutSchema<T>>
+    return this
+  }
+
+  meta(meta: WithOnlyClientMeta<T>) {
+    // we need to do the cast here since ts seems to not like nested, yet same, generics
+    this._meta = pickByPrefix(meta, '$') as WithOnlyClientMeta<T>
     return this
   }
 

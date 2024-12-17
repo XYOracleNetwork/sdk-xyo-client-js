@@ -337,7 +337,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           // this.status = 'dead'
           errorPayloads.push(
             new ModuleErrorBuilder()
-              .sources([await PayloadBuilder.dataHash(sourceQuery)])
+              .meta({ $sources: [await PayloadBuilder.dataHash(sourceQuery)] })
               .name(this.modName ?? '<Unknown>')
               .query(sourceQuery.schema)
               .details(error.details)

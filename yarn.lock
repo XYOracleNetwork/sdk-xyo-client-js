@@ -8242,6 +8242,7 @@ __metadata:
     "@xyo-network/node": "workspace:^"
     "@xyo-network/node-memory": "workspace:^"
     "@xyo-network/node-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/sentinel": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     "@xyo-network/witness-adhoc": "workspace:^"

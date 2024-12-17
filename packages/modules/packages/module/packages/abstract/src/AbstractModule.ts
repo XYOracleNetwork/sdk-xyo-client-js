@@ -517,13 +517,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const accounts = [account, ...additionalSigners].filter(exists)
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).signers(accounts).query(query)
 
-    let additional: Payload[] = []
-    if (this.config.certify) {
-      additional = await this.certifyParents()
-      await builder.additional(additional)
-    }
     const [bw, payloadsOut, errors] = await builder.build()
-    return [bw, [...payloadsOut, ...additional], errors]
+    return [bw, [...payloadsOut], errors]
   }
 
   protected async bindQueryResult<T extends Query>(

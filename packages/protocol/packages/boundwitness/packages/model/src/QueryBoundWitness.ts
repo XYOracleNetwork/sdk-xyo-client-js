@@ -5,10 +5,8 @@ import type { BoundWitness } from './BoundWitness/index.ts'
 import { isBoundWitness } from './isBoundWitness.ts'
 
 export type QueryBoundWitnessFields = {
-  additional?: Hash[]
   error_hashes?: Hash[]
   query: Hash
-  resultSet?: string
 }
 
 export type UnsignedQueryBoundWitness = BoundWitness<QueryBoundWitnessFields>

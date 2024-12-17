@@ -1,7 +1,4 @@
 import { forget } from '@xylabs/forget'
-import type { Validator } from '@xylabs/object'
-import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import type { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { PayloadSetPayload } from '@xyo-network/payload-model'
@@ -72,11 +69,6 @@ export class PayloadSetPluginResolver {
     return Object.values(this._plugins).map(value => value.set)
   }
 
-  async validate(boundwitness: QueryBoundWitness): Promise<Validator<QueryBoundWitness> | undefined> {
-    const resultSet = await this.resolve(boundwitness.resultSet)
-    return resultSet?.validate?.(boundwitness)
-  }
-
   async witness(set: PayloadSetPayload): Promise<WitnessModule | undefined>
   async witness(set: string): Promise<WitnessModule | undefined>
   async witness(set: string | PayloadSetPayload): Promise<WitnessModule | undefined> {
@@ -86,10 +78,5 @@ export class PayloadSetPluginResolver {
 
   witnesses(): PayloadSetWitnessPlugin[] {
     return Object.values(this._plugins).filter(isPayloadSetWitnessPlugin)
-  }
-
-  async wrap(boundwitness: QueryBoundWitness): Promise<QueryBoundWitnessWrapper | undefined> {
-    const resultSet = await this.resolve(boundwitness.resultSet)
-    return resultSet?.wrap?.(boundwitness)
   }
 }

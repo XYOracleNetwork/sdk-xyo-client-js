@@ -101,7 +101,7 @@ describe('GenericPayloadDiviner', () => {
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
-          expect(PayloadBuilder.omitStorageMeta(results[0])).toStrictEqual(insertedPayloads[3])
+          expect(PayloadBuilder.omitStorageMeta(results[0])).toStrictEqual(payloadD)
           expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(insertedPayloads[3]))
           expect(results.every(result => result.schema === 'network.xyo.debug')).toBe(true)
         })

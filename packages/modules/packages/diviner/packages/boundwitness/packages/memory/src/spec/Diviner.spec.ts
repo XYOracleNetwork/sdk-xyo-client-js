@@ -1,5 +1,6 @@
 import '@xylabs/vitest-extended'
 
+import { delay } from '@xylabs/delay'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -25,31 +26,25 @@ describe('MemoryBoundWitnessDiviner', () => {
   let archivist: MemoryArchivist
   let sut: MemoryBoundWitnessDiviner
   let node: MemoryNode
-  let payloadA: Payload<{ schema: string; url: string }>
-  let payloadB: Payload<{ foo: string[]; schema: string }>
-  let payloadC: Payload<{ foo: string[]; schema: string }>
-  let payloadD: Payload<{ foo: string[]; schema: string }>
+  const payloadA: Payload<{ schema: string; url: string }> = {
+    schema: 'network.xyo.test',
+    url: 'https://xyo.network',
+  }
+  const payloadB: Payload<{ foo: string[]; schema: string }> = {
+    foo: ['bar', 'baz'],
+    schema: 'network.xyo.debug',
+  }
+  const payloadC: Payload<{ foo: string[]; schema: string }> = {
+    foo: ['one', 'two'],
+    schema: 'network.xyo.debug',
+  }
+  const payloadD: Payload<{ foo: string[]; schema: string }> = {
+    foo: ['aaa', 'bbb'],
+    schema: 'network.xyo.debug',
+  }
   const bws: BoundWitness[] = []
   beforeAll(async () => {
-    payloadA = {
-      schema: 'network.xyo.test',
-      url: 'https://xyo.network',
-    }
-    payloadB = {
-      foo: ['bar', 'baz'],
-      schema: 'network.xyo.debug',
-    }
-    payloadC = {
-      foo: ['one', 'two'],
-      schema: 'network.xyo.debug',
-    }
-    payloadD = {
-      foo: ['aaa', 'bbb'],
-      schema: 'network.xyo.debug',
-    }
-
     const account = await Account.random()
-
     const [bwA] = await BoundWitnessBuilder.build({ accounts: [account], payloads: [payloadA] })
     bws.push(bwA)
     const [bwB] = await BoundWitnessBuilder.build({ accounts: [account], payloads: [payloadB] })
@@ -65,9 +60,10 @@ describe('MemoryBoundWitnessDiviner', () => {
       account: 'random',
       config: { name: 'test', schema: MemoryArchivist.defaultConfigSchema },
     })
-    await archivist.insert([payloadA, payloadB])
-    await archivist.insert([payloadC, payloadD])
-    await archivist.insert([bwA, bwB, bwC, bwD, bwAB])
+    for (const payload of [payloadA, payloadB, payloadC, payloadD, bwA, bwB, bwC, bwD, bwAB]) {
+      await delay(2)
+      await archivist.insert([payload])
+    }
     sut = await MemoryBoundWitnessDiviner.create({
       account: 'random',
       config: {

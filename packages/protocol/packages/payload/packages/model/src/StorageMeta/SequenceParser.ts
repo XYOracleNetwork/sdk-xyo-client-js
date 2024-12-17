@@ -79,7 +79,7 @@ export class SequenceParser {
     }
     const epoch = SequenceParser.toEpoch(timestampOrSequence)
     const nonce = SequenceParser.toNonce(nonceOrAddress)
-    const addressHex: Hex = address ? toHex(address, { bitLength: SequenceConstants.addressBytes * 8 }) : '' as Hex
+    const addressHex: Hex = address ? toHex(address, { bitLength: SequenceConstants.addressBytes * 8 }) : SequenceConstants.minAddress
     const hexString = (epoch + nonce + addressHex) as Hex
     assertEx(isSequence(hexString), () => `Invalid sequence [${hexString}] [${epoch}, ${nonce}, ${addressHex}]`)
     return new this(SequenceParser.privateConstructorKey, hexString)

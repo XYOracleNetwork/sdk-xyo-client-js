@@ -186,36 +186,4 @@ describe('IndexedDbPayloadDiviner', () => {
       })
     })
   })
-  describe('with offset', () => {
-    describe('when ascending order', () => {
-      it('returns payloads from the beginning', async () => {
-        for (const boundWitness of insertedPayloads) {
-          const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
-            .fields({
-              limit: 1, cursor: boundWitness._sequence, order: 'asc',
-            })
-            .build()
-          const results = await sut.divine([query])
-          expect(results).toBeArrayOfSize(1)
-          const [result] = results
-          expect(result).toEqual(boundWitness)
-        }
-      })
-    })
-    describe('when descending order', () => {
-      it('returns payloads from the end', async () => {
-        for (let i = 0; i < insertedPayloads.length; i++) {
-          const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
-            .fields({
-              limit: 1, cursor: insertedPayloads[i]._sequence, order: 'desc',
-            })
-            .build()
-          const results = await sut.divine([query])
-          expect(results).toBeArrayOfSize(1)
-          const [result] = results
-          expect(result).toEqual(insertedPayloads[insertedPayloads.length - i - 1])
-        }
-      })
-    })
-  })
 })

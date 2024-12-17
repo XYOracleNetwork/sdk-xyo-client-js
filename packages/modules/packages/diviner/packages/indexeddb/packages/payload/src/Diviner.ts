@@ -2,18 +2,16 @@ import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import type { Hash } from '@xylabs/hex'
-import type { AnyObject } from '@xylabs/object'
 import { removeFields } from '@xylabs/object'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
-import { IndexSeparator } from '@xyo-network/archivist-model'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import {
-  type Payload, type Schema, SequenceConstants,
+import type {
+  Payload, Schema, Sequence,
 } from '@xyo-network/payload-model'
-import type { IDBPDatabase, IDBPObjectStore } from 'idb'
+import type { IDBPCursorWithValue, IDBPDatabase } from 'idb'
 import { openDB } from 'idb'
 
 import { IndexedDbPayloadDivinerConfigSchema } from './Config.ts'
@@ -37,14 +35,6 @@ const payloadValueFilter = (key: keyof AnyPayload, value?: unknown | unknown[]):
   }
 }
 
-// Function to extract fields from an index name
-const extractFields = (indexName: string): string[] => {
-  return indexName
-    .slice(3)
-    .split(IndexSeparator)
-    .map(field => field.toLowerCase())
-}
-
 export class IndexedDbPayloadDiviner<
   TParams extends IndexedDbPayloadDivinerParams = IndexedDbPayloadDivinerParams,
   TIn extends PayloadDivinerQueryPayload = PayloadDivinerQueryPayload,
@@ -57,8 +47,6 @@ export class IndexedDbPayloadDiviner<
 > extends PayloadDiviner<TParams, TIn, TOut, TEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, IndexedDbPayloadDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = IndexedDbPayloadDivinerConfigSchema
-
-  private _db: IDBPDatabase<PayloadStore> | undefined
 
   /**
    * The database name. If not supplied via config, it defaults
@@ -99,32 +87,33 @@ export class IndexedDbPayloadDiviner<
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
       const results: TOut[] = []
-      let parsedCursor = cursor ?? SequenceConstants.minLocalSequence
+      let parsedCursor = cursor
       const parsedLimit = limit ?? 10
       assertEx((schemas?.length ?? 1) === 1, () => 'IndexedDbPayloadDiviner: Only one filter schema supported')
       const filterSchema = schemas?.[0]
       const filter = filterSchema ? { schema: filterSchema, ...props } : { ...props }
+      const valueFilters: ValueFilter[] = Object.entries(filter)
+        .map(([key, value]) => payloadValueFilter(key, value))
+        .filter(exists)
       const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
-      const suggestedIndex = this.selectBestIndex(filter, store)
-      const keyRangeValue = this.getKeyRangeValue(suggestedIndex, filter)
-      const valueFilters: ValueFilter[]
-        = props
-          ? Object.entries(props)
-              .map(([key, value]) => payloadValueFilter(key, value))
-              .filter(exists)
-          : []
-      let dbCursor
-        = suggestedIndex
-          // Conditionally filter on schemas
-          ? await store.index(suggestedIndex).openCursor(IDBKeyRange.only(keyRangeValue), direction)
-          // Just iterate all records
-          : await store.openCursor(suggestedIndex, direction)
 
-      // Skip records until the offset is reached
-      while (dbCursor && parsedCursor) {
-        dbCursor = await dbCursor.advance(1)
-        parsedCursor = SequenceConstants.minLocalSequence // Reset offset after skipping
+      // Iterate all records using the sequence index
+      const sequenceIndex = assertEx(store.index(IndexedDbArchivist.sequenceIndexName), () => 'Failed to get sequence index')
+      let dbCursor: IDBPCursorWithValue<PayloadStore, [string], string, string, 'readonly'> | null
+      = assertEx(await sequenceIndex.openCursor(null, direction), () => `Failed to get cursor [${parsedCursor}, ${cursor}]`)
+
+      // If a cursor was supplied
+      if (parsedCursor !== undefined) {
+        let currentSequence: Sequence | undefined
+        // Skip records until the supplied cursor offset is reached
+        while (dbCursor && currentSequence !== parsedCursor) {
+          // Find the sequence of the current record
+          currentSequence = await dbCursor.value?.sequence
+          // Advance one record beyond the cursor
+          dbCursor = await dbCursor.advance(1)
+        }
       }
+
       // Collect results up to the limit
       while (dbCursor && results.length < parsedLimit) {
         const value = dbCursor.value
@@ -157,37 +146,6 @@ export class IndexedDbPayloadDiviner<
   protected override async startHandler() {
     await super.startHandler()
     return true
-  }
-
-  private getKeyRangeValue(indexName: string | null, query: AnyObject): unknown | unknown[] {
-    if (!indexName) return []
-
-    // Extracting the relevant fields from the index name
-    const indexFields = extractFields(indexName)
-
-    // Collecting the values for these fields from the query object
-    const keyRangeValue = indexFields.map(field => query[field as keyof AnyObject])
-    return keyRangeValue.length === 1 ? keyRangeValue[0] : keyRangeValue
-  }
-
-  private selectBestIndex(query: AnyObject, store: IDBPObjectStore<PayloadStore>): string | null {
-    // List of available indexes
-    const { indexNames } = store
-
-    // Convert query object keys to a set for easier comparison
-    const queryKeys = new Set(Object.keys(query).map(key => key.toLowerCase()))
-
-    // Find the best matching index
-    let bestMatch: { indexName: string; matchCount: number } = { indexName: '', matchCount: 0 }
-
-    for (const indexName of indexNames) {
-      const indexFields = extractFields(indexName)
-      const matchCount = indexFields.filter(field => queryKeys.has(field)).length
-      if (matchCount > bestMatch.matchCount) {
-        bestMatch = { indexName, matchCount }
-      }
-    }
-    return bestMatch.matchCount > 0 ? bestMatch.indexName : null
   }
 
   /**

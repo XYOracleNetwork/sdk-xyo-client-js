@@ -1,6 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { Account } from '@xyo-network/account'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isValuePayload } from '@xyo-network/value-payload-plugin'
 import {
   beforeAll,
@@ -32,7 +33,11 @@ describe('EnvironmentWitness', () => {
         const env = result.find(isValuePayload)
         expect(env).toBeDefined()
         expect(env?.value).toBeDefined()
-        expect(env?.value).toEqual(process.env)
+        // NOTE: Due to how we sanitize __ fields from payloads
+        // this test can fail on systems where __ fields are present
+        // in the environment so we'll sanitize those when comparing
+        const processEnv = PayloadBuilder.omitPrivateStorageMeta(process.env)
+        expect(env?.value).toEqual(processEnv)
       })
     })
     describe('with subset payload', () => {

@@ -396,8 +396,6 @@ describe('IndexedDbArchivist', () => {
         { schema: 'network.xyo.test', value: 2 },
       ]
 
-      // console.log('Payloads1:', toJsonString(await PayloadBuilder.hashPairs(payloads1), 10))
-
       const payloads3 = [
         { schema: 'network.xyo.test', value: 3 },
       ]
@@ -405,8 +403,6 @@ describe('IndexedDbArchivist', () => {
       const payloads4 = [
         { schema: 'network.xyo.test', value: 4 },
       ]
-
-      // console.log('Payloads2:', toJsonString(await PayloadBuilder.hashPairs(payloads2), 10))
 
       await archivist.insert(payloads1)
       await delay(1)
@@ -420,8 +416,6 @@ describe('IndexedDbArchivist', () => {
       expect(bw).toBeDefined()
       expect(payloads).toBeDefined()
       expect(errors).toBeDefined()
-
-      // console.log(toJsonString([bw, payloads, errors], 10))
 
       const batch1 = await archivist.next?.({ limit: 2 })
       expect(batch1.length).toBe(2)

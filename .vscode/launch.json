@@ -26,7 +26,7 @@
         "--run",
         "--inspect-brk",
         "--no-file-parallelism",
-        "packages/modules/packages/bridge/packages/http/src/spec/HttpBridge.legacy.spec.ts"
+        "packages/modules/packages/sentinel/packages/wrapper/src/spec/Sentinel.Wrapper.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

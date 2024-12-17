@@ -1,6 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
 import type { AccountInstance } from '@xyo-network/account'
 import { Account } from '@xyo-network/account'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
@@ -43,11 +44,15 @@ describe('PayloadPointerDiviner', () => {
       const boundWitnesses = [bwA, bwB, bwC]
       expectedSchema = payloadsA[0].schema
       for (const bw of boundWitnesses) {
+        await delay(2)
         const blockResponse = await insertBlock(archivist, bw)
         expect(blockResponse.length).toBe(1)
       }
-      const payloadResponse = await insertPayload(archivist, payloads)
-      expect(payloadResponse.length).toBe(payloads.length)
+      for (const payload of payloads) {
+        await delay(2)
+        const payloadResponse = await insertPayload(archivist, payload)
+        expect(payloadResponse.length).toBe(1)
+      }
     })
     it('ascending', async () => {
       const expected = assertEx(payloads.at(0))

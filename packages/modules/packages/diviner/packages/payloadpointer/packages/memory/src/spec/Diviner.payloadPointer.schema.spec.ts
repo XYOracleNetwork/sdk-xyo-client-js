@@ -1,5 +1,6 @@
 import '@xylabs/vitest-extended'
 
+import { delay } from '@xylabs/delay'
 import { Account } from '@xyo-network/account'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -53,8 +54,11 @@ describe('PayloadPointerDiviner', () => {
         .witness(await account)
         .build()
       const payloads: Payload[] = [bw, (await payloadA).payload, (await payloadB).payload]
-      const payloadResponse = await insertPayload(archivist, payloads)
-      expect(payloadResponse.length).toBe(payloads.length)
+      for (const payload of payloads) {
+        await delay(2)
+        const payloadResponse = await insertPayload(archivist, payload)
+        expect(payloadResponse.length).toBe(1)
+      }
     })
     describe('single schema', () => {
       it.each([

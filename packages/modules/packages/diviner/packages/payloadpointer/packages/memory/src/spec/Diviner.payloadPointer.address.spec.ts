@@ -1,5 +1,6 @@
 import '@xylabs/vitest-extended'
 
+import { delay } from '@xylabs/delay'
 import { Account } from '@xyo-network/account'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import type { NodeInstance } from '@xyo-network/node-model'
@@ -44,10 +45,16 @@ describe('PayloadPointerDiviner', () => {
       const [bwG, payloadsG] = await getNewBoundWitness([await accountD])
       payloads.push(...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG)
       const boundWitnesses = [bwA, bwB, bwC, bwD, bwE, bwF, bwG]
-      const blockResponse = await insertBlock(archivist, boundWitnesses)
-      expect(blockResponse.length).toBe(boundWitnesses.length)
-      const payloadResponse = await insertPayload(archivist, payloads)
-      expect(payloadResponse.length).toBe(payloads.length)
+      for (const bw of boundWitnesses) {
+        await delay(2)
+        const payloadResponse = await insertBlock(archivist, bw)
+        expect(payloadResponse.length).toBe(1)
+      }
+      for (const payload of payloads) {
+        await delay(2)
+        const payloadResponse = await insertPayload(archivist, payload)
+        expect(payloadResponse.length).toBe(1)
+      }
     })
     describe('single address', () => {
       it.each([

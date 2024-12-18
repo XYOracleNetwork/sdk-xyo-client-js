@@ -32,7 +32,6 @@
     "@xylabs/arraybuffer": "^4.4.21",
     "@xylabs/assert": "^4.4.21",
     "@xylabs/hex": "^4.4.21",
-    "@xylabs/object": "^4.4.21",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/hash": "workspace:^",

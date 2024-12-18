@@ -2,11 +2,9 @@ import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import type { Address, Hash } from '@xylabs/hex'
 import { hexFromArrayBuffer } from '@xylabs/hex'
-import type { EmptyObject } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type {
   BoundWitness,
-  BoundWitnessMeta,
   Signed,
   UnsignedBoundWitness,
 } from '@xyo-network/boundwitness-model'
@@ -20,7 +18,6 @@ import {
 } from '@xyo-network/payload-builder'
 import type {
   ModuleError, Payload, Schema,
-  WithOptionalSchema,
   WithoutMeta,
   WithoutSchema,
 } from '@xyo-network/payload-model'
@@ -28,15 +25,6 @@ import { Mutex } from 'async-mutex'
 
 export const GeneratedBoundWitnessFields = ['addresses', 'payload_hashes', 'payload_schemas', 'previous_hashes'] as const
 export type GeneratedBoundWitnessFields = typeof GeneratedBoundWitnessFields[number]
-
-export interface BoundWitnessBuilderOptions<TFields extends EmptyObject = EmptyObject, TPayload extends Payload = Payload>
-  extends PayloadBuilderOptions<Omit<Omit<UnsignedBoundWitness, GeneratedBoundWitnessFields>, 'schema'> & { schema?: Schema } & TFields> {
-  readonly accounts?: AccountInstance[]
-  readonly payloadHashes?: UnsignedBoundWitness['payload_hashes']
-  readonly payloadSchemas?: UnsignedBoundWitness['payload_schemas']
-  readonly payloads?: TPayload[]
-  readonly timestamp?: number
-}
 
 const uniqueAccounts = (accounts: AccountInstance[], throwOnFalse = false) => {
   const addresses = new Set<Address>()
@@ -54,30 +42,21 @@ const uniqueAccounts = (accounts: AccountInstance[], throwOnFalse = false) => {
 
 export class BoundWitnessBuilder<
   TBoundWitness extends UnsignedBoundWitness = UnsignedBoundWitness,
-  TPayload extends Payload = Payload,
-  TOptions extends BoundWitnessBuilderOptions<TBoundWitness, TPayload> = BoundWitnessBuilderOptions<TBoundWitness, TPayload>>
+  TPayload extends Payload = Payload>
   extends PayloadBuilderBase<
-    TBoundWitness,
-    TOptions
+    TBoundWitness
   > {
   private static readonly _buildMutex = new Mutex()
-  private _accounts: AccountInstance[]
+
+  private _accounts: AccountInstance[] = []
   private _errorHashes?: Hash[]
   private _errors: ModuleError[] = []
   private _payloadHashes?: Hash[]
   private _payloadSchemas?: Schema[]
-  private _payloads: TPayload[]
-  private _sourceQuery?: Hash
+  private _payloads: TPayload[] = []
 
-  constructor(options?: WithOptionalSchema<TOptions>) {
-    super({ ...options, schema: options?.schema ?? BoundWitnessSchema } as TOptions)
-    const {
-      accounts, payloadHashes, payloadSchemas, payloads,
-    } = options ?? {}
-    this._accounts = accounts ?? []
-    this._payloadHashes = payloadHashes
-    this._payloadSchemas = payloadSchemas
-    this._payloads = payloads ?? []
+  constructor(options?: Omit<PayloadBuilderOptions, 'schema'>) {
+    super({ ...options, schema: BoundWitnessSchema })
   }
 
   protected get addresses(): Address[] {
@@ -108,10 +87,6 @@ export class BoundWitnessBuilder<
       throw new Error('Invalid address')
     }
     return index
-  }
-
-  static async build<TBoundWitness extends BoundWitness>(options: WithOptionalSchema<BoundWitnessBuilderOptions<TBoundWitness>>) {
-    return await new BoundWitnessBuilder<TBoundWitness>(options).build()
   }
 
   static previousHash<T extends BoundWitness>(boundWitness: T, address: Address) {
@@ -151,10 +126,9 @@ export class BoundWitnessBuilder<
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
       const dataHashableFields = (await this.dataHashableFields()) as TBoundWitness
       const $signatures = await this.sign()
-      const metaFields = this.metaFields()
 
       const ret = {
-        ...metaFields, ...dataHashableFields, $signatures,
+        ...this._meta, ...dataHashableFields, $signatures,
       } as Signed<TBoundWitness>
       return [
         ret,
@@ -220,10 +194,6 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  metaFields(): BoundWitnessMeta {
-    return { $sourceQuery: this._sourceQuery }
-  }
-
   payload(payload?: TPayload) {
     assertEx(this._payloadHashes === undefined, () => 'Can not set payloads when hashes already set')
     if (payload) {
@@ -255,7 +225,10 @@ export class BoundWitnessBuilder<
   }
 
   sourceQuery(sourceQuery: Hash) {
-    this._sourceQuery = sourceQuery
+    this._meta = {
+      ...this._meta,
+      $sourceQuery: sourceQuery,
+    } as typeof this._meta
     return this
   }
 

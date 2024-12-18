@@ -10,12 +10,10 @@ import {
 } from '@xyo-network/payload-model'
 
 import { PayloadBuilderBase } from './BuilderBase.ts'
-import type { PayloadBuilderOptions } from './Options.ts'
 
 export class PayloadBuilder<
   T extends Payload = Payload<AnyObject>,
-  O extends PayloadBuilderOptions<T> = PayloadBuilderOptions<T>,
-> extends PayloadBuilderBase<T, O> {
+> extends PayloadBuilderBase<T> {
   static async addHashMeta<T extends Payload>(payload: T): Promise<WithHashMeta<T>>
   static async addHashMeta<T extends Payload>(payloads: T[]): Promise<WithHashMeta<T>[]>
   static async addHashMeta<T extends Payload>(payloads: T | T[]): Promise<WithHashMeta<T>[] | WithHashMeta<T>> {

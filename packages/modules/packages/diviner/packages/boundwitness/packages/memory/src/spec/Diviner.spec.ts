@@ -45,15 +45,15 @@ describe('MemoryBoundWitnessDiviner', () => {
   const bws: BoundWitness[] = []
   beforeAll(async () => {
     const account = await Account.random()
-    const [bwA] = await BoundWitnessBuilder.build({ accounts: [account], payloads: [payloadA] })
+    const [bwA] = await new BoundWitnessBuilder().signers([account]).payloads([payloadA]).build()
     bws.push(bwA)
-    const [bwB] = await BoundWitnessBuilder.build({ accounts: [account], payloads: [payloadB] })
+    const [bwB] = await new BoundWitnessBuilder().signers([account]).payloads([payloadB]).build()
     bws.push(bwB)
-    const [bwC] = await BoundWitnessBuilder.build({ accounts: [account], payloads: [payloadC] })
+    const [bwC] = await new BoundWitnessBuilder().signers([account]).payloads([payloadC]).build()
     bws.push(bwC)
-    const [bwD] = await BoundWitnessBuilder.build({ accounts: [account], payloads: [payloadD] })
+    const [bwD] = await new BoundWitnessBuilder().signers([account]).payloads([payloadD]).build()
     bws.push(bwD)
-    const [bwAB] = await BoundWitnessBuilder.build({ accounts: [account], payloads: [payloadA, payloadB] })
+    const [bwAB] = await new BoundWitnessBuilder().signers([account]).payloads([payloadA, payloadB]).build()
     bws.push(bwAB)
 
     archivist = await MemoryArchivist.create({

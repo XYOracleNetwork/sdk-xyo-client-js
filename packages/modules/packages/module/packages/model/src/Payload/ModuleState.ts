@@ -1,3 +1,4 @@
+import { AsObjectFactory } from '@xylabs/object'
 import type { Payload, WithSources } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources } from '@xyo-network/payload-model'
 
@@ -20,3 +21,5 @@ export const isModuleState = <T extends StateDictionary = StateDictionary>(paylo
 export const isModuleStateWithSources = <T extends StateDictionary = StateDictionary>(payload?: unknown): payload is WithSources<ModuleState<T>> => {
   return isPayloadOfSchemaTypeWithSources<ModuleState<T>>(ModuleStateSchema)(payload)
 }
+
+export const asModuleState = AsObjectFactory.create<ModuleState<StateDictionary>>(isModuleState)

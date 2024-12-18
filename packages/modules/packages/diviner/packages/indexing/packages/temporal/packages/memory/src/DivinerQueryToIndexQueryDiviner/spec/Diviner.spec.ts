@@ -10,7 +10,7 @@ import {
 } from '@xyo-network/diviner-temporal-indexing-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType, SequenceConstants } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,

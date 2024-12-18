@@ -173,10 +173,12 @@ describe('IndexedDbBoundWitnessDiviner', () => {
   describe('with cursor', () => {
     describe('when ascending order', () => {
       it('returns payloads from the beginning', async () => {
-        for (const [i, boundWitness] of boundWitnesses.entries()) {
+        const iterator = boundWitnesses.entries()
+        iterator.next()
+        for (const [i, boundWitness] of iterator) {
           const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
             .fields({
-              limit: 1, cursor: boundWitnesses[i]._sequence, order: 'asc',
+              limit: 1, cursor: boundWitnesses[i - 1]._sequence, order: 'asc',
             })
             .build()
           const results = await sut.divine([query])

@@ -29,10 +29,10 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/browser/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.4.21",
-    "@xylabs/assert": "^4.4.21",
-    "@xylabs/exists": "^4.4.21",
-    "@xylabs/object": "^4.4.21",
+    "@xylabs/array": "^4.4.23",
+    "@xylabs/assert": "^4.4.23",
+    "@xylabs/exists": "^4.4.23",
+    "@xylabs/object": "^4.4.23",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
@@ -43,10 +43,10 @@
     "idb": "^8.0.1"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.4.21",
+    "@xylabs/delay": "^4.4.23",
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
-    "@xylabs/vitest-extended": "^4.4.21",
+    "@xylabs/vitest-extended": "^4.4.23",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",

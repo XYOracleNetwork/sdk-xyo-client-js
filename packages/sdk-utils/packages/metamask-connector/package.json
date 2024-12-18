@@ -30,7 +30,7 @@
   "types": "dist/browser/index.d.ts",
   "dependencies": {
     "@metamask/providers": "^18.3.0",
-    "@xylabs/forget": "^4.4.21",
+    "@xylabs/forget": "^4.4.23",
     "ethers": "6.13.4"
   },
   "devDependencies": {

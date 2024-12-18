@@ -311,7 +311,7 @@ describe('MemoryNode', () => {
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
       it('clone-all', async () => {
-        const newNode = await MemoryNodeHelper.attachToNewNode(node, '*')
+        const newNode = await MemoryNodeHelper.attachToNewNode(node, '*', { config: { schema: NodeConfigSchema } })
         const newNodeChildren = await newNode.publicChildren()
         const nodeChildren = await node.publicChildren()
         expect(newNodeChildren.length).toEqual(nodeChildren.length)
@@ -322,7 +322,7 @@ describe('MemoryNode', () => {
         await node.register(mod)
         await node.attach(mod.address, true)
 
-        const newNode = await MemoryNodeHelper.attachToNewNode(node, 'CloneModule')
+        const newNode = await MemoryNodeHelper.attachToNewNode(node, 'CloneModule', { config: { schema: NodeConfigSchema } })
         const newNodeChild = await newNode.resolve('CloneModule')
         const nodeChild = await node.resolve('CloneModule', { maxDepth: 1 })
         expect(newNodeChild?.id).toEqual(nodeChild?.id)
@@ -336,7 +336,7 @@ describe('MemoryNode', () => {
 
         try {
           // this should except
-          await MemoryNodeHelper.attachToNewNode(node, 'CloneModulePrivate')
+          await MemoryNodeHelper.attachToNewNode(node, 'CloneModulePrivate', { config: { schema: NodeConfigSchema } })
           expect(false).toBeTrue()
         } catch (e) {
           expect(e).toBeInstanceOf(Error)

@@ -10,7 +10,7 @@ import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import { isTemporalIndexingDivinerResultIndex, isTemporalIndexingDivinerResultIndexWithMeta } from '@xyo-network/diviner-temporal-indexing-model'
+import { isTemporalIndexingDivinerResultIndex } from '@xyo-network/diviner-temporal-indexing-model'
 import type { PackageManifestPayload } from '@xyo-network/manifest'
 import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
@@ -180,9 +180,9 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
       it('returns the most recent result', async () => {
         const query: Query = { schema, url }
         const results = await sut.divine([query])
-        const result = results.find(isTemporalIndexingDivinerResultIndexWithMeta)
+        const result = results.find(isTemporalIndexingDivinerResultIndex)
         expect(result).toBeDefined()
-        const payload = assertEx((await witnessedThumbnails).at(-1))
+        const payload = assertEx((witnessedThumbnails).at(-1))
         const expected = await PayloadBuilder.dataHash(payload)
         expect(result?.sources).toContain(expected)
       })
@@ -196,7 +196,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
             schema, status, url,
           }
           const results = await sut.divine([query])
-          const result = results.find(isTemporalIndexingDivinerResultIndexWithMeta)
+          const result = results.find(isTemporalIndexingDivinerResultIndex)
           expect(result).toBeDefined()
           const expected = await PayloadBuilder.dataHash(payload)
           expect(result?.sources).toContain(expected)

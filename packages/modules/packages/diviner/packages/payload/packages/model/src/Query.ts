@@ -1,4 +1,4 @@
-import type { EmptyObject } from '@xylabs/object'
+import { AsObjectFactory, type EmptyObject } from '@xylabs/object'
 import { isPayloadOfSchemaType, type Query } from '@xyo-network/payload-model'
 
 import type { PayloadDivinerPredicate } from './Predicate.ts'
@@ -10,4 +10,7 @@ export const PayloadDivinerQuerySchema: PayloadDivinerQuerySchema = `${PayloadDi
 export type PayloadDivinerQueryPayload<T extends EmptyObject = EmptyObject> = Query<
   { schema: PayloadDivinerQuerySchema } & PayloadDivinerPredicate<T>
 >
+
 export const isPayloadDivinerQueryPayload = isPayloadOfSchemaType(PayloadDivinerQuerySchema)
+
+export const asPayloadDivinerQueryPayload = AsObjectFactory.create(isPayloadDivinerQueryPayload)

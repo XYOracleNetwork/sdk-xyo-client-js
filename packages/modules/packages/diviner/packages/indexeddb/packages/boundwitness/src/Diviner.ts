@@ -11,7 +11,6 @@ import type {
 } from '@xyo-network/payload-model'
 import type { IDBPCursorWithValue, IDBPDatabase } from 'idb'
 import { openDB } from 'idb'
-import { B } from 'vitest/dist/chunks/benchmark.geERunq4.js'
 
 import { IndexedDbBoundWitnessDivinerConfigSchema } from './Config.ts'
 import type { IndexedDbBoundWitnessDivinerParams } from './Params.ts'

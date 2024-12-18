@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'

@@ -1,8 +1,5 @@
 /* eslint-disable complexity */
 /* eslint-disable max-statements */
-/**
- * @jest-environment jsdom
- */
 
 import { delay } from '@xylabs/delay'
 import type { Hash } from '@xylabs/hex'

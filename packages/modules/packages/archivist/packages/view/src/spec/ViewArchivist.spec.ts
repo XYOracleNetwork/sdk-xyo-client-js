@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { MemoryNode } from '@xyo-network/node-memory'

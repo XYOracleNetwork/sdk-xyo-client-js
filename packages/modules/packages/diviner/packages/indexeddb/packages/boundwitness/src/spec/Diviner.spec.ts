@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import '@xylabs/vitest-extended'
 
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
@@ -124,7 +121,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
           ['network.xyo.test', 'network.xyo.debug'],
           ['network.xyo.test', 'network.xyo.debug'],
         ])('returns only bound witnesses with payload_schemas that contain the all the schemas', async (...payload_schemas) => {
-          const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+          const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
             .fields({ payload_schemas })
             .build()
           const results = await sut.divine([query])

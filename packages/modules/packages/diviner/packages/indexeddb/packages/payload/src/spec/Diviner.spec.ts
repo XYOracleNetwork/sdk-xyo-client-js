@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 /// <reference lib="dom" />
 /* eslint-disable max-nested-callbacks */
 

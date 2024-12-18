@@ -46,9 +46,6 @@ describe('MemoryNode', () => {
     testAccount2 = await HDWallet.fromPhrase('siren tenant achieve enough tone roof album champion tiny civil lottery hundred')
     testAccount3 = await HDWallet.fromPhrase('person wheat floor tumble pond develop sauce attract neither toilet build enrich')
     testAccount4 = await HDWallet.fromPhrase('kit sound script century margin into guilt region engine garment lab rifle')
-    // jest.spyOn(console, 'log').mockImplementation(() => {
-    // Stop expected logs from being generated during tests
-    // })
   })
   beforeEach(async () => {
     const nodeModule = await MemoryNode.create({ account: testAccount1, config: nodeConfig })

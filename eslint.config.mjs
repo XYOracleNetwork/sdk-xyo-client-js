@@ -12,7 +12,6 @@ export default [
   {
     ignores: [
       '.yarn/**',
-      'jest.config.cjs',
       '**/dist/**',
       'dist',
       'build/**',

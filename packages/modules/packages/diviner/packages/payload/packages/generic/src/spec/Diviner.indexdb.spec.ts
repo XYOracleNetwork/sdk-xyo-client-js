@@ -1,5 +1,3 @@
-/** @jest-environment jsdom */
-
 import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'

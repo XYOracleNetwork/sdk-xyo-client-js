@@ -2,22 +2,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Jest",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
-      "args": [
-        "--forceExit",
-        "--runInBand",
-        "--testTimeout=120000",
-        "packages/protocol/packages/boundwitness/packages/validator/src/lib/addresses/spec/addressesContainsAll.spec.ts"
-      ],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "cwd": "${workspaceFolder}",
-      "envFile": "${workspaceFolder}/.env"
-    },
-    {
       "name": "Vite",
       "request": "launch",
       "type": "node",

@@ -32,7 +32,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 10,
-          cursor: SequenceConstants.maxLocalSequence,
           order: 'asc',
           schema: PayloadDivinerQuerySchema,
         },
@@ -40,14 +39,12 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       const expected: PayloadDivinerQueryPayload[] = [
         {
           limit: 1,
-          cursor: SequenceConstants.minLocalSequence,
           order: 'desc',
           schema: 'network.xyo.diviner.payload.query',
           schemas: [TemporalIndexingDivinerResultIndexSchema],
         } as unknown as PayloadDivinerQueryPayload,
         {
           limit: 10,
-          cursor: SequenceConstants.maxLocalSequence,
           order: 'asc',
           schema: 'network.xyo.diviner.payload.query',
           schemas: [TemporalIndexingDivinerResultIndexSchema],
@@ -85,7 +82,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 10,
-          cursor: SequenceConstants.maxLocalSequence,
           order: 'asc',
           schema: divinerQuerySchema,
           status: 200,
@@ -98,7 +94,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
           url,
         },
         {
-          cursor: SequenceConstants.maxLocalSequence,
           schema: divinerQuerySchema,
           url,
         },

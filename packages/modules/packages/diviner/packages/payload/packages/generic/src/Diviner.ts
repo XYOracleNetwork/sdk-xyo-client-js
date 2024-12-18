@@ -1,17 +1,17 @@
+import { filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
-import { type Hash, type Hex } from '@xylabs/hex'
-import { type EmptyObject } from '@xylabs/object'
+import { type Hex } from '@xylabs/hex'
 import type { ArchivistInstance, ArchivistModuleEventData } from '@xyo-network/archivist-model'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
-import type {
-  Order,
-  PayloadDivinerConfig,
-  PayloadDivinerParams,
-  PayloadDivinerQueryPayload,
+import {
+  asPayloadDivinerQueryPayload,
+  type Order,
+  type PayloadDivinerConfig,
+  type PayloadDivinerParams,
+  type PayloadDivinerQueryPayload,
 } from '@xyo-network/diviner-payload-model'
-import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import type { EventListener } from '@xyo-network/module-events'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
@@ -35,7 +35,7 @@ export type GenericPayloadDivinerConfig = PayloadDivinerConfig<
 
 export class GenericPayloadDiviner<
   TParams extends PayloadDivinerParams<GenericPayloadDivinerConfig> = PayloadDivinerParams<GenericPayloadDivinerConfig>,
-  TIn extends PayloadDivinerQueryPayload<EmptyObject, Hash> = PayloadDivinerQueryPayload<EmptyObject, Hash>,
+  TIn extends PayloadDivinerQueryPayload = PayloadDivinerQueryPayload,
   TOut extends WithStorageMeta<Payload> = WithStorageMeta<Payload>,
   TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
     DivinerInstance<TParams, TIn, TOut>,
@@ -97,11 +97,9 @@ export class GenericPayloadDiviner<
   }
 
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
-    const filters = payloads?.filter(isPayloadDivinerQueryPayload) ?? []
+    const filters = filterAs(payloads ?? [], asPayloadDivinerQueryPayload)
     assertEx(filters.length < 2, () => 'Multiple PayloadDivinerQuery payloads may not be specified')
-    const filter = assertEx(filters.shift(), () => 'No PayloadDivinerQuery specified') as unknown as
-      PayloadDivinerQueryPayload<EmptyObject, Hash>
-
+    const filter = assertEx(filters.shift(), () => 'No PayloadDivinerQuery specified') as PayloadDivinerQueryPayload
     await this.updateIndex()
 
     const {

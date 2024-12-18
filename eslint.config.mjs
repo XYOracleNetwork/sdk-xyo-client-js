@@ -27,10 +27,7 @@ export default [
   rulesConfig,
   {
     ...typescriptConfig,
-    rules: {
-      ...typescriptConfig.rules,
-      '@typescript-eslint/consistent-type-imports': ['warn'],
-    },
+    rules: { ...typescriptConfig.rules },
   },
   {
     rules: {

@@ -6,7 +6,9 @@ import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitnes
 import type { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import type { PayloadSearchCriteria, PointerPayload } from '@xyo-network/diviner-payload-pointer-model'
+import type {
+  PayloadRule, PayloadSearchCriteria, PointerPayload,
+} from '@xyo-network/diviner-payload-pointer-model'
 import { isBoundWitnessPointer } from '@xyo-network/diviner-payload-pointer-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -43,7 +45,8 @@ export const findPayload = async (
   payloadDiviner: PayloadDiviner,
   pointer: PointerPayload,
 ): Promise<Payload | undefined> => {
-  const searchCriteria = combineRules(pointer.reference)
+  const reference = pointer.reference as PayloadRule[][]
+  const searchCriteria = combineRules(reference)
   const { addresses } = searchCriteria
   const findWitnessedPayload = addresses?.length
   const returnBoundWitness = isBoundWitnessPointer(pointer)

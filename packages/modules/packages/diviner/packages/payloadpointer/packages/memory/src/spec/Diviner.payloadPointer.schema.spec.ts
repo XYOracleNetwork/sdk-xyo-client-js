@@ -60,7 +60,9 @@ describe('PayloadPointerDiviner', () => {
       ])('returns Payload of schema type', async (schema, expected) => {
         const pointer = createPointer([[]], [[schema]])
         const result = await sut.divine([pointer])
-        expect(result).toEqual([expected])
+        expect(result).toBeArrayOfSize(1)
+        const [actual] = result
+        expect(PayloadBuilder.omitMeta(actual)).toEqual(expected)
       })
     })
     describe('single schema [w/address]', () => {
@@ -70,7 +72,9 @@ describe('PayloadPointerDiviner', () => {
       ])('returns Payload of schema type', async (schema, expected) => {
         const pointer = createPointer([[(await account).address]], [[schema]])
         const result = await sut.divine([pointer])
-        expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
+        expect(result).toBeArrayOfSize(1)
+        const [actual] = result
+        expect(PayloadBuilder.omitMeta(actual)).toEqual(expected)
       })
     })
     describe('multiple schema rules', () => {

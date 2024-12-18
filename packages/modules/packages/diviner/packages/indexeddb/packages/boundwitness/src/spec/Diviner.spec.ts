@@ -196,12 +196,13 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     })
     describe('when descending order', () => {
       it('returns payloads from the end', async () => {
-        const iterator = [...boundWitnesses.entries()].reverse()[Symbol.iterator]()
+        const descendingBoundWitnesses = [...boundWitnesses].reverse()
+        const iterator = [...descendingBoundWitnesses.entries()][Symbol.iterator]()
         iterator.next()
         for (const [i, boundWitness] of iterator) {
           const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
             .fields({
-              limit: 1, cursor: boundWitnesses[i - 1]._sequence, order: 'desc',
+              limit: 1, cursor: descendingBoundWitnesses[i - 1]._sequence, order: 'desc',
             })
             .build()
           const results = await sut.divine([query])

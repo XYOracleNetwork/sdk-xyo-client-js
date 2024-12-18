@@ -1,3 +1,3 @@
 export * from './PayloadAddressRule.ts'
 export * from './PayloadSchemaRule.ts'
-export * from './PayloadTimestampDirectionRule.ts'
+export * from './PayloadSequenceOrderRule.ts'

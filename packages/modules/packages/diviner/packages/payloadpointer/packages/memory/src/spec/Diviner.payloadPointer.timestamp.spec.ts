@@ -59,18 +59,18 @@ describe('PayloadPointerDiviner', () => {
     })
     it('ascending', async () => {
       const expected = assertEx(payloads.at(0))
-      const pointer = await createPointer([[account.address]], [[expectedSchema]], 0, 'asc')
+      const pointer = createPointer([[account.address]], [[expectedSchema]], 'asc')
       const result = await sut.divine([pointer])
       expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
     })
     it('descending', async () => {
       const expected = assertEx(payloads.at(-1))
-      const pointer = await createPointer([[account.address]], [[expectedSchema]], Date.now(), 'desc')
+      const pointer = createPointer([[account.address]], [[expectedSchema]], 'desc')
       const result = await sut.divine([pointer])
       expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
     })
     it('no matching timestamp', async () => {
-      const pointer = await createPointer([[account.address]], [[expectedSchema]], Date.now(), 'asc')
+      const pointer = createPointer([[account.address]], [[expectedSchema]], 'asc')
       const result = await sut.divine([pointer])
       expect(result).toEqual([])
     })

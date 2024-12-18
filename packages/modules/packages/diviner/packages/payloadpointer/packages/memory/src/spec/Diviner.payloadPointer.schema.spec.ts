@@ -65,7 +65,7 @@ describe('PayloadPointerDiviner', () => {
         [schemaA, payloadA],
         [schemaB, payloadB],
       ])('returns Payload of schema type', async (schema, expected) => {
-        const pointer = await createPointer([[]], [[schema]])
+        const pointer = createPointer([[]], [[schema]])
         const result = await sut.divine([pointer])
         expect(result).toEqual([(await expected).payload])
       })
@@ -75,7 +75,7 @@ describe('PayloadPointerDiviner', () => {
         [schemaA, payloadA],
         [schemaB, payloadB],
       ])('returns Payload of schema type', async (schema, expected) => {
-        const pointer = await createPointer([[(await account).address]], [[schema]])
+        const pointer = createPointer([[(await account).address]], [[schema]])
         const result = await sut.divine([pointer])
         expect(PayloadBuilder.omitStorageMeta(result)).toEqual([(await expected).payload])
       })
@@ -83,7 +83,7 @@ describe('PayloadPointerDiviner', () => {
     describe('multiple schema rules', () => {
       describe('combined serially', () => {
         it('returns Payload of either schema', async () => {
-          const pointer = await createPointer([[]], [[(await payloadA).schema(), (await payloadB).schema()]])
+          const pointer = createPointer([[]], [[(await payloadA).schema(), (await payloadB).schema()]])
           const results = await sut.divine([pointer])
           expect(results).toBeDefined()
           expect(results).toBeArrayOfSize(1)
@@ -94,7 +94,7 @@ describe('PayloadPointerDiviner', () => {
       })
       describe('combined serially [w/address]', () => {
         it('returns Payload of either schema', async () => {
-          const pointer = await createPointer([[(await account).address]], [[(await payloadA).schema(), (await payloadB).schema()]])
+          const pointer = createPointer([[(await account).address]], [[(await payloadA).schema(), (await payloadB).schema()]])
           const results = await sut.divine([pointer])
           expect(results).toBeDefined()
           expect(results).toBeArrayOfSize(1)
@@ -105,7 +105,7 @@ describe('PayloadPointerDiviner', () => {
       })
       describe('combined in parallel', () => {
         it('returns Payload of either schema', async () => {
-          const pointer = await createPointer([[]], [[(await payloadA).schema()], [(await payloadB).schema()]])
+          const pointer = createPointer([[]], [[(await payloadA).schema()], [(await payloadB).schema()]])
           const results = await sut.divine([pointer])
           expect(results).toBeDefined()
           expect(results).toBeArrayOfSize(1)
@@ -116,7 +116,7 @@ describe('PayloadPointerDiviner', () => {
       })
       describe('combined in parallel [w/address]', () => {
         it('returns Payload of either schema', async () => {
-          const pointer = await createPointer([[(await account).address]], [[(await payloadA).schema()], [(await payloadB).schema()]])
+          const pointer = createPointer([[(await account).address]], [[(await payloadA).schema()], [(await payloadB).schema()]])
           const results = await sut.divine([pointer])
           expect(results).toBeDefined()
           expect(results).toBeArrayOfSize(1)
@@ -127,7 +127,7 @@ describe('PayloadPointerDiviner', () => {
       })
     })
     it('no matching schema', async () => {
-      const pointer = await createPointer([[(await account).address]], [['network.xyo.test']])
+      const pointer = createPointer([[(await account).address]], [['network.xyo.test']])
       const results = await sut.divine([pointer])
       expect(results).toBeDefined()
       expect(results).toBeEmpty()

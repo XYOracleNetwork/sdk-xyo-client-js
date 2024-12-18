@@ -17,7 +17,7 @@ const limit = 1
 
 const createBoundWitnessFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): BoundWitnessDivinerQueryPayload[] => {
   const {
-    addresses, order = 'desc', schemas, timestamp,
+    addresses, order = 'desc', schemas,
   } = searchCriteria
   const query: BoundWitnessDivinerQueryPayload = {
     addresses,
@@ -25,17 +25,14 @@ const createBoundWitnessFilterFromSearchCriteria = (searchCriteria: PayloadSearc
     order,
     payload_schemas: schemas,
     schema: BoundWitnessDivinerQuerySchema,
-    timestamp,
   }
   return [query]
 }
 
 const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): Payload[] => {
-  const {
-    order = 'desc', schemas, timestamp,
-  } = searchCriteria
+  const { order = 'desc', schemas } = searchCriteria
   const query: PayloadDivinerQueryPayload = {
-    limit, order, schema: PayloadDivinerQuerySchema, schemas, timestamp,
+    limit, order, schema: PayloadDivinerQuerySchema, schemas,
   }
   return [query]
 }

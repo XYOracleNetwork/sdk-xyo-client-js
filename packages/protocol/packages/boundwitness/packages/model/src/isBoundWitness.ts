@@ -16,8 +16,6 @@ export const isUnsignedBoundWitness = (value: unknown): value is UnsignedBoundWi
   isPayloadOfSchemaType<UnsignedBoundWitness>(BoundWitnessSchema)(value)
 export const notBoundWitness = notPayloadOfSchemaType<BoundWitness>(BoundWitnessSchema)
 
+// TODO: Use AsObjectFactory here to match standard patter
 export const asBoundWitness = <T extends BoundWitness<{ schema: string }> = BoundWitness>(payload?: unknown) =>
   isBoundWitness(payload) ? (payload as T) : undefined
-
-/** @deprecated use isBoundWitness instead */
-export const isBoundWitnessPayload = isBoundWitness

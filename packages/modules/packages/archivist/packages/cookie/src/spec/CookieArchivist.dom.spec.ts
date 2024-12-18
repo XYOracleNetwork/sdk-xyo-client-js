@@ -1,3 +1,7 @@
+/**
+ * @vitest-environment jsdom
+ */
+
 import { delay } from '@xylabs/delay'
 import type { Promisable } from '@xylabs/promise'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'

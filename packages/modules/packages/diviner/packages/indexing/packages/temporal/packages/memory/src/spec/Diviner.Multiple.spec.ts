@@ -1,12 +1,13 @@
 import '@xylabs/vitest-extended'
 
+import { filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
 import type { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { asBoundWitness } from '@xyo-network/boundwitness-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
@@ -15,7 +16,7 @@ import type { PackageManifestPayload } from '@xyo-network/manifest'
 import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { Labels } from '@xyo-network/module-model'
-import { isModuleState } from '@xyo-network/module-model'
+import { asModuleState } from '@xyo-network/module-model'
 import type { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
@@ -124,7 +125,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
     })
     it('has expected bound witnesses', async () => {
       const payloads = await stateArchivist.all()
-      const stateBoundWitnesses = payloads.filter(isBoundWitness)
+      const stateBoundWitnesses = filterAs(payloads, asBoundWitness)
       expect(stateBoundWitnesses).toBeArrayOfSize(2)
       for (const stateBoundWitness of stateBoundWitnesses) {
         expect(stateBoundWitness).toBeObject()
@@ -134,7 +135,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
     })
     it('has expected state', async () => {
       const payloads = await stateArchivist.all()
-      const statePayloads = payloads.filter(isModuleState)
+      const statePayloads = filterAs(payloads, asModuleState)
       expect(statePayloads).toBeArrayOfSize(2)
       expect(statePayloads.at(-1)).toBeObject()
       const statePayload = assertEx(statePayloads.at(-1))
@@ -151,7 +152,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
     // NOTE: We're not signing indexes for performance reasons
     it.skip('has expected bound witnesses', async () => {
       const payloads = await indexArchivist.all()
-      const indexBoundWitnesses = payloads.filter(isBoundWitness)
+      const indexBoundWitnesses = filterAs(payloads, asBoundWitness)
       expect(indexBoundWitnesses).toBeArrayOfSize(1)
       const indexBoundWitness = indexBoundWitnesses[0]
       expect(indexBoundWitness).toBeObject()
@@ -161,7 +162,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
     it('has expected index', async () => {
       const payloads = await indexArchivist.all()
       const indexPayloads = payloads.filter(isTemporalIndexingDivinerResultIndex)
-      expect(indexPayloads).toBeArrayOfSize((await witnessedThumbnails).length)
+      expect(indexPayloads).toBeArrayOfSize((witnessedThumbnails).length)
     })
   })
   describe('with no thumbnail for the provided URL', () => {

@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.4.18",
-    "@xylabs/hex": "^4.4.18",
-    "@xylabs/timer": "^4.4.18",
+    "@xylabs/assert": "^4.4.19",
+    "@xylabs/hex": "^4.4.19",
+    "@xylabs/timer": "^4.4.19",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",

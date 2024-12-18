@@ -29,10 +29,10 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/browser/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.4.18",
-    "@xylabs/assert": "^4.4.18",
-    "@xylabs/exists": "^4.4.18",
-    "@xylabs/hex": "^4.4.18",
+    "@xylabs/array": "^4.4.19",
+    "@xylabs/assert": "^4.4.19",
+    "@xylabs/exists": "^4.4.19",
+    "@xylabs/hex": "^4.4.19",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -41,8 +41,8 @@
     "idb": "^8.0.1"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.4.18",
-    "@xylabs/object": "^4.4.18",
+    "@xylabs/delay": "^4.4.19",
+    "@xylabs/object": "^4.4.19",
     "@xylabs/ts-scripts-yarn3": "^4.2.4",
     "@xylabs/tsconfig": "^4.2.4",
     "@xyo-network/account": "workspace:^",

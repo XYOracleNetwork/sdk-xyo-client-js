@@ -5,14 +5,10 @@ import type {
 } from '@xyo-network/diviner-payload-pointer-model'
 import { SequenceConstants } from '@xyo-network/payload-model'
 import {
-  describe, expect, it, vi,
+  describe, expect, it,
 } from 'vitest'
 
 import { combineRules } from '../combineRules.ts'
-
-// Mock Date.now
-const now = Date.now()
-vi.spyOn(Date, 'now').mockReturnValue(now)
 
 const validRules = (): PayloadRule[][] => {
   return [

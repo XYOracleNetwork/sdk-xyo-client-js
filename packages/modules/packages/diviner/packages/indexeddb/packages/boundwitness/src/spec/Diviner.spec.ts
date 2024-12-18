@@ -1,13 +1,16 @@
 import '@xylabs/vitest-extended'
 
+import { filterAs } from '@xylabs/array'
+import { delay } from '@xylabs/delay'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { asBoundWitnessWithStorageMeta, isBoundWitness } from '@xyo-network/boundwitness-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import type { WithStorageMeta } from '@xyo-network/payload-model'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -61,12 +64,11 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     foo: ['bar', 'baz'],
     schema: 'network.xyo.debug',
   }
-  const boundWitnesses: BoundWitness[] = []
+  const boundWitnesses: WithStorageMeta<BoundWitness>[] = []
   beforeAll(async () => {
     const [boundWitnessA] = await (new BoundWitnessBuilder().payloads([payloadA])).build()
     const [boundWitnessB] = await (new BoundWitnessBuilder().payloads([payloadB])).build()
     const [boundWitnessC] = await (new BoundWitnessBuilder().payloads([payloadA, payloadB])).build()
-    boundWitnesses.push(boundWitnessA, boundWitnessB, boundWitnessC)
     archivist = await IndexedDbArchivist.create({
       account: 'random',
       config: {
@@ -74,6 +76,12 @@ describe('IndexedDbBoundWitnessDiviner', () => {
       },
     })
     await archivist.insert(boundWitnesses)
+    for (const bw of [boundWitnessA, boundWitnessB, boundWitnessC]) {
+      await delay(2)
+      const inserted = await archivist.insert([bw])
+      const insertedBws = filterAs(inserted, asBoundWitnessWithStorageMeta)
+      boundWitnesses.push(...insertedBws)
+    }
     sut = await IndexedDbBoundWitnessDiviner.create({
       account: 'random',
       config: {
@@ -168,7 +176,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
         for (const [i, boundWitness] of boundWitnesses.entries()) {
           const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
             .fields({
-              limit: 1, offset: i, order: 'asc',
+              limit: 1, cursor: boundWitnesses[i]._sequence, order: 'asc',
             })
             .build()
           const results = await sut.divine([query])
@@ -183,7 +191,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
         for (let i = 0; i < boundWitnesses.length; i++) {
           const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
             .fields({
-              limit: 1, offset: i, order: 'desc',
+              limit: 1, cursor: boundWitnesses[i]._sequence, order: 'desc',
             })
             .build()
           const results = await sut.divine([query])

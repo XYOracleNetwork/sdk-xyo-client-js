@@ -10,7 +10,7 @@
         "--run",
         "--inspect-brk",
         "--no-file-parallelism",
-        "packages/modules/packages/sentinel/packages/wrapper/src/spec/Sentinel.Wrapper.spec.ts"
+        "packages/modules/packages/diviner/packages/indexeddb/packages/boundwitness/src/spec/Diviner.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

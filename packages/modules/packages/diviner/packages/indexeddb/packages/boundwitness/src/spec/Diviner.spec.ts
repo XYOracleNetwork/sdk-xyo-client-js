@@ -2,15 +2,16 @@ import '@xylabs/vitest-extended'
 
 import { filterAs } from '@xylabs/array'
 import { delay } from '@xylabs/delay'
+import { AsObjectFactory } from '@xylabs/object'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { asBoundWitnessWithStorageMeta, isBoundWitness } from '@xyo-network/boundwitness-model'
+import { asBoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { WithStorageMeta } from '@xyo-network/payload-model'
+import { isStorageMeta, type WithStorageMeta } from '@xyo-network/payload-model'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -45,6 +46,8 @@ globalThis.IDBRequest = IDBRequest
 globalThis.IDBTransaction = IDBTransaction
 globalThis.IDBVersionChangeEvent = IDBVersionChangeEvent
 globalThis.indexedDB = indexedDB
+
+const asStorageMeta = AsObjectFactory.create(isStorageMeta)
 
 /**
  * @group module
@@ -82,8 +85,8 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     ] as const) {
       await delay(2)
       const inserted = await archivist.insert([bw, ...payloads])
-      const insertedBws = filterAs(inserted, asBoundWitnessWithStorageMeta)
-      boundWitnesses.push(...insertedBws)
+      const bwWithStorageMeta = filterAs(filterAs(inserted, asBoundWitness), asStorageMeta) as WithStorageMeta<BoundWitness>[]
+      boundWitnesses.push(...bwWithStorageMeta)
     }
     sut = await IndexedDbBoundWitnessDiviner.create({
       account: 'random',

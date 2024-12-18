@@ -6294,6 +6294,7 @@ __metadata:
     "@xylabs/assert": "npm:^4.4.23"
     "@xylabs/delay": "npm:^4.4.23"
     "@xylabs/exists": "npm:^4.4.23"
+    "@xylabs/object": "npm:^4.4.23"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.6"
     "@xylabs/tsconfig": "npm:^4.2.6"
     "@xylabs/vitest-extended": "npm:^4.4.23"

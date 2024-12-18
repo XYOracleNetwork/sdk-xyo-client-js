@@ -6,15 +6,18 @@ import { type BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-mod
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { type Schema, type Sequence } from '@xyo-network/payload-model'
+import type {
+  Schema, Sequence, WithStorageMeta,
+} from '@xyo-network/payload-model'
 import type { IDBPCursorWithValue, IDBPDatabase } from 'idb'
 import { openDB } from 'idb'
+import { B } from 'vitest/dist/chunks/benchmark.geERunq4.js'
 
 import { IndexedDbBoundWitnessDivinerConfigSchema } from './Config.ts'
 import type { IndexedDbBoundWitnessDivinerParams } from './Params.ts'
 
 interface BoundWitnessStore {
-  [s: string]: BoundWitness
+  [s: string]: WithStorageMeta<BoundWitness>
 }
 
 type ValueFilter = (bw?: BoundWitness | null) => boolean
@@ -95,7 +98,8 @@ export class IndexedDbBoundWitnessDiviner<
         // Skip records until the supplied cursor offset is reached
         while (dbCursor && currentSequence !== parsedCursor) {
           // Find the sequence of the current record
-          currentSequence = await dbCursor.value?.sequence
+          const current: WithStorageMeta<BoundWitness> = dbCursor.value
+          currentSequence = current?._sequence
           // Advance one record beyond the cursor
           dbCursor = await dbCursor.advance(1)
         }

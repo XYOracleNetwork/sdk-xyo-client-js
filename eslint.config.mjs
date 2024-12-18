@@ -30,13 +30,6 @@ export default [
     rules: {
       ...typescriptConfig.rules,
       '@typescript-eslint/consistent-type-imports': ['warn'],
-      'no-restricted-syntax': [
-        'warn',
-        {
-          selector: 'TSEnumDeclaration',
-          message: 'Enums are disallowed. Consider using a union of string literals or a `const` object instead.',
-        },
-      ],
     },
   },
   {

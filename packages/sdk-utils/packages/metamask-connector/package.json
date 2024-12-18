@@ -30,12 +30,12 @@
   "types": "dist/browser/index.d.ts",
   "dependencies": {
     "@metamask/providers": "^18.3.0",
-    "@xylabs/forget": "^4.4.19",
+    "@xylabs/forget": "^4.4.21",
     "ethers": "6.13.4"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.2.4",
-    "@xylabs/tsconfig-dom": "^4.2.4",
+    "@xylabs/ts-scripts-yarn3": "^4.2.6",
+    "@xylabs/tsconfig-dom": "^4.2.6",
     "typescript": "^5.7.2"
   },
   "publishConfig": {

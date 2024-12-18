@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.4.19",
+    "@xylabs/hex": "^4.4.21",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-range-model": "workspace:^",
@@ -37,9 +37,9 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.2.4",
-    "@xylabs/tsconfig": "^4.2.4",
-    "@xylabs/vitest-extended": "^4.4.19",
+    "@xylabs/ts-scripts-yarn3": "^4.2.6",
+    "@xylabs/tsconfig": "^4.2.6",
+    "@xylabs/vitest-extended": "^4.4.21",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   },

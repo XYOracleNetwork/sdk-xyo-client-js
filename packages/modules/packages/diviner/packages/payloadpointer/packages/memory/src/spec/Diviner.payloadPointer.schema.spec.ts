@@ -7,10 +7,8 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { NodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
-  beforeAll,
-  describe, expect, it,
+  beforeAll, describe, expect, it,
 } from 'vitest'
 
 import type { PayloadPointerDiviner } from '../Diviner.ts'
@@ -29,18 +27,13 @@ describe('PayloadPointerDiviner', () => {
     const account = Account.random()
     const schemaA = getTestSchemaName()
     const schemaB = getTestSchemaName()
-    const payloadBaseA = (async () => {
-      return {
-        ...(await getNewPayload()), schema: schemaA, timestamp: Date.now(),
-      }
-    })()
-    const payloadA: Promise<PayloadWrapper> = (async () => PayloadWrapper.wrap(await payloadBaseA))()
-    const payloadBaseB = (async () => {
-      return {
-        ...(await getNewPayload()), schema: schemaB, timestamp: Date.now(),
-      }
-    })()
-    const payloadB: Promise<PayloadWrapper> = (async () => PayloadWrapper.wrap(await payloadBaseB))()
+
+    const payloadA = {
+      ...getNewPayload(), schema: schemaA, salt: 1,
+    }
+    const payloadB = {
+      ...getNewPayload(), schema: schemaB, salt: 2,
+    }
     const schemas = [schemaA, schemaB]
     let node: NodeInstance
     let archivist: ArchivistInstance
@@ -50,10 +43,10 @@ describe('PayloadPointerDiviner', () => {
       archivist = await getArchivist(node)
       sut = await getPayloadPointerDiviner(node)
       const [bw] = await new BoundWitnessBuilder()
-        .payloads([(await payloadA).payload, (await payloadB).payload])
+        .payloads([payloadA, payloadB])
         .witness(await account)
         .build()
-      const payloads: Payload[] = [bw, (await payloadA).payload, (await payloadB).payload]
+      const payloads: Payload[] = [bw, payloadA, payloadB]
       for (const payload of payloads) {
         await delay(2)
         const payloadResponse = await insertPayload(archivist, payload)
@@ -65,9 +58,11 @@ describe('PayloadPointerDiviner', () => {
         [schemaA, payloadA],
         [schemaB, payloadB],
       ])('returns Payload of schema type', async (schema, expected) => {
-        const pointer = await createPointer([[]], [[schema]])
+        const pointer = createPointer([[]], [[schema]])
         const result = await sut.divine([pointer])
-        expect(result).toEqual([(await expected).payload])
+        expect(result).toBeArrayOfSize(1)
+        const [actual] = result
+        expect(PayloadBuilder.omitMeta(actual)).toEqual(expected)
       })
     })
     describe('single schema [w/address]', () => {
@@ -75,15 +70,17 @@ describe('PayloadPointerDiviner', () => {
         [schemaA, payloadA],
         [schemaB, payloadB],
       ])('returns Payload of schema type', async (schema, expected) => {
-        const pointer = await createPointer([[(await account).address]], [[schema]])
+        const pointer = createPointer([[(await account).address]], [[schema]])
         const result = await sut.divine([pointer])
-        expect(PayloadBuilder.omitStorageMeta(result)).toEqual([(await expected).payload])
+        expect(result).toBeArrayOfSize(1)
+        const [actual] = result
+        expect(PayloadBuilder.omitMeta(actual)).toEqual(expected)
       })
     })
     describe('multiple schema rules', () => {
       describe('combined serially', () => {
         it('returns Payload of either schema', async () => {
-          const pointer = await createPointer([[]], [[(await payloadA).schema(), (await payloadB).schema()]])
+          const pointer = createPointer([[]], [[payloadA.schema, payloadB.schema]])
           const results = await sut.divine([pointer])
           expect(results).toBeDefined()
           expect(results).toBeArrayOfSize(1)
@@ -94,7 +91,7 @@ describe('PayloadPointerDiviner', () => {
       })
       describe('combined serially [w/address]', () => {
         it('returns Payload of either schema', async () => {
-          const pointer = await createPointer([[(await account).address]], [[(await payloadA).schema(), (await payloadB).schema()]])
+          const pointer = createPointer([[(await account).address]], [[payloadA.schema, payloadB.schema]])
           const results = await sut.divine([pointer])
           expect(results).toBeDefined()
           expect(results).toBeArrayOfSize(1)
@@ -105,7 +102,7 @@ describe('PayloadPointerDiviner', () => {
       })
       describe('combined in parallel', () => {
         it('returns Payload of either schema', async () => {
-          const pointer = await createPointer([[]], [[(await payloadA).schema()], [(await payloadB).schema()]])
+          const pointer = createPointer([[]], [[payloadA.schema], [payloadB.schema]])
           const results = await sut.divine([pointer])
           expect(results).toBeDefined()
           expect(results).toBeArrayOfSize(1)
@@ -116,7 +113,7 @@ describe('PayloadPointerDiviner', () => {
       })
       describe('combined in parallel [w/address]', () => {
         it('returns Payload of either schema', async () => {
-          const pointer = await createPointer([[(await account).address]], [[(await payloadA).schema()], [(await payloadB).schema()]])
+          const pointer = createPointer([[(await account).address]], [[payloadA.schema], [payloadB.schema]])
           const results = await sut.divine([pointer])
           expect(results).toBeDefined()
           expect(results).toBeArrayOfSize(1)
@@ -127,7 +124,7 @@ describe('PayloadPointerDiviner', () => {
       })
     })
     it('no matching schema', async () => {
-      const pointer = await createPointer([[(await account).address]], [['network.xyo.test']])
+      const pointer = createPointer([[(await account).address]], [['network.xyo.test']])
       const results = await sut.divine([pointer])
       expect(results).toBeDefined()
       expect(results).toBeEmpty()

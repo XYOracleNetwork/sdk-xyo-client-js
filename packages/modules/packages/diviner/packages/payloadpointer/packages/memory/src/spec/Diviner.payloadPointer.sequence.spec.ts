@@ -7,7 +7,7 @@ import { Account } from '@xyo-network/account'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import type { NodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import { type Payload, SequenceConstants } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -25,7 +25,7 @@ import {
 } from './testUtil/index.ts'
 
 describe('PayloadPointerDiviner', () => {
-  describe('with rules for [timestamp]', () => {
+  describe('with rules for [sequence]', () => {
     let account: AccountInstance
     let payloads: Payload[]
     let expectedSchema: string
@@ -59,18 +59,18 @@ describe('PayloadPointerDiviner', () => {
     })
     it('ascending', async () => {
       const expected = assertEx(payloads.at(0))
-      const pointer = await createPointer([[account.address]], [[expectedSchema]], 0, 'asc')
+      const pointer = createPointer([[account.address]], [[expectedSchema]], 'asc')
       const result = await sut.divine([pointer])
       expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
     })
     it('descending', async () => {
       const expected = assertEx(payloads.at(-1))
-      const pointer = await createPointer([[account.address]], [[expectedSchema]], Date.now(), 'desc')
+      const pointer = createPointer([[account.address]], [[expectedSchema]], 'desc')
       const result = await sut.divine([pointer])
       expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
     })
-    it('no matching timestamp', async () => {
-      const pointer = await createPointer([[account.address]], [[expectedSchema]], Date.now(), 'asc')
+    it('no matching sequence', async () => {
+      const pointer = createPointer([[account.address]], [[expectedSchema]], 'asc', SequenceConstants.maxLocalSequence)
       const result = await sut.divine([pointer])
       expect(result).toEqual([])
     })

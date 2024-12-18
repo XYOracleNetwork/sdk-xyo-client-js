@@ -62,7 +62,7 @@ describe('PayloadPointerDiviner', () => {
         [accountB, () => payloads[1]],
       ])('returns Payload signed by address', async (account, getData) => {
         const expected = getData()
-        const pointer = await createPointer([[(await account).address]], [[expected.schema]])
+        const pointer = createPointer([[(await account).address]], [[expected.schema]])
         const result = await sut.divine([pointer])
         expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
       })
@@ -71,7 +71,7 @@ describe('PayloadPointerDiviner', () => {
       describe('combined serially', () => {
         it('returns Payload signed by both addresses', async () => {
           const expected = payloads[4]
-          const pointer = await createPointer([[(await accountC).address], [(await accountD).address]], [[expected.schema]])
+          const pointer = createPointer([[(await accountC).address], [(await accountD).address]], [[expected.schema]])
           const result = await sut.divine([pointer])
           expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
         })
@@ -79,14 +79,14 @@ describe('PayloadPointerDiviner', () => {
       describe('combined in parallel', () => {
         it('returns Payload signed by both address', async () => {
           const expected = payloads[4]
-          const pointer = await createPointer([[(await accountC).address, (await accountD).address]], [[expected.schema]])
+          const pointer = createPointer([[(await accountC).address, (await accountD).address]], [[expected.schema]])
           const result = await sut.divine([pointer])
           expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
         })
       })
     })
     it('no matching address', async () => {
-      const pointer = await createPointer([[(await Account.random()).address]], [[payloads[0].schema]])
+      const pointer = createPointer([[(await Account.random()).address]], [[payloads[0].schema]])
       const result = await sut.divine([pointer])
       expect(result).toEqual([])
     })

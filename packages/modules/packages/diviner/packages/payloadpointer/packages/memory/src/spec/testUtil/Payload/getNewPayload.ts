@@ -4,11 +4,11 @@ import { v4 as uuid } from 'uuid'
 
 import { schema } from './schema.ts'
 
-export const getNewPayload = async (): Promise<Payload> => {
+export const getNewPayload = (): Payload => {
   const fields = { schema: 'network.xyo.id', salt: uuid() }
-  return await new PayloadBuilder({ schema }).fields(fields).build()
+  return new PayloadBuilder({ schema }).fields(fields).build()
 }
 
-export const getNewPayloads = async (numPayloads: number) => {
-  return await Promise.all(Array.from({ length: numPayloads }).fill(0).map(getNewPayload))
+export const getNewPayloads = (numPayloads: number) => {
+  return Array.from({ length: numPayloads }).fill(0).map(getNewPayload)
 }

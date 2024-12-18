@@ -30,6 +30,7 @@
   "types": "dist/browser/index.d.ts",
   "dependencies": {
     "@xylabs/array": "^4.4.19",
+    "@xylabs/assert": "^4.4.21",
     "@xylabs/exists": "^4.4.19",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",

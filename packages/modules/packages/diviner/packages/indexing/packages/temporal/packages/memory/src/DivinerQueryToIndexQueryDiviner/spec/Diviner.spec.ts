@@ -10,7 +10,7 @@ import {
 } from '@xyo-network/diviner-temporal-indexing-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, SequenceConstants } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -32,7 +32,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 10,
-          offset: 10,
           order: 'asc',
           schema: PayloadDivinerQuerySchema,
         },
@@ -40,14 +39,12 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       const expected: PayloadDivinerQueryPayload[] = [
         {
           limit: 1,
-          offset: 0,
           order: 'desc',
           schema: 'network.xyo.diviner.payload.query',
           schemas: [TemporalIndexingDivinerResultIndexSchema],
         } as unknown as PayloadDivinerQueryPayload,
         {
           limit: 10,
-          offset: 10,
           order: 'asc',
           schema: 'network.xyo.diviner.payload.query',
           schemas: [TemporalIndexingDivinerResultIndexSchema],
@@ -85,7 +82,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 10,
-          offset: 10,
           order: 'asc',
           schema: divinerQuerySchema,
           status: 200,
@@ -98,7 +94,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
           url,
         },
         {
-          offset: 10,
           schema: divinerQuerySchema,
           url,
         },
@@ -126,7 +121,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       const expected = [
         {
           limit: 1,
-          offset: 0,
           order: 'desc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -134,7 +128,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 10,
-          offset: 10,
           order: 'asc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -144,7 +137,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 10,
-          offset: 0,
           order: 'desc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -152,7 +144,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 1,
-          offset: 10,
           order: 'desc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -160,7 +151,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 1,
-          offset: 0,
           order: 'asc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -168,7 +158,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 1,
-          offset: 0,
           order: 'desc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -177,7 +166,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 1,
-          offset: 0,
           order: 'desc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -186,7 +174,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 1,
-          offset: 0,
           order: 'desc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -207,9 +194,9 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
             sourcePathExpression: '$.limit',
           },
           {
-            defaultValue: 0,
-            destinationField: 'offset',
-            sourcePathExpression: '$.offset',
+            // defaultValue: 0,
+            destinationField: 'cursor',
+            sourcePathExpression: '$.cursor',
           },
           {
             defaultValue: 'desc',

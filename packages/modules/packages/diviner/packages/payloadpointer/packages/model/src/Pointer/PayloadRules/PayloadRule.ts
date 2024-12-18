@@ -1,5 +1,5 @@
 import type {
-  PayloadAddressRule, PayloadSchemaRule, PayloadTimestampOrderRule,
+  PayloadAddressRule, PayloadSchemaRule, PayloadSequenceOrderRule,
 } from './Rules/index.ts'
 
-export type PayloadRule = PayloadAddressRule | PayloadTimestampOrderRule | PayloadSchemaRule
+export type PayloadRule = PayloadAddressRule | PayloadSequenceOrderRule | PayloadSchemaRule

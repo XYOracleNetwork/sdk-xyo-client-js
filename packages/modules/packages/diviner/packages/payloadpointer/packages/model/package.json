@@ -29,6 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
+    "@xylabs/exists": "^4.4.19",
     "@xylabs/hex": "^4.4.19",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",

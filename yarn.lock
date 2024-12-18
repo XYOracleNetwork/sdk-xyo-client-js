@@ -5340,6 +5340,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/array@npm:^4.4.21":
+  version: 4.4.21
+  resolution: "@xylabs/array@npm:4.4.21"
+  dependencies:
+    "@xylabs/exists": "npm:^4.4.21"
+  checksum: 10/5a4e6f65d8c2a4d1337c438136bf02355ee0fb0fefad2e1d91122dbc35ddcdbc501fecc51fd9af2987e66afecab342633782c5f7bc8616b88cac2cb530191864
+  languageName: node
+  linkType: hard
+
 "@xylabs/arraybuffer@npm:^4.4.19":
   version: 4.4.19
   resolution: "@xylabs/arraybuffer@npm:4.4.19"
@@ -5354,6 +5363,13 @@ __metadata:
   version: 4.4.19
   resolution: "@xylabs/assert@npm:4.4.19"
   checksum: 10/2898babe083acf4067d1f93f3d6a6e1c47169ba3eef7232ad2cc4be0ccb431e021976eb260b50d79e34ab237b29a4ee7b32dd2c675c2db988c4e241ef38b24eb
+  languageName: node
+  linkType: hard
+
+"@xylabs/assert@npm:^4.4.21":
+  version: 4.4.21
+  resolution: "@xylabs/assert@npm:4.4.21"
+  checksum: 10/2d73ab45b5b81c96e44736ca7d1bf24922a897ed9d0d7be414a7d516ac4e0fed02715cebb8f81f749e249c4ad28631411236cb16561eb87b93a72fb899053c7b
   languageName: node
   linkType: hard
 
@@ -5410,6 +5426,13 @@ __metadata:
   version: 4.4.19
   resolution: "@xylabs/exists@npm:4.4.19"
   checksum: 10/26d538506637647c3b2e856cb8e634f39f2d643d1c1a9b52985173f18cdc223253e1699fc7020e0ea55f535c4affd4e3cf14e25f8fd5f13c5f669e605daf2e22
+  languageName: node
+  linkType: hard
+
+"@xylabs/exists@npm:^4.4.21":
+  version: 4.4.21
+  resolution: "@xylabs/exists@npm:4.4.21"
+  checksum: 10/52c23dc3da5155d5b2dad200d354c3148fcaddef547726527c527ff95e1287e5c7053e6922d8ba674650deab9ad7ccb02b28c7a4e1148e61b700e520e652c6e9
   languageName: node
   linkType: hard
 
@@ -6708,6 +6731,7 @@ __metadata:
   resolution: "@xyo-network/diviner-boundwitness-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb/packages/boundwitness"
   dependencies:
     "@xylabs/array": "npm:^4.4.19"
+    "@xylabs/assert": "npm:^4.4.21"
     "@xylabs/exists": "npm:^4.4.19"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"
@@ -7319,6 +7343,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-generic@workspace:packages/modules/packages/diviner/packages/payload/packages/generic"
   dependencies:
+    "@xylabs/array": "npm:^4.4.21"
     "@xylabs/assert": "npm:^4.4.19"
     "@xylabs/delay": "npm:^4.4.19"
     "@xylabs/forget": "npm:^4.4.19"
@@ -7452,6 +7477,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-pointer-model@workspace:packages/modules/packages/diviner/packages/payloadpointer/packages/model"
   dependencies:
+    "@xylabs/exists": "npm:^4.4.19"
     "@xylabs/hex": "npm:^4.4.19"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"

@@ -6,7 +6,9 @@ import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitnes
 import type { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import type { PayloadSearchCriteria, PointerPayload } from '@xyo-network/diviner-payload-pointer-model'
+import type {
+  PayloadRule, PayloadSearchCriteria, PointerPayload,
+} from '@xyo-network/diviner-payload-pointer-model'
 import { isBoundWitnessPointer } from '@xyo-network/diviner-payload-pointer-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -17,7 +19,7 @@ const limit = 1
 
 const createBoundWitnessFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): BoundWitnessDivinerQueryPayload[] => {
   const {
-    addresses, order = 'desc', schemas, timestamp,
+    addresses, order = 'desc', schemas,
   } = searchCriteria
   const query: BoundWitnessDivinerQueryPayload = {
     addresses,
@@ -25,17 +27,14 @@ const createBoundWitnessFilterFromSearchCriteria = (searchCriteria: PayloadSearc
     order,
     payload_schemas: schemas,
     schema: BoundWitnessDivinerQuerySchema,
-    timestamp,
   }
   return [query]
 }
 
 const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): Payload[] => {
-  const {
-    order = 'desc', schemas, timestamp,
-  } = searchCriteria
+  const { order = 'desc', schemas } = searchCriteria
   const query: PayloadDivinerQueryPayload = {
-    limit, order, schema: PayloadDivinerQuerySchema, schemas, timestamp,
+    limit, order, schema: PayloadDivinerQuerySchema, schemas,
   }
   return [query]
 }
@@ -46,7 +45,8 @@ export const findPayload = async (
   payloadDiviner: PayloadDiviner,
   pointer: PointerPayload,
 ): Promise<Payload | undefined> => {
-  const searchCriteria = combineRules(pointer.reference)
+  const reference = pointer.reference as PayloadRule[][]
+  const searchCriteria = combineRules(reference)
   const { addresses } = searchCriteria
   const findWitnessedPayload = addresses?.length
   const returnBoundWitness = isBoundWitnessPointer(pointer)

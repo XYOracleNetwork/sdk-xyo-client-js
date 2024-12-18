@@ -82,9 +82,9 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
             sourcePathExpression: '$.limit',
           },
           {
-            defaultValue: 0,
-            destinationField: 'offset',
-            sourcePathExpression: '$.offset',
+            // defaultValue: 0,
+            destinationField: 'cursor',
+            sourcePathExpression: '$.cursor',
           },
           {
             defaultValue: 'desc',

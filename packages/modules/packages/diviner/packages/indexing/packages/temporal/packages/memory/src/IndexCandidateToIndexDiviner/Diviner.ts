@@ -104,24 +104,22 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
     }
 
     // Create the indexes from the tuples
-    const indexes = await Promise.all(
-      validIndexableTuples.map<Promise<TemporalIndexingDivinerResultIndex>>(async ([bwHash, ...sourcePayloadHashes]) => {
-        const sourcePayloads = sourcePayloadHashes.map(hash => payloadDictionary[hash])
-        // Use the payload transformers to convert the fields from the source payloads to the destination fields
-        const indexFields = sourcePayloads.flatMap((payload) => {
-          // Find the transformers for this payload
-          const transformers = this.payloadTransformers[payload.schema]
-          // If transformers exist, apply them to the payload otherwise return an empty array
-          return transformers ? transformers.map(transform => transform(payload)) : []
-        })
-        // Include all the sources for reference
-        const sources: string[] = [bwHash, ...sourcePayloadHashes]
-        // Build and return the index
-        return await new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
-          .fields(Object.assign({ sources }, ...indexFields))
-          .build()
-      }),
-    )
+    const indexes = validIndexableTuples.map<TemporalIndexingDivinerResultIndex>(([bwHash, ...sourcePayloadHashes]) => {
+      const sourcePayloads = sourcePayloadHashes.map(hash => payloadDictionary[hash])
+      // Use the payload transformers to convert the fields from the source payloads to the destination fields
+      const indexFields = sourcePayloads.flatMap((payload) => {
+        // Find the transformers for this payload
+        const transformers = this.payloadTransformers[payload.schema]
+        // If transformers exist, apply them to the payload otherwise return an empty array
+        return transformers ? transformers.map(transform => transform(payload)) : []
+      })
+      // Include all the sources for reference
+      const sources: Hash[] = [bwHash, ...sourcePayloadHashes]
+      // Build and return the index
+      return new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
+        .fields(Object.assign({ sources }, ...indexFields))
+        .build()
+    })
     return indexes.flat()
   }
 

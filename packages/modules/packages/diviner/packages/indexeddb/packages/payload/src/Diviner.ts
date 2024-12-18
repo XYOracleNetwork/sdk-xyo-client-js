@@ -1,7 +1,6 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Hash } from '@xylabs/hex'
 import { removeFields } from '@xylabs/object'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
@@ -75,15 +74,12 @@ export class IndexedDbPayloadDiviner<
   }
 
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
-    const query = payloads?.find(isPayloadDivinerQueryPayload) as TIn
+    const query = payloads?.find(isPayloadDivinerQueryPayload)
     if (!query) return []
     const result = await this.tryUseDb(async (db) => {
       const {
         schemas, limit, cursor, order, ...props
-      } = removeFields(query as unknown as TIn & { sources?: Hash[] }, [
-        'hash',
-        'schema',
-      ])
+      } = removeFields(query, ['schema'])
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
       const results: TOut[] = []

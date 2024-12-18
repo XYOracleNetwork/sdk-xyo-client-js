@@ -75,10 +75,13 @@ describe('IndexedDbBoundWitnessDiviner', () => {
         dbName, schema: IndexedDbArchivist.defaultConfigSchema, storeName,
       },
     })
-    await archivist.insert(boundWitnesses)
-    for (const bw of [boundWitnessA, boundWitnessB, boundWitnessC]) {
+    for (const [bw, payloads] of [
+      [boundWitnessA, [payloadA]],
+      [boundWitnessB, [payloadB]],
+      [boundWitnessC, [payloadA, payloadB]],
+    ] as const) {
       await delay(2)
-      const inserted = await archivist.insert([bw])
+      const inserted = await archivist.insert([bw, ...payloads])
       const insertedBws = filterAs(inserted, asBoundWitnessWithStorageMeta)
       boundWitnesses.push(...insertedBws)
     }

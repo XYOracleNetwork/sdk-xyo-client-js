@@ -170,7 +170,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
       })
     })
   })
-  describe('with offset', () => {
+  describe('with cursor', () => {
     describe('when ascending order', () => {
       it('returns payloads from the beginning', async () => {
         for (const [i, boundWitness] of boundWitnesses.entries()) {

@@ -1,13 +1,13 @@
 import { containsAll } from '@xylabs/array'
+import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessSchema, isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { type Schema, SequenceConstants } from '@xyo-network/payload-model'
-import type { IDBPDatabase } from 'idb'
+import type { Schema, Sequence } from '@xyo-network/payload-model'
+import type { IDBPCursorWithValue, IDBPDatabase } from 'idb'
 import { openDB } from 'idb'
 
 import { IndexedDbBoundWitnessDivinerConfigSchema } from './Config.ts'
@@ -50,7 +50,7 @@ export class IndexedDbBoundWitnessDiviner<
   }
 
   /**
-   * The database version. If not supplied via config, it defaults to 1.
+   * The database version. If not supplied via config, it defaults to the archivist default version.
    */
   get dbVersion() {
     return this.config?.dbVersion ?? IndexedDbArchivist.defaultDbVersion
@@ -65,9 +65,8 @@ export class IndexedDbBoundWitnessDiviner<
   }
 
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
-    const query = payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop()
+    const query = payloads?.find(isBoundWitnessDivinerQueryPayload)
     if (!query) return []
-
     const result = await this.tryUseDb(async (db) => {
       const {
         addresses, payload_hashes, payload_schemas, limit, cursor, order,
@@ -75,25 +74,32 @@ export class IndexedDbBoundWitnessDiviner<
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
       const results: TOut[] = []
-      const parsedCursor = cursor ?? SequenceConstants.minLocalSequence
+      const parsedCursor = cursor
       const parsedLimit = limit ?? 10
-      const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
       const valueFilters: ValueFilter[] = [
         bwValueFilter('addresses', addresses),
         bwValueFilter('payload_hashes', payload_hashes),
         bwValueFilter('payload_schemas', payload_schemas),
       ].filter(exists)
-      // Only iterate over BWs
-      let dbCursor = await store.index(IndexedDbArchivist.schemaIndexName).openCursor(IDBKeyRange.only(BoundWitnessSchema), direction)
+      const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
 
-      // If we're filtering on more than just the schema, we need to
-      // iterate through all the results
-      if (valueFilters.length === 0) {
-        // Skip records until the offset is reached
-        while (dbCursor && parsedCursor && parsedCursor < dbCursor.value._sequence) {
+      // Iterate all records using the sequence index
+      const sequenceIndex = assertEx(store.index(IndexedDbArchivist.sequenceIndexName), () => 'Failed to get sequence index')
+      let dbCursor: IDBPCursorWithValue<BoundWitnessStore, [string], string, string, 'readonly'> | null
+      = assertEx(await sequenceIndex.openCursor(null, direction), () => `Failed to get cursor [${parsedCursor}, ${cursor}]`)
+
+      // If a cursor was supplied
+      if (parsedCursor !== undefined) {
+        let currentSequence: Sequence | undefined
+        // Skip records until the supplied cursor offset is reached
+        while (dbCursor && currentSequence !== parsedCursor) {
+          // Find the sequence of the current record
+          currentSequence = await dbCursor.value?.sequence
+          // Advance one record beyond the cursor
           dbCursor = await dbCursor.advance(1)
         }
       }
+
       // Collect results up to the limit
       while (dbCursor && results.length < parsedLimit) {
         const value = dbCursor.value
@@ -118,9 +124,7 @@ export class IndexedDbBoundWitnessDiviner<
       }
       await tx.done
       // Remove any metadata before returning to the client
-      return await Promise.all(
-        results.filter(isBoundWitnessWithStorageMeta),
-      )
+      return results
     })
     return result ?? []
   }

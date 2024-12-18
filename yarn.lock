@@ -5366,6 +5366,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/assert@npm:^4.4.21":
+  version: 4.4.21
+  resolution: "@xylabs/assert@npm:4.4.21"
+  checksum: 10/2d73ab45b5b81c96e44736ca7d1bf24922a897ed9d0d7be414a7d516ac4e0fed02715cebb8f81f749e249c4ad28631411236cb16561eb87b93a72fb899053c7b
+  languageName: node
+  linkType: hard
+
 "@xylabs/axios@npm:^4.4.19":
   version: 4.4.19
   resolution: "@xylabs/axios@npm:4.4.19"
@@ -6724,6 +6731,7 @@ __metadata:
   resolution: "@xyo-network/diviner-boundwitness-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb/packages/boundwitness"
   dependencies:
     "@xylabs/array": "npm:^4.4.19"
+    "@xylabs/assert": "npm:^4.4.21"
     "@xylabs/exists": "npm:^4.4.19"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.4"
     "@xylabs/tsconfig": "npm:^4.2.4"

@@ -2,11 +2,11 @@ import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { type BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import type { Schema, Sequence } from '@xyo-network/payload-model'
+import { type Schema, type Sequence } from '@xyo-network/payload-model'
 import type { IDBPCursorWithValue, IDBPDatabase } from 'idb'
 import { openDB } from 'idb'
 
@@ -77,6 +77,7 @@ export class IndexedDbBoundWitnessDiviner<
       const parsedCursor = cursor
       const parsedLimit = limit ?? 10
       const valueFilters: ValueFilter[] = [
+        isBoundWitness,
         bwValueFilter('addresses', addresses),
         bwValueFilter('payload_hashes', payload_hashes),
         bwValueFilter('payload_schemas', payload_schemas),

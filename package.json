@@ -42,7 +42,7 @@
   ],
   "scripts": {
     "build": "xy build && xy statics",
-    "build-tests": "tsc --noEmit",
+    "build-tests": "tsc --noEmit --lib dom,esnext",
     "build-typedoc-site": "typedoc",
     "compile": "./scripts/clear-scrollback-buffer.sh && yarn xy compile",
     "coverage": "yarn jest --coverage --forceExit",

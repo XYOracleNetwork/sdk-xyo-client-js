@@ -6292,6 +6292,7 @@ __metadata:
   dependencies:
     "@xylabs/array": "npm:^4.4.21"
     "@xylabs/assert": "npm:^4.4.21"
+    "@xylabs/delay": "npm:^4.4.21"
     "@xylabs/exists": "npm:^4.4.21"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.6"
     "@xylabs/tsconfig": "npm:^4.2.6"
@@ -6908,7 +6909,6 @@ __metadata:
     "@xylabs/delay": "npm:^4.4.21"
     "@xylabs/forget": "npm:^4.4.21"
     "@xylabs/hex": "npm:^4.4.21"
-    "@xylabs/object": "npm:^4.4.21"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.6"
     "@xylabs/tsconfig": "npm:^4.2.6"
     "@xylabs/vitest-extended": "npm:^4.4.21"
@@ -6937,7 +6937,6 @@ __metadata:
     "@xylabs/assert": "npm:^4.4.21"
     "@xylabs/delay": "npm:^4.4.21"
     "@xylabs/exists": "npm:^4.4.21"
-    "@xylabs/hex": "npm:^4.4.21"
     "@xylabs/object": "npm:^4.4.21"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.6"
     "@xylabs/tsconfig": "npm:^4.2.6"
@@ -6981,7 +6980,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-model@workspace:packages/modules/packages/diviner/packages/payload/packages/model"
   dependencies:
-    "@xylabs/hex": "npm:^4.4.21"
     "@xylabs/object": "npm:^4.4.21"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.6"
     "@xylabs/tsconfig": "npm:^4.2.6"

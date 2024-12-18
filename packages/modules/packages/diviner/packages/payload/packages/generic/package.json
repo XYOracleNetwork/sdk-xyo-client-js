@@ -33,7 +33,6 @@
     "@xylabs/assert": "^4.4.21",
     "@xylabs/forget": "^4.4.21",
     "@xylabs/hex": "^4.4.21",
-    "@xylabs/object": "^4.4.21",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-payload-abstract": "workspace:^",

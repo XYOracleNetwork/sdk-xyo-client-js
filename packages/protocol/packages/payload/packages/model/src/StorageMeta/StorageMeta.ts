@@ -1,4 +1,5 @@
 import { type Hash, isHash } from '@xylabs/hex'
+import { AsObjectFactory } from '@xylabs/object'
 
 import type { Payload } from '../Payload.ts'
 import type { Sequence } from './Sequence.ts'
@@ -37,6 +38,8 @@ export const isHashMeta = (value: unknown): value is HashMeta => {
 export const isStorageMeta = (value: unknown): value is StorageMeta => {
   return isSequenceMeta(value) && isHashMeta(value)
 }
+export const asStorageMeta = AsObjectFactory.create(isStorageMeta)
+export const asOptionalStorageMeta = AsObjectFactory.createOptional(isStorageMeta)
 
 // "00005a7f354762f3ac1bc5ddc6cfd08d14" is and example of a local sequence string
 

@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.4.24",
+    "@xylabs/assert": "^4.4.25",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-view": "workspace:^",
     "@xyo-network/bridge-http": "workspace:^",

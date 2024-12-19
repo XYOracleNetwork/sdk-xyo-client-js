@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.4.24",
-    "@xylabs/hex": "^4.4.24",
+    "@xylabs/assert": "^4.4.25",
+    "@xylabs/hex": "^4.4.25",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-payload-stats-abstract": "workspace:^",
     "@xyo-network/diviner-payload-stats-model": "workspace:^",

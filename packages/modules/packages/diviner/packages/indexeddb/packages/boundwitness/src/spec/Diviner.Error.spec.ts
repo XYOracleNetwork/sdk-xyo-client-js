@@ -3,6 +3,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -45,7 +46,6 @@ globalThis.indexedDB = indexedDB
 describe('IndexedDbBoundWitnessDiviner.Errors', () => {
   const dbName = 'testDb'
   const storeName = 'testStore'
-  let sut: IndexedDbBoundWitnessDiviner
   const values: BoundWitness[] = []
   describe('divine', () => {
     const createTestNode = async (testDbName = 'INCORRECT-DB-NAME', testStoreName = 'INCORRECT-STORE-NAME') => {
@@ -82,6 +82,7 @@ describe('IndexedDbBoundWitnessDiviner.Errors', () => {
       return sut
     }
     describe('when DB and store do not exist', () => {
+      let sut: IndexedDbBoundWitnessDiviner
       beforeAll(async () => {
         sut = await createTestNode('INCORRECT-DB-NAME', 'INCORRECT-STORE-NAME')
       })
@@ -91,6 +92,7 @@ describe('IndexedDbBoundWitnessDiviner.Errors', () => {
       })
     })
     describe('when DB exists but store does not exist', () => {
+      let sut: IndexedDbBoundWitnessDiviner
       beforeAll(async () => {
         sut = await createTestNode(dbName, 'INCORRECT-STORE-NAME')
       })
@@ -100,12 +102,14 @@ describe('IndexedDbBoundWitnessDiviner.Errors', () => {
       })
     })
     describe('when DB and store exist', () => {
+      let sut: IndexedDbBoundWitnessDiviner
       beforeAll(async () => {
         sut = await createTestNode(dbName, storeName)
       })
       it('returns values', async () => {
         const result = await sut.divine([{ schema: BoundWitnessDivinerQuerySchema }])
-        expect(result).toEqual(values)
+        const filtered = PayloadBuilder.omitStorageMeta(result)
+        expect(filtered).toEqual(values)
       })
     })
   })

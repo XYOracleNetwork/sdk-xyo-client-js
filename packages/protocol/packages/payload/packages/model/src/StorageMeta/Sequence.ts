@@ -55,8 +55,8 @@ export const LocalSequenceConstants = {
 
 export const QualifiedSequenceConstants = {
   qualifiedSequenceBytes: LocalSequenceConstants.localSequenceBytes + SequenceComponentLengths.addressBytes,
-  minLocalSequence: LocalSequenceConstants.minLocalSequence + SequenceComponentMinMax.minAddress as QualifiedSequence,
-  maxLocalSequence: LocalSequenceConstants.maxLocalSequence + SequenceComponentMinMax.maxAddress as QualifiedSequence,
+  minQualifiedSequence: LocalSequenceConstants.minLocalSequence + SequenceComponentMinMax.minAddress as QualifiedSequence,
+  maxQualifiedSequence: LocalSequenceConstants.maxLocalSequence + SequenceComponentMinMax.maxAddress as QualifiedSequence,
 }
 
 export const SequenceConstants = {

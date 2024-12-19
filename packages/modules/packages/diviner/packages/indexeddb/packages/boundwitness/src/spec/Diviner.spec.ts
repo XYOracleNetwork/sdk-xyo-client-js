@@ -47,8 +47,6 @@ globalThis.IDBTransaction = IDBTransaction
 globalThis.IDBVersionChangeEvent = IDBVersionChangeEvent
 globalThis.indexedDB = indexedDB
 
-const asStorageMeta = AsObjectFactory.create(isStorageMeta)
-
 /**
  * @group module
  * @group diviner

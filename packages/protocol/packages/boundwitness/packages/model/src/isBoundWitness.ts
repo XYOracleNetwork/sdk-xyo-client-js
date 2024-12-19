@@ -16,6 +16,8 @@ export const notBoundWitness = notPayloadOfSchemaType<BoundWitness>(BoundWitness
 export const asBoundWitness = <T extends BoundWitness<{ schema: string }> = BoundWitness>(payload?: unknown) =>
   isBoundWitness(payload) ? (payload as T) : undefined
 
+export const asOptionalBoundWitness = AsObjectFactory.createOptional<BoundWitness>(isBoundWitness)
+
 export const isBoundWitnessWithStorageMeta = (value: unknown): value is WithStorageMeta<BoundWitness> =>
   isPayloadOfSchemaType<BoundWitness>(BoundWitnessSchema)(value) && isStorageMeta(value)
 export const asBoundWitnessWithStorageMeta = AsObjectFactory.createOptional<WithStorageMeta<BoundWitness>>(isBoundWitnessWithStorageMeta)

@@ -1,18 +1,17 @@
 import type { Compare } from '@xylabs/object'
 
-import type { Payload } from '../Payload.ts'
+import type { Sequence } from './Sequence.ts'
 import { SequenceParser } from './SequenceParser.ts'
-import type { WithStorageMeta } from './StorageMeta.ts'
 
-const local: Compare<WithStorageMeta<Payload>> = (a, b) => {
-  const aa = SequenceParser.from(a._sequence)
-  const bb = SequenceParser.from(b._sequence)
+const local: Compare<Sequence> = (a, b) => {
+  const aa = SequenceParser.from(a)
+  const bb = SequenceParser.from(b)
   return aa.localSequence > bb.localSequence ? 1 : aa.localSequence < bb.localSequence ? -1 : 0
 }
 
-const qualified: Compare<WithStorageMeta<Payload>> = (a, b) => {
-  const aa = SequenceParser.from(a._sequence)
-  const bb = SequenceParser.from(b._sequence)
+const qualified: Compare<Sequence> = (a, b) => {
+  const aa = SequenceParser.from(a)
+  const bb = SequenceParser.from(b)
   return aa.qualifiedSequence > bb.qualifiedSequence ? 1 : aa.qualifiedSequence < bb.qualifiedSequence ? -1 : 0
 }
 

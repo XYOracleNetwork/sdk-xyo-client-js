@@ -3,6 +3,7 @@ import type { AnyObject, Compare } from '@xylabs/object'
 import { ObjectHasher } from '@xyo-network/hash'
 import {
   type Payload,
+  type Sequence,
   SequenceComparer,
   SequenceParser,
   type WithHashMeta,
@@ -61,9 +62,9 @@ export class PayloadBuilder<
   static compareStorageMeta(
     a: WithStorageMeta<Payload>,
     b: WithStorageMeta<Payload>,
-    comparer: Compare<WithStorageMeta<Payload>> = SequenceComparer.local,
+    comparer: Compare<Sequence> = SequenceComparer.local,
   ) {
-    return comparer(a, b)
+    return comparer(a._sequence, b._sequence)
   }
 
   static async dataHash<T extends Payload>(payload: T): Promise<Hash> {
@@ -141,9 +142,9 @@ export class PayloadBuilder<
   static sortByStorageMeta<T extends Payload>(
     payloads: WithStorageMeta<T>[],
     direction: -1 | 1 = 1,
-    comparer: Compare<WithStorageMeta<Payload>> = SequenceComparer.local,
+    comparer: Compare<Sequence> = SequenceComparer.local,
   ) {
-    return payloads.sort((a, b) => direction * comparer(b, a))
+    return payloads.sort((a, b) => direction * comparer(a._sequence, b._sequence))
   }
 
   static async toAllHashMap<T extends Payload>(payloads: T[]): Promise<Record<Hash, T>> {

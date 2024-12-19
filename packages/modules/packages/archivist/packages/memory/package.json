@@ -29,11 +29,11 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.4.23",
-    "@xylabs/exists": "^4.4.23",
-    "@xylabs/hex": "^4.4.23",
-    "@xylabs/object": "^4.4.23",
-    "@xylabs/promise": "^4.4.23",
+    "@xylabs/assert": "^4.4.24",
+    "@xylabs/exists": "^4.4.24",
+    "@xylabs/hex": "^4.4.24",
+    "@xylabs/object": "^4.4.24",
+    "@xylabs/promise": "^4.4.24",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -43,10 +43,10 @@
     "lru-cache": "^11.0.2"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.4.23",
+    "@xylabs/delay": "^4.4.24",
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
-    "@xylabs/vitest-extended": "^4.4.23",
+    "@xylabs/vitest-extended": "^4.4.24",
     "@xyo-network/account": "workspace:^",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"

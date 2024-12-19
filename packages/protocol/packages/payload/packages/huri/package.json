@@ -29,17 +29,17 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.4.23",
-    "@xylabs/axios": "^4.4.23",
-    "@xylabs/hex": "^4.4.23",
+    "@xylabs/assert": "^4.4.24",
+    "@xylabs/axios": "^4.4.24",
+    "@xylabs/hex": "^4.4.24",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.4.23",
+    "@xylabs/delay": "^4.4.24",
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
-    "@xylabs/vitest-extended": "^4.4.23",
+    "@xylabs/vitest-extended": "^4.4.24",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   },

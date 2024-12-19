@@ -31,9 +31,9 @@
   "dependencies": {
     "@firebase/app": "^0.10.17",
     "@firebase/firestore": "^4.7.5",
-    "@xylabs/assert": "^4.4.23",
-    "@xylabs/exists": "^4.4.23",
-    "@xylabs/hex": "^4.4.23",
+    "@xylabs/assert": "^4.4.24",
+    "@xylabs/exists": "^4.4.24",
+    "@xylabs/hex": "^4.4.24",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",

@@ -36,6 +36,7 @@
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-boundwitness-abstract": "workspace:^",
     "@xyo-network/diviner-boundwitness-model": "workspace:^",
+    "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {

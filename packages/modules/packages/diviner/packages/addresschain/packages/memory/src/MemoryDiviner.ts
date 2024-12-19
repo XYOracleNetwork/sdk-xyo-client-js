@@ -33,7 +33,7 @@ export class MemoryAddressChainDiviner<
       const archivist = assertEx(archivistIn, () => 'Unable to resolve archivist')
       let currentHash: Hash | null = assertEx(this.config.startHash, () => 'Missing startHash')
       while (currentHash && result.length < (this.config.maxResults ?? 1000)) {
-        console.log(`currentHash: ${currentHash}`)
+        // console.log(`currentHash: ${currentHash}`)
         const bwPayload: BoundWitness | undefined = await this.archivistFindHash([archivist], currentHash)
         const bwWrapper: BoundWitnessWrapper | undefined = BoundWitnessWrapper.tryParse(bwPayload)
         if (bwWrapper) {
@@ -52,7 +52,7 @@ export class MemoryAddressChainDiviner<
   }
 
   private async archivistFindHash(archivists: ArchivistInstance[], hash: Hash): Promise<BoundWitness | undefined> {
-    console.log('archivistFindHash')
+    // console.log('archivistFindHash')
     let index = 0
     if (archivists[index]) {
       const result = (await archivists[index].get([hash])).findLast(isBoundWitnessWithStorageMeta)

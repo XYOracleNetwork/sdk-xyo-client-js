@@ -6097,7 +6097,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-chain-memory@workspace:packages/modules/packages/diviner/packages/addresschain/packages/memory"
   dependencies:
+    "@xylabs/array": "npm:^4.4.25"
     "@xylabs/assert": "npm:^4.4.25"
+    "@xylabs/delay": "npm:^4.4.25"
     "@xylabs/hex": "npm:^4.4.25"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.6"
     "@xylabs/tsconfig": "npm:^4.2.6"

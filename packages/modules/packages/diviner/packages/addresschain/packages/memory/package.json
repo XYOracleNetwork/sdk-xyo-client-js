@@ -41,6 +41,8 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
+    "@xylabs/array": "^4.4.25",
+    "@xylabs/delay": "^4.4.25",
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
     "@xylabs/vitest-extended": "^4.4.25",

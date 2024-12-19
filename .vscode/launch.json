@@ -10,7 +10,8 @@
         "--run",
         "--inspect-brk",
         "--no-file-parallelism",
-        "packages/modules/packages/diviner/packages/payloadpointer/packages/memory/src/spec/Diviner.payloadPointer.sequence.spec.ts"
+        "--testTimeout=120000",
+        "packages/modules/packages/diviner/packages/addresschain/packages/memory/src/spec/MemoryDiviner.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

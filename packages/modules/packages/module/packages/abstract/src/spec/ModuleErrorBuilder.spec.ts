@@ -16,10 +16,10 @@ export class TestAbstractModule extends AbstractModuleInstance {
  */
 
 describe('ModuleErrorBuilder', () => {
-  test('build', async () => {
+  test('build', () => {
     const error = new ModuleDetailsError('errorMessage', { details: 'yo' })
-    const errorPayload = await new ModuleErrorBuilder()
-      .sources(['0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'])
+    const errorPayload = new ModuleErrorBuilder()
+      .meta({ $sources: ['0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'] })
       .name('<Unknown>')
       .query('network.xyo.query.insert')
       .details(error.details)

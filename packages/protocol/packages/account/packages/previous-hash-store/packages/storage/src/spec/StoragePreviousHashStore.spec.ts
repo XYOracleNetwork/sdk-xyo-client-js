@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import type { Address } from '@xylabs/hex'
 import { v4 as uuid } from 'uuid'
 import {

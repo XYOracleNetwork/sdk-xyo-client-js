@@ -1,15 +1,17 @@
 import '@xylabs/vitest-extended'
 
+import { filterAs } from '@xylabs/array'
+import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { asOptionalBoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { WithMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   describe, expect, it,
@@ -41,13 +43,17 @@ describe('MemoryAddressHistoryDiviner', () => {
       const payload2 = PayloadWrapper.wrap({ index: 2, schema: 'network.xyo.test' })
       const payload3 = PayloadWrapper.wrap({ index: 3, schema: 'network.xyo.test' })
 
-      await archivistWrapper.insert([payload1.payload])
-      await archivistWrapper.insert([payload2.payload])
-      await archivistWrapper.insert([payload3.payload])
-
+      for (const payload of [payload1, payload2, payload3]) {
+        await delay(2)
+        await archivistWrapper.insert([payload.payload])
+      }
       const all = await archivist.all()
-
       expect(all).toBeArrayOfSize(6)
+
+      const allBWs = filterAs(all, asOptionalBoundWitness)
+      const lastBw = allBWs.at(-1)
+      expect(lastBw).toBeDefined()
+      const startHash = await PayloadBuilder.dataHash(assertEx(lastBw))
 
       await node.register(archivist)
       await node.attach(archivist.address)
@@ -57,13 +63,13 @@ describe('MemoryAddressHistoryDiviner', () => {
           address: wrapperAccount.address,
           archivist: archivist.address,
           schema: AddressChainDivinerConfigSchema,
-          startHash: (await PayloadBuilder.build(all[5])).$hash,
+          startHash,
         },
       })
       await node.register(diviner)
       await node.attach(diviner.address)
 
-      const result = (await diviner.divine()) as WithMeta<BoundWitness>[]
+      const result = (await diviner.divine()) as BoundWitness[]
       expect(result.length).toBe(3)
       expect(result[0].schema).toBe(BoundWitnessSchema)
       expect(result[0].addresses).toContain(wrapperAddress)

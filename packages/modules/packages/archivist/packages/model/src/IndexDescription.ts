@@ -10,11 +10,7 @@ export type IndexDescription = {
   /**
    * The key(s) to index
    */
-  key:
-    | {
-      [key: string]: IndexDirection
-    }
-    | Map<string, IndexDirection>
+  key: Record<string, IndexDirection>
   /**
    * Is the indexed value an array
    */

@@ -10,8 +10,8 @@ export type AdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'
 export const AdhocWitnessConfigSchema: AdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'
 
 export type AdhocWitnessConfig = WitnessConfig<{
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload?: Payload<any>
+
+  payload?: Payload
   schema: AdhocWitnessConfigSchema
 }>
 

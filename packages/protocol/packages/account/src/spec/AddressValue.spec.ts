@@ -72,7 +72,7 @@ describe('AddressValue', () => {
   // })
   describe('verify', () => {
     it.each(valid)('Verifies a signature', async (message, signature, address) => {
-      const result = await Elliptic.verify(toUint8Array(message), toUint8Array(signature), toUint8Array(address))
+      const result = await Elliptic.verify(toUint8Array(message).buffer, toUint8Array(signature).buffer, toUint8Array(address).buffer)
       expect(result).toBeTruthy()
     })
   })

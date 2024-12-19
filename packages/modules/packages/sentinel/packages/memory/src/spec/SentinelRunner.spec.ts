@@ -12,6 +12,7 @@ import {
   SentinelConfigSchema,
   SentinelIntervalAutomationSchema,
 } from '@xyo-network/sentinel-model'
+import type { AdhocWitnessConfig } from '@xyo-network/witness-adhoc'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 import {
   beforeEach,
@@ -36,7 +37,7 @@ describe('SentinelRunner', () => {
     const witnessModules: AbstractWitness[] = [
       await AdhocWitness.create({
         account: 'random',
-        config: { payload: { id: 1, schema: 'network.xyo.id' }, schema: AdhocWitnessConfigSchema },
+        config: { payload: { id: 1, schema: 'network.xyo.id' }, schema: AdhocWitnessConfigSchema } as AdhocWitnessConfig,
       }),
     ]
     const witnesses = await Promise.all(

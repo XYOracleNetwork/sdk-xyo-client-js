@@ -77,10 +77,12 @@ describe('Sentinel', () => {
           expect(archivistPayloads).toBeArrayOfSize(payloads.length + 1)
           const panelPayloads = await Promise.all(
             payloads.map((payload) => {
-              return PayloadBuilder.build(payload)
+              return PayloadBuilder.omitStorageMeta(payload)
             }),
           )
-          expect(archivistPayloads).toContainValues(panelPayloads)
+          const archivistDataHashes = await PayloadBuilder.dataHashes(archivistPayloads)
+          const panelDataHashes = await PayloadBuilder.dataHashes(panelPayloads)
+          expect(archivistDataHashes).toContainValues(panelDataHashes)
         }
       }
       beforeEach(async () => {

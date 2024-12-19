@@ -43,9 +43,7 @@ import {
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import type { NodeInstance } from '@xyo-network/node-model'
 import { asNodeInstance } from '@xyo-network/node-model'
-import type {
-  Payload, Query, WithMeta,
-} from '@xyo-network/payload-model'
+import type { Payload, Query } from '@xyo-network/payload-model'
 
 import { AbstractModule } from './AbstractModule.ts'
 
@@ -126,7 +124,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     }
   }
 
-  async certifyParents(): Promise<WithMeta<Payload>[]> {
+  async certifyParents(): Promise<Payload[]> {
     const parents = await this.parents()
     return (
       await Promise.all(
@@ -319,7 +317,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     queryPayload: T,
     payloads?: P[],
     account?: AccountInstance,
-  ): Promise<WithMeta<R>[]> {
+  ): Promise<R[]> {
     const queryResults = await this.sendQueryRaw(queryPayload, payloads, account)
     const [, resultPayloads, errors] = queryResults
 
@@ -330,7 +328,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       throw errors[0]
     }
 
-    return resultPayloads as WithMeta<R>[]
+    return resultPayloads as R[]
   }
 
   protected async sendQueryRaw<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(

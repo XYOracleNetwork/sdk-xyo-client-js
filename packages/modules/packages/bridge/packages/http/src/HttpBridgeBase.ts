@@ -30,7 +30,7 @@ import {
 } from '@xyo-network/module-model'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
 import {
-  isPayloadOfSchemaType, Payload, Schema, WithMeta,
+  isPayloadOfSchemaType, Payload, Schema,
 } from '@xyo-network/payload-model'
 import { Mutex, Semaphore } from 'async-mutex'
 import type { AxiosError } from 'axios'
@@ -120,7 +120,7 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
       if (this._roots === undefined || force) {
         const state = await this.getRootState()
         this.logger?.debug(`HttpBridge:discoverRoots.state [${state?.length}]`)
-        const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
+        const nodeManifest = state?.find(isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema))
         if (nodeManifest) {
           const mods = (await this.resolveRootNode(nodeManifest)).filter(exists)
           this.logger?.debug(`HttpBridge:discoverRoots [${mods.length}]`)

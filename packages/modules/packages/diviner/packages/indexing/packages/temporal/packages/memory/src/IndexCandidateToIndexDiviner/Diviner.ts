@@ -3,7 +3,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import type { Hash } from '@xylabs/hex'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { jsonPathToTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-memory'
 import type { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
@@ -69,13 +69,12 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
-    const builtPayloads = await Promise.all(payloads.map(payload => PayloadBuilder.build(payload)))
     // If the Bound Witness does not contain all the required schemas do not index it
-    const indexableBoundWitnesses = builtPayloads
-      .filter(isBoundWitnessWithMeta)
+    const indexableBoundWitnesses = payloads
+      .filter(isBoundWitness)
       .filter(bw => containsAll(bw.payload_schemas, this.indexableSchemas))
     // If the Payload is not one of the indexable schemas do not index it
-    const indexablePayloads = builtPayloads.filter(p => this.isIndexablePayload(p))
+    const indexablePayloads = payloads.filter(p => this.isIndexablePayload(p))
     // If there is nothing to index, return an empty array
     if (indexableBoundWitnesses.length === 0 || indexablePayloads.length === 0) return []
     // Hash all the indexable data once
@@ -105,24 +104,22 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
     }
 
     // Create the indexes from the tuples
-    const indexes = await Promise.all(
-      validIndexableTuples.map<Promise<TemporalIndexingDivinerResultIndex>>(async ([bwHash, ...sourcePayloadHashes]) => {
-        const sourcePayloads = sourcePayloadHashes.map(hash => payloadDictionary[hash])
-        // Use the payload transformers to convert the fields from the source payloads to the destination fields
-        const indexFields = sourcePayloads.flatMap((payload) => {
-          // Find the transformers for this payload
-          const transformers = this.payloadTransformers[payload.schema]
-          // If transformers exist, apply them to the payload otherwise return an empty array
-          return transformers ? transformers.map(transform => transform(payload)) : []
-        })
-        // Include all the sources for reference
-        const sources: string[] = [bwHash, ...sourcePayloadHashes]
-        // Build and return the index
-        return await new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
-          .fields(Object.assign({ sources }, ...indexFields))
-          .build()
-      }),
-    )
+    const indexes = validIndexableTuples.map<TemporalIndexingDivinerResultIndex>(([bwHash, ...sourcePayloadHashes]) => {
+      const sourcePayloads = sourcePayloadHashes.map(hash => payloadDictionary[hash])
+      // Use the payload transformers to convert the fields from the source payloads to the destination fields
+      const indexFields = sourcePayloads.flatMap((payload) => {
+        // Find the transformers for this payload
+        const transformers = this.payloadTransformers[payload.schema]
+        // If transformers exist, apply them to the payload otherwise return an empty array
+        return transformers ? transformers.map(transform => transform(payload)) : []
+      })
+      // Include all the sources for reference
+      const sources: Hash[] = [bwHash, ...sourcePayloadHashes]
+      // Build and return the index
+      return new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
+        .fields(Object.assign({ sources }, ...indexFields))
+        .build()
+    })
     return indexes.flat()
   }
 

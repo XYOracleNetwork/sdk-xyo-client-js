@@ -6,7 +6,7 @@ import type { Transform } from '@xyo-network/diviner-transform-model'
 import { TransformDivinerConfigSchema } from '@xyo-network/diviner-transform-model'
 import type { Payload } from '@xyo-network/payload-model'
 import type { Value } from '@xyo-network/value-payload-plugin'
-import { isValuePayloadWithMeta, ValueSchema } from '@xyo-network/value-payload-plugin'
+import { isValuePayload, ValueSchema } from '@xyo-network/value-payload-plugin'
 import {
   beforeAll,
   describe, expect, it,
@@ -61,7 +61,7 @@ describe('MemoryTransformDiviner', () => {
       sut = await MemoryTransformDiviner.create({ account, config })
       const result = await sut.divine([payload])
       expect(result).toBeArrayOfSize(1)
-      const actual = result.find(isValuePayloadWithMeta)
+      const actual = result.find(isValuePayload)
       expect(actual).toBeDefined()
       expect(actual?.value).toBeObject()
       expect(actual).toMatchObject(expected)

@@ -82,9 +82,9 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
             sourcePathExpression: '$.limit',
           },
           {
-            defaultValue: 0,
-            destinationField: 'offset',
-            sourcePathExpression: '$.offset',
+            // defaultValue: 0,
+            destinationField: 'cursor',
+            sourcePathExpression: '$.cursor',
           },
           {
             defaultValue: 'desc',
@@ -111,7 +111,7 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
           // TODO: Make sources not need to be deleted
           delete fields.sources
           // TODO: Add support for additional filters
-          return await new PayloadBuilder<Payload>({ schema: this.indexQuerySchema }).fields(fields).build()
+          return new PayloadBuilder<Payload>({ schema: this.indexQuerySchema }).fields(fields).build()
         }),
       )
     }

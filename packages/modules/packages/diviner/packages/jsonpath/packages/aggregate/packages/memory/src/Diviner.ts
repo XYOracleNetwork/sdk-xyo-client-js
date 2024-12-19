@@ -9,9 +9,8 @@ import type {
 } from '@xyo-network/diviner-jsonpath-aggregate-model'
 import { JsonPathAggregateDivinerConfigSchema } from '@xyo-network/diviner-jsonpath-aggregate-model'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import type {
-  Payload, Schema, WithOptionalMeta,
-} from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 import { PayloadSchema } from '@xyo-network/payload-model'
 import { combinationsByBoundwitness, combinationsBySchema } from '@xyo-network/payload-utils'
 
@@ -70,10 +69,8 @@ export class JsonPathAggregateDiviner<
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     if (!payloads) return []
     const strippedPayloads = payloads.map((payload) => {
-      const p = { ...payload } as WithOptionalMeta<TIn>
-      delete p.$hash
-      delete p.$meta
-      return p as TIn
+      const p = { ...payload } as TIn
+      return PayloadBuilder.omitMeta(p as TIn)
     })
     const combinations
       = this.transformableSchemas.includes(BoundWitnessSchema)

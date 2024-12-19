@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
+import { toJson } from '@xylabs/object'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
@@ -11,8 +12,9 @@ import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import type { ModuleState, StateDictionary } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  Payload, Schema, WithMeta,
+import {
+  type Payload, type Schema, SequenceConstants,
+  type WithStorageMeta,
 } from '@xyo-network/payload-model'
 
 import { StatefulDivinerConfigSchema } from './Config.ts'
@@ -40,7 +42,7 @@ export abstract class StatefulDiviner<
   /**
    * The last state
    */
-  protected _lastState?: WithMeta<ModuleState<TState>>
+  protected _lastState?: ModuleState<TState>
 
   /**
    * Commit the internal state of the Diviner process. This is similar
@@ -49,9 +51,9 @@ export abstract class StatefulDiviner<
    * external stores.
    * @param nextState The state to commit
    */
-  protected async commitState(nextState: WithMeta<ModuleState<TState>>) {
+  protected async commitState(nextState: ModuleState<TState>) {
     // Don't commit state if no state has changed
-    if (nextState.state.offset === this._lastState?.state.offset) return
+    if (toJson(nextState.state) === toJson(this._lastState?.state)) return
     this._lastState = nextState
     const archivist = await this.getArchivistForStateStore()
     const [bw] = await new BoundWitnessBuilder().payload(nextState).signer(this.account).build()
@@ -95,7 +97,7 @@ export abstract class StatefulDiviner<
    * Retrieves the last state of the Diviner process. Used to recover state after
    * preemptions, reboots, etc.
    */
-  protected async retrieveState(): Promise<WithMeta<ModuleState<TState>> | undefined> {
+  protected async retrieveState(): Promise<ModuleState<TState> | undefined> {
     if (this._lastState) return this._lastState
     let hash: Hash = ''
     const diviner = await this.getBoundWitnessDivinerForStateStore()
@@ -103,7 +105,7 @@ export abstract class StatefulDiviner<
       .fields({
         address: this.account.address,
         limit: 1,
-        offset: 0,
+        cursor: SequenceConstants.minLocalSequence,
         order: 'desc',
         payload_schemas: [ModuleStateSchema],
       })
@@ -130,7 +132,7 @@ export abstract class StatefulDiviner<
       const archivist = await this.getArchivistForStateStore()
       const payload = (await archivist.get([hash])).find(isModuleState<TState>)
       if (payload) {
-        return payload as WithMeta<ModuleState<TState>>
+        return payload as WithStorageMeta<ModuleState<TState>>
       }
     }
     return undefined

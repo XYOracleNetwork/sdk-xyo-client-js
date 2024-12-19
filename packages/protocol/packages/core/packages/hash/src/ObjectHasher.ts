@@ -20,7 +20,7 @@ export type WorkerModule<Keys extends string> = {
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
 
-const omitByPredicate = <T extends EmptyObject>(prefix: string) => (_: T[keyof T], key: keyof T) => {
+const omitByPredicate = (prefix: string) => (_: unknown, key: string) => {
   assertEx(typeof key === 'string', () => `Invalid key type [${String(key)}, ${typeof key}]`)
   return String(key).startsWith(prefix)
 }

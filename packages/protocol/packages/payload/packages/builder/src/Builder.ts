@@ -2,7 +2,9 @@ import type { Hash } from '@xylabs/hex'
 import type { AnyObject } from '@xylabs/object'
 import { ObjectHasher } from '@xyo-network/hash'
 import {
+  type Compare,
   type Payload,
+  SequenceComparer,
   SequenceParser,
   type WithHashMeta,
   type WithoutStorageMeta,
@@ -57,8 +59,12 @@ export class PayloadBuilder<
         )
   }
 
-  static compareStorageMeta(a: WithStorageMeta<Payload>, b: WithStorageMeta<Payload>) {
-    return a._sequence > b._sequence ? 1 : a._sequence < b._sequence ? -1 : 0
+  static compareStorageMeta(
+    a: WithStorageMeta<Payload>,
+    b: WithStorageMeta<Payload>,
+    comparer: Compare<WithStorageMeta<Payload>> = SequenceComparer.local,
+  ) {
+    return comparer(a, b)
   }
 
   static async dataHash<T extends Payload>(payload: T): Promise<Hash> {

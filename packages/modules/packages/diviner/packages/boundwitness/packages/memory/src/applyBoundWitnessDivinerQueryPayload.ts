@@ -3,8 +3,9 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { hexFromHexString } from '@xylabs/hex'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { asBlock, isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
+import { asBlock, asOptionalBoundWitness } from '@xyo-network/boundwitness-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
   type Payload,
   SequenceConstants,
@@ -12,14 +13,21 @@ import {
 } from '@xyo-network/payload-model'
 
 // eslint-disable-next-line complexity
-export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivinerQueryPayload, payloads: Payload[] = []): BoundWitness[] => {
+export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivinerQueryPayload, payloads: WithStorageMeta<Payload>[] = []): BoundWitness[] => {
   if (!filter) return []
   const {
-    addresses, payload_hashes, payload_schemas, block, limit, cursor, order = 'desc', sourceQuery, destination,
+    addresses, block, cursor, destination, limit, order = 'desc', payload_hashes, payload_schemas, sourceQuery,
   } = filter
 
-  let bws = payloads.filter(isBoundWitnessWithStorageMeta)
-  if (order === 'desc') bws = bws.reverse()
+  const sortedPayloads = PayloadBuilder.sortByStorageMeta(payloads, order === 'desc' ? -1 : 1)
+  const parsedCursor = cursor ?? (order === 'desc') ? SequenceConstants.maxLocalSequence : SequenceConstants.minLocalSequence
+  const parsedOffset = (order === 'desc')
+    ? sortedPayloads.findIndex(bw => bw._sequence < parsedCursor)
+    : sortedPayloads.findIndex(bw => bw._sequence > parsedCursor)
+  if (parsedOffset === -1) return []
+  const payloadSubset = sortedPayloads.slice(parsedOffset)
+
+  let bws = filterAs(payloadSubset, asOptionalBoundWitness)
   const allAddresses = addresses?.map(address => hexFromHexString(address)).filter(exists)
   if (allAddresses?.length) bws = bws.filter(bw => containsAll(bw.addresses, allAddresses))
   if (payload_hashes?.length) bws = bws.filter(bw => containsAll(bw.payload_hashes, payload_hashes))
@@ -45,7 +53,5 @@ export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivine
       : filterAs(bws, asBlock).filter(bw => bw.block >= block)) as WithStorageMeta<BoundWitness>[]
   }
   const parsedLimit = limit ?? bws.length
-  const parsedCursor = cursor ?? (order === 'desc') ? SequenceConstants.maxLocalSequence : SequenceConstants.maxLocalSequence
-  const parsedOffset = (order === 'desc') ? bws.findIndex(bw => bw._sequence < parsedCursor) : bws.findIndex(bw => bw._sequence < parsedCursor)
-  return bws.slice(parsedOffset, parsedLimit)
+  return bws.slice(0, parsedLimit)
 }

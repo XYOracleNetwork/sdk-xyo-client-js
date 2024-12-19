@@ -1,5 +1,6 @@
 import '@xylabs/vitest-extended'
 
+import { filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
@@ -16,7 +17,9 @@ import type { ModuleState } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import type { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import {
+  asOptionalStorageMeta, type Payload, type WithStorageMeta,
+} from '@xyo-network/payload-model'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
 import { isTimestamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import {
@@ -126,7 +129,8 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
         expect(results.length).toBe(testCases.flat().length + 1)
         const state = results.find(isModuleState<IndexingDivinerState>)
         expect(state).toBeDefined()
-        const last = results.map(p => p as WithStorageMeta<Payload>).sort(PayloadBuilder.compareStorageMeta).at(-1)
+        const resultsWithStorageMeta = filterAs(results, asOptionalStorageMeta)
+        const last = resultsWithStorageMeta.map(p => p as WithStorageMeta<Payload>).sort(PayloadBuilder.compareStorageMeta).at(-1)
         expect(last).toBeDefined()
         expect(state?.state.cursor).toBe(last?._sequence)
       })

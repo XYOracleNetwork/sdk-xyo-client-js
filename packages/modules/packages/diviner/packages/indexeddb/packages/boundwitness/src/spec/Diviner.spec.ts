@@ -6,9 +6,7 @@ import { AsObjectFactory } from '@xylabs/object'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import {
-  asBoundWitness, asBoundWitnessWithStorageMeta, isBoundWitness,
-} from '@xyo-network/boundwitness-model'
+import { asOptionalBoundWitnessWithStorageMeta, isBoundWitness } from '@xyo-network/boundwitness-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -87,11 +85,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     ] as const) {
       await delay(2)
       const inserted = await archivist.insert([bw, ...payloads])
-      const test1 = filterAs(inserted, asBoundWitness)
-      const asStorageMeta = AsObjectFactory.create(isStorageMeta)
-      const test2 = filterAs(inserted, asStorageMeta)
-      const test3 = filterAs(inserted, asBoundWitnessWithStorageMeta) // This throws
-      const bwWithStorageMeta = filterAs(filterAs(inserted, asBoundWitness), asStorageMeta) as WithStorageMeta<BoundWitness>[]
+      const bwWithStorageMeta = filterAs(inserted, asOptionalBoundWitnessWithStorageMeta)
       boundWitnesses.push(...bwWithStorageMeta)
     }
     sut = await IndexedDbBoundWitnessDiviner.create({

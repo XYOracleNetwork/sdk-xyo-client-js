@@ -4,7 +4,7 @@ import type { Schema, Sequence } from '@xyo-network/payload-model'
 
 export interface PayloadSearchCriteria {
   addresses: Address[]
+  cursor?: Sequence
   order: Order
   schemas: Schema[]
-  sequence?: Sequence
 }

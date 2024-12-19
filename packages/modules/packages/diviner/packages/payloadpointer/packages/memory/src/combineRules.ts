@@ -33,12 +33,12 @@ export const combineRules = (rules: PayloadRule[][]): PayloadSearchCriteria => {
   assertEx(sequenceOrderRule.length < 2, () => 'Must not supply more than 1 direction/timestamp rule')
 
   const order: Order = sequenceOrderRule[0]?.order || 'desc'
-  const sequence = sequenceOrderRule[0]?.sequence
+  const cursor = sequenceOrderRule[0]?.sequence
 
   return {
     addresses,
+    cursor,
     order,
     schemas,
-    sequence,
   }
 }

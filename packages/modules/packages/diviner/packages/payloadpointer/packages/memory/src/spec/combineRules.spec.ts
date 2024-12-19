@@ -39,7 +39,7 @@ describe('combineRules', () => {
       it('sequence set to current time', () => {
         const rules = validRules().filter(rule => !(rule?.[0] as PayloadSequenceOrderRule)?.sequence)
         const actual = combineRules(rules)
-        expect(actual.sequence).toBe(undefined)
+        expect(actual.cursor).toBe(undefined)
       })
       it('direction defaults to desc', () => {
         const rules = validRules().filter(rule => !(rule?.[0] as PayloadSequenceOrderRule)?.sequence)

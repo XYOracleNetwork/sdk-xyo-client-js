@@ -10,7 +10,7 @@
         "--run",
         "--inspect-brk",
         "--no-file-parallelism",
-        "packages/modules/packages/diviner/packages/indexeddb/packages/boundwitness/src/spec/Diviner.spec.ts"
+        "packages/modules/packages/diviner/packages/payloadpointer/packages/memory/src/spec/Diviner.payloadPointer.sequence.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

@@ -4,17 +4,19 @@ import type {
   PayloadPointerPayload,
   PayloadRule,
   PayloadSchemaRule,
-  PayloadTimestampOrderRule,
+  PayloadSequenceOrderRule,
 } from '@xyo-network/diviner-payload-pointer-model'
 import { PayloadPointerSchema } from '@xyo-network/diviner-payload-pointer-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import type { Sequence } from '@xyo-network/payload-model'
+import { SequenceConstants } from '@xyo-network/payload-model'
 
-export const createPointer = async (
+export const createPointer = (
   addresses: string[][] = [],
   schemas: string[][] = [],
-  timestamp = Date.now(),
   order: Order = 'desc',
-): Promise<PayloadPointerPayload> => {
+  sequence?: Sequence,
+): PayloadPointerPayload => {
   const reference: PayloadRule[][] = []
 
   const schemaRules: PayloadSchemaRule[][] = schemas.map((rules) => {
@@ -31,8 +33,9 @@ export const createPointer = async (
   })
   if (addressRules.length > 0) reference.push(...addressRules)
 
-  const timestampRule: PayloadTimestampOrderRule = { order, timestamp }
-  reference.push([timestampRule])
+  const sequenceOrderRule: PayloadSequenceOrderRule = { order }
+  if (sequence != SequenceConstants.minLocalSequence) sequenceOrderRule.sequence = sequence
+  reference.push([sequenceOrderRule])
 
-  return await new PayloadBuilder<PayloadPointerPayload>({ schema: PayloadPointerSchema }).fields({ reference }).build()
+  return new PayloadBuilder<PayloadPointerPayload>({ schema: PayloadPointerSchema }).fields({ reference }).build()
 }

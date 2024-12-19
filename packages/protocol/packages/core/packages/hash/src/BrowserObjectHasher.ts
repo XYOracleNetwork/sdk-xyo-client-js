@@ -4,8 +4,6 @@ import { createBrowserWorker } from './createBrowserWorker.ts'
 import { createNodeWorker } from './createNodeWorker.ts'
 import { ObjectHasher } from './ObjectHasher.ts'
 
-// We put both in here so that things will work in jsdom/jest
-
 ObjectHasher.createBrowserWorker = createBrowserWorker
 ObjectHasher.createNodeWorker = createNodeWorker
 

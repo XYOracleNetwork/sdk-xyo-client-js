@@ -6,7 +6,7 @@ import { unitTestSigningAccount } from '../Account/index.ts'
 import { getNewPayloads } from '../Payload/index.ts'
 
 export const getNewBlock = async (...payloads: Payload[]): Promise<BoundWitness> => {
-  return (await (await new BoundWitnessBuilder().witness(await unitTestSigningAccount()).payloads(payloads)).build())[0]
+  return (await (new BoundWitnessBuilder().witness(await unitTestSigningAccount()).payloads(payloads)).build())[0]
 }
 
 export const getNewBlockWithPayloads = async (numPayloads = 1) => {
@@ -28,7 +28,7 @@ export const getNewBlocksWithPayloads = async (numBoundWitnesses = 1, numPayload
       .fill(0)
       .map(async () => {
         return (
-          await (await new BoundWitnessBuilder().witness(await unitTestSigningAccount()).payloads(await getNewPayloads(numPayloads))).build()
+          await (new BoundWitnessBuilder().witness(await unitTestSigningAccount()).payloads(await getNewPayloads(numPayloads))).build()
         )[0]
       }),
   )

@@ -22,7 +22,7 @@ export type Query<T extends void | EmptyObject | WithSchema = void, S extends Sc
   T extends void ? QueryFields : T & QueryFields,
   S extends void ?
     T extends WithSchema ? T['schema']
-      : T extends void ? string
+      : T extends void ? Schema
         : void
     : S
 >

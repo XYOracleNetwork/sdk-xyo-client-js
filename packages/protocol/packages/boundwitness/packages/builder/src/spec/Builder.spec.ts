@@ -1,8 +1,9 @@
 import '@xylabs/vitest-extended'
 
-import { toUint8Array } from '@xylabs/arraybuffer'
+import { toArrayBuffer } from '@xylabs/arraybuffer'
 import type { StringKeyObject } from '@xylabs/object'
 import {
+  Account,
   AddressValue, Elliptic, HDWallet,
 } from '@xyo-network/account'
 import { PayloadBuilder } from '@xyo-network/payload'
@@ -47,7 +48,7 @@ describe('BoundWitnessBuilder', () => {
   describe('build', () => {
     describe('_hash', () => {
       it.each(payloads)('consistently hashes equivalent payloads independent of the order of the keys', async (payload) => {
-        const address = await HDWallet.fromPhrase('swarm luggage creek win urban boil tray crumble voice scrap yellow live')
+        const address = await Account.random() // await HDWallet.fromPhrase('swarm luggage creek win urban boil tray crumble voice scrap yellow live')
         let builder = new BoundWitnessBuilder()
         expect(builder).toBeDefined()
         builder = builder.signer(address)
@@ -55,11 +56,17 @@ describe('BoundWitnessBuilder', () => {
         builder = builder.payload(payload)
         expect(builder).toBeDefined()
         const [actual] = await builder.build()
+        expect(actual.addresses).toBeArrayOfSize(1)
         expect(actual).toBeDefined()
-        if (actual.$meta?.signatures) {
-          const addr = new AddressValue(toUint8Array(actual.addresses[0]).buffer)
+        if (actual.$signatures) {
+          const addr = new AddressValue(toArrayBuffer(actual.addresses[0]))
           expect(addr.hex).toBe(actual.addresses[0])
-          const verify = await Elliptic.verify(toUint8Array(actual.$hash).buffer, toUint8Array(actual.$meta.signatures[0]).buffer, addr.bytes)
+          const hashToVerify = await PayloadBuilder.dataHash(actual)
+          console.log('verifying hash:', hashToVerify)
+          console.log('verifying address:', actual.addresses[0])
+          const verify = await Elliptic.verify(toArrayBuffer(
+            hashToVerify,
+          ), toArrayBuffer(actual.$signatures[0]), addr.bytes)
           expect(verify).toBe(true)
         }
       })

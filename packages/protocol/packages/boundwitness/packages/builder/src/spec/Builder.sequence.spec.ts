@@ -1,6 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { HDWallet } from '@xyo-network/account'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
   afterAll,
   beforeAll,
@@ -102,7 +103,7 @@ const boundWitnessSequenceTestCases = [
   boundWitnessSequenceTestCase4,
 ]
 
-describe('BoundWitnessBuilder', () => {
+describe.sequential('BoundWitnessBuilder', () => {
   beforeAll(() => {
     // NOTE: This is here and brittle because the BoundWitnessBuilder
     // uses Date.now() to generate timestamps and our test vectors were
@@ -142,7 +143,7 @@ describe('BoundWitnessBuilder', () => {
         .build()
 
       // Ensure the BW is correct
-      expect(bw.$hash).toEqual(testCase.dataHash)
+      expect(await PayloadBuilder.dataHash(bw)).toEqual(testCase.dataHash)
 
       for (let i = 0; i < testCase.payloadHashes.length; i++) {
         const expectedPayloadHash = testCase.payloadHashes[i]
@@ -165,7 +166,7 @@ describe('BoundWitnessBuilder', () => {
       // Ensure correct ending account state
       for (const signer of signers) {
         expect(signer.previousHash).to.equal(
-          bw.$hash,
+          await PayloadBuilder.dataHash(bw),
           'Incorrect previous hash for account',
         )
       }

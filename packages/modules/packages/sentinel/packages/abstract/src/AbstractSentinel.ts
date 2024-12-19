@@ -10,7 +10,10 @@ import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import type {
   ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult,
 } from '@xyo-network/module-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import type {
+  Payload, Schema, WithoutPrivateStorageMeta,
+} from '@xyo-network/payload-model'
 import type {
   CustomSentinelInstance,
   ResolvedTask,
@@ -55,7 +58,7 @@ export abstract class AbstractSentinel<
     return this.config.throwErrors ?? true
   }
 
-  async report(inPayloads?: Payload[]): Promise<Payload[]> {
+  async report(inPayloads?: Payload[]): Promise<WithoutPrivateStorageMeta<Payload>[]> {
     this._noOverride('report')
     const reportPromise = (async () => {
       await this.emit('reportStart', { inPayloads, mod: this })
@@ -145,7 +148,7 @@ export abstract class AbstractSentinel<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<SentinelQueries>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<SentinelQueries>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
@@ -158,7 +161,7 @@ export abstract class AbstractSentinel<
         return super.queryHandler(query, payloads)
       }
     }
-    return resultPayloads
+    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
   }
 
   abstract reportHandler(payloads?: Payload[]): Promise<Payload[]>

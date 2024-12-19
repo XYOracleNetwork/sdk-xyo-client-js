@@ -32,7 +32,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 10,
-          offset: 10,
           order: 'asc',
           schema: PayloadDivinerQuerySchema,
         },
@@ -40,14 +39,12 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       const expected: PayloadDivinerQueryPayload[] = [
         {
           limit: 1,
-          offset: 0,
           order: 'desc',
           schema: 'network.xyo.diviner.payload.query',
           schemas: [TemporalIndexingDivinerResultIndexSchema],
         } as unknown as PayloadDivinerQueryPayload,
         {
           limit: 10,
-          offset: 10,
           order: 'asc',
           schema: 'network.xyo.diviner.payload.query',
           schemas: [TemporalIndexingDivinerResultIndexSchema],
@@ -59,20 +56,18 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       const cases: [QueryType, PayloadDivinerQueryPayload][] = queries.map((query, i) => [query, expected[i]])
       describe('with single query', () => {
         it.each(cases)('transforms query using default settings', async (query, expected) => {
-          const builtExpected = await PayloadBuilder.build(expected)
           const results = await diviner.divine([query])
           const actual = results.filter(isPayloadDivinerQueryPayload)
           expect(actual).toBeArrayOfSize(1)
-          expect(PayloadBuilder.withoutMeta(actual[0])).toEqual(PayloadBuilder.withoutMeta(builtExpected))
+          expect(PayloadBuilder.omitMeta(actual[0])).toEqual(PayloadBuilder.omitMeta(expected))
         })
       })
       describe('with multiple queries', () => {
         it('transforms queries using default settings', async () => {
-          const builtExpected = await Promise.all(expected.map(payload => PayloadBuilder.build(payload)))
           const results = await diviner.divine(queries)
           const actual = results.filter(isPayloadDivinerQueryPayload)
-          expect(actual).toBeArrayOfSize(builtExpected.length)
-          expect(PayloadBuilder.withoutMeta(actual)).toEqual(PayloadBuilder.withoutMeta(builtExpected))
+          expect(actual).toBeArrayOfSize(expected.length)
+          expect(actual.map(i => PayloadBuilder.omitMeta(i))).toEqual(expected.map(i => PayloadBuilder.omitMeta(i)))
         })
       })
     })
@@ -87,7 +82,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 10,
-          offset: 10,
           order: 'asc',
           schema: divinerQuerySchema,
           status: 200,
@@ -100,7 +94,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
           url,
         },
         {
-          offset: 10,
           schema: divinerQuerySchema,
           url,
         },
@@ -128,7 +121,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       const expected = [
         {
           limit: 1,
-          offset: 0,
           order: 'desc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -136,7 +128,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 10,
-          offset: 10,
           order: 'asc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -146,7 +137,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 10,
-          offset: 0,
           order: 'desc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -154,7 +144,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 1,
-          offset: 10,
           order: 'desc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -162,7 +151,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 1,
-          offset: 0,
           order: 'asc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -170,7 +158,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 1,
-          offset: 0,
           order: 'desc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -179,7 +166,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 1,
-          offset: 0,
           order: 'desc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -188,7 +174,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         },
         {
           limit: 1,
-          offset: 0,
           order: 'desc',
           schema: indexQuerySchema,
           schemas: [indexSchema],
@@ -209,9 +194,9 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
             sourcePathExpression: '$.limit',
           },
           {
-            defaultValue: 0,
-            destinationField: 'offset',
-            sourcePathExpression: '$.offset',
+            // defaultValue: 0,
+            destinationField: 'cursor',
+            sourcePathExpression: '$.cursor',
           },
           {
             defaultValue: 'desc',
@@ -240,20 +225,18 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       })
       describe('with single query', () => {
         it.each(cases)('transforms query using default settings', async (query, expected) => {
-          const builtExpected = await PayloadBuilder.build(expected)
           const results = await diviner.divine([query])
           const actual = results.filter(isPayloadOfSchemaType(indexQuerySchema))
           expect(actual).toBeArrayOfSize(1)
-          expect(PayloadBuilder.withoutMeta(actual[0])).toEqual(PayloadBuilder.withoutMeta(builtExpected))
+          expect(PayloadBuilder.omitMeta(actual[0])).toEqual(PayloadBuilder.omitMeta(expected))
         })
       })
       describe('with multiple queries', () => {
         it('transforms queries using default settings', async () => {
-          const builtExpected = await Promise.all(expected.map(payload => PayloadBuilder.build(payload)))
           const results = await diviner.divine(queries)
           const actual = results.filter(isPayloadOfSchemaType(indexQuerySchema))
-          expect(actual).toBeArrayOfSize(builtExpected.length)
-          expect(PayloadBuilder.withoutMeta(actual)).toEqual(PayloadBuilder.withoutMeta(builtExpected))
+          expect(actual).toBeArrayOfSize(expected.length)
+          expect(actual.map(i => PayloadBuilder.omitMeta(i))).toEqual(expected.map(i => PayloadBuilder.omitMeta(i)))
         })
       })
     })

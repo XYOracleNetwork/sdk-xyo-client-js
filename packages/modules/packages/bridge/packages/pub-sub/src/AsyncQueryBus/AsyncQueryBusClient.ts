@@ -4,13 +4,13 @@ import { forget } from '@xylabs/forget'
 import type { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import type { CacheConfig, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
-  ModuleError, Payload, PayloadWithMeta, WithMeta,
+  ModuleError, Payload, WithSources,
 } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
@@ -54,8 +54,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
 
   async send(address: Address, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
     this.logger?.debug(`Begin issuing query to: ${address}`)
-    const $meta = { ...query?.$meta, destination: [address] }
-    const routedQuery = await PayloadBuilder.build({ ...query, $meta })
+    const routedQuery = { ...query, $destination: [address] }
     // console.log('queryArchivist - calling')
     const queryArchivist = assertEx(
       await this.queriesArchivist(),
@@ -69,11 +68,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
     // they sent us (which might be OK since it reflect the chain of custody)
     // Revisit this once we have proxy module support as they are another
     // intermediary to consider.
-    const routedQueryHash
-      // Trust the signed hash if it's there
-      = (routedQuery as WithMeta<QueryBoundWitness>)?.$hash
-      // Calculate the hash otherwise
-      ?? Object.keys(await PayloadBuilder.dataHash(routedQuery))
+    const routedQueryHash = await PayloadBuilder.dataHash(routedQuery)
     this.logger?.debug(`Issuing query: ${routedQueryHash} to: ${address}`)
     // If there was data associated with the query, add it to the insert
     const data = payloads ? [routedQuery, ...payloads] : [routedQuery]
@@ -110,11 +105,11 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
           this.logger?.error('Timeout waiting for query response')
           // Resolve with error to match what a local module would do if it were to error
           // TODO: BW Builder/Sign result as this module?
-          const error: ModuleError = {
+          const error: WithSources<ModuleError> = {
             message: 'Timeout waiting for query response',
             query: 'network.xyo.boundwitness',
             schema: 'network.xyo.error.module',
-            sources: [routedQueryHash],
+            $sources: [routedQueryHash],
           }
           reject(error)
           return
@@ -162,11 +157,11 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
               }
               const result = await responseBoundWitnessDiviner.divine([divinerQuery])
               if (result && result.length > 0) {
-                const response = result.find(isBoundWitnessWithMeta)
-                if (response && (response?.$meta as unknown as { sourceQuery: string })?.sourceQuery === sourceQuery) {
+                const response = result.find(isBoundWitness)
+                if (response && (response as unknown as { $sourceQuery: string })?.$sourceQuery === sourceQuery) {
                   this.logger?.debug(`Found response to query: ${sourceQuery}`)
                   // Get any payloads associated with the response
-                  const payloads: PayloadWithMeta[] = response.payload_hashes?.length > 0 ? await responseArchivist.get(response.payload_hashes) : []
+                  const payloads: Payload[] = response.payload_hashes?.length > 0 ? await responseArchivist.get(response.payload_hashes) : []
                   this.queryCache.set(sourceQuery, [response, payloads, []])
                 }
               }

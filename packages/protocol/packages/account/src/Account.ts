@@ -1,4 +1,4 @@
-import { toUint8Array } from '@xylabs/arraybuffer'
+import { toArrayBuffer, toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import {
   Address, Hash, hexFromArrayBuffer,
@@ -133,28 +133,30 @@ export class Account extends EllipticKey implements AccountInstance {
     })
   }
 
-  async sign(hash: ArrayBufferLike, previousHash: ArrayBufferLike | undefined): Promise<ArrayBufferLike> {
+  async sign(hash: ArrayBufferLike, previousHash: ArrayBufferLike | undefined): Promise<[ArrayBufferLike, Hash?]> {
     await Elliptic.initialize()
     return await this._signingMutex.runExclusive(async () => {
+      if (Account.previousHashStore) {
+        const storedPreviousHash = await Account.previousHashStore.getItem(this.address)
+        this._previousHash = storedPreviousHash ? toArrayBuffer(storedPreviousHash, 32) : undefined
+      }
       const currentPreviousHash = this.previousHash
       const passedCurrentHash
-        = typeof previousHash === 'string'
-          ? previousHash
-          : previousHash === undefined
-            ? undefined
-            : hexFromArrayBuffer(previousHash, { prefix: false })
+        = previousHash === undefined
+          ? this.previousHash
+          : hexFromArrayBuffer(previousHash, { prefix: false })
       assertEx(
         currentPreviousHash === passedCurrentHash,
         () => `Used and current previous hashes do not match [${currentPreviousHash} !== ${passedCurrentHash}]`,
       )
 
-      const signature = this.private.sign(hash)
+      const signature = await this.private.sign(hash)
       const newPreviousHash = toUint8Array(hash, 32).buffer
       this._previousHash = newPreviousHash
       if (Account.previousHashStore) {
         await Account.previousHashStore.setItem(this.address, hexFromArrayBuffer(newPreviousHash, { prefix: false }))
       }
-      return signature
+      return [signature, currentPreviousHash]
     })
   }
 

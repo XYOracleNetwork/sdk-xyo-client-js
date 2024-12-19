@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import type { Address } from '@xylabs/hex'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
 import type { AddressSpaceDivinerParams } from '@xyo-network/diviner-address-space-model'
 import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner-address-space-model'
@@ -26,7 +26,7 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
     const archivistMod = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod, this.account)
     const all = await archivist.all?.()
-    const bwLists = all?.filter(isBoundWitnessWithMeta) ?? []
+    const bwLists = all?.filter(isBoundWitnessWithStorageMeta) ?? []
     const addresses = new Set<Address>(bwLists.flatMap(bw => bw.addresses).map(address => address.toLowerCase() as Address))
     return await Promise.all(
       [...addresses].map(address => new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()),

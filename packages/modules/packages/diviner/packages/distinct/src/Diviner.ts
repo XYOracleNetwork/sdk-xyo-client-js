@@ -4,9 +4,7 @@ import { DistinctDivinerConfigSchema } from '@xyo-network/diviner-distinct-model
 import type { DivinerParams } from '@xyo-network/diviner-model'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  Payload, PayloadWithMeta, Schema,
-} from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
 export type DistinctDivinerParams = DivinerParams<AnyConfigSchema<DistinctDivinerConfig>>
 
@@ -14,7 +12,7 @@ export class DistinctDiviner<TParams extends DistinctDivinerParams = DistinctDiv
   static override readonly configSchemas: Schema[] = [...super.configSchemas, DistinctDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = DistinctDivinerConfigSchema
 
-  protected override async divineHandler(payloads?: PayloadWithMeta[]): Promise<PayloadWithMeta[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const map = await PayloadBuilder.toDataHashMap(payloads ?? [])
     return Object.values(map)
   }

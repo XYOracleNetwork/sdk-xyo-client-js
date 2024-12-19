@@ -35,9 +35,7 @@ import {
 } from '@xyo-network/module-model'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  ModuleError, Payload, WithMeta,
-} from '@xyo-network/payload-model'
+import type { ModuleError, Payload } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType, ModuleErrorSchema } from '@xyo-network/payload-model'
 import type { QueryPayload } from '@xyo-network/query-payload-plugin'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
@@ -121,7 +119,7 @@ export abstract class AbstractModuleProxy<
     const result: AddressPreviousHashPayload = assertEx(
       (await this.sendQuery(queryPayload, undefined, this.account)).find(
         isPayloadOfSchemaType<AddressPreviousHashPayload>(AddressPreviousHashSchema),
-      ) as WithMeta<AddressPreviousHashPayload>,
+      ) as AddressPreviousHashPayload,
       () => 'Result did not include correct payload',
     )
     return result
@@ -157,17 +155,17 @@ export abstract class AbstractModuleProxy<
 
   override async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
     const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
-    return (await this.sendQuery(queryPayload))[0] as WithMeta<ModuleManifestPayload>
+    return (await this.sendQuery(queryPayload))[0] as ModuleManifestPayload
   }
 
   override async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
-    return (await this.sendQuery(queryPayload)) as WithMeta<AddressPreviousHashPayload>[]
+    return (await this.sendQuery(queryPayload)) as AddressPreviousHashPayload[]
   }
 
   override async previousHash(): Promise<string | undefined> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
-    return ((await this.sendQuery(queryPayload)).pop() as WithMeta<AddressPreviousHashPayload>).previousHash
+    return ((await this.sendQuery(queryPayload)).pop() as AddressPreviousHashPayload).previousHash
   }
 
   override async publicChildren() {
@@ -208,7 +206,7 @@ export abstract class AbstractModuleProxy<
           name: deadError.name,
           schema: ModuleErrorSchema,
         }
-        const sourceQuery = await PayloadBuilder.build(assertEx(QueryBoundWitnessWrapper.unwrap(query), () => 'Invalid query'))
+        const sourceQuery = assertEx(QueryBoundWitnessWrapper.unwrap(query), () => 'Invalid query')
         return await this.bindQueryResult(sourceQuery, [], undefined, [errorPayload])
       }
     })
@@ -277,7 +275,7 @@ export abstract class AbstractModuleProxy<
 
   protected async filterErrors(result: ModuleQueryResult): Promise<ModuleError[]> {
     const wrapper = await BoundWitnessWrapper.wrap(result[0], result[1])
-    return wrapper.payloadsBySchema<WithMeta<ModuleError>>(ModuleErrorSchema)
+    return wrapper.payloadsBySchema<ModuleError>(ModuleErrorSchema)
   }
 
   // this checks and warns if we are getting spammed by the same query

@@ -57,7 +57,7 @@ export interface AccountInstance {
   previousHashBytes: ArrayBufferLike | undefined
   readonly private?: PrivateKeyInstance
   readonly public?: PublicKeyInstance
-  sign: (hash: ArrayBufferLike, previousHash: ArrayBufferLike | undefined) => Promise<ArrayBufferLike>
+  sign: (hash: ArrayBufferLike, previousHash?: ArrayBufferLike) => Promise<[ArrayBufferLike, Hash?]>
   verify: (msg: ArrayBufferLike, signature: ArrayBufferLike) => Promise<boolean>
 }
 

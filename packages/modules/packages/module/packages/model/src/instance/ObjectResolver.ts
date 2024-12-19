@@ -8,14 +8,16 @@ export const isObjectResolver = <T extends EmptyObject = AnyObject>(value?: unkn
   return typeof (value as Partial<ObjectResolver<T>>).resolve === 'function'
 }
 
-export enum ObjectResolverPriority {
-  Disabled = -1,
-  VeryLow = 0,
-  Low = 1,
-  Normal = 2,
-  High = 3,
-  VeryHigh = 4,
-}
+export const ObjectResolverPriority = {
+  Disabled: -1,
+  VeryLow: 0,
+  Low: 1,
+  Normal: 2,
+  High: 3,
+  VeryHigh: 4,
+} as const
+
+export type ObjectResolverPriority = typeof ObjectResolverPriority[keyof typeof ObjectResolverPriority]
 
 export interface ObjectResolver<TResult extends EmptyObject> {
   priority: ObjectResolverPriority

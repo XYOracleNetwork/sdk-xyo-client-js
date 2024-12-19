@@ -1,5 +1,6 @@
-import type {
-  Payload, PayloadFindFilter, Query,
+import {
+  isPayloadOfSchemaType,
+  type Payload, type PayloadFindFilter, type Query,
 } from '@xyo-network/payload-model'
 
 export type AddressHistorySchema = 'network.xyo.diviner.address.history'
@@ -12,4 +13,4 @@ export type AddressHistoryPayload = Payload<{ schema: AddressHistorySchema }>
 export const isAddressHistoryPayload = (x?: Payload | null): x is AddressHistoryPayload => x?.schema === AddressHistorySchema
 
 export type AddressHistoryQueryPayload = Query<{ schema: AddressHistoryQuerySchema } & PayloadFindFilter>
-export const isAddressHistoryQueryPayload = (x?: Payload | null): x is AddressHistoryQueryPayload => x?.schema === AddressHistoryQuerySchema
+export const isAddressHistoryQueryPayload = isPayloadOfSchemaType(AddressHistoryQuerySchema)

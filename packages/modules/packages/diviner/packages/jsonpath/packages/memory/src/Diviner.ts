@@ -3,9 +3,10 @@ import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type { JsonPathDivinerParams, PayloadTransformer } from '@xyo-network/diviner-jsonpath-model'
 import { JsonPathDivinerConfigSchema } from '@xyo-network/diviner-jsonpath-model'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import type { WithoutSchema } from '@xyo-network/payload-builder'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import type {
+  Payload, Schema, WithoutSchema,
+} from '@xyo-network/payload-model'
 import { PayloadSchema } from '@xyo-network/payload-model'
 
 import { toPayloadTransformer } from './jsonpath/index.ts'

@@ -64,9 +64,8 @@ import {
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
-  ModuleError, Payload, Query, Schema, WithMeta,
+  ModuleError, Payload, Query, Schema,
 } from '@xyo-network/payload-model'
-import type { QueryPayload } from '@xyo-network/query-payload-plugin'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
 import type { WalletInstance } from '@xyo-network/wallet-model'
 import { LRUCache } from 'lru-cache'
@@ -316,7 +315,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   ): Promise<ModuleQueryResult> {
     this._checkDead()
     this._noOverride('query')
-    const sourceQuery = await PayloadBuilder.build(assertEx(isQueryBoundWitness(query) ? query : undefined, () => 'Unable to parse query'))
+    const sourceQuery = assertEx(isQueryBoundWitness(query) ? query : undefined, () => 'Unable to parse query')
     return await this.busy(async () => {
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []
@@ -337,8 +336,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           this._lastError = error
           // this.status = 'dead'
           errorPayloads.push(
-            await new ModuleErrorBuilder()
-              .sources([sourceQuery.$hash])
+            new ModuleErrorBuilder()
+              .meta({ $sources: [await PayloadBuilder.dataHash(sourceQuery)] })
               .name(this.modName ?? '<Unknown>')
               .query(sourceQuery.schema)
               .details(error.details)
@@ -490,7 +489,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected async bindHashesInternal(hashes: Hash[], schema: Schema[], account: AccountInstance = this.account): Promise<BoundWitness> {
     const builder = new BoundWitnessBuilder().hashes(hashes, schema).signer(account)
-    const result = (await builder.build())[0]
+    const result: BoundWitness = (await builder.build())[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
     return result
   }
@@ -500,9 +499,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     payloads?: Payload[],
     account?: AccountInstance,
     additionalSigners?: AccountInstance[],
-  ): PromiseEx<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]], AccountInstance> {
+  ): PromiseEx<[QueryBoundWitness, Payload[], Payload[]], AccountInstance> {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    return new PromiseEx<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]], AccountInstance>(async (resolve) => {
+    return new PromiseEx<[QueryBoundWitness, Payload[], Payload[]], AccountInstance>(async (resolve) => {
       const result = await this.bindQueryInternal(query, payloads, account, additionalSigners)
       resolve?.(result)
       return result
@@ -514,32 +513,28 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     payloads?: Payload[],
     account: AccountInstance = this.account,
     additionalSigners: AccountInstance[] = [],
-  ): Promise<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]]> {
+  ): Promise<[QueryBoundWitness, Payload[], Payload[]]> {
     const accounts = [account, ...additionalSigners].filter(exists)
-    const builder = await new QueryBoundWitnessBuilder().payloads(payloads).signers(accounts).query(query)
+    const builder = new QueryBoundWitnessBuilder().payloads(payloads).signers(accounts).query(query)
 
-    let additional: WithMeta<Payload>[] = []
-    if (this.config.certify) {
-      additional = await this.certifyParents()
-      await builder.additional(additional)
-    }
     const [bw, payloadsOut, errors] = await builder.build()
-    return [bw, [...payloadsOut, ...additional], errors]
+    return [bw, [...payloadsOut], errors]
   }
 
   protected async bindQueryResult<T extends Query>(
-    query: WithMeta<T>,
+    query: T,
     payloads: Payload[],
     additionalWitnesses: AccountInstance[] = [],
     errors?: ModuleError[],
   ): Promise<ModuleQueryResult> {
-    const builder = new BoundWitnessBuilder().payloads(payloads).errors(errors).sourceQuery(query.$hash)
+    const queryDataHash = await PayloadBuilder.dataHash(query)
+    const builder = new BoundWitnessBuilder().payloads(payloads).errors(errors).sourceQuery(queryDataHash)
     const witnesses = [this.account, ...additionalWitnesses].filter(exists)
     builder.signers(witnesses)
     const result: ModuleQueryResult = [
-      (await builder.build())[0],
-      await Promise.all(payloads.map(payload => PayloadBuilder.build(payload))),
-      await Promise.all((errors ?? [])?.map(error => PayloadBuilder.build(error))),
+      PayloadBuilder.omitPrivateStorageMeta((await builder.build())[0]),
+      PayloadBuilder.omitPrivateStorageMeta(payloads),
+      PayloadBuilder.omitPrivateStorageMeta(errors ?? []),
     ]
     if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
       forget(this.storeToArchivists(result.flat()))
@@ -547,18 +542,16 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return result
   }
 
-  protected async generateConfigAndAddress(_maxDepth?: number): Promise<Payload[]> {
-    const config = await PayloadBuilder.build(this.config)
-    const address = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address }).build()
-    const queries = await Promise.all(
-      this.queries.map(async (query) => {
-        return await new PayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
-      }),
-    )
-    const configSchema = await PayloadBuilder.build<ConfigPayload>({
+  protected generateConfigAndAddress(_maxDepth?: number): Promisable<Payload[]> {
+    const config = this.config
+    const address: AddressPayload = { schema: AddressSchema, address: this.address }
+    const queries = this.queries.map((query) => {
+      return { schema: QuerySchema, query }
+    })
+    const configSchema: ConfigPayload = {
       config: config.schema,
       schema: ConfigSchema,
-    })
+    }
     return ([config, configSchema, address, ...queries]).filter(exists)
   }
 
@@ -624,7 +617,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
     await this.started('throw')
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQueries>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQueries>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
@@ -649,7 +642,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         throw new Error(`Unsupported Query [${(queryPayload as Payload).schema}]`)
       }
     }
-    return resultPayloads
+    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
   }
 
   protected async startHandler(): Promise<boolean> {
@@ -703,6 +696,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }, true)
   }
 
-  protected abstract certifyParents(): Promise<WithMeta<Payload>[]>
+  protected abstract certifyParents(): Promise<Payload[]>
   protected abstract storeToArchivists(payloads: Payload[]): Promise<Payload[]>
 }

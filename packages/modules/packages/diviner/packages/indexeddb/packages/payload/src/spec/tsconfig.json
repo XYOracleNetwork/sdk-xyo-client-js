@@ -1,7 +1,0 @@
-{
-  "compilerOptions": {
-    "lib": ["esnext", "dom"]
-
-  },
-  "extends": "@xylabs/tsconfig"
-}

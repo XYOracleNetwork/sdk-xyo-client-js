@@ -1,12 +1,9 @@
-/**
- * @jest-environment jsdom
- */
-
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -22,8 +19,7 @@ import {
   indexedDB,
 } from 'fake-indexeddb'
 import {
-  beforeAll, describe, expect,
-  it,
+  beforeAll, describe, expect, it,
 } from 'vitest'
 
 import { IndexedDbBoundWitnessDiviner } from '../Diviner.ts'
@@ -49,19 +45,10 @@ globalThis.indexedDB = indexedDB
 describe('IndexedDbBoundWitnessDiviner.Errors', () => {
   const dbName = 'testDb'
   const storeName = 'testStore'
-  let sut: IndexedDbBoundWitnessDiviner
   const values: BoundWitness[] = []
+  let archivist: IndexedDbArchivist
   describe('divine', () => {
     const createTestNode = async (testDbName = 'INCORRECT-DB-NAME', testStoreName = 'INCORRECT-STORE-NAME') => {
-      const archivist = await IndexedDbArchivist.create({
-        account: 'random',
-        config: {
-          dbName, schema: IndexedDbArchivist.defaultConfigSchema, storeName,
-        },
-      })
-      const [bw] = await new BoundWitnessBuilder().build()
-      values.push(bw)
-      await archivist.insert(values)
       const sut = await IndexedDbBoundWitnessDiviner.create({
         account: 'random',
         config: {
@@ -85,7 +72,19 @@ describe('IndexedDbBoundWitnessDiviner.Errors', () => {
       )
       return sut
     }
+    beforeAll(async () => {
+      archivist = await IndexedDbArchivist.create({
+        account: 'random',
+        config: {
+          dbName, schema: IndexedDbArchivist.defaultConfigSchema, storeName,
+        },
+      })
+      const [bw] = await new BoundWitnessBuilder().build()
+      values.push(bw)
+      await archivist.insert(values)
+    })
     describe('when DB and store do not exist', () => {
+      let sut: IndexedDbBoundWitnessDiviner
       beforeAll(async () => {
         sut = await createTestNode('INCORRECT-DB-NAME', 'INCORRECT-STORE-NAME')
       })
@@ -95,6 +94,7 @@ describe('IndexedDbBoundWitnessDiviner.Errors', () => {
       })
     })
     describe('when DB exists but store does not exist', () => {
+      let sut: IndexedDbBoundWitnessDiviner
       beforeAll(async () => {
         sut = await createTestNode(dbName, 'INCORRECT-STORE-NAME')
       })
@@ -104,12 +104,14 @@ describe('IndexedDbBoundWitnessDiviner.Errors', () => {
       })
     })
     describe('when DB and store exist', () => {
+      let sut: IndexedDbBoundWitnessDiviner
       beforeAll(async () => {
         sut = await createTestNode(dbName, storeName)
       })
       it('returns values', async () => {
         const result = await sut.divine([{ schema: BoundWitnessDivinerQuerySchema }])
-        expect(result).toEqual(values)
+        const filtered = PayloadBuilder.omitStorageMeta(result)
+        expect(filtered).toEqual(values)
       })
     })
   })

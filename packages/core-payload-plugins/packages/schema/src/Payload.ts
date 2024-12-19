@@ -1,5 +1,5 @@
 import {
-  isPayloadOfSchemaType, isPayloadOfSchemaTypeWithMeta, isPayloadOfSchemaTypeWithSources, type Payload,
+  isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources, type Payload,
 } from '@xyo-network/payload-model'
 
 import { SchemaSchema } from './Schema.ts'
@@ -35,8 +35,3 @@ export const isSchemaPayload = isPayloadOfSchemaType<SchemaPayload>(SchemaSchema
  * Identity function for determining if an object is an Schema with sources
  */
 export const isSchemaPayloadWithSources = isPayloadOfSchemaTypeWithSources<SchemaPayload>(SchemaSchema)
-
-/**
- * Identity function for determining if an object is an Schema with meta
- */
-export const isSchemaPayloadWithMeta = isPayloadOfSchemaTypeWithMeta<SchemaPayload>(SchemaSchema)

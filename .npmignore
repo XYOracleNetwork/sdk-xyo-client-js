@@ -4,7 +4,6 @@
 .example.env
 tsconfig*
 .tsconfig*
-jest.config.js
 rollup.config.ts
 yarn.lock
 **/*.spec.ts

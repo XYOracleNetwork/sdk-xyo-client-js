@@ -138,13 +138,12 @@ export class PayloadBuilder<
     return await ObjectHasher.hashes(payloads)
   }
 
-  static sortByStorageMeta<T extends Payload>(payloads: WithStorageMeta<T>[], direction: -1 | 1 = 1) {
-    return payloads.sort((a, b) =>
-      a._sequence < b._sequence
-        ? -direction
-        : a._sequence > b._sequence
-          ? direction
-          : 0)
+  static sortByStorageMeta<T extends Payload>(
+    payloads: WithStorageMeta<T>[],
+    direction: -1 | 1 = 1,
+    comparer: Compare<WithStorageMeta<Payload>> = SequenceComparer.local,
+  ) {
+    return payloads.sort((a, b) => direction * comparer(b, a))
   }
 
   static async toAllHashMap<T extends Payload>(payloads: T[]): Promise<Record<Hash, T>> {

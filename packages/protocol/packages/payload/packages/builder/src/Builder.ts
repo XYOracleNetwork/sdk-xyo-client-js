@@ -1,8 +1,7 @@
 import type { Hash } from '@xylabs/hex'
-import type { AnyObject } from '@xylabs/object'
+import type { AnyObject, Compare } from '@xylabs/object'
 import { ObjectHasher } from '@xyo-network/hash'
 import {
-  type Compare,
   type Payload,
   SequenceComparer,
   SequenceParser,

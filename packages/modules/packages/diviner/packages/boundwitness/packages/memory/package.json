@@ -48,7 +48,6 @@
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   },

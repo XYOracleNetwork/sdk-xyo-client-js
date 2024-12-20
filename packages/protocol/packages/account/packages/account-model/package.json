@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/account-model",
-  "version": "3.6.0-rc.13",
+  "version": "3.6.0-rc.14",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/hash",
-  "version": "3.6.0-rc.13",
+  "version": "3.6.0-rc.14",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -64,7 +64,7 @@
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
     "@xylabs/vitest-extended": "^4.4.25",
-    "esbuild": "^0.24.0",
+    "esbuild": "^0.24.2",
     "publint": "^0.2.12",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"

@@ -63,11 +63,9 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     sourceUrl,
   }
 
-  let sut: TemporalIndexingDivinerStateToIndexCandidateDiviner
-  let node: MemoryNode
-
-  let archivist: MemoryArchivist
   let testCases: WithStorageMeta<Payload>[][] = []
+  let archivist: MemoryArchivist
+  let sut: TemporalIndexingDivinerStateToIndexCandidateDiviner
 
   beforeAll(async () => {
     const wallet = await HDWallet.random()
@@ -75,7 +73,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     locator.register(TemporalIndexingDivinerStateToIndexCandidateDiviner)
     const manifest = TemporalStateToIndexCandidateDivinerManifest as PackageManifestPayload
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
-    node = await manifestWrapper.loadNodeFromIndex(0)
+    const node = await manifestWrapper.loadNodeFromIndex(0)
     await node.start()
 
     const privateModules = manifest.nodes[0].modules?.private ?? []

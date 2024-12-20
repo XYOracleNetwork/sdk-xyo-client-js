@@ -36,26 +36,28 @@ export class PayloadBuilder<
     }
   }
 
-  static async addSequencedStorageMeta<T extends Payload = Payload>(payload: T): Promise<WithStorageMeta<T>> {
+  static async addSequencedStorageMeta<T extends Payload = Payload>(payload: T, index = 0): Promise<WithStorageMeta<T>> {
     const withHashMeta = await this.addHashMeta(payload)
-    const _sequence = SequenceParser.from(Date.now(), withHashMeta._hash).localSequence
+    const _sequence = SequenceParser.from(Date.now(), withHashMeta._hash, index).localSequence
     return {
       ...withHashMeta,
       _sequence,
     }
   }
 
-  static async addStorageMeta<T extends Payload>(payload: T): Promise<WithStorageMeta<T>>
+  static async addStorageMeta<T extends Payload>(payload: T, index?: number): Promise<WithStorageMeta<T>>
   static async addStorageMeta<T extends Payload>(payloads: T[]): Promise<WithStorageMeta<T>[]>
-  static async addStorageMeta<T extends Payload>(payloads: T | T[]): Promise<WithStorageMeta<T>[] | WithStorageMeta<T>> {
+  static async addStorageMeta<T extends Payload>(payloads: T | T[], index = 0): Promise<WithStorageMeta<T>[] | WithStorageMeta<T>> {
     return Array.isArray(payloads)
       ? await (async () => {
-        return await Promise.all(payloads.map(async payload => await this.addSequencedStorageMeta(
+        return await Promise.all(payloads.map(async (payload, i) => await this.addSequencedStorageMeta(
           payload,
+          i,
         )))
       })()
       : this.addSequencedStorageMeta(
           payloads,
+          index,
         )
   }
 

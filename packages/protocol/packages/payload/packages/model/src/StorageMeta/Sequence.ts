@@ -30,9 +30,15 @@ export const isSequence = (value: unknown): value is Sequence => {
   return isLocalSequence(value) || isQualifiedSequence(value)
 }
 
+export const SequenceNonceComponentLengths = {
+  nonceIndexBytes: 4,
+  nonceHashBytes: 4,
+}
+
 export const SequenceComponentLengths = {
+  ...SequenceNonceComponentLengths,
   epochBytes: 8,
-  nonceBytes: 8,
+  nonceBytes: SequenceNonceComponentLengths.nonceIndexBytes + SequenceNonceComponentLengths.nonceHashBytes,
   addressBytes: 20,
 }
 

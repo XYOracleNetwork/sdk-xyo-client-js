@@ -65,10 +65,23 @@ export class SequenceParser {
   static from(timestamp: Hex, hash: Hash, address?: Address): SequenceParser
   static from(timestamp: Hex, hash: Hex, address?: Address): SequenceParser
   static from(timestamp: Hex, nonce: Nonce, address?: Address): SequenceParser
+  static from(timestamp: Hex, hash: Hash, index?: number, address?: Address): SequenceParser
+  static from(timestamp: Hex, hash: Hex, index?: number, address?: Address): SequenceParser
+  static from(timestamp: Hex, nonce: Nonce, index?: number, address?: Address): SequenceParser
   static from(timestamp: number, hash: Hash, address?: Address): SequenceParser
   static from(timestamp: number, hash: Hex, address?: Address): SequenceParser
   static from(timestamp: number, nonce: Nonce, address?: Address): SequenceParser
-  static from(timestampOrSequence: Sequence | Hex | number, nonceOrAddress: Hash | Nonce, address?: Address): SequenceParser {
+  static from(timestamp: number, hash: Hash, index?: number, address?: Address): SequenceParser
+  static from(timestamp: number, hash: Hex, index?: number, address?: Address): SequenceParser
+  static from(timestamp: number, nonce: Nonce, index?: number, address?: Address): SequenceParser
+  static from(
+    timestampOrSequence: Sequence | Hex | number,
+    nonceOrAddress: Hash | Nonce,
+    addressOrIndex?: Address | number,
+    addressOnly?: Address,
+  ): SequenceParser {
+    const address = typeof addressOrIndex === 'number' ? addressOnly : addressOrIndex
+    const index = typeof addressOrIndex === 'number' ? addressOrIndex : undefined
     if (isSequence(timestampOrSequence)) {
       if (nonceOrAddress) {
         assertEx(!isQualifiedSequence(timestampOrSequence), () => 'Providing both a qualified sequence and a address is not allowed')
@@ -78,7 +91,7 @@ export class SequenceParser {
       return new this(SequenceParser.privateConstructorKey, timestampOrSequence)
     }
     const epoch = SequenceParser.toEpoch(timestampOrSequence)
-    const nonce = SequenceParser.toNonce(nonceOrAddress)
+    const nonce = SequenceParser.toNonce(nonceOrAddress, index)
     const addressHex: Hex = address ? toHex(address, { bitLength: SequenceConstants.addressBytes * 8 }) : SequenceConstants.minAddress
     const hexString = (epoch + nonce + addressHex) as Hex
     assertEx(isSequence(hexString), () => `Invalid sequence [${hexString}] [${epoch}, ${nonce}, ${addressHex}]`)
@@ -110,7 +123,7 @@ export class SequenceParser {
   }
 
   // can convert a short number/hex to a nonce (treats it as the whole value) or extract an nonce from a sequence
-  static toNonce(value: Hash | Hex): Nonce {
+  static toNonce(value: Hash | Hex, index = 0): Nonce {
     assertEx(
       typeof value !== 'number' || Number.isInteger(value),
       () => 'Value must be in integer',
@@ -119,7 +132,8 @@ export class SequenceParser {
     if (isSequence(hex)) {
       return hex.slice(SequenceConstants.epochBytes * 2, SequenceConstants.localSequenceBytes * 2) as Nonce
     }
-    const hash = toHex((hex as string), { prefix: false, bitLength: SequenceConstants.nonceBytes * 8 })
-    return hash.slice(-SequenceConstants.nonceBytes * 2) as Nonce
+    const hashHex = toHex((hex as string), { prefix: false, bitLength: SequenceConstants.nonceHashBytes * 8 }).slice(-SequenceConstants.nonceHashBytes * 2)
+    const indexHex = toHex(index, { prefix: false, bitLength: SequenceConstants.nonceIndexBytes * 8 }).slice(-SequenceConstants.nonceIndexBytes * 2)
+    return (indexHex + hashHex).slice(-SequenceConstants.nonceBytes * 2) as Nonce
   }
 }

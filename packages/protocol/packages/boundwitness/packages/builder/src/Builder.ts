@@ -13,9 +13,7 @@ import {
   ObjectHasher, removeEmptyFields, sortFields,
 } from '@xyo-network/hash'
 import type { PayloadBuilderOptions } from '@xyo-network/payload-builder'
-import {
-  omitSchema, PayloadBuilder, PayloadBuilderBase,
-} from '@xyo-network/payload-builder'
+import { omitSchema, PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   ModuleError, Payload, Schema,
   WithoutMeta,
@@ -43,8 +41,9 @@ const uniqueAccounts = (accounts: AccountInstance[], throwOnFalse = false) => {
 export class BoundWitnessBuilder<
   TBoundWitness extends UnsignedBoundWitness = UnsignedBoundWitness,
   TPayload extends Payload = Payload>
-  extends PayloadBuilderBase<
-    TBoundWitness
+  extends PayloadBuilder<
+    TBoundWitness,
+    Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]>
   > {
   private static readonly _buildMutex = new Mutex()
 
@@ -99,7 +98,7 @@ export class BoundWitnessBuilder<
   ): Promise<Pick<T, GeneratedBoundWitnessFields>> {
     const addresses = accounts.map(account => hexFromArrayBuffer(account.addressBytes, { prefix: false }))
     const previous_hashes = accounts.map(account => account.previousHash ?? null)
-    const payload_hashes = payloads ? await PayloadBuilder.dataHashes(payloads) : []
+    const payload_hashes = payloads ? await BoundWitnessBuilder.dataHashes(payloads) : []
     const payload_schemas = payloads?.map(({ schema }) => schema) ?? []
     return {
       addresses, payload_hashes, payload_schemas, previous_hashes,
@@ -122,7 +121,7 @@ export class BoundWitnessBuilder<
     assertEx(!fields.payload_schemas.some(schema => !schema), () => 'nulls found in schemas')
   }
 
-  async build(): Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]> {
+  override async build(): Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]> {
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
       const dataHashableFields = (await this.dataHashableFields()) as TBoundWitness
       const $signatures = await this.sign()
@@ -180,7 +179,7 @@ export class BoundWitnessBuilder<
     }
     // we need to do the cast here since ts seems to not like nested, yet same, generics
     this._fields = omitSchema(
-      PayloadBuilderBase.omitMeta(
+      BoundWitnessBuilder.omitMeta(
         removeEmptyFields(structuredClone(fields)),
       ),
     ) as unknown as WithoutMeta<WithoutSchema<TBoundWitness>>

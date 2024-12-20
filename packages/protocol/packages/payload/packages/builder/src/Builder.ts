@@ -1,21 +1,47 @@
+import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
-import type { AnyObject, Compare } from '@xylabs/object'
-import { ObjectHasher } from '@xyo-network/hash'
+import type {
+  AnyObject, Compare, EmptyObject,
+} from '@xylabs/object'
 import {
-  type Payload,
+  isJsonObject, omitByPrefix, pickByPrefix, toJson,
+} from '@xylabs/object'
+import type { Promisable } from '@xylabs/promise'
+import { ObjectHasher, removeEmptyFields } from '@xyo-network/hash'
+import {
+  type Payload, type Schema,
   type Sequence,
   SequenceComparer,
   SequenceParser,
   type WithHashMeta,
+  type WithOnlyClientMeta,
+  type WithOptionalSchema,
+  type WithoutClientMeta,
+  type WithoutMeta,
+  type WithoutPrivateStorageMeta,
+  type WithoutSchema,
   type WithoutStorageMeta,
   type WithStorageMeta,
 } from '@xyo-network/payload-model'
 
-import { PayloadBuilderBase } from './BuilderBase.ts'
+import type { PayloadBuilderOptions } from './Options.ts'
 
-export class PayloadBuilder<
-  T extends Payload = Payload<AnyObject>,
-> extends PayloadBuilderBase<T> {
+export const omitSchema = <T extends WithOptionalSchema>(payload: T): WithoutSchema<T> => {
+  const result = structuredClone(payload)
+  delete result.schema
+  return result
+}
+
+export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
+  protected _fields?: WithoutMeta<WithoutSchema<T>>
+  protected _meta?: WithOnlyClientMeta<T>
+  protected _schema: Schema
+
+  constructor(readonly options: PayloadBuilderOptions) {
+    const { schema } = options
+    this._schema = schema
+  }
+
   static async addHashMeta<T extends Payload>(payload: T): Promise<WithHashMeta<T>>
   static async addHashMeta<T extends Payload>(payloads: T[]): Promise<WithHashMeta<T>[]>
   static async addHashMeta<T extends Payload>(payloads: T | T[]): Promise<WithHashMeta<T>[] | WithHashMeta<T>> {
@@ -26,8 +52,8 @@ export class PayloadBuilder<
         }),
       )
     } else {
-      const _hash = await PayloadBuilder.hash(payloads)
-      const _dataHash = await PayloadBuilder.dataHash(payloads)
+      const _hash = await this.hash(payloads)
+      const _dataHash = await this.dataHash(payloads)
       return {
         ...payloads,
         _dataHash,
@@ -82,13 +108,26 @@ export class PayloadBuilder<
     )
   }
 
+  static dataHashableFields<T extends Payload>(
+    schema: Schema,
+    payload: WithoutSchema<T>,
+
+  ): Promisable<WithoutMeta<T>> {
+    const cleanFields = removeEmptyFields({ ...payload, schema })
+    assertEx(
+      cleanFields === undefined || isJsonObject(cleanFields),
+      () => `Fields must be JsonObject: ${JSON.stringify(toJson(cleanFields), null, 2)}`,
+    )
+    return this.omitMeta(cleanFields) as WithoutMeta<T>
+  }
+
   static async dataHashes(payloads: undefined): Promise<undefined>
   static async dataHashes<T extends Payload>(payloads: T[]): Promise<Hash[]>
   static async dataHashes<T extends Payload>(payloads?: T[]): Promise<Hash[] | undefined> {
     return payloads
       ? await Promise.all(
         payloads.map(async (payload) => {
-          return await PayloadBuilder.dataHash(payload)
+          return await this.dataHash(payload)
         }),
       )
       : undefined
@@ -124,7 +163,7 @@ export class PayloadBuilder<
   static async hashPairs<T extends Payload>(payloads: T[]): Promise<[T, Hash][]> {
     return await Promise.all(
       payloads.map<Promise<[T, Hash]>>(async (payload) => {
-        return [payload, await PayloadBuilder.hash(payload)]
+        return [payload, await this.hash(payload)]
       }),
     )
   }
@@ -139,6 +178,38 @@ export class PayloadBuilder<
   static async hashes<T extends Payload>(payloads: T[]): Promise<Hash[]>
   static async hashes<T extends Payload>(payloads?: T[]): Promise<Hash[] | undefined> {
     return await ObjectHasher.hashes(payloads)
+  }
+
+  static omitClientMeta<T extends EmptyObject>(payload: T, maxDepth?: number): WithoutClientMeta<T>
+  static omitClientMeta<T extends EmptyObject>(payloads: T[], maxDepth?: number): WithoutClientMeta<T>[]
+  static omitClientMeta<T extends EmptyObject>(payloads: T | T[], maxDepth = 100): WithoutClientMeta<T> | WithoutClientMeta<T>[] {
+    return Array.isArray(payloads)
+      ? payloads.map(payload => this.omitClientMeta(payload, maxDepth))
+      : omitByPrefix(payloads, '$', maxDepth)
+  }
+
+  static omitMeta<T extends EmptyObject>(payload: T, maxDepth?: number): WithoutMeta<T>
+  static omitMeta<T extends EmptyObject>(payloads: T[], maxDepth?: number): WithoutMeta<T>[]
+  static omitMeta<T extends EmptyObject>(payloads: T | T[], maxDepth = 100): WithoutMeta<T> | WithoutMeta<T>[] {
+    return Array.isArray(payloads)
+      ? payloads.map(payload => this.omitMeta(payload, maxDepth))
+      : this.omitStorageMeta(this.omitClientMeta(payloads, maxDepth), maxDepth) as unknown as WithoutMeta<T>
+  }
+
+  static omitPrivateStorageMeta<T extends EmptyObject>(payload: T, maxDepth?: number): WithoutPrivateStorageMeta<T>
+  static omitPrivateStorageMeta<T extends EmptyObject>(payloads: T[], maxDepth?: number): WithoutPrivateStorageMeta<T>[]
+  static omitPrivateStorageMeta<T extends EmptyObject>(payloads: T | T[], maxDepth = 100): WithoutPrivateStorageMeta<T> | WithoutPrivateStorageMeta<T>[] {
+    return Array.isArray(payloads)
+      ? payloads.map(payload => this.omitPrivateStorageMeta(payload, maxDepth))
+      : omitByPrefix(payloads, '__', maxDepth)
+  }
+
+  static omitStorageMeta<T extends EmptyObject>(payload: T, maxDepth?: number): WithoutStorageMeta<T>
+  static omitStorageMeta<T extends EmptyObject>(payloads: T[], maxDepth?: number): WithoutStorageMeta<T>[]
+  static omitStorageMeta<T extends EmptyObject>(payloads: T | T[], maxDepth = 100): WithoutStorageMeta<T> | WithoutStorageMeta<T>[] {
+    return Array.isArray(payloads)
+      ? payloads.map(payload => this.omitStorageMeta(payload, maxDepth))
+      : omitByPrefix(payloads, '_', maxDepth)
   }
 
   static sortByStorageMeta<T extends Payload>(
@@ -180,11 +251,35 @@ export class PayloadBuilder<
     return result
   }
 
-  build(): T {
+  build(): R {
     return {
       schema: this._schema,
       ...this._fields,
       ...this._meta,
-    } as T
+    } as R
+  }
+
+  async dataHashableFields() {
+    return await PayloadBuilder.dataHashableFields(
+      assertEx(this._schema, () => 'Payload: Missing Schema'),
+      // TODO: Add verification that required fields are present
+      this._fields as WithoutSchema<T>,
+    )
+  }
+
+  fields(fields: WithoutMeta<WithoutSchema<T>>) {
+    // we need to do the cast here since ts seems to not like nested, yet same, generics
+    this._fields = omitSchema(PayloadBuilder.omitMeta(removeEmptyFields(structuredClone(fields)))) as unknown as WithoutMeta<WithoutSchema<T>>
+    return this
+  }
+
+  meta(meta: WithOnlyClientMeta<T>) {
+    // we need to do the cast here since ts seems to not like nested, yet same, generics
+    this._meta = pickByPrefix(meta, '$') as WithOnlyClientMeta<T>
+    return this
+  }
+
+  schema(value: Schema) {
+    this._schema = value
   }
 }

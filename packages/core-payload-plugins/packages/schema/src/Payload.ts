@@ -10,7 +10,6 @@ export type SchemaPayload = Payload<{
    */
   definition: {
     [key: string]: unknown
-    $id?: string
   }
   /**
    * The schema this schema extends (if any)
@@ -19,12 +18,11 @@ export type SchemaPayload = Payload<{
 
   /** @deprecated use definition.$id instead */
   name?: string
-
-  /**
-   * Identifies this payload as a Schema
-   */
-  schema: SchemaSchema
-}>
+}, SchemaSchema> & {
+  definition: {
+    $id?: string
+  }
+}
 
 /**
  * Identity function for determining if an object is an Schema

@@ -5826,6 +5826,11 @@ __metadata:
     lru-cache: "npm:^11.0.2"
     typescript: "npm:^5.7.2"
     vitest: "npm:^2.1.8"
+  peerDependencies:
+    "@xylabs/sdk-api-express-ecs": ^2.1.0
+  peerDependenciesMeta:
+    "@xylabs/sdk-api-express-ecs":
+      optional: true
   languageName: unknown
   linkType: soft
 

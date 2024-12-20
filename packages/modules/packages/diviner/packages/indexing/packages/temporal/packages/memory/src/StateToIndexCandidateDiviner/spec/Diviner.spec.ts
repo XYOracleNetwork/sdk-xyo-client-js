@@ -15,7 +15,6 @@ import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { ModuleState } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
-import type { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
   asOptionalStorageMeta, type Payload, type WithStorageMeta,
@@ -63,11 +62,9 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     sourceUrl,
   }
 
-  let sut: TemporalIndexingDivinerStateToIndexCandidateDiviner
-  let node: MemoryNode
-
-  let archivist: MemoryArchivist
   let testCases: WithStorageMeta<Payload>[][] = []
+  let archivist: MemoryArchivist
+  let sut: TemporalIndexingDivinerStateToIndexCandidateDiviner
 
   beforeAll(async () => {
     const wallet = await HDWallet.random()
@@ -75,7 +72,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     locator.register(TemporalIndexingDivinerStateToIndexCandidateDiviner)
     const manifest = TemporalStateToIndexCandidateDivinerManifest as PackageManifestPayload
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
-    node = await manifestWrapper.loadNodeFromIndex(0)
+    const node = await manifestWrapper.loadNodeFromIndex(0)
     await node.start()
 
     const privateModules = manifest.nodes[0].modules?.private ?? []
@@ -140,7 +137,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     describe('with previous state', () => {
       it.each([1, 2, 3])('returns next state and batch results', async (batch) => {
         const all = (await archivist.all()).sort(PayloadBuilder.compareStorageMeta)
-        const batchOffset = all.at((3 * batch) - 1)
+        const batchOffset = all.at((2 * batch) - 1)
         expect(batchOffset).toBeDefined()
         // Test across all offsets
         const cursor = assertEx(batchOffset)._sequence

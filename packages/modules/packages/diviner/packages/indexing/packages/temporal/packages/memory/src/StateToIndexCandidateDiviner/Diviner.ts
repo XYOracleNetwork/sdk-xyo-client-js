@@ -99,12 +99,12 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     // Get next batch of results starting from the offset
     const next = await sourceArchivist.next(nextOffset)
     if (next.length === 0) return [lastState]
+
     const batch = filterAs(next, asBoundWitness)
       .filter(exists)
       .filter(bw => payloadSchemasContainsAll(bw, this.payload_schemas))
     // Get source data
-    const bws = batch.filter(isBoundWitness)
-    const indexCandidates: IndexCandidate[] = (await Promise.all(bws.map(bw => this.getPayloadsInBoundWitness(bw, sourceArchivist))))
+    const indexCandidates: IndexCandidate[] = (await Promise.all(batch.map(bw => this.getPayloadsInBoundWitness(bw, sourceArchivist))))
       .filter(exists)
       .flat()
     const nextCursor = assertEx(next.at(-1)?._sequence, () => `${moduleName}: Expected next to have a sequence`)

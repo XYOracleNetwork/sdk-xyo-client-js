@@ -91,7 +91,7 @@ export class IndexingDiviner<
    */
   protected async commitState(nextState: ModuleState<IndexingDivinerState>) {
     // Don't commit state if no state has changed
-    if (nextState.state.offset === this._lastState?.state.offset) return
+    if (nextState.state.cursor === this._lastState?.state.cursor) return
     this._lastState = nextState
     const archivist = await this.getArchivistForStore('stateStore')
     const [bw] = await new BoundWitnessBuilder().payload(nextState).signer(this.account).build()

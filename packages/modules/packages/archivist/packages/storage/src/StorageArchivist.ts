@@ -178,15 +178,14 @@ export class StorageArchivist<
       }).map(payload => PayloadBuilder.omitStorageMeta(payload))
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
-    const storagePayloads = (await PayloadBuilder.addStorageMeta(payloads)).sort(PayloadBuilder.compareStorageMeta)
-    return await Promise.all(storagePayloads.map((storagePayload) => {
-      const value = JSON.stringify(storagePayload)
+  protected override async insertHandler(payloads: WithStorageMeta<Payload>[]): Promise<WithStorageMeta<Payload>[]> {
+    return await Promise.all(payloads.map((payload) => {
+      const value = JSON.stringify(payload)
       // console.log('insert.storagePayloads:', storagePayload)
-      assertEx(value.length < this.maxEntrySize, () => `Payload too large [${storagePayload._hash}, ${value.length}]`)
-      this.storage.set(storagePayload._hash, storagePayload)
-      this.storage.set(storagePayload._dataHash, storagePayload)
-      return storagePayload
+      assertEx(value.length < this.maxEntrySize, () => `Payload too large [${payload._hash}, ${value.length}]`)
+      this.storage.set(payload._hash, payload)
+      this.storage.set(payload._dataHash, payload)
+      return payload
     }))
   }
 

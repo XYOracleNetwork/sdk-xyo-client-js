@@ -138,13 +138,11 @@ export class MemoryArchivist<
     }).filter(exists)
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
-    const payloadsWithMeta = (await PayloadBuilder.addStorageMeta(payloads)).sort(PayloadBuilder.compareStorageMeta)
-    const insertedPayloads = await Promise.all(payloadsWithMeta.map(async (payload) => {
-      return this.cache.get(payload._hash) ?? await this.insertPayloadIntoCache(payload)
-    }))
-
-    return insertedPayloads
+  protected override insertHandler(payloads: WithStorageMeta<Payload>[]): WithStorageMeta<Payload>[] {
+    const payloadsWithMeta = payloads.sort(PayloadBuilder.compareStorageMeta)
+    return payloadsWithMeta.map((payload) => {
+      return this.insertPayloadIntoCache(payload)
+    })
   }
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
@@ -162,11 +160,10 @@ export class MemoryArchivist<
     return result
   }
 
-  private async insertPayloadIntoCache(payload: Payload): Promise<WithStorageMeta<Payload>> {
-    const withMeta = await PayloadBuilder.addStorageMeta(payload)
-    this.cache.set(withMeta._hash, withMeta)
-    this.dataHashIndex.set(withMeta._dataHash, withMeta._hash)
-    return withMeta
+  private insertPayloadIntoCache(payload: WithStorageMeta<Payload>): WithStorageMeta<Payload> {
+    this.cache.set(payload._hash, payload)
+    this.dataHashIndex.set(payload._dataHash, payload._hash)
+    return payload
   }
 
   private rebuildDataHashIndex() {

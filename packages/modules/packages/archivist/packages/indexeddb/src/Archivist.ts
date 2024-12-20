@@ -292,9 +292,7 @@ export class IndexedDbArchivist<
     )
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
-    // Get the unique pairs of payloads and their hashes
-    const payloadWithStorageMeta = (await PayloadBuilder.addStorageMeta(payloads)).sort(PayloadBuilder.compareStorageMeta)
+  protected override async insertHandler(payloads: WithStorageMeta<Payload>[]): Promise<WithStorageMeta<Payload>[]> {
     return await this.useDb(async (db) => {
       // Perform all inserts via a single transaction to ensure atomicity
       // with respect to checking for the pre-existence of the hash.
@@ -307,7 +305,7 @@ export class IndexedDbArchivist<
       const inserted: WithStorageMeta<Payload>[] = []
       try {
         await Promise.all(
-          payloadWithStorageMeta.map(async (payload) => {
+          payloads.map(async (payload) => {
             // only insert if hash does not already exist
             if (!await store.index(IndexedDbArchivist.hashIndexName).get(payload._hash)) {
             // Insert the payload

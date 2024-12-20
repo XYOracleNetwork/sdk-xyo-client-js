@@ -141,18 +141,15 @@ export class CookieArchivist<
     ).filter(exists)
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
+  protected override insertHandler(payloads: WithStorageMeta<Payload>[]): WithStorageMeta<Payload>[] {
     try {
-      const resultPayloads: WithStorageMeta<Payload>[] = await Promise.all(
-        payloads.map(async (payload) => {
-          const payloadWithMeta = await PayloadBuilder.addSequencedStorageMeta(payload)
-          const value = JSON.stringify(payloadWithMeta)
-          assertEx(value.length < this.maxEntrySize, () => `Payload too large [${payloadWithMeta._hash}, ${value.length}]`)
-          Cookies.set(this.keyFromHash(payloadWithMeta._hash), value)
-          Cookies.set(this.keyFromHash(payloadWithMeta._dataHash), value)
-          return payloadWithMeta
-        }),
-      )
+      const resultPayloads: WithStorageMeta<Payload>[] = payloads.map((payload) => {
+        const value = JSON.stringify(payload)
+        assertEx(value.length < this.maxEntrySize, () => `Payload too large [${payload._hash}, ${value.length}]`)
+        Cookies.set(this.keyFromHash(payload._hash), value)
+        Cookies.set(this.keyFromHash(payload._dataHash), value)
+        return payload
+      })
       return resultPayloads
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)

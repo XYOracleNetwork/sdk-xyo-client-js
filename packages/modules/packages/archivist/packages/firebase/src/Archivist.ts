@@ -69,14 +69,13 @@ export class FirebaseArchivist<
     }))).filter(exists)
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
+  protected override async insertHandler(payloads: WithStorageMeta<Payload>[]): Promise<WithStorageMeta<Payload>[]> {
     const payloadCollection = this.collection
     return await Promise.all(payloads.map(
       async (payload) => {
-        const payloadWithMeta = await PayloadBuilder.addSequencedStorageMeta(payload)
-        const docRef = doc(payloadCollection, payloadWithMeta._hash)
-        await setDoc(docRef, payloadWithMeta)
-        return payloadWithMeta
+        const docRef = doc(payloadCollection, payload._hash)
+        await setDoc(docRef, payload)
+        return payload
       },
     ))
   }

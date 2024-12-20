@@ -289,7 +289,7 @@ export abstract class AbstractArchivist<
     return PayloadBuilder.omitPrivateStorageMeta([...foundPayloads, ...parentFoundPayloads])
   }
 
-  protected insertHandler(_payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
+  protected insertHandler(_payloads: WithStorageMeta<Payload>[]): Promisable<WithStorageMeta<Payload>[]> {
     throw new Error(NOT_IMPLEMENTED)
   }
 
@@ -310,7 +310,14 @@ export abstract class AbstractArchivist<
     const emitEvents = config?.emitEvents ?? true
     const writeToParents = config?.writeToParents ?? true
 
-    const insertedPayloads = await this.insertHandler(PayloadBuilder.omitStorageMeta(payloads))
+    // remove the existing payloads
+    const withStorageMeta = await PayloadBuilder.addStorageMeta(payloads)
+    const hashes = withStorageMeta.map(p => p._dataHash)
+    const existingPayloads = await this.getWithConfig(hashes)
+    const existingHashes = new Set(existingPayloads.map(p => p._hash))
+    const payloadsToInsert = withStorageMeta.filter(p => !existingHashes.has(p._hash))
+
+    const insertedPayloads = await this.insertHandler(payloadsToInsert)
 
     if (writeToParents) {
       await this.writeToParents(insertedPayloads)
@@ -370,7 +377,7 @@ export abstract class AbstractArchivist<
           hashes: [...(await this.deleteWithConfig(queryPayload.hashes))],
           schema: ArchivistDeleteQuerySchema,
         }
-        resultPayloads.push(await PayloadBuilder.addSequencedStorageMeta(resultPayload))
+        resultPayloads.push(await PayloadBuilder.addStorageMeta(resultPayload))
         break
       }
       case ArchivistGetQuerySchema: {
@@ -388,13 +395,13 @@ export abstract class AbstractArchivist<
       default: {
         const result = await super.queryHandler(sanitizedQuery, sanitizedPayloads)
         if (this.config.storeQueries) {
-          await this.insertHandler([sanitizedQuery])
+          await this.insertWithConfig([sanitizedQuery])
         }
         return PayloadBuilder.omitPrivateStorageMeta(result)
       }
     }
     if (this.config.storeQueries) {
-      await this.insertHandler([sanitizedQuery])
+      await this.insertWithConfig([sanitizedQuery])
     }
     return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
   }

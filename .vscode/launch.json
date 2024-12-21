@@ -11,7 +11,7 @@
         "--inspect-brk",
         "--no-file-parallelism",
         "--testTimeout=120000",
-        "packages/modules/packages/diviner/packages/indexing/packages/temporal/packages/memory/src/StateToIndexCandidateDiviner/spec/Diviner.spec.ts"
+        "packages/modules/packages/archivist/packages/memory/src/spec/MemoryArchivist.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

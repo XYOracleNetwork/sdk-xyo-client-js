@@ -34,19 +34,23 @@ describe('MemoryArchivist', () => {
     await archivist.clear()
   })
 
-  it('should return same items inserted in the order they were inserted in', async () => {
+  it('should return items inserted in the order they were provided in', async () => {
     const archivist = await MemoryArchivist.create({ account: 'random' })
-    const payloads = Array.from({ length: 100 }, (_, i) => new PayloadBuilder<Id>({ schema: IdSchema }).fields({ salt: `${i}` }).build())
+    const payloads: Id[] = Array.from({ length: 100 }, (_, i) => new PayloadBuilder<Id>({ schema: IdSchema }).fields({ salt: `${i}` }).build())
+    // Ensure payload was create in order provided
+    for (const [index, id] of payloads.entries()) {
+      expect(id?.salt).toBe(`${index}`)
+    }
 
-    const result = await archivist.insert(payloads)
+    const results = await archivist.insert(payloads)
 
     // Ensure payload was inserted in order provided
-    for (const [index, payload] of result.entries()) {
-      expect(isId(payload)).toBe(true)
-      const id = asId(payload)
+    for (const [index, result] of results.entries()) {
+      expect(isId(result)).toBe(true)
+      const id = asId(result)
       expect(id).toBeDefined()
       expect(id?.salt).toBe(`${index}`)
-      expect(await PayloadBuilder.dataHash(payload)).toEqual(await PayloadBuilder.dataHash(payloads[index]))
+      expect(await PayloadBuilder.dataHash(result)).toEqual(await PayloadBuilder.dataHash(payloads[index]))
     }
   })
 

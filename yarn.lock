@@ -5504,6 +5504,7 @@ __metadata:
     "@xyo-network/archivist-abstract": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/id-payload-plugin": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
@@ -7609,6 +7610,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/id-payload-plugin@workspace:packages/core-payload-plugins/packages/id"
   dependencies:
+    "@xylabs/object": "npm:^4.4.25"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.6"
     "@xylabs/tsconfig": "npm:^4.2.6"
     "@xylabs/vitest-extended": "npm:^4.4.25"

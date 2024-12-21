@@ -20,7 +20,7 @@ export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivine
   } = filter
 
   const sortedPayloads = PayloadBuilder.sortByStorageMeta(payloads, order === 'desc' ? -1 : 1)
-  const parsedCursor = cursor ?? (order === 'desc') ? SequenceConstants.maxLocalSequence : SequenceConstants.minLocalSequence
+  const parsedCursor = cursor === undefined ? (order === 'desc') ? SequenceConstants.maxLocalSequence : SequenceConstants.minLocalSequence : cursor
   const parsedOffset = (order === 'desc')
     ? sortedPayloads.findIndex(bw => bw._sequence < parsedCursor)
     : sortedPayloads.findIndex(bw => bw._sequence > parsedCursor)
@@ -32,13 +32,13 @@ export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivine
   if (allAddresses?.length) bws = bws.filter(bw => containsAll(bw.addresses, allAddresses))
   if (payload_hashes?.length) bws = bws.filter(bw => containsAll(bw.payload_hashes, payload_hashes))
   if (payload_schemas?.length) bws = bws.filter(bw => containsAll(bw.payload_schemas, payload_schemas))
-  if (sourceQuery) bws = bws.filter(bw => ((bw as { $sourceQuery?: string })?.$sourceQuery) === sourceQuery)
+  if (sourceQuery) bws = bws.filter(bw => bw?.$sourceQuery === sourceQuery)
   // If there's a destination filter of the right kind
   if (destination && Array.isArray(destination) && destination?.length > 0) {
     const targetFilter = assertEx(destination, () => 'Missing destination')
     // Find all BWs that satisfy the destination constraint
     bws = bws.filter((bw) => {
-      const targetDestinationField = (bw as { $destination?: string[] })?.$destination
+      const targetDestinationField = (bw as { $destination?: string | string[] })?.$destination
       // If the destination field is an array and contains at least one element
       return targetDestinationField !== undefined && Array.isArray(targetDestinationField) && targetDestinationField.length > 0
       // Check that the targetDestinationField contains all the elements in the targetFilter

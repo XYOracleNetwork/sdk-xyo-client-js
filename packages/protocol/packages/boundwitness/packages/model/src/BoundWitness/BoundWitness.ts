@@ -15,7 +15,13 @@ export interface BoundWitnessRequiredFields {
 }
 
 export interface BoundWitnessMeta {
-  // the query that initiated the bound witness
+  /**
+   * @field The address to which the query is directed
+   */
+  $destination?: Address
+  /**
+   * @field The query that initiated the bound witness
+   */
   $sourceQuery?: Hash
 }
 

@@ -146,7 +146,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       await this.responsesArchivist(),
       () => `Unable to contact responsesArchivist [${this.config?.intersect?.queries?.archivist}]`,
     )
-    const queryDestination = (query as { $destination?: string[] })?.$destination
+    const queryDestination = query?.$destination
     if (queryDestination && queryDestination?.includes(localModule.address)) {
       // Find the query
       const queryIndex = query.payload_hashes.indexOf(query.query)

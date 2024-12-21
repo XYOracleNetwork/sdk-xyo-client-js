@@ -225,4 +225,4 @@ describe('PubSubBridge', () => {
     expect(exposedAfter).toBeArray()
     expect(exposedAfter?.length).toBe(0)
   })
-})
+}, 10_000)

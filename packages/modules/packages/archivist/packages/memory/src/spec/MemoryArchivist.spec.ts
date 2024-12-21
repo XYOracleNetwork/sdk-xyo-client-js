@@ -5,6 +5,10 @@ import { delay } from '@xylabs/delay'
 import { toJsonString } from '@xylabs/object'
 import { HDWallet } from '@xyo-network/account'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
+import type { Id } from '@xyo-network/id-payload-plugin'
+import {
+  asId, IdSchema, isId,
+} from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
   describe, expect, it,
@@ -30,14 +34,20 @@ describe('MemoryArchivist', () => {
     await archivist.clear()
   })
 
-  it('should return same items inserted', async () => {
+  it('should return same items inserted in the order they were inserted in', async () => {
     const archivist = await MemoryArchivist.create({ account: 'random' })
+    const payloads = Array.from({ length: 100 }, (_, i) => new PayloadBuilder<Id>({ schema: IdSchema }).fields({ salt: `${i}` }).build())
 
-    const payloads = [{ schema: 'network.xyo.test' }]
     const result = await archivist.insert(payloads)
 
-    expect(result.length).toEqual(payloads.length)
-    expect(result[0].schema).toEqual(payloads[0].schema)
+    // Ensure payload was inserted in order provided
+    for (const [index, payload] of result.entries()) {
+      expect(isId(payload)).toBe(true)
+      const id = asId(payload)
+      expect(id).toBeDefined()
+      expect(id?.salt).toBe(`${index}`)
+      expect(await PayloadBuilder.dataHash(payload)).toEqual(await PayloadBuilder.dataHash(payloads[index]))
+    }
   })
 
   it('next', async () => {

@@ -18,7 +18,6 @@ import {
   ArchivistNextQuerySchema,
 } from '@xyo-network/archivist-model'
 import { creatableModule } from '@xyo-network/module-model'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'

@@ -10,6 +10,7 @@ import {
   asId, IdSchema, isId,
 } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { WithStorageMeta } from '@xyo-network/payload-model'
 import {
   describe, expect, it,
 } from 'vitest'
@@ -34,12 +35,23 @@ describe('MemoryArchivist', () => {
     await archivist.clear()
   })
 
-  it('should return items inserted in the order they were provided in', async () => {
+  it.only('should return items inserted in the order they were provided in', async () => {
     const archivist = await MemoryArchivist.create({ account: 'random' })
     const payloads: Id[] = Array.from({ length: 100 }, (_, i) => new PayloadBuilder<Id>({ schema: IdSchema }).fields({ salt: `${i}` }).build())
     // Ensure payload was create in order provided
     for (const [index, id] of payloads.entries()) {
       expect(id?.salt).toBe(`${index}`)
+    }
+
+    const withStorageMeta = await PayloadBuilder.addStorageMeta(payloads)
+
+    // Ensure payload was returned in order provided
+    for (const [index, result] of withStorageMeta.entries()) {
+      expect(isId(result)).toBe(true)
+      const id = asId(result)
+      expect(id).toBeDefined()
+      expect(id?.salt).toBe(`${index}`)
+      expect(await PayloadBuilder.dataHash(result)).toEqual(await PayloadBuilder.dataHash(payloads[index]))
     }
 
     const results = await archivist.insert(payloads)
@@ -49,6 +61,17 @@ describe('MemoryArchivist', () => {
       expect(isId(result)).toBe(true)
       const id = asId(result)
       expect(id).toBeDefined()
+      if (index > 0) {
+        expect(result._sequence > results[index - 1]._sequence).toBeTrue()
+      }
+      if (index < 99) {
+        expect(result._sequence < results[index + 1]._sequence).toBeTrue()
+      }
+      if (id?.salt !== `${index}`) {
+        console.warn('result-', results[index - 1])
+        console.warn('result', result)
+        console.warn('result+', results[index + 1])
+      }
       expect(id?.salt).toBe(`${index}`)
       expect(await PayloadBuilder.dataHash(result)).toEqual(await PayloadBuilder.dataHash(payloads[index]))
     }

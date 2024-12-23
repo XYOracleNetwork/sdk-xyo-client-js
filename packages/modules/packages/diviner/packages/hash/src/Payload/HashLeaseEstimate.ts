@@ -1,5 +1,5 @@
 import { AsObjectFactory } from '@xylabs/object'
-import type { Payload } from '@xyo-network/payload-model'
+import type { Payload, WithSources } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources } from '@xyo-network/payload-model'
 
 export const HashLeaseEstimateSchema = 'network.xyo.hash.lease.estimate' as const
@@ -36,6 +36,6 @@ export const asOptionalHashLeaseEstimate = AsObjectFactory.createOptional<HashLe
 /**
  * Identity function for HashLeaseEstimate payload with sources
  */
-export const isHashLeaseEstimateWithSources = isPayloadOfSchemaTypeWithSources<HashLeaseEstimate>(HashLeaseEstimateSchema)
-export const asHashLeaseEstimateWithSources = AsObjectFactory.create<HashLeaseEstimate>(isHashLeaseEstimateWithSources)
-export const asOptionalHashLeaseEstimateWithSources = AsObjectFactory.createOptional<HashLeaseEstimate>(isHashLeaseEstimateWithSources)
+export const isHashLeaseEstimateWithSources = isPayloadOfSchemaTypeWithSources<WithSources<HashLeaseEstimate>>(HashLeaseEstimateSchema)
+export const asHashLeaseEstimateWithSources = AsObjectFactory.create<WithSources<HashLeaseEstimate>>(isHashLeaseEstimateWithSources)
+export const asOptionalHashLeaseEstimateWithSources = AsObjectFactory.createOptional<WithSources<HashLeaseEstimate>>(isHashLeaseEstimateWithSources)

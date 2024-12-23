@@ -8,7 +8,7 @@ import { flatAttachToExistingNode } from './flatAttachToExistingNode.ts'
 export const flatAttachToNewNode = async (
   source: NodeInstance,
   id: ModuleIdentifier,
-  destinationParams?: MemoryNodeParams,
+  destinationParams: MemoryNodeParams,
 ): Promise<NodeInstance> => {
   const destination = await MemoryNode.create(destinationParams)
   return await flatAttachToExistingNode(source, id, destination)

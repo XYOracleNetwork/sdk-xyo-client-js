@@ -1,5 +1,5 @@
 import type { Hash } from '@xylabs/hex'
-import type { Payload, WithMeta } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerResultIndexSchema } from './Schema.ts'
@@ -13,9 +13,5 @@ export type TemporalIndexingDivinerResultIndex = Payload<
 >
 
 export const isTemporalIndexingDivinerResultIndex = isPayloadOfSchemaType<TemporalIndexingDivinerResultIndex>(
-  TemporalIndexingDivinerResultIndexSchema,
-)
-
-export const isTemporalIndexingDivinerResultIndexWithMeta = isPayloadOfSchemaType<WithMeta<TemporalIndexingDivinerResultIndex>>(
   TemporalIndexingDivinerResultIndexSchema,
 )

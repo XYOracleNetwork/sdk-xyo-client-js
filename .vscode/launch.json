@@ -2,22 +2,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Jest",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
-      "args": [
-        "--forceExit",
-        "--runInBand",
-        "--testTimeout=120000",
-        "packages/protocol/packages/boundwitness/packages/validator/src/lib/addresses/spec/addressesContainsAll.spec.ts"
-      ],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "cwd": "${workspaceFolder}",
-      "envFile": "${workspaceFolder}/.env"
-    },
-    {
       "name": "Vite",
       "request": "launch",
       "type": "node",
@@ -26,7 +10,8 @@
         "--run",
         "--inspect-brk",
         "--no-file-parallelism",
-        "packages/protocol/packages/boundwitness/packages/builder/src/spec/Builder.sequence.spec.ts"
+        "--testTimeout=120000",
+        "packages/modules/packages/bridge/packages/pub-sub/src/spec/PubSubBridge.adhoc.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

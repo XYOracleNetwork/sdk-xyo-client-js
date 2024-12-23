@@ -1,11 +1,10 @@
+import { AsObjectFactory } from '@xylabs/object'
 import type {
   Payload,
-  WithMeta,
   WithSources,
 } from '@xyo-network/payload-model'
 import {
   isPayloadOfSchemaType,
-  isPayloadOfSchemaTypeWithMeta,
   isPayloadOfSchemaTypeWithSources,
 } from '@xyo-network/payload-model'
 
@@ -32,11 +31,8 @@ export type IdPayload = Id
  * Identity helper for ID Payload
  */
 export const isId = isPayloadOfSchemaType<Id>(IdSchema)
-
-/**
- * Identity helper for ID Payload with meta
- */
-export const isIdWithMeta = isPayloadOfSchemaTypeWithMeta<WithMeta<Id>>(IdSchema)
+export const asId = AsObjectFactory.create(isId)
+export const asOptionalId = AsObjectFactory.createOptional(isId)
 
 /**
  * Identity helper for ID Payload with sources

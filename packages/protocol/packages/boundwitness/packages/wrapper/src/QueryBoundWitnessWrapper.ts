@@ -1,10 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import type { Promisable } from '@xylabs/promise'
 import { isQueryBoundWitness, type QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'
-import type {
-  Payload, Query, WithMeta,
-} from '@xyo-network/payload-model'
+import type { Payload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { BoundWitnessWrapper } from './BoundWitnessWrapper.ts'
@@ -13,7 +12,7 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
   private _payloadsWithoutQuery: PayloadWrapper<Payload>[] | undefined
   private _query: T | undefined
 
-  static async parseQuery<T extends Query = Query>(obj: unknown, payloads?: Payload[]): Promise<QueryBoundWitnessWrapper<T>> {
+  static parseQuery<T extends Query = Query>(obj: unknown, payloads?: Payload[]): QueryBoundWitnessWrapper<T> {
     assertEx(!Array.isArray(obj), () => 'Array can not be converted to QueryBoundWitnessWrapper')
     switch (typeof obj) {
       case 'object': {
@@ -26,8 +25,8 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
           : isQueryBoundWitness(obj)
             ? (
                 new QueryBoundWitnessWrapper<T>(
-                  await PayloadBuilder.build(obj),
-                  payloads ? await Promise.all(payloads.map(payload => PayloadBuilder.build(payload))) : undefined,
+                  obj,
+                  payloads,
                 )
               )
             : undefined
@@ -40,10 +39,10 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
     throw new Error(`Unable to parse [${typeof obj}]`)
   }
 
-  static async tryParseQuery<T extends Query>(obj: unknown): Promise<QueryBoundWitnessWrapper<T> | undefined> {
+  static tryParseQuery<T extends Query>(obj: unknown): Promisable<QueryBoundWitnessWrapper<T> | undefined> {
     if (obj === undefined) return undefined
     try {
-      return await this.parseQuery<T>(obj)
+      return this.parseQuery<T>(obj)
     } catch {
       return undefined
     }
@@ -60,7 +59,7 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
 
   async getQuery(): Promise<T> {
     const payloadMap = await this.payloadsDataHashMap()
-    this._query = this._query ?? (payloadMap[this.boundwitness.query] as WithMeta<T> | undefined)
-    return assertEx(this._query, () => `Missing Query [${this.boundwitness}]`)
+    this._query = this._query ?? (payloadMap[this.boundwitness.query] as T | undefined)
+    return assertEx(this._query, () => `Missing Query [${JSON.stringify(this.boundwitness)}]`)
   }
 }

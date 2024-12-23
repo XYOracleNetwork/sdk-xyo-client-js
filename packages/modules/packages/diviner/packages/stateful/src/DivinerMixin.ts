@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
+import { toJson } from '@xylabs/object'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
@@ -18,7 +19,7 @@ import {
   ModuleStateSchema,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { WithMeta } from '@xyo-network/payload-model'
+import { SequenceConstants, type WithStorageMeta } from '@xyo-network/payload-model'
 
 import type { StatefulDivinerConfig } from './Config.ts'
 
@@ -42,7 +43,7 @@ export const StatefulModuleMixin = <
   ModuleBase: TModule,
 ) => {
   abstract class StatefulModuleBase extends ModuleBase {
-    _lastState?: WithMeta<ModuleState<TState>>
+    _lastState?: ModuleState<TState>
 
     /**
      * Commit the internal state of the Diviner process. This is similar
@@ -51,9 +52,9 @@ export const StatefulModuleMixin = <
      * external stores.
      * @param nextState The state to commit
      */
-    async commitState(nextState: WithMeta<ModuleState<TState>>) {
+    async commitState(nextState: ModuleState<TState>) {
       // Don't commit state if no state has changed
-      if (nextState.state.offset === this._lastState?.state.offset) return
+      if (toJson(nextState.state) === toJson(this._lastState?.state)) return
       this._lastState = nextState
       const archivist = await this.getArchivistForStore()
       // const [bw] = await new BoundWitnessBuilder().payload(nextState).signer(this.account).build()
@@ -107,7 +108,7 @@ export const StatefulModuleMixin = <
      * Retrieves the last state of the Diviner process. Used to recover state after
      * preemptions, reboots, etc.
      */
-    async retrieveState(): Promise<WithMeta<ModuleState<TState>> | undefined> {
+    async retrieveState(): Promise<ModuleState<TState> | undefined> {
       if (this._lastState) return this._lastState
       let hash: Hash = ''
       const diviner = await this.getBoundWitnessDivinerForStore()
@@ -115,7 +116,7 @@ export const StatefulModuleMixin = <
         .fields({
           // address: this.account.address,
           limit: 1,
-          offset: 0,
+          cursor: SequenceConstants.minLocalSequence,
           order: 'desc',
           payload_schemas: [ModuleStateSchema],
         })
@@ -142,7 +143,7 @@ export const StatefulModuleMixin = <
         const archivist = await this.getArchivistForStore()
         const payload = (await archivist.get([hash])).find(isModuleState<TState>)
         if (payload) {
-          return payload as WithMeta<ModuleState<TState>>
+          return payload as WithStorageMeta<ModuleState<TState>>
         }
       }
       return undefined

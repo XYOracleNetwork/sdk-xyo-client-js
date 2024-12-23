@@ -14,7 +14,7 @@ import {
 import type { ModuleQueryResult } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import type {
-  Payload, WithMeta, WithSources,
+  Payload, WithoutPrivateStorageMeta, WithSources,
 } from '@xyo-network/payload-model'
 
 constructableModuleWrapper()
@@ -25,7 +25,7 @@ export class DivinerWrapper<TWrappedModule extends DivinerModule<DivinerParams>,
   static override moduleIdentityCheck = isDivinerModule
   static override requiredQueries = [DivinerDivineQuerySchema, ...super.requiredQueries]
 
-  async divine(payloads?: TIn[], _retryConfig?: RetryConfig): Promise<WithMeta<WithSources<TOut>>[]> {
+  async divine(payloads?: TIn[], _retryConfig?: RetryConfig): Promise<WithoutPrivateStorageMeta<WithSources<TOut>>[]> {
     const queryPayload: DivinerDivineQuery = { schema: DivinerDivineQuerySchema }
     return await this.sendQuery(queryPayload, payloads)
   }

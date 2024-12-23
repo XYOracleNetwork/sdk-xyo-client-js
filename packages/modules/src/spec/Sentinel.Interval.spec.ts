@@ -11,7 +11,7 @@ import type { PackageManifestPayload } from '@xyo-network/manifest'
 import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { MemoryNode } from '@xyo-network/node-memory'
-import type { WithMeta } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -57,18 +57,22 @@ describe('Sentinel.Interval', () => {
       },
     ]
     const archivist = asArchivistInstance(await node.resolve('Archivist'))
+    expect(archivist).toBeDefined()
     await archivist?.insert(testPayloads)
   })
 
   it('sentinel query', async () => {
-    await delay(5000)
+    let payloads: Payload[] = []
     const archivist = asArchivistInstance(await node.resolve('Results'))
     expect(archivist).toBeDefined()
-    const payloads = (await archivist?.all?.()) ?? []
-    expect(payloads.length).toBeGreaterThan(0)
-    // console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
+    while (payloads.length === 0) {
+      await delay(500)
+      const all = await archivist?.all?.() ?? []
+      const filtered = all.filter(p => p.schema === NETWORK_XYO_TEST)
+      if (filtered.length > 0) payloads.push(...filtered)
+    }
     expect(payloads.some(p => p.schema === NETWORK_XYO_TEST)).toBeTrue()
-  }, 20_000)
+  }, 3000)
   it.skip('manual query', async () => {
     const testPayloads = [
       {
@@ -97,7 +101,7 @@ describe('Sentinel.Interval', () => {
     }
     const initialState = await addressStatePayloadDiviner?.divine([lastStateQuery])
     const statePayloads
-      = initialState?.filter((p): p is WithMeta<{ offset?: number; schema: string }> => p.schema === 'network.xyo.module.state') ?? []
+      = initialState?.filter((p): p is { offset?: number; schema: string } => p.schema === 'network.xyo.module.state') ?? []
     const offset = statePayloads?.[0]?.offset ?? 0
     const payloadDiviner = asDivinerInstance(await node.resolve('PayloadDiviner'))
     const payloadDivinerQuery = {

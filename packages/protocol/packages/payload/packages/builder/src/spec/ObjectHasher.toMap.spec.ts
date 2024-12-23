@@ -88,14 +88,12 @@ describe('PayloadBuilder', () => {
   it.each(cases)('%s', async (_title, sources) => {
     const map = await PayloadBuilder.toDataHashMap(sources)
     expect(Object.keys(map).length).toBe(sources.length)
-    await Promise.all(
-      Object.entries(map).map(async ([hash, payload], index) => {
-        const source = await PayloadBuilder.build(sources[index])
-        const { $meta: m1, ...sourceWithoutMeta } = source
-        const { $meta: m2, ...payloadWithoutMeta } = payload
-        expect(sourceWithoutMeta).toEqual(payloadWithoutMeta)
-        expect(sourceWithoutMeta.$hash).toEqual(hash)
-      }),
-    )
+    await Promise.all(Object.entries(map).map(async ([hash, payload], index) => {
+      const source = sources[index]
+      const { $meta: m1, ...sourceWithoutMeta } = source
+      const { $meta: m2, ...payloadWithoutMeta } = payload
+      expect(sourceWithoutMeta).toEqual(payloadWithoutMeta)
+      expect(await PayloadBuilder.dataHash(sourceWithoutMeta)).toEqual(hash)
+    }))
   })
 })

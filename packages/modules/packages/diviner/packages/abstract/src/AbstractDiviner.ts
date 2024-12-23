@@ -9,6 +9,7 @@ import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type {
   AttachableDivinerInstance,
   DivinerDivineQuery,
+  DivinerDivineResult,
   DivinerInstance,
   DivinerModuleEventData,
   DivinerParams,
@@ -24,7 +25,7 @@ import type {
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
-  Payload, Schema, WithMeta, WithSources,
+  Payload, Schema, WithOptionalSources, WithoutPrivateStorageMeta,
 } from '@xyo-network/payload-model'
 
 export abstract class AbstractDiviner<
@@ -49,18 +50,18 @@ export abstract class AbstractDiviner<
   }
 
   /** @function divine The main entry point for a diviner.  Do not override this function.  Implement/override divineHandler for custom functionality */
-  divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<WithSources<WithMeta<TOut>>[]> {
+  divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<DivinerDivineResult<TOut>[]> {
     this._noOverride('divine')
     return this.busy(async () => {
       const retryConfig = retryConfigIn ?? this.config.retry
       await this.started('throw')
       await this.emit('divineStart', { inPayloads: payloads, mod: this })
-      const resultPayloads: TOut[]
+      const resultPayloads
         = (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
       await this.emit('divineEnd', {
         errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads,
       })
-      return await Promise.all(resultPayloads.map(payload => PayloadBuilder.build(payload)))
+      return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
     })
   }
 
@@ -75,12 +76,12 @@ export abstract class AbstractDiviner<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<DivinerQueries>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<DivinerQueries>(query, payloads)
     // remove the query payload
     const cleanPayloads = await PayloadBuilder.filterExclude(payloads, query.query)
     const queryPayload = await wrapper.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
-    const resultPayloads: Payload[] = []
+    const resultPayloads: WithoutPrivateStorageMeta<Payload>[] = []
     switch (queryPayload.schema) {
       case DivinerDivineQuerySchema: {
         resultPayloads.push(...(await this.divine(cleanPayloads as TIn[])))
@@ -90,9 +91,9 @@ export abstract class AbstractDiviner<
         return super.queryHandler(query, payloads)
       }
     }
-    return resultPayloads
+    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
   }
 
   /** @function divineHandler Implement or override to add custom functionality to a diviner */
-  protected abstract divineHandler(payloads?: TIn[]): Promisable<WithSources<TOut>[]>
+  protected abstract divineHandler(payloads?: TIn[]): Promisable<WithOptionalSources<TOut>[]>
 }

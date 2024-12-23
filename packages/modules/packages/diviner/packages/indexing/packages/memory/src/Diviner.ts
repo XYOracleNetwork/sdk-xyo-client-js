@@ -18,11 +18,11 @@ import {
 } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import {
-  creatableModule, isModuleState, isModuleStateWithMeta, ModuleState, ModuleStateSchema,
+  creatableModule, isModuleState, ModuleState, ModuleStateSchema,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  Payload, Schema, WithMeta,
+  Payload, Schema, SequenceConstants, WithStorageMeta,
 } from '@xyo-network/payload-model'
 
 export type ConfigStoreKey = 'indexStore' | 'stateStore'
@@ -68,8 +68,8 @@ export class IndexingDiviner<
     const indexCandidateDiviner = await this.getIndexingDivinerStage('stateToIndexCandidateDiviner')
     const results = lastState ? await indexCandidateDiviner.divine([lastState]) : await indexCandidateDiviner.divine()
     // Filter next state out from results
-    const nextState = results.find(isModuleStateWithMeta<IndexingDivinerState>)
-    const indexCandidates = results.filter(x => !isModuleStateWithMeta(x))
+    const nextState = results.find(isModuleState<IndexingDivinerState>)
+    const indexCandidates = results.filter(x => !isModuleState(x))
     // Transform candidates to indexes
     const toIndexTransformDiviner = await this.getIndexingDivinerStage('indexCandidateToIndexDiviner')
     const indexes = await toIndexTransformDiviner.divine(indexCandidates)
@@ -91,14 +91,14 @@ export class IndexingDiviner<
    */
   protected async commitState(nextState: ModuleState<IndexingDivinerState>) {
     // Don't commit state if no state has changed
-    if (nextState.state.offset === this._lastState?.state.offset) return
+    if (nextState.state.cursor === this._lastState?.state.cursor) return
     this._lastState = nextState
     const archivist = await this.getArchivistForStore('stateStore')
     const [bw] = await new BoundWitnessBuilder().payload(nextState).signer(this.account).build()
     await archivist.insert([bw, nextState])
   }
 
-  protected override async divineHandler(payloads: TIn[] = []): Promise<WithMeta<TOut>[]> {
+  protected override async divineHandler(payloads: TIn[] = []): Promise<TOut[]> {
     const indexPayloadDiviner = await this.getPayloadDivinerForStore('indexStore')
     const divinerQueryToIndexQueryDiviner = await this.getIndexingDivinerStage('divinerQueryToIndexQueryDiviner')
     const indexQueryResponseToDivinerQueryResponseDiviner = await this.getIndexingDivinerStage('indexQueryResponseToDivinerQueryResponseDiviner')
@@ -117,7 +117,7 @@ export class IndexingDiviner<
       )
     ).flat()
     // TODO: Infer this type over casting to this type
-    return (await Promise.all(results.map(result => PayloadBuilder.build(result)))) as WithMeta<TOut>[]
+    return results as TOut[]
   }
 
   /**
@@ -180,7 +180,7 @@ export class IndexingDiviner<
       .fields({
         address: accountAddress,
         limit: 1,
-        offset: 0,
+        cursor: SequenceConstants.minLocalSequence,
         order: 'desc',
         payload_schemas: [ModuleStateSchema],
       })
@@ -207,7 +207,7 @@ export class IndexingDiviner<
       const archivist = await this.getArchivistForStore('stateStore')
       const payload = (await archivist.get([hash])).find(isModuleState<IndexingDivinerState>)
       if (payload) {
-        return payload as WithMeta<ModuleState<IndexingDivinerState>>
+        return payload as WithStorageMeta<ModuleState<IndexingDivinerState>>
       }
     }
     return undefined

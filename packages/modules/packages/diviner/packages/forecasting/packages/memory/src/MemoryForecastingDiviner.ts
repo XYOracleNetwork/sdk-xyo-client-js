@@ -18,6 +18,7 @@ import type { ForecastingMethod, PayloadValueTransformer } from '@xyo-network/di
 import { ForecastingDivinerConfigSchema } from '@xyo-network/diviner-forecasting-model'
 import type { DivinerInstance } from '@xyo-network/diviner-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
+import type { ModuleFilter } from '@xyo-network/module-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 import jsonpath from 'jsonpath'
 
@@ -45,8 +46,8 @@ export class MemoryForecastingDiviner<
     seasonalArimaForecasting: seasonalArimaForecastingMethod,
   }
 
-  get boundWitnessDiviner() {
-    return assertEx(this.config.boundWitnessDiviner, () => 'No boundWitnessDiviner configured')
+  get boundWitnessDiviner(): ModuleFilter {
+    return assertEx(this.config.boundWitnessDiviner, () => 'No boundWitnessDiviner configured') as ModuleFilter
   }
 
   /**
@@ -72,7 +73,7 @@ export class MemoryForecastingDiviner<
     return getJsonPathTransformer(pathExpression)
   }
 
-  protected override async getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promise<Payload[]> {
+  protected override async getPayloadsInWindow(_startTimestamp: number, _stopTimestamp: number): Promise<Payload[]> {
     const addresses = this.config.witnessAddresses
     const payload_schemas = [assertEx(this.config.witnessSchema, () => 'Missing witnessSchema in config')]
     const payloads: Payload[] = []
@@ -83,27 +84,30 @@ export class MemoryForecastingDiviner<
     ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
     const limit = this.batchLimit
     const witnessSchema = assertEx(this.config.witnessSchema, () => 'Missing witnessSchema in config')
-    let timestamp = stopTimestamp
+    // let timestamp = stopTimestamp
     let more = true
 
     // TODO: Window size vs sample size
     // Loop until there are no more BWs to process or we've got enough payloads to satisfy the training window
     while (more || payloads.length < this.maxTrainingLength) {
       const query: BoundWitnessDivinerQueryPayload = {
-        addresses, limit, payload_schemas, schema: BoundWitnessDivinerQuerySchema, timestamp,
+        addresses, limit, payload_schemas, schema: BoundWitnessDivinerQuerySchema,
       }
       const boundWitnesses = (await bwDiviner.divine([query])).filter(
-        bw => bw.timestamp && bw.timestamp >= startTimestamp && bw.timestamp <= stopTimestamp,
+        // TODO; Replace with sequence
+        // bw => bw.$timestamp && bw.$timestamp >= startTimestamp && bw.$timestamp <= stopTimestamp,
+        _ => true,
       )
       if (boundWitnesses.length === 0) break
 
       // Update the timestamp value for the next batch
-      timestamp = boundWitnesses
-        .map(bw => bw.timestamp)
+      /* timestamp = boundWitnesses
+        .map(bw => bw.$timestamp)
         .filter(exists)
         // eslint-disable-next-line unicorn/no-array-reduce
         .reduce((a, b) => Math.min(a, b), Number.MAX_SAFE_INTEGER)
       if (timestamp === Number.MAX_SAFE_INTEGER) break
+      */
 
       // Set the more flag to false if there are fewer documents returned than the batch size
       more = boundWitnesses.length === limit

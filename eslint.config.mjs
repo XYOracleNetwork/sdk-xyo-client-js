@@ -12,7 +12,6 @@ export default [
   {
     ignores: [
       '.yarn/**',
-      'jest.config.cjs',
       '**/dist/**',
       'dist',
       'build/**',
@@ -28,10 +27,7 @@ export default [
   rulesConfig,
   {
     ...typescriptConfig,
-    rules: {
-      ...typescriptConfig.rules,
-      '@typescript-eslint/consistent-type-imports': ['warn'],
-    },
+    rules: { ...typescriptConfig.rules },
   },
   {
     rules: {

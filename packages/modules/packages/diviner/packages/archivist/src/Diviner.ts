@@ -8,7 +8,7 @@ import type {
 import { Huri } from '@xyo-network/huri'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import type {
-  Payload, Schema, WithMeta,
+  Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
 
 import type { ArchivistPayloadDivinerConfig } from './Config.ts'
@@ -31,13 +31,13 @@ export class ArchivistPayloadDiviner<
   static override readonly configSchemas: Schema[] = [...super.configSchemas, ArchivistPayloadDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = ArchivistPayloadDivinerConfigSchema
 
-  protected async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
+  protected async divineHandler(payloads?: TIn[]): Promise<WithStorageMeta<TOut>[]> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is TIn => payload?.schema === HuriSchema),
       () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
     const hashes = huriPayloads.flatMap(huriPayload => huriPayload.huri.map(huri => new Huri(huri).hash))
     const activeArchivist = await this.archivistInstance()
-    return ((await activeArchivist?.get(hashes)) as WithMeta<TOut>[]) ?? []
+    return ((await activeArchivist?.get(hashes)) as WithStorageMeta<TOut>[]) ?? []
   }
 }

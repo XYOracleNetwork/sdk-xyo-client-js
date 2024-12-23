@@ -1,8 +1,8 @@
-import type { Hash } from '@xylabs/hex'
+import type { Hash, Hex } from '@xylabs/hex'
 
-export interface NextOptions<TId = string> {
+export interface NextOptions<TId = Hex> {
+  cursor?: TId
   limit?: number
-  offset?: TId
   order?: 'asc' | 'desc'
 }
 

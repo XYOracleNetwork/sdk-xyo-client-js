@@ -1,5 +1,6 @@
-import type { Payload, WithMeta } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { AsObjectFactory } from '@xylabs/object'
+import type { Payload, WithSources } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources } from '@xyo-network/payload-model'
 
 export interface StateDictionary {
   [key: string]: string | number | undefined
@@ -13,10 +14,12 @@ export type ModuleStateSchema = typeof ModuleStateSchema
 
 export type ModuleState<T extends StateDictionary = StateDictionary> = Payload<State<T>, ModuleStateSchema>
 
-export const isModuleState = <T extends StateDictionary = StateDictionary>(payload?: Payload | null): payload is ModuleState<T> => {
+export const isModuleState = <T extends StateDictionary = StateDictionary>(payload?: unknown): payload is ModuleState<T> => {
   return isPayloadOfSchemaType<ModuleState<T>>(ModuleStateSchema)(payload)
 }
 
-export const isModuleStateWithMeta = <T extends StateDictionary = StateDictionary>(payload?: Payload | null): payload is WithMeta<ModuleState<T>> => {
-  return isPayloadOfSchemaType<WithMeta<ModuleState<T>>>(ModuleStateSchema)(payload)
+export const isModuleStateWithSources = <T extends StateDictionary = StateDictionary>(payload?: unknown): payload is WithSources<ModuleState<T>> => {
+  return isPayloadOfSchemaTypeWithSources<ModuleState<T>>(ModuleStateSchema)(payload)
 }
+
+export const asModuleState = AsObjectFactory.create<ModuleState<StateDictionary>>(isModuleState)

@@ -1,8 +1,10 @@
 import '@xylabs/vitest-extended'
 
+import { delay } from '@xylabs/delay'
 import { Account } from '@xyo-network/account'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import type { NodeInstance } from '@xyo-network/node-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
@@ -43,10 +45,16 @@ describe('PayloadPointerDiviner', () => {
       const [bwG, payloadsG] = await getNewBoundWitness([await accountD])
       payloads.push(...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG)
       const boundWitnesses = [bwA, bwB, bwC, bwD, bwE, bwF, bwG]
-      const blockResponse = await insertBlock(archivist, boundWitnesses)
-      expect(blockResponse.length).toBe(boundWitnesses.length)
-      const payloadResponse = await insertPayload(archivist, payloads)
-      expect(payloadResponse.length).toBe(payloads.length)
+      for (const bw of boundWitnesses) {
+        await delay(2)
+        const payloadResponse = await insertBlock(archivist, bw)
+        expect(payloadResponse.length).toBe(1)
+      }
+      for (const payload of payloads) {
+        await delay(2)
+        const payloadResponse = await insertPayload(archivist, payload)
+        expect(payloadResponse.length).toBe(1)
+      }
     })
     describe('single address', () => {
       it.each([
@@ -54,31 +62,31 @@ describe('PayloadPointerDiviner', () => {
         [accountB, () => payloads[1]],
       ])('returns Payload signed by address', async (account, getData) => {
         const expected = getData()
-        const pointer = await createPointer([[(await account).address]], [[expected.schema]])
+        const pointer = createPointer([[(await account).address]], [[expected.schema]])
         const result = await sut.divine([pointer])
-        expect(result).toEqual([expected])
+        expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
       })
     })
     describe('multiple address rules', () => {
       describe('combined serially', () => {
         it('returns Payload signed by both addresses', async () => {
           const expected = payloads[4]
-          const pointer = await createPointer([[(await accountC).address], [(await accountD).address]], [[expected.schema]])
+          const pointer = createPointer([[(await accountC).address], [(await accountD).address]], [[expected.schema]])
           const result = await sut.divine([pointer])
-          expect(result).toEqual([expected])
+          expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
         })
       })
       describe('combined in parallel', () => {
         it('returns Payload signed by both address', async () => {
           const expected = payloads[4]
-          const pointer = await createPointer([[(await accountC).address, (await accountD).address]], [[expected.schema]])
+          const pointer = createPointer([[(await accountC).address, (await accountD).address]], [[expected.schema]])
           const result = await sut.divine([pointer])
-          expect(result).toEqual([expected])
+          expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
         })
       })
     })
     it('no matching address', async () => {
-      const pointer = await createPointer([[(await Account.random()).address]], [[payloads[0].schema]])
+      const pointer = createPointer([[(await Account.random()).address]], [[payloads[0].schema]])
       const result = await sut.divine([pointer])
       expect(result).toEqual([])
     })

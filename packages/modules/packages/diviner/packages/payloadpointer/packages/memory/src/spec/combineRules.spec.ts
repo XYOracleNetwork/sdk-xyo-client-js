@@ -1,20 +1,20 @@
 import '@xylabs/vitest-extended'
 
 import type {
-  PayloadAddressRule, PayloadRule, PayloadSchemaRule, PayloadTimestampOrderRule,
+  PayloadAddressRule, PayloadRule, PayloadSchemaRule, PayloadSequenceOrderRule,
 } from '@xyo-network/diviner-payload-pointer-model'
+import { SequenceConstants } from '@xyo-network/payload-model'
 import {
-  describe, expect, it, vi,
+  describe, expect, it,
 } from 'vitest'
 
 import { combineRules } from '../combineRules.ts'
 
-// Mock Date.now
-const now = Date.now()
-vi.spyOn(Date, 'now').mockReturnValue(now)
-
 const validRules = (): PayloadRule[][] => {
-  return [[{ schema: 'network.xyo.debug' }], [{ order: 'desc', timestamp: Date.now() }]]
+  return [
+    [{ schema: 'network.xyo.debug' }],
+    [{ order: 'desc', sequence: SequenceConstants.maxLocalSequence }],
+  ]
 }
 
 describe('combineRules', () => {
@@ -35,14 +35,14 @@ describe('combineRules', () => {
         combineRules(rules)
       }).toThrow()
     })
-    describe('for timestamp defaults to', () => {
-      it('timestamp set to current time', () => {
-        const rules = validRules().filter(rule => !(rule?.[0] as PayloadTimestampOrderRule)?.timestamp)
+    describe('for sequence defaults to', () => {
+      it('sequence set to current time', () => {
+        const rules = validRules().filter(rule => !(rule?.[0] as PayloadSequenceOrderRule)?.sequence)
         const actual = combineRules(rules)
-        expect(actual.timestamp).toBe(+now)
+        expect(actual.cursor).toBe(undefined)
       })
       it('direction defaults to desc', () => {
-        const rules = validRules().filter(rule => !(rule?.[0] as PayloadTimestampOrderRule)?.timestamp)
+        const rules = validRules().filter(rule => !(rule?.[0] as PayloadSequenceOrderRule)?.sequence)
         const actual = combineRules(rules)
         expect(actual.order).toBe('desc')
       })
@@ -59,18 +59,21 @@ describe('combineRules', () => {
   })
   describe('with PayloadSchemaRule rules', () => {
     it('combines multiple rules', () => {
-      const rules: PayloadRule[][] = [[{ order: 'desc', timestamp: Date.now() }], [{ schema: 'network.xyo.test' }, { schema: 'network.xyo.debug' }]]
+      const rules: PayloadRule[][] = [
+        [{ order: 'desc', sequence: SequenceConstants.maxLocalSequence }],
+        [{ schema: 'network.xyo.test' }, { schema: 'network.xyo.debug' }],
+      ]
       const actual = combineRules(rules)
       expect(actual.schemas.sort()).toEqual(['network.xyo.debug', 'network.xyo.test'])
     })
   })
-  describe('with PayloadTimestampDirectionRule rules', () => {
+  describe('with multiple PayloadSequenceDirectionRule rules', () => {
     it('should only allow one rule', () => {
       const rules: PayloadRule[][] = [
         [{ schema: 'network.xyo.debug' }],
         [
-          { order: 'desc', timestamp: Date.now() },
-          { order: 'asc', timestamp: Date.now() },
+          { order: 'desc', sequence: SequenceConstants.maxLocalSequence },
+          { order: 'asc', sequence: SequenceConstants.minLocalSequence },
         ],
       ]
       expect(() => {

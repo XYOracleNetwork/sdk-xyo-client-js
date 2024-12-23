@@ -13,9 +13,6 @@ export interface ModuleConfigFields {
   /** @field The name/address of the Archivist to use for this module */
   readonly archivist?: ModuleIdentifier
 
-  /** @field Enable certifying parent node identity in each query */
-  readonly certify?: boolean
-
   readonly consoleLogger?: LogLevel
 
   /**

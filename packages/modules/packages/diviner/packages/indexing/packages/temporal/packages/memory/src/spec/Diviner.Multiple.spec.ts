@@ -1,21 +1,22 @@
 import '@xylabs/vitest-extended'
 
+import { filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
 import type { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import { asBoundWitness } from '@xyo-network/boundwitness-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import { isTemporalIndexingDivinerResultIndex, isTemporalIndexingDivinerResultIndexWithMeta } from '@xyo-network/diviner-temporal-indexing-model'
+import { isTemporalIndexingDivinerResultIndex } from '@xyo-network/diviner-temporal-indexing-model'
 import type { PackageManifestPayload } from '@xyo-network/manifest'
 import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { Labels } from '@xyo-network/module-model'
-import { isModuleStateWithMeta } from '@xyo-network/module-model'
+import { asModuleState } from '@xyo-network/module-model'
 import type { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
@@ -80,8 +81,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
     schema: 'network.xyo.image.thumbnail',
     sourceUrl,
   }
-  const witnessedThumbnails = (async () =>
-    await PayloadBuilder.build([thumbnailHttpSuccess, thumbnailHttpFail, thumbnailCodeFail, thumbnailWitnessFail]))()
+  const witnessedThumbnails = [thumbnailHttpSuccess, thumbnailHttpFail, thumbnailCodeFail, thumbnailWitnessFail]
 
   let sut: TemporalIndexingDiviner
   let node: MemoryNode
@@ -107,7 +107,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
 
     // Insert previously witnessed payloads into thumbnail archivist
     const timestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [boundWitness, payloads] = await new BoundWitnessBuilder().payloads([timestamp, ...(await witnessedThumbnails)]).build()
+    const [boundWitness, payloads] = await new BoundWitnessBuilder().payloads([timestamp, ...witnessedThumbnails]).build()
 
     const thumbnailArchivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
     await thumbnailArchivist.insert([boundWitness, ...payloads])
@@ -125,7 +125,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
     })
     it('has expected bound witnesses', async () => {
       const payloads = await stateArchivist.all()
-      const stateBoundWitnesses = payloads.filter(isBoundWitnessWithMeta)
+      const stateBoundWitnesses = filterAs(payloads, asBoundWitness)
       expect(stateBoundWitnesses).toBeArrayOfSize(2)
       for (const stateBoundWitness of stateBoundWitnesses) {
         expect(stateBoundWitness).toBeObject()
@@ -135,7 +135,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
     })
     it('has expected state', async () => {
       const payloads = await stateArchivist.all()
-      const statePayloads = payloads.filter(isModuleStateWithMeta)
+      const statePayloads = filterAs(payloads, asModuleState)
       expect(statePayloads).toBeArrayOfSize(2)
       expect(statePayloads.at(-1)).toBeObject()
       const statePayload = assertEx(statePayloads.at(-1))
@@ -152,7 +152,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
     // NOTE: We're not signing indexes for performance reasons
     it.skip('has expected bound witnesses', async () => {
       const payloads = await indexArchivist.all()
-      const indexBoundWitnesses = payloads.filter(isBoundWitnessWithMeta)
+      const indexBoundWitnesses = filterAs(payloads, asBoundWitness)
       expect(indexBoundWitnesses).toBeArrayOfSize(1)
       const indexBoundWitness = indexBoundWitnesses[0]
       expect(indexBoundWitness).toBeObject()
@@ -162,7 +162,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
     it('has expected index', async () => {
       const payloads = await indexArchivist.all()
       const indexPayloads = payloads.filter(isTemporalIndexingDivinerResultIndex)
-      expect(indexPayloads).toBeArrayOfSize((await witnessedThumbnails).length)
+      expect(indexPayloads).toBeArrayOfSize((witnessedThumbnails).length)
     })
   })
   describe('with no thumbnail for the provided URL', () => {
@@ -181,9 +181,9 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
       it('returns the most recent result', async () => {
         const query: Query = { schema, url }
         const results = await sut.divine([query])
-        const result = results.find(isTemporalIndexingDivinerResultIndexWithMeta)
+        const result = results.find(isTemporalIndexingDivinerResultIndex)
         expect(result).toBeDefined()
-        const payload = assertEx((await witnessedThumbnails).at(-1))
+        const payload = assertEx((witnessedThumbnails).at(-1))
         const expected = await PayloadBuilder.dataHash(payload)
         expect(result?.sources).toContain(expected)
       })
@@ -197,7 +197,7 @@ describe.skip('TemporalIndexingDiviner - Multiple', () => {
             schema, status, url,
           }
           const results = await sut.divine([query])
-          const result = results.find(isTemporalIndexingDivinerResultIndexWithMeta)
+          const result = results.find(isTemporalIndexingDivinerResultIndex)
           expect(result).toBeDefined()
           const expected = await PayloadBuilder.dataHash(payload)
           expect(result?.sources).toContain(expected)

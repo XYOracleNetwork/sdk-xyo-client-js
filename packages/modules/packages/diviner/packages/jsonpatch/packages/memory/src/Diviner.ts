@@ -33,7 +33,8 @@ export class JsonPatchDiviner<
         try {
           const result = FJP.applyPatch(payload, this.operations, false, false)
           return result[0].newDocument as unknown as TOut
-        } catch {
+        } catch (error) {
+          this.logger?.error('JsonPatchDiviner: failed to apply patch', error)
           return
         }
       })

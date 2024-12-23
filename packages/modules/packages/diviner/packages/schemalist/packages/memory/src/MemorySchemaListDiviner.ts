@@ -1,7 +1,7 @@
 import { distinct } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import type { Address } from '@xylabs/hex'
-import { isBoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { SchemaListDiviner } from '@xyo-network/diviner-schema-list-abstract'
 import type {
   SchemaListDivinerParams,
@@ -24,8 +24,7 @@ export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = S
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, () => 'Archivist does not support "all"')()
     const filtered = all
-      .filter(isBoundWitness)
-      .filter(isBoundWitnessWithMeta)
+      .filter(isBoundWitnessWithStorageMeta)
       .filter(bw => bw.addresses.includes(address))
     return filtered.flatMap(bw => bw.payload_schemas).filter(distinct)
   }

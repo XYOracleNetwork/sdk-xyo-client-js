@@ -1,17 +1,16 @@
-/**
- * @jest-environment jsdom
- */
 import '@xylabs/vitest-extended'
 
+import { filterAs } from '@xylabs/array'
+import { delay } from '@xylabs/delay'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import { asOptionalBoundWitnessWithStorageMeta, isBoundWitness } from '@xyo-network/boundwitness-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { WithMeta } from '@xyo-network/payload-model'
+import { type WithStorageMeta } from '@xyo-network/payload-model'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -65,19 +64,27 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     foo: ['bar', 'baz'],
     schema: 'network.xyo.debug',
   }
-  const boundWitnesses: WithMeta<BoundWitness>[] = []
+  const boundWitnesses: WithStorageMeta<BoundWitness>[] = []
   beforeAll(async () => {
-    const [boundWitnessA] = await (await new BoundWitnessBuilder().payloads([payloadA])).build()
-    const [boundWitnessB] = await (await new BoundWitnessBuilder().payloads([payloadB])).build()
-    const [boundWitnessC] = await (await new BoundWitnessBuilder().payloads([payloadA, payloadB])).build()
-    boundWitnesses.push(boundWitnessA, boundWitnessB, boundWitnessC)
+    const [boundWitnessA] = await (new BoundWitnessBuilder().payloads([payloadA])).build()
+    const [boundWitnessB] = await (new BoundWitnessBuilder().payloads([payloadB])).build()
+    const [boundWitnessC] = await (new BoundWitnessBuilder().payloads([payloadA, payloadB])).build()
     archivist = await IndexedDbArchivist.create({
       account: 'random',
       config: {
         dbName, schema: IndexedDbArchivist.defaultConfigSchema, storeName,
       },
     })
-    await archivist.insert(boundWitnesses)
+    for (const [bw, payloads] of [
+      [boundWitnessA, [payloadA]],
+      [boundWitnessB, [payloadB]],
+      [boundWitnessC, [payloadA, payloadB]],
+    ] as const) {
+      await delay(2)
+      const inserted = await archivist.insert([bw, ...payloads])
+      const bwWithStorageMeta = filterAs(inserted, asOptionalBoundWitnessWithStorageMeta)
+      boundWitnesses.push(...bwWithStorageMeta)
+    }
     sut = await IndexedDbBoundWitnessDiviner.create({
       account: 'random',
       config: {
@@ -107,12 +114,12 @@ describe('IndexedDbBoundWitnessDiviner', () => {
           'returns only bound witnesses with payload_schemas that contain the schema',
           async (schema) => {
             const payload_schemas = [schema]
-            const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+            const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
               .fields({ payload_schemas })
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            const bws = results.filter(isBoundWitnessWithMeta)
+            const bws = results.filter(isBoundWitness)
             expect(bws.length).toBeGreaterThan(0)
             for (const bw of bws) {
               expect(bw.payload_schemas).toIncludeAllMembers(payload_schemas)
@@ -125,12 +132,12 @@ describe('IndexedDbBoundWitnessDiviner', () => {
           ['network.xyo.test', 'network.xyo.debug'],
           ['network.xyo.test', 'network.xyo.debug'],
         ])('returns only bound witnesses with payload_schemas that contain the all the schemas', async (...payload_schemas) => {
-          const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+          const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
             .fields({ payload_schemas })
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          const bws = results.filter(isBoundWitnessWithMeta)
+          const bws = results.filter(isBoundWitness)
           expect(bws.length).toBeGreaterThan(0)
           for (const bw of bws) {
             expect(bw.payload_schemas).toIncludeAllMembers(payload_schemas)
@@ -142,14 +149,14 @@ describe('IndexedDbBoundWitnessDiviner', () => {
   describe('with order', () => {
     describe('not set', () => {
       it('returns payloads in ascending order', async () => {
-        const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema }).build()
+        const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema }).build()
         const results = await sut.divine([query])
         expect(results).toEqual(boundWitnesses)
       })
     })
     describe('asc', () => {
       it('returns payloads in ascending order', async () => {
-        const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+        const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
           .fields({ order: 'asc' })
           .build()
         const results = await sut.divine([query])
@@ -158,7 +165,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     })
     describe('desc', () => {
       it('returns payloads in descending order', async () => {
-        const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+        const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
           .fields({ order: 'desc' })
           .build()
         const results = await sut.divine([query])
@@ -166,34 +173,39 @@ describe('IndexedDbBoundWitnessDiviner', () => {
       })
     })
   })
-  describe('with offset', () => {
+  describe('with cursor', () => {
     describe('when ascending order', () => {
       it('returns payloads from the beginning', async () => {
-        for (const [i, boundWitness] of boundWitnesses.entries()) {
-          const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+        const iterator = boundWitnesses.entries()
+        iterator.next()
+        for (const [i, boundWitness] of iterator) {
+          const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
             .fields({
-              limit: 1, offset: i, order: 'asc',
+              limit: 1, cursor: boundWitnesses[i - 1]._sequence, order: 'asc',
             })
             .build()
           const results = await sut.divine([query])
           expect(results).toBeArrayOfSize(1)
           const [result] = results
-          expect(PayloadBuilder.withoutMeta(result)).toEqual(PayloadBuilder.withoutMeta(boundWitness))
+          expect(PayloadBuilder.omitMeta(result)).toEqual(PayloadBuilder.omitMeta(boundWitness))
         }
       })
     })
     describe('when descending order', () => {
       it('returns payloads from the end', async () => {
-        for (let i = 0; i < boundWitnesses.length; i++) {
-          const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+        const descendingBoundWitnesses = [...boundWitnesses].reverse()
+        const iterator = [...descendingBoundWitnesses.entries()][Symbol.iterator]()
+        iterator.next()
+        for (const [i, boundWitness] of iterator) {
+          const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
             .fields({
-              limit: 1, offset: i, order: 'desc',
+              limit: 1, cursor: descendingBoundWitnesses[i - 1]._sequence, order: 'desc',
             })
             .build()
           const results = await sut.divine([query])
           expect(results).toBeArrayOfSize(1)
           const [result] = results
-          expect(PayloadBuilder.withoutMeta(result)).toEqual(PayloadBuilder.withoutMeta(boundWitnesses[boundWitnesses.length - i - 1]))
+          expect(PayloadBuilder.omitMeta(result)).toEqual(PayloadBuilder.omitMeta(boundWitness))
         }
       })
     })

@@ -118,23 +118,23 @@ describe('JsonPathDiviner', () => {
   })
   it.each(cases)('%s', async (_title, inputs, transforms, outputs) => {
     const destinationSchema = outputs?.[0]?.schema
-    const config = await PayloadBuilder.build({
+    const config = {
       destinationSchema,
       schema: JsonPathDivinerConfigSchema,
       transforms,
-    })
+    }
     const sut = await JsonPathDiviner.create({ account: wallet, config })
     // Arrange
     const expected = await Promise.all(
       outputs.map(async (output, index) => {
-        return await PayloadBuilder.build({ sources: [(await PayloadBuilder.build(inputs[index])).$hash], ...output })
+        return { sources: [(await PayloadBuilder.dataHash(inputs[index]))], ...output }
       }),
     )
 
     // Act
-    const actual = await sut.divine(await Promise.all(inputs.map(input => PayloadBuilder.build(input))))
+    const actual = await sut.divine(inputs)
 
     // Assert
-    expect(PayloadBuilder.withoutMeta(actual)).toEqual(PayloadBuilder.withoutMeta(expected))
+    expect(actual.map(i => PayloadBuilder.omitMeta(i))).toEqual(expected.map(i => PayloadBuilder.omitMeta(i)))
   })
 })

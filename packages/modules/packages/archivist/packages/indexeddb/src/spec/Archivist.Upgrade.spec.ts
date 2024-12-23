@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import type { AccountInstance } from '@xyo-network/account'
 import { Account } from '@xyo-network/account'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'

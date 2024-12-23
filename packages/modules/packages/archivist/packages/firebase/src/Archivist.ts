@@ -18,10 +18,8 @@ import {
   ArchivistNextQuerySchema,
 } from '@xyo-network/archivist-model'
 import { creatableModule } from '@xyo-network/module-model'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  Payload, Schema,
-  WithMeta,
+  Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
 
 import { FirebaseArchivistConfigSchema } from './Config.ts'
@@ -58,7 +56,7 @@ export class FirebaseArchivist<
     return getFirestore(this.firebaseApp, assertEx(this.config.dbId, () => 'no dbId specified'))
   }
 
-  protected override async getHandler(hashes: Hash[]): Promise<WithMeta<Payload>[]> {
+  protected override async getHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     const payloadCollection = this.collection
     return (await Promise.all(hashes.map(async (hash) => {
       const docRef = doc(payloadCollection, hash)
@@ -66,16 +64,15 @@ export class FirebaseArchivist<
       if (!docSnap.exists()) {
         return null
       }
-      return PayloadBuilder.build(docSnap.data() as Payload)
+      return docSnap.data() as WithStorageMeta<Payload>
     }))).filter(exists)
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<WithMeta<Payload>[]> {
-    const pairs = await PayloadBuilder.hashPairs(payloads, { stamp: false })
+  protected override async insertHandler(payloads: WithStorageMeta<Payload>[]): Promise<WithStorageMeta<Payload>[]> {
     const payloadCollection = this.collection
-    return await Promise.all(pairs.map(
-      async ([payload, hash]) => {
-        const docRef = doc(payloadCollection, hash)
+    return await Promise.all(payloads.map(
+      async (payload) => {
+        const docRef = doc(payloadCollection, payload._hash)
         await setDoc(docRef, payload)
         return payload
       },

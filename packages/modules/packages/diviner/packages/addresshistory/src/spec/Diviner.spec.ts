@@ -7,8 +7,6 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryQuerySchema } from '@xyo-network/diviner-address-history-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { WithMeta } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -39,9 +37,9 @@ describe('AddressHistoryDiviner', () => {
         config: { schema: MemoryArchivist.defaultConfigSchema, storeQueries: true },
       })
       const wrapper = ArchivistWrapper.wrap(archivist, wrapperAccount)
-      const payload1 = await PayloadBuilder.build({ index: 1, schema: 'network.xyo.test' })
-      const payload2 = await PayloadBuilder.build({ index: 2, schema: 'network.xyo.test' })
-      const payload3 = await PayloadBuilder.build({ index: 3, schema: 'network.xyo.test' })
+      const payload1 = { index: 1, schema: 'network.xyo.test' }
+      const payload2 = { index: 2, schema: 'network.xyo.test' }
+      const payload3 = { index: 3, schema: 'network.xyo.test' }
       await wrapper.insert([payload1])
       await wrapper.insert([payload2])
       await wrapper.insert([payload3])
@@ -65,7 +63,7 @@ describe('AddressHistoryDiviner', () => {
     })
     describe('with no query payloads', () => {
       it('returns divined result for all addresses', async () => {
-        const result = (await diviner.divine()) as WithMeta<BoundWitness>[]
+        const result = (await diviner.divine()) as BoundWitness[]
         expect(result.length).toBe(1)
         expect(result[0].addresses.includes(wrapperAccount.address)).toBeTrue()
       })

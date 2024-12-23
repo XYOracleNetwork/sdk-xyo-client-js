@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import type { Address } from '@xylabs/hex'
-import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { PayloadStatsDiviner } from '@xyo-network/diviner-payload-stats-abstract'
 import type {
   PayloadStatsDivinerParams,
@@ -23,7 +23,7 @@ export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, () => 'Archivist does not support "all"')()
     return all
-      .filter(isBoundWitnessWithMeta)
+      .filter(isBoundWitnessWithStorageMeta)
       .filter(bw => bw.addresses.includes(address))
       .map(bw => bw.payload_hashes.length)
       .reduce((total, count) => total + count, 0)

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-payload-memory",
-  "version": "3.5.2",
+  "version": "3.6.0-rc.19",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,26 +29,23 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.4.10",
-    "@xylabs/object": "^4.4.10",
-    "@xyo-network/diviner-model": "workspace:^",
-    "@xyo-network/diviner-payload-abstract": "workspace:^",
-    "@xyo-network/diviner-payload-model": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/diviner-payload-generic": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.4.10",
-    "@xylabs/ts-scripts-yarn3": "^4.2.4",
-    "@xylabs/tsconfig": "^4.2.4",
-    "@xylabs/vitest-extended": "^4.4.10",
+    "@xylabs/delay": "^4.4.25",
+    "@xylabs/ts-scripts-yarn3": "^4.2.6",
+    "@xylabs/tsconfig": "^4.2.6",
+    "@xylabs/vitest-extended": "^4.4.25",
     "@xyo-network/archivist-memory": "workspace:^",
+    "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "stableVersion": "3.5.2"
 }

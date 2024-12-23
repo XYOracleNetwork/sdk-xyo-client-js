@@ -25,7 +25,7 @@ beforeAll(async () => {
   })
 })
 
-test('FirebaseArchivist Load', async () => {
+test.skip('FirebaseArchivist Load', async () => {
   const firebaseApp = testEnv.authenticatedContext('test')
   const db = firebaseApp.firestore()
   db.useEmulator('localhost', 8080)

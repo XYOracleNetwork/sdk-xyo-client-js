@@ -1,7 +1,8 @@
-import { uniq, uniqBy } from '@xylabs/array'
+/* eslint-disable complexity */
+import { uniq } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Hash } from '@xylabs/hex'
+import { Hash, Hex } from '@xylabs/hex'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -17,7 +18,7 @@ import {
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  Payload, PayloadWithMeta, Schema,
+  Payload, Schema, SequenceConstants, WithStorageMeta,
 } from '@xyo-network/payload-model'
 import {
   IDBPCursorWithValue, IDBPDatabase, openDB,
@@ -26,10 +27,8 @@ import {
 import { IndexedDbArchivistConfigSchema } from './Config.ts'
 import { IndexedDbArchivistParams } from './Params.ts'
 
-type StoredPayload = PayloadWithMeta & { _hash: string }
-
 export interface PayloadStore {
-  [s: string]: StoredPayload
+  [s: string]: WithStorageMeta
 }
 
 @creatableModule()
@@ -43,7 +42,7 @@ export class IndexedDbArchivist<
   static readonly defaultDbVersion = 1
   static readonly defaultStoreName = 'payloads'
   private static readonly dataHashIndex: IndexDescription = {
-    key: { $hash: 1 }, multiEntry: false, unique: false,
+    key: { _dataHash: 1 }, multiEntry: false, unique: false,
   }
 
   private static readonly hashIndex: IndexDescription = {
@@ -54,12 +53,18 @@ export class IndexedDbArchivist<
     key: { schema: 1 }, multiEntry: false, unique: false,
   }
 
+  private static readonly sequenceIndex: IndexDescription = {
+    key: { _sequence: 1 }, multiEntry: false, unique: true,
+  }
+
   // eslint-disable-next-line @typescript-eslint/member-ordering
   static readonly hashIndexName = buildStandardIndexName(IndexedDbArchivist.hashIndex)
   // eslint-disable-next-line @typescript-eslint/member-ordering
   static readonly dataHashIndexName = buildStandardIndexName(IndexedDbArchivist.dataHashIndex)
   // eslint-disable-next-line @typescript-eslint/member-ordering
   static readonly schemaIndexName = buildStandardIndexName(IndexedDbArchivist.schemaIndex)
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  static readonly sequenceIndexName = buildStandardIndexName(IndexedDbArchivist.sequenceIndex)
 
   private _dbName?: string
   private _storeName?: string
@@ -126,14 +131,20 @@ export class IndexedDbArchivist<
    * The indexes to create on the store
    */
   private get indexes() {
-    return [IndexedDbArchivist.dataHashIndex, IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex, ...(this.config?.storage?.indexes ?? [])]
+    return [
+      IndexedDbArchivist.dataHashIndex,
+      IndexedDbArchivist.hashIndex,
+      IndexedDbArchivist.schemaIndex,
+      IndexedDbArchivist.sequenceIndex,
+      ...(this.config?.storage?.indexes ?? []),
+    ]
   }
 
-  protected override async allHandler(): Promise<StoredPayload[]> {
+  protected override async allHandler(): Promise<WithStorageMeta<Payload>[]> {
     // Get all payloads from the store
     const payloads = await this.useDb(db => db.getAll(this.storeName))
     // Remove any metadata before returning to the client
-    return await Promise.all(payloads.map(payload => PayloadBuilder.build(payload)))
+    return payloads
   }
 
   protected override async clearHandler(): Promise<void> {
@@ -144,7 +155,10 @@ export class IndexedDbArchivist<
     // Filter duplicates to prevent unnecessary DB queries
     const uniqueHashes = [...new Set(hashes)]
     const pairs = await PayloadBuilder.hashPairs(await this.getHandler(uniqueHashes))
-    const hashesToDelete = pairs.flatMap<Hash>(pair => [pair[0].$hash, pair[1]])
+    const hashesToDelete = (await Promise.all(pairs.map(async (pair) => {
+      const dataHash0 = await PayloadBuilder.dataHash(pair[0])
+      return [dataHash0, pair[1]]
+    }))).flat()
     // Remove any duplicates
     const distinctHashes = [...new Set(hashesToDelete)]
     return await this.useDb(async (db) => {
@@ -168,6 +182,52 @@ export class IndexedDbArchivist<
     })
   }
 
+  protected async getFromCursor(
+    db: IDBPDatabase<PayloadStore>,
+    storeName: string,
+      order: 'asc' | 'desc' = 'asc',
+      limit: number = 10,
+      cursor?: Hex,
+  ): Promise<WithStorageMeta[]> {
+    // TODO: We have to handle the case where the cursor is not found, and then find the correct cursor to start with (thunked cursor)
+    const transaction = db.transaction(storeName, 'readonly')
+    const store = transaction.objectStore(storeName)
+    const sequenceIndex = assertEx(store.index(IndexedDbArchivist.sequenceIndexName), () => 'Failed to get sequence index')
+    let sequenceCursor: IDBPCursorWithValue<PayloadStore, [string]> | null | undefined = undefined
+    const parsedCursor = cursor === SequenceConstants.minLocalSequence ? null : cursor
+    sequenceCursor = assertEx(await sequenceIndex.openCursor(
+      null,
+      order === 'desc' ? 'prev' : 'next',
+    ), () => `Failed to get cursor [${parsedCursor}, ${cursor}]`)
+    if (!sequenceCursor?.value) return []
+    try {
+      sequenceCursor = parsedCursor
+        ? sequenceCursor.value._sequence === parsedCursor ? await sequenceCursor?.advance(1) : await (await sequenceCursor?.continue(parsedCursor))?.advance(1)
+        : sequenceCursor // advance to skip the initial value
+    } catch {
+      return []
+    }
+
+    let remaining = limit
+    const result: WithStorageMeta[] = []
+    while (remaining) {
+      const value = sequenceCursor?.value
+      if (value) {
+        result.push(value)
+        try {
+          sequenceCursor = await sequenceCursor?.advance(1)
+        } catch {
+          break
+        }
+        if (sequenceCursor === null) {
+          break
+        }
+      }
+      remaining--
+    }
+    return result
+  }
+
   /**
    * Uses an index to get a payload by the index value, but returns the value with the primary key (from the root store)
    * @param db The db instance to use
@@ -181,7 +241,7 @@ export class IndexedDbArchivist<
     storeName: string,
     indexName: string,
     key: IDBValidKey,
-  ): Promise<[number, StoredPayload] | undefined> {
+  ): Promise<[number, WithStorageMeta] | undefined> {
     const transaction = db.transaction(storeName, 'readonly')
     const store = transaction.objectStore(storeName)
     const index = store.index(indexName)
@@ -197,56 +257,7 @@ export class IndexedDbArchivist<
     }
   }
 
-  // eslint-disable-next-line complexity
-  protected async getFromOffset(
-    db: IDBPDatabase<PayloadStore>,
-    storeName: string,
-    order: 'asc' | 'desc' = 'asc',
-    limit: number = 10,
-    offset?: Hash,
-  ): Promise<StoredPayload[]> {
-    const transaction = db.transaction(storeName, 'readonly')
-    const store = transaction.objectStore(storeName)
-    const hashIndex = store.index(IndexedDbArchivist.hashIndexName)
-    let primaryCursor: IDBPCursorWithValue<PayloadStore, [string]> | null | undefined = undefined
-    if (offset) {
-      const hashCursor = assertEx(await hashIndex.openCursor(offset), () => 'Failed to get cursor')
-      const startPrimaryKey = (hashCursor?.primaryKey ?? 0) as number // we know the primary key is a number and starts at 1
-      primaryCursor = await (order === 'desc'
-        ? store.openCursor(IDBKeyRange.upperBound(startPrimaryKey), 'prev')
-        : store.openCursor(IDBKeyRange.lowerBound(startPrimaryKey), 'next'))
-      if (!primaryCursor?.value) return []
-      try {
-        primaryCursor = await primaryCursor?.advance(1) // advance to skip the offset value
-      } catch {
-        return []
-      }
-    } else {
-      primaryCursor = await store.openCursor(null, order === 'desc' ? 'prev' : 'next')
-      if (!primaryCursor?.value) return []
-    }
-
-    let remaining = limit
-    const result: StoredPayload[] = []
-    while (remaining) {
-      const value = primaryCursor?.value
-      if (value) {
-        result.push(value)
-        try {
-          primaryCursor = await primaryCursor?.advance(1)
-        } catch {
-          break
-        }
-        if (primaryCursor === null) {
-          break
-        }
-      }
-      remaining--
-    }
-    return result
-  }
-
-  protected override async getHandler(hashes: string[]): Promise<StoredPayload[]> {
+  protected override async getHandler(hashes: string[]): Promise<WithStorageMeta[]> {
     const payloads = await this.useDb(db =>
       Promise.all(
         // Filter duplicates to prevent unnecessary DB queries
@@ -281,9 +292,7 @@ export class IndexedDbArchivist<
     )
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
-    // Get the unique pairs of payloads and their hashes
-    const uniquePayloadHashPairs = uniqBy(await PayloadBuilder.hashPairs(payloads), ([, _hash]) => _hash)
+  protected override async insertHandler(payloads: WithStorageMeta<Payload>[]): Promise<WithStorageMeta<Payload>[]> {
     return await this.useDb(async (db) => {
       // Perform all inserts via a single transaction to ensure atomicity
       // with respect to checking for the pre-existence of the hash.
@@ -293,16 +302,14 @@ export class IndexedDbArchivist<
       // Get the object store
       const store = tx.objectStore(this.storeName)
       // Return only the payloads that were successfully inserted
-      const inserted: PayloadWithMeta[] = []
+      const inserted: WithStorageMeta<Payload>[] = []
       try {
         await Promise.all(
-          uniquePayloadHashPairs.map(async ([payload, _hash]) => {
-            // Check if the root hash already exists
-            const existingRootHash = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
-            // If it does not already exist
-            if (!existingRootHash) {
-              // Insert the payload
-              await store.put({ ...payload, _hash })
+          payloads.map(async (payload) => {
+            // only insert if hash does not already exist
+            if (!await store.index(IndexedDbArchivist.hashIndexName).get(payload._hash)) {
+            // Insert the payload
+              await store.put(payload)
               // Add it to the inserted list
               inserted.push(payload)
             }
@@ -316,12 +323,12 @@ export class IndexedDbArchivist<
     })
   }
 
-  protected override async nextHandler(options?: ArchivistNextOptions): Promise<StoredPayload[]> {
+  protected override async nextHandler(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
     const {
-      limit, offset, order,
+      limit, cursor, order,
     } = options ?? {}
     return await this.useDb(async (db) => {
-      return await this.getFromOffset(db, this.storeName, order, limit ?? 10, offset)
+      return await this.getFromCursor(db, this.storeName, order, limit ?? 10, cursor)
     })
   }
 

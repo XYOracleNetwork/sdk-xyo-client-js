@@ -3,7 +3,6 @@ import '@xylabs/vitest-extended'
 import type { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
-import { unMeta } from '@xyo-network/payload-model'
 import {
   describe, expect, it,
 } from 'vitest'
@@ -88,8 +87,8 @@ describe('transformPayloads', () => {
     const withSources = await reducePayloads(inputs, transforms, destinationSchema, false)
     const withoutSources = await reducePayloads(inputs, transforms, destinationSchema, true)
     // With sources
-    expect(unMeta(withSources)).toEqual(unMeta(await PayloadBuilder.build({ sources, ...output })))
+    expect(withSources).toEqual({ sources, ...output })
     // Without sources
-    expect(unMeta(withoutSources)).toEqual(unMeta(await PayloadBuilder.build({ ...output })))
+    expect(withoutSources).toEqual({ ...output })
   })
 })

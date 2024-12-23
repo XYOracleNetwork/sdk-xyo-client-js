@@ -25,7 +25,7 @@ import {
 } from '@xyo-network/archivist-model'
 import type { ModuleQueryResult } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
-import type { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
+import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 
 constructableModuleWrapper()
 export class ArchivistWrapper<TWrappedModule extends ArchivistModule = ArchivistModule>
@@ -35,7 +35,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   static override moduleIdentityCheck = isArchivistModule
   static override requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
 
-  async all(): Promise<PayloadWithMeta[]> {
+  async all(): Promise<WithStorageMeta<Payload>[]> {
     const queryPayload: ArchivistAllQuery = { schema: ArchivistAllQuerySchema }
     return await this.sendQuery(queryPayload)
   }
@@ -55,7 +55,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
-  async commit(): Promise<PayloadWithMeta[]> {
+  async commit(): Promise<Payload[]> {
     const queryPayload: ArchivistCommitQuery = { schema: ArchivistCommitQuerySchema }
     return await this.sendQuery(queryPayload)
   }
@@ -76,7 +76,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
-  async get(hashes: Hash[]): Promise<PayloadWithMeta[]> {
+  async get(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     const queryPayload: ArchivistGetQuery = { hashes, schema: ArchivistGetQuerySchema }
     return await this.sendQuery(queryPayload)
   }
@@ -86,7 +86,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
-  async insert(payloads: Payload[]): Promise<PayloadWithMeta[]> {
+  async insert(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
     const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
     return await this.sendQuery(queryPayload, payloads)
   }
@@ -96,7 +96,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQueryRaw(queryPayload, payloads, account)
   }
 
-  async next(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
+  async next(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
     const queryPayload: ArchivistNextQuery = { ...options, schema: ArchivistNextQuerySchema }
     return await this.sendQuery(queryPayload)
   }

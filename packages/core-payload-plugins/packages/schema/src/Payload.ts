@@ -1,5 +1,5 @@
 import {
-  isPayloadOfSchemaType, isPayloadOfSchemaTypeWithMeta, isPayloadOfSchemaTypeWithSources, type Payload,
+  isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources, type Payload,
 } from '@xyo-network/payload-model'
 
 import { SchemaSchema } from './Schema.ts'
@@ -10,7 +10,6 @@ export type SchemaPayload = Payload<{
    */
   definition: {
     [key: string]: unknown
-    $id?: string
   }
   /**
    * The schema this schema extends (if any)
@@ -19,12 +18,11 @@ export type SchemaPayload = Payload<{
 
   /** @deprecated use definition.$id instead */
   name?: string
-
-  /**
-   * Identifies this payload as a Schema
-   */
-  schema: SchemaSchema
-}>
+}, SchemaSchema> & {
+  definition: {
+    $id?: string
+  }
+}
 
 /**
  * Identity function for determining if an object is an Schema
@@ -35,8 +33,3 @@ export const isSchemaPayload = isPayloadOfSchemaType<SchemaPayload>(SchemaSchema
  * Identity function for determining if an object is an Schema with sources
  */
 export const isSchemaPayloadWithSources = isPayloadOfSchemaTypeWithSources<SchemaPayload>(SchemaSchema)
-
-/**
- * Identity function for determining if an object is an Schema with meta
- */
-export const isSchemaPayloadWithMeta = isPayloadOfSchemaTypeWithMeta<SchemaPayload>(SchemaSchema)

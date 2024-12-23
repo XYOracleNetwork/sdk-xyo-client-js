@@ -2,32 +2,27 @@ import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import type { Address, Hash } from '@xylabs/hex'
 import { hexFromArrayBuffer } from '@xylabs/hex'
-import type { AnyObject, JsonObject } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account-model'
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import type {
+  BoundWitness,
+  Signed,
+  UnsignedBoundWitness,
+} from '@xyo-network/boundwitness-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { removeEmptyFields, sortFields } from '@xyo-network/hash'
+import {
+  ObjectHasher, removeEmptyFields, sortFields,
+} from '@xyo-network/hash'
+import type { PayloadBuilderOptions } from '@xyo-network/payload-builder'
+import { omitSchema, PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
-  PayloadBuilderOptions, WithoutMeta, WithoutSchema,
-} from '@xyo-network/payload-builder'
-import { PayloadBuilder, PayloadBuilderBase } from '@xyo-network/payload-builder'
-import type {
-  ModuleError, Payload, Schema, WithMeta,
+  ModuleError, Payload, Schema,
+  WithoutMeta,
+  WithoutSchema,
 } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
-export type GeneratedBoundWitnessFields = 'addresses' | 'payload_hashes' | 'payload_schemas' | 'previous_hashes'
-
-export interface BoundWitnessBuilderOptions<TBoundWitness extends BoundWitness = BoundWitness, TPayload extends Payload = Payload>
-  extends Omit<PayloadBuilderOptions<Omit<TBoundWitness, GeneratedBoundWitnessFields>>, 'schema'> {
-  readonly accounts?: AccountInstance[]
-  readonly destination?: Hash[]
-  readonly payloadHashes?: TBoundWitness['payload_hashes']
-  readonly payloadSchemas?: TBoundWitness['payload_schemas']
-  readonly payloads?: TPayload[]
-  readonly sourceQuery?: Hash
-  readonly timestamp?: number
-}
+export const GeneratedBoundWitnessFields = ['addresses', 'payload_hashes', 'payload_schemas', 'previous_hashes'] as const
+export type GeneratedBoundWitnessFields = typeof GeneratedBoundWitnessFields[number]
 
 const uniqueAccounts = (accounts: AccountInstance[], throwOnFalse = false) => {
   const addresses = new Set<Address>()
@@ -43,33 +38,24 @@ const uniqueAccounts = (accounts: AccountInstance[], throwOnFalse = false) => {
   return true
 }
 
-export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitness, TPayload extends Payload = Payload> extends PayloadBuilderBase<
-  Omit<TBoundWitness, GeneratedBoundWitnessFields>,
-  BoundWitnessBuilderOptions<TBoundWitness> & { schema: BoundWitnessSchema }
-> {
+export class BoundWitnessBuilder<
+  TBoundWitness extends UnsignedBoundWitness = UnsignedBoundWitness,
+  TPayload extends Payload = Payload>
+  extends PayloadBuilder<
+    TBoundWitness,
+    Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]>
+  > {
   private static readonly _buildMutex = new Mutex()
-  private _accounts: AccountInstance[]
-  private _destination?: Hash[]
+
+  private _accounts: AccountInstance[] = []
   private _errorHashes?: Hash[]
   private _errors: ModuleError[] = []
   private _payloadHashes?: Hash[]
   private _payloadSchemas?: Schema[]
-  private _payloads: TPayload[]
-  private _sourceQuery?: Hash
-  private _timestamp: boolean | number
+  private _payloads: TPayload[] = []
 
-  constructor(options?: BoundWitnessBuilderOptions<TBoundWitness, TPayload>) {
+  constructor(options?: Omit<PayloadBuilderOptions, 'schema'>) {
     super({ ...options, schema: BoundWitnessSchema })
-    const {
-      accounts, payloadHashes, payloadSchemas, payloads, sourceQuery, timestamp, destination,
-    } = options ?? {}
-    this._accounts = accounts ?? []
-    this._payloadHashes = payloadHashes
-    this._payloadSchemas = payloadSchemas
-    this._payloads = payloads ?? []
-    this._sourceQuery = sourceQuery
-    this._destination = destination
-    this._timestamp = timestamp ?? true
   }
 
   protected get addresses(): Address[] {
@@ -86,16 +72,12 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     )
   }
 
-  protected get previousHashBuffers(): (ArrayBufferLike | null)[] {
+  protected get previousHashBytes(): (ArrayBufferLike | null)[] {
     return this._accounts.map(account => account.previousHashBytes ?? null)
   }
 
   protected get previousHashes(): (Hash | null)[] {
     return this._accounts.map(account => account.previousHash ?? null)
-  }
-
-  protected get timestamp(): number {
-    return (this._timestamp = typeof this._timestamp === 'number' ? this._timestamp : Date.now())
   }
 
   static addressIndex<T extends BoundWitness>(payload: T, address: Address) {
@@ -106,104 +88,69 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     return index
   }
 
-  static async build<TBoundWitness extends BoundWitness>(options: BoundWitnessBuilderOptions<TBoundWitness>) {
-    return await new BoundWitnessBuilder(options).build()
-  }
-
-  static override async dataHashableFields<T extends Payload = Payload<AnyObject>>(
-    schema: string,
-    fields?: WithoutSchema<WithoutMeta<T>>,
-  ): Promise<WithoutMeta<T>> {
-    return await PayloadBuilderBase.dataHashableFields(schema, fields ? removeEmptyFields(fields) : undefined)
-  }
-
   static previousHash<T extends BoundWitness>(boundWitness: T, address: Address) {
     return boundWitness.previous_hashes[this.addressIndex(boundWitness, address)]?.toLowerCase()
   }
 
-  protected static async linkingFields<T extends BoundWitness = BoundWitness>(
+  protected static async linkingFields<T extends BoundWitness>(
     accounts: AccountInstance[],
     payloads?: Payload[],
-    timestamp = Date.now(),
-  ) {
+  ): Promise<Pick<T, GeneratedBoundWitnessFields>> {
     const addresses = accounts.map(account => hexFromArrayBuffer(account.addressBytes, { prefix: false }))
     const previous_hashes = accounts.map(account => account.previousHash ?? null)
-    const payload_hashes = payloads ? await PayloadBuilder.dataHashes(payloads) : []
-    const payload_schemas = payloads?.map(({ schema }) => schema)
+    const payload_hashes = payloads ? await BoundWitnessBuilder.dataHashes(payloads) : []
+    const payload_schemas = payloads?.map(({ schema }) => schema) ?? []
     return {
-      addresses, payload_hashes, payload_schemas, previous_hashes, timestamp,
-    } as WithoutSchema<WithoutMeta<T>>
-  }
-
-  protected static override async metaFields(
-    dataHash: Hash,
-    otherMeta?: JsonObject,
-    stamp = true,
-    accounts?: AccountInstance[],
-    previousHashes?: (Hash | null)[],
-    destination?: Address[],
-    sourceQuery?: Hash,
-  ): Promise<JsonObject> {
-    const meta = await super.metaFields(dataHash, otherMeta, stamp)
-
-    if (accounts?.length && previousHashes?.length) {
-      assertEx(accounts.length === previousHashes.length, () => 'accounts and previousHashes must have same length')
-      meta.signatures = await this.signatures(accounts, dataHash, previousHashes)
+      addresses, payload_hashes, payload_schemas, previous_hashes,
     }
-
-    if (sourceQuery) {
-      meta.sourceQuery = sourceQuery
-    }
-
-    if (destination) {
-      meta.destination = destination
-    }
-
-    return meta
   }
 
   protected static signature<T extends BoundWitness>(payload: T, address: Address) {
-    return payload.$meta.signatures[this.addressIndex(payload, address)]
+    return payload.$signatures[this.addressIndex(payload, address)]
   }
 
-  protected static async signatures(accounts: AccountInstance[], hash: Hash, previousHashes: (Hash | ArrayBuffer | null)[]): Promise<string[]> {
-    const hashBytes = toArrayBuffer(hash)
-    const previousHashesBytes = previousHashes?.map(ph => (ph ? toArrayBuffer(ph) : undefined))
-    return await Promise.all(accounts.map(async (account, index) => hexFromArrayBuffer(await account.sign(hashBytes, previousHashesBytes[index]))))
+  protected static async signatures(accounts: AccountInstance[], dataHash: Hash): Promise<string[]> {
+    const hashBytes = toArrayBuffer(dataHash)
+    const previousHashesBytes = accounts?.map(account => account.previousHashBytes)
+    return await Promise.all(accounts.map(async (account, index) => hexFromArrayBuffer((await account.sign(hashBytes, previousHashesBytes[index]))[0])))
   }
 
-  private static validateLinkingFields(bw: Pick<BoundWitness, 'payload_hashes' | 'payload_schemas'>) {
-    assertEx(bw.payload_hashes?.length === bw.payload_schemas?.length, () => 'Payload hash/schema mismatch')
-    assertEx(!bw.payload_hashes.some(hash => !hash), () => 'nulls found in hashes')
-    assertEx(!bw.payload_schemas.some(schema => !schema), () => 'nulls found in schemas')
+  private static validateGeneratedFields(fields: Pick<BoundWitness, GeneratedBoundWitnessFields>) {
+    assertEx(fields.payload_hashes?.length === fields.payload_schemas?.length, () => 'Payload hash/schema mismatch')
+    assertEx(!fields.payload_hashes.some(hash => !hash), () => 'nulls found in hashes')
+    assertEx(!fields.payload_schemas.some(schema => !schema), () => 'nulls found in schemas')
   }
 
-  async build(): Promise<[WithMeta<TBoundWitness>, WithMeta<TPayload>[], WithMeta<ModuleError>[]]> {
+  override async build(): Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]> {
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
       const dataHashableFields = (await this.dataHashableFields()) as TBoundWitness
-      const $hash = (await PayloadBuilder.build(dataHashableFields)).$hash
-      const $meta = await this.metaFields($hash)
+      const $signatures = await this.sign()
 
       const ret = {
-        ...dataHashableFields,
-        $hash,
-        $meta,
-      } as WithMeta<TBoundWitness>
+        ...this._meta, ...dataHashableFields, $signatures,
+      } as Signed<TBoundWitness>
       return [
         ret,
-        await Promise.all(this._payloads?.map(payload => PayloadBuilder.build(payload))),
-        await Promise.all(this._errors?.map(error => PayloadBuilder.build(error))),
+        this._payloads,
+        this._errors,
       ]
     })
   }
 
-  override async dataHashableFields(): Promise<WithoutMeta<TBoundWitness>> {
-    const fields = await this.linkingFields()
-    const result = await BoundWitnessBuilder.dataHashableFields<TBoundWitness>(this._schema, fields)
+  async dataHash() {
+    const dataHashableFields = await this.dataHashableFields()
+    const hash = await ObjectHasher.hash(dataHashableFields)
+    return hash
+  }
 
-    BoundWitnessBuilder.validateLinkingFields(result)
-
-    return result as Omit<TBoundWitness, '$meta' | '$hash'>
+  override async dataHashableFields() {
+    const generatedFields: Pick<TBoundWitness, GeneratedBoundWitnessFields> = await this.generatedFields()
+    BoundWitnessBuilder.validateGeneratedFields(generatedFields)
+    const fields: WithoutSchema<TBoundWitness> = {
+      ...this._fields,
+      ...generatedFields,
+    } as WithoutSchema<TBoundWitness>
+    return await BoundWitnessBuilder.dataHashableFields<TBoundWitness>(this._schema, fields)
   }
 
   error(payload?: ModuleError) {
@@ -222,6 +169,20 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
         }
       }
     }
+    return this
+  }
+
+  override fields(fields: WithoutMeta<WithoutSchema<Omit<TBoundWitness, GeneratedBoundWitnessFields>>>): this {
+    const clone = structuredClone(fields) as unknown as Partial<TBoundWitness>
+    for (const field of GeneratedBoundWitnessFields) {
+      delete clone[field]
+    }
+    // we need to do the cast here since ts seems to not like nested, yet same, generics
+    this._fields = omitSchema(
+      BoundWitnessBuilder.omitMeta(
+        removeEmptyFields(structuredClone(fields)),
+      ),
+    ) as unknown as WithoutMeta<WithoutSchema<TBoundWitness>>
     return this
   }
 
@@ -262,8 +223,11 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     return this
   }
 
-  sourceQuery(query?: Hash) {
-    this._sourceQuery = query?.toLowerCase() as Hash
+  sourceQuery(sourceQuery: Hash) {
+    this._meta = {
+      ...this._meta,
+      $sourceQuery: sourceQuery,
+    } as typeof this._meta
     return this
   }
 
@@ -279,27 +243,14 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     return this
   }
 
-  protected override async metaFields(dataHash: Hash, stamp = true): Promise<JsonObject> {
-    return await BoundWitnessBuilder.metaFields(
-      dataHash,
-      this._$meta,
-      stamp,
-      this._accounts,
-      this.previousHashes,
-      this._destination,
-      this._sourceQuery,
-    )
-  }
-
-  protected async signatures(_hash: Hash, previousHashes: (Hash | ArrayBuffer | null)[]): Promise<string[]> {
+  protected async sign(): Promise<string[]> {
     uniqueAccounts(this._accounts, true)
-    const hash = toArrayBuffer(_hash)
-    const previousHashesBytes = previousHashes.map(ph => (ph ? toArrayBuffer(ph) : undefined))
-    return await Promise.all(this._accounts.map(async (account, index) => hexFromArrayBuffer(await account.sign(hash, previousHashesBytes[index]))))
+    const hashBytes = toArrayBuffer(await this.dataHash())
+    return await Promise.all(this._accounts.map(async account => hexFromArrayBuffer((await account.sign(hashBytes))[0])))
   }
 
-  private async linkingFields() {
-    return await BoundWitnessBuilder.linkingFields<TBoundWitness>(this._accounts, this._payloads, this.timestamp)
+  private async generatedFields(): Promise<Pick<TBoundWitness, GeneratedBoundWitnessFields>> {
+    return await BoundWitnessBuilder.linkingFields(this._accounts, this._payloads)
   }
 
   private missingSchemaMessage(payload: Payload) {

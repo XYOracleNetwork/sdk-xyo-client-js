@@ -3,7 +3,7 @@ import { assertEx } from '@xylabs/assert'
 import type { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { isQueryBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import { isQueryBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { isBridgeInstance } from '@xyo-network/bridge-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
@@ -18,7 +18,9 @@ import {
   ResolveHelper,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Schema, WithMeta } from '@xyo-network/payload-model'
+import {
+  type Schema, SequenceConstants, type WithStorageMeta,
+} from '@xyo-network/payload-model'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase.ts'
 import type { AsyncQueryBusHostParams } from './model/index.ts'
@@ -132,7 +134,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
   }
 
   // eslint-disable-next-line complexity
-  protected callLocalModule = async (localModule: ModuleInstance, query: WithMeta<QueryBoundWitness>) => {
+  protected callLocalModule = async (localModule: ModuleInstance, query: WithStorageMeta<QueryBoundWitness>) => {
     this._idle = false
     this._lastQueryTime = Date.now()
     const localModuleName = localModule.id
@@ -144,7 +146,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       await this.responsesArchivist(),
       () => `Unable to contact responsesArchivist [${this.config?.intersect?.queries?.archivist}]`,
     )
-    const queryDestination = (query.$meta as { destination?: string[] })?.destination
+    const queryDestination = query?.$destination
     if (queryDestination && queryDestination?.includes(localModule.address)) {
       // Find the query
       const queryIndex = query.payload_hashes.indexOf(query.query)
@@ -156,7 +158,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
           const queryPayloads = await queryArchivist.get(query.payload_hashes)
           this.params.onQueryFulfillStarted?.({ payloads: queryPayloads, query })
           const queryPayloadsDict = await PayloadBuilder.toAllHashMap(queryPayloads)
-          const queryHash = (await PayloadBuilder.build(query)).$hash
+          const queryHash = await PayloadBuilder.dataHash(query)
           // Check that we have all the arguments for the command
           if (!containsAll(Object.keys(queryPayloadsDict), query.payload_hashes)) {
             this.logger?.error(`Error processing command ${queryHash} for module ${localModuleName}, missing payloads`)
@@ -179,11 +181,11 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
             if (insertResult.length === 0) {
               this.logger?.error(`Error replying to query ${queryHash} addressed to module: ${localModuleName}`)
             }
-            if (query?.timestamp) {
+            if (query?._sequence) {
               // TODO: This needs to be thought through as we can't use a distributed timestamp
               // because of collisions. We need to ensure we are using the timestamp of the store
               // so there's no chance of multiple commands at the same time
-              await this.commitState(localModule.address, query.timestamp)
+              await this.commitState(localModule.address, query._sequence)
             }
             this.params.onQueryFulfillFinished?.({
               payloads: queryPayloads, query, result, status: 'success',
@@ -217,11 +219,13 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
         limit,
         order: 'asc',
         schema: BoundWitnessDivinerQuerySchema,
-        timestamp: prevState + 1,
+        cursor: prevState,
       }
       const result = await queriesBoundWitnessDiviner.divine([divinerQuery])
-      const queries = result.filter(isQueryBoundWitnessWithMeta)
-      const nextState = queries.length > 0 ? Math.max(...queries.map(c => c.timestamp ?? prevState)) + 1 : Date.now()
+      const queries = result.filter(isQueryBoundWitnessWithStorageMeta)
+      // eslint-disable-next-line unicorn/no-array-reduce, unicorn/prefer-math-min-max
+      const highestQuerySequence = queries.reduce((acc, query) => acc = (query._sequence > acc ? query._sequence : acc), SequenceConstants.minLocalSequence)
+      const nextState = queries.length > 0 ? highestQuerySequence : SequenceConstants.minLocalSequence
       // TODO: This needs to be thought through as we can't use a distributed timestamp
       // because of collisions. We need to use the timestamp of the store so there's no
       // chance of multiple commands at the same time

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/core-payload-plugins",
-  "version": "3.5.2",
+  "version": "3.6.0-rc.19",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -39,11 +39,12 @@
     "@xyo-network/value-payload-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.2.4",
-    "@xylabs/tsconfig": "^4.2.4",
+    "@xylabs/ts-scripts-yarn3": "^4.2.6",
+    "@xylabs/tsconfig": "^4.2.6",
     "typescript": "^5.7.2"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "stableVersion": "3.5.2"
 }

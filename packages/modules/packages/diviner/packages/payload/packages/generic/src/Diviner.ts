@@ -1,21 +1,22 @@
+import { filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
-import type { Hash } from '@xylabs/hex'
-import type { EmptyObject, JsonObject } from '@xylabs/object'
+import { type Hex } from '@xylabs/hex'
 import type { ArchivistInstance, ArchivistModuleEventData } from '@xyo-network/archivist-model'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
-import type {
-  Order,
-  PayloadDivinerConfig,
-  PayloadDivinerParams,
-  PayloadDivinerQueryPayload,
+import {
+  asPayloadDivinerQueryPayload,
+  type Order,
+  type PayloadDivinerConfig,
+  type PayloadDivinerParams,
+  type PayloadDivinerQueryPayload,
 } from '@xyo-network/diviner-payload-model'
-import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import type { EventListener } from '@xyo-network/module-events'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  Payload, Schema, WithMeta,
+import {
+  type Payload, type Schema,
+  type WithStorageMeta,
 } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
@@ -34,8 +35,8 @@ export type GenericPayloadDivinerConfig = PayloadDivinerConfig<
 
 export class GenericPayloadDiviner<
   TParams extends PayloadDivinerParams<GenericPayloadDivinerConfig> = PayloadDivinerParams<GenericPayloadDivinerConfig>,
-  TIn extends PayloadDivinerQueryPayload<EmptyObject, Hash> = PayloadDivinerQueryPayload<EmptyObject, Hash>,
-  TOut extends Payload = Payload,
+  TIn extends PayloadDivinerQueryPayload = PayloadDivinerQueryPayload,
+  TOut extends WithStorageMeta<Payload> = WithStorageMeta<Payload>,
   TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
     DivinerInstance<TParams, TIn, TOut>,
     TIn,
@@ -45,11 +46,11 @@ export class GenericPayloadDiviner<
   static override readonly configSchemas: Schema[] = [...super.configSchemas, GenericPayloadDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = GenericPayloadDivinerConfigSchema
 
-  protected indexMaps: Record<string, WithMeta<TOut>[]> = {}
-  protected payloadPairs: [WithMeta<TOut>, Hash][] = []
+  protected indexMaps: Record<string, WithStorageMeta<TOut>[]> = {}
+  protected payloadsWithMeta: WithStorageMeta<TOut>[] = []
 
   private _archivistInstance?: ArchivistInstance
-  private _indexOffset?: Hash
+  private _cursor?: Hex
   private _updatePayloadPairsMutex = new Mutex()
 
   protected get indexBatchSize() {
@@ -64,20 +65,11 @@ export class GenericPayloadDiviner<
     return this.config.maxIndexSize ?? DEFAULT_MAX_INDEX_SIZE
   }
 
-  protected all(order: Order = 'desc', offset?: Hash) {
-    return order === 'asc' ? this.allAsc(offset) : this.allDesc(offset)
-  }
-
-  protected allAsc(offset?: Hash) {
-    const pairs = this.payloadPairs
-    const startIndex = (offset ? (pairs.findIndex(([, hash]) => hash === offset) ?? -1) : -1) + 1
-    return pairs.slice(startIndex).map(([payload]) => payload)
-  }
-
-  protected allDesc(offset?: Hash) {
-    const pairs = [...this.payloadPairs].reverse()
-    const startIndex = (offset ? (pairs.findIndex(([, hash]) => hash === offset) ?? -1) : -1) + 1
-    return pairs.slice(startIndex).map(([payload]) => payload)
+  protected all(order: Order = 'desc', cursor?: Hex) {
+    const payloads = this.payloadsWithMeta.toSorted(PayloadBuilder.compareStorageMeta)
+    if (order === 'desc') payloads.reverse()
+    const startIndex = (cursor ? (payloads.findIndex(payload => payload._sequence === cursor) ?? -1) : -1) + 1
+    return payloads.slice(startIndex)
   }
 
   protected override async archivistInstance(): Promise<ArchivistInstance | undefined>
@@ -98,26 +90,23 @@ export class GenericPayloadDiviner<
 
   protected async clearIndex() {
     await this._updatePayloadPairsMutex.runExclusive(() => {
-      this._indexOffset = undefined
-      this.payloadPairs = []
+      this._cursor = undefined
+      this.payloadsWithMeta = []
       this.indexMaps = {}
     })
   }
 
-  protected override async divineHandler(payloads?: TIn[]): Promise<WithMeta<TOut>[]> {
-    const filters = payloads?.filter(isPayloadDivinerQueryPayload) ?? []
+  protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
+    const filters = filterAs(payloads ?? [], asPayloadDivinerQueryPayload)
     assertEx(filters.length < 2, () => 'Multiple PayloadDivinerQuery payloads may not be specified')
-    const filter = assertEx(filters.shift(), () => 'No PayloadDivinerQuery specified') as unknown as WithMeta<
-      PayloadDivinerQueryPayload<EmptyObject, Hash>
-    >
-
+    const filter = assertEx(filters.shift(), () => 'No PayloadDivinerQuery specified') as PayloadDivinerQueryPayload
     await this.updateIndex()
 
     const {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      $hash, $meta, schema, schemas, order, limit, offset, ...props
+      schema, schemas, order, limit, cursor, ...props
     } = filter
-    let all: WithMeta<TOut>[] = this.all(order, offset)
+    let all: TOut[] = this.all(order, cursor)
     if (all) {
       if (schemas?.length) all = all.filter(payload => schemas.includes(payload.schema))
       if (Object.keys(props).length > 0) {
@@ -127,11 +116,11 @@ export class GenericPayloadDiviner<
           all
             = Array.isArray(filter)
               ? all.filter(payload =>
-                filter.every((value) => {
-                  const prop = payload?.[property]
-                  // TODO: This seems to be written just to check arrays, and now that $meta is there, need to check type?
-                  return Array.isArray(prop) && prop.includes?.(value)
-                }))
+                  filter.every((value) => {
+                    const prop = payload?.[property]
+                    // TODO: This seems to be written just to check arrays, and now that $meta is there, need to check type?
+                    return Array.isArray(prop) && prop.includes?.(value)
+                  }))
               : all.filter(payload => payload?.[property] === filter)
         }
       }
@@ -176,31 +165,26 @@ export class GenericPayloadDiviner<
   protected async updateIndex() {
     await this._updatePayloadPairsMutex.runExclusive(async () => {
       const archivist = await this.archivistInstance(true)
-      let newPayloads = (await archivist.next({ limit: 100, offset: this._indexOffset })) as WithMeta<TOut>[]
+      let newPayloads = await archivist.next({ limit: 100, cursor: this._cursor }) as TOut[]
       while (newPayloads.length > 0) {
-        const prevOffset = this._indexOffset
-        this._indexOffset = await PayloadBuilder.hash(assertEx(newPayloads.at(-1)))
-        if (this._indexOffset === prevOffset) {
-          this.logger.warn('next offset not found', prevOffset)
-        }
-        assertEx(this.payloadPairs.length + newPayloads.length <= this.maxIndexSize, () => 'maxIndexSize exceeded')
-        await this.indexPayloads(newPayloads)
-        newPayloads = (await archivist.next({ limit: 100, offset: this._indexOffset })) as WithMeta<TOut>[]
+        this._cursor = newPayloads.at(-1)?._sequence
+        assertEx(this.payloadsWithMeta.length + newPayloads.length <= this.maxIndexSize, () => 'maxIndexSize exceeded')
+        this.indexPayloads(newPayloads)
+        newPayloads = await archivist.next({ limit: 100, cursor: this._cursor }) as TOut[]
       }
     })
   }
 
-  private async indexPayloads(payloads: TOut[]): Promise<Hash> {
-    const pairs = await PayloadBuilder.hashPairs(payloads)
-    this.payloadPairs.push(...pairs)
+  private indexPayloads(payloads: WithStorageMeta<TOut>[]): Hex {
+    this.payloadsWithMeta.push(...payloads)
 
     // update the custom indexes
     for (const index of this.indexes ?? []) {
       this.indexMaps[index] = this.indexMaps[index] ?? []
-      for (const [payload] of pairs) {
-        if ((payload as unknown as JsonObject)[index] !== undefined) this.indexMaps[index].push(payload)
+      for (const payload of payloads) {
+        this.indexMaps[index].push(payload)
       }
     }
-    return assertEx(pairs.at(-1))[1]
+    return assertEx(payloads.at(-1), () => 'No payloads to index')._sequence
   }
 }

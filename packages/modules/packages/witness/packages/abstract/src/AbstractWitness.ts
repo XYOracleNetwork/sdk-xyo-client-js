@@ -11,7 +11,9 @@ import type {
 } from '@xyo-network/module-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import type {
+  Payload, Schema, WithoutPrivateStorageMeta,
+} from '@xyo-network/payload-model'
 import type {
   CustomWitnessInstance,
   WitnessInstance,
@@ -55,7 +57,7 @@ export abstract class AbstractWitness<
   }
 
   /** @function observe The main entry point for a witness.  Do not override this function.  Implement/override observeHandler for custom functionality */
-  async observe(inPayloads?: TIn[]): Promise<TOut[]> {
+  async observe(inPayloads?: TIn[]): Promise<WithoutPrivateStorageMeta<TOut>[]> {
     this._noOverride('observe')
     await this.started('throw')
     await this.emit('observeStart', { inPayloads, mod: this } as TEventData['observeStart'])
@@ -72,7 +74,7 @@ export abstract class AbstractWitness<
       inPayloads, mod: this, outPayloads,
     } as TEventData['observeEnd'])
 
-    return outPayloads
+    return PayloadBuilder.omitPrivateStorageMeta(outPayloads)
   }
 
   async observeQuery(payloads?: TIn[], account?: AccountInstance): Promise<ModuleQueryResult<TOut>> {
@@ -102,7 +104,7 @@ export abstract class AbstractWitness<
         return super.queryHandler(query, payloads)
       }
     }
-    return resultPayloads
+    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
   }
 
   /** @function observeHandler Implement or override to add custom functionality to a witness */

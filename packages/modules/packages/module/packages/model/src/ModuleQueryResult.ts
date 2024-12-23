@@ -1,10 +1,10 @@
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import type {
-  ModuleError, Payload, WithMeta,
+  ModuleError, Payload, WithoutPrivateStorageMeta,
 } from '@xyo-network/payload-model'
 
 export type ModuleQueryResult<P extends Payload = Payload, E extends ModuleError = ModuleError, B extends BoundWitness = BoundWitness> = [
-  WithMeta<B>,
-  WithMeta<P>[],
-  WithMeta<E>[],
+  WithoutPrivateStorageMeta<B>,
+  WithoutPrivateStorageMeta<P>[],
+  WithoutPrivateStorageMeta<E>[],
 ]

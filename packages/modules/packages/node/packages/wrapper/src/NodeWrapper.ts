@@ -35,7 +35,6 @@ import {
   NodeDetachQuerySchema,
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
-import type { WithMeta } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
@@ -54,7 +53,7 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
     const queryPayload: NodeAttachQuery = {
       external, id, schema: NodeAttachQuerySchema,
     }
-    const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<AddressPayload>>(AddressSchema))
+    const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.pop()?.address
   }
 
@@ -69,7 +68,7 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
     return await this._attachedMutex.runExclusive(async () => {
       if (this._attached === undefined) {
         const queryPayload: NodeAttachedQuery = { schema: NodeAttachedQuerySchema }
-        const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<AddressPayload>>(AddressSchema))
+        const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
         this._attached = payloads.map(p => p.address)
       }
       return this._attached
@@ -83,7 +82,7 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
 
   async certify(id: ModuleIdentifier): Promise<ChildCertificationFields | undefined> {
     const queryPayload: NodeCertifyQuery = { id, schema: NodeCertifyQuerySchema }
-    const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<ChildCertification>>(ChildCertificationSchema))
+    const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<ChildCertification>(ChildCertificationSchema))
     return payloads.pop()
   }
 
@@ -94,7 +93,7 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
 
   async detach(id: ModuleIdentifier): Promise<Address | undefined> {
     const queryPayload: NodeDetachQuery = { id, schema: NodeDetachQuerySchema }
-    const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<AddressPayload>>(AddressSchema))
+    const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.pop()?.address
   }
 
@@ -105,13 +104,13 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
 
   override async manifest(maxDepth?: number): Promise<NodeManifestPayload> {
     const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth ? { maxDepth } : {}) }
-    const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
+    const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema))
     return payloads.pop() as NodeManifestPayload
   }
 
   async registered(): Promise<Address[]> {
     const queryPayload: NodeRegisteredQuery = { schema: NodeRegisteredQuerySchema }
-    const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<AddressPayload>>(AddressSchema))
+    const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.map(p => p.address)
   }
 

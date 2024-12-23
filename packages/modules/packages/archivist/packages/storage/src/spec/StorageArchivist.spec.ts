@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import { delay } from '@xylabs/delay'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'

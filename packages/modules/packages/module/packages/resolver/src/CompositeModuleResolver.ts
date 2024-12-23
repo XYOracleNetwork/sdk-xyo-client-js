@@ -200,7 +200,8 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
             this._cache.set(id, result)
             return result
           }
-          return priority === ObjectResolverPriority.VeryLow ? undefined : await resolvePriority(priority - 1)
+          // we know that ObjectResolverPriority.VeryLow is the minimum priority, so we can subtract 1 from the rest
+          return priority === ObjectResolverPriority.VeryLow ? undefined : await resolvePriority((priority - 1) as ObjectResolverPriority)
         }
         const mod = await resolvePriority(ObjectResolverPriority.VeryHigh)
         return (

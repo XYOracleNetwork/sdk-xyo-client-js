@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Hash } from '@xylabs/hex'
+import type { Hash, Hex } from '@xylabs/hex'
 import type { Promisable, PromisableArray } from '@xylabs/promise'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
@@ -23,14 +23,12 @@ import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
-  Payload, PayloadWithMeta, Schema, WithMeta,
+  Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
 import type { StoreBase, StoreType } from 'store2'
 import store from 'store2'
 
 const storeTypes = store as unknown as StoreType
-
-type WithStorageMeta<T extends Payload = Payload> = WithMeta<T> & { _timestamp: number }
 
 export type StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'
 export const StorageArchivistConfigSchema: StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'
@@ -95,21 +93,21 @@ export class StorageArchivist<
     return this._storage
   }
 
-  protected override allHandler(): PromisableArray<PayloadWithMeta> {
+  protected override allHandler(): PromisableArray<WithStorageMeta<Payload>> {
     const found = new Set<string>()
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     return Object.entries(this.storage.getAll())
       .map(([, value]) => value)
       .filter((payload) => {
-        if (found.has(payload.$hash)) {
+        if (found.has(payload._dataHash)) {
           return false
         } else {
-          found.add(payload.$hash)
+          found.add(payload._dataHash)
           return true
         }
       })
-      .sort((a, b) => a._timestamp - b._timestamp)
-      .map(payload => this.removeStorageMeta(payload))
+      .sort(PayloadBuilder.compareStorageMeta)
+      .map(payload => PayloadBuilder.omitStorageMeta(payload))
   }
 
   protected override clearHandler(): void | Promise<void> {
@@ -118,7 +116,7 @@ export class StorageArchivist<
     return this.emit('cleared', { mod: this })
   }
 
-  protected override async commitHandler(): Promise<WithMeta<BoundWitness>[]> {
+  protected override async commitHandler(): Promise<BoundWitness[]> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     const payloads = await this.all()
     assertEx(payloads.length > 0, () => 'Nothing to commit')
@@ -145,36 +143,25 @@ export class StorageArchivist<
     ).filter(exists)
   }
 
-  protected getFromOffset(
+  protected getFromCursor(
     order: 'asc' | 'desc' = 'asc',
     limit: number = 10,
-    offset?: Hash,
+    cursor?: Hex,
   ): WithStorageMeta[] {
-    const offsetHash = offset ? (this.storage.get(offset) as PayloadWithMeta | undefined)?.$hash : undefined
-    const found = new Set<string>()
-    const payloads: WithStorageMeta[] = Object.entries(this.storage.getAll())
-      .map(([, value]) => value)
-      .filter((payload) => {
-        if (found.has(payload.$hash)) {
-          return false
-        } else {
-          found.add(payload.$hash)
-          return true
-        }
-      })
+    const all = Object.values(this.storage.getAll()) as WithStorageMeta[]
+    const payloads: WithStorageMeta[] = all
+      .map(value => value)
       .sort((a, b) => {
-        return order === 'asc' ? a._timestamp - b._timestamp : b._timestamp - a._timestamp
+        return order === 'asc' ? PayloadBuilder.compareStorageMeta(a, b) : PayloadBuilder.compareStorageMeta(b, a)
       })
-    if (offsetHash) {
-      const index = payloads.findIndex(payload => payload.$hash === offsetHash)
-      if (index !== -1) {
-        return payloads.slice(index + 1, index + 1 + limit)
-      }
+    const index = payloads.findIndex(payload => payload._sequence === cursor)
+    if (index !== -1) {
+      return payloads.slice(index + 1, index + 1 + limit)
     }
     return payloads.slice(0, limit)
   }
 
-  protected override getHandler(hashes: string[]): Promisable<PayloadWithMeta[]> {
+  protected override getHandler(hashes: string[]): Promisable<WithStorageMeta<Payload>[]> {
     const found = new Set<string>()
     return (
       hashes.map((hash) => {
@@ -182,48 +169,35 @@ export class StorageArchivist<
       })
     ).filter(exists)
       .filter((payload) => {
-        if (found.has(payload.$hash)) {
+        if (found.has(payload._dataHash)) {
           return false
         } else {
-          found.add(payload.$hash)
+          found.add(payload._dataHash)
           return true
         }
-      }).map(payload => this.removeStorageMeta(payload))
+      }).map(payload => PayloadBuilder.omitStorageMeta(payload))
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
-    let timestamp = Date.now()
-    const pairs = await PayloadBuilder.hashPairs(payloads)
-    return pairs.map(([payload, hash]) => {
-      const storagePayload = this.addStorageMeta(payload, timestamp++)
-      const value = JSON.stringify(storagePayload)
-      console.log('insert.storagePayloads:', storagePayload)
-      assertEx(value.length < this.maxEntrySize, () => `Payload too large [${hash}, ${value.length}]`)
-      this.storage.set(hash, storagePayload)
-      this.storage.set(payload.$hash, storagePayload)
+  protected override async insertHandler(payloads: WithStorageMeta<Payload>[]): Promise<WithStorageMeta<Payload>[]> {
+    return await Promise.all(payloads.map((payload) => {
+      const value = JSON.stringify(payload)
+      // console.log('insert.storagePayloads:', storagePayload)
+      assertEx(value.length < this.maxEntrySize, () => `Payload too large [${payload._hash}, ${value.length}]`)
+      this.storage.set(payload._hash, payload)
+      this.storage.set(payload._dataHash, payload)
       return payload
-    })
+    }))
   }
 
-  protected override nextHandler(options?: ArchivistNextOptions): Promisable<PayloadWithMeta[]> {
+  protected override nextHandler(options?: ArchivistNextOptions): Promisable<WithStorageMeta<Payload>[]> {
     const {
-      limit, offset, order,
+      limit, cursor, order,
     } = options ?? {}
-    return this.getFromOffset(order, limit ?? 10, offset)
+    return this.getFromCursor(order, limit ?? 10, cursor)
   }
 
   protected override async startHandler() {
     await super.startHandler()
     return true
-  }
-
-  private addStorageMeta<T extends Payload = Payload>(payload: WithMeta<T>, _timestamp: number): WithStorageMeta<T> {
-    return { ...payload, _timestamp }
-  }
-
-  private removeStorageMeta<T extends Payload = Payload>(payload: WithStorageMeta<T>): WithMeta<T> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { _timestamp, ...rest } = payload
-    return rest as WithMeta<T>
   }
 }

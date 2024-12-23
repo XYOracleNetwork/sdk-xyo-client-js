@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-temporal-indexing-model",
-  "version": "3.6.0-rc.19",
+  "version": "3.6.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.4.25",
+    "@xylabs/hex": "^4.4.26",
     "@xyo-network/diviner-boundwitness-model": "workspace:^",
     "@xyo-network/diviner-indexing-model": "workspace:^",
     "@xyo-network/diviner-jsonpath-model": "workspace:^",
@@ -44,6 +44,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "stableVersion": "3.5.2"
+  }
 }

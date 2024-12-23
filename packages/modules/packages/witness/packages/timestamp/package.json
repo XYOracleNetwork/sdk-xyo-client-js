@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/witness-timestamp",
-  "version": "3.6.0-rc.19",
+  "version": "3.6.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/object": "^4.4.25",
-    "@xylabs/promise": "^4.4.25",
+    "@xylabs/object": "^4.4.26",
+    "@xylabs/promise": "^4.4.26",
     "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
@@ -43,6 +43,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "stableVersion": "3.5.2"
+  }
 }

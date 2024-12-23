@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/core-payload-plugins",
-  "version": "3.6.0-rc.19",
+  "version": "3.6.0",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -45,6 +45,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "stableVersion": "3.5.2"
+  }
 }

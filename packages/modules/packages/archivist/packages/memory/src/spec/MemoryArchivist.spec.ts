@@ -10,7 +10,6 @@ import {
   asId, IdSchema, isId,
 } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { WithStorageMeta } from '@xyo-network/payload-model'
 import {
   describe, expect, it,
 } from 'vitest'

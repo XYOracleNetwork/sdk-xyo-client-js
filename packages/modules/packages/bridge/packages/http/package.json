@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/bridge-http",
-  "version": "3.6.0-rc.19",
+  "version": "3.6.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,13 +37,13 @@
   "module": "dist/neutral/index-browser.mjs",
   "types": "dist/neutral/index-browser.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.4.25",
-    "@xylabs/axios": "^4.4.25",
-    "@xylabs/exists": "^4.4.25",
-    "@xylabs/forget": "^4.4.25",
-    "@xylabs/hex": "^4.4.25",
-    "@xylabs/object": "^4.4.25",
-    "@xylabs/promise": "^4.4.25",
+    "@xylabs/assert": "^4.4.26",
+    "@xylabs/axios": "^4.4.26",
+    "@xylabs/exists": "^4.4.26",
+    "@xylabs/forget": "^4.4.26",
+    "@xylabs/hex": "^4.4.26",
+    "@xylabs/object": "^4.4.26",
+    "@xylabs/promise": "^4.4.26",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -66,7 +66,7 @@
     "@xylabs/sdk-api-express-ecs": "^2.1.0",
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
-    "@xylabs/vitest-extended": "^4.4.25",
+    "@xylabs/vitest-extended": "^4.4.26",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/bridge-abstract": "workspace:^",
@@ -90,6 +90,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "stableVersion": "3.5.2"
+  }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-boundwitness-indexeddb",
-  "version": "3.6.0-rc.19",
+  "version": "3.6.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,9 +29,9 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/browser/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.4.25",
-    "@xylabs/assert": "^4.4.25",
-    "@xylabs/exists": "^4.4.25",
+    "@xylabs/array": "^4.4.26",
+    "@xylabs/assert": "^4.4.26",
+    "@xylabs/exists": "^4.4.26",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -43,10 +43,10 @@
     "idb": "^8.0.1"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.4.25",
+    "@xylabs/delay": "^4.4.26",
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
-    "@xylabs/vitest-extended": "^4.4.25",
+    "@xylabs/vitest-extended": "^4.4.26",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
@@ -57,6 +57,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "stableVersion": "3.5.2"
+  }
 }

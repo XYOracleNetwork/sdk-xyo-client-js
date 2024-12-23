@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-address-chain-memory",
-  "version": "3.6.0-rc.19",
+  "version": "3.6.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.4.25",
-    "@xylabs/hex": "^4.4.25",
+    "@xylabs/assert": "^4.4.26",
+    "@xylabs/hex": "^4.4.26",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
@@ -41,11 +41,11 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/array": "^4.4.25",
-    "@xylabs/delay": "^4.4.25",
+    "@xylabs/array": "^4.4.26",
+    "@xylabs/delay": "^4.4.26",
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
-    "@xylabs/vitest-extended": "^4.4.25",
+    "@xylabs/vitest-extended": "^4.4.26",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
@@ -58,6 +58,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "stableVersion": "3.5.2"
+  }
 }

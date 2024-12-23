@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/package.json",
   "name": "@xyo-network/diviner-forecasting-method-arima",
-  "version": "3.6.0-rc.19",
+  "version": "3.6.0",
   "description": "XYO Archivist",
   "license": "LGPL-3.0-only",
   "author": "Arie Trouw",
@@ -23,7 +23,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
-    "@xylabs/vitest-extended": "^4.4.25",
+    "@xylabs/vitest-extended": "^4.4.26",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   },
@@ -33,6 +33,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "sideeffects": false,
-  "stableVersion": "3.5.2"
+  "sideeffects": false
 }

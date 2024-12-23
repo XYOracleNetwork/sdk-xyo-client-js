@@ -35,7 +35,7 @@ describe('MemoryArchivist', () => {
     await archivist.clear()
   })
 
-  it.only('should return items inserted in the order they were provided in', async () => {
+  it('should return items inserted in the order they were provided in', async () => {
     const archivist = await MemoryArchivist.create({ account: 'random' })
     const payloads: Id[] = Array.from({ length: 100 }, (_, i) => new PayloadBuilder<Id>({ schema: IdSchema }).fields({ salt: `${i}` }).build())
     // Ensure payload was create in order provided

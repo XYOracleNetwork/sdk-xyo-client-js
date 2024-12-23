@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-payload-pointer-memory",
-  "version": "3.6.0-rc.17",
+  "version": "3.6.0-rc.18",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

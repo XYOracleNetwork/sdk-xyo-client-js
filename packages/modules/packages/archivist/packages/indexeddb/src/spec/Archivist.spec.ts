@@ -3,6 +3,7 @@
 
 import { delay } from '@xylabs/delay'
 import type { Hash } from '@xylabs/hex'
+import { LogLevel } from '@xylabs/logger'
 import type { AnyObject } from '@xylabs/object'
 import { toJsonString } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account'
@@ -347,7 +348,7 @@ describe('IndexedDbArchivist', () => {
         archivistModule = await IndexedDbArchivist.create({
           account,
           config: {
-            dbName, schema: IndexedDbArchivistConfigSchema, storeName,
+            dbName, schema: IndexedDbArchivistConfigSchema, storeName, consoleLogger: LogLevel.debug,
           },
         })
       })

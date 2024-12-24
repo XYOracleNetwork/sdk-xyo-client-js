@@ -5468,6 +5468,7 @@ __metadata:
     "@xylabs/delay": "npm:^4.4.26"
     "@xylabs/exists": "npm:^4.4.26"
     "@xylabs/hex": "npm:^4.4.26"
+    "@xylabs/logger": "npm:^4.4.26"
     "@xylabs/object": "npm:^4.4.26"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.6"
     "@xylabs/tsconfig": "npm:^4.2.6"

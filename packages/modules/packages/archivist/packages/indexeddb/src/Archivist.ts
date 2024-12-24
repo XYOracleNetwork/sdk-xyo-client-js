@@ -416,7 +416,15 @@ export class IndexedDbArchivist<
         // keep any indexes that were there before but are not required by this config
         // we do this incase there are two or more configs trying to use the db and they have mismatched indexes, so they do not erase each other's indexes
         const existingIndexesToKeep = existingIndexes.filter(({ name: existingName }) => !indexes.some(({ name }) => name === existingName))
-        createStore(database, storeName, [...existingIndexesToKeep, ...indexes], logger)
+        console.log('existingIndexes', existingIndexes)
+        console.log('existingIndexesToKeep', existingIndexesToKeep)
+        console.log('indexes', indexes)
+        const indexesToCreate = indexes.map(idx => ({
+          ...idx,
+          name: buildStandardIndexName(idx),
+        // eslint-disable-next-line unicorn/no-array-reduce
+        })).reduce((acc, idx) => acc.set(idx.name, idx), new Map<string, IndexDescription>()).values()
+        createStore(database, storeName, [...indexesToCreate], logger)
       },
     })
   }

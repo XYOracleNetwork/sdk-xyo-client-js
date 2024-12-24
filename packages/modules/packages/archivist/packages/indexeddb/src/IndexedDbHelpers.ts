@@ -22,6 +22,7 @@ export function createStore(db: IDBPDatabase<PayloadStore>, storeName: string, i
     const indexKeys = Object.keys(key)
     const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys
     const indexName = buildStandardIndexName({ key, unique })
+    console.log('createIndex', indexName, keys, { multiEntry, unique })
     store.createIndex(indexName, keys, { multiEntry, unique })
   }
 }

@@ -348,7 +348,7 @@ describe('IndexedDbArchivist', () => {
         archivistModule = await IndexedDbArchivist.create({
           account,
           config: {
-            dbName, schema: IndexedDbArchivistConfigSchema, storeName, consoleLogger: LogLevel.debug,
+            dbName, schema: IndexedDbArchivistConfigSchema, storeName,
           },
         })
       })

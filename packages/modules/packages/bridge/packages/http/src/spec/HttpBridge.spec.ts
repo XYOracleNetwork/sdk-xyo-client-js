@@ -97,7 +97,7 @@ describe('HttpBridge', () => {
     )
 
     const state = await remoteNode.state()
-    const description = state.find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+    const description = state.find(isPayloadOfSchemaType<ModuleDescriptionPayload>(ModuleDescriptionSchema))
     expect(description?.children).toBeArray()
     expect(description?.children?.length).toBeGreaterThan(0)
     expect(description?.queries).toBeArray()
@@ -171,7 +171,7 @@ describe('HttpBridge', () => {
 
     await memNode3.register(remoteNode)
     await memNode3.attach(remoteNode?.address, true)
-    const description = (await remoteNode.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+    const description = (await remoteNode.state()).find(isPayloadOfSchemaType<ModuleDescriptionPayload>(ModuleDescriptionSchema))
     expect(description?.children).toBeArray()
     expect(description?.children?.length).toBeGreaterThan(0)
     expect(description?.queries).toBeArray()

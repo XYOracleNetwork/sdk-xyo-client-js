@@ -1,5 +1,6 @@
 import type { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import type { DivinerConfig } from '@xyo-network/diviner-model'
+import type { Schema } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema } from './Schema.ts'
 
@@ -15,15 +16,15 @@ export type TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig = Divin
   /**
    * The schema of the diviner query payloads
    */
-  divinerQuerySchema?: string
+  divinerQuerySchema?: Schema
   /**
    * The schema of the index query payloads
    */
-  indexQuerySchema?: string
+  indexQuerySchema?: Schema
   /**
    * The schema of the index payloads
    */
-  indexSchema?: string
+  indexSchema?: Schema
   /**
    * The config schema
    */

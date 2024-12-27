@@ -11,7 +11,7 @@ import {
 } from '@xyo-network/diviner-temporal-indexing-model'
 import type { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 // TODO: Inherit from JsonPathAggregateDiviner
 /**
@@ -27,34 +27,34 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
     'network.xyo.diviner.stage': 'divinerQueryToIndexQueryDiviner',
   }
 
-  private _indexableSchemas: string[] | undefined
+  private _indexableSchemas: Schema[] | undefined
   private _payloadTransformers: SchemaToPayloadTransformersDictionary | undefined
 
   /**
    * The schema of the diviner query payloads
    */
-  protected get divinerQuerySchema(): string {
+  protected get divinerQuerySchema(): Schema {
     return this.config.divinerQuerySchema ?? PayloadDivinerQuerySchema
   }
 
   /**
    * The schema of the index query payloads
    */
-  protected get indexQuerySchema(): string {
+  protected get indexQuerySchema(): Schema {
     return this.config.indexQuerySchema ?? PayloadDivinerQuerySchema
   }
 
   /**
    * The schema of the index payloads
    */
-  protected get indexSchema(): string {
+  protected get indexSchema(): Schema {
     return this.config.indexSchema ?? TemporalIndexingDivinerResultIndexSchema
   }
 
   /**
    * List of indexable schemas for this diviner
    */
-  protected get indexableSchemas(): string[] {
+  protected get indexableSchemas(): Schema[] {
     if (!this._indexableSchemas) this._indexableSchemas = Object.keys(this.schemaTransforms)
     return this._indexableSchemas
   }
@@ -97,7 +97,8 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
-    const queries = payloads.filter(isPayloadOfSchemaType<PayloadDivinerQueryPayload>(this.divinerQuerySchema))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const queries = payloads.filter(isPayloadOfSchemaType<PayloadDivinerQueryPayload>(this.divinerQuerySchema as any))
     if (queries.length > 0) {
       return await Promise.all(
         queries.map(async (query) => {

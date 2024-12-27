@@ -5,5 +5,5 @@ import {
 
 import { AddressChainQuerySchema } from './Schema.ts'
 
-export type AddressChainQueryPayload = Query<{ schema: AddressChainQuerySchema } & PayloadFindFilter>
-export const isAddressChainQueryPayload = isPayloadOfSchemaType(AddressChainQuerySchema)
+export type AddressChainQueryPayload = Query<{ schema: AddressChainQuerySchema } & Omit<PayloadFindFilter, 'schema'>>
+export const isAddressChainQueryPayload = isPayloadOfSchemaType<AddressChainQueryPayload>(AddressChainQuerySchema)

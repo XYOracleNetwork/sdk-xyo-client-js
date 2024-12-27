@@ -3,7 +3,6 @@
 
 import '@xylabs/vitest-extended'
 
-import { delay } from '@xylabs/delay'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import type { IndexDescription } from '@xyo-network/archivist-model'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'

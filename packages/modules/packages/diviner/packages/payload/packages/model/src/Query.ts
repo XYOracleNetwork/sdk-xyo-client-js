@@ -11,6 +11,6 @@ export type PayloadDivinerQueryPayload<T extends EmptyObject = EmptyObject> = Qu
   { schema: PayloadDivinerQuerySchema } & PayloadDivinerPredicate<T>
 >
 
-export const isPayloadDivinerQueryPayload = isPayloadOfSchemaType(PayloadDivinerQuerySchema)
+export const isPayloadDivinerQueryPayload = isPayloadOfSchemaType<PayloadDivinerQueryPayload>(PayloadDivinerQuerySchema)
 
 export const asPayloadDivinerQueryPayload = AsObjectFactory.create(isPayloadDivinerQueryPayload)

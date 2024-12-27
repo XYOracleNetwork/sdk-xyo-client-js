@@ -226,7 +226,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       describe('with single query', () => {
         it.each(cases)('transforms query using default settings', async (query, expected) => {
           const results = await diviner.divine([query])
-          const actual = results.filter(isPayloadOfSchemaType(indexQuerySchema))
+          const actual = results.filter(isPayloadOfSchemaType<Payload>(indexQuerySchema))
           expect(actual).toBeArrayOfSize(1)
           expect(PayloadBuilder.omitMeta(actual[0])).toEqual(PayloadBuilder.omitMeta(expected))
         })
@@ -234,7 +234,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       describe('with multiple queries', () => {
         it('transforms queries using default settings', async () => {
           const results = await diviner.divine(queries)
-          const actual = results.filter(isPayloadOfSchemaType(indexQuerySchema))
+          const actual = results.filter(isPayloadOfSchemaType<Payload>(indexQuerySchema))
           expect(actual).toBeArrayOfSize(expected.length)
           expect(actual.map(i => PayloadBuilder.omitMeta(i))).toEqual(expected.map(i => PayloadBuilder.omitMeta(i)))
         })

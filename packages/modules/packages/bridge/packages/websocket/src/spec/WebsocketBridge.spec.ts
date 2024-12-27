@@ -65,7 +65,7 @@ describe.skip('WebsocketBridge', () => {
     )
 
     const state = await remoteNode.state()
-    const description = state.find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+    const description = state.find(isPayloadOfSchemaType<ModuleDescriptionPayload>(ModuleDescriptionSchema))
     expect(description?.children).toBeArray()
     expect(description?.children?.length).toBeGreaterThan(0)
     expect(description?.queries).toBeArray()

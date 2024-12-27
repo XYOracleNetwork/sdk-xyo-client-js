@@ -231,12 +231,12 @@ describe('MemoryNode', () => {
     }
     describe('node without child modules', () => {
       it('describes node alone', async () => {
-        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+        const description = (await node.state()).find(isPayloadOfSchemaType<ModuleDescriptionPayload>(ModuleDescriptionSchema))
         validateModuleDescription(description)
         expect(description?.children).toBeArrayOfSize(0)
       })
       it('serializes to JSON consistently', async () => {
-        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+        const description = (await node.state()).find(isPayloadOfSchemaType<ModuleDescriptionPayload>(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
@@ -260,13 +260,13 @@ describe('MemoryNode', () => {
         )
       })
       it('describes node and child mods', async () => {
-        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+        const description = (await node.state()).find(isPayloadOfSchemaType<ModuleDescriptionPayload>(ModuleDescriptionSchema))
         validateModuleDescription(description)
         expect(description?.children).toBeArrayOfSize(2)
         // description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+        const description = (await node.state()).find(isPayloadOfSchemaType<ModuleDescriptionPayload>(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
@@ -298,13 +298,13 @@ describe('MemoryNode', () => {
         await memoryNode.register(archivist2)
         await memoryNode.attach(archivist2.address, true)
         console.log('status:', memoryNode.status)
-        const description = (await memoryNode.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+        const description = (await memoryNode.state()).find(isPayloadOfSchemaType<ModuleDescriptionPayload>(ModuleDescriptionSchema))
         validateModuleDescription(description)
         expect(description?.children).toBeArrayOfSize(2)
         // description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+        const description = (await node.state()).find(isPayloadOfSchemaType<ModuleDescriptionPayload>(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
       it('clone-all', async () => {

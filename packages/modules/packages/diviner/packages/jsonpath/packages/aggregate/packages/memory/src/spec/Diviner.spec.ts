@@ -65,7 +65,7 @@ describe('JsonPathAggregateDiviner', () => {
         const [timestamp, thumbnail, payload] = input
         const payloadDictionary = await PayloadBuilder.toDataHashMap([timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
-        expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
+        expect(result.filter(isPayloadOfSchemaType<Payload>(destinationSchema))).toBeArrayOfSize(1)
         const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))
         expect(index?.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
         expect(index?.timestamp).toBe(timestamp.timestamp)
@@ -145,7 +145,7 @@ describe('JsonPathAggregateDiviner', () => {
         const [boundWitness, timestamp, thumbnail, payload] = input
         const payloadDictionary = await PayloadBuilder.toDataHashMap([boundWitness, timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
-        expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
+        expect(result.filter(isPayloadOfSchemaType<Payload>(destinationSchema))).toBeArrayOfSize(1)
         const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))
         expect(index?.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
         expect(index?.timestamp).toBe(timestamp.timestamp)

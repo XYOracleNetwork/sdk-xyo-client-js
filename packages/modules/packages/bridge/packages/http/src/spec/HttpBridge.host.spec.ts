@@ -131,7 +131,7 @@ describe('HttpBridge', () => {
 
           if (bridgedHostedNode) {
             const state = await bridgedHostedNode.state()
-            const description = state.find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+            const description = state.find(isPayloadOfSchemaType<ModuleDescriptionPayload>(ModuleDescriptionSchema))
             expect(description?.children).toBeArray()
             expect(description?.queries).toBeArray()
             expect(description?.queries?.length).toBeGreaterThan(0)

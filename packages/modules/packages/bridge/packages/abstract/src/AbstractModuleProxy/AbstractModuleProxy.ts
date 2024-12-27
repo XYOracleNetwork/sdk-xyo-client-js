@@ -241,12 +241,13 @@ export abstract class AbstractModuleProxy<
   }
 
   override async startHandler(): Promise<boolean> {
-    let manifest: ModuleManifestPayload | undefined = this.params.manifest
+    let manifest: ModuleManifestPayload | NodeManifestPayload | undefined = this.params.manifest
     if (!manifest) {
       const state = await this.state()
       const manifestPayload = state.find(
-        payload => isPayloadOfSchemaType(NodeManifestPayloadSchema)(payload) || isPayloadOfSchemaType(ModuleManifestPayloadSchema)(payload),
-      ) as ModuleManifestPayload
+        payload => isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema)(payload)
+          || isPayloadOfSchemaType<ModuleManifestPayload>(ModuleManifestPayloadSchema)(payload),
+      )
       manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
     }
     this.setConfig({ ...manifest.config })

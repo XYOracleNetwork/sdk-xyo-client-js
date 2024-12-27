@@ -5,5 +5,5 @@ import {
 
 import { CoinUserLocationsQuerySchema } from './Schema.ts'
 
-export type CoinUserLocationsQueryPayload = Query<{ schema: CoinUserLocationsQuerySchema } & PayloadFindFilter>
-export const isCoinUserLocationsQueryPayload = isPayloadOfSchemaType(CoinUserLocationsQuerySchema)
+export type CoinUserLocationsQueryPayload = Query<{ schema: CoinUserLocationsQuerySchema } & Omit<PayloadFindFilter, 'schema'>>
+export const isCoinUserLocationsQueryPayload = isPayloadOfSchemaType<CoinUserLocationsQueryPayload>(CoinUserLocationsQuerySchema)

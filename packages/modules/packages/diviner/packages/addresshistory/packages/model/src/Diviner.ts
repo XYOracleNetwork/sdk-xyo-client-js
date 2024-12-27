@@ -12,5 +12,5 @@ export const AddressHistoryQuerySchema: AddressHistoryQuerySchema = 'network.xyo
 export type AddressHistoryPayload = Payload<{ schema: AddressHistorySchema }>
 export const isAddressHistoryPayload = (x?: Payload | null): x is AddressHistoryPayload => x?.schema === AddressHistorySchema
 
-export type AddressHistoryQueryPayload = Query<{ schema: AddressHistoryQuerySchema } & PayloadFindFilter>
-export const isAddressHistoryQueryPayload = isPayloadOfSchemaType(AddressHistoryQuerySchema)
+export type AddressHistoryQueryPayload = Query<{ schema: AddressHistoryQuerySchema } & Omit<PayloadFindFilter, 'schema'>>
+export const isAddressHistoryQueryPayload = isPayloadOfSchemaType<AddressHistoryQueryPayload>(AddressHistoryQuerySchema)

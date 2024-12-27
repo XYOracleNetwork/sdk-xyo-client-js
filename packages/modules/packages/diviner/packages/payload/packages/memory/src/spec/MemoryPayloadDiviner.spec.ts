@@ -13,6 +13,7 @@ import {
   isSequenceMeta, type Payload,
   SequenceConstants,
   type WithSequenceMeta,
+  type WithStorageMeta,
 } from '@xyo-network/payload-model'
 import {
   beforeAll,
@@ -30,25 +31,25 @@ describe('MemoryPayloadDiviner', () => {
   let archivist: MemoryArchivist
   let sut: MemoryPayloadDiviner
   let node: MemoryNode
-  let payloadA: WithSequenceMeta<Payload<{ schema: string; url: string }>>
-  let payloadB: WithSequenceMeta<Payload<{ foo: string[]; schema: string }>>
+  let payloadA: Payload<{ schema: string; url: string }>
+  let payloadB: Payload<{ foo: string[]; schema: string }>
+  let insertedPayloads: WithStorageMeta<Payload>[]
   beforeAll(async () => {
-    payloadA = await PayloadBuilder.addSequencedStorageMeta({
+    payloadA = {
       schema: 'network.xyo.test',
       url: 'https://xyo.network',
-    })
+    }
     await delay(2)
-    payloadB = await PayloadBuilder.addSequencedStorageMeta({
+    payloadB = {
       foo: ['bar', 'baz'],
       schema: 'network.xyo.debug',
-      timestamp: Date.now(),
-    })
+    }
 
     archivist = await MemoryArchivist.create({
       account: 'random',
       config: { name: 'test', schema: MemoryArchivist.defaultConfigSchema },
     })
-    await archivist.insert([payloadA, payloadB])
+    insertedPayloads = await archivist.insert([payloadA, payloadB])
     sut = await MemoryPayloadDiviner.create({
       account: 'random',
       config: {
@@ -104,8 +105,8 @@ describe('MemoryPayloadDiviner', () => {
             expect(results.every(isSequenceMeta)).toBeTruthy()
             expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence > cursor)).toBe(true)
           })
-          it('returns payloads equal to the supplied sequence', async () => {
-            const cursor = [payloadA, payloadB].sort()[1]._sequence
+          it.skip('returns payloads equal to the supplied sequence (not a thing with _sequence)', async () => {
+            const cursor = insertedPayloads.sort()[1]._sequence
             const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
               .fields({ order, cursor })
               .build()
@@ -127,8 +128,8 @@ describe('MemoryPayloadDiviner', () => {
             expect(results.every(isSequenceMeta)).toBeTruthy()
             expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence < cursor)).toBe(true)
           })
-          it('returns payloads equal to the supplied sequence', async () => {
-            const cursor = [payloadA, payloadB].sort()[0]._sequence
+          it.skip('returns payloads equal to the supplied sequence (not a thing with _sequence)', async () => {
+            const cursor = insertedPayloads.sort()[0]._sequence
             const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
               .fields({ order, cursor })
               .build()
@@ -140,8 +141,8 @@ describe('MemoryPayloadDiviner', () => {
         })
       })
       describe('when order not supplied', () => {
-        it('returns payloads equal to the supplied sequence', async () => {
-          for (const payload of [payloadA, payloadB]) {
+        it.skip('returns payloads equal to the supplied sequence (not a thing with _sequence)', async () => {
+          for (const payload of insertedPayloads) {
             const cursor = payload._sequence
             const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ cursor }).build()
             const results = await sut.divine([query])

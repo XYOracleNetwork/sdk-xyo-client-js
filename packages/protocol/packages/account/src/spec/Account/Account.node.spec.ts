@@ -1,4 +1,8 @@
+import { describe } from 'vitest'
+
 import { Account } from '../../Account.ts'
 import { generateAccountTests } from './Account.spec.ts'
 
-generateAccountTests('Account: Node', Account)
+describe('Node Account Test', () => {
+  generateAccountTests('Account: Node', Account)
+})

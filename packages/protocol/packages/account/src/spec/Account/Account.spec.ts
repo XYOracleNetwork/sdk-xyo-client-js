@@ -30,7 +30,9 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
 
   describe(title, () => {
     test('Address from Key', async () => {
+      console.log('privatekey', testVectorPrivateKey)
       const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
+      console.log('address', wallet.address)
       expect(wallet.private).toHaveLength(32)
       expect(wallet.public).toHaveLength(64)
       expect(wallet.addressBytes.byteLength).toBe(20)

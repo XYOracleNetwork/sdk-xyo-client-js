@@ -7,6 +7,6 @@ import { generateAccountTests } from './Account.spec.ts'
  * @group jsdom
  */
 
-describe.skip('Browser Account Test', () => {
+describe('Browser Account Test', () => {
   generateAccountTests('Account: Browser', Account)
 })

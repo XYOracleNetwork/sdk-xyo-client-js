@@ -150,12 +150,12 @@ export class IndexedDbBoundWitnessDiviner<
     const dbs = await indexedDB.databases()
     // Check that the DB exists at the desired version
     const dbExists = dbs.some((db) => {
-      return db.name === this.dbName && db.version === this.dbVersion
+      return db.name === this.dbName
     })
     // If the DB exists at the desired version
     if (dbExists) {
       // If the db does exist, open it
-      const db = await openDB<BoundWitnessStore>(this.dbName, this.dbVersion)
+      const db = await openDB<BoundWitnessStore>(this.dbName)
       // Check that the desired objectStore exists
       const storeExists = db.objectStoreNames.contains(this.storeName)
       // If the correct db/version/objectStore exists

@@ -73,11 +73,7 @@ describe('IndexedDbPayloadDiviner', () => {
         dbName, schema: IndexedDbArchivist.defaultConfigSchema, storage: { indexes: [urlIndex] }, storeName,
       },
     })
-    for (const payload of [payloadA, payloadB]) {
-      await delay(2)
-      const [insertedPayload] = await archivist.insert([payload])
-      insertedPayloads.push(insertedPayload)
-    }
+    insertedPayloads = await archivist.insert([payloadA, payloadB])
     sut = await IndexedDbPayloadDiviner.create({
       account: 'random',
       config: {

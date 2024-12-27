@@ -69,6 +69,6 @@ export const isAccountInstance = (account: any): account is AccountInstance => {
 export interface AccountStatic<T extends AccountInstance = AccountInstance, C extends AccountConfig = AccountConfig> {
   previousHashStore?: PreviousHashStore
   create(options?: C): Promise<T>
-  fromPrivateKey(key: ArrayBufferLike | string): Promise<AccountInstance>
+  fromPrivateKey(key: ArrayBufferLike | bigint | string): Promise<AccountInstance>
   random(): Promise<AccountInstance>
 }

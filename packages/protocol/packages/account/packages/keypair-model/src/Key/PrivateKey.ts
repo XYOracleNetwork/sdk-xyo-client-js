@@ -12,6 +12,6 @@ export interface PrivateKeyInstance extends EllipticKeyInstance {
 }
 
 export interface PrivateKeyStatic {
-  create(value: ArrayBufferLike): Promise<PrivateKeyInstance>
+  create(value: ArrayBufferLike | bigint): Promise<PrivateKeyInstance>
   isPrivateKey(value: unknown): boolean
 }

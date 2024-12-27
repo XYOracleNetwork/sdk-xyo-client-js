@@ -151,14 +151,14 @@ export class IndexedDbPayloadDiviner<
   private async tryGetInitializedDb(): Promise<IDBPDatabase<PayloadStore> | undefined> {
     // Enumerate the DBs
     const dbs = await indexedDB.databases()
-    // Check that the DB exists at the desired version
+    // Check that the DB exists
     const dbExists = dbs.some((db) => {
-      return db.name === this.dbName && db.version === this.dbVersion
+      return db.name === this.dbName
     })
-    // If the DB exists at the desired version
+    // If the DB exists
     if (dbExists) {
       // If the db does exist, open it
-      const db = await openDB<PayloadStore>(this.dbName, this.dbVersion)
+      const db = await openDB<PayloadStore>(this.dbName)
       // Check that the desired objectStore exists
       const storeExists = db.objectStoreNames.contains(this.storeName)
       // If the correct db/version/objectStore exists

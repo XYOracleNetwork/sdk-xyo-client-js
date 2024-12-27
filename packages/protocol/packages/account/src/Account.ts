@@ -101,8 +101,8 @@ export class Account extends EllipticKey implements AccountInstance {
     ).verifyUniqueAddress()
   }
 
-  static async fromPrivateKey(key: ArrayBufferLike | string): Promise<AccountInstance> {
-    const privateKey = typeof key === 'string' ? toUint8Array(key.padStart(64, '0')).buffer : key
+  static async fromPrivateKey(key: ArrayBufferLike | bigint | string): Promise<AccountInstance> {
+    const privateKey = toUint8Array(key, 32)?.buffer
     return await Account.create({ privateKey })
   }
 

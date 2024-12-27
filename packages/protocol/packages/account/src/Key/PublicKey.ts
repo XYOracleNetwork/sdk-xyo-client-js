@@ -1,3 +1,4 @@
+import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import { staticImplements } from '@xylabs/static-implements'
 import type {
@@ -30,8 +31,8 @@ export class PublicKey extends EllipticKey implements PublicKeyInstance {
     return await Promise.resolve(new PublicKey(this.privateConstructorKey, bytes))
   }
 
-  static async fromPrivate(bytes: ArrayBufferLike): Promise<PublicKeyInstance> {
-    const publicKey = await Elliptic.publicKeyFromPrivateKey(bytes)
+  static async fromPrivate(bytes: ArrayBufferLike | bigint): Promise<PublicKeyInstance> {
+    const publicKey = await Elliptic.publicKeyFromPrivateKey(toArrayBuffer(bytes))
     return new PublicKey(this.privateConstructorKey, publicKey)
   }
 

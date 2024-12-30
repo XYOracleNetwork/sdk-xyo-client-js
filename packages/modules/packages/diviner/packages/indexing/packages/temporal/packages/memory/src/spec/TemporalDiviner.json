@@ -150,11 +150,6 @@
                     "sourcePathExpression": "$.limit"
                   },
                   {
-                    "defaultValue": 0,
-                    "destinationField": "offset",
-                    "sourcePathExpression": "$.offset"
-                  },
-                  {
                     "defaultValue": "desc",
                     "destinationField": "order",
                     "sourcePathExpression": "$.order"

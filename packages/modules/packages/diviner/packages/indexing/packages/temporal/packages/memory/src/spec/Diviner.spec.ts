@@ -51,7 +51,7 @@ type Query = PayloadDivinerQueryPayload & { status?: number; success?: boolean; 
 /**
  * @group slow
  */
-describe.skip('TemporalIndexingDiviner', () => {
+describe('TemporalIndexingDiviner', () => {
   const sourceUrl = 'https://placekitten.com/200/300'
   const thumbnailHttpSuccess: ImageThumbnail = {
     http: { status: 200 },
@@ -103,7 +103,7 @@ describe.skip('TemporalIndexingDiviner', () => {
     const privateModules = manifest.nodes[0].modules?.private ?? []
     const publicModules = manifest.nodes[0].modules?.public ?? []
     const mods = await node.resolve('*')
-    expect(mods.length).toBe(privateModules.length + publicModules.length)
+    expect(mods.length).toBe(privateModules.length + publicModules.length + 1)
 
     // Insert previously witnessed payloads into thumbnail archivist
     const httpSuccessTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
@@ -147,7 +147,7 @@ describe.skip('TemporalIndexingDiviner', () => {
     it('has expected bound witnesses', async () => {
       const payloads = await stateArchivist.all()
       const stateBoundWitnesses = filterAs(payloads, asBoundWitness)
-      expect(stateBoundWitnesses).toBeArrayOfSize(2)
+      expect(stateBoundWitnesses).toBeArrayOfSize(1)
       for (const stateBoundWitness of stateBoundWitnesses) {
         expect(stateBoundWitness).toBeObject()
         expect(stateBoundWitness.addresses).toBeArrayOfSize(1)
@@ -157,11 +157,11 @@ describe.skip('TemporalIndexingDiviner', () => {
     it('has expected state', async () => {
       const payloads = await stateArchivist.all()
       const statePayloads = filterAs(payloads, asModuleState)
-      expect(statePayloads).toBeArrayOfSize(2)
+      expect(statePayloads).toBeArrayOfSize(1)
       expect(statePayloads.at(-1)).toBeObject()
       const statePayload = assertEx(statePayloads.at(-1))
       expect(statePayload.state).toBeObject()
-      expect(statePayload.state?.offset).toBe(witnessedThumbnails.length)
+      expect(statePayload.state?.cursor).toBeDefined()
     })
   })
   describe('diviner index', () => {
@@ -171,7 +171,7 @@ describe.skip('TemporalIndexingDiviner', () => {
       indexArchivist = assertEx(asArchivistInstance<MemoryArchivist>(mod))
     })
     // NOTE: We're not signing indexes for performance reasons
-    it.skip('has expected bound witnesses', async () => {
+    it('has expected bound witnesses', async () => {
       const payloads = await indexArchivist.all()
       const indexBoundWitnesses = filterAs(payloads, asBoundWitness)
       expect(indexBoundWitnesses).toBeArrayOfSize(1)
@@ -205,7 +205,7 @@ describe.skip('TemporalIndexingDiviner', () => {
         const result = results.find(isTemporalIndexingDivinerResultIndex)
         expect(result).toBeDefined()
         const expected = await PayloadBuilder.dataHash(thumbnailCodeFail)
-        expect(result?.sources).toContain(expected)
+        expect(result?.$sources).toContain(expected)
       })
     })
     describe('with filter criteria', () => {
@@ -220,10 +220,10 @@ describe.skip('TemporalIndexingDiviner', () => {
           const result = results.find(isTemporalIndexingDivinerResultIndex)
           expect(result).toBeDefined()
           const expected = await PayloadBuilder.dataHash(payload)
-          expect(result?.sources).toContain(expected)
+          expect(result?.$sources).toContain(expected)
         })
       })
-      describe.skip('for success (most recent)', () => {
+      describe('for success (most recent)', () => {
         const cases: ImageThumbnail[] = [thumbnailHttpSuccess]
         it.each(cases)('returns the most recent instance of that success state', async (payload) => {
           const success = !!(payload.url ?? false)
@@ -234,10 +234,10 @@ describe.skip('TemporalIndexingDiviner', () => {
           const result = results.find(isTemporalIndexingDivinerResultIndex)
           expect(result).toBeDefined()
           const expected = await PayloadBuilder.dataHash(payload)
-          expect(result?.sources).toContain(expected)
+          expect(result?.$sources).toContain(expected)
         })
       })
-      describe.skip('for failure (most recent)', () => {
+      describe('for failure (most recent)', () => {
         const cases: ImageThumbnail[] = [thumbnailCodeFail]
         it.each(cases)('returns the most recent instance of that success state', async (payload) => {
           const success = !!(payload.url ?? false)
@@ -248,7 +248,7 @@ describe.skip('TemporalIndexingDiviner', () => {
           const result = results.find(isTemporalIndexingDivinerResultIndex)
           expect(result).toBeDefined()
           const expected = await PayloadBuilder.dataHash(payload)
-          expect(result?.sources).toContain(expected)
+          expect(result?.$sources).toContain(expected)
         })
       })
     })

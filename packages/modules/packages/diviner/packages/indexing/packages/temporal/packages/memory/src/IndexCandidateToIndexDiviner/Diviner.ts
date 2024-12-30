@@ -114,10 +114,11 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
         return transformers ? transformers.map(transform => transform(payload)) : []
       })
       // Include all the sources for reference
-      const sources: Hash[] = [bwHash, ...sourcePayloadHashes]
+      const $sources: Hash[] = [bwHash, ...sourcePayloadHashes]
       // Build and return the index
       return new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
-        .fields(Object.assign({ sources }, ...indexFields))
+        .fields(Object.assign({}, ...indexFields))
+        .meta({ $sources })
         .build()
     })
     return indexes.flat()

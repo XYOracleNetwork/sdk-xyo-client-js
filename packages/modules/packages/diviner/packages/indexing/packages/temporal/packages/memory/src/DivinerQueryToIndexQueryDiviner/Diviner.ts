@@ -102,7 +102,7 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
     if (queries.length > 0) {
       return await Promise.all(
         queries.map(async (query) => {
-          const fields = await reducePayloads<PayloadDivinerQueryPayload & { sources?: Hash[] }>(
+          const fields = await reducePayloads<PayloadDivinerQueryPayload & { $sources?: Hash[];sources?: Hash[] }>(
             [query],
             this.payloadTransformers,
             this.indexQuerySchema,
@@ -111,6 +111,7 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
           fields.schemas = [this.indexSchema]
           // TODO: Make sources not need to be deleted
           delete fields.sources
+          delete fields?.$sources
           // TODO: Add support for additional filters
           return new PayloadBuilder<Payload>({ schema: this.indexQuerySchema }).fields(fields).build()
         }),

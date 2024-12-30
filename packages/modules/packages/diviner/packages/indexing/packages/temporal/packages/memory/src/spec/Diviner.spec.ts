@@ -223,34 +223,6 @@ describe('TemporalIndexingDiviner', () => {
           expect(result?.$sources).toContain(expected)
         })
       })
-      describe('for success (most recent)', () => {
-        const cases: ImageThumbnail[] = [thumbnailHttpSuccess]
-        it.each(cases)('returns the most recent instance of that success state', async (payload) => {
-          const success = true
-          const query: Query = {
-            schema, success, url,
-          }
-          const results = await sut.divine([query])
-          const result = results.find(isTemporalIndexingDivinerResultIndex)
-          expect(result).toBeDefined()
-          const expected = await PayloadBuilder.dataHash(payload)
-          expect(result?.$sources).toContain(expected)
-        })
-      })
-      describe('for failure (most recent)', () => {
-        const cases: ImageThumbnail[] = [thumbnailCodeFail]
-        it.each(cases)('returns the most recent instance of that success state', async (payload) => {
-          const success = false
-          const query: Query = {
-            schema, success, url,
-          }
-          const results = await sut.divine([query])
-          const result = results.find(isTemporalIndexingDivinerResultIndex)
-          expect(result).toBeDefined()
-          const expected = await PayloadBuilder.dataHash(payload)
-          expect(result?.$sources).toContain(expected)
-        })
-      })
     })
   })
 })

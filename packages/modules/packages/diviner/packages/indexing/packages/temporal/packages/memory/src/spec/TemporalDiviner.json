@@ -157,10 +157,6 @@
                   {
                     "destinationField": "status",
                     "sourcePathExpression": "$.status"
-                  },
-                  {
-                    "destinationField": "success",
-                    "sourcePathExpression": "$.success"
                   }
                 ]
               }

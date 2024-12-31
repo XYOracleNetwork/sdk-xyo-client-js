@@ -196,23 +196,23 @@ export class IndexedDbArchivist<
       cursor?: Hex,
   ): Promise<WithStorageMeta[]> {
     // TODO: We have to handle the case where the cursor is not found, and then find the correct cursor to start with (thunked cursor)
+
     return await useReadOnlyStore(db, storeName, async (store) => {
       const sequenceIndex = assertEx(store.index(IndexedDbArchivist.sequenceIndexName), () => 'Failed to get sequence index')
       let sequenceCursor: IDBPCursorWithValue<PayloadStore, [string]> | null | undefined
-      const parsedCursor = cursor === SequenceConstants.minLocalSequence ? null : cursor
-      sequenceCursor = assertEx(await sequenceIndex.openCursor(
-        null,
+      const parsedCursor = cursor
+        ? order === 'asc'
+          ? IDBKeyRange.lowerBound(cursor, false)
+          : IDBKeyRange.upperBound(cursor, false)
+        : null
+
+      sequenceCursor = await sequenceIndex.openCursor(
+        parsedCursor,
         order === 'desc' ? 'prev' : 'next',
-      ), () => `Failed to get cursor [${parsedCursor}, ${cursor}]`)
-      if (!sequenceCursor?.value) return []
-      try {
-        sequenceCursor = parsedCursor
-          ? sequenceCursor.value._sequence === parsedCursor
-            ? await sequenceCursor?.advance(1)
-            : await (await sequenceCursor?.continue(parsedCursor))?.advance(1)
-          : sequenceCursor // advance to skip the initial value
-      } catch {
-        return []
+      )
+
+      if (cursor) {
+        sequenceCursor = await sequenceCursor?.advance(1)
       }
 
       let remaining = limit
@@ -221,14 +221,14 @@ export class IndexedDbArchivist<
         const value = sequenceCursor?.value
         if (value) {
           result.push(value)
-          try {
-            sequenceCursor = await sequenceCursor?.advance(1)
-          } catch {
-            break
-          }
-          if (sequenceCursor === null) {
-            break
-          }
+        }
+        try {
+          sequenceCursor = await sequenceCursor?.advance(1)
+        } catch {
+          break
+        }
+        if (sequenceCursor === null) {
+          break
         }
         remaining--
       }

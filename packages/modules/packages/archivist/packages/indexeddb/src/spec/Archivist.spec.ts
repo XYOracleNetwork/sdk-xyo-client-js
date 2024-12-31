@@ -420,7 +420,7 @@ describe('IndexedDbArchivist', () => {
 
       const batch2 = await archivist.next?.({ limit: 2, cursor: batch1?.[1]._sequence })
       expect(batch2.length).toBe(2)
-      expect(await PayloadBuilder.dataHash(batch2?.[0])).toEqual(await PayloadBuilder.dataHash(payloads3[0]))
+      expect(await PayloadBuilder.dataHash(batch2?.[1])).toEqual(await PayloadBuilder.dataHash(payloads4[0]))
 
       const batch3 = await archivist.next?.({ limit: 20 })
       expect(batch3.length).toBe(4)

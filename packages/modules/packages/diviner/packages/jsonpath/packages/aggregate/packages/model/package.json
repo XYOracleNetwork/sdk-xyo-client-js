@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-jsonpath-aggregate-model",
-  "version": "3.6.6",
+  "version": "3.6.7",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

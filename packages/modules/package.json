@@ -38,11 +38,11 @@
     "@xyo-network/witness": "workspace:^"
   },
   "devDependencies": {
-    "@swc/core": "1.10.3",
-    "@xylabs/delay": "^4.4.27",
+    "@swc/core": "1.10.4",
+    "@xylabs/delay": "^4.4.33",
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
-    "@xylabs/vitest-extended": "^4.4.27",
+    "@xylabs/vitest-extended": "^4.4.33",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",

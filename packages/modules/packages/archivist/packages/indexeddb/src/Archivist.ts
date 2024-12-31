@@ -2,6 +2,13 @@ import { uniq } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash, Hex } from '@xylabs/hex'
+import {
+  createStore,
+  getExistingIndexes,
+  ObjectStore,
+  withDb,
+  withReadOnlyStore, withReadWriteStore,
+} from '@xylabs/indexed-db'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -17,18 +24,13 @@ import {
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  Payload, Schema, SequenceConstants, WithStorageMeta,
+  Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
 import {
   IDBPCursorWithValue, IDBPDatabase, openDB,
 } from 'idb'
 
 import { IndexedDbArchivistConfigSchema } from './Config.ts'
-import {
-  createStore,
-  getExistingIndexes,
-  useDb, useReadOnlyStore, useReadWriteStore,
-} from './IndexedDbHelpers.ts'
 import { IndexedDbArchivistParams } from './Params.ts'
 
 export interface PayloadStore {
@@ -189,7 +191,7 @@ export class IndexedDbArchivist<
   }
 
   protected async getFromCursor(
-    db: IDBPDatabase<PayloadStore>,
+    db: IDBPDatabase<ObjectStore>,
     storeName: string,
       order: 'asc' | 'desc' = 'asc',
       limit: number = 10,
@@ -197,9 +199,9 @@ export class IndexedDbArchivist<
   ): Promise<WithStorageMeta[]> {
     // TODO: We have to handle the case where the cursor is not found, and then find the correct cursor to start with (thunked cursor)
 
-    return await useReadOnlyStore(db, storeName, async (store) => {
+    return await withReadOnlyStore(db, storeName, async (store) => {
       const sequenceIndex = assertEx(store.index(IndexedDbArchivist.sequenceIndexName), () => 'Failed to get sequence index')
-      let sequenceCursor: IDBPCursorWithValue<PayloadStore, [string]> | null | undefined
+      let sequenceCursor: IDBPCursorWithValue<ObjectStore, [string]> | null | undefined
       const parsedCursor = cursor
         ? order === 'asc'
           ? IDBKeyRange.lowerBound(cursor, false)
@@ -245,12 +247,12 @@ export class IndexedDbArchivist<
    * @returns The primary key and the payload, or undefined if not found
    */
   protected async getFromIndexWithPrimaryKey(
-    db: IDBPDatabase<PayloadStore>,
+    db: IDBPDatabase<ObjectStore>,
     storeName: string,
     indexName: string,
     key: IDBValidKey,
   ): Promise<[number, WithStorageMeta] | undefined> {
-    return await useReadOnlyStore(db, storeName, async (store) => {
+    return await withReadOnlyStore(db, storeName, async (store) => {
       const index = store.index(indexName)
       const cursor = await index.openCursor(key)
       if (cursor) {
@@ -306,7 +308,7 @@ export class IndexedDbArchivist<
       // with respect to checking for the pre-existence of the hash.
       // This is done to prevent duplicate root hashes due to race
       // conditions between checking vs insertion.
-      return await useReadWriteStore(db, this.storeName, async (store) => {
+      return await withReadWriteStore(db, this.storeName, async (store) => {
         // Return only the payloads that were successfully inserted
         const inserted: WithStorageMeta<Payload>[] = []
         await Promise.all(
@@ -342,7 +344,7 @@ export class IndexedDbArchivist<
     return true
   }
 
-  private async checkIndexes(db: IDBPDatabase<PayloadStore>): Promise<IndexDescription[]> {
+  private async checkIndexes(db: IDBPDatabase<ObjectStore>): Promise<IndexDescription[]> {
     const { indexes, storeName } = this
     if (db.objectStoreNames.contains(storeName)) {
       const existingIndexes = await getExistingIndexes(db, storeName)
@@ -361,8 +363,8 @@ export class IndexedDbArchivist<
   }
 
   private async checkObjectStore(): Promise<IndexDescription[]> {
-    const { dbName, storeName } = this
-    return await useDb(dbName, (db) => {
+    const { storeName } = this
+    return await withDb<ObjectStore, IndexDescription[]>(this.dbName, (db) => {
       // we check the version here to see if someone else upgraded it past where we think we are
       if (db.version >= (this._dbVersion ?? 0)) {
         this._dbVersion = db.version
@@ -380,12 +382,12 @@ export class IndexedDbArchivist<
    * Returns that the desired DB/Store initialized to the correct version
    * @returns The initialized DB
    */
-  private async getInitializedDb(): Promise<IDBPDatabase<PayloadStore>> {
+  private async getInitializedDb(): Promise<IDBPDatabase<ObjectStore>> {
     const existingIndexes = await this.checkObjectStore()
     const {
       dbName, dbVersion, indexes, storeName, logger,
     } = this
-    return await openDB<PayloadStore>(dbName, dbVersion, {
+    return await openDB(dbName, dbVersion, {
       blocked(currentVersion, blockedVersion, event) {
         logger.warn(`IndexedDbArchivist: Blocked from upgrading from ${currentVersion} to ${blockedVersion}`, event)
       },
@@ -434,7 +436,7 @@ export class IndexedDbArchivist<
    * @param callback The method to execute with the initialized DB
    * @returns
    */
-  private async useDb<T>(callback: (db: IDBPDatabase<PayloadStore>) => Promise<T> | T): Promise<T> {
+  private async useDb<T>(callback: (db: IDBPDatabase<ObjectStore>) => Promise<T> | T): Promise<T> {
     // Get the initialized DB
     const db = await this.getInitializedDb()
     try {

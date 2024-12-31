@@ -5,7 +5,7 @@ import { IndexedDbArchivistSchema } from './Schema.ts'
 export type IndexedDbArchivistConfigSchema = `${IndexedDbArchivistSchema}.config`
 export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = `${IndexedDbArchivistSchema}.config`
 
-export type IndexedDbArchivistConfig = ArchivistConfig<{
+export type IndexedDbArchivistConfig<TStoreName extends string = string> = ArchivistConfig<{
   /**
    * The database name
    */
@@ -18,5 +18,5 @@ export type IndexedDbArchivistConfig = ArchivistConfig<{
   /**
    * The name of the object store
    */
-  storeName?: string
+  storeName?: TStoreName
 }>

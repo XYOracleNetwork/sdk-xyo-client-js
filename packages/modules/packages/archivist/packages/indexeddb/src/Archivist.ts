@@ -3,8 +3,6 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash, Hex } from '@xylabs/hex'
 import {
-  createStore,
-  getExistingIndexes,
   ObjectStore,
   withDb,
   withReadOnlyStore, withReadWriteStore,
@@ -26,10 +24,9 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
-import {
-  IDBPCursorWithValue, IDBPDatabase, openDB,
-} from 'idb'
+import { IDBPCursorWithValue, IDBPDatabase } from 'idb'
 
+import { addMissingIndexes } from './addMissingIndexes.ts'
 import { IndexedDbArchivistConfigSchema } from './Config.ts'
 import { IndexedDbArchivistParams } from './Params.ts'
 
@@ -344,107 +341,15 @@ export class IndexedDbArchivist<
     return true
   }
 
-  private async checkIndexes(db: IDBPDatabase<ObjectStore>): Promise<IndexDescription[]> {
-    const { indexes, storeName } = this
-    if (db.objectStoreNames.contains(storeName)) {
-      const existingIndexes = await getExistingIndexes(db, storeName)
-      const existingIndexNames = new Set(existingIndexes.map(({ name }) => name).filter(exists))
-      for (const { key, unique } of indexes) {
-        const indexName = buildStandardIndexName({ key, unique })
-        if (!existingIndexNames.has(indexName)) {
-          // the index is missing, so trigger an upgrade
-          this._dbVersion = this._dbVersion === undefined ? 0 : this._dbVersion + 1
-          break
-        }
-      }
-      return existingIndexes
-    }
-    return []
-  }
-
-  private async checkObjectStore(): Promise<IndexDescription[]> {
-    const { storeName } = this
-    return await withDb<ObjectStore, IndexDescription[]>(this.dbName, (db) => {
-      // we check the version here to see if someone else upgraded it past where we think we are
-      if (db.version >= (this._dbVersion ?? 0)) {
-        this._dbVersion = db.version
-      }
-      if (db.objectStoreNames.contains(storeName)) {
-        return this.checkIndexes(db)
-      } else {
-        this._dbVersion = (this._dbVersion ?? 0) + 1
-        return []
-      }
-    })
-  }
-
-  /**
-   * Returns that the desired DB/Store initialized to the correct version
-   * @returns The initialized DB
-   */
-  private async getInitializedDb(): Promise<IDBPDatabase<ObjectStore>> {
-    const existingIndexes = await this.checkObjectStore()
-    const {
-      dbName, dbVersion, indexes, storeName, logger,
-    } = this
-    return await openDB(dbName, dbVersion, {
-      blocked(currentVersion, blockedVersion, event) {
-        logger.warn(`IndexedDbArchivist: Blocked from upgrading from ${currentVersion} to ${blockedVersion}`, event)
-      },
-      blocking(currentVersion, blockedVersion, event) {
-        logger.warn(`IndexedDbArchivist: Blocking upgrade from ${currentVersion} to ${blockedVersion}`, event)
-      },
-      terminated() {
-        logger.log('IndexedDbArchivist: Terminated')
-      },
-      upgrade(database, oldVersion, newVersion, transaction) {
-        // NOTE: This is called whenever the DB is created/updated. We could simply ensure the desired end
-        // state but, out of an abundance of caution, we will just delete (so we know where we are starting
-        // from a known good point) and recreate the desired state. This prioritizes resilience over data
-        // retention but we can revisit that tradeoff when it becomes limiting. Because distributed browser
-        // state is extremely hard to debug, this seems like fair tradeoff for now.
-        if (oldVersion !== newVersion) {
-          logger.log(`IndexedDbArchivist: Upgrading from ${oldVersion} to ${newVersion}`)
-          // Delete any existing databases that are not the current version
-          const objectStores = transaction.objectStoreNames
-          for (const name of objectStores) {
-            try {
-              database.deleteObjectStore(name)
-            } catch {
-              logger.log(`IndexedDbArchivist: Failed to delete existing object store ${name}`)
-            }
-          }
-        }
-        // keep any indexes that were there before but are not required by this config
-        // we do this incase there are two or more configs trying to use the db and they have mismatched indexes, so they do not erase each other's indexes
-        const existingIndexesToKeep = existingIndexes.filter(({ name: existingName }) => !indexes.some(({ name }) => name === existingName))
-        console.log('existingIndexes', existingIndexes)
-        console.log('existingIndexesToKeep', existingIndexesToKeep)
-        console.log('indexes', indexes)
-        const indexesToCreate = indexes.map(idx => ({
-          ...idx,
-          name: buildStandardIndexName(idx),
-        // eslint-disable-next-line unicorn/no-array-reduce
-        })).reduce((acc, idx) => acc.set(idx.name, idx), new Map<string, IndexDescription>()).values()
-        createStore(database, storeName, [...indexesToCreate], logger)
-      },
-    })
-  }
-
   /**
    * Executes a callback with the initialized DB and then closes the db
    * @param callback The method to execute with the initialized DB
    * @returns
    */
   private async useDb<T>(callback: (db: IDBPDatabase<ObjectStore>) => Promise<T> | T): Promise<T> {
-    // Get the initialized DB
-    const db = await this.getInitializedDb()
-    try {
-      // Perform the callback
+    await addMissingIndexes(this.dbName, this.storeName, this.indexes, this.logger)
+    return withDb<ObjectStore, T>(this.dbName, async (db) => {
       return await callback(db)
-    } finally {
-      // Close the DB
-      db.close()
-    }
+    })
   }
 }

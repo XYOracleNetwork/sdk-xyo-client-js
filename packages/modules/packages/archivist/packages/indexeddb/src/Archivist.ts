@@ -26,7 +26,6 @@ import {
 } from '@xyo-network/payload-model'
 import { IDBPCursorWithValue, IDBPDatabase } from 'idb'
 
-import { addMissingIndexes } from './addMissingIndexes.ts'
 import { IndexedDbArchivistConfigSchema } from './Config.ts'
 import { IndexedDbArchivistParams } from './Params.ts'
 
@@ -197,7 +196,7 @@ export class IndexedDbArchivist<
     // TODO: We have to handle the case where the cursor is not found, and then find the correct cursor to start with (thunked cursor)
 
     return await withReadOnlyStore(db, storeName, async (store) => {
-      const sequenceIndex = assertEx(store.index(IndexedDbArchivist.sequenceIndexName), () => 'Failed to get sequence index')
+      const sequenceIndex = assertEx(store?.index(IndexedDbArchivist.sequenceIndexName), () => 'Failed to get sequence index')
       let sequenceCursor: IDBPCursorWithValue<ObjectStore, [string]> | null | undefined
       const parsedCursor = cursor
         ? order === 'asc'
@@ -250,16 +249,18 @@ export class IndexedDbArchivist<
     key: IDBValidKey,
   ): Promise<[number, WithStorageMeta] | undefined> {
     return await withReadOnlyStore(db, storeName, async (store) => {
-      const index = store.index(indexName)
-      const cursor = await index.openCursor(key)
-      if (cursor) {
-        const singleValue = cursor.value
-        // NOTE: It's known to be a number because we are using IndexedDB supplied auto-incrementing keys
-        if (typeof cursor.primaryKey !== 'number') {
-          throw new TypeError('primaryKey must be a number')
-        }
+      if (store) {
+        const index = store.index(indexName)
+        const cursor = await index.openCursor(key)
+        if (cursor) {
+          const singleValue = cursor.value
+          // NOTE: It's known to be a number because we are using IndexedDB supplied auto-incrementing keys
+          if (typeof cursor.primaryKey !== 'number') {
+            throw new TypeError('primaryKey must be a number')
+          }
 
-        return [cursor.primaryKey, singleValue]
+          return [cursor.primaryKey, singleValue]
+        }
       }
     })
   }
@@ -307,19 +308,23 @@ export class IndexedDbArchivist<
       // conditions between checking vs insertion.
       return await withReadWriteStore(db, this.storeName, async (store) => {
         // Return only the payloads that were successfully inserted
-        const inserted: WithStorageMeta<Payload>[] = []
-        await Promise.all(
-          payloads.map(async (payload) => {
+        if (store) {
+          const inserted: WithStorageMeta<Payload>[] = []
+          await Promise.all(
+            payloads.map(async (payload) => {
             // only insert if hash does not already exist
-            if (!await store.index(IndexedDbArchivist.hashIndexName).get(payload._hash)) {
-            // Insert the payload
-              await store.put(payload)
-              // Add it to the inserted list
-              inserted.push(payload)
-            }
-          }),
-        )
-        return inserted
+              if (!await store.index(IndexedDbArchivist.hashIndexName).get(payload._hash)) {
+                // Insert the payload
+                await store.put(payload)
+                // Add it to the inserted list
+                inserted.push(payload)
+              }
+            }),
+          )
+          return inserted
+        } else {
+          throw new Error('Failed to get store')
+        }
       })
     })
   }
@@ -347,9 +352,8 @@ export class IndexedDbArchivist<
    * @returns
    */
   private async useDb<T>(callback: (db: IDBPDatabase<ObjectStore>) => Promise<T> | T): Promise<T> {
-    await addMissingIndexes(this.dbName, this.storeName, this.indexes, this.logger)
-    return withDb<ObjectStore, T>(this.dbName, async (db) => {
+    return await withDb<ObjectStore, T>(this.dbName, async (db) => {
       return await callback(db)
-    })
+    }, { [this.storeName]: this.indexes }, this.logger)
   }
 }

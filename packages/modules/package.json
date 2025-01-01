@@ -39,10 +39,10 @@
   },
   "devDependencies": {
     "@swc/core": "1.10.4",
-    "@xylabs/delay": "^4.4.33",
+    "@xylabs/delay": "^4.4.34",
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
-    "@xylabs/vitest-extended": "^4.4.33",
+    "@xylabs/vitest-extended": "^4.4.34",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",

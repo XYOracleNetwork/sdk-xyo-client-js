@@ -37,15 +37,15 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/arraybuffer": "^4.4.33",
-    "@xylabs/assert": "^4.4.33",
-    "@xylabs/hex": "^4.4.33",
-    "@xylabs/object": "^4.4.33"
+    "@xylabs/arraybuffer": "^4.4.34",
+    "@xylabs/assert": "^4.4.34",
+    "@xylabs/hex": "^4.4.34",
+    "@xylabs/object": "^4.4.34"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
-    "@xylabs/vitest-extended": "^4.4.33",
+    "@xylabs/vitest-extended": "^4.4.34",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   },

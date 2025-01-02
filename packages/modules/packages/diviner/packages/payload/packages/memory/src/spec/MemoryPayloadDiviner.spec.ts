@@ -10,9 +10,9 @@ import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  isSequenceMeta, type Payload,
+  isSequenceStorageMeta, type Payload,
   SequenceConstants,
-  type WithSequenceMeta,
+  type WithSequenceStorageMeta,
   type WithStorageMeta,
 } from '@xyo-network/payload-model'
 import {
@@ -102,8 +102,8 @@ describe('MemoryPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every(isSequenceMeta)).toBeTruthy()
-            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence > cursor)).toBe(true)
+            expect(results.every(isSequenceStorageMeta)).toBeTruthy()
+            expect((results.filter(isSequenceStorageMeta) as WithSequenceStorageMeta[]).every(result => result._sequence > cursor)).toBe(true)
           })
           it.skip('returns payloads equal to the supplied sequence (not a thing with _sequence)', async () => {
             const cursor = insertedPayloads.sort()[1]._sequence
@@ -112,8 +112,8 @@ describe('MemoryPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every(isSequenceMeta)).toBeTruthy()
-            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence !== cursor)).toBe(true)
+            expect(results.every(isSequenceStorageMeta)).toBeTruthy()
+            expect((results.filter(isSequenceStorageMeta) as WithSequenceStorageMeta[]).every(result => result._sequence !== cursor)).toBe(true)
           })
         })
         describe('desc', () => {
@@ -125,8 +125,8 @@ describe('MemoryPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every(isSequenceMeta)).toBeTruthy()
-            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence < cursor)).toBe(true)
+            expect(results.every(isSequenceStorageMeta)).toBeTruthy()
+            expect((results.filter(isSequenceStorageMeta) as WithSequenceStorageMeta[]).every(result => result._sequence < cursor)).toBe(true)
           })
           it.skip('returns payloads equal to the supplied sequence (not a thing with _sequence)', async () => {
             const cursor = insertedPayloads.sort()[0]._sequence
@@ -135,8 +135,8 @@ describe('MemoryPayloadDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every(isSequenceMeta)).toBe(true)
-            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence !== cursor)).toBe(true)
+            expect(results.every(isSequenceStorageMeta)).toBe(true)
+            expect((results.filter(isSequenceStorageMeta) as WithSequenceStorageMeta[]).every(result => result._sequence !== cursor)).toBe(true)
           })
         })
       })
@@ -147,8 +147,8 @@ describe('MemoryPayloadDiviner', () => {
             const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ cursor }).build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            expect(results.every(isSequenceMeta)).toBe(true)
-            expect((results.filter(isSequenceMeta) as WithSequenceMeta[]).every(result => result._sequence !== cursor)).toBe(true)
+            expect(results.every(isSequenceStorageMeta)).toBe(true)
+            expect((results.filter(isSequenceStorageMeta) as WithSequenceStorageMeta[]).every(result => result._sequence !== cursor)).toBe(true)
           }
         })
       })

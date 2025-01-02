@@ -1,4 +1,5 @@
+export * from './DataHash.ts'
+export * from './Hash.ts'
 export * from './Sequence.ts'
-export * from './SequenceComparer.ts'
-export * from './SequenceParser.ts'
+export * from './sequence/index.ts'
 export * from './StorageMeta.ts'

@@ -6,8 +6,7 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import { SequenceConstants } from '../Sequence.ts'
-import { SequenceParser } from '../SequenceParser.ts'
+import { SequenceConstants, SequenceParser } from '../sequence/index.ts'
 
 describe('SequenceParser', () => {
   const hash: Hash = toHex('1269b95d3ebf1b1258a82ccca0b365fabf4b8c99bf8fc852e5045e30ad20fbb1')

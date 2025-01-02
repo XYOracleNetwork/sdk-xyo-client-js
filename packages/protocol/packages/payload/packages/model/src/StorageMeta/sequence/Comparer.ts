@@ -1,7 +1,7 @@
 import type { Compare } from '@xylabs/object'
 
+import { SequenceParser } from './Parser.ts'
 import type { Sequence } from './Sequence.ts'
-import { SequenceParser } from './SequenceParser.ts'
 
 const local: Compare<Sequence> = (a, b) => {
   const aa = SequenceParser.from(a)

@@ -4,7 +4,7 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import { SequenceComponentMinMax } from '../Sequence.ts'
+import { SequenceComponentMinMax } from '../sequence/index.ts'
 
 describe('SequenceParser', () => {
   describe('minEpoch', () => {

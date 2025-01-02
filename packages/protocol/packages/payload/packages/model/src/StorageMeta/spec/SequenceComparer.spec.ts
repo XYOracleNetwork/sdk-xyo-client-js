@@ -5,11 +5,11 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import type {
-  Epoch, Nonce, Sequence,
-} from '../Sequence.ts'
-import { SequenceComparer } from '../SequenceComparer.ts'
-import { SequenceParser } from '../SequenceParser.ts'
+import {
+  type Epoch, type Nonce, type Sequence,
+  SequenceComparer,
+  SequenceParser,
+} from '../sequence/index.ts'
 
 describe('SequenceComparer', () => {
   describe('local', () => {

@@ -13,7 +13,7 @@ import {
   type Sequence,
   SequenceComparer,
   SequenceParser,
-  type WithHashMeta,
+  type WithHashStorageMeta,
   type WithOnlyClientMeta,
   type WithOptionalSchema,
   type WithoutClientMeta,
@@ -224,9 +224,9 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
     return result
   }
 
-  private static async addHashMeta<T extends Payload>(payload: T): Promise<WithHashMeta<T>>
-  private static async addHashMeta<T extends Payload>(payloads: T[]): Promise<WithHashMeta<T>[]>
-  private static async addHashMeta<T extends Payload>(payloads: T | T[]): Promise<WithHashMeta<T>[] | WithHashMeta<T>> {
+  private static async addHashMeta<T extends Payload>(payload: T): Promise<WithHashStorageMeta<T>>
+  private static async addHashMeta<T extends Payload>(payloads: T[]): Promise<WithHashStorageMeta<T>[]>
+  private static async addHashMeta<T extends Payload>(payloads: T | T[]): Promise<WithHashStorageMeta<T>[] | WithHashStorageMeta<T>> {
     if (Array.isArray(payloads)) {
       return await Promise.all(
         payloads.map(async (payload) => {

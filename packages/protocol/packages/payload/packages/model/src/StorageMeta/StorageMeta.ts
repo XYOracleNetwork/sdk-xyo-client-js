@@ -7,7 +7,7 @@ import { isSequenceStorageMeta, type SequenceStorageMeta } from './Sequence.ts'
 export interface StorageMeta extends SequenceStorageMeta, HashStorageMeta {}
 
 export type WithStorageMeta<T extends Payload = Payload> = T & StorageMeta
-export type WithPartialStorageMeta<T extends Payload = Payload> = Partial<WithStorageMeta<T>>
+export type WithPartialStorageMeta<T extends Payload = Payload> = T & Partial<StorageMeta>
 
 export const isStorageMeta = (value: unknown): value is StorageMeta => {
   return isSequenceStorageMeta(value) && isHashStorageMeta(value)

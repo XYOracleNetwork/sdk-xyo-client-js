@@ -1,2 +1,2 @@
-export type IdSchema = 'network.xyo.id'
-export const IdSchema: IdSchema = 'network.xyo.id'
+export const IdSchema = 'network.xyo.id' as const
+export type IdSchema = typeof IdSchema

@@ -1,2 +1,2 @@
-export type TransformDivinerSchema = 'network.xyo.diviner.transform'
-export const TransformDivinerSchema: TransformDivinerSchema = 'network.xyo.diviner.transform'
+export const TransformDivinerSchema = 'network.xyo.diviner.transform' as const
+export type TransformDivinerSchema = typeof TransformDivinerSchema

@@ -1,7 +1,7 @@
 import type { Payload } from '@xyo-network/payload-model'
 
-export type CurrentLocationWitnessSchema = 'co.coinapp.currentlocationwitness'
-export const CurrentLocationWitnessSchema: CurrentLocationWitnessSchema = 'co.coinapp.currentlocationwitness'
+export const CurrentLocationWitnessSchema = 'co.coinapp.currentlocationwitness' as const
+export type CurrentLocationWitnessSchema = typeof CurrentLocationWitnessSchema
 
 export type CurrentLocationWitnessPayload = Payload<{
   altitudeMeters: number

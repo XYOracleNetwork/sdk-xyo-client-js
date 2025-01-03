@@ -1,7 +1,7 @@
 import type { Payload } from '@xyo-network/payload-model'
 
-export type LocationWitnessSchema = 'network.xyo.location'
-export const LocationWitnessSchema: LocationWitnessSchema = 'network.xyo.location'
+export const LocationWitnessSchema = 'network.xyo.location' as const
+export type LocationWitnessSchema = typeof LocationWitnessSchema
 
 export interface Coordinates {
   accuracy: number | null

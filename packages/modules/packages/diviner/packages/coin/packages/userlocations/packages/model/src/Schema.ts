@@ -1,11 +1,11 @@
-export type CoinUserLocationsSchema = 'co.coinapp.user.locations'
-export const CoinUserLocationsSchema: CoinUserLocationsSchema = 'co.coinapp.user.locations'
+export const CoinUserLocationsSchema = 'co.coinapp.user.locations' as const
+export type CoinUserLocationsSchema = typeof CoinUserLocationsSchema
 
-export type CoinUserLocationsDivinerSchema = 'co.coinapp.diviner.user.locations'
-export const CoinUserLocationsDivinerSchema: CoinUserLocationsDivinerSchema = 'co.coinapp.diviner.user.locations'
+export const CoinUserLocationsDivinerSchema = 'co.coinapp.diviner.user.locations' as const
+export type CoinUserLocationsDivinerSchema = typeof CoinUserLocationsDivinerSchema
 
-export type CoinUserLocationsDivinerConfigSchema = `${CoinUserLocationsDivinerSchema}.config`
-export const CoinUserLocationsDivinerConfigSchema: CoinUserLocationsDivinerConfigSchema = `${CoinUserLocationsDivinerSchema}.config`
+export const CoinUserLocationsDivinerConfigSchema = `${CoinUserLocationsDivinerSchema}.config` as const
+export type CoinUserLocationsDivinerConfigSchema = typeof CoinUserLocationsDivinerConfigSchema
 
-export type CoinUserLocationsQuerySchema = `${CoinUserLocationsDivinerSchema}.query`
-export const CoinUserLocationsQuerySchema: CoinUserLocationsQuerySchema = `${CoinUserLocationsDivinerSchema}.query`
+export const CoinUserLocationsQuerySchema = `${CoinUserLocationsDivinerSchema}.query` as const
+export type CoinUserLocationsQuerySchema = typeof CoinUserLocationsQuerySchema

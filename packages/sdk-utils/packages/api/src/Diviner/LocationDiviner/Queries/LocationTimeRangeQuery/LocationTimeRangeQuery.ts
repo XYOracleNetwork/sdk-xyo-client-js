@@ -1,10 +1,10 @@
 import type { LocationWitnessSchema } from '../../Witnesses/index.ts'
 
-export type LocationTimeRangeQuerySchema = 'network.xyo.location.range.query'
-export const LocationTimeRangeQuerySchema: LocationTimeRangeQuerySchema = 'network.xyo.location.range.query'
+export const LocationTimeRangeQuerySchema = 'network.xyo.location.range.query' as const
+export type LocationTimeRangeQuerySchema = typeof LocationTimeRangeQuerySchema
 
-export type LocationTimeRangeAnswerSchema = 'network.xyo.location.range.answer'
-export const LocationTimeRangeAnswerSchema: LocationTimeRangeAnswerSchema = 'network.xyo.location.range.answer'
+export const LocationTimeRangeAnswerSchema = 'network.xyo.location.range.answer' as const
+export type LocationTimeRangeAnswerSchema = typeof LocationTimeRangeAnswerSchema
 
 export type LocationTimeRangeQuery = {
   schema: LocationWitnessSchema

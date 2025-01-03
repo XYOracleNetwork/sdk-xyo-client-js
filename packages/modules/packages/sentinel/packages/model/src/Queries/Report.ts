@@ -1,7 +1,7 @@
 import type { Query } from '@xyo-network/payload-model'
 
-export type SentinelReportQuerySchema = 'network.xyo.query.sentinel.report'
-export const SentinelReportQuerySchema: SentinelReportQuerySchema = 'network.xyo.query.sentinel.report'
+export const SentinelReportQuerySchema = 'network.xyo.query.sentinel.report' as const
+export type SentinelReportQuerySchema = typeof SentinelReportQuerySchema
 
 export type SentinelReportQuery = Query<{
   schema: SentinelReportQuerySchema

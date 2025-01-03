@@ -6,8 +6,8 @@ import type {
   WitnessConfig, WitnessModule, WitnessParams,
 } from '@xyo-network/witness-model'
 
-export type AdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'
-export const AdhocWitnessConfigSchema: AdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'
+export const AdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config' as const
+export type AdhocWitnessConfigSchema = typeof AdhocWitnessConfigSchema
 
 export type AdhocWitnessConfig = WitnessConfig<{
 

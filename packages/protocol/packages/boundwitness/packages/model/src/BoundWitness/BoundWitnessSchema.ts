@@ -1,2 +1,2 @@
-export type BoundWitnessSchema = 'network.xyo.boundwitness'
-export const BoundWitnessSchema: BoundWitnessSchema = 'network.xyo.boundwitness'
+export const BoundWitnessSchema = 'network.xyo.boundwitness' as const
+export type BoundWitnessSchema = typeof BoundWitnessSchema

@@ -24,8 +24,8 @@ export interface FileSystemArchivistData {
   payloads: Payload[]
 }
 
-export type FilesystemArchivistConfigSchema = 'network.xyo.archivist.filesystem.config'
-export const FilesystemArchivistConfigSchema: FilesystemArchivistConfigSchema = 'network.xyo.archivist.filesystem.config'
+export const FilesystemArchivistConfigSchema = 'network.xyo.archivist.filesystem.config' as const
+export type FilesystemArchivistConfigSchema = typeof FilesystemArchivistConfigSchema
 
 export type FilesystemArchivistConfig = ArchivistConfig<{
   filePath?: string

@@ -30,8 +30,8 @@ import store from 'store2'
 
 const storeTypes = store as unknown as StoreType
 
-export type StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'
-export const StorageArchivistConfigSchema: StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'
+export const StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config' as const
+export type StorageArchivistConfigSchema = typeof StorageArchivistConfigSchema
 
 export type StorageArchivistConfig = ArchivistConfig<{
   maxEntries?: number

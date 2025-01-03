@@ -1,8 +1,8 @@
 import type { EmptyObject } from '@xylabs/object'
 import type { BridgeConfig } from '@xyo-network/bridge-model'
 
-export type HttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
-export const HttpBridgeConfigSchema: HttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
+export const HttpBridgeConfigSchema = 'network.xyo.bridge.http.config' as const
+export type HttpBridgeConfigSchema = typeof HttpBridgeConfigSchema
 
 export type HttpBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchema extends string | void = void> = BridgeConfig<
   {

@@ -1,2 +1,2 @@
-export type DomainSchema = 'network.xyo.domain'
-export const DomainSchema: DomainSchema = 'network.xyo.domain'
+export const DomainSchema = 'network.xyo.domain' as const
+export type DomainSchema = typeof DomainSchema

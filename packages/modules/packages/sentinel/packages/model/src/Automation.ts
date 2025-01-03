@@ -1,14 +1,14 @@
 import type { Payload } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
-export type SentinelAutomationSchema = 'network.xyo.automation'
-export const SentinelAutomationSchema: SentinelAutomationSchema = 'network.xyo.automation'
+export const SentinelAutomationSchema = 'network.xyo.automation' as const
+export type SentinelAutomationSchema = typeof SentinelAutomationSchema
 
-export type SentinelIntervalAutomationSchema = 'network.xyo.automation.interval'
-export const SentinelIntervalAutomationSchema: SentinelIntervalAutomationSchema = 'network.xyo.automation.interval'
+export const SentinelIntervalAutomationSchema = 'network.xyo.automation.interval' as const
+export type SentinelIntervalAutomationSchema = typeof SentinelIntervalAutomationSchema
 
-export type SentinelEventAutomationSchema = 'network.xyo.automation.event'
-export const SentinelEventAutomationSchema: SentinelEventAutomationSchema = 'network.xyo.automation.event'
+export const SentinelEventAutomationSchema = 'network.xyo.automation.event' as const
+export type SentinelEventAutomationSchema = typeof SentinelEventAutomationSchema
 
 export type SentinelBaseAutomationPayload<T extends Payload> = Payload<
   {

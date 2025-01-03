@@ -1,10 +1,10 @@
 import type { LocationWitnessSchema } from '../../Witnesses/index.ts'
 
-export type LocationHeatmapQuerySchema = 'network.xyo.location.heatmap.query'
-export const locationHeatmapQuerySchema: LocationHeatmapQuerySchema = 'network.xyo.location.heatmap.query'
+export const LocationHeatmapQuerySchema = 'network.xyo.location.heatmap.query' as const
+export type LocationHeatmapQuerySchema = typeof LocationHeatmapQuerySchema
 
-export type LocationHeatmapAnswerSchema = 'network.xyo.location.heatmap.answer'
-export const locationHeatmapAnswerSchema: LocationHeatmapAnswerSchema = 'network.xyo.location.heatmap.answer'
+export const LocationHeatmapAnswerSchema = 'network.xyo.location.heatmap.answer' as const
+export type LocationHeatmapAnswerSchema = typeof LocationHeatmapAnswerSchema
 
 export type LocationHeatmapQuery = {
   schema: LocationWitnessSchema
@@ -13,5 +13,5 @@ export type LocationHeatmapQuery = {
 }
 
 export const isLocationHeatmapQuery = (query: Record<string, unknown>): query is LocationHeatmapQuery => {
-  return query && query?.schema === locationHeatmapQuerySchema
+  return query && query?.schema === LocationHeatmapQuerySchema
 }

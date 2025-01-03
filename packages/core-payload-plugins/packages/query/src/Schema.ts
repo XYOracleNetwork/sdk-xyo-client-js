@@ -1,2 +1,2 @@
-export type QuerySchema = 'network.xyo.query'
-export const QuerySchema: QuerySchema = 'network.xyo.query'
+export const QuerySchema = 'network.xyo.query' as const
+export type QuerySchema = typeof QuerySchema

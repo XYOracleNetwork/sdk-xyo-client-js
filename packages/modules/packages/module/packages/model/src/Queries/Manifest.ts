@@ -1,7 +1,7 @@
 import type { Query } from '@xyo-network/payload-model'
 
-export type ModuleManifestQuerySchema = 'network.xyo.query.module.manifest'
-export const ModuleManifestQuerySchema: ModuleManifestQuerySchema = 'network.xyo.query.module.manifest'
+export const ModuleManifestQuerySchema = 'network.xyo.query.module.manifest' as const
+export type ModuleManifestQuerySchema = typeof ModuleManifestQuerySchema
 
 export type ModuleManifestQuery = Query<{
   maxDepth?: number

@@ -1,2 +1,2 @@
-export type SchemaStatsDivinerSchema = 'network.xyo.diviner.schema.stats'
-export const SchemaStatsDivinerSchema: SchemaStatsDivinerSchema = 'network.xyo.diviner.schema.stats'
+export const SchemaStatsDivinerSchema = 'network.xyo.diviner.schema.stats' as const
+export type SchemaStatsDivinerSchema = typeof SchemaStatsDivinerSchema

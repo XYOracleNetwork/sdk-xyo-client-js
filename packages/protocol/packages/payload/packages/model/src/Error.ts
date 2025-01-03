@@ -4,8 +4,8 @@ import type { JsonValue } from '@xylabs/object'
 import { isPayloadOfSchemaType } from './isPayloadOfSchemaType.ts'
 import type { Payload } from './Payload.ts'
 
-export type ModuleErrorSchema = 'network.xyo.error.module'
-export const ModuleErrorSchema: ModuleErrorSchema = 'network.xyo.error.module'
+export const ModuleErrorSchema = 'network.xyo.error.module' as const
+export type ModuleErrorSchema = typeof ModuleErrorSchema
 
 export type ModuleError = Payload<{
   details?: JsonValue

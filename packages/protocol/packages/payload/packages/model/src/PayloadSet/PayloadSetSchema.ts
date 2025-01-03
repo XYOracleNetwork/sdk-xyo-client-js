@@ -1,2 +1,2 @@
-export type PayloadSetSchema = 'network.xyo.payload.set'
-export const PayloadSetSchema: PayloadSetSchema = 'network.xyo.payload.set'
+export const PayloadSetSchema = 'network.xyo.payload.set' as const
+export type PayloadSetSchema = typeof PayloadSetSchema

@@ -1,8 +1,8 @@
 import type { Address } from '@xylabs/hex'
 import type { Query } from '@xyo-network/payload-model'
 
-export type ModuleSubscribeQuerySchema = 'network.xyo.query.module.subscribe'
-export const ModuleSubscribeQuerySchema: ModuleSubscribeQuerySchema = 'network.xyo.query.module.subscribe'
+export const ModuleSubscribeQuerySchema = 'network.xyo.query.module.subscribe' as const
+export type ModuleSubscribeQuerySchema = typeof ModuleSubscribeQuerySchema
 
 export interface ModuleSubscribeFilter {
   /** @field if specified, at least one of the schemas must be present in the boundwtness to generate a notification */

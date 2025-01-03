@@ -1,2 +1,2 @@
-export type IndexedDbArchivistSchema = 'network.xyo.archivist.indexeddb'
-export const IndexedDbArchivistSchema: IndexedDbArchivistSchema = 'network.xyo.archivist.indexeddb'
+export const IndexedDbArchivistSchema = 'network.xyo.archivist.indexeddb' as const
+export type IndexedDbArchivistSchema = typeof IndexedDbArchivistSchema

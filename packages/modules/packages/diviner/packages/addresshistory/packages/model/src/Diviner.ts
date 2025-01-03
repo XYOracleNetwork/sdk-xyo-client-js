@@ -3,11 +3,11 @@ import {
   type Payload, type PayloadFindFilter, type Query,
 } from '@xyo-network/payload-model'
 
-export type AddressHistorySchema = 'network.xyo.diviner.address.history'
-export const AddressHistorySchema: AddressHistorySchema = 'network.xyo.diviner.address.history'
+export const AddressHistorySchema = 'network.xyo.diviner.address.history' as const
+export type AddressHistorySchema = typeof AddressHistorySchema
 
-export type AddressHistoryQuerySchema = 'network.xyo.diviner.address.history.query'
-export const AddressHistoryQuerySchema: AddressHistoryQuerySchema = 'network.xyo.diviner.address.history.query'
+export const AddressHistoryQuerySchema = 'network.xyo.diviner.address.history.query' as const
+export type AddressHistoryQuerySchema = typeof AddressHistoryQuerySchema
 
 export type AddressHistoryPayload = Payload<{ schema: AddressHistorySchema }>
 export const isAddressHistoryPayload = (x?: Payload | null): x is AddressHistoryPayload => x?.schema === AddressHistorySchema

@@ -25,8 +25,8 @@ import type {
 } from '@xyo-network/payload-model'
 import Cookies from 'js-cookie'
 
-export type CookieArchivistConfigSchema = 'network.xyo.archivist.cookie.config'
-export const CookieArchivistConfigSchema: CookieArchivistConfigSchema = 'network.xyo.archivist.cookie.config'
+export const CookieArchivistConfigSchema = 'network.xyo.archivist.cookie.config' as const
+export type CookieArchivistConfigSchema = typeof CookieArchivistConfigSchema
 
 export type CookieArchivistConfig = ArchivistConfig<{
   domain?: string

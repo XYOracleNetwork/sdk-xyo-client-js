@@ -42,11 +42,11 @@ export class Huri<T extends Payload = Payload> {
   constructor(huri: Hash | Huri | string, { archivistUri, token }: HuriOptions = {}) {
     const huriString
       = Huri.isHuri(huri)?.href
-      ?? (typeof huri === 'string'
-        ? (huri as string)
-        : huri instanceof ArrayBuffer
-          ? new AddressValue(huri).hex
-          : huri.href)
+        ?? (typeof huri === 'string'
+          ? (huri as string)
+          : huri instanceof ArrayBuffer
+            ? new AddressValue(huri).hex
+            : huri.href)
     this.originalHref = huriString
 
     const protocol = Huri.parseProtocol(huriString)

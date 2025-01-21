@@ -172,7 +172,7 @@ export class IndexedDbArchivist<
           // Check if the hash exists
           const existing
             = (await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash))
-            ?? (await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.dataHashIndexName, hash))
+              ?? (await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.dataHashIndexName, hash))
           // If it does exist
           if (existing) {
             // Delete it

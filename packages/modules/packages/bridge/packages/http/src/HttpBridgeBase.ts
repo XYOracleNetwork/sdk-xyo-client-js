@@ -89,21 +89,21 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
   override get resolver() {
     this._resolver
       = this._resolver
-      ?? new HttpBridgeModuleResolver({
-        additionalSigners: this.additionalSigners,
-        archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
-        bridge: this,
-        onQuerySendFinished: (args: Omit<QuerySendFinishedEventArgs, 'mod'>) => {
-          forget(this.emit('querySendFinished', { mod: this, ...args }))
-        },
-        onQuerySendStarted: (args: Omit<QuerySendStartedEventArgs, 'mod'>) => {
-          forget(this.emit('querySendStarted', { mod: this, ...args }))
-        },
-        querySender: this,
-        root: this,
-        rootUrl: this.clientUrl,
-        wrapperAccount: this.account,
-      })
+        ?? new HttpBridgeModuleResolver({
+          additionalSigners: this.additionalSigners,
+          archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
+          bridge: this,
+          onQuerySendFinished: (args: Omit<QuerySendFinishedEventArgs, 'mod'>) => {
+            forget(this.emit('querySendFinished', { mod: this, ...args }))
+          },
+          onQuerySendStarted: (args: Omit<QuerySendStartedEventArgs, 'mod'>) => {
+            forget(this.emit('querySendStarted', { mod: this, ...args }))
+          },
+          querySender: this,
+          root: this,
+          rootUrl: this.clientUrl,
+          wrapperAccount: this.account,
+        })
     return this._resolver
   }
 

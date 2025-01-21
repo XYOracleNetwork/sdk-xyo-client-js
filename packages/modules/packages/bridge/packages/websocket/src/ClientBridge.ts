@@ -58,13 +58,13 @@ export class WebsocketClientBridge<TParams extends WebsocketBridgeParams = Webso
   override get resolver() {
     this._resolver
       = this._resolver
-      ?? new WebsocketBridgeModuleResolver({
-        archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
-        bridge: this,
-        querySender: this,
-        root: this,
-        wrapperAccount: this.account,
-      })
+        ?? new WebsocketBridgeModuleResolver({
+          archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
+          bridge: this,
+          querySender: this,
+          root: this,
+          wrapperAccount: this.account,
+        })
     return this._resolver
   }
 

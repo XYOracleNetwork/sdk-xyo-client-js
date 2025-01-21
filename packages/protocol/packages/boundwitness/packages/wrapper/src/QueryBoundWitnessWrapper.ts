@@ -51,9 +51,9 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
   async getPayloadsWithoutQuery(): Promise<PayloadWrapper<Payload>[]> {
     this._payloadsWithoutQuery
       = this._payloadsWithoutQuery
-      ?? (await Promise.all(
-        (await PayloadBuilder.filterExclude(this.payloads, this.payload.query)).map(payload => PayloadWrapper.wrap(payload)).filter(exists),
-      ))
+        ?? (await Promise.all(
+          (await PayloadBuilder.filterExclude(this.payloads, this.payload.query)).map(payload => PayloadWrapper.wrap(payload)).filter(exists),
+        ))
     return this._payloadsWithoutQuery
   }
 

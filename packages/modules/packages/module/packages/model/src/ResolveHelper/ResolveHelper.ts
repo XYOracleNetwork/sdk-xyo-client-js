@@ -187,7 +187,7 @@ export class ResolveHelper extends ResolveHelperStatic {
     const firstIsAddress = isAddress(first)
     const resolvedModule
       = (await resolver.resolve(first, { maxDepth: firstIsAddress ? 10 : 1 }))
-      ?? (first ? await resolver.resolvePrivate(first, { maxDepth: firstIsAddress ? 10 : 1 }) : undefined)
+        ?? (first ? await resolver.resolvePrivate(first, { maxDepth: firstIsAddress ? 10 : 1 }) : undefined)
     const finalModule = required ? assertEx(resolvedModule, () => `Failed to resolve [${first}] [${firstIsAddress}]`) : resolvedModule
     const firstModule = asModuleInstance(finalModule, () => `Resolved invalid module instance [${first}]`) as T
     if (firstModule) {

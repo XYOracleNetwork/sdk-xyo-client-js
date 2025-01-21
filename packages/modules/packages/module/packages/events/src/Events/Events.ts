@@ -66,20 +66,20 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     if (mutatedParams.debug) {
       mutatedParams.debug.logger
         = mutatedParams.debug.logger
-        ?? ((type: string, debugName: string, eventName?: EventName, eventData?: EventArgs) => {
-          let eventDataString: string
-          try {
-            eventDataString = JSON.stringify(eventData)
-          } catch {
-            eventDataString = `Object with the following keys failed to stringify: ${Object.keys(eventData ?? {}).join(',')}`
-          }
+          ?? ((type: string, debugName: string, eventName?: EventName, eventData?: EventArgs) => {
+            let eventDataString: string
+            try {
+              eventDataString = JSON.stringify(eventData)
+            } catch {
+              eventDataString = `Object with the following keys failed to stringify: ${Object.keys(eventData ?? {}).join(',')}`
+            }
 
-          const eventNameString = typeof eventName === 'symbol' || typeof eventName === 'number' ? eventName.toString() : eventName
+            const eventNameString = typeof eventName === 'symbol' || typeof eventName === 'number' ? eventName.toString() : eventName
 
-          const currentTime = new Date()
-          const logTime = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}.${currentTime.getMilliseconds()}`
-          this.logger?.log(`[${logTime}][events:${type}][${debugName}] Event Name: ${eventNameString}\n\tdata: ${eventDataString}`)
-        })
+            const currentTime = new Date()
+            const logTime = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}.${currentTime.getMilliseconds()}`
+            this.logger?.log(`[${logTime}][events:${type}][${debugName}] Event Name: ${eventNameString}\n\tdata: ${eventDataString}`)
+          })
     }
     super(mutatedParams)
     Events.anyMap.set(this, new Set<EventAnyListener>())

@@ -57,20 +57,20 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   override get resolver(): PubSubBridgeModuleResolver {
     this._resolver
       = this._resolver
-      ?? new PubSubBridgeModuleResolver({
-        additionalSigners: this.additionalSigners,
-        archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
-        bridge: this,
-        busClient: assertEx(this.busClient(), () => 'busClient not configured'),
-        onQuerySendFinished: (args: Omit<QuerySendFinishedEventArgs, 'mod'>) => {
-          forget(this.emit('querySendFinished', { mod: this, ...args }))
-        },
-        onQuerySendStarted: (args: Omit<QuerySendStartedEventArgs, 'mod'>) => {
-          forget(this.emit('querySendStarted', { mod: this, ...args }))
-        },
-        root: this,
-        wrapperAccount: this.account,
-      })
+        ?? new PubSubBridgeModuleResolver({
+          additionalSigners: this.additionalSigners,
+          archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
+          bridge: this,
+          busClient: assertEx(this.busClient(), () => 'busClient not configured'),
+          onQuerySendFinished: (args: Omit<QuerySendFinishedEventArgs, 'mod'>) => {
+            forget(this.emit('querySendFinished', { mod: this, ...args }))
+          },
+          onQuerySendStarted: (args: Omit<QuerySendStartedEventArgs, 'mod'>) => {
+            forget(this.emit('querySendStarted', { mod: this, ...args }))
+          },
+          root: this,
+          wrapperAccount: this.account,
+        })
     return this._resolver
   }
 

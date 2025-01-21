@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/axios": "^4.4.34",
-    "@xylabs/object": "^4.4.34",
+    "@xylabs/axios": "^4.5.0",
+    "@xylabs/object": "^4.5.0",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
@@ -39,16 +39,16 @@
     "axios": "^1.7.9"
   },
   "devDependencies": {
-    "@types/node": "^22.10.4",
+    "@types/node": "^22.10.7",
     "@types/uuid": "^10.0.0",
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
-    "@xylabs/vitest-extended": "^4.4.34",
+    "@xylabs/vitest-extended": "^4.5.0",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
-    "typescript": "^5.7.2",
-    "uuid": "^11.0.3",
-    "vitest": "^2.1.8"
+    "typescript": "^5.7.3",
+    "uuid": "^11.0.5",
+    "vitest": "^3.0.3"
   },
   "publishConfig": {
     "access": "public"

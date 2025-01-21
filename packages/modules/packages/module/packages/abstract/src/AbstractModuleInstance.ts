@@ -75,11 +75,11 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   get downResolver() {
     this._downResolver
       = this._downResolver
-      ?? new CompositeModuleResolver({
-        allowNameResolution: this.allowNameResolution,
-        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
-        root: this,
-      })
+        ?? new CompositeModuleResolver({
+          allowNameResolution: this.allowNameResolution,
+          moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
+          root: this,
+        })
     return this._downResolver
   }
 
@@ -94,11 +94,11 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   get privateResolver() {
     this._privateResolver
       = this._privateResolver
-      ?? new CompositeModuleResolver({
-        allowNameResolution: this.allowNameResolution,
-        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
-        root: this,
-      })
+        ?? new CompositeModuleResolver({
+          allowNameResolution: this.allowNameResolution,
+          moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
+          root: this,
+        })
     return this._privateResolver
   }
 
@@ -109,11 +109,11 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   get upResolver() {
     this._upResolver
       = this._upResolver
-      ?? new CompositeModuleResolver({
-        allowNameResolution: this.allowNameResolution,
-        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
-        root: this,
-      })
+        ?? new CompositeModuleResolver({
+          allowNameResolution: this.allowNameResolution,
+          moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
+          root: this,
+        })
     return this._upResolver
   }
 

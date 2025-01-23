@@ -577,7 +577,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.26.0, @babel/core@npm:^7.26.0":
+"@babel/core@npm:7.26.0":
   version: 7.26.0
   resolution: "@babel/core@npm:7.26.0"
   dependencies:
@@ -4284,7 +4284,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core@npm:1.10.9, @swc/core@npm:^1.10.1":
+"@swc/core@npm:^1.10.1":
   version: 1.10.9
   resolution: "@swc/core@npm:1.10.9"
   dependencies:
@@ -8100,7 +8100,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/modules@workspace:packages/modules"
   dependencies:
-    "@swc/core": "npm:1.10.9"
     "@xylabs/delay": "npm:^4.5.0"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.6"
     "@xylabs/tsconfig": "npm:^4.2.6"
@@ -8591,7 +8590,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sdk-js@workspace:."
   dependencies:
-    "@babel/core": "npm:^7.26.0"
     "@firebase/app": "npm:^0.10.18"
     "@firebase/app-compat": "npm:^0.2.48"
     "@stylistic/eslint-plugin": "npm:^2.13.0"
@@ -8617,7 +8615,6 @@ __metadata:
     knip: "npm:^5.43.1"
     reflect-metadata: "npm:^0.2.2"
     supertest: "npm:^7.0.0"
-    ts-node: "npm:^10.9.2"
     tslib: "npm:^2.8.1"
     typedoc: "npm:^0.27.6"
     typedoc-material-theme: "npm:^1.3.0"

@@ -31,58 +31,70 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
   describe(title, () => {
     test('Address from Key', async () => {
       console.log('privatekey', testVectorPrivateKey)
-      const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
-      console.log('address', wallet.address)
-      expect(wallet.private).toHaveLength(32)
-      expect(wallet.public).toHaveLength(64)
-      expect(wallet.addressBytes.byteLength).toBe(20)
-      expect(wallet.private?.hex).toEqual(testVectorPrivateKey)
-      expect(wallet.public?.hex).toEqual(testVectorPublicKey)
-      expect(wallet.address).toEqual(testVectorAddress)
+      const account = await Account.fromPrivateKey(testVectorPrivateKey)
+      console.log('address', account.address)
+      expect(account.private).toHaveLength(32)
+      expect(account.public).toHaveLength(64)
+      expect(account.addressBytes.byteLength).toBe(20)
+      expect(account.private?.hex).toEqual(testVectorPrivateKey)
+      expect(account.public?.hex).toEqual(testVectorPublicKey)
+      expect(account.address).toEqual(testVectorAddress)
+    })
+
+    test.only('Address from Key (short bigint)', async () => {
+      console.log('privatekey', testVectorPrivateKey)
+      const account = await Account.fromPrivateKey(10n)
+      console.log('address', account.address)
+      expect(account.private).toHaveLength(32)
+      expect(account.public).toHaveLength(64)
+      expect(account.addressBytes.byteLength).toBe(20)
+      expect(account.private?.hex).toEqual(testVectorPrivateKey)
+      expect(account.public?.hex).toEqual(testVectorPublicKey)
+      expect(account.address).toEqual(testVectorAddress)
     })
 
     test('Sign-fromPrivateKey', async () => {
-      const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
-      expect(wallet.public).toBeDefined()
-      expect(wallet.address).toBeDefined()
-      const previousHash = wallet.previousHash
-      const [signature] = await wallet.sign(testVectorHash, toArrayBuffer(previousHash))
-      const valid = await wallet.verify(testVectorHash, signature)
+      const account = await Account.fromPrivateKey(testVectorPrivateKey)
+      expect(account.public).toBeDefined()
+      expect(account.address).toBeDefined()
+      const previousHash = account.previousHash
+      const [signature] = await account.sign(testVectorHash, toArrayBuffer(previousHash))
+      const valid = await account.verify(testVectorHash, signature)
       expect(valid).toBeTrue()
     })
 
     test('Sign-testVectors', async () => {
-      const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
-      const previousHash = wallet.previousHash
-      const [signature] = await wallet.sign(testVectorHash, toArrayBuffer(previousHash))
+      const account = await Account.fromPrivateKey(testVectorPrivateKey)
+      const previousHash = account.previousHash
+      const [signature] = await account.sign(testVectorHash, toArrayBuffer(previousHash))
       const expectedSignature = toArrayBuffer(testVectorSignature)
 
       expect(signature).toEqual(expectedSignature)
       expect(signature.byteLength).toEqual(64)
-      const valid = await wallet.verify(testVectorHash, signature)
+      const valid = await account.verify(testVectorHash, signature)
       expect(valid).toBeTrue()
     })
 
     test('Constructor', async () => {
-      const wallet1 = await Account.fromPrivateKey(testVectorPrivateKey)
-      expect(wallet1.private).toBeDefined()
-      if (wallet1.private) {
-        const wallet2 = await Account.create({ privateKey: wallet1.private.bytes })
-        expect(wallet1.public).toBeDefined()
-        expect(wallet2.public).toBeDefined()
-        if (wallet1.public && wallet2.public) {
-          expect(wallet1.public.hex).toEqual(wallet2.public.hex)
-          expect(wallet1.address).toEqual(wallet2.address)
+      const account1 = await Account.fromPrivateKey(testVectorPrivateKey)
+      expect(account1.private).toBeDefined()
+      if (account1.private) {
+        const account2 = await Account.create({ privateKey: account1.private.bytes })
+        expect(account1.public).toBeDefined()
+        expect(account2.public).toBeDefined()
+        if (account1.public && account2.public) {
+          expect(account1.public.hex).toEqual(account2.public.hex)
+          expect(account1.address).toEqual(account2.address)
         }
       }
     })
 
     test('Sign-random-string', async () => {
-      const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
-      const previousHash = wallet.previousHash
-      const [signature] = await wallet.sign(testVectorHash, toArrayBuffer(previousHash))
+      const account = await Account.fromPrivateKey(testVectorPrivateKey)
+      const previousHash = account.previousHash
+      const [signature] = await account.sign(testVectorHash, toArrayBuffer(previousHash))
       expect(signature.byteLength).toBe(64)
-      const valid = await wallet.verify(testVectorHash, signature)
+      const valid = await account.verify(testVectorHash, signature)
       expect(valid).toBeTrue()
     })
 

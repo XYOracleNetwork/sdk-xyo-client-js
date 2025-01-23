@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.5.0",
-    "@xylabs/assert": "^4.5.0",
-    "@xylabs/hex": "^4.5.0",
+    "@xylabs/array": "^4.5.1",
+    "@xylabs/assert": "^4.5.1",
+    "@xylabs/hex": "^4.5.1",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-schema-list-abstract": "workspace:^",
     "@xyo-network/diviner-schema-list-model": "workspace:^",

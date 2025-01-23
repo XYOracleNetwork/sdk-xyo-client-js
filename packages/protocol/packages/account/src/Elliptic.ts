@@ -2,6 +2,7 @@ import type { Secp256k1 } from '@bitauth/libauth'
 import { instantiateSecp256k1 } from '@bitauth/libauth'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
+import { toHex } from '@xylabs/hex'
 import { Data } from '@xyo-network/data'
 import { WasmSupport } from '@xyo-network/wasm'
 import { Mutex } from 'async-mutex'
@@ -41,6 +42,9 @@ export class Elliptic {
 
   static async publicKeyFromPrivateKey(privateKey: ArrayBufferLike, prefix = false): Promise<ArrayBufferLike> {
     const { derivePublicKeyUncompressed } = await this.secp256k1()
+    if (BigInt(toHex(privateKey, { prefix: true })) === 0n) {
+      throw new Error(`Invalid private key [${toHex(privateKey)}]`)
+    }
     const derivedPublicKey = derivePublicKeyUncompressed(new Uint8Array(privateKey))
     const fullPublicKey = typeof derivedPublicKey === 'string' ? toUint8Array(derivedPublicKey) : derivedPublicKey
     return (prefix ? fullPublicKey : fullPublicKey.slice(1)).buffer

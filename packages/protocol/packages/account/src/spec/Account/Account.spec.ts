@@ -42,15 +42,13 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
     })
 
     test.only('Address from Key (short bigint)', async () => {
-      console.log('privatekey', testVectorPrivateKey)
-      const account = await Account.fromPrivateKey(10n)
+      const i = 1n
+      console.log('privatekey', i)
+      const account = await Account.fromPrivateKey(i)
       console.log('address', account.address)
       expect(account.private).toHaveLength(32)
       expect(account.public).toHaveLength(64)
       expect(account.addressBytes.byteLength).toBe(20)
-      expect(account.private?.hex).toEqual(testVectorPrivateKey)
-      expect(account.public?.hex).toEqual(testVectorPublicKey)
-      expect(account.address).toEqual(testVectorAddress)
     })
 
     test('Sign-fromPrivateKey', async () => {

@@ -1,7 +1,9 @@
 import { toArrayBuffer, toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import {
-  Address, Hash, hexFromArrayBuffer,
+  Address,
+  Hash,
+  toHex,
 } from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
 import { staticImplements } from '@xylabs/static-implements'
@@ -65,7 +67,7 @@ export class Account extends EllipticKey implements AccountInstance {
   }
 
   get previousHash() {
-    return this.previousHashBytes ? (hexFromArrayBuffer(this.previousHashBytes, { prefix: false }).toLowerCase() as Hash) : undefined
+    return this.previousHashBytes ? (toHex(this.previousHashBytes, { prefix: false }).toLowerCase() as Hash) : undefined
   }
 
   get previousHashBytes() {
@@ -144,7 +146,7 @@ export class Account extends EllipticKey implements AccountInstance {
       const passedCurrentHash
         = previousHash === undefined
           ? this.previousHash
-          : hexFromArrayBuffer(previousHash, { prefix: false })
+          : toHex(previousHash, { prefix: false })
       assertEx(
         currentPreviousHash === passedCurrentHash,
         () => `Used and current previous hashes do not match [${currentPreviousHash} !== ${passedCurrentHash}]`,
@@ -154,7 +156,7 @@ export class Account extends EllipticKey implements AccountInstance {
       const newPreviousHash = toUint8Array(hash, 32).buffer
       this._previousHash = newPreviousHash
       if (Account.previousHashStore) {
-        await Account.previousHashStore.setItem(this.address, hexFromArrayBuffer(newPreviousHash, { prefix: false }))
+        await Account.previousHashStore.setItem(this.address, toHex(newPreviousHash, { prefix: false }))
       }
       return [signature, currentPreviousHash]
     })

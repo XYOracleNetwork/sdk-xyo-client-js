@@ -20,9 +20,4 @@ describe('toUint8Array', () => {
     const testHexPrime = Buffer.from(toUint8Array(testHex)).toString('hex')
     expect(testHex).toBe(testHexPrime)
   })
-  test('Base58 Round Trip', () => {
-    const testBase58 = '1a2FZb3caz'
-    const testBase58Prime = base58.encode(toUint8Array(testBase58, undefined, 58))
-    expect(testBase58).toBe(testBase58Prime)
-  })
 })

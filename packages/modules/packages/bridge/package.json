@@ -39,12 +39,12 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
-    "@xylabs/vitest-extended": "^4.5.0",
+    "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/bridge-pub-sub": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.3"
+    "vitest": "^3.0.4"
   },
   "publishConfig": {
     "access": "public"

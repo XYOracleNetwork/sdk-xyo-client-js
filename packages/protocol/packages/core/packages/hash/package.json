@@ -61,7 +61,6 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^4.5.0",
-    "@xylabs/ts-scripts-yarn3": "^4.2.6",
     "@xylabs/tsconfig": "^4.2.6",
     "@xylabs/vitest-extended": "^4.5.0",
     "esbuild": "^0.24.2",

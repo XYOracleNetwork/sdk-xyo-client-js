@@ -1,8 +1,4 @@
 {
-  "compilerOptions": {
-    
-  },
-
   "extends": "@xylabs/tsconfig"
 }
 

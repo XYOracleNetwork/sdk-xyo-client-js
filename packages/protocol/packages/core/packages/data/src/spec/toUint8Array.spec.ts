@@ -1,6 +1,5 @@
 import '@xylabs/vitest-extended'
 
-import { base58 } from '@scure/base'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import {
   describe, expect, test,

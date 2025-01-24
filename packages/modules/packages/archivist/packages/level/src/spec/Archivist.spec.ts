@@ -2,7 +2,6 @@
 import '@xylabs/vitest-extended'
 
 import { tmpdir } from 'node:os'
-import { cwd } from 'node:process'
 
 import { delay } from '@xylabs/delay'
 import { toJsonString } from '@xylabs/object'
@@ -29,7 +28,7 @@ describe('LevelArchivist', () => {
     const archivist = await LevelDbArchivist.create({
       account: 'random',
       config: {
-        schema: LevelDbArchivistConfigSchema, location: tmpdir() + '/temp', dbName: 'test1.db', storeName: 'payloads', clearStoreOnStart: true,
+        schema: LevelDbArchivistConfigSchema, location: tmpdir(), dbName: 'test1.db', storeName: 'payloads', clearStoreOnStart: true,
       },
     })
 
@@ -47,7 +46,7 @@ describe('LevelArchivist', () => {
     const archivist = await LevelDbArchivist.create({
       account: 'random',
       config: {
-        schema: LevelDbArchivistConfigSchema, location: cwd() + '/temp', dbName: 'test2.db', storeName: 'payloads', clearStoreOnStart: true,
+        schema: LevelDbArchivistConfigSchema, location: tmpdir(), dbName: 'test2.db', storeName: 'payloads', clearStoreOnStart: true,
       },
     })
     const payloads: Id[] = Array.from({ length: 100 }, (_, i) => new PayloadBuilder<Id>({ schema: IdSchema }).fields({ salt: `${i}` }).build())
@@ -68,6 +67,7 @@ describe('LevelArchivist', () => {
     }
 
     const results = await archivist.insert(payloads)
+    expect(results.length).toBe(payloads.length)
 
     // Ensure payload was inserted in order provided
     for (const [index, result] of results.entries()) {
@@ -94,7 +94,7 @@ describe('LevelArchivist', () => {
     const archivist = await LevelDbArchivist.create({
       account: await HDWallet.random(),
       config: {
-        schema: LevelDbArchivistConfigSchema, location: cwd() + '/temp', dbName: 'test3.db', storeName: 'payloads', clearStoreOnStart: true,
+        schema: LevelDbArchivistConfigSchema, location: tmpdir(), dbName: 'test3.db', storeName: 'payloads', clearStoreOnStart: true,
       },
     })
     const account = await HDWallet.random()
@@ -130,7 +130,7 @@ describe('LevelArchivist', () => {
     await delay(1)
     await archivist.insert(payloads4)
 
-    console.log(toJsonString([bw, payloads, errors], 10))
+    console.log('bw', toJsonString([bw, payloads, errors], 10))
 
     const batch1 = await archivist.next?.({ limit: 2 })
     expect(batch1).toBeArrayOfSize(2)

@@ -41,6 +41,7 @@
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "abstract-level": "^2.0.1",
+    "async-mutex": "^0.3.0",
     "level": "^9.0.0"
   },
   "devDependencies": {

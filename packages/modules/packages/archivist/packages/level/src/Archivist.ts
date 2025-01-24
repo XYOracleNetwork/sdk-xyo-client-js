@@ -20,7 +20,9 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
-import { AbstractBatchOperation, AbstractLevel } from 'abstract-level'
+import {
+  AbstractBatchOperation, AbstractLevel, AbstractSublevel,
+} from 'abstract-level'
 import { Level } from 'level'
 
 import { LevelDbArchivistConfigSchema } from './Config.ts'
@@ -31,6 +33,7 @@ export interface PayloadStore {
 }
 
 export type AbstractPayloadLevel = AbstractLevel<string | Buffer | Uint8Array, Hash, WithStorageMeta<Payload>>
+export type AbstractPayloadSubLevel = AbstractSublevel<AbstractPayloadLevel, string | Buffer | Uint8Array, Hash, WithStorageMeta<Payload>>
 
 export abstract class AbstractLevelDbArchivist<
   TParams extends LevelDbArchivistParams = LevelDbArchivistParams,
@@ -39,10 +42,8 @@ export abstract class AbstractLevelDbArchivist<
   static override readonly configSchemas: Schema[] = [...super.configSchemas, LevelDbArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = LevelDbArchivistConfigSchema
 
-  private _db?: AbstractPayloadLevel
-
-  get location() {
-    return this.config.location ?? './level.db'
+  get folderPath() {
+    return `${assertEx(this.config.location, () => 'No location specified')}/${assertEx(this.config.dbName, () => 'No dbName specified')}`
   }
 
   override get queries() {
@@ -57,6 +58,10 @@ export abstract class AbstractLevelDbArchivist<
     ]
   }
 
+  get storeName() {
+    return assertEx(this.config.storeName, () => 'No storeName specified')
+  }
+
   private static findIndexFromCursor(payloads: WithStorageMeta[], cursor: Hex) {
     const index = payloads.findIndex(({ _sequence }) => _sequence === cursor)
     if (index === -1) {
@@ -66,14 +71,14 @@ export abstract class AbstractLevelDbArchivist<
   }
 
   protected override async allHandler(): Promise<WithStorageMeta<Payload>[]> {
-    return await this.withDb(this.location, async (db) => {
+    return await this.withDb(async (db) => {
       const values = [...((await db.values().all()).values())]
       return values.filter(exists).sort(PayloadBuilder.compareStorageMeta)
     })
   }
 
   protected override async clearHandler(): Promise<void> {
-    await this.withDb(this.location, async (db) => {
+    await this.withDb(async (db) => {
       await db.clear()
     })
     return this.emit('cleared', { mod: this })
@@ -93,14 +98,14 @@ export abstract class AbstractLevelDbArchivist<
   }
 
   protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
-    await this.withDb(this.location, async (db) => {
+    await this.withDb(async (db) => {
       await db.batch(hashes.map(hash => ({ type: 'del', key: hash })))
     })
     return hashes
   }
 
   protected override async getHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
-    return await this.withDb(this.location, async (db) => {
+    return await this.withDb(async (db) => {
       return (await db.getMany(hashes)).filter(exists)
     })
   }
@@ -110,7 +115,7 @@ export abstract class AbstractLevelDbArchivist<
     const batchCommands: Array<AbstractBatchOperation<AbstractPayloadLevel, Hash, WithStorageMeta<Payload>>> = payloadsWithMeta.map(payload => ({
       type: 'put', key: payload._hash, value: payload,
     }))
-    await this.withDb(this.location, async (db) => {
+    await this.withDb(async (db) => {
       await db.batch(batchCommands)
     })
     return payloadsWithMeta
@@ -132,15 +137,24 @@ export abstract class AbstractLevelDbArchivist<
     return result
   }
 
-  abstract withDb<T>(location: string, func: (db: AbstractPayloadLevel) => Promisable<T>): Promisable<T>
+  protected override async startHandler(): Promise<boolean> {
+    await super.startHandler()
+    if (this.config.clearStoreOnStart) {
+      await this.clearHandler()
+    }
+    return true
+  }
+
+  abstract withDb<T>(func: (db: AbstractPayloadSubLevel) => Promisable<T>): Promisable<T>
 }
 
 @creatableModule()
 export class LevelDbArchivist extends AbstractLevelDbArchivist {
-  override async withDb<T>(location: string, func: (db: AbstractPayloadLevel) => Promisable<T>): Promise<T> {
-    const db = new Level<Hash, WithStorageMeta<Payload>>(location, { valueEncoding: 'json' })
+  override async withDb<T>(func: (db: AbstractPayloadSubLevel) => Promisable<T>): Promise<T> {
+    const db: AbstractPayloadLevel = new Level<Hash, WithStorageMeta<Payload>>(this.folderPath, { keyEncoding: 'utf8', valueEncoding: 'json' })
+    const subLevel: AbstractPayloadSubLevel = db.sublevel<Hash, WithStorageMeta<Payload>>(this.storeName, { keyEncoding: 'utf8', valueEncoding: 'json' })
     try {
-      return await func(db)
+      return await func(subLevel)
     } finally {
       await db.close()
     }

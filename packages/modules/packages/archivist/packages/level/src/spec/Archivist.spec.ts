@@ -1,6 +1,9 @@
 /* eslint-disable max-statements */
 import '@xylabs/vitest-extended'
 
+import { tmpdir } from 'node:os'
+import { cwd } from 'node:process'
+
 import { delay } from '@xylabs/delay'
 import { toJsonString } from '@xylabs/object'
 import { HDWallet } from '@xyo-network/account'
@@ -21,9 +24,14 @@ import { LevelDbArchivistConfigSchema } from '../Config.ts'
  * @group module
  * @group archivist
  */
-describe('MemoryArchivist', () => {
+describe('LevelArchivist', () => {
   it('should listen to cleared events', async () => {
-    const archivist = await LevelDbArchivist.create({ account: 'random', config: { schema: LevelDbArchivistConfigSchema, location: 'level1.db' } })
+    const archivist = await LevelDbArchivist.create({
+      account: 'random',
+      config: {
+        schema: LevelDbArchivistConfigSchema, location: tmpdir() + '/temp', dbName: 'test1.db', storeName: 'payloads', clearStoreOnStart: true,
+      },
+    })
 
     expect(isArchivistInstance(archivist)).toBe(true)
     expect(isArchivistModule(archivist)).toBe(true)
@@ -36,7 +44,12 @@ describe('MemoryArchivist', () => {
   })
 
   it('should return items inserted in the order they were provided in', async () => {
-    const archivist = await LevelDbArchivist.create({ account: 'random', config: { schema: LevelDbArchivistConfigSchema, location: 'level2.db' } })
+    const archivist = await LevelDbArchivist.create({
+      account: 'random',
+      config: {
+        schema: LevelDbArchivistConfigSchema, location: cwd() + '/temp', dbName: 'test2.db', storeName: 'payloads', clearStoreOnStart: true,
+      },
+    })
     const payloads: Id[] = Array.from({ length: 100 }, (_, i) => new PayloadBuilder<Id>({ schema: IdSchema }).fields({ salt: `${i}` }).build())
     // Ensure payload was create in order provided
     for (const [index, id] of payloads.entries()) {
@@ -80,7 +93,9 @@ describe('MemoryArchivist', () => {
   it('next', async () => {
     const archivist = await LevelDbArchivist.create({
       account: await HDWallet.random(),
-      config: { schema: LevelDbArchivistConfigSchema, location: 'level3.db' },
+      config: {
+        schema: LevelDbArchivistConfigSchema, location: cwd() + '/temp', dbName: 'test3.db', storeName: 'payloads', clearStoreOnStart: true,
+      },
     })
     const account = await HDWallet.random()
 

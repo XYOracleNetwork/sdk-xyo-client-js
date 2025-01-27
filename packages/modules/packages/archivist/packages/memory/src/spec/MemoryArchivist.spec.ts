@@ -14,7 +14,7 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import { MemoryArchivist } from '../MemoryArchivist.ts'
+import { MemoryArchivist } from '../Archivist.ts'
 
 /**
  * @group module

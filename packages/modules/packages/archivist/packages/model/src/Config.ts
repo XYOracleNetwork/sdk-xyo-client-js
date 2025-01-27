@@ -1,14 +1,13 @@
-import type { Address } from '@xylabs/hex'
 import type { EmptyObject, WithAdditional } from '@xylabs/object'
-import type { ModuleConfig } from '@xyo-network/module-model'
+import type { ModuleConfig, ModuleIdentifier } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 
 import type { IndexDescription } from './IndexDescription.ts'
 
 export interface ArchivistParents {
-  commit?: Address[]
-  read?: Address[]
-  write?: Address[]
+  commit?: ModuleIdentifier[]
+  read?: ModuleIdentifier[]
+  write?: ModuleIdentifier[]
 }
 
 export interface ArchivistStorage {

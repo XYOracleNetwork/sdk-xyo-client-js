@@ -1,14 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash, Hex } from '@xylabs/hex'
-import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { fulfilled, Promisable } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
-  ArchivistConfig,
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
@@ -27,18 +25,7 @@ import {
 } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
-export const MemoryArchivistConfigSchema = 'network.xyo.archivist.memory.config' as const
-export type MemoryArchivistConfigSchema = typeof MemoryArchivistConfigSchema
-
-export type MemoryArchivistConfig<TConfig extends Payload | EmptyObject | void = void, TSchema extends Schema | void = void> = ArchivistConfig<
-  WithAdditional<
-    {
-      max?: number
-    },
-    TConfig
-  >,
-  TSchema extends Schema ? TSchema : MemoryArchivistConfigSchema | ArchivistConfig['schema']
->
+import { MemoryArchivistConfig, MemoryArchivistConfigSchema } from './Config.ts'
 
 export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivistConfig> = AnyConfigSchema<MemoryArchivistConfig>> =
   ModuleParams<TConfig>
@@ -139,8 +126,11 @@ export class MemoryArchivist<
   }
 
   protected override insertHandler(payloads: WithStorageMeta<Payload>[]): WithStorageMeta<Payload>[] {
+    console.log('MemoryArchivist.insertHandler:payloads', payloads)
     const payloadsWithMeta = payloads.sort(PayloadBuilder.compareStorageMeta)
+    console.log('MemoryArchivist.insertHandler:payloadsWithMeta', payloadsWithMeta)
     return payloadsWithMeta.map((payload) => {
+      console.log('MemoryArchivist.insertHandler:payload', payload)
       return this.insertPayloadIntoCache(payload)
     })
   }

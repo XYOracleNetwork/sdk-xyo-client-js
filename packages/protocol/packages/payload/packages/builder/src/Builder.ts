@@ -48,11 +48,11 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
     return Array.isArray(payloads)
       ? await (async () => {
         const timestamp = Date.now()
-        return await Promise.all(payloads.map(async (payload, i) => await this.addSequencedStorageMeta(
+        return (await Promise.all(payloads.map(async (payload, i) => await this.addSequencedStorageMeta(
           payload,
           timestamp,
           i,
-        )))
+        )))).sort(this.compareStorageMeta)
       })()
       : this.addSequencedStorageMeta(
           payloads,

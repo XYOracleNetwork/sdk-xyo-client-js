@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { type Address, type Hash } from '@xylabs/hex'
+import { type Hash } from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
 import type { Promisable, PromisableArray } from '@xylabs/promise'
 import { difference } from '@xylabs/set'
@@ -36,7 +36,7 @@ import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import type {
-  ModuleConfig, ModuleIdentifier, ModuleName, ModuleQueryHandlerResult, ModuleQueryResult,
+  ModuleConfig, ModuleIdentifier, ModuleQueryHandlerResult, ModuleQueryResult,
 } from '@xyo-network/module-model'
 import { duplicateModules } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -286,7 +286,7 @@ export abstract class AbstractArchivist<
     if (this.storeParentReads) {
       await this.insertWithConfig(parentFoundPayloads)
     }
-    return PayloadBuilder.omitPrivateStorageMeta([...foundPayloads, ...parentFoundPayloads])
+    return PayloadBuilder.omitPrivateStorageMeta([...foundPayloads, ...parentFoundPayloads]).sort(PayloadBuilder.compareStorageMeta)
   }
 
   protected insertHandler(_payloads: WithStorageMeta<Payload>[]): Promisable<WithStorageMeta<Payload>[]> {
@@ -422,10 +422,7 @@ export abstract class AbstractArchivist<
   }
 
   private async resolveArchivists(archivists: ModuleIdentifier[] = []) {
-    const archivistModules = [
-      ...(await this.resolve({ address: archivists as Address[] })),
-      ...(await this.resolve({ name: archivists as ModuleName[] })),
-    ].filter(duplicateModules)
+    const archivistModules = (await Promise.all(archivists.map(archivist => this.resolve(archivist)))).filter(exists).filter(duplicateModules)
 
     assertEx(
       !this.requireAllParents || archivistModules.length === archivists.length,

@@ -49,6 +49,7 @@
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
+    "@xyo-network/payload-wrapper": "workspace:^",
     "typescript": "^5.7.3",
     "vitest": "^3.0.4"
   },

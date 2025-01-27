@@ -25,7 +25,7 @@ export type SentinelIntervalAutomationPayload = SentinelBaseAutomationPayload<{
   frequency?: number
 
   /** Units for frequency field [hour if undefined] */
-  frequencyUnits?: 'second' | 'minute' | 'hour' | 'day'
+  frequencyUnits?: 'second' | 'minute' | 'hour' | 'day' | 'millis'
 
   /** Remaining triggers [infinite if undefined] */
   remaining?: number

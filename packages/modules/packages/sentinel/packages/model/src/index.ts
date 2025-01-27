@@ -1,3 +1,4 @@
+export * from './attachable/index.ts'
 export * from './Automation.ts'
 export * from './Config.ts'
 export * from './EventData.ts'

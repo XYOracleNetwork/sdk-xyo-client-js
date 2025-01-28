@@ -62,13 +62,7 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
         )
       }
       default: {
-        const values = (await this.resolveHandler(id, options)) as []
-        assertEx(Array.isArray(values), () => 'resolveHandler returned a non-array')
-        return values.map(value =>
-          asModuleInstance<T>(value, () => {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            return `resolveHandler returned invalid result (filter) [${(value as any)?.constructor?.name}][${toJsonString(value)}]`
-          }))
+        break
       }
     }
   }

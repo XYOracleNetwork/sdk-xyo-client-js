@@ -376,7 +376,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
           return await instance.resolve<T>(id, options)
         }
         default: {
-          return await instance.resolve<T>(id, options)
+          return
         }
       }
     }

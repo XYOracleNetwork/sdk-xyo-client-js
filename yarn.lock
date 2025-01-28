@@ -8243,7 +8243,6 @@ __metadata:
   resolution: "@xyo-network/node-view@workspace:packages/modules/packages/node/packages/view"
   dependencies:
     "@xylabs/assert": "npm:^4.5.1"
-    "@xylabs/exists": "npm:^4.5.1"
     "@xylabs/hex": "npm:^4.5.1"
     "@xylabs/ts-scripts-yarn3": "npm:^4.2.6"
     "@xylabs/tsconfig": "npm:^4.2.6"

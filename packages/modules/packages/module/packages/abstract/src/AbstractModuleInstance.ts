@@ -1,8 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import type { Address } from '@xylabs/hex'
+import type { TypeCheck } from '@xylabs/object'
 import { globallyUnique } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
+import type { TypedValue } from '@xylabs/typeof'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
@@ -41,6 +43,18 @@ import { asNodeInstance } from '@xyo-network/node-model'
 import type { Payload, Query } from '@xyo-network/payload-model'
 
 import { AbstractModule } from './AbstractModule.ts'
+
+function filterIdentity<T extends TypedValue>(mod?: ModuleInstance, identityFunc?: TypeCheck<T>): T
+function filterIdentity<T extends TypedValue>(mods?: ModuleInstance[], identityFunc?: TypeCheck<T>): T[]
+function filterIdentity<T extends TypedValue>(mod?: ModuleInstance | ModuleInstance[], identityFunc?: TypeCheck<T>) {
+  if (Array.isArray(mod)) {
+    if (identityFunc) {
+      return mod.map(m => identityFunc(m)).filter(exists)
+    }
+    return mod
+  }
+  return (mod ? (identityFunc ? identityFunc(mod) : true) : false) ? mod : undefined
+}
 
 export abstract class AbstractModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModule<TParams, TEventData>
@@ -177,14 +191,14 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       if (id === '*') {
         const { maxDepth = 10, direction } = options
         if (direction === 'down') {
-          return (await resolveAllDown(this, maxDepth)) as T[]
+          return filterIdentity<T>((await resolveAllDown(this, maxDepth)) ?? [], options.identity)
         }
         if (direction === 'up') {
-          return (await resolveAllUp(this, maxDepth)) as T[]
+          return filterIdentity<T>(await resolveAllUp(this, maxDepth) ?? [], options.identity)
         }
-        return (await resolveAll(this, maxDepth)) as T[]
+        return filterIdentity<T>(await resolveAll(this, maxDepth) ?? [], options.identity)
       } else if (typeof id === 'string') {
-        return (await resolvePathToInstance(this, id, true)) as T | undefined
+        return filterIdentity<T>(await resolvePathToInstance(this, id, true), options.identity)
       } else {
         throw new TypeError('Invalid id type')
       }
@@ -199,16 +213,9 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
         upResolver: this.upResolver,
       }
       if (id === '*') {
-        return await ResolveHelper.resolve(config, id, options)
+        return filterIdentity<T>(await ResolveHelper.resolve(config, id, options) ?? [], options.identity)
       }
-      switch (typeof id) {
-        case 'string': {
-          return await ResolveHelper.resolve(config, id, options)
-        }
-        default: {
-          return (await ResolveHelper.resolve(config, id, options)).filter(mod => mod.address !== this.address)
-        }
-      }
+      return filterIdentity<T>(await ResolveHelper.resolve(config, id, options), options.identity)
     }
   }
 

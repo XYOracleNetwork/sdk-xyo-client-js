@@ -37,6 +37,7 @@
     "@xylabs/logger": "^4.5.1",
     "@xylabs/object": "^4.5.1",
     "@xylabs/promise": "^4.5.1",
+    "@xylabs/typeof": "^4.5.1",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",

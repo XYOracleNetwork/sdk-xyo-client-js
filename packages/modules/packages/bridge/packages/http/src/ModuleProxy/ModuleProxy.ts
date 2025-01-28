@@ -8,7 +8,6 @@ import type { ModuleProxyParams } from '@xyo-network/bridge-abstract'
 import { AbstractModuleProxy } from '@xyo-network/bridge-abstract'
 import type {
   AttachableModuleInstance,
-  ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
@@ -72,12 +71,9 @@ export class HttpModuleProxy<
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
   override async resolve(): Promise<ModuleInstance[]>
   override async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
-  override async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
   override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
-  /** @deprecated use '*' if trying to resolve all */
-  override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
   override async resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
+    id: ModuleIdentifier = '*',
     options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
     const config: ResolveHelperConfig = {
@@ -89,12 +85,12 @@ export class HttpModuleProxy<
       transformers: this.moduleIdentifierTransformers,
       upResolver: this.upResolver,
     }
-    if (idOrFilter === '*') {
+    if (id === '*') {
       return [...(await this.publicChildren()), await this.params.host.resolve(this.address)] as T[]
     }
-    switch (typeof idOrFilter) {
+    switch (typeof id) {
       case 'string': {
-        const parts = idOrFilter.split(':')
+        const parts = id.split(':')
         const first = assertEx(parts.shift(), () => 'Missing first')
         const remainingPath = parts.join(':')
         const address
@@ -107,11 +103,8 @@ export class HttpModuleProxy<
         const firstInstance = (await this.params.host.resolve(address)) as ModuleInstance | undefined
         return (remainingPath ? await firstInstance?.resolve(remainingPath) : firstInstance) as T | undefined
       }
-      case 'object': {
-        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter(mod => mod.address !== this.address)
-      }
       default: {
-        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter(mod => mod.address !== this.address)
+        return (await ResolveHelper.resolve(config, id, options)).filter(mod => mod.address !== this.address)
       }
     }
   }

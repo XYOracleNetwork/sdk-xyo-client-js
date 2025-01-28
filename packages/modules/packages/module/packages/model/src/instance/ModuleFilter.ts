@@ -29,4 +29,5 @@ export type NameModuleFilter<T extends ModuleInstance = ModuleInstance> = NameOb
 
 export type QueryModuleFilter<T extends ModuleInstance = ModuleInstance> = QueryObjectFilter<T>
 
+/** @deprecated use ModuleIdentifier instead */
 export type ModuleFilter<T extends ModuleInstance = ModuleInstance> = ObjectFilter<T>

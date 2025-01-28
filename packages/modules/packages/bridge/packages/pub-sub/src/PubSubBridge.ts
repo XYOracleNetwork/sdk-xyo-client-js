@@ -17,8 +17,6 @@ import {
   AddressPayload,
   AddressSchema,
   creatableModule,
-  isAddressModuleFilter,
-  ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
@@ -176,18 +174,15 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
   override async resolve(): Promise<ModuleInstance[]>
   override async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
-  override async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
   override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
-  /** @deprecated use '*' if trying to resolve all */
-  override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
 
   override async resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
+    id: ModuleIdentifier = '*',
     options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
     const roots = (this._roots ?? []) as T[]
     const workingSet = (options.direction === 'up' ? [this as ModuleInstance] : [...roots, this]) as T[]
-    if (idOrFilter === '*') {
+    if (id === '*') {
       const remainingDepth = (options.maxDepth ?? 1) - 1
       return remainingDepth <= 0
         ? workingSet
@@ -195,24 +190,15 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
             [...workingSet, ...(await Promise.all(roots.map(mod => mod.resolve('*', { ...options, maxDepth: remainingDepth })))).flat()]
           )
     }
-    switch (typeof idOrFilter) {
+    switch (typeof id) {
       case 'string': {
-        const parts = idOrFilter.split(':')
+        const parts = id.split(':')
         const first = assertEx(parts.shift(), () => 'Missing first part')
         const firstInstance: ModuleInstance | undefined
           = isAddress(first)
             ? ((await resolveAddressToInstance(this, first, undefined, [], options.direction)) as T)
             : this._roots?.find(mod => mod.id === first)
         return (parts.length === 0 ? firstInstance : firstInstance?.resolve(parts.join(':'), options)) as T | undefined
-      }
-      case 'object': {
-        const results: T[] = []
-        if (isAddressModuleFilter(idOrFilter)) {
-          for (const mod of workingSet) {
-            if (mod.modName && idOrFilter.address.includes(mod.address)) results.push(mod as T)
-          }
-        }
-        return results
       }
       default: {
         return

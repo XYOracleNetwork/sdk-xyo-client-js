@@ -32,8 +32,8 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
   async loadModule(wallet: WalletInstance, node: MemoryNode, manifest: ModuleManifest, external = true): Promise<void> {
     console.log('loadModule', manifest.config.name)
     const collision = async (node: NodeInstance, name: string, external: boolean) => {
-      const externalConflict = external ? (await node.resolve({ name: [name] }, { direction: external ? 'all' : 'down' })).length > 0 : false
-      return externalConflict || (await node.resolve({ name: [name] }, { direction: 'down' })).length > 0
+      const externalConflict = external ? (await node.resolve(name, { direction: external ? 'all' : 'down' })) !== undefined : false
+      return externalConflict || (await node.resolve(name, { direction: 'down' })) !== undefined
     }
 
     assertEx(isModuleName(manifest.config.name), () => `Invalid Module Name: ${manifest.config.name}`)

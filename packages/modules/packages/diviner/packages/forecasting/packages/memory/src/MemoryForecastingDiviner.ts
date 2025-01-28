@@ -18,7 +18,7 @@ import type { ForecastingMethod, PayloadValueTransformer } from '@xyo-network/di
 import { ForecastingDivinerConfigSchema } from '@xyo-network/diviner-forecasting-model'
 import type { DivinerInstance } from '@xyo-network/diviner-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import type { ModuleFilter } from '@xyo-network/module-model'
+import type { ModuleIdentifier } from '@xyo-network/module-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 import jsonpath from 'jsonpath'
 
@@ -46,8 +46,8 @@ export class MemoryForecastingDiviner<
     seasonalArimaForecasting: seasonalArimaForecastingMethod,
   }
 
-  get boundWitnessDiviner(): ModuleFilter {
-    return assertEx(this.config.boundWitnessDiviner, () => 'No boundWitnessDiviner configured') as ModuleFilter
+  get boundWitnessDiviner(): ModuleIdentifier {
+    return assertEx(this.config.boundWitnessDiviner, () => 'No boundWitnessDiviner configured') as ModuleIdentifier
   }
 
   /**
@@ -79,7 +79,7 @@ export class MemoryForecastingDiviner<
     const payloads: Payload[] = []
     const archivist = asArchivistInstance(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const bwDiviner = asDivinerInstance(
-      (await this.resolve(this.boundWitnessDiviner)).pop(),
+      await this.resolve(this.boundWitnessDiviner),
       'Unable to resolve boundWitnessDiviner',
     ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
     const limit = this.batchLimit

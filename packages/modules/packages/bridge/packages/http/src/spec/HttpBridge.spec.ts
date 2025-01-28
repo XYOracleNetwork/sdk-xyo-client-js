@@ -192,11 +192,11 @@ describe('HttpBridge', () => {
     const archivistByName1 = await node?.resolve('Archivist')
     expect(archivistByName1).toBeDefined()
 
-    const [archivistByName2] = (await node?.resolve({ name: ['Archivist'] })) ?? []
+    const archivistByName2 = (await node?.resolve('Archivist'))
     expect(archivistByName2).toBeDefined()
-    const [payloadStatsDivinerByName] = (await node?.resolve({ name: ['PayloadStatsDiviner'] })) ?? []
+    const payloadStatsDivinerByName = (await node?.resolve('PayloadStatsDiviner'))
     expect(payloadStatsDivinerByName).toBeDefined()
-    const [boundwitnessStatsDivinerByName] = (await node?.resolve({ name: ['BoundWitnessStatsDiviner'] })) ?? []
+    const boundwitnessStatsDivinerByName = (await node?.resolve('BoundWitnessStatsDiviner'))
     expect(boundwitnessStatsDivinerByName).toBeDefined()
   })
 })

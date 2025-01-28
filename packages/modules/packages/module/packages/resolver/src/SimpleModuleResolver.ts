@@ -4,7 +4,6 @@ import type { Address } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
 import type { Promisable } from '@xylabs/promise'
 import type {
-  ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
@@ -13,12 +12,7 @@ import type {
   ModuleResolverInstance,
   ObjectFilterOptions,
 } from '@xyo-network/module-model'
-import {
-  isAddressModuleFilter,
-  isModuleName,
-  isNameModuleFilter,
-  isQueryModuleFilter,
-} from '@xyo-network/module-model'
+import { isModuleName } from '@xyo-network/module-model'
 
 import type { ModuleResolverParams } from './AbstractModuleResolver.ts'
 import { AbstractModuleResolver } from './AbstractModuleResolver.ts'
@@ -68,16 +62,15 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
   }
 
   resolveHandler<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter: ModuleFilter<T> | string = '*',
+    id: ModuleIdentifier = '*',
     options?: ModuleFilterOptions<T>,
   ): Promisable<T[]> {
     const unfiltered = (() => {
-      if (idOrFilter) {
-        if (typeof idOrFilter === 'string') {
-          if (idOrFilter === '*') {
+      if (id) {
+        if (typeof id === 'string') {
+          if (id === '*') {
             return Object.values(this.modules) as T[]
           }
-          const id = idOrFilter as ModuleIdentifier
           const name = isModuleName(id) ? id : undefined
           const address = isAddress(id) ? id : undefined
           assertEx(name || address, () => 'module identifier must be a ModuleName or Address')
@@ -85,15 +78,6 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
             (name ? this.resolveByName<T>(Object.values(this.modules), [name]).pop() : undefined)
             ?? (address ? this.resolveByAddress<T>(this.modules, [address]).pop() : undefined)
           )
-        } else {
-          const filter = idOrFilter
-          if (isAddressModuleFilter(filter)) {
-            return this.resolveByAddress<T>(this.modules, filter.address)
-          } else if (isNameModuleFilter(filter)) {
-            return this.resolveByName<T>(Object.values(this.modules), filter.name)
-          } else if (isQueryModuleFilter(filter)) {
-            return this.resolveByQuery<T>(Object.values(this.modules), filter.query)
-          }
         }
       } else {
         return Object.values(this.modules) as T[]

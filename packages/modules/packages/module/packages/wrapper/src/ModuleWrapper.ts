@@ -23,7 +23,6 @@ import {
   Module,
   ModuleAddressQuery,
   ModuleAddressQuerySchema,
-  ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
@@ -359,32 +358,29 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
   async resolve<T extends ModuleInstance = ModuleInstance>(): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter<T> | undefined, options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(
     id: ModuleIdentifier,
     options?: ModuleFilterOptions<T> | undefined,
   ): Promise<ModuleInstance>
-  /** @deprecated use '*' if trying to resolve all */
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T> | undefined, options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter: ModuleIdentifier | ModuleFilter<T> = '*',
+    id: ModuleIdentifier = '*',
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
     const instance = asModuleInstance(this.mod)
     if (instance?.['resolve']) {
-      if (idOrFilter === '*') {
+      if (id === '*') {
         return await instance.resolve<T>('*', options)
       }
-      switch (typeof idOrFilter) {
+      switch (typeof id) {
         case 'string': {
-          return await instance.resolve<T>(idOrFilter, options)
+          return await instance.resolve<T>(id, options)
         }
         default: {
-          return await instance.resolve<T>(idOrFilter, options)
+          return await instance.resolve<T>(id, options)
         }
       }
     }
-    return typeof idOrFilter === 'string' && idOrFilter !== '*' ? undefined : []
+    return typeof id === 'string' && id !== '*' ? undefined : []
   }
 
   async resolvePrivate<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>

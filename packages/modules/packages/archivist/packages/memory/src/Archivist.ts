@@ -126,11 +126,8 @@ export class MemoryArchivist<
   }
 
   protected override insertHandler(payloads: WithStorageMeta<Payload>[]): WithStorageMeta<Payload>[] {
-    console.log('MemoryArchivist.insertHandler:payloads', payloads)
     const payloadsWithMeta = payloads.sort(PayloadBuilder.compareStorageMeta)
-    console.log('MemoryArchivist.insertHandler:payloadsWithMeta', payloadsWithMeta)
     return payloadsWithMeta.map((payload) => {
-      console.log('MemoryArchivist.insertHandler:payload', payload)
       return this.insertPayloadIntoCache(payload)
     })
   }

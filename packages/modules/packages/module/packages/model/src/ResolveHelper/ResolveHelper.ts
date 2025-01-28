@@ -9,7 +9,7 @@ import { IdLogger } from '@xylabs/logger'
 import { toJsonString } from '@xylabs/object'
 
 import type {
-  ModuleFilter, ModuleFilterOptions, ModuleInstance, ModuleResolver,
+  ModuleFilterOptions, ModuleInstance, ModuleResolver,
 } from '../instance/index.ts'
 import { asModuleInstance } from '../instance/index.ts'
 import { duplicateModules } from '../lib/index.ts'
@@ -79,17 +79,12 @@ export class ResolveHelper extends ResolveHelperStatic {
   ): Promise<T[]>
   static async resolve<T extends ModuleInstance = ModuleInstance>(
     config: ResolveHelperConfig,
-    filter: ModuleFilter,
-    options?: ModuleFilterOptions<T>,
-  ): Promise<T[]>
-  static async resolve<T extends ModuleInstance = ModuleInstance>(
-    config: ResolveHelperConfig,
     id: ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
   ): Promise<T | undefined>
   static async resolve<T extends ModuleInstance = ModuleInstance>(
     config: ResolveHelperConfig,
-    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
+    id: ModuleIdentifier = '*',
     {
  maxDepth = 3, required = 'log', ...options
 }: ModuleFilterOptions<T> = {},
@@ -97,7 +92,7 @@ export class ResolveHelper extends ResolveHelperStatic {
     const {
       transformers, mod, logger = this.defaultLogger, dead = false, upResolver, downResolver, privateResolver,
     } = config
-    const log = logger ? new IdLogger(logger, () => `ResolveHelper [${mod.id}][${idOrFilter}]`) : undefined
+    const log = logger ? new IdLogger(logger, () => `ResolveHelper [${mod.id}][${id}]`) : undefined
 
     const downLocalOptions: ModuleFilterOptions<T> = {
       ...options, direction: 'down', maxDepth, required: false,
@@ -112,10 +107,10 @@ export class ResolveHelper extends ResolveHelperStatic {
     const up = direction === 'up' || direction === 'all'
     const down = direction === 'down' || direction === 'all'
     let result: T | T[] | undefined
-    log?.debug('start', idOrFilter, maxDepth)
-    if (idOrFilter === '*') {
+    log?.debug('start', id, maxDepth)
+    if (id === '*') {
       if (dead) {
-        log?.warn('failed [dead]', idOrFilter)
+        log?.warn('failed [dead]', id)
         return []
       }
       const modules = [
@@ -134,15 +129,15 @@ export class ResolveHelper extends ResolveHelperStatic {
       const childModules = (await Promise.all(modules.map(async mod => await mod.resolve<T>('*', childOptions)))).flat().filter(duplicateModules)
       return [...modules, ...childModules, mod as T].filter(duplicateModules)
     } else {
-      switch (typeof idOrFilter) {
+      switch (typeof id) {
         case 'string': {
           if (dead) {
             return undefined
           }
 
-          const id = (await resolvePathToAddress(mod, idOrFilter, false, transformers)) ?? idOrFilter
+          const resolvedId = (await resolvePathToAddress(mod, id, false, transformers)) ?? id
 
-          if (id) {
+          if (resolvedId) {
             const resolvers = [
               [downResolver, downLocalOptions],
               [up ? upResolver : undefined, upLocalOptions],
@@ -152,7 +147,7 @@ export class ResolveHelper extends ResolveHelperStatic {
             for (const resolver of resolvers) {
               const [resolverInstance] = resolver
               if (!result) {
-                result = await this.resolveModuleIdentifier<T>(resolverInstance, id)
+                result = await this.resolveModuleIdentifier<T>(resolverInstance, resolvedId)
               }
             }
           }
@@ -160,19 +155,11 @@ export class ResolveHelper extends ResolveHelperStatic {
           break
         }
         default: {
-          if (dead) {
-            return []
-          }
-          const filter: ModuleFilter<T> | undefined = idOrFilter
-          result = [
-            ...(down ? await (downResolver as ModuleResolver).resolve<T>(filter, downLocalOptions) : []),
-            ...(up ? await (upResolver as ModuleResolver).resolve<T>(filter, upLocalOptions) : []),
-          ].filter(duplicateModules)
           break
         }
       }
     }
-    this.validateRequiredResolve(required, result, idOrFilter, logger)
+    this.validateRequiredResolve(required, result, id, logger)
     return result
   }
 
@@ -207,22 +194,22 @@ export class ResolveHelper extends ResolveHelperStatic {
   static validateRequiredResolve(
     required: boolean | 'warn' | 'log',
     result: ModuleInstance[] | ModuleInstance | undefined,
-    idOrFilter: ModuleIdentifier | ModuleFilter,
+    id: ModuleIdentifier,
     logger = this.defaultLogger,
   ) {
-    const log = logger ? new IdLogger(logger, () => `validateRequiredResolve [${idOrFilter}][${result}]`) : undefined
+    const log = logger ? new IdLogger(logger, () => `validateRequiredResolve [${id}][${result}]`) : undefined
     if (required && (result === undefined || (Array.isArray(result) && result.length > 0))) {
       switch (required) {
         case 'warn': {
-          log?.warn('resolve failed', idOrFilter)
+          log?.warn('resolve failed', id)
           break
         }
         case 'log': {
-          log?.log('resolve failed', idOrFilter)
+          log?.log('resolve failed', id)
           break
         }
         default: {
-          throw new Error(`resolve failed [${idOrFilter}]`)
+          throw new Error(`resolve failed [${id}]`)
         }
       }
     }

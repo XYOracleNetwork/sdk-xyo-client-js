@@ -50,8 +50,8 @@ describe('SimpleModuleResolver', () => {
         const address = mod.address
         const name = moduleBName
         expect(sut.add(mod)).toEqual(sut)
-        expect(await sut.resolve({ address: [address] })).toBeArrayOfSize(1)
-        expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(1)
+        expect(await sut.resolve(address)).toBeDefined()
+        expect(await sut.resolve(name)).toBeDefined()
       })
     })
     describe('remove', () => {
@@ -59,20 +59,20 @@ describe('SimpleModuleResolver', () => {
         const address = moduleA.address
         const name = moduleAName
         expect(sut.remove(address)).toEqual(sut)
-        expect(await sut.resolve({ address: [moduleA.address] })).toBeArrayOfSize(0)
-        expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(0)
+        expect(await sut.resolve(moduleA.address)).toBeUndefined()
+        expect(await sut.resolve(name)).toBeUndefined()
       })
     })
     describe('resolve', () => {
       it('resolves module', async () => {
-        const result = await sut.resolve({ name: [moduleAName] })
-        expect(result).toBeArrayOfSize(1)
+        const result = await sut.resolve(moduleAName)
+        expect(result).toBeDefined()
       })
     })
     describe('tryResolve', () => {
       it('resolves module', async () => {
-        const result = await sut.resolve({ name: [moduleAName] })
-        expect(result).toBeArrayOfSize(1)
+        const result = await sut.resolve(moduleAName)
+        expect(result).toBeDefined()
       })
     })
   })

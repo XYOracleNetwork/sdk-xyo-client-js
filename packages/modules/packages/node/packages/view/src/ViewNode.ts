@@ -1,19 +1,13 @@
 import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
 import type { Address } from '@xylabs/hex'
 import type { EventListener } from '@xyo-network/module-events'
 import type {
   AnyConfigSchema,
-  ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
 } from '@xyo-network/module-model'
-import {
-  isAddressModuleFilter,
-  isNameModuleFilter,
-  ModuleLimitationViewLabel,
-} from '@xyo-network/module-model'
+import { ModuleLimitationViewLabel } from '@xyo-network/module-model'
 import { SimpleModuleResolver } from '@xyo-network/module-resolver'
 import { MemoryNode, MemoryNodeHelper } from '@xyo-network/node-memory'
 import type {
@@ -73,11 +67,10 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
   override async resolve(): Promise<ModuleInstance[]>
   override async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
-  override async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
   override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   override async resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
-    options: ModuleFilterOptions<T> = {},
+    idOrFilter: ModuleIdentifier = '*',
+    _options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
     if (!this._built) {
       await this.build()
@@ -90,14 +83,6 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
       case 'string': {
         const mod = mods.find(mod => mod.modName === idOrFilter || mod.address === idOrFilter)
         return mod as unknown as T
-      }
-      case 'object': {
-        if (isAddressModuleFilter(idOrFilter)) {
-          return (await Promise.all(idOrFilter.address.map(async address => await this.resolve(address, options)))).filter(exists)
-        } else if (isNameModuleFilter(idOrFilter)) {
-          return (await Promise.all(idOrFilter.name.map(async name => await this.resolve(name, options)))).filter(exists)
-        }
-        return []
       }
     }
   }

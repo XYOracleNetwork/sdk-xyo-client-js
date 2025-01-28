@@ -5,7 +5,6 @@ import type { Promisable } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import type { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import type {
-  ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleIdentifierTransformer,
@@ -15,11 +14,7 @@ import type {
   ModuleResolverInstance,
   ObjectFilterOptions,
 } from '@xyo-network/module-model'
-import {
-  isAddressModuleFilter,
-  isNameModuleFilter,
-  ObjectResolverPriority,
-} from '@xyo-network/module-model'
+import { ObjectResolverPriority } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 
 import { wrapModuleWithType } from '../wrapModuleWithType.ts'
@@ -79,24 +74,21 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
   async resolve(): Promise<ModuleInstance[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
-  /** @deprecated use '*' if trying to resolve all */
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
   // eslint-disable-next-line complexity
   async resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
+    id: ModuleIdentifier = '*',
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
     // console.log(`childAddressMap: ${toJsonString(this.childAddressMap, 10)}`)
     const direction = options?.direction ?? 'all'
-    if (idOrFilter === '*') {
+    if (id === '*') {
       // get all the child addresses.  if they have been resolved before, they should be in downResolver
       const childAddresses = Object.keys(this.childAddressMap)
       const resolvedChildren = await Promise.all(childAddresses.map<Promise<T | undefined>>(address => this.resolve<T>(address, options)))
       return resolvedChildren.filter(exists)
-    } else if (typeof idOrFilter === 'string') {
-      const idParts = idOrFilter.split(':')
+    } else if (typeof id === 'string') {
+      const idParts = id.split(':')
       const firstPart: ModuleIdentifier = assertEx(idParts.shift(), () => 'Invalid module identifier at first position')
       const firstPartAddress = await this.resolveIdentifier(firstPart)
       if (firstPartAddress) {
@@ -129,13 +121,6 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
         }
       }
       return
-    } else {
-      const filter = idOrFilter
-      if (isAddressModuleFilter(filter)) {
-        return (await Promise.all(filter.address.map(item => this.resolve(item, options)))).filter(exists)
-      } else if (isNameModuleFilter(filter)) {
-        return (await Promise.all(filter.name.map(item => this.resolve(item, options)))).filter(exists)
-      }
     }
   }
 

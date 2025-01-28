@@ -1,5 +1,5 @@
 import type { DivinerConfig } from '@xyo-network/diviner-model'
-import type { ModuleFilter } from '@xyo-network/module-model'
+import type { ModuleIdentifier } from '@xyo-network/module-model'
 
 import { ForecastingDivinerSchema } from '../Schema.ts'
 import type { ForecastingSettings } from './ForecastingSettings.ts'
@@ -10,7 +10,7 @@ export const ForecastingDivinerConfigSchema: ForecastingDivinerConfigSchema = `$
 
 export type ForecastingDivinerConfig = DivinerConfig<
   {
-    boundWitnessDiviner?: ModuleFilter
+    boundWitnessDiviner?: ModuleIdentifier
     schema: ForecastingDivinerConfigSchema
   } & ForecastingSettings &
   TransformerSettings

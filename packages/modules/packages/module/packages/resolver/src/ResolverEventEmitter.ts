@@ -1,9 +1,9 @@
 import type {
-  Module, ModuleFilter, ModuleResolver,
+  Module, ModuleIdentifier, ModuleResolver,
 } from '@xyo-network/module-model'
 
 export interface ModuleResolvedEventArgs {
-  filter?: ModuleFilter
+  id?: ModuleIdentifier
   mod: Module
 }
 
@@ -20,13 +20,13 @@ const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
     for (const listener of listeners) listener(args)
     return true
   }
-  const onModuleResolved = (mod: Module, filter?: ModuleFilter) => {
-    const args = { filter, mod }
+  const onModuleResolved = (mod: Module, id?: ModuleIdentifier) => {
+    const args = { id, mod }
     emit('moduleResolved', args)
   }
 
   const { resolve } = resolver
-  function originalResolve(filter?: ModuleFilter) {
+  function originalResolve(filter?: ModuleIdentifier) {
     return resolve.bind(resolver)(filter)
   }
 
@@ -34,9 +34,10 @@ const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
     on: (event: 'moduleResolved', listener: (args: ModuleResolvedEventArgs) => void) => {
       listeners.push(listener)
     },
-    resolve: async (filter?: ModuleFilter): Promise<Module[]> => {
-      const modules: Module[] = await originalResolve(filter)
-      await Promise.allSettled(modules.map(mod => onModuleResolved(mod, filter)))
+    resolve: async (id?: ModuleIdentifier): Promise<Module[]> => {
+      const modulesResult = await originalResolve(id) ?? []
+      const modules = Array.isArray(modulesResult) ? modulesResult : [modulesResult]
+      await Promise.allSettled(modules.map(mod => onModuleResolved(mod, id)))
       return modules
     },
   }

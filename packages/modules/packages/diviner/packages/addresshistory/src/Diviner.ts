@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import type { Address } from '@xylabs/hex'
-import { ArchivistGetQuerySchema, asArchivistInstance } from '@xyo-network/archivist-model'
+import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
@@ -36,8 +36,8 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
 
   private async allBoundWitnesses() {
     const archivists
-      = (await Promise.all(await this.resolve({ query: [[ArchivistGetQuerySchema]] }))).map(mod =>
-        asArchivistInstance(mod, `Failed to cast module to Archivist [${mod.id}]`)) ?? []
+      = ((await Promise.all(await this.resolve('*'))).map(mod =>
+        asArchivistInstance(mod)) ?? []).filter(exists)
     assertEx(archivists.length > 0, () => 'Did not find any archivists')
     return (
       await Promise.all(

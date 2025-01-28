@@ -2,7 +2,7 @@ import type { AnyObject, EmptyObject } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 
 import type { ModuleIdentifier } from '../ModuleIdentifier.ts'
-import type { ObjectFilter, ObjectFilterOptions } from './ObjectFilter.ts'
+import type { ObjectFilterOptions } from './ObjectFilter.ts'
 
 export const isObjectResolver = <T extends EmptyObject = AnyObject>(value?: unknown): value is ObjectResolver<T> => {
   return typeof (value as Partial<ObjectResolver<T>>).resolve === 'function'
@@ -25,11 +25,8 @@ export interface ObjectResolver<TResult extends EmptyObject> {
   resolve<T extends TResult = TResult>(): Promisable<T | undefined>
   resolve<T extends TResult = TResult>(all: '*', options?: ObjectFilterOptions<T>): Promisable<T[]>
   resolve<T extends TResult = TResult>(id: ModuleIdentifier, options?: ObjectFilterOptions<T>): Promisable<T | undefined>
-  resolve<T extends TResult = TResult>(filter: ObjectFilter<T>, options?: ObjectFilterOptions<T>): Promisable<T[]>
-  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
-  resolve<T extends TResult = TResult>(filter?: ObjectFilter<T>, options?: ObjectFilterOptions<T>): Promisable<T[]>
   resolve<T extends TResult = TResult>(
-    idOrFilter?: ObjectFilter<T> | ModuleIdentifier,
+    id?: ModuleIdentifier,
     options?: ObjectFilterOptions<T>,
   ): Promisable<T | T[] | undefined>
 

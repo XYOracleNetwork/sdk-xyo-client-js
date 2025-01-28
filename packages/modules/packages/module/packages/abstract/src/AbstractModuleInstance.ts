@@ -13,7 +13,6 @@ import type {
   AddressPreviousHashPayload,
   AttachableModuleInstance,
   ModuleEventData,
-  ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
@@ -28,16 +27,12 @@ import type {
 } from '@xyo-network/module-model'
 import {
   duplicateModules,
-  isAddressModuleFilter,
-  isNameModuleFilter,
   ModuleManifestQuerySchema,
   ModuleStateQuerySchema,
-  resolveAddressToInstance,
   resolveAll,
   resolveAllDown,
   resolveAllUp,
   ResolveHelper,
-  resolveLocalNameToInstance,
   resolvePathToInstance,
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
@@ -171,19 +166,15 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     this._parents = this._parents.filter(item => item.address !== address)
   }
 
-  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
   async resolve(): Promise<ModuleInstance[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
-  /** @deprecated use '*' if trying to resolve all */
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
+    id: ModuleIdentifier = '*',
     options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
     if (AbstractModuleInstance.useNewResolver) {
-      if (idOrFilter === '*') {
+      if (id === '*') {
         const { maxDepth = 10, direction } = options
         if (direction === 'down') {
           return (await resolveAllDown(this, maxDepth)) as T[]
@@ -192,16 +183,10 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
           return (await resolveAllUp(this, maxDepth)) as T[]
         }
         return (await resolveAll(this, maxDepth)) as T[]
-      } else if (typeof idOrFilter === 'string') {
-        return (await resolvePathToInstance(this, idOrFilter, true)) as T | undefined
+      } else if (typeof id === 'string') {
+        return (await resolvePathToInstance(this, id, true)) as T | undefined
       } else {
-        if (isNameModuleFilter(idOrFilter)) {
-          return (await Promise.all(idOrFilter.name.map(async id => await resolveLocalNameToInstance(this, id)))).filter(exists) as T[]
-        } else if (isAddressModuleFilter(idOrFilter)) {
-          return (await Promise.all(idOrFilter.address.map(async id => await resolveAddressToInstance(this, id)))).filter(exists) as T[]
-        } else {
-          throw new TypeError('Invalid filter')
-        }
+        throw new TypeError('Invalid id type')
       }
     } else {
       const config: ResolveHelperConfig = {
@@ -213,18 +198,15 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
         transformers: this.moduleIdentifierTransformers,
         upResolver: this.upResolver,
       }
-      if (idOrFilter === '*') {
-        return await ResolveHelper.resolve(config, idOrFilter, options)
+      if (id === '*') {
+        return await ResolveHelper.resolve(config, id, options)
       }
-      switch (typeof idOrFilter) {
+      switch (typeof id) {
         case 'string': {
-          return await ResolveHelper.resolve(config, idOrFilter, options)
-        }
-        case 'object': {
-          return (await ResolveHelper.resolve(config, idOrFilter, options)).filter(mod => mod.address !== this.address)
+          return await ResolveHelper.resolve(config, id, options)
         }
         default: {
-          return (await ResolveHelper.resolve(config, idOrFilter, options)).filter(mod => mod.address !== this.address)
+          return (await ResolveHelper.resolve(config, id, options)).filter(mod => mod.address !== this.address)
         }
       }
     }

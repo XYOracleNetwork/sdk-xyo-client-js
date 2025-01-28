@@ -5,7 +5,6 @@ import type { Address } from '@xylabs/hex'
 import type { Promisable } from '@xylabs/promise'
 import type {
   CacheConfig,
-  ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleIdentifierPart,
@@ -108,14 +107,14 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
 
   // eslint-disable-next-line complexity
   async resolveHandler<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
+    id: ModuleIdentifier = '*',
     options: ModuleFilterOptions<T> = {},
   ): Promise<T[]> {
     const mutatedOptions = { ...options, maxDepth: options?.maxDepth ?? CompositeModuleResolver.defaultMaxDepth }
 
     // resolve all
-    if (idOrFilter === '*') {
-      const all = idOrFilter
+    if (id === '*') {
+      const all = id
 
       // wen't too far?
       if (mutatedOptions.maxDepth < 0) {
@@ -139,16 +138,16 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
       return flatResult.filter(duplicateModules)
     }
 
-    if (typeof idOrFilter === 'string') {
+    if (typeof id === 'string') {
       // wen't too far?
       if (mutatedOptions.maxDepth < 0) {
         return []
       }
 
       // resolve ModuleIdentifier
-      const idParts = moduleIdentifierParts(idOrFilter)
+      const idParts = moduleIdentifierParts(id)
       if (idParts.length > 1) {
-        const mod = await this.resolveMultipartIdentifier<T>(idOrFilter)
+        const mod = await this.resolveMultipartIdentifier<T>(id)
         return (
           mod
             ? Array.isArray(mod)
@@ -157,12 +156,12 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
             : []
         )
       }
-      const id = await ResolveHelper.transformModuleIdentifier(idOrFilter, this.moduleIdentifierTransformers)
-      if (id) {
+      const resolvedId = await ResolveHelper.transformModuleIdentifier(id, this.moduleIdentifierTransformers)
+      if (resolvedId) {
         if (mutatedOptions.maxDepth < 0) {
           return []
         }
-        const cachedResult = this._cache.get(id)
+        const cachedResult = this._cache.get(resolvedId)
         if (cachedResult) {
           if (cachedResult.status === 'dead') {
             this._cache.delete(id)
@@ -173,7 +172,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
 
         // identity resolve?
         if (mutatedOptions.maxDepth === 0) {
-          const mod = await this._localResolver.resolve(idOrFilter, mutatedOptions)
+          const mod = await this._localResolver.resolve(resolvedId, mutatedOptions)
           return (
             mod
               ? Array.isArray(mod)
@@ -189,7 +188,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
           const results: T[] = (
             await Promise.all(
               resolvers.map(async (resolver) => {
-                const result: T | undefined = await resolver.resolve<T>(id, mutatedOptions)
+                const result: T | undefined = await resolver.resolve<T>(resolvedId, mutatedOptions)
                 return result
               }),
             )
@@ -197,7 +196,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
 
           const result: T | undefined = results.filter(exists).findLast(duplicateModules)
           if (result) {
-            this._cache.set(id, result)
+            this._cache.set(resolvedId, result)
             return result
           }
           // we know that ObjectResolverPriority.VeryLow is the minimum priority, so we can subtract 1 from the rest
@@ -212,29 +211,6 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
             : []
         )
       }
-    } else if (typeof idOrFilter === 'object') {
-      // wen't too far?
-      if (mutatedOptions.maxDepth < 0) {
-        return []
-      }
-
-      const filter = idOrFilter
-
-      // identity resolve?
-      if (mutatedOptions.maxDepth === 0) {
-        return await this._localResolver.resolve(filter, mutatedOptions)
-      }
-
-      const childOptions = { ...mutatedOptions, maxDepth: mutatedOptions?.maxDepth - 1 }
-
-      const result = await Promise.all(
-        this.resolvers.map(async (resolver) => {
-          const result: T[] = await resolver.resolve<T>(filter, childOptions)
-          return result
-        }),
-      )
-      const flatResult: T[] = result.flat().filter(exists)
-      return flatResult.filter(duplicateModules)
     }
     return []
   }

@@ -28,7 +28,6 @@ import {
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import type {
   AddressPayload,
-  ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
@@ -37,8 +36,6 @@ import type {
 } from '@xyo-network/module-model'
 import {
   AddressSchema,
-  isAddressModuleFilter,
-  isNameModuleFilter,
   resolveAddressToInstance,
   resolvePathToAddress,
   transformModuleIdentifier,
@@ -90,18 +87,15 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
   override async resolve(): Promise<ModuleInstance[]>
   override async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
-  override async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
   override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
-  /** @deprecated use '*' if trying to resolve all */
-  override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
-  // eslint-disable-next-line complexity
+
   override async resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
+    id: ModuleIdentifier = '*',
     options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
     const roots = (this._roots ?? []) as T[]
     const workingSet = (options.direction === 'up' ? [this as ModuleInstance] : [...roots, this]) as T[]
-    if (idOrFilter === '*') {
+    if (id === '*') {
       const remainingDepth = (options.maxDepth ?? 5) - 1
       return remainingDepth <= 0
         ? workingSet
@@ -109,29 +103,15 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
             [...workingSet, ...(await Promise.all(roots.map(mod => mod.resolve('*', { ...options, maxDepth: remainingDepth })))).flat()]
           )
     }
-    switch (typeof idOrFilter) {
+    switch (typeof id) {
       case 'string': {
-        const parts = idOrFilter.split(':')
+        const parts = id.split(':')
         const first = assertEx(parts.shift(), () => 'Missing module identifier')
         const firstId = await transformModuleIdentifier(first, this.moduleIdentifierTransformers)
         const result = workingSet.find((mod) => {
           return firstId === mod.address || firstId === mod.modName
         })
         return parts.length === 0 ? result : result?.resolve(parts.join(':'), options)
-      }
-      case 'object': {
-        const results: T[] = []
-        if (isNameModuleFilter(idOrFilter)) {
-          for (const mod of workingSet) {
-            if (mod.modName && idOrFilter.name.includes(mod.modName)) results.push(mod as T)
-          }
-        }
-        if (isAddressModuleFilter(idOrFilter)) {
-          for (const mod of workingSet) {
-            if (mod.modName && idOrFilter.address.includes(mod.address)) results.push(mod as T)
-          }
-        }
-        return results
       }
       default: {
         return

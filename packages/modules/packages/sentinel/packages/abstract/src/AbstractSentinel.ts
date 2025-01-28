@@ -15,6 +15,7 @@ import type {
   Payload, Schema, WithoutPrivateStorageMeta,
 } from '@xyo-network/payload-model'
 import type {
+  AttachableSentinelInstance,
   CustomSentinelInstance,
   ResolvedTask,
   SentinelInstance,
@@ -34,7 +35,7 @@ export abstract class AbstractSentinel<
   TEventData extends SentinelModuleEventData<SentinelInstance<TParams>> = SentinelModuleEventData<SentinelInstance<TParams>>,
 >
   extends AbstractModuleInstance<TParams, TEventData>
-  implements CustomSentinelInstance<TParams, TEventData> {
+  implements CustomSentinelInstance<TParams, TEventData>, AttachableSentinelInstance<TParams, TEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, SentinelConfigSchema]
   static override readonly defaultConfigSchema: Schema = SentinelConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractSentinel', AbstractSentinel, 'xyo')

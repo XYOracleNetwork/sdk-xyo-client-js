@@ -147,6 +147,7 @@ export class StorageArchivist<
     order: 'asc' | 'desc' = 'asc',
     limit: number = 10,
     cursor?: Hex,
+    open?: boolean,
   ): WithStorageMeta[] {
     const all = Object.values(this.storage.getAll()) as WithStorageMeta[]
     const payloads: WithStorageMeta[] = all
@@ -156,7 +157,7 @@ export class StorageArchivist<
       })
     const index = payloads.findIndex(payload => payload._sequence === cursor)
     if (index !== -1) {
-      return payloads.slice(index + 1, index + 1 + limit)
+      return payloads.slice(index + (open ? 0 : 1), index + (open ? 0 : 1) + limit)
     }
     return payloads.slice(0, limit)
   }
@@ -191,9 +192,9 @@ export class StorageArchivist<
 
   protected override nextHandler(options?: ArchivistNextOptions): Promisable<WithStorageMeta<Payload>[]> {
     const {
-      limit, cursor, order,
+      limit, cursor, order, open,
     } = options ?? {}
-    return this.getFromCursor(order, limit ?? 10, cursor)
+    return this.getFromCursor(order, limit ?? 10, cursor, open)
   }
 
   protected override async startHandler() {

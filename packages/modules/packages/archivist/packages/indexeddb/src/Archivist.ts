@@ -192,6 +192,7 @@ export class IndexedDbArchivist<
       order: 'asc' | 'desc' = 'asc',
       limit: number = 10,
       cursor?: Hex,
+      open?: boolean,
   ): Promise<WithStorageMeta[]> {
     // TODO: We have to handle the case where the cursor is not found, and then find the correct cursor to start with (thunked cursor)
 
@@ -200,8 +201,8 @@ export class IndexedDbArchivist<
       let sequenceCursor: IDBPCursorWithValue<ObjectStore, [string]> | null | undefined
       const parsedCursor = cursor
         ? order === 'asc'
-          ? IDBKeyRange.lowerBound(cursor, false)
-          : IDBKeyRange.upperBound(cursor, false)
+          ? IDBKeyRange.lowerBound(cursor, open)
+          : IDBKeyRange.upperBound(cursor, open)
         : null
 
       sequenceCursor = await sequenceIndex.openCursor(
@@ -334,7 +335,7 @@ export class IndexedDbArchivist<
       limit, cursor, order,
     } = options ?? {}
     return await this.useDb(async (db) => {
-      return await this.getFromCursor(db, this.storeName, order, limit ?? 10, cursor)
+      return await this.getFromCursor(db, this.storeName, order, limit ?? 10, cursor, options?.open)
     })
   }
 

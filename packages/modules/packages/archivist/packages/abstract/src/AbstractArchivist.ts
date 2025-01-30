@@ -69,7 +69,16 @@ export abstract class AbstractArchivist<
   static override readonly configSchemas: Schema[] = [...super.configSchemas, ArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = ArchivistConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractArchivist', AbstractArchivist, 'xyo')
+
+  // override this if a specialized archivist should have a different default next limit
+  protected static defaultNextLimitSetting = 100
+
   private _parentArchivists?: ArchivistParentInstances
+
+  // do not override this!  It is meant to get the this.defaultNextLimitSetting and work if it is overridden
+  static get defaultNextLimit() {
+    return this.defaultNextLimitSetting
+  }
 
   override get queries(): string[] {
     return [ArchivistGetQuerySchema, ...super.queries]
@@ -165,7 +174,8 @@ export abstract class AbstractArchivist<
     this._noOverride('next')
     return await this.busy(async () => {
       await this.started('throw')
-      return await this.nextWithConfig(options)
+      const { limit = AbstractArchivist.defaultNextLimit, ...otherOptions } = options ?? {}
+      return await this.nextWithConfig({ limit, ...otherOptions })
     })
   }
 

@@ -11,7 +11,7 @@ import type {
   LocationTimeRangeQueryCreationRequest,
 } from '../Queries/index.ts'
 import {
-  locationHeatmapQuerySchema,
+  LocationHeatmapQuerySchema,
   LocationTimeRangeQuerySchema,
 } from '../Queries/index.ts'
 import { LocationWitnessSchema } from '../Witnesses/index.ts'
@@ -55,7 +55,7 @@ const getLocationHeatmapQueryCreationRequest = (): LocationHeatmapQueryCreationR
     query,
     resultArchive: 'temp',
     resultArchivist,
-    schema: locationHeatmapQuerySchema,
+    schema: LocationHeatmapQuerySchema,
     sourceArchive: 'temp',
     sourceArchivist,
   }

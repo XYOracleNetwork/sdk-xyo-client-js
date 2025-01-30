@@ -3,7 +3,7 @@ import type { Payload, WithSources } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources } from '@xyo-network/payload-model'
 
 export interface StateDictionary {
-  [key: string]: string | number | undefined
+  [key: string]: string | number
 }
 export interface State<T extends StateDictionary = StateDictionary> {
   state: T

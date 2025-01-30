@@ -1,7 +1,7 @@
 import type {
   Address, Hash, Hex,
 } from '@xylabs/hex'
-import type { EmptyObject } from '@xylabs/object'
+import type { EmptyObject, JsonObject } from '@xylabs/object'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 
 import type { BoundWitnessSchema } from './BoundWitnessSchema.ts'
@@ -58,3 +58,5 @@ export const hasBlock = (bw: BoundWitness): bw is WithBlock => bw.block !== unde
 export const asBlock = (bw: BoundWitness): WithBlock => bw as WithBlock
 
 export type BoundWitness<T extends Payload | EmptyObject | void = void> = Signed<UnsignedBoundWitness<T>>
+
+export type AnyBoundWitness = BoundWitness<JsonObject>

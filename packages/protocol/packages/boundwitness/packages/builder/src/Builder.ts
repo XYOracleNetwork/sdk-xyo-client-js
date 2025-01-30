@@ -15,8 +15,8 @@ import {
 import type { PayloadBuilderOptions } from '@xyo-network/payload-builder'
 import { omitSchema, PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
-  ModuleError, Payload, Schema,
-  WithoutMeta,
+  AnyPayload,
+  ModuleError, Payload, Schema, WithoutMeta,
   WithoutSchema,
 } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
@@ -40,7 +40,7 @@ const uniqueAccounts = (accounts: AccountInstance[], throwOnFalse = false) => {
 
 export class BoundWitnessBuilder<
   TBoundWitness extends UnsignedBoundWitness = UnsignedBoundWitness,
-  TPayload extends Payload = Payload>
+  TPayload extends Payload = AnyPayload>
   extends PayloadBuilder<
     TBoundWitness,
     Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]>

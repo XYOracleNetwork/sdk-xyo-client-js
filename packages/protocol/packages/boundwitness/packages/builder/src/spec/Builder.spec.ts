@@ -1,13 +1,12 @@
 import '@xylabs/vitest-extended'
 
 import { toArrayBuffer } from '@xylabs/arraybuffer'
-import type { StringKeyObject } from '@xylabs/object'
 import {
   Account,
   AddressValue, Elliptic, HDWallet,
 } from '@xyo-network/account'
 import { PayloadBuilder } from '@xyo-network/payload'
-import type { Payload } from '@xyo-network/payload-model'
+import type { AnyPayload } from '@xyo-network/payload-model'
 import {
   describe, expect, it,
 } from 'vitest'
@@ -15,7 +14,7 @@ import {
 import { BoundWitnessBuilder } from '../Builder.ts'
 
 const schema = 'network.xyo.temp'
-const payload1: Payload<StringKeyObject & { schema: string }> = {
+const payload1: AnyPayload = {
   number_field: 1,
   object_field: {
     number_value: 2,
@@ -25,7 +24,8 @@ const payload1: Payload<StringKeyObject & { schema: string }> = {
   string_field: 'there',
   timestamp: 1_618_603_439_107,
 }
-const payload2: Payload<StringKeyObject & { schema: string }> = {
+
+const payload2: AnyPayload = {
   number_field: 1,
   object_field: {
     number_value: 2,

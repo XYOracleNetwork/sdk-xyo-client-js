@@ -2,11 +2,12 @@ import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import type { Address, Hash } from '@xylabs/hex'
 import { hexFromArrayBuffer } from '@xylabs/hex'
+import type { EmptyObject, JsonObject } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type {
   BoundWitness,
+  BoundWitnessFields,
   Signed,
-  UnsignedBoundWitness,
 } from '@xyo-network/boundwitness-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import {
@@ -16,7 +17,7 @@ import type { PayloadBuilderOptions } from '@xyo-network/payload-builder'
 import { omitSchema, PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   AnyPayload,
-  ModuleError, Payload, Schema, WithoutMeta,
+  ModuleError, Payload, Schema,
   WithoutSchema,
 } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
@@ -39,11 +40,12 @@ const uniqueAccounts = (accounts: AccountInstance[], throwOnFalse = false) => {
 }
 
 export class BoundWitnessBuilder<
-  TBoundWitness extends UnsignedBoundWitness = UnsignedBoundWitness,
+  TFields extends EmptyObject = EmptyObject,
   TPayload extends Payload = AnyPayload>
   extends PayloadBuilder<
-    TBoundWitness,
-    Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]>
+    TFields,
+    BoundWitnessSchema,
+    Promise<[Signed<Payload<TFields & BoundWitnessFields, BoundWitnessSchema>>, TPayload[], ModuleError[]]>
   > {
   private static readonly _buildMutex = new Mutex()
 
@@ -121,14 +123,14 @@ export class BoundWitnessBuilder<
     assertEx(!fields.payload_schemas.some(schema => !schema), () => 'nulls found in schemas')
   }
 
-  override async build(): Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]> {
+  override async build(): Promise<[Signed<Payload<TFields & BoundWitnessFields, BoundWitnessSchema>>, TPayload[], ModuleError[]]> {
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
-      const dataHashableFields = (await this.dataHashableFields()) as TBoundWitness
+      const dataHashableFields = (await this.dataHashableFields()) as Payload<TFields & BoundWitnessFields, BoundWitnessSchema>
       const $signatures = await this.sign()
 
       const ret = {
         ...this._meta, ...dataHashableFields, $signatures,
-      } as Signed<TBoundWitness>
+      } as Signed<Payload<TFields & BoundWitnessFields, BoundWitnessSchema>>
       return [
         ret,
         this._payloads,
@@ -144,13 +146,14 @@ export class BoundWitnessBuilder<
   }
 
   override async dataHashableFields() {
-    const generatedFields: Pick<TBoundWitness, GeneratedBoundWitnessFields> = await this.generatedFields()
+    const generatedFields: Pick<Payload<TFields & BoundWitnessFields, BoundWitnessSchema>,
+      GeneratedBoundWitnessFields> = await this.generatedFields()
     BoundWitnessBuilder.validateGeneratedFields(generatedFields)
-    const fields: WithoutSchema<TBoundWitness> = {
+    const fields: WithoutSchema<Payload<TFields & BoundWitnessFields, BoundWitnessSchema>> = {
       ...this._fields,
       ...generatedFields,
-    } as WithoutSchema<TBoundWitness>
-    return await BoundWitnessBuilder.dataHashableFields<TBoundWitness>(this._schema, fields)
+    } as WithoutSchema<Payload<TFields & BoundWitnessFields, BoundWitnessSchema>>
+    return await BoundWitnessBuilder.dataHashableFields<Payload<TFields & BoundWitnessFields, BoundWitnessSchema>>(this._schema, fields)
   }
 
   error(payload?: ModuleError) {
@@ -172,17 +175,17 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  override fields(fields: WithoutMeta<WithoutSchema<Omit<TBoundWitness, GeneratedBoundWitnessFields>>>): this {
-    const clone = structuredClone(fields) as unknown as Partial<TBoundWitness>
+  override fields(fields: TFields): this {
+    const clone = structuredClone<TFields>(fields)
     for (const field of GeneratedBoundWitnessFields) {
-      delete clone[field]
+      delete (clone as JsonObject)[field]
     }
     // we need to do the cast here since ts seems to not like nested, yet same, generics
     this._fields = omitSchema(
       BoundWitnessBuilder.omitMeta(
         removeEmptyFields(structuredClone(fields)),
       ),
-    ) as unknown as WithoutMeta<WithoutSchema<TBoundWitness>>
+    ) as TFields
     return this
   }
 
@@ -249,7 +252,7 @@ export class BoundWitnessBuilder<
     return await Promise.all(this._accounts.map(async account => hexFromArrayBuffer((await account.sign(hashBytes))[0])))
   }
 
-  private async generatedFields(): Promise<Pick<TBoundWitness, GeneratedBoundWitnessFields>> {
+  private async generatedFields(): Promise<Pick<BoundWitnessFields, GeneratedBoundWitnessFields>> {
     return await BoundWitnessBuilder.linkingFields(this._accounts, this._payloads)
   }
 

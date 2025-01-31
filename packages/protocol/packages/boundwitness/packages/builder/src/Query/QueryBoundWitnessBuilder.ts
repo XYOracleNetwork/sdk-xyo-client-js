@@ -1,22 +1,22 @@
 import { assertEx } from '@xylabs/assert'
-import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { QueryBoundWitnessFields } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'
-import type { Query, WithoutMeta } from '@xyo-network/payload-model'
+import type { Query } from '@xyo-network/payload-model'
 
 import { BoundWitnessBuilder } from '../Builder.ts'
 
 export class QueryBoundWitnessBuilder<
-  TBoundWitness extends QueryBoundWitness = QueryBoundWitness,
+  TFields extends QueryBoundWitnessFields = QueryBoundWitnessFields,
   TQuery extends Query = Query,
-> extends BoundWitnessBuilder<TBoundWitness> {
+> extends BoundWitnessBuilder<TFields> {
   private _query: TQuery | undefined
 
-  override async dataHashableFields(): Promise<WithoutMeta<TBoundWitness>> {
+  override async dataHashableFields() {
     const fields = {
       ...(await super.dataHashableFields()),
       query: await PayloadBuilder.dataHash(assertEx(this._query, () => 'No Query Specified')),
-    } as TBoundWitness
-    return { ...fields } as WithoutMeta<TBoundWitness>
+    }
+    return fields
   }
 
   query<T extends TQuery>(query: T) {

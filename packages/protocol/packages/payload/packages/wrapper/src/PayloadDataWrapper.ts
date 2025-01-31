@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import type { Address } from '@xylabs/hex'
-import type { Payload } from '@xyo-network/payload-model'
+import type { EmptyObject } from '@xylabs/object'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 
 import type { PayloadLoaderFactory } from './PayloadWrapperBase.ts'
@@ -10,10 +11,11 @@ export const isPayloadDataWrapper = (value?: unknown): value is PayloadDataWrapp
   return isPayloadWrapperBase(value)
 }
 
-export class PayloadDataWrapper<TPayload extends Payload = Payload> extends PayloadWrapperBase<TPayload> {
+export class PayloadDataWrapper<TFields extends Payload | EmptyObject = Payload,
+  TSchema extends Schema = TFields extends Payload ? TFields['schema'] : Schema> extends PayloadWrapperBase<Payload<TFields, TSchema>> {
   protected static loaderFactory: PayloadLoaderFactory | null = null
 
-  protected constructor(payload: TPayload) {
+  protected constructor(payload: Payload<TFields, TSchema>) {
     super(payload)
   }
 
@@ -31,9 +33,11 @@ export class PayloadDataWrapper<TPayload extends Payload = Payload> extends Payl
     }
   }
 
-  static parse<T extends Payload>(payload?: unknown): PayloadDataWrapper<T> | undefined {
+  static parse<TFields extends Payload | EmptyObject,
+    TSchema extends Schema = TFields extends Payload ?
+      TFields['schema'] : Schema>(payload?: unknown): PayloadDataWrapper<TFields, TSchema> | undefined {
     const hydratedObj = typeof payload === 'string' ? JSON.parse(payload) : payload
-    return this.wrap(hydratedObj as PayloadDataWrapper<T> | T)
+    return this.wrap(hydratedObj as PayloadDataWrapper<TFields, TSchema> | Payload<TFields, TSchema>)
   }
 
   static setLoaderFactory(factory: PayloadLoaderFactory | null) {
@@ -49,15 +53,21 @@ export class PayloadDataWrapper<TPayload extends Payload = Payload> extends Payl
     }
   }
 
-  static wrap<T extends Payload>(payload?: T | PayloadDataWrapper<T>): PayloadDataWrapper<T> {
+  static wrap<TFields extends Payload | EmptyObject,
+    TSchema extends Schema = TFields extends Payload ?
+      TFields['schema'] : Schema>(
+    payload?: Payload<TFields, TSchema> | PayloadDataWrapper<TFields, TSchema>,
+  ): PayloadDataWrapper<TFields, TSchema> {
     assertEx(!Array.isArray(payload), () => 'Array can not be converted to PayloadWrapper')
     switch (typeof payload) {
       case 'object': {
-        return payload instanceof PayloadDataWrapper
-          ? payload
-          : (
-              new PayloadDataWrapper((isPayloadWrapperBase(payload) ? payload.payload : payload) as T)
-            )
+        if (payload instanceof PayloadDataWrapper) {
+          return payload
+        } else {
+          const rawPayload = (isPayloadWrapperBase(payload) ? payload.payload : payload) as Payload<TFields, TSchema>
+          const wrapper = new PayloadDataWrapper<TFields, TSchema>(rawPayload)
+          return wrapper
+        }
       }
       default: {
         throw new Error(`Can only parse objects [${typeof payload}]`)
@@ -65,8 +75,11 @@ export class PayloadDataWrapper<TPayload extends Payload = Payload> extends Payl
     }
   }
 
-  static async wrappedMap<T extends Payload>(payloads: (T | PayloadDataWrapper<T>)[]): Promise<Record<string, PayloadDataWrapper<T>>> {
-    const result: Record<string, PayloadDataWrapper<T>> = {}
+  static async wrappedMap<TFields extends Payload | EmptyObject,
+    TSchema extends Schema = TFields extends Payload ?
+      TFields['schema'] : Schema>(payloads: (Payload<TFields, TSchema> | PayloadDataWrapper<TFields, TSchema>)[]):
+  Promise<Record<string, PayloadDataWrapper<TFields, TSchema>>> {
+    const result: Record<string, PayloadDataWrapper<TFields, TSchema>> = {}
     await Promise.all(
       payloads.map(async (payload) => {
         const wrapper = PayloadDataWrapper.wrap(payload)
@@ -77,6 +90,6 @@ export class PayloadDataWrapper<TPayload extends Payload = Payload> extends Payl
   }
 
   override async validate(): Promise<Error[]> {
-    return this.payload ? await new PayloadValidator<TPayload>(this.payload).validate() : []
+    return this.payload ? await new PayloadValidator<TFields, TSchema>(this.payload).validate() : []
   }
 }

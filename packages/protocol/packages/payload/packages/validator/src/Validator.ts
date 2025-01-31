@@ -1,7 +1,7 @@
-import type { Validator } from '@xylabs/object'
+import type { EmptyObject, Validator } from '@xylabs/object'
 import { ValidatorBase } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
-import type { Payload } from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 
 export type AllValidator = {
@@ -12,13 +12,16 @@ export type AllValidatorFactory = (schema: string) => AllValidator
 
 const defaultSchemaNameValidatorFactory: AllValidatorFactory = (schema: string) => new SchemaNameValidator(schema)
 
-export class PayloadValidator<T extends Payload = Payload> extends ValidatorBase<T> implements Validator<T> {
+export class PayloadValidator<TFields extends Payload | EmptyObject = Payload,
+  TSchema extends Schema = TFields extends Payload ? TFields['schema'] : Schema>
+  extends ValidatorBase<Payload<TFields, TSchema>>
+  implements Validator<Payload<TFields, TSchema>> {
   protected static schemaNameValidatorFactory: AllValidatorFactory = defaultSchemaNameValidatorFactory
   protected payload: Payload
 
   private _schemaValidator?: AllValidator
 
-  constructor(payload: T) {
+  constructor(payload: Payload<TFields, TSchema>) {
     super(payload)
     this.payload = payload
   }

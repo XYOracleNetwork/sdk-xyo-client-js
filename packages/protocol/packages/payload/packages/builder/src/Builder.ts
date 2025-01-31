@@ -1,27 +1,28 @@
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
-import type {
-  AnyObject, Compare, EmptyObject,
-} from '@xylabs/object'
+import type { Compare, EmptyObject } from '@xylabs/object'
 import {
   isJsonObject, omitByPrefix, pickByPrefix, toJson,
 } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import { ObjectHasher, removeEmptyFields } from '@xyo-network/hash'
+import type {
+  AnyPayload,
+  Payload, Schema,
+  Sequence,
+  WithHashStorageMeta,
+  WithOnlyClientMeta,
+  WithOptionalSchema,
+  WithoutClientMeta,
+  WithoutMeta,
+  WithoutPrivateStorageMeta,
+  WithoutSchema,
+  WithoutStorageMeta,
+  WithStorageMeta,
+} from '@xyo-network/payload-model'
 import {
-  type Payload, type Schema,
-  type Sequence,
   SequenceComparer,
   SequenceParser,
-  type WithHashStorageMeta,
-  type WithOnlyClientMeta,
-  type WithOptionalSchema,
-  type WithoutClientMeta,
-  type WithoutMeta,
-  type WithoutPrivateStorageMeta,
-  type WithoutSchema,
-  type WithoutStorageMeta,
-  type WithStorageMeta,
 } from '@xyo-network/payload-model'
 
 import type { PayloadBuilderOptions } from './Options.ts'
@@ -32,12 +33,14 @@ export const omitSchema = <T extends WithOptionalSchema>(payload: T): WithoutSch
   return result
 }
 
-export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
-  protected _fields?: WithoutMeta<WithoutSchema<T>>
-  protected _meta?: WithOnlyClientMeta<T>
-  protected _schema: Schema
+export class PayloadBuilder<TFields extends AnyPayload | EmptyObject = AnyPayload,
+  TSchema extends Schema = TFields extends AnyPayload ? TFields['schema'] : never,
+  TResult = Payload<TFields, TSchema>> {
+  protected _fields?: Omit<TFields, 'schema'>
+  protected _meta?: WithOnlyClientMeta<TFields>
+  protected _schema: TSchema
 
-  constructor(readonly options: PayloadBuilderOptions) {
+  constructor(readonly options: PayloadBuilderOptions<TSchema>) {
     const { schema } = options
     this._schema = schema
   }
@@ -253,35 +256,35 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
     }
   }
 
-  build(): R {
+  build(): TResult {
     return {
       schema: this._schema,
       ...this._fields,
       ...this._meta,
-    } as R
+    } as TResult
   }
 
   async dataHashableFields() {
     return await PayloadBuilder.dataHashableFields(
       assertEx(this._schema, () => 'Payload: Missing Schema'),
       // TODO: Add verification that required fields are present
-      this._fields as WithoutSchema<T>,
+      (this._fields ?? {}) as TFields,
     )
   }
 
-  fields(fields: WithoutMeta<WithoutSchema<T>>) {
+  fields(fields: TFields) {
     // we need to do the cast here since ts seems to not like nested, yet same, generics
-    this._fields = omitSchema(PayloadBuilder.omitMeta(removeEmptyFields(structuredClone(fields)))) as unknown as WithoutMeta<WithoutSchema<T>>
+    this._fields = omitSchema(PayloadBuilder.omitMeta(removeEmptyFields(structuredClone(fields)))) as TFields
     return this
   }
 
-  meta(meta: WithOnlyClientMeta<T>) {
+  meta(meta: WithOnlyClientMeta<TFields>) {
     // we need to do the cast here since ts seems to not like nested, yet same, generics
-    this._meta = pickByPrefix(meta, '$') as WithOnlyClientMeta<T>
+    this._meta = pickByPrefix(meta, '$') as WithOnlyClientMeta<TFields>
     return this
   }
 
-  schema(value: Schema) {
+  schema(value: TSchema) {
     this._schema = value
   }
 }

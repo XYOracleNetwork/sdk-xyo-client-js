@@ -17,5 +17,4 @@ export type DomainPayload = Payload<{
   aliases?: Record<string, Alias>
   /** @field Known networks [out] */
   networks?: NetworkPayload[]
-  schema: DomainSchema
-}>
+}, DomainSchema>

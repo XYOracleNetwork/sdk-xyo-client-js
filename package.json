@@ -84,6 +84,7 @@
     "dotenv": "^16.4.7",
     "eslint": "^9.19.0",
     "eslint-import-resolver-typescript": "^3.7.0",
+    "eslint-plugin-sonarjs": "^3.0.1",
     "jsdom": "^26.0.0",
     "knip": "^5.43.3",
     "reflect-metadata": "^0.2.2",

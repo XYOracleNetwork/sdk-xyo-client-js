@@ -34,8 +34,8 @@
     "ethers": "6.13.5"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^4.2.6",
-    "@xylabs/tsconfig-dom": "^4.2.6",
+    "@xylabs/ts-scripts-yarn3": "^5.0.0",
+    "@xylabs/tsconfig-dom": "^5.0.0",
     "typescript": "^5.7.3"
   },
   "publishConfig": {

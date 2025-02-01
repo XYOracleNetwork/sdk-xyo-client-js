@@ -40,12 +40,12 @@
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "idb": "^8.0.1"
+    "idb": "^8.0.2"
   },
   "devDependencies": {
     "@xylabs/delay": "^4.5.1",
-    "@xylabs/ts-scripts-yarn3": "^4.2.6",
-    "@xylabs/tsconfig": "^4.2.6",
+    "@xylabs/ts-scripts-yarn3": "^5.0.0",
+    "@xylabs/tsconfig": "^5.0.0",
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",

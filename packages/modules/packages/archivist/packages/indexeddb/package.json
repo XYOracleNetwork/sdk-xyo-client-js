@@ -39,13 +39,13 @@
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "idb": "^8.0.1"
+    "idb": "^8.0.2"
   },
   "devDependencies": {
     "@xylabs/delay": "^4.5.1",
     "@xylabs/object": "^4.5.1",
-    "@xylabs/ts-scripts-yarn3": "^4.2.6",
-    "@xylabs/tsconfig": "^4.2.6",
+    "@xylabs/ts-scripts-yarn3": "^5.0.0",
+    "@xylabs/tsconfig": "^5.0.0",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",

@@ -24,6 +24,7 @@ export class PayloadSetPluginResolver {
     /** @param plugins The initial set of plugins */
     plugins?: PayloadSetPlugin[],
   ) {
+    // eslint-disable-next-line sonarjs/no-async-constructor
     for (const plugin of plugins ?? []) forget(this.register(plugin))
   }
 

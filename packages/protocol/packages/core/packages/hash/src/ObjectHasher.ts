@@ -26,23 +26,23 @@ const omitByPredicate = (prefix: string) => (_: unknown, key: string) => {
 }
 
 export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {
-  static allowHashPooling = true
-  static allowSubtle = true
-  static createBrowserWorker?: (url?: URL) => Worker | undefined
-  static createNodeWorker?: (func?: () => unknown) => Worker | undefined
+  static readonly allowHashPooling = true
+  static readonly allowSubtle = true
+  static readonly createBrowserWorker?: (url?: URL) => Worker | undefined
+  static readonly createNodeWorker?: (func?: () => unknown) => Worker | undefined
 
-  static initialized = (() => {
+  static readonly initialized = (() => {
     globalThis.xyo = globalThis.xyo ?? {}
     if (globalThis.xyo.hashing) {
       console.warn('Two static instances of PayloadHasher detected')
     }
   })()
 
-  static subtleHashWorkerUrl?: URL
+  static readonly subtleHashWorkerUrl?: URL
 
-  static warnIfUsingJsHash = true
+  static readonly warnIfUsingJsHash = true
 
-  static wasmHashWorkerUrl?: URL
+  static readonly wasmHashWorkerUrl?: URL
 
   static readonly wasmInitialized = wasmSupportStatic.initialize()
   static readonly wasmSupport = wasmSupportStatic

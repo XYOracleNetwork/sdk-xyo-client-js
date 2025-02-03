@@ -17,9 +17,9 @@ constructableModuleWrapper()
 export class WitnessWrapper<TModule extends WitnessModule = WitnessModule>
   extends ModuleWrapper<TModule>
   implements WitnessInstance<TModule['params']> {
-  static override instanceIdentityCheck = isWitnessInstance
-  static override moduleIdentityCheck = isWitnessModule
-  static override requiredQueries = [WitnessObserveQuerySchema, ...super.requiredQueries]
+  static override readonly instanceIdentityCheck = isWitnessInstance
+  static override readonly moduleIdentityCheck = isWitnessModule
+  static override readonly requiredQueries = [WitnessObserveQuerySchema, ...super.requiredQueries]
 
   async observe(payloads?: Payload[]): Promise<Payload[]> {
     const queryPayload: WitnessObserveQuery = { schema: WitnessObserveQuerySchema }

@@ -40,7 +40,7 @@ export type PayloadSetPlugin<TModule extends WitnessModule | DivinerModule = Wit
       : never
 
 export const isPayloadSetWitnessPlugin = (plugin: PayloadSetPlugin): plugin is PayloadSetWitnessPlugin => {
-  return (plugin as PayloadSetWitnessPlugin)?.witness !== undefined
+  return (plugin as PayloadSetWitnessPlugin)?.witness != undefined
 }
 
 export const tryAsPayloadSetWitnessPlugin = (payloadSetPlugin: PayloadSetPlugin): PayloadSetWitnessPlugin | undefined => {
@@ -48,7 +48,7 @@ export const tryAsPayloadSetWitnessPlugin = (payloadSetPlugin: PayloadSetPlugin)
 }
 
 export const isPayloadSetDivinerPlugin = (plugin: PayloadSetPlugin): plugin is PayloadSetDivinerPlugin => {
-  return (plugin as PayloadSetDivinerPlugin)?.diviner !== undefined
+  return (plugin as PayloadSetDivinerPlugin)?.diviner != undefined
 }
 
 export const tryAsPayloadSetDivinerPlugin = (payloadSetPlugin: PayloadSetPlugin): PayloadSetDivinerPlugin | undefined => {

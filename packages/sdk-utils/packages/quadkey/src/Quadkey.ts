@@ -33,9 +33,9 @@ const assertMaxBitUint = (value: bigint, bits = 256n) => {
 }
 
 export class Quadkey {
-  static Zero = Quadkey.from(0, 0n)
-  static root = new Quadkey()
-  static type = 'Quadkey'
+  static readonly Zero = Quadkey.from(0, 0n)
+  static readonly root = new Quadkey()
+  static readonly type = 'Quadkey'
 
   type = Quadkey.type
 

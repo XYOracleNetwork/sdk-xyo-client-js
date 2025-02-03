@@ -5,10 +5,9 @@ import {
   unicornConfig,
   workspacesConfig,
   rulesConfig,
+  sonarConfig,
   importConfig,
 } from '@xylabs/eslint-config-flat'
-
-import sonarjs from 'eslint-plugin-sonarjs'
 
 export default [
   {
@@ -81,7 +80,10 @@ export default [
     },
   },
   {
-    plugins: { sonarjs },
-    rules: { 'sonarjs/deprecation': ['warn'] },
+    ...sonarConfig,
+    rules: {
+      //...sonarConfig.rules,
+      'sonarjs/deprecation': ['warn']
+    },
   },
 ]

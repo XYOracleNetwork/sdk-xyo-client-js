@@ -37,7 +37,7 @@ describe('intraBoundwitnessSchemaCombinations', () => {
     const payloads = [...payloadsA, ...payloadsB]
     const schemas = [schemaA, schemaB]
     it('finds the distinct combinations of all payloads', async () => {
-      const [bw] = await (await new BoundWitnessBuilder().payloads(payloads.flat())).build()
+      const [bw] = await new BoundWitnessBuilder().payloads(payloads.flat()).build()
       const result = intraBoundwitnessSchemaCombinations(bw, schemas)
       expect(result).toBeArrayOfSize(Math.pow(payloadsA.length, payloadsB.length))
     })

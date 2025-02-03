@@ -88,7 +88,7 @@ export abstract class AbstractWitness<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<WitnessQueries>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<WitnessQueries>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []

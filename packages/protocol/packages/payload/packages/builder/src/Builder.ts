@@ -88,7 +88,7 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
   ): Promisable<WithoutMeta<T>> {
     const cleanFields = removeEmptyFields({ ...payload, schema })
     assertEx(
-      cleanFields === undefined || isJsonObject(cleanFields),
+      cleanFields == undefined || isJsonObject(cleanFields),
       () => `Fields must be JsonObject: ${JSON.stringify(toJson(cleanFields), null, 2)}`,
     )
     return this.omitMeta(cleanFields) as WithoutMeta<T>

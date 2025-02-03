@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/pseudo-random */
 import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'

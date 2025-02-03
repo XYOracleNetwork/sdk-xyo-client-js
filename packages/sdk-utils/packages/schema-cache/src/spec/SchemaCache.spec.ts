@@ -65,7 +65,7 @@ describe('SchemaCache', () => {
         const cache = SchemaCache.instance
         const fetchedPayload = await cache.get(schema)
         expect(fetchedPayload).toBeTruthy()
-        const payloads = [await new PayloadBuilder<DomainPayload>({ schema }).fields(exampleDomainConfig).build()]
+        const payloads = [new PayloadBuilder<DomainPayload>({ schema }).fields(exampleDomainConfig).build()]
         const validator = assertEx(cache.validators[schema])
         // Strongly typing variable to ensure TypeScript inferred type from validator matches
         const valid: DomainPayload[] = payloads.filter(validator)

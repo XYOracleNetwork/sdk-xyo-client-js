@@ -47,8 +47,8 @@
   "devDependencies": {
     "@types/uuid": "^10.0.0",
     "@xylabs/delay": "^4.5.1",
-    "@xylabs/ts-scripts-yarn3": "^5.0.1",
-    "@xylabs/tsconfig": "^5.0.1",
+    "@xylabs/ts-scripts-yarn3": "^5.0.5",
+    "@xylabs/tsconfig": "^5.0.5",
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",

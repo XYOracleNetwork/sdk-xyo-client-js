@@ -25,6 +25,7 @@ export type Id = Payload<IdFields, IdSchema>
 /**
  * @deprecated Use `Id` instead
  */
+
 export type IdPayload = Id
 
 /**

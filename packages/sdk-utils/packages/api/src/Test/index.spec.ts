@@ -1,6 +1,8 @@
 export * from './testBoundWitness.spec.ts'
 export * from './testPayload.spec.ts'
 
-import { it } from 'vitest'
+import { expect, it } from 'vitest'
 
-it('no test', () => {})
+it('no test', () => {
+  expect(true).toBeTruthy()
+})

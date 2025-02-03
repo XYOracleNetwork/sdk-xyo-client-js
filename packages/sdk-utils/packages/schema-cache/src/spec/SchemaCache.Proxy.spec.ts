@@ -89,7 +89,7 @@ describe('SchemaCache', () => {
 
   test('Set Proxy', () => {
     const cache = SchemaCache.instance
-    const testProxy = 'http://foo.com'
+    const testProxy = 'https://foo.com'
     cache.proxy = testProxy
     expect(cache?.proxy).toBe(testProxy)
   })

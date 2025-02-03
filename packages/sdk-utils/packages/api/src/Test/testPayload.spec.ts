@@ -1,6 +1,6 @@
 import type { StringKeyObject } from '@xylabs/object'
 import type { Payload } from '@xyo-network/payload-model'
-import { it } from 'vitest'
+import { expect, it } from 'vitest'
 
 const testSchema = 'network.xyo.test'
 const testPayload: Payload<StringKeyObject> = {
@@ -15,6 +15,8 @@ const testPayload: Payload<StringKeyObject> = {
   stringField: 'stringValue',
 }
 
-it('no test', () => {})
+it('no test', () => {
+  expect(true).toBeTruthy()
+})
 
 export { testPayload, testSchema }

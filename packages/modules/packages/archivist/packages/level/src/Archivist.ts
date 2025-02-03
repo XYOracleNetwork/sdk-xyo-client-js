@@ -220,7 +220,7 @@ export abstract class AbstractLevelDbArchivist<
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
     const {
-      limit, cursor, order, open,
+      limit = 100, cursor, order, open,
     } = options ?? {}
     let all = await this.allHandler()
     if (order === 'desc') {

@@ -62,12 +62,11 @@ export const getProviderFromEnv = (
     }
   }
 
-  switch (providerSource) {
+  switch (providerSource ?? 'infura') {
     case 'quicknode': {
       quicknodeCases()
       break
     }
-    default:
     case 'infura': {
       infuraCases()
       break

@@ -7,7 +7,7 @@ export function isPayloadOfSchemaType<T extends Payload | never = never>(schema:
 
 export const isPayloadOfSchemaTypeWithSources = <T extends Payload | never = never>(schema: T['schema']) => {
   return (x?: unknown | null): x is WithSources<T> =>
-    isPayloadOfSchemaType<WithSources<T>>(schema)(x) && x.$sources !== undefined && Array.isArray(x.$sources)
+    isPayloadOfSchemaType<WithSources<T>>(schema)(x) && x.$sources != undefined && Array.isArray(x.$sources)
 }
 
 export const notPayloadOfSchemaType = <T extends Payload | never = never>(schema: T['schema']) => {

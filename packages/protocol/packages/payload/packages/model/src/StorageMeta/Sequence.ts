@@ -11,7 +11,7 @@ export type WithSequenceStorageMeta<T extends Payload = Payload> = T & SequenceS
 export type WithPartialSequenceStorageMeta<T extends Payload = Payload> = Partial<WithSequenceStorageMeta<T>>
 
 export const isSequenceStorageMeta = (value: unknown): value is SequenceStorageMeta => {
-  return (value as WithSequenceStorageMeta)?._sequence !== undefined
+  return (value as WithSequenceStorageMeta)?._sequence != undefined
 }
 
 export const asSequenceStorageMeta = AsObjectFactory.create(isSequenceStorageMeta)

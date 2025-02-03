@@ -107,6 +107,7 @@ export class ApiBase<C extends ApiConfig = ApiConfig> implements ApiReportable {
     let trapAxiosException = true
     try {
       const response = await closure()
+      // eslint-disable-next-line sonarjs/no-dead-store
       trapAxiosException = false
 
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions

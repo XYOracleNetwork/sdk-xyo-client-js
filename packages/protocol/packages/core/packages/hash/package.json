@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^4.5.1",
-    "@xylabs/tsconfig": "^5.0.1",
+    "@xylabs/tsconfig": "^5.0.5",
     "@xylabs/vitest-extended": "^4.5.1",
     "esbuild": "^0.24.2",
     "publint": "^0.3.2",

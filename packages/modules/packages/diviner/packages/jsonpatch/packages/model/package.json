@@ -34,8 +34,8 @@
     "fast-json-patch": "^3.1.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.0",
-    "@xylabs/tsconfig": "^5.0.0",
+    "@xylabs/ts-scripts-yarn3": "^5.0.1",
+    "@xylabs/tsconfig": "^5.0.1",
     "typescript": "^5.7.3"
   },
   "publishConfig": {

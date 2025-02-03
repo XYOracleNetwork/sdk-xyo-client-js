@@ -64,8 +64,8 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.0",
     "@xylabs/sdk-api-express-ecs": "^2.1.0",
-    "@xylabs/ts-scripts-yarn3": "^5.0.0",
-    "@xylabs/tsconfig": "^5.0.0",
+    "@xylabs/ts-scripts-yarn3": "^5.0.1",
+    "@xylabs/tsconfig": "^5.0.1",
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
@@ -78,7 +78,7 @@
     "@xyo-network/payload-wrapper": "workspace:^",
     "get-port-please": "^3.1.2",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.4"
+    "vitest": "^3.0.5"
   },
   "peerDependencies": {
     "@xylabs/sdk-api-express-ecs": "^2.1.0"

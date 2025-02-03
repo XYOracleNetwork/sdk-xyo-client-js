@@ -53,8 +53,8 @@
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.0",
-    "@xylabs/tsconfig": "^5.0.0",
+    "@xylabs/ts-scripts-yarn3": "^5.0.1",
+    "@xylabs/tsconfig": "^5.0.1",
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
@@ -64,7 +64,7 @@
     "@xyo-network/payload-wrapper": "workspace:^",
     "socket.io-client": "^4.8.1",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.4"
+    "vitest": "^3.0.5"
   },
   "publishConfig": {
     "access": "public"

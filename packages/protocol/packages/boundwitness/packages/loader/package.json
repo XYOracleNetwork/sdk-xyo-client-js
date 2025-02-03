@@ -41,10 +41,10 @@
   },
   "devDependencies": {
     "@xylabs/object": "^4.5.1",
-    "@xylabs/ts-scripts-yarn3": "^5.0.0",
-    "@xylabs/tsconfig": "^5.0.0",
+    "@xylabs/ts-scripts-yarn3": "^5.0.1",
+    "@xylabs/tsconfig": "^5.0.1",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.4"
+    "vitest": "^3.0.5"
   },
   "publishConfig": {
     "access": "public"

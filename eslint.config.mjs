@@ -82,7 +82,7 @@ export default [
   {
     ...sonarConfig,
     rules: {
-      'sonarjs/deprecation': ['warn']
+      'sonarjs/deprecation': ['warn'],
     },
   },
 ]

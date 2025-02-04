@@ -62,10 +62,10 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^22.13.0",
+    "@types/node": "^22.13.1",
     "@xylabs/sdk-api-express-ecs": "^2.1.0",
-    "@xylabs/ts-scripts-yarn3": "^5.0.5",
-    "@xylabs/tsconfig": "^5.0.5",
+    "@xylabs/ts-scripts-yarn3": "^5.0.13",
+    "@xylabs/tsconfig": "^5.0.13",
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",

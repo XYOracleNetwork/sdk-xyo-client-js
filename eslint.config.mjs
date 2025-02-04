@@ -26,6 +26,7 @@ export default [
   unicornConfig,
   workspacesConfig,
   rulesConfig,
+  sonarConfig,
   {
     ...typescriptConfig,
     rules: { ...typescriptConfig.rules },
@@ -77,21 +78,6 @@ export default [
         },
       ],
       'import-x/no-cycle': ['warn', { maxDepth: 5 }],
-    },
-  },
-  {
-    ...sonarConfig,
-    rules: {
-      ...sonarConfig.rules,
-      'sonarjs/deprecation': ['warn'],
-      'sonarjs/function-return-type': ['off'],
-      'sonarjs/pseudo-random': ['warn'],
-      'sonarjs/public-static-readonly': ['warn'],
-      'sonarjs/post-message': ['warn'],
-      'sonarjs/different-types-comparison': ['warn'],
-      'sonarjs/no-alphabetical-sort': ['warn'],
-      'sonarjs/no-identical-functions': ['warn'],
-      'sonarjs/no-empty-test-file': ['warn'],
     },
   },
 ]

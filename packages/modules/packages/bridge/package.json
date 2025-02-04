@@ -37,8 +37,8 @@
     "@xyo-network/bridge-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.5",
-    "@xylabs/tsconfig": "^5.0.5",
+    "@xylabs/ts-scripts-yarn3": "^5.0.13",
+    "@xylabs/tsconfig": "^5.0.13",
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/bridge-pub-sub": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

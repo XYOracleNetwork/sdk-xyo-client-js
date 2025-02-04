@@ -43,8 +43,8 @@
     "@xyo-network/sentinel-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.5",
-    "@xylabs/tsconfig": "^5.0.5",
+    "@xylabs/ts-scripts-yarn3": "^5.0.13",
+    "@xylabs/tsconfig": "^5.0.13",
     "typescript": "^5.7.3"
   },
   "publishConfig": {

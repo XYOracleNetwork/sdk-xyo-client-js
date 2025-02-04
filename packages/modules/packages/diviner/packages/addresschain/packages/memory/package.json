@@ -43,8 +43,8 @@
   "devDependencies": {
     "@xylabs/array": "^4.5.1",
     "@xylabs/delay": "^4.5.1",
-    "@xylabs/ts-scripts-yarn3": "^5.0.5",
-    "@xylabs/tsconfig": "^5.0.5",
+    "@xylabs/ts-scripts-yarn3": "^5.0.13",
+    "@xylabs/tsconfig": "^5.0.13",
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",

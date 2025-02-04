@@ -26,10 +26,10 @@ const omitByPredicate = (prefix: string) => (_: unknown, key: string) => {
 }
 
 export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {
-  static readonly allowHashPooling = true
-  static readonly allowSubtle = true
-  static readonly createBrowserWorker?: (url?: URL) => Worker | undefined
-  static readonly createNodeWorker?: (func?: () => unknown) => Worker | undefined
+  static allowHashPooling = true
+  static allowSubtle = true
+  static createBrowserWorker?: (url?: URL) => Worker | undefined
+  static createNodeWorker?: (func?: () => unknown) => Worker | undefined
 
   static readonly initialized = (() => {
     globalThis.xyo = globalThis.xyo ?? {}

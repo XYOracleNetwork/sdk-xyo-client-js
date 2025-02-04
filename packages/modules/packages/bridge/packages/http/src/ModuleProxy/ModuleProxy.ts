@@ -37,7 +37,7 @@ export class HttpModuleProxy<
 >
   extends AbstractModuleProxy<TWrappedModule, TParams>
   implements AttachableModuleInstance<TParams, TWrappedModule['eventData']> {
-  static createCount = 0
+  protected static createCount = 0
 
   constructor(params: TParams) {
     HttpModuleProxy.createCount = HttpModuleProxy.createCount + 1

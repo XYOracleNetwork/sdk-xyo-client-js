@@ -152,8 +152,8 @@ export class StorageArchivist<
     const all = Object.values(this.storage.getAll()) as WithStorageMeta[]
     const payloads: WithStorageMeta[] = all
       .map(value => value)
-      .sort((a, b) => {
-        return order === 'asc' ? PayloadBuilder.compareStorageMeta(a, b) : PayloadBuilder.compareStorageMeta(b, a)
+      .sort((item1, item2) => {
+        return order === 'asc' ? PayloadBuilder.compareStorageMeta(item1, item2) : PayloadBuilder.compareStorageMeta(item2, item1)
       })
     const index = payloads.findIndex(payload => payload._sequence === cursor)
     if (index !== -1) {

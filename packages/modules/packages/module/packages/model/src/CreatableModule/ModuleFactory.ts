@@ -13,7 +13,7 @@ export class ModuleFactory<TModule extends AttachableModuleInstance> implements 
 
   defaultConfigSchema: Schema
 
-  defaultLogger?: Logger | undefined
+  defaultLogger?: Logger
 
   defaultParams?: Omit<TModule['params'], 'config'> & { config?: Partial<TModule['params']['config']> }
 

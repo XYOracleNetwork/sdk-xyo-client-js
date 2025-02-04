@@ -31,9 +31,9 @@ constructableModuleWrapper()
 export class ArchivistWrapper<TWrappedModule extends ArchivistModule = ArchivistModule>
   extends ModuleWrapper<TWrappedModule>
   implements AttachableArchivistInstance<ArchivistModule['params']> {
-  static override instanceIdentityCheck = isArchivistInstance
-  static override moduleIdentityCheck = isArchivistModule
-  static override requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
+  static override readonly instanceIdentityCheck = isArchivistInstance
+  static override readonly moduleIdentityCheck = isArchivistModule
+  static override readonly requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
 
   async all(): Promise<WithStorageMeta<Payload>[]> {
     const queryPayload: ArchivistAllQuery = { schema: ArchivistAllQuerySchema }

@@ -69,7 +69,7 @@ describe('PayloadPointerDiviner', () => {
       const result = await sut.divine([pointer])
       expect(PayloadBuilder.omitStorageMeta(result)).toEqual([expected])
     })
-    it.only('no matching sequence', async () => {
+    it('no matching sequence', async () => {
       const pointer = createPointer([[account.address]], [[expectedSchema]], 'asc', SequenceConstants.maxLocalSequence)
       const result = await sut.divine([pointer])
       expect(result).toEqual([])

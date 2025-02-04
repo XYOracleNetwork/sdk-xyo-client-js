@@ -37,6 +37,7 @@ const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
     resolve: async (id?: ModuleIdentifier): Promise<Module[]> => {
       const modulesResult = await originalResolve(id) ?? []
       const modules = Array.isArray(modulesResult) ? modulesResult : [modulesResult]
+      // eslint-disable-next-line sonarjs/array-callback-without-return
       await Promise.allSettled(modules.map(mod => onModuleResolved(mod, id)))
       return modules
     },

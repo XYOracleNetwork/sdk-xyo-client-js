@@ -1,7 +1,7 @@
-import type { IdPayload } from './Payload.ts'
+import type { Id } from './Payload.ts'
 import { IdSchema } from './Schema.ts'
 
-export const idPayloadTemplate = (): IdPayload => ({
+export const idPayloadTemplate = (): Id => ({
   salt: '',
   schema: IdSchema,
 })

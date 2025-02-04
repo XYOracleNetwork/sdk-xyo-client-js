@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-nested-assignment */
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
 import { asHash, hexFromArrayBuffer } from '@xylabs/hex'
@@ -26,8 +27,8 @@ const omitByPredicate = (prefix: string) => (_: unknown, key: string) => {
 }
 
 export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {
-  static allowHashPooling = true
-  static allowSubtle = true
+  protected static allowHashPooling = true
+  protected static allowSubtle = true
   static createBrowserWorker?: (url?: URL) => Worker | undefined
   static createNodeWorker?: (func?: () => unknown) => Worker | undefined
 
@@ -121,7 +122,7 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
     await this.wasmInitialized
     if (this.wasmSupport.canUseWasm) {
       try {
-        return this.wasmHash(stringToHash)
+        return await this.wasmHash(stringToHash)
       } catch {
         this.wasmSupport.allowWasm = false
       }
@@ -172,7 +173,7 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
 
   static async subtleHash(data: Uint8Array): Promise<ArrayBuffer> {
     const pool = this.subtleHashPool
-    return pool === null ? await subtle.digest('SHA-256', data) : await pool.queue(async thread => await thread.hash(data))
+    return pool === null ? await subtle.digest('SHA-256', data) : pool.queue(async thread => await thread.hash(data))
   }
 
   static async wasmHash(data: string) {

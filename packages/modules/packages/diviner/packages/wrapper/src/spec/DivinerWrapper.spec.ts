@@ -17,7 +17,7 @@ describe('DivinerWrapper', () => {
     it('returns divined result', async () => {
       const schema = 'network.xyo.debug'
       const diviner = await IdentityDiviner.create({ account: 'random' })
-      const payloads = [await new PayloadBuilder({ schema }).build()]
+      const payloads = [new PayloadBuilder({ schema }).build()]
       const result = await diviner.divine(payloads)
       expect(result).toBeArrayOfSize(payloads.length)
       const [answer] = result

@@ -15,6 +15,7 @@ export class IndexedDbPreviousHashStore implements PreviousHashStore {
   private readonly db: Promise<IDBPDatabase<PreviousHashStoreSchemaV1>>
 
   constructor() {
+    // eslint-disable-next-line sonarjs/no-async-constructor
     this.db = openDB<PreviousHashStoreSchemaV1>(
       this.dbName,
       IndexedDbPreviousHashStore.CurrentSchemaVersion,

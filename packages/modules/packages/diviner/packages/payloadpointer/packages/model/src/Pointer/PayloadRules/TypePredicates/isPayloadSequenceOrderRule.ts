@@ -11,7 +11,5 @@ export const isPayloadSequenceOrderRule = (rule: PayloadRule): rule is PayloadSe
   // If neither order or sequence is defined, it's not a PayloadSequenceOrderRule
   if (!exists(order) && !exists(sequence)) return false
   // If order is defined, but not a valid order, it's not a PayloadSequenceOrderRule
-  if (order && order !== 'asc' && order !== 'desc') return false
-  // It's a PayloadSequenceOrderRule
-  return true
+  return !(order && order !== 'asc' && order !== 'desc')
 }

@@ -135,7 +135,7 @@ describe('MemoryBoundWitnessDiviner', () => {
       describe('multiple', () => {
         it('only returns bw that contains that schema', async () => {
           const payload_schemas = ['network.xyo.test', 'network.xyo.debug']
-          const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+          const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
             .fields({ payload_schemas })
             .build()
           const results = await sut.divine([query])

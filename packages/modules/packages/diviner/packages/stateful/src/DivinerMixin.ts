@@ -58,7 +58,7 @@ export const StatefulModuleMixin = <
       this._lastState = nextState
       const archivist = await this.getArchivistForStore()
       // const [bw] = await new BoundWitnessBuilder().payload(nextState).signer(this.account).build()
-      const [bw] = await (await new BoundWitnessBuilder().payload(nextState)).build()
+      const [bw] = await new BoundWitnessBuilder().payload(nextState).build()
       await archivist.insert([bw, nextState])
     }
 
@@ -112,7 +112,7 @@ export const StatefulModuleMixin = <
       if (this._lastState) return this._lastState
       let hash: Hash = ''
       const diviner = await this.getBoundWitnessDivinerForStore()
-      const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+      const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
         .fields({
           // address: this.account.address,
           limit: 1,

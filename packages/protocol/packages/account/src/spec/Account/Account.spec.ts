@@ -41,7 +41,7 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
       expect(account.address).toEqual(testVectorAddress)
     })
 
-    test.only('Address from Key (short bigint)', async () => {
+    test('Address from Key (short bigint)', async () => {
       const i = 1n
       console.log('privatekey', i)
       const account = await Account.fromPrivateKey(i)

@@ -19,7 +19,7 @@ describe('BoundWitnessWrapper', () => {
     const payloads = [included1, included2]
     const bw: () => Promise<BoundWitness> = async () =>
       (
-        await BoundWitnessWrapper.parse({
+        BoundWitnessWrapper.parse({
           $meta: { signatures: [] },
           addresses: [],
           payload_hashes: await Promise.all(payloads.map(p => PayloadBuilder.dataHash(p))),
@@ -31,13 +31,13 @@ describe('BoundWitnessWrapper', () => {
     describe('get', () => {
       describe('when no payloads set', () => {
         it('returns an empty object', async () => {
-          const sut = await BoundWitnessWrapper.parse(await bw())
+          const sut = BoundWitnessWrapper.parse(await bw())
           expect(await sut.payloadsDataHashMap()).toEqual({})
         })
       })
       describe('when payloads set via ctor', () => {
         it('returns payloads', async () => {
-          const sut = await BoundWitnessWrapper.wrap(await bw(), payloads)
+          const sut = BoundWitnessWrapper.wrap(await bw(), payloads)
           expect(sut).toBeDefined()
         })
       })

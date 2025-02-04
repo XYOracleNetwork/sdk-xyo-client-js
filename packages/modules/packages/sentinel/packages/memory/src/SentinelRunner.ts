@@ -22,6 +22,7 @@ export class SentinelRunner {
   constructor(sentinel: SentinelInstance, automations?: SentinelAutomationPayload[], onTriggerResult?: OnSentinelRunnerTriggerResult) {
     this.sentinel = sentinel
     this.onTriggerResult = onTriggerResult
+    // eslint-disable-next-line sonarjs/no-async-constructor
     if (automations) for (const automation of automations) forget(this.add(automation))
   }
 
@@ -97,14 +98,14 @@ export class SentinelRunner {
   }
 
   async update(hash: string, automation: SentinelAutomationPayload, restart = true) {
-    await this.remove(hash, false)
+    this.remove(hash, false)
     await this.add(automation, false)
-    if (restart) await this.restart()
+    if (restart) this.restart()
   }
 
   private async trigger(automation: SentinelIntervalAutomationPayload) {
     const wrapper = new SentinelIntervalAutomationWrapper(automation)
-    await this.remove(await wrapper.dataHash(), false)
+    this.remove(await wrapper.dataHash(), false)
     wrapper.next()
     await this.add(wrapper.payload, false)
     const triggerResult = await this.sentinel.report()

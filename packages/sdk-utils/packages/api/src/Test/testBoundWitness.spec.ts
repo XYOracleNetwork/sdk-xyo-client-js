@@ -11,6 +11,7 @@ const testBoundWitness: BoundWitness = {
   schema: BoundWitnessSchema,
 } as BoundWitness
 
+// eslint-disable-next-line sonarjs/assertions-in-tests
 it('no test', () => {})
 
 export { testBoundWitness }

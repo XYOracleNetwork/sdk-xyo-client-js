@@ -33,7 +33,7 @@ export class AsyncQueryBusModuleProxy<
 >
   extends AbstractModuleProxy<TWrappedModule, TParams>
   implements ModuleInstance<TParams, TWrappedModule['eventData']> {
-  static createCount = 0
+  protected static createCount = 0
 
   constructor(params: TParams) {
     AsyncQueryBusModuleProxy.createCount = AsyncQueryBusModuleProxy.createCount + 1

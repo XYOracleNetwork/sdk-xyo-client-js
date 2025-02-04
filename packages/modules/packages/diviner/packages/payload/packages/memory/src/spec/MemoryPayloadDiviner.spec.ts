@@ -106,7 +106,7 @@ describe('MemoryPayloadDiviner', () => {
             expect((results.filter(isSequenceStorageMeta) as WithSequenceStorageMeta[]).every(result => result._sequence > cursor)).toBe(true)
           })
           it.skip('returns payloads equal to the supplied sequence (not a thing with _sequence)', async () => {
-            const cursor = insertedPayloads.sort()[1]._sequence
+            const cursor = insertedPayloads.toSorted()[1]._sequence
             const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
               .fields({ order, cursor })
               .build()
@@ -129,7 +129,7 @@ describe('MemoryPayloadDiviner', () => {
             expect((results.filter(isSequenceStorageMeta) as WithSequenceStorageMeta[]).every(result => result._sequence < cursor)).toBe(true)
           })
           it.skip('returns payloads equal to the supplied sequence (not a thing with _sequence)', async () => {
-            const cursor = insertedPayloads.sort()[0]._sequence
+            const cursor = insertedPayloads.toSorted()[0]._sequence
             const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
               .fields({ order, cursor })
               .build()

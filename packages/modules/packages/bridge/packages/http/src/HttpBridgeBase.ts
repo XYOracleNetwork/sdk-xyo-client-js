@@ -46,13 +46,13 @@ export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridg
 
 @creatableModule()
 export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams>, BridgeQuerySender {
-  static axios = new AxiosJson()
+  static readonly axios = new AxiosJson()
   static override readonly configSchemas: Schema[] = [...super.configSchemas, HttpBridgeConfigSchema]
   static override readonly defaultConfigSchema: Schema = HttpBridgeConfigSchema
-  static defaultFailureRetryTime = 1000 * 60
-  static defaultMaxConnections = 4
-  static defaultMaxPayloadSizeWarning = 256 * 256
-  static maxFailureCacheSize = 1000
+  static readonly defaultFailureRetryTime = 1000 * 60
+  static readonly defaultMaxConnections = 4
+  static readonly defaultMaxPayloadSizeWarning = 256 * 256
+  static readonly maxFailureCacheSize = 1000
 
   private _axios?: AxiosJson
   private _discoverRootsMutex = new Mutex()

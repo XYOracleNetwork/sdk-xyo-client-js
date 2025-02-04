@@ -126,7 +126,7 @@ export class MemoryArchivist<
   }
 
   protected override insertHandler(payloads: WithStorageMeta<Payload>[]): WithStorageMeta<Payload>[] {
-    const payloadsWithMeta = payloads.sort(PayloadBuilder.compareStorageMeta)
+    const payloadsWithMeta = payloads.toSorted(PayloadBuilder.compareStorageMeta)
     return payloadsWithMeta.map((payload) => {
       return this.insertPayloadIntoCache(payload)
     })
@@ -134,7 +134,7 @@ export class MemoryArchivist<
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
     const {
-      limit, cursor, order, open,
+      limit = 100, cursor, order, open,
     } = options ?? {}
     let all = await this.allHandler()
     if (order === 'desc') {
@@ -143,7 +143,7 @@ export class MemoryArchivist<
     const startIndex = cursor
       ? MemoryArchivist.findIndexFromCursor(all, cursor) + (open ? 0 : 1)
       : 0
-    const result = all.slice(startIndex, limit ? startIndex + limit : undefined)
+    const result = all.slice(startIndex, startIndex + limit)
     return result
   }
 

@@ -138,9 +138,9 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       if (this._roots === undefined || force) {
         const rootAddresses = (
           await Promise.all(
-            (this.config.roots ?? []).map((id) => {
+            (this.config.roots ?? []).map(async (id) => {
               try {
-                return ResolveHelper.transformModuleIdentifier(id)
+                return await ResolveHelper.transformModuleIdentifier(id)
               } catch (ex) {
                 this.logger?.warn('Unable to transform module identifier:', id, ex)
                 return

@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-hardcoded-passwords */
 import '@xylabs/vitest-extended'
 
 import type { AccountInstance } from '@xyo-network/account'

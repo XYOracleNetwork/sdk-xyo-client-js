@@ -24,10 +24,10 @@ export class WebsocketClientBridge<TParams extends WebsocketBridgeParams = Webso
   implements BridgeModule<TParams>, WebsocketBridgeQuerySender {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, WebsocketBridgeConfigSchema]
   static override readonly defaultConfigSchema: Schema = WebsocketBridgeConfigSchema
-  static defaultFailureRetryTime = 1000 * 60
-  static defaultMaxConnections = 4
-  static defaultMaxPayloadSizeWarning = 256 * 256
-  static maxFailureCacheSize = 1000
+  protected static defaultFailureRetryTime = 1000 * 60
+  protected static defaultMaxConnections = 4
+  protected static defaultMaxPayloadSizeWarning = 256 * 256
+  protected static maxFailureCacheSize = 1000
 
   private _failureTimeCache = new LRUCache<Address, number>({ max: WebsocketClientBridge.maxFailureCacheSize })
   private _querySemaphore?: Semaphore

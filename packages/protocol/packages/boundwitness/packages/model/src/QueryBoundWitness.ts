@@ -11,6 +11,7 @@ export type QueryBoundWitnessFields = {
 
 export type UnsignedQueryBoundWitness = BoundWitness<QueryBoundWitnessFields>
 
+// eslint-disable-next-line sonarjs/redundant-type-aliases
 export type QueryBoundWitness = UnsignedQueryBoundWitness
 
 export const isQueryBoundWitness = (x?: unknown): x is QueryBoundWitness => isBoundWitness(x) && (x as QueryBoundWitness)?.query !== undefined

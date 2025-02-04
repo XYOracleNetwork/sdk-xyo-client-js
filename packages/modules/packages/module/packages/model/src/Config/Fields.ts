@@ -8,7 +8,7 @@ import type { ModuleSecurityConfig } from './Security.ts'
 
 export interface ModuleConfigFields {
   /** Limit to only these allowed queries */
-  readonly allowedQueries?: Schema[] | undefined
+  readonly allowedQueries?: Schema[]
 
   /** @field The name/address of the Archivist to use for this module */
   readonly archivist?: ModuleIdentifier

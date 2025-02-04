@@ -93,7 +93,7 @@ export const assignCreatableModuleRegistry = (
     for (const [schema, factories] of Object.entries(source)) {
       if (factories) {
         const existingFactories = target[schema]
-        target[schema] = existingFactories ? (target[schema] = [...existingFactories, ...factories]) : factories
+        target[schema] = [...existingFactories ?? [], ...factories]
       }
     }
 

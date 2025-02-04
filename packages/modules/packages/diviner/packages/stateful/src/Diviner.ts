@@ -101,7 +101,7 @@ export abstract class StatefulDiviner<
     if (this._lastState) return this._lastState
     let hash: Hash = ''
     const diviner = await this.getBoundWitnessDivinerForStateStore()
-    const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+    const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
       .fields({
         address: this.account.address,
         limit: 1,

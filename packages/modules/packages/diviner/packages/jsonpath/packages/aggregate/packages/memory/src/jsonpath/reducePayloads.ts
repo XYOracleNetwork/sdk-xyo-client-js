@@ -27,7 +27,7 @@ export const reducePayloads = async <T extends Payload = Payload>(
   // Include all the sources for reference
   const baseObject = excludeSources ? {} : { sources: await PayloadBuilder.dataHashes(payloads) }
   // Build and return the payload
-  return await new PayloadBuilder<T>({ schema: destinationSchema }).fields(Object.assign(baseObject, ...payloadFields)).build()
+  return new PayloadBuilder<T>({ schema: destinationSchema }).fields(Object.assign(baseObject, ...payloadFields)).build()
 }
 
 /**

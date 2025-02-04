@@ -45,7 +45,7 @@ test('Archivist Parent Write Through', async () => {
   })
 
   storage.on('moduleQueried', async ({ query, payloads }) => {
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQueries>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQueries>(query, payloads)
     expect(await wrapper.getQuery()).toBeDefined()
     console.log(`Queried: ${(await wrapper.getQuery()).schema}`)
   })

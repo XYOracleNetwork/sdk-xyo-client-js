@@ -62,7 +62,7 @@ export class BoundWitnessWrapper<
     assertEx(payload && isBoundWitness(payload), () => 'Attempt to load non-boundwitness')
 
     const boundWitness: BoundWitness | undefined = payload && isBoundWitness(payload) ? payload : undefined
-    return boundWitness ? await BoundWitnessWrapper.wrap(boundWitness) : null
+    return boundWitness ? BoundWitnessWrapper.wrap(boundWitness) : null
   }
 
   static parse<T extends BoundWitness = BoundWitness, P extends Payload = Payload>(
@@ -104,18 +104,18 @@ export class BoundWitnessWrapper<
     }
   }
 
-  static async wrap<T extends BoundWitness, P extends Payload>(
+  static wrap<T extends BoundWitness, P extends Payload>(
     obj: PayloadWrapperBase<T> | WithoutPrivateStorageMeta<T>,
     payloads?: P[],
-  ): Promise<BoundWitnessWrapper<T, P>> {
+  ): BoundWitnessWrapper<T, P> {
     switch (typeof obj) {
       case 'object': {
         if (obj instanceof BoundWitnessWrapper) {
           return obj
         } else if (obj instanceof PayloadWrapper && obj.schema() === BoundWitnessSchema) {
-          return await BoundWitnessWrapper.parse(obj.payload, payloads)
+          return BoundWitnessWrapper.parse(obj.payload, payloads)
         } else {
-          return await BoundWitnessWrapper.parse(obj, payloads)
+          return BoundWitnessWrapper.parse(obj, payloads)
         }
       }
     }

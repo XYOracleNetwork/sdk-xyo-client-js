@@ -67,7 +67,7 @@ export abstract class AbstractModuleProxy<
 >
   extends AbstractModuleInstance<TParams, TWrappedModule['eventData']>
   implements ModuleInstance<TParams, TWrappedModule['eventData']> {
-  static requiredQueries: string[] = [ModuleStateQuerySchema]
+  static readonly requiredQueries: string[] = [ModuleStateQuerySchema]
 
   protected _config?: ModuleInstance['config']
   protected _publicChildren?: ModuleInstance[]

@@ -54,7 +54,7 @@ describe('combineRules', () => {
       const addressRules: PayloadAddressRule[] = [{ address: 'foo' }, { address: 'bar' }]
       rules.push(addressRules)
       const actual = combineRules(rules)
-      expect(actual.addresses.sort()).toEqual(['bar', 'foo'])
+      expect(actual.addresses.toSorted()).toEqual(['bar', 'foo'])
     })
   })
   describe('with PayloadSchemaRule rules', () => {
@@ -64,7 +64,7 @@ describe('combineRules', () => {
         [{ schema: 'network.xyo.test' }, { schema: 'network.xyo.debug' }],
       ]
       const actual = combineRules(rules)
-      expect(actual.schemas.sort()).toEqual(['network.xyo.debug', 'network.xyo.test'])
+      expect(actual.schemas.toSorted()).toEqual(['network.xyo.debug', 'network.xyo.test'])
     })
   })
   describe('with multiple PayloadSequenceDirectionRule rules', () => {

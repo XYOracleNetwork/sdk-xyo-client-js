@@ -25,7 +25,7 @@ export class WebsocketModuleProxy<
 >
   extends AbstractModuleProxy<TWrappedModule, TParams>
   implements ModuleInstance<TParams, TWrappedModule['eventData']> {
-  static createCount = 0
+  protected static createCount = 0
 
   constructor(params: TParams) {
     WebsocketModuleProxy.createCount = WebsocketModuleProxy.createCount + 1

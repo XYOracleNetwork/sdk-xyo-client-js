@@ -34,7 +34,7 @@ export interface AddressToWeakInstanceCache {
 }
 
 export interface ModuleFamilyFunctions {
-  account?: AccountInstance | undefined
+  account?: AccountInstance
   addParent: (mod: ModuleInstance) => void
   addressCache?: (direction: Direction, includePrivate: boolean) => AddressToWeakInstanceCache | undefined
   modName?: ModuleName

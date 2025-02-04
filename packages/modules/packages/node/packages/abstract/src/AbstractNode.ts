@@ -191,7 +191,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<NodeQueries>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<NodeQueries>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig), () => 'Module is not queryable with the provided query')
     const resultPayloads: Payload[] = []
@@ -199,7 +199,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       case NodeAttachQuerySchema: {
         const address = await this.attachHandler(queryPayload.id, queryPayload.external)
         if (address) {
-          const payload = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
+          const payload = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
         }
         break
@@ -207,7 +207,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       case NodeCertifyQuerySchema: {
         const fields = await this.certifyHandler(queryPayload.id)
         if (fields) {
-          const payload = await new PayloadBuilder<ChildCertification>({ schema: ChildCertificationSchema }).fields(fields).build()
+          const payload = new PayloadBuilder<ChildCertification>({ schema: ChildCertificationSchema }).fields(fields).build()
           resultPayloads.push(payload)
         }
         break
@@ -215,7 +215,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       case NodeDetachQuerySchema: {
         const address = await this.detachHandler(queryPayload.id)
         if (address) {
-          const payload = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
+          const payload = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
         }
         break
@@ -223,7 +223,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       case NodeAttachedQuerySchema: {
         const addresses = await this.attachedHandler()
         for (const address of addresses) {
-          const payload = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
+          const payload = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
         }
         break
@@ -231,7 +231,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       case NodeRegisteredQuerySchema: {
         const addresses = await this.registeredHandler()
         for (const address of addresses) {
-          const payload = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
+          const payload = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
         }
         break

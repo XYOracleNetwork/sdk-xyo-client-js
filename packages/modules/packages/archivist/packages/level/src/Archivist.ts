@@ -189,7 +189,7 @@ export abstract class AbstractLevelDbArchivist<
 
   protected override async insertHandler(payloads: WithStorageMeta<Payload>[]): Promise<WithStorageMeta<Payload>[]> {
     // Insert the payloads
-    const payloadsWithMeta = payloads.sort(PayloadBuilder.compareStorageMeta)
+    const payloadsWithMeta = payloads.toSorted(PayloadBuilder.compareStorageMeta)
     const batchCommands: Array<AbstractBatchOperation<AbstractPayloadSubLevel, Hash, WithStorageMeta<Payload>>> = payloadsWithMeta.map(payload => ({
       type: 'put', key: payload._hash, value: payload, keyEncoding: 'utf8', valueEncoding: 'json',
     }))
@@ -229,7 +229,7 @@ export abstract class AbstractLevelDbArchivist<
     const startIndex = cursor
       ? AbstractLevelDbArchivist.findIndexFromCursor(all, cursor) + (open ? 0 : 1)
       : 0
-    const result = all.slice(startIndex, limit ? startIndex + limit : undefined)
+    const result = all.slice(startIndex, startIndex + limit)
     return result
   }
 

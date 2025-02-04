@@ -2,6 +2,7 @@ import type { EmptyObject } from '@xylabs/object'
 import { AsTypeFactory } from '@xylabs/object'
 
 /** Schema type in Javascript is a string */
+// eslint-disable-next-line sonarjs/redundant-type-aliases
 export type Schema = string
 
 export const PayloadSchema = 'network.xyo.payload' as const

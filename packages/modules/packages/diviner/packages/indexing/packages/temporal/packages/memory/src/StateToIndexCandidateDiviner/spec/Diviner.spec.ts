@@ -43,6 +43,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
 
   const thumbnailHttpFail = {
     http: {
+      // eslint-disable-next-line sonarjs/no-hardcoded-ip
       ipAddress: '104.17.96.13',
       status: 429,
     },
@@ -57,6 +58,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
   }
 
   const thumbnailWitnessFail = {
+    // eslint-disable-next-line sonarjs/no-hardcoded-ip
     http: { ipAddress: '104.17.96.13' },
     schema: 'network.xyo.image.thumbnail',
     sourceUrl,

@@ -7,6 +7,7 @@ import type { Schema } from '@xyo-network/payload-model'
 
 import type { Queryable, QueryValidator } from './QueryValidator.ts'
 
+// eslint-disable-next-line sonarjs/redundant-type-aliases
 export type SortedPipedAddressesString = string
 
 const delimiter = ''
@@ -38,7 +39,7 @@ export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleCo
     if (!this.hasRules) return true
     const addresses = query.addresses
     if (addresses.length === 0) return false
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQueries>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQueries>(query, payloads)
     const schema = (await wrapper.getQuery()).schema
     return this.queryAllowed(schema, addresses) && !this.queryDisallowed(schema, addresses)
   }
@@ -65,7 +66,7 @@ export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleCo
 const toAddressesString = (addresses: string | CosigningAddressSet): SortedPipedAddressesString => {
   return Array.isArray(addresses)
     ? addresses
-        .sort()
+        .toSorted()
         .map(address => address.toLowerCase())
         .join(delimiter)
     : addresses.toLowerCase()

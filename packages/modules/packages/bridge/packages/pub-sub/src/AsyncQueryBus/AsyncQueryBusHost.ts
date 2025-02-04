@@ -224,7 +224,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       const result = await queriesBoundWitnessDiviner.divine([divinerQuery])
       const queries = result.filter(isQueryBoundWitnessWithStorageMeta)
       // eslint-disable-next-line unicorn/no-array-reduce, unicorn/prefer-math-min-max
-      const highestQuerySequence = queries.reduce((acc, query) => acc = (query._sequence > acc ? query._sequence : acc), SequenceConstants.minLocalSequence)
+      const highestQuerySequence = queries.reduce((acc, query) => (query._sequence > acc ? query._sequence : acc), SequenceConstants.minLocalSequence)
       const nextState = queries.length > 0 ? highestQuerySequence : SequenceConstants.minLocalSequence
       // TODO: This needs to be thought through as we can't use a distributed timestamp
       // because of collisions. We need to use the timestamp of the store so there's no

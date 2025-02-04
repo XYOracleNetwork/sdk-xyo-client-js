@@ -140,7 +140,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     query: T,
     payloads?: Payload[],
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<BridgeQueries>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<BridgeQueries>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     const resultPayloads: Payload[] = []
 

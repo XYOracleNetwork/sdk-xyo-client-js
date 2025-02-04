@@ -26,6 +26,7 @@ export type Id = Payload<IdFields, IdSchema>
  * @deprecated Use `Id` instead
  */
 
+// eslint-disable-next-line sonarjs/redundant-type-aliases
 export type IdPayload = Id
 
 /**

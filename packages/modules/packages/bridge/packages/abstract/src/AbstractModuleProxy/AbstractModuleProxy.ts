@@ -274,8 +274,8 @@ export abstract class AbstractModuleProxy<
     return this._state
   }
 
-  protected async filterErrors(result: ModuleQueryResult): Promise<ModuleError[]> {
-    const wrapper = await BoundWitnessWrapper.wrap(result[0], result[1])
+  protected filterErrors(result: ModuleQueryResult): ModuleError[] {
+    const wrapper = BoundWitnessWrapper.wrap(result[0], result[1])
     return wrapper.payloadsBySchema<ModuleError>(ModuleErrorSchema)
   }
 

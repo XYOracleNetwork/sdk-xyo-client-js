@@ -14,7 +14,7 @@ export class TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivi
   ]
 
   static override readonly defaultConfigSchema: Schema = TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
-  static override labels: Labels = {
+  static override readonly labels: Labels = {
     ...super.labels,
     'network.xyo.diviner.stage': 'indexQueryResponseToDivinerQueryResponseDiviner',
   }

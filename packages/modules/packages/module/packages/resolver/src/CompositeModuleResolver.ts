@@ -38,7 +38,7 @@ const moduleIdentifierParts = (moduleIdentifier: ModuleIdentifier): ModuleIdenti
 export class CompositeModuleResolver<T extends CompositeModuleResolverParams = CompositeModuleResolverParams>
   extends AbstractModuleResolver<T>
   implements ModuleRepository, ModuleResolverInstance {
-  static defaultMaxDepth = 3
+  static readonly defaultMaxDepth = 3
 
   protected _cache: LRUCache<ModuleIdentifier, ModuleInstance>
   protected resolvers: ModuleResolverInstance[] = []

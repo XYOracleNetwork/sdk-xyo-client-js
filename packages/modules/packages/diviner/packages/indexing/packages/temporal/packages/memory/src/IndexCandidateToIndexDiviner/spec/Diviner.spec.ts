@@ -60,7 +60,8 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isTemporalIndexingDivinerResultIndex)).toBeArrayOfSize(1)
         const index = result.find(isTemporalIndexingDivinerResultIndex)
-        expect(index?.$sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
+        // eslint-disable-next-line sonarjs/no-alphabetical-sort
+        expect(index?.$sources.sort()).toEqual(Object.keys(payloadDictionary).toSorted())
         expect(index?.timestamp).toBe(timestamp.timestamp)
         expect((index as { url?: string })?.url).toBe(thumbnail.sourceUrl)
         expect((index as { status?: number })?.status).toBe(thumbnail.http?.status)
@@ -159,7 +160,8 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isTemporalIndexingDivinerResultIndex)).toBeArrayOfSize(1)
         const index = result.find(isTemporalIndexingDivinerResultIndex)
-        expect(index?.$sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
+        // eslint-disable-next-line sonarjs/no-alphabetical-sort
+        expect(index?.$sources.sort()).toEqual(Object.keys(payloadDictionary).toSorted())
         expect(index?.timestamp).toBe(timestamp.timestamp)
         expect((index as { url?: string })?.url).toBe((payload as { sourceUrl?: string }).sourceUrl)
         expect((index as { status?: number })?.status).toBe(thumbnail.http?.status)

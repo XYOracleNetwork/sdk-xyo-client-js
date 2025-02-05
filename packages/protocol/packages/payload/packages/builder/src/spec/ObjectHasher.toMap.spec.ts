@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import '@xylabs/vitest-extended'
 

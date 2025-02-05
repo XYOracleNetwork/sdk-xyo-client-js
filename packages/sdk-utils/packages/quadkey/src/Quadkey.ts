@@ -1,10 +1,9 @@
 import { assertEx } from '@xylabs/assert'
-import { hexFromArrayBuffer, hexFromHexString } from '@xylabs/hex'
 import type {
   MercatorBoundingBox,
   MercatorLngLat,
   MercatorTile,
-} from '@xyo-network/sdk-geo'
+} from '@xylabs/geo'
 import {
   boundingBoxToCenter,
   GeoJson,
@@ -13,7 +12,8 @@ import {
   tilesFromBoundingBox,
   tileToBoundingBox,
   tileToQuadkey,
-} from '@xyo-network/sdk-geo'
+} from '@xylabs/geo'
+import { hexFromArrayBuffer, hexFromHexString } from '@xylabs/hex'
 import type { LngLatLike } from 'mapbox-gl'
 import mb from 'mapbox-gl'
 const { LngLat } = mb

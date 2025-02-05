@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/public-static-readonly */
 /* eslint-disable sonarjs/no-nested-assignment */
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
@@ -27,8 +28,8 @@ const omitByPredicate = (prefix: string) => (_: unknown, key: string) => {
 }
 
 export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {
-  protected static allowHashPooling = true
-  protected static allowSubtle = true
+  static allowHashPooling = true
+  static allowSubtle = true
   static createBrowserWorker?: (url?: URL) => Worker | undefined
   static createNodeWorker?: (func?: () => unknown) => Worker | undefined
 
@@ -41,7 +42,7 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
 
   static readonly subtleHashWorkerUrl?: URL
 
-  static readonly warnIfUsingJsHash = true
+  static warnIfUsingJsHash = true
 
   static readonly wasmHashWorkerUrl?: URL
 
@@ -140,7 +141,7 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
    * @returns An array of payload/hash tuples
    */
   static async hashPairs<T extends EmptyObject>(objs: T[]): Promise<[T, Hash][]> {
-    return await Promise.all(objs.map<Promise<[T, Hash]>>(async obj => [obj, await PayloadHasher.hash(obj)]))
+    return await Promise.all(objs.map<Promise<[T, Hash]>>(async obj => [obj, await ObjectHasher.hash(obj)]))
   }
 
   /**
@@ -189,7 +190,7 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
   }
 
   async hash(): Promise<Hash> {
-    return await PayloadHasher.hash(this.obj)
+    return await ObjectHasher.hash(this.obj)
   }
 
   /**
@@ -198,7 +199,7 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
    * @returns Returns a clone of the payload that is JSON safe
    */
   json(meta = false): T {
-    return PayloadHasher.json(this.obj, meta)
+    return ObjectHasher.json(this.obj, meta)
   }
 }
 

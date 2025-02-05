@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/deprecation */
 import type { Payload } from '@xyo-network/payload-model'
 
 /** @deprecated use EvmAddressSchema version instead */

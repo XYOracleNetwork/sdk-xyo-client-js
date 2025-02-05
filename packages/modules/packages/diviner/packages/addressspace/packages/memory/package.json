@@ -40,8 +40,8 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.13",
-    "@xylabs/tsconfig": "^5.0.13",
+    "@xylabs/ts-scripts-yarn3": "^5.0.22",
+    "@xylabs/tsconfig": "^5.0.22",
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",

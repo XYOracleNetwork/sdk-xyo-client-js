@@ -35,7 +35,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
 > extends AbstractDiviner<TParams> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema
-  static override labels: Labels = {
+  static override readonly labels: Labels = {
     ...super.labels,
     'network.xyo.diviner.stage': 'indexCandidateToIndexDiviner',
   }

@@ -6,7 +6,7 @@ import {
   describe, expect, test,
 } from 'vitest'
 
-import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher.ts'
+import { NodeObjectHasher as ObjectHasher } from '../NodeObjectHasher.ts'
 /*
 const cryptoTest = async () => {
   const testObject = {
@@ -96,7 +96,7 @@ describe.skip('Hasher - BigObject', () => {
     bigObject.testObjArray.push(testObject)
   }
   beforeAll(async () => {
-    await PayloadHasher.wasmInitialized
+    await ObjectHasher.wasmInitialized
   })
 
   test('wasm vs js (performance-big-obj)', async () => {
@@ -109,33 +109,33 @@ describe.skip('Hasher - BigObject', () => {
     console.log(`stringifyDuration: ${stringifyDuration}`)
     console.log(`objSize: ${objSize}`)
 
-    PayloadHasher.warnIfUsingJsHash = true
-    PayloadHasher.wasmSupport.allowWasm = false
-    PayloadHasher.allowSubtle = true
+    ObjectHasher.warnIfUsingJsHash = true
+    ObjectHasher.wasmSupport.allowWasm = false
+    ObjectHasher.allowSubtle = true
     const subtleHashStart = Date.now()
     for (let x = 0; x < 100; x++) {
-      await PayloadHasher.hash(bigObject)
+      await ObjectHasher.hash(bigObject)
     }
     const subtleHashDuration = Date.now() - subtleHashStart
-    console.log(`subtleHashDuration: ${subtleHashDuration} [${await PayloadHasher.hash(bigObject)}]`)
+    console.log(`subtleHashDuration: ${subtleHashDuration} [${await ObjectHasher.hash(bigObject)}]`)
 
-    PayloadHasher.warnIfUsingJsHash = false
-    PayloadHasher.wasmSupport.allowWasm = false
-    PayloadHasher.allowSubtle = false
+    ObjectHasher.warnIfUsingJsHash = false
+    ObjectHasher.wasmSupport.allowWasm = false
+    ObjectHasher.allowSubtle = false
     const jsHashStart = Date.now()
     for (let x = 0; x < 100; x++) {
-      await PayloadHasher.hash(bigObject)
+      await ObjectHasher.hash(bigObject)
     }
     const jsHashDuration = Date.now() - jsHashStart
-    console.log(`jsHashDuration: ${jsHashDuration} [${await PayloadHasher.hash(bigObject)}]`)
+    console.log(`jsHashDuration: ${jsHashDuration} [${await ObjectHasher.hash(bigObject)}]`)
 
-    PayloadHasher.wasmSupport.allowWasm = true
+    ObjectHasher.wasmSupport.allowWasm = true
     const wasmHashStart = Date.now()
     for (let x = 0; x < 100; x++) {
-      await PayloadHasher.hash(bigObject)
+      await ObjectHasher.hash(bigObject)
     }
     const wasmHashDuration = Date.now() - wasmHashStart
-    console.log(`wasmHashDuration: ${wasmHashDuration} [${await PayloadHasher.hash(bigObject)}]`)
+    console.log(`wasmHashDuration: ${wasmHashDuration} [${await ObjectHasher.hash(bigObject)}]`)
     expect(stringifyDuration).toBeDefined()
     expect(wasmHashDuration).toBeDefined()
     expect(jsHashDuration).toBeDefined()

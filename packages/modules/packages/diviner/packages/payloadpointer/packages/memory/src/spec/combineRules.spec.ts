@@ -54,6 +54,7 @@ describe('combineRules', () => {
       const addressRules: PayloadAddressRule[] = [{ address: 'foo' }, { address: 'bar' }]
       rules.push(addressRules)
       const actual = combineRules(rules)
+      // eslint-disable-next-line sonarjs/no-alphabetical-sort
       expect(actual.addresses.toSorted()).toEqual(['bar', 'foo'])
     })
   })
@@ -64,6 +65,7 @@ describe('combineRules', () => {
         [{ schema: 'network.xyo.test' }, { schema: 'network.xyo.debug' }],
       ]
       const actual = combineRules(rules)
+      // eslint-disable-next-line sonarjs/no-alphabetical-sort
       expect(actual.schemas.toSorted()).toEqual(['network.xyo.debug', 'network.xyo.test'])
     })
   })

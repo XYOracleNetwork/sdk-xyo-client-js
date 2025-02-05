@@ -80,4 +80,14 @@ export default [
       'import-x/no-cycle': ['warn', { maxDepth: 5 }],
     },
   },
+  {
+    rules: {
+      // handled by eslint
+      'sonarjs/cognitive-complexity': ['off'],
+
+      'sonarjs/pseudo-random': ['off'],
+      'sonarjs/post-message': ['off'],
+      'sonarjs/no-empty-test-file': ['off'],
+    },
+  },
 ]

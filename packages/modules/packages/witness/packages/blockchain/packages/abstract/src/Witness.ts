@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/deprecation */
 import type { EmptyObject, WithAdditional } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'

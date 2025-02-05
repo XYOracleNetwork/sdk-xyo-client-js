@@ -66,6 +66,7 @@ export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleCo
 const toAddressesString = (addresses: string | CosigningAddressSet): SortedPipedAddressesString => {
   return Array.isArray(addresses)
     ? addresses
+        // eslint-disable-next-line sonarjs/no-alphabetical-sort
         .toSorted()
         .map(address => address.toLowerCase())
         .join(delimiter)

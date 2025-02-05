@@ -9,6 +9,7 @@ const subSort = (value: unknown) => {
 export const sortFields = <T extends EmptyObject>(obj: T) => {
   const result: AnyObject = {}
   const keys = Object.keys(obj) as (keyof T)[]
+  // eslint-disable-next-line sonarjs/no-alphabetical-sort
   for (const key of keys.toSorted()) {
     result[key] = subSort(obj[key])
   }

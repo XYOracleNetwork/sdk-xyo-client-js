@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/pseudo-random */
 import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
@@ -8,7 +7,7 @@ import {
   describe, expect, test,
 } from 'vitest'
 
-import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher.ts'
+import { NodeObjectHasher as ObjectHasher } from '../NodeObjectHasher.ts'
 
 const perfIterations = 1000
 
@@ -29,7 +28,7 @@ describe('Hasher', () => {
   })
 
   beforeAll(async () => {
-    await PayloadHasher.wasmInitialized
+    await ObjectHasher.wasmInitialized
   })
 
   test('subtle vs wasm (performance-parallel)', async () => {
@@ -39,12 +38,12 @@ describe('Hasher', () => {
     }
 
     const subtleHashDuration = await (async () => {
-      PayloadHasher.allowSubtle = true
-      PayloadHasher.wasmSupport.allowWasm = false
+      ObjectHasher.allowSubtle = true
+      ObjectHasher.wasmSupport.allowWasm = false
       // prime it
-      await Promise.all([{ length: 8 }].map(async (_, index) => await PayloadHasher.hash(testObjects[index])))
+      await Promise.all([{ length: 8 }].map(async (_, index) => await ObjectHasher.hash(testObjects[index])))
       const subtleHashStart = Date.now()
-      const subtleResult = await Promise.all(testObjects.map(obj => PayloadHasher.hash(obj)))
+      const subtleResult = await Promise.all(testObjects.map(obj => ObjectHasher.hash(obj)))
       console.log(`subtleResult count: ${subtleResult.length}`)
       return Date.now() - subtleHashStart
     })()
@@ -53,12 +52,12 @@ describe('Hasher', () => {
     await delay(2000)
 
     const wasmHashDuration = await (async () => {
-      PayloadHasher.allowSubtle = false
-      PayloadHasher.wasmSupport.allowWasm = true
+      ObjectHasher.allowSubtle = false
+      ObjectHasher.wasmSupport.allowWasm = true
       // prime it
-      await Promise.all([{ length: 8 }].map(async (_, index) => await PayloadHasher.hash(testObjects[index])))
+      await Promise.all([{ length: 8 }].map(async (_, index) => await ObjectHasher.hash(testObjects[index])))
       const wasmHashStart = Date.now()
-      const wasmResult = await Promise.all(testObjects.map(obj => PayloadHasher.hash(obj)))
+      const wasmResult = await Promise.all(testObjects.map(obj => ObjectHasher.hash(obj)))
       console.log(`wasmResult count: ${wasmResult.length}`)
       return Date.now() - wasmHashStart
     })()

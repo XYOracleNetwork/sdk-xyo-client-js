@@ -5,7 +5,7 @@ import {
   describe, expect, test,
 } from 'vitest'
 
-import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher.ts'
+import { NodeObjectHasher as ObjectHasher } from '../NodeObjectHasher.ts'
 
 const perfIterations = 1000
 
@@ -25,26 +25,26 @@ describe('Hasher', () => {
   }
 
   beforeAll(async () => {
-    await PayloadHasher.wasmInitialized
+    await ObjectHasher.wasmInitialized
   })
 
   test('wasm vs js (performance-parallel)', async () => {
-    PayloadHasher.warnIfUsingJsHash = false
-    PayloadHasher.allowSubtle = false
-    PayloadHasher.wasmSupport.allowWasm = false
-    const jsTestObjects: PayloadHasher[] = []
+    ObjectHasher.warnIfUsingJsHash = false
+    ObjectHasher.allowSubtle = false
+    ObjectHasher.wasmSupport.allowWasm = false
+    const jsTestObjects: ObjectHasher[] = []
     for (let x = 0; x < perfIterations; x++) {
-      jsTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
+      jsTestObjects.push(new ObjectHasher({ ...testObject, nonce: x }))
     }
     const jsHashStart = Date.now()
     await Promise.all(jsTestObjects.map(obj => obj.hash()))
     const jsHashDuration = Date.now() - jsHashStart
-    PayloadHasher.warnIfUsingJsHash = true
-    PayloadHasher.allowSubtle = false
-    PayloadHasher.wasmSupport.allowWasm = true
-    const wasmTestObjects: PayloadHasher[] = []
+    ObjectHasher.warnIfUsingJsHash = true
+    ObjectHasher.allowSubtle = false
+    ObjectHasher.wasmSupport.allowWasm = true
+    const wasmTestObjects: ObjectHasher[] = []
     for (let x = 0; x < perfIterations; x++) {
-      wasmTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
+      wasmTestObjects.push(new ObjectHasher({ ...testObject, nonce: x }))
     }
     const wasmHashStart = Date.now()
     await Promise.all(wasmTestObjects.map(obj => obj.hash()))

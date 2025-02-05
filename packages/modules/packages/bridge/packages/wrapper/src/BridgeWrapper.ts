@@ -24,8 +24,8 @@ constructableModuleWrapper()
 export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
   extends ModuleWrapper<TWrappedModule>
   implements BridgeInstance<TWrappedModule['params']> {
-  static override instanceIdentityCheck = isBridgeInstance
-  static override moduleIdentityCheck = isBridgeModule
+  static override readonly instanceIdentityCheck = isBridgeInstance
+  static override readonly moduleIdentityCheck = isBridgeModule
 
   async expose(id: ModuleIdentifier, options?: BridgeExposeOptions): Promise<ModuleInstance[]> {
     const filterPayload: ModuleFilterPayload = {

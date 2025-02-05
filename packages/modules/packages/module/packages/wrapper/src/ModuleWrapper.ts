@@ -84,9 +84,9 @@ export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
 export class ModuleWrapper<TWrappedModule extends Module = Module>
   extends Base<Exclude<Omit<TWrappedModule['params'], 'config'> & { config: Exclude<TWrappedModule['params']['config'], undefined> }, undefined>>
   implements AttachableModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']> {
-  static instanceIdentityCheck: InstanceTypeCheck = isModuleInstance
-  static moduleIdentityCheck: ModuleTypeCheck = isModule
-  static requiredQueries: string[] = [ModuleStateQuerySchema]
+  static readonly instanceIdentityCheck: InstanceTypeCheck = isModuleInstance
+  static readonly moduleIdentityCheck: ModuleTypeCheck = isModule
+  static readonly requiredQueries: string[] = [ModuleStateQuerySchema]
 
   eventData = {} as TWrappedModule['eventData']
 

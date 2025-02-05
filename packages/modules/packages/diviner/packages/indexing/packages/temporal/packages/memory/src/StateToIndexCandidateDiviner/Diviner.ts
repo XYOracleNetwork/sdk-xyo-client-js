@@ -63,7 +63,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
 > extends AbstractDiviner<TParams, Payload, ModuleState | IndexCandidate> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema
-  static override labels: Labels = {
+  static override readonly labels: Labels = {
     ...super.labels,
     'network.xyo.diviner.stage': 'stateToIndexCandidateDiviner',
   }

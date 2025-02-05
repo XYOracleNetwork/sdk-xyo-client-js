@@ -6,7 +6,7 @@ import { ObjectHasher } from './ObjectHasher.ts'
 ObjectHasher.createNodeWorker = createNodeWorker
 
 export class NodeObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectHasher<T> {
-  static override createNodeWorker = createNodeWorker
+  static override readonly createNodeWorker = createNodeWorker
 }
 
 /** @deprecated use NodeObjectHasher instead */

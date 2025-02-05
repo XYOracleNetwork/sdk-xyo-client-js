@@ -30,13 +30,13 @@
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
     "@xylabs/assert": "^4.5.1",
+    "@xylabs/geo": "^4.5.1",
     "@xylabs/hex": "^4.5.1",
-    "@xyo-network/sdk-geo": "^3.0.3",
     "mapbox-gl": "^3.9.4"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.13",
-    "@xylabs/tsconfig": "^5.0.13",
+    "@xylabs/ts-scripts-yarn3": "^5.0.22",
+    "@xylabs/tsconfig": "^5.0.22",
     "@xylabs/vitest-extended": "^4.5.1",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5"

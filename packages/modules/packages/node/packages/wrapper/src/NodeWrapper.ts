@@ -42,9 +42,9 @@ constructableModuleWrapper()
 export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
   extends ModuleWrapper<TWrappedModule>
   implements NodeInstance<TWrappedModule['params']> {
-  static override instanceIdentityCheck: InstanceTypeCheck<NodeInstance> = isNodeInstance
-  static override moduleIdentityCheck = isNodeModule
-  static override requiredQueries = [NodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
+  static override readonly instanceIdentityCheck: InstanceTypeCheck<NodeInstance> = isNodeInstance
+  static override readonly moduleIdentityCheck = isNodeModule
+  static override readonly requiredQueries = [NodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
 
   protected _attached?: Address[]
   protected _attachedMutex = new Mutex()

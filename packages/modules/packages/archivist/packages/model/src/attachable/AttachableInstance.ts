@@ -5,14 +5,14 @@ import type { Payload } from '@xyo-network/payload-model'
 
 import type { ArchivistModuleEventData } from '../EventData.ts'
 import type { ArchivistInstance } from '../Instance.ts'
-import type { ArchivistModule } from '../Module.ts'
+import type { ArchivistModuleInstance } from '../ModuleInstance.ts'
 import type { ArchivistParams } from '../Params.ts'
 
 export interface AttachableArchivistInstance<
   TParams extends ArchivistParams = ArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   TPayload extends Payload = Payload,
-> extends ArchivistModule<TParams, TEventData>,
+> extends ArchivistModuleInstance<TParams, TEventData>,
   AttachableModuleInstance<TParams, TEventData>,
   ArchivistInstance<TParams, TEventData, TPayload> {}
 

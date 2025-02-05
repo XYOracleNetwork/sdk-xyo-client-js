@@ -7,7 +7,7 @@ import type {
   ArchivistDeleteQuery,
   ArchivistGetQuery,
   ArchivistInsertQuery,
-  ArchivistModule,
+  ArchivistModuleInstance,
   ArchivistNextOptions,
   ArchivistNextQuery,
   AttachableArchivistInstance,
@@ -28,9 +28,9 @@ import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-w
 import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 
 constructableModuleWrapper()
-export class ArchivistWrapper<TWrappedModule extends ArchivistModule = ArchivistModule>
+export class ArchivistWrapper<TWrappedModule extends ArchivistModuleInstance = ArchivistModuleInstance>
   extends ModuleWrapper<TWrappedModule>
-  implements AttachableArchivistInstance<ArchivistModule['params']> {
+  implements AttachableArchivistInstance<ArchivistModuleInstance['params']> {
   static override readonly instanceIdentityCheck = isArchivistInstance
   static override readonly moduleIdentityCheck = isArchivistModule
   static override readonly requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]

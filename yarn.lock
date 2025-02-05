@@ -5662,7 +5662,6 @@ __metadata:
     "@xylabs/arraybuffer": "npm:^4.5.1"
     "@xylabs/assert": "npm:^4.5.1"
     "@xylabs/hex": "npm:^4.5.1"
-    "@xylabs/object": "npm:^4.5.1"
     "@xylabs/ts-scripts-yarn3": "npm:^5.0.22"
     "@xylabs/tsconfig": "npm:^5.0.22"
     "@xylabs/vitest-extended": "npm:^4.5.1"

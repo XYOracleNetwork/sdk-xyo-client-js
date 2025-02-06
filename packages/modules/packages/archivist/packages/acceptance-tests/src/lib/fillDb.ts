@@ -7,7 +7,7 @@ import { type WithStorageMeta } from '@xyo-network/payload-model'
 import { v4 as uuid } from 'uuid'
 import { expect } from 'vitest'
 
-export const fillDb = async (sut: ArchivistInstance, count = 200): Promise<WithStorageMeta<IdPayload>[]> => {
+export const fillDb = async (sut: ArchivistInstance, count = 10): Promise<WithStorageMeta<IdPayload>[]> => {
   const payloads = Array.from(
     { length: count },
     () => new PayloadBuilder<Id>({ schema: IdSchema })

@@ -28,7 +28,7 @@ export const generateArchivistNextTests = (title: string = 'Next', moduleFactory
     let payloads: WithStorageMeta<IdPayload>[]
     beforeEach(async () => {
       sut = await moduleFactory()
-      payloads = await insertRandomPayloads(sut)
+      payloads = await insertRandomPayloads(sut, 10)
     })
     describe('open', () => {
       describe('with open true', () => {

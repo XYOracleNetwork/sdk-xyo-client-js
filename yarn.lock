@@ -5401,7 +5401,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist-acceptance-tests@workspace:packages/modules/packages/archivist/packages/acceptance-tests":
+"@xyo-network/archivist-acceptance-tests@workspace:^, @xyo-network/archivist-acceptance-tests@workspace:packages/modules/packages/archivist/packages/acceptance-tests":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-acceptance-tests@workspace:packages/modules/packages/archivist/packages/acceptance-tests"
   dependencies:
@@ -5549,6 +5549,7 @@ __metadata:
     "@xylabs/vitest-extended": "npm:^4.5.1"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-abstract": "workspace:^"
+    "@xyo-network/archivist-acceptance-tests": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/id-payload-plugin": "workspace:^"

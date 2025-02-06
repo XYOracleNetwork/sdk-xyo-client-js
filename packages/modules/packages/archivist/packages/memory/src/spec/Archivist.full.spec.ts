@@ -7,6 +7,7 @@ import type { AnyObject } from '@xylabs/object'
 import { toJsonString } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account'
 import { Account } from '@xyo-network/account'
+import { generateArchivistNextTests } from '@xyo-network/archivist-acceptance-tests'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -340,4 +341,8 @@ describe('MemoryArchivist [full]', () => {
       expect(await PayloadBuilder.dataHash(batch3Desc?.[1])).toEqual(await PayloadBuilder.dataHash(payloads1[0]))
     })
   })
+  generateArchivistNextTests(
+    'MemoryArchivist',
+    async () => { return await MemoryArchivist.create({ account: 'random' }) },
+  )
 })

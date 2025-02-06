@@ -89,7 +89,7 @@ describe('next', () => {
         namespace, schema: StorageArchivistConfigSchema, type: 'local',
       },
     })
-  })
+  }, 'next [local]')
   generateArchivistNextTests(async () => {
     const namespace = v4()
     return await StorageArchivist.create({
@@ -98,7 +98,7 @@ describe('next', () => {
         namespace, schema: StorageArchivistConfigSchema, type: 'session',
       },
     })
-  })
+  }, 'next [session]')
   generateArchivistNextTests(async () => {
     const namespace = v4()
     return await StorageArchivist.create({
@@ -107,5 +107,5 @@ describe('next', () => {
         namespace, schema: StorageArchivistConfigSchema, type: 'page',
       },
     })
-  })
+  }, 'next [page]')
 })

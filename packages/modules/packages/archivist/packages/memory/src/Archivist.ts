@@ -134,14 +134,14 @@ export class MemoryArchivist<
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
     const {
-      limit = 100, cursor, order, open,
+      limit = 100, cursor, order, open = true,
     } = options ?? {}
     let all = await this.allHandler()
     if (order === 'desc') {
       all = all.reverse()
     }
     const startIndex = cursor
-      ? MemoryArchivist.findIndexFromCursor(all, cursor) + (open ? 0 : 1)
+      ? MemoryArchivist.findIndexFromCursor(all, cursor) + (open ? 1 : 0)
       : 0
     const result = all.slice(startIndex, startIndex + limit)
     return result

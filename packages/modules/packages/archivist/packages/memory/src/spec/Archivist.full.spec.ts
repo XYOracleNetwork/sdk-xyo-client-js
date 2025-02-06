@@ -339,8 +339,7 @@ describe('MemoryArchivist [full]', () => {
       expect(await PayloadBuilder.dataHash(batch3Desc?.[1])).toEqual(await PayloadBuilder.dataHash(payloads1[0]))
     })
   })
-  generateArchivistNextTests(
-    'MemoryArchivist',
-    async () => { return await MemoryArchivist.create({ account: 'random' }) },
-  )
+  generateArchivistNextTests(async () => {
+    return await MemoryArchivist.create({ account: 'random' })
+  })
 })

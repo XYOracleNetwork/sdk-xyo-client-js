@@ -9,14 +9,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
-import {
-  ArchivistAllQuerySchema,
-  ArchivistClearQuerySchema,
-  ArchivistDeleteQuerySchema,
-  ArchivistInsertQuerySchema,
-  ArchivistModuleEventData,
-  ArchivistNextQuerySchema,
-} from '@xyo-network/archivist-model'
+import { ArchivistInsertQuerySchema, ArchivistModuleEventData } from '@xyo-network/archivist-model'
 import { creatableModule } from '@xyo-network/module-model'
 import {
   Payload, Schema, WithStorageMeta,
@@ -35,10 +28,6 @@ export class FirebaseArchivist<
 
   override get queries() {
     return [
-      ArchivistNextQuerySchema,
-      ArchivistAllQuerySchema,
-      ArchivistClearQuerySchema,
-      ArchivistDeleteQuerySchema,
       ArchivistInsertQuerySchema,
       ...super.queries,
     ]

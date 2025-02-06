@@ -29,6 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
+    "@xylabs/array": "^4.5.1",
     "@xylabs/assert": "^4.5.1",
     "@xylabs/exists": "^4.5.1",
     "@xylabs/hex": "^4.5.1",
@@ -39,10 +40,12 @@
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
+    "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/module-abstract": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^5.0.22",

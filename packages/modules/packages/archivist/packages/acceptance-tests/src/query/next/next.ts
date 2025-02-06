@@ -1,65 +1,82 @@
-/* eslint-disable max-statements */
+import { filterAs } from '@xylabs/array'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import type { Id, IdPayload } from '@xyo-network/id-payload-plugin'
+import { asOptionalId, IdSchema } from '@xyo-network/id-payload-plugin'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { type WithStorageMeta } from '@xyo-network/payload-model'
+import { v4 as uuid } from 'uuid'
 import {
-  beforeAll, describe, expect, it,
+  beforeEach, describe, expect, it,
 } from 'vitest'
 
-it('next', async () => {
-  const archivist = await MemoryArchivist.create({ account: await HDWallet.random() })
-  const account = await HDWallet.random()
+const insertRandomPayloads = async (sut: ArchivistInstance, count = 200): Promise<WithStorageMeta<IdPayload>[]> => {
+  const payloads = Array.from(
+    { length: count },
+    () => new PayloadBuilder<Id>({ schema: IdSchema })
+      .fields({ salt: `${uuid()}` })
+      .build(),
+  )
+  const response = await sut.insert(payloads)
+  expect(response).toBeDefined()
+  expect(response.length).toBe(count)
+  return filterAs(response, asOptionalId) as WithStorageMeta<IdPayload>[]
+}
 
-  const payloads1 = [
-    { schema: 'network.xyo.test', value: 1 },
-  ]
-
-  const payloads2 = [
-    { schema: 'network.xyo.test', value: 2 },
-  ]
-
-  const payloads3 = [
-    { schema: 'network.xyo.test', value: 3 },
-  ]
-
-  const payloads4 = [
-    { schema: 'network.xyo.test', value: 4 },
-  ]
-
-  const insertedPayloads1 = await archivist.insert(payloads1)
-  expect(insertedPayloads1[0]._hash).toBe(await PayloadBuilder.hash(payloads1[0]))
-  expect(insertedPayloads1[0]._dataHash).toBe(await PayloadBuilder.dataHash(payloads1[0]))
-  expect(insertedPayloads1[0]._sequence).toBeDefined()
-  await delay(1)
-  console.log(toJsonString(payloads1, 10))
-  const [bw, payloads, errors] = await archivist.insertQuery(payloads2, account)
-  expect(bw).toBeDefined()
-  expect(payloads).toBeDefined()
-  expect(errors).toBeDefined()
-  await delay(1)
-  await archivist.insert(payloads3)
-  await delay(1)
-  await archivist.insert(payloads4)
-
-  console.log(toJsonString([bw, payloads, errors], 10))
-
-  const batch1 = await archivist.next?.({ limit: 2 })
-  expect(batch1).toBeArrayOfSize(2)
-  expect(await PayloadBuilder.dataHash(batch1?.[0])).toEqual(await PayloadBuilder.dataHash(payloads1[0]))
-  expect(await PayloadBuilder.dataHash(batch1?.[0])).toEqual(await PayloadBuilder.dataHash(insertedPayloads1[0]))
-
-  const batch2 = await archivist.next?.({ limit: 2, cursor: batch1?.[0]._sequence })
-  expect(batch2).toBeArrayOfSize(2)
-  expect(await PayloadBuilder.dataHash(batch2?.[0])).toEqual(await PayloadBuilder.dataHash(payloads2[0]))
-  expect(await PayloadBuilder.dataHash(batch2?.[1])).toEqual(await PayloadBuilder.dataHash(payloads3[0]))
-
-  // desc
-  const batch1Desc = await archivist.next?.({ limit: 2, order: 'desc' })
-  expect(batch1Desc).toBeArrayOfSize(2)
-  expect(await PayloadBuilder.dataHash(batch1Desc?.[0])).toEqual(await PayloadBuilder.dataHash(payloads4[0]))
-  expect(await PayloadBuilder.dataHash(batch1Desc?.[1])).toEqual(await PayloadBuilder.dataHash(payloads3[0]))
-
-  const batch2Desc = await archivist.next?.({
-    limit: 2, cursor: batch1Desc[1]._sequence, order: 'desc',
+export const generateArchivistNextTests = (title: string = 'Next', moduleFactory: () => Promise<ArchivistInstance>) => {
+  describe(title, () => {
+    let sut: ArchivistInstance
+    let payloads: WithStorageMeta<IdPayload>[]
+    beforeEach(async () => {
+      sut = await moduleFactory()
+      payloads = await insertRandomPayloads(sut)
+    })
+    describe('open', () => {
+      describe('with open true', () => {
+        const open = true
+        it.each(['asc', 'desc'] as const)('returns payloads without cursor [order: %s]', async (order) => {
+          const bound = order === 'asc' ? payloads.at(0) : payloads.at(-1)
+          expect(bound).toBeDefined()
+          const expected = order === 'asc' ? payloads.at(1) : payloads.at(-2)
+          expect(expected).toBeDefined()
+          const cursor = bound?._sequence
+          expect(cursor).toBeDefined()
+          const response = await sut.next({
+            open, order, limit: 1, cursor,
+          })
+          expect(response).toBeDefined()
+          expect(response.length).toBe(1)
+          const ids = filterAs(response, asOptionalId)
+          expect(ids).toBeDefined()
+          expect(ids.length).toBe(1)
+          const id = ids.at(0)
+          expect(id).toBeDefined()
+          expect(id?.salt).toBeDefined()
+          expect(id?.salt).toBe(expected?.salt)
+        })
+      })
+      describe('with open false', () => {
+        const open = false
+        it.each(['asc', 'desc'] as const)('returns payloads without cursor [order: %s]', async (order) => {
+          const bound = order === 'asc' ? payloads.at(0) : payloads.at(-1)
+          expect(bound).toBeDefined()
+          const expected = bound
+          expect(expected).toBeDefined()
+          const cursor = bound?._sequence
+          expect(cursor).toBeDefined()
+          const response = await sut.next({
+            open, order, limit: 1, cursor,
+          })
+          expect(response).toBeDefined()
+          expect(response.length).toBe(1)
+          const ids = filterAs(response, asOptionalId)
+          expect(ids).toBeDefined()
+          expect(ids.length).toBe(1)
+          const id = ids.at(0)
+          expect(id).toBeDefined()
+          expect(id?.salt).toBeDefined()
+          expect(id?.salt).toBe(expected?.salt)
+        })
+      })
+    })
   })
-  expect(batch2Desc).toBeArrayOfSize(2)
-  expect(await PayloadBuilder.dataHash(batch2Desc?.[0])).toEqual(await PayloadBuilder.dataHash(payloads2[0]))
-  expect(await PayloadBuilder.dataHash(batch2Desc?.[1])).toEqual(await PayloadBuilder.dataHash(payloads1[0]))
-})
+}

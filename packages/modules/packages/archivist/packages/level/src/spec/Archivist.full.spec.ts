@@ -9,12 +9,14 @@ import type { AnyObject } from '@xylabs/object'
 import { toJsonString } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account'
 import { Account } from '@xyo-network/account'
+import { generateArchivistNextTests } from '@xyo-network/archivist-acceptance-tests'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { v4 } from 'uuid'
 import {
   beforeAll, describe, expect, it,
 } from 'vitest'
@@ -409,6 +411,19 @@ describe('LevelDbArchivist [full]', () => {
       })
       expect(batch3Desc.length).toBe(2)
       expect(await PayloadBuilder.dataHash(batch3Desc?.[1])).toEqual(await PayloadBuilder.dataHash(payloads1[0]))
+    })
+  })
+  generateArchivistNextTests(async () => {
+    const dbName = v4()
+    const storeName = v4()
+    const location = tmpdir()
+    const clearStoreOnStart = true
+    const schema = LevelDbArchivistConfigSchema
+    return await LevelDbArchivist.create({
+      account: 'random',
+      config: {
+        dbName, schema, storeName, location, clearStoreOnStart,
+      },
     })
   })
 })

@@ -1,7 +1,9 @@
 import { delay } from '@xylabs/delay'
 import { Account } from '@xyo-network/account'
+import { generateArchivistNextTests } from '@xyo-network/archivist-acceptance-tests'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import { v4 } from 'uuid'
 import {
   describe, expect,
   it,
@@ -78,5 +80,32 @@ describe('next', () => {
     })
     expect(batch3Desc.length).toBe(2)
     expect(await PayloadBuilder.dataHash(batch3Desc?.[1])).toEqual(await PayloadBuilder.dataHash(sortedInsertedPayloads1[0]))
+  })
+  generateArchivistNextTests(async () => {
+    const namespace = v4()
+    return await StorageArchivist.create({
+      account: 'random',
+      config: {
+        namespace, schema: StorageArchivistConfigSchema, type: 'local',
+      },
+    })
+  })
+  generateArchivistNextTests(async () => {
+    const namespace = v4()
+    return await StorageArchivist.create({
+      account: 'random',
+      config: {
+        namespace, schema: StorageArchivistConfigSchema, type: 'session',
+      },
+    })
+  })
+  generateArchivistNextTests(async () => {
+    const namespace = v4()
+    return await StorageArchivist.create({
+      account: 'random',
+      config: {
+        namespace, schema: StorageArchivistConfigSchema, type: 'page',
+      },
+    })
   })
 })

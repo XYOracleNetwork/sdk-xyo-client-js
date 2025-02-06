@@ -5599,6 +5599,7 @@ __metadata:
     "@xylabs/vitest-extended": "npm:^4.5.1"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-abstract": "workspace:^"
+    "@xyo-network/archivist-acceptance-tests": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
@@ -5611,6 +5612,7 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:^"
     store2: "npm:^2.14.4"
     typescript: "npm:^5.7.3"
+    uuid: "npm:^11.0.5"
     vitest: "npm:^3.0.5"
   languageName: unknown
   linkType: soft

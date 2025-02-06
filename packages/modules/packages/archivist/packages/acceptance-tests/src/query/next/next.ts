@@ -1,34 +1,24 @@
 import { filterAs } from '@xylabs/array'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
-import type { Id, IdPayload } from '@xyo-network/id-payload-plugin'
-import { asOptionalId, IdSchema } from '@xyo-network/id-payload-plugin'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
+import type { IdPayload } from '@xyo-network/id-payload-plugin'
+import { asOptionalId } from '@xyo-network/id-payload-plugin'
 import { type WithStorageMeta } from '@xyo-network/payload-model'
-import { v4 as uuid } from 'uuid'
 import {
   beforeEach, describe, expect, it,
 } from 'vitest'
 
-const insertRandomPayloads = async (sut: ArchivistInstance, count = 200): Promise<WithStorageMeta<IdPayload>[]> => {
-  const payloads = Array.from(
-    { length: count },
-    () => new PayloadBuilder<Id>({ schema: IdSchema })
-      .fields({ salt: `${uuid()}` })
-      .build(),
-  )
-  const response = await sut.insert(payloads)
-  expect(response).toBeDefined()
-  expect(response.length).toBe(count)
-  return filterAs(response, asOptionalId) as WithStorageMeta<IdPayload>[]
-}
+import { fillDb } from '../../lib/index.ts'
 
-export const generateArchivistNextTests = (title: string = 'Next', moduleFactory: () => Promise<ArchivistInstance>) => {
+export const generateArchivistNextTests = (
+  moduleFactory: () => Promise<ArchivistInstance>,
+  title: string = 'next',
+) => {
   describe(title, () => {
     let sut: ArchivistInstance
     let payloads: WithStorageMeta<IdPayload>[]
     beforeEach(async () => {
       sut = await moduleFactory()
-      payloads = await insertRandomPayloads(sut, 10)
+      payloads = await fillDb(sut, 10)
     })
     describe('open', () => {
       describe('with open true', () => {

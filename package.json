@@ -70,7 +70,7 @@
   },
   "devDependencies": {
     "@firebase/app": "^0.10.18",
-    "@firebase/app-compat": "^0.2.48",
+    "@firebase/app-compat": "^0.2.49",
     "@stylistic/eslint-plugin": "^3.0.1",
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^8.23.0",

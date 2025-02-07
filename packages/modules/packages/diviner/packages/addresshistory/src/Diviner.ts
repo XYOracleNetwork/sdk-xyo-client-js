@@ -27,7 +27,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
     assertEx(!payloads?.length, () => 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
 
     const allBoundWitnesses = await this.allBoundWitnesses()
-    const bwRecords = await PayloadBuilder.toAllHashMap(allBoundWitnesses)
+    const bwRecords = await PayloadBuilder.toDataHashMap(allBoundWitnesses)
     const chains = Object.values(this.buildAddressChains(this.queryAddress, bwRecords))
 
     // Return the heads of each chain (get the last bw on each chain)

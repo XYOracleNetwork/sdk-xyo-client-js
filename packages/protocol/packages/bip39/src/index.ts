@@ -1,5 +1,5 @@
 /*! scure-bip39 - MIT License (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com) */
-import assert from '@noble/hashes/_assert'
+import { abytes } from '@noble/hashes/_assert'
 import { pbkdf2, pbkdf2Async } from '@noble/hashes/pbkdf2'
 import { sha256 } from '@noble/hashes/sha256'
 import { sha512 } from '@noble/hashes/sha512'
@@ -26,7 +26,7 @@ function normalize(str: string) {
 }
 
 function assertEntropy(entropy: Uint8Array) {
-  assert.bytes(entropy, 16, 20, 24, 28, 32)
+  abytes(entropy, 16, 20, 24, 28, 32)
 }
 
 const calcChecksum = (entropy: Uint8Array) => {

@@ -69,7 +69,7 @@
     "@xyo-network/shared": "workspace:^"
   },
   "devDependencies": {
-    "@firebase/app": "^0.10.18",
+    "@firebase/app": "^0.11.0",
     "@firebase/app-compat": "^0.2.49",
     "@stylistic/eslint-plugin": "^3.0.1",
     "@types/supertest": "^6.0.2",

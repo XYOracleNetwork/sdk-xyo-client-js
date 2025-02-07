@@ -2234,7 +2234,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@firebase/app@npm:0.11.0":
+"@firebase/app@npm:0.11.0, @firebase/app@npm:^0.11.0":
   version: 0.11.0
   resolution: "@firebase/app@npm:0.11.0"
   dependencies:
@@ -2244,19 +2244,6 @@ __metadata:
     idb: "npm:7.1.1"
     tslib: "npm:^2.1.0"
   checksum: 10/b32eb160b925cab62506f8100797e32fdddf57207affe88c9464a0325aa54cc9c016ab15c9d064e43141a13949ab6c4c22ca5ad08aea3486d3b706a947dd42b4
-  languageName: node
-  linkType: hard
-
-"@firebase/app@npm:^0.10.18":
-  version: 0.10.18
-  resolution: "@firebase/app@npm:0.10.18"
-  dependencies:
-    "@firebase/component": "npm:0.6.12"
-    "@firebase/logger": "npm:0.4.4"
-    "@firebase/util": "npm:1.10.3"
-    idb: "npm:7.1.1"
-    tslib: "npm:^2.1.0"
-  checksum: 10/ac215e594d66e933207263c4c11ff585ba3843a0e73ab6f02c85f504f7b5e166f407a9bef299f5a91893840c7f5c8978895c0f6103b361fb188c1cfdb8c35030
   languageName: node
   linkType: hard
 
@@ -5369,6 +5356,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     typescript: "npm:^5.7.3"
     uuid: "npm:^11.0.5"
+    vitest: "npm:^3.0.5"
   languageName: unknown
   linkType: soft
 
@@ -5402,7 +5390,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-firebase@workspace:packages/modules/packages/archivist/packages/firebase"
   dependencies:
-    "@firebase/app": "npm:^0.10.18"
+    "@firebase/app": "npm:^0.11.0"
     "@firebase/firestore": "npm:^4.7.7"
     "@firebase/rules-unit-testing": "npm:^4.0.1"
     "@xylabs/assert": "npm:^4.5.1"
@@ -8358,7 +8346,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sdk-js@workspace:."
   dependencies:
-    "@firebase/app": "npm:^0.10.18"
+    "@firebase/app": "npm:^0.11.0"
     "@firebase/app-compat": "npm:^0.2.49"
     "@stylistic/eslint-plugin": "npm:^3.0.1"
     "@types/supertest": "npm:^6.0.2"

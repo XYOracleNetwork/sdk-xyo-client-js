@@ -16,14 +16,28 @@ export interface ReadArchivist<
 
 export interface WriteArchivist<
   TReadResponse extends Payload = Payload,
-  TWriteResponse = TReadResponse,
-  TWrite = TReadResponse,
+  TWriteResponse extends Payload = TReadResponse,
+  TWrite extends Payload = TReadResponse,
   TId = Hash,
 > extends WriteArchivistFunctions<WithStorageMeta<TReadResponse>, TWriteResponse, TWrite, TId> {}
+
+export interface ReadWriteArchivist<
+  TReadResponse extends Payload = Payload,
+  TWriteResponse extends Payload = TReadResponse,
+  TWrite extends Payload = TReadResponse,
+  TId = Hash,
+> extends WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>, ReadArchivist<TReadResponse, TId> {}
 
 export interface StashArchivist<
   TWriteResponse extends Payload = Payload,
 > extends StashArchivistFunctions<WithStorageMeta<TWriteResponse>> {}
+
+export interface FullArchivist<
+  TReadResponse extends Payload = Payload,
+  TWriteResponse extends Payload = TReadResponse,
+  TWrite extends Payload = TReadResponse,
+  TId = Hash,
+> extends ReadWriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>, StashArchivist<TWriteResponse> {}
 
 export interface Archivist<
   TReadResponse extends Payload = Payload,

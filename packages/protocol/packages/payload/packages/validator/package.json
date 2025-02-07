@@ -35,8 +35,8 @@
     "@xyo-network/schema-name-validator": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.22",
-    "@xylabs/tsconfig": "^5.0.22",
+    "@xylabs/ts-scripts-yarn3": "^5.0.23",
+    "@xylabs/tsconfig": "^5.0.23",
     "@xylabs/vitest-extended": "^4.5.1",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5"

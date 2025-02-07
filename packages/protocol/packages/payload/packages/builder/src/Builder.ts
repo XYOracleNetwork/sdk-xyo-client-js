@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import type { Hash } from '@xylabs/hex'
 import type {
   AnyObject, Compare, EmptyObject,
@@ -118,6 +119,12 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
   static async filterIncludeByDataHash<T extends Payload>(payloads: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
     const hashes = Array.isArray(hash) ? hash : [hash]
     return (await this.dataHashPairs(payloads)).filter(([_, objHash]) => hashes.includes(objHash))?.map(pair => pair[0])
+  }
+
+  static async filterIncludeByEitherHash<T extends Payload>(payloads: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
+    const hashes = Array.isArray(hash) ? hash : [hash]
+    const map = await PayloadBuilder.toAllHashMap(payloads)
+    return hashes.map(hash => map[hash]).filter(exists)
   }
 
   static async findByDataHash<T extends Payload>(payloads: T[] = [], hash: Hash): Promise<T | undefined> {

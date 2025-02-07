@@ -14,7 +14,7 @@ import type { Payload } from '@xyo-network/payload-model'
 export const combinationsByBoundwitness = async (payloads: Payload[]): Promise<[BoundWitness, ...Payload[]][]> => {
   const bws = new Set<BoundWitness>(payloads.filter(isBoundWitness))
   const remaining = difference(new Set(payloads), bws)
-  const payloadDictionary = await PayloadBuilder.toDataHashMap([...remaining])
+  const payloadDictionary = await PayloadBuilder.toHashMap([...remaining])
   const results = [] as [BoundWitness, ...Payload[]][]
   for (const bw of bws) {
     const { payload_hashes } = bw

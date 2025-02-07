@@ -143,6 +143,7 @@ describe('TemporalIndexingDiviner', () => {
     })
     it('has expected bound witnesses', async () => {
       const payloads = await stateArchivist.all()
+      expect(payloads).toBeArrayOfSize(1)
       const stateBoundWitnesses = filterAs(payloads, asBoundWitness)
       expect(stateBoundWitnesses).toBeArrayOfSize(1)
       for (const stateBoundWitness of stateBoundWitnesses) {

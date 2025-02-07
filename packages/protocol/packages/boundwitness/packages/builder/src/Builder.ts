@@ -98,7 +98,7 @@ export class BoundWitnessBuilder<
   ): Promise<Pick<T, GeneratedBoundWitnessFields>> {
     const addresses = accounts.map(account => hexFromArrayBuffer(account.addressBytes, { prefix: false }))
     const previous_hashes = accounts.map(account => account.previousHash ?? null)
-    const payload_hashes = payloads ? await BoundWitnessBuilder.dataHashes(payloads) : []
+    const payload_hashes = payloads ? await BoundWitnessBuilder.hashes(payloads) : []
     const payload_schemas = payloads?.map(({ schema }) => schema) ?? []
     return {
       addresses, payload_hashes, payload_schemas, previous_hashes,

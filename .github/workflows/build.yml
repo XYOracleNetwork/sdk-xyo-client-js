@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [18]
+        node: [22]
     runs-on: ${{ matrix.os }}
     env:
       NODE_OPTIONS: "--max_old_space_size=5120"
@@ -23,7 +23,7 @@ jobs:
         name: windows-defender
         run: powershell -Command Add-MpPreference -ExclusionPath "."
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
 

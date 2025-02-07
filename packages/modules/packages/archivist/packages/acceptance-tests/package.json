@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/archivist-leveldb",
+  "name": "@xyo-network/archivist-acceptance-tests",
   "version": "3.8.2",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
@@ -21,41 +21,36 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/browser/index.d.ts",
-      "default": "./dist/browser/index.mjs"
+      "types": "./dist/neutral/index.d.ts",
+      "default": "./dist/neutral/index.mjs"
     },
     "./package.json": "./package.json"
   },
-  "module": "dist/browser/index.mjs",
-  "types": "dist/browser/index.d.ts",
+  "module": "dist/neutral/index.mjs",
+  "types": "dist/neutral/index.d.ts",
   "dependencies": {
+    "@xylabs/array": "^4.5.1",
     "@xylabs/assert": "^4.5.1",
     "@xylabs/exists": "^4.5.1",
     "@xylabs/hex": "^4.5.1",
+    "@xylabs/object": "^4.5.1",
     "@xylabs/promise": "^4.5.1",
-    "@xyo-network/archivist-abstract": "workspace:^",
+    "@xylabs/set": "^4.5.1",
+    "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/boundwitness-wrapper": "workspace:^",
+    "@xyo-network/id-payload-plugin": "workspace:^",
+    "@xyo-network/module-abstract": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "abstract-level": "^2.0.2",
-    "async-mutex": "^0.5.0",
-    "level": "^9.0.0"
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.5.1",
-    "@xylabs/object": "^4.5.1",
     "@xylabs/ts-scripts-yarn3": "^5.0.22",
     "@xylabs/tsconfig": "^5.0.22",
-    "@xylabs/vitest-extended": "^4.5.1",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/archivist-acceptance-tests": "workspace:^",
-    "@xyo-network/id-payload-plugin": "workspace:^",
-    "@xyo-network/payload-wrapper": "workspace:^",
-    "typescript": "^5.7.3",
-    "uuid": "^11.0.5",
-    "vitest": "^3.0.5"
+    "typescript": "^5.7.3"
   },
   "publishConfig": {
     "access": "public"

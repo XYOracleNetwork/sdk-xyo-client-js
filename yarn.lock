@@ -5401,6 +5401,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/archivist-acceptance-tests@workspace:^, @xyo-network/archivist-acceptance-tests@workspace:packages/modules/packages/archivist/packages/acceptance-tests":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/archivist-acceptance-tests@workspace:packages/modules/packages/archivist/packages/acceptance-tests"
+  dependencies:
+    "@xylabs/array": "npm:^4.5.1"
+    "@xylabs/assert": "npm:^4.5.1"
+    "@xylabs/exists": "npm:^4.5.1"
+    "@xylabs/hex": "npm:^4.5.1"
+    "@xylabs/object": "npm:^4.5.1"
+    "@xylabs/promise": "npm:^4.5.1"
+    "@xylabs/set": "npm:^4.5.1"
+    "@xylabs/ts-scripts-yarn3": "npm:^5.0.22"
+    "@xylabs/tsconfig": "npm:^5.0.22"
+    "@xyo-network/account-model": "workspace:^"
+    "@xyo-network/archivist-model": "workspace:^"
+    "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/boundwitness-wrapper": "workspace:^"
+    "@xyo-network/id-payload-plugin": "workspace:^"
+    "@xyo-network/module-abstract": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/payload-builder": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    typescript: "npm:^5.7.3"
+    uuid: "npm:^11.0.5"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/archivist-cookie@workspace:^, @xyo-network/archivist-cookie@workspace:packages/modules/packages/archivist/packages/cookie":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-cookie@workspace:packages/modules/packages/archivist/packages/cookie"
@@ -5464,6 +5491,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^5.0.22"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-abstract": "workspace:^"
+    "@xyo-network/archivist-acceptance-tests": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/id-payload-plugin": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
@@ -5473,6 +5501,7 @@ __metadata:
     fake-indexeddb: "npm:^6.0.0"
     idb: "npm:^8.0.2"
     typescript: "npm:^5.7.3"
+    uuid: "npm:^11.0.5"
     vitest: "npm:^3.0.5"
   languageName: unknown
   linkType: soft
@@ -5492,6 +5521,7 @@ __metadata:
     "@xylabs/vitest-extended": "npm:^4.5.1"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-abstract": "workspace:^"
+    "@xyo-network/archivist-acceptance-tests": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/id-payload-plugin": "workspace:^"
@@ -5503,6 +5533,7 @@ __metadata:
     async-mutex: "npm:^0.5.0"
     level: "npm:^9.0.0"
     typescript: "npm:^5.7.3"
+    uuid: "npm:^11.0.5"
     vitest: "npm:^3.0.5"
   languageName: unknown
   linkType: soft
@@ -5522,6 +5553,7 @@ __metadata:
     "@xylabs/vitest-extended": "npm:^4.5.1"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-abstract": "workspace:^"
+    "@xyo-network/archivist-acceptance-tests": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/id-payload-plugin": "workspace:^"
@@ -5567,6 +5599,7 @@ __metadata:
     "@xylabs/vitest-extended": "npm:^4.5.1"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-abstract": "workspace:^"
+    "@xyo-network/archivist-acceptance-tests": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
@@ -5579,6 +5612,7 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:^"
     store2: "npm:^2.14.4"
     typescript: "npm:^5.7.3"
+    uuid: "npm:^11.0.5"
     vitest: "npm:^3.0.5"
   languageName: unknown
   linkType: soft

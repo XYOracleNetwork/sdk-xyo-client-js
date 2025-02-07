@@ -157,7 +157,7 @@ export class StorageArchivist<
       })
     const index = payloads.findIndex(payload => payload._sequence === cursor)
     if (index !== -1) {
-      return payloads.slice(index + (open ? 0 : 1), index + (open ? 0 : 1) + limit)
+      return payloads.slice(index + (open ? 1 : 0), index + (open ? 1 : 0) + limit)
     }
     return payloads.slice(0, limit)
   }
@@ -192,7 +192,7 @@ export class StorageArchivist<
 
   protected override nextHandler(options?: ArchivistNextOptions): Promisable<WithStorageMeta<Payload>[]> {
     const {
-      limit, cursor, order, open,
+      limit, cursor, order, open = true,
     } = options ?? {}
     return this.getFromCursor(order, limit ?? 10, cursor, open)
   }

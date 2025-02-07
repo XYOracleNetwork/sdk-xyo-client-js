@@ -35,11 +35,15 @@ describe('LevelArchivist', () => {
     expect(isArchivistInstance(archivist)).toBe(true)
     expect(isArchivistModule(archivist)).toBe(true)
 
-    archivist.on('cleared', () => {
-      console.log('cleared')
-      expect(true).toBe(true)
+    // Create a new promise and resolve it when the event fires
+    const eventPromise = new Promise<void>((resolve) => {
+      archivist.on('cleared', () => {
+        expect(true).toBe(true) // Confirm event fired
+        resolve() // Resolve the promise
+      })
     })
     await archivist.clear()
+    return eventPromise
   })
 
   it('should return items inserted in the order they were provided in', async () => {

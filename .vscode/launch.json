@@ -11,7 +11,7 @@
         "--inspect-brk",
         "--no-file-parallelism",
         "--testTimeout=120000",
-        "packages/modules/packages/archivist/packages/level/src/spec/Archivist.full.spec.ts"
+        "packages/modules/packages/archivist/packages/memory/src/spec/Archivist.full.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

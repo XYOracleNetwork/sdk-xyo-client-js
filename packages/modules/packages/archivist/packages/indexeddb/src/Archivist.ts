@@ -210,10 +210,6 @@ export class IndexedDbArchivist<
         order === 'desc' ? 'prev' : 'next',
       )
 
-      if (cursor) {
-        sequenceCursor = await sequenceCursor?.advance(1)
-      }
-
       let remaining = limit
       const result: WithStorageMeta[] = []
       while (remaining) {
@@ -332,10 +328,10 @@ export class IndexedDbArchivist<
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
     const {
-      limit, cursor, order,
+      limit, cursor, order, open = true,
     } = options ?? {}
     return await this.useDb(async (db) => {
-      return await this.getFromCursor(db, this.storeName, order, limit ?? 10, cursor, options?.open)
+      return await this.getFromCursor(db, this.storeName, order, limit ?? 10, cursor, open)
     })
   }
 

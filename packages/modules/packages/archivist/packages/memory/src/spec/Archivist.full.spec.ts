@@ -4,9 +4,9 @@
 import { delay } from '@xylabs/delay'
 import type { Hash } from '@xylabs/hex'
 import type { AnyObject } from '@xylabs/object'
-import { toJsonString } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account'
 import { Account } from '@xyo-network/account'
+import { generateArchivistNextTests } from '@xyo-network/archivist-acceptance-tests'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -295,7 +295,6 @@ describe('MemoryArchivist [full]', () => {
 
       await archivist.insert(payloads1)
       await delay(1)
-      console.log(toJsonString(payloads1, 10))
       const [bw, payloads, errors] = await archivist.insertQuery(payloads2, account)
       await delay(1)
       await archivist.insert(payloads3)
@@ -339,5 +338,8 @@ describe('MemoryArchivist [full]', () => {
       expect(batch3Desc.length).toBe(2)
       expect(await PayloadBuilder.dataHash(batch3Desc?.[1])).toEqual(await PayloadBuilder.dataHash(payloads1[0]))
     })
+  })
+  generateArchivistNextTests(async () => {
+    return await MemoryArchivist.create({ account: 'random' })
   })
 })

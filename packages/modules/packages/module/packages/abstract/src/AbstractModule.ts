@@ -82,7 +82,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   static readonly allowRandomAccount: boolean = true
   static readonly configSchemas: Schema[] = [ModuleConfigSchema]
   static readonly defaultConfigSchema: Schema = ModuleConfigSchema
-  static override readonly defaultLogger: Logger = new ConsoleLogger(LogLevel.warn)
+  // eslint-disable-next-line sonarjs/public-static-readonly
+  static override defaultLogger: Logger = new ConsoleLogger(LogLevel.warn)
   // eslint-disable-next-line sonarjs/public-static-readonly
   static enableLazyLoad = false
   static readonly labels: Labels = {}

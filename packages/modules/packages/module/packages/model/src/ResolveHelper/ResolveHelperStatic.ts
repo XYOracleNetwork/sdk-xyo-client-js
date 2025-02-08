@@ -4,5 +4,6 @@ import type { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer
 
 export class ResolveHelperStatic {
   static readonly defaultLogger?: Logger
-  static readonly transformers: ModuleIdentifierTransformer[] = []
+  // eslint-disable-next-line sonarjs/public-static-readonly
+  static transformers: ModuleIdentifierTransformer[] = []
 }

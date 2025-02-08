@@ -156,7 +156,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
         result: Payload[],
       ) => {
         const [boundWitness, timestamp, thumbnail, payload] = input
-        const payloadDictionary = await PayloadBuilder.toAllHashMap([boundWitness, timestamp, thumbnail, payload])
+        const payloadDictionary = await PayloadBuilder.toDataHashMap([boundWitness, timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isTemporalIndexingDivinerResultIndex)).toBeArrayOfSize(1)
         const index = result.find(isTemporalIndexingDivinerResultIndex)

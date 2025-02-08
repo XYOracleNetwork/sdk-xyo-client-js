@@ -79,7 +79,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
     if (indexableBoundWitnesses.length === 0 || indexablePayloads.length === 0) return []
     // Hash all the indexable data once
     const [bwDictionary, payloadDictionary] = await Promise.all([
-      PayloadBuilder.toAllHashMap(indexableBoundWitnesses),
+      PayloadBuilder.toHashMap(indexableBoundWitnesses),
       PayloadBuilder.toAllHashMap(indexablePayloads),
     ])
 

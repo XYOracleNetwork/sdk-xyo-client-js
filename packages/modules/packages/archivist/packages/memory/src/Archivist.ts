@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash, Hex } from '@xylabs/hex'
 import { fulfilled, Promisable } from '@xylabs/promise'
+import { Account, AccountInstance } from '@xyo-network/account'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -74,6 +75,12 @@ export class MemoryArchivist<
       return Infinity // move to the end
     }
     return index
+  }
+
+  async from(payloads: Payload[], account?: AccountInstance): Promise<MemoryArchivist> {
+    const archivist = await MemoryArchivist.create({ account: account ?? await Account.random() })
+    await archivist.insert(payloads)
+    return archivist
   }
 
   protected override allHandler(): Promisable<WithStorageMeta<Payload>[]> {

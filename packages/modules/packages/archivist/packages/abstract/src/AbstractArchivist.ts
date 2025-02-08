@@ -305,7 +305,7 @@ export abstract class AbstractArchivist<
 
   protected async insertQueryHandler<T extends QueryBoundWitnessWrapper = QueryBoundWitnessWrapper>(query: T, payloads?: Payload[]) {
     assertEx(payloads, () => `Missing payloads: ${JSON.stringify(query.payload, null, 2)}`)
-    const resolvedPayloads = await PayloadBuilder.filterIncludeByDataHash(payloads, query.payloadHashes)
+    const resolvedPayloads = await PayloadBuilder.filterIncludeByEitherHash(payloads, query.payloadHashes)
     assertEx(
       resolvedPayloads.length === query.payloadHashes.length,
       () => `Could not find some passed hashes [${resolvedPayloads.length} != ${query.payloadHashes.length}]`,
@@ -322,7 +322,7 @@ export abstract class AbstractArchivist<
 
     // remove the existing payloads
     const withStorageMeta = await PayloadBuilder.addStorageMeta(payloads)
-    const hashes = withStorageMeta.map(p => p._dataHash)
+    const hashes = withStorageMeta.map(p => p._hash)
     const existingPayloads = await this.getWithConfig(hashes)
     const existingHashes = new Set(existingPayloads.map(p => p._hash))
     const payloadsToInsert = withStorageMeta.filter(p => !existingHashes.has(p._hash))

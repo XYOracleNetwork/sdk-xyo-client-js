@@ -34,6 +34,7 @@
     "@xylabs/hex": "^4.5.1",
     "@xylabs/object": "^4.5.1",
     "@xylabs/promise": "^4.5.1",
+    "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -44,8 +45,8 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^4.5.1",
-    "@xylabs/ts-scripts-yarn3": "^5.0.22",
-    "@xylabs/tsconfig": "^5.0.22",
+    "@xylabs/ts-scripts-yarn3": "^5.0.23",
+    "@xylabs/tsconfig": "^5.0.23",
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-acceptance-tests": "workspace:^",

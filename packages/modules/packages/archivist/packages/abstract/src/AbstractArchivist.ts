@@ -19,6 +19,7 @@ import type {
   ArchivistParams,
   ArchivistQueries,
   AttachableArchivistInstance,
+  ReadArchivist,
 } from '@xyo-network/archivist-model'
 import {
   ArchivistAllQuerySchema,
@@ -212,7 +213,7 @@ export abstract class AbstractArchivist<
     return deletedHashes
   }
 
-  protected async getFromParent(hashes: Hash[], archivist: ArchivistInstance): Promise<[WithStorageMeta<Payload>[], Hash[]]> {
+  protected async getFromParent(hashes: Hash[], archivist: ReadArchivist): Promise<[WithStorageMeta<Payload>[], Hash[]]> {
     const foundPairs = (await PayloadBuilder.dataHashPairs(await archivist.get(hashes))).filter(([, hash]) => {
       const askedFor = hashes.includes(hash)
       if (!askedFor) {

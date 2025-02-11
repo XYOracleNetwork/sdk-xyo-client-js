@@ -43,8 +43,8 @@
     "idb": "^8.0.2"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.23",
-    "@xylabs/tsconfig": "^5.0.23",
+    "@xylabs/ts-scripts-yarn3": "^5.0.24",
+    "@xylabs/tsconfig": "^5.0.24",
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

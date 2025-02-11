@@ -14,6 +14,7 @@ import {
   it,
 } from 'vitest'
 
+// eslint-disable-next-line no-restricted-imports
 import { MemoryNode } from '../../index.ts'
 
 /**

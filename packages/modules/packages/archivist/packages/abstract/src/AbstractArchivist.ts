@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { type Hash } from '@xylabs/hex'
+import type { Address, Hash } from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
 import type { Promisable, PromisableArray } from '@xylabs/promise'
 import { difference } from '@xylabs/set'
@@ -54,7 +54,7 @@ export interface InsertConfig extends ActionConfig {
   writeToParents?: boolean
 }
 
-export interface ArchivistParentInstances {
+interface ArchivistParentInstanceMap {
   commit?: Record<string, ArchivistInstance>
   read?: Record<string, ArchivistInstance>
   write?: Record<string, ArchivistInstance>
@@ -73,7 +73,7 @@ export abstract class AbstractArchivist<
   // override this if a specialized archivist should have a different default next limit
   protected static defaultNextLimitSetting = 100
 
-  private _parentArchivists?: ArchivistParentInstances
+  private _parentArchivists?: ArchivistParentInstanceMap
 
   // do not override this!  It is meant to get the this.defaultNextLimitSetting and work if it is overridden
   static get defaultNextLimit() {
@@ -350,9 +350,9 @@ export abstract class AbstractArchivist<
 
   protected async parentArchivists() {
     this._parentArchivists = this._parentArchivists ?? {
-      commit: await this.resolveArchivists(this.config?.parents?.commit),
-      read: await this.resolveArchivists(this.config?.parents?.read),
-      write: await this.resolveArchivists(this.config?.parents?.write),
+      commit: { ...await this.resolveArchivists(this.config?.parents?.commit, this.params.parents?.commit) },
+      read: { ...await this.resolveArchivists(this.config?.parents?.read) },
+      write: { ...await this.resolveArchivists(this.config?.parents?.write) },
     }
     return assertEx(this._parentArchivists)
   }
@@ -431,7 +431,7 @@ export abstract class AbstractArchivist<
     ).filter(exists).flat()
   }
 
-  private async resolveArchivists(archivists: ModuleIdentifier[] = []) {
+  private async resolveArchivists(archivists: ModuleIdentifier[] = [], archivistInstances?: ArchivistInstance[]) {
     const archivistModules = (await Promise.all(archivists.map(archivist => this.resolve(archivist)))).filter(exists).filter(duplicateModules)
 
     assertEx(
@@ -441,14 +441,19 @@ export abstract class AbstractArchivist<
           archivistModules.map(mod => !(mod.address === archivist || mod.modName === archivist)))}]`,
     )
 
+    const archivistInstancesMap: Record<Address, ArchivistInstance> = {}
+    for (let archivistInstance of archivistInstances ?? []) {
+      archivistInstancesMap[archivistInstance.address] = archivistInstance
+    }
+
     // eslint-disable-next-line unicorn/no-array-reduce
-    return archivistModules.reduce<Record<string, ArchivistInstance>>((prev, mod) => {
+    return archivistModules.reduce<Record<Address, ArchivistInstance>>((prev, mod) => {
       prev[mod.address] = asArchivistInstance(mod, () => {
         isArchivistInstance(mod, { log: console })
         return `Unable to cast resolved module to an archivist: [${mod.address}, ${mod.modName}, ${mod.config.schema})}]`
       })
 
       return prev
-    }, {})
+    }, archivistInstancesMap)
   }
 }

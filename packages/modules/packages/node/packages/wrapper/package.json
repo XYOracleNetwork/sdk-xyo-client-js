@@ -39,8 +39,8 @@
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.23",
-    "@xylabs/tsconfig": "^5.0.23",
+    "@xylabs/ts-scripts-yarn3": "^5.0.24",
+    "@xylabs/tsconfig": "^5.0.24",
     "typescript": "^5.7.3"
   },
   "publishConfig": {

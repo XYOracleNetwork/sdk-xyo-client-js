@@ -7,6 +7,7 @@ import {
   describe, expect, test,
 } from 'vitest'
 
+// eslint-disable-next-line no-restricted-imports
 import {
   isNodeInstance, MemoryNode, NodeConfigSchema, NodeWrapper,
 } from '../index.ts'

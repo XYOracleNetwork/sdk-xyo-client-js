@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-js",
-  "version": "3.9.3",
+  "version": "3.9.4",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -69,8 +69,8 @@
     "@xyo-network/shared": "workspace:^"
   },
   "devDependencies": {
-    "@firebase/app": "^0.11.0",
-    "@firebase/app-compat": "^0.2.49",
+    "@firebase/app": "^0.11.1",
+    "@firebase/app-compat": "^0.2.50",
     "@stylistic/eslint-plugin": "^3.1.0",
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^8.24.0",
@@ -85,7 +85,7 @@
     "eslint": "^9.20.1",
     "eslint-import-resolver-typescript": "^3.7.0",
     "jsdom": "^26.0.0",
-    "knip": "^5.44.0",
+    "knip": "^5.44.1",
     "reflect-metadata": "^0.2.2",
     "supertest": "^7.0.0",
     "tslib": "^2.8.1",

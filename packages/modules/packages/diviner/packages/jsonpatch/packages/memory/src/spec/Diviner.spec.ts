@@ -4,7 +4,7 @@ import type { WalletInstance } from '@xyo-network/account'
 import { HDWallet } from '@xyo-network/account'
 import type { JsonPatchDivinerConfig } from '@xyo-network/diviner-jsonpatch-model'
 import { JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
-import type { Payload } from '@xyo-network/payload-model'
+import type { AnyPayload } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -12,10 +12,7 @@ import {
 
 import { JsonPatchDiviner } from '../Diviner.ts'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type TestData = Payload<any>
-
-const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
+const cases: [string, JsonPatchDivinerConfig, AnyPayload[], AnyPayload[]][] = [
   [
     'Adds a value',
     {

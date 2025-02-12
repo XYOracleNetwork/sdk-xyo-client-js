@@ -16,18 +16,21 @@ export interface PayloadFields extends SchemaField {}
 // elevate - include the data hash in the parent boundwitness [data hash so that the opcodes get ignored]
 export type OpCode = 'elevate'
 
-export interface PayloadMetaFields {
+export interface SourcesMetaField { $sources: Hash[] }
+export interface ChainMetaField {
   $chain: {
-    ops: OpCode[]
+    ops?: OpCode[]
   }
 }
+
+export interface PayloadMetaFields extends SourcesMetaField, ChainMetaField {}
 
 export type WithPayload<T extends EmptyObject | void = void> =
   DeepRestrictToStringKeys<WithoutMeta<WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>>>
 
 /** Base Type for Payloads */
 export type Payload<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> =
-  T extends WithSchema ?
+  (T extends WithSchema ?
     S extends Schema ?
       /* T (w/Schema) & S provided */
       WithPayload<Omit<T, 'schema'> & { schema: S }>
@@ -40,13 +43,13 @@ export type Payload<T extends void | EmptyObject | WithSchema = void, S extends 
       : /* Either just S or neither S or T provided */
       WithPayload<{
         schema: S extends Schema ? S : Schema
-      }>
+      }>) & Partial<PayloadMetaFields>
 
 export type OverridablePayload<T extends Payload> = WithoutMeta<Omit<T, 'schema'> & PayloadFields>
 
-export type SourcesMetaField = { $sources: Hash[] }
-
+/** @deprecated $sources are now optional in all Payloads */
 export type WithSources<T extends EmptyObject> = T & SourcesMetaField
+/** @deprecated $sources are now optional in all Payloads */
 export type WithOptionalSources<T extends EmptyObject> = (T & SourcesMetaField) | T
 
 export type PayloadWithSources<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = WithSources<Payload<T, S>>

@@ -1,0 +1,10 @@
+releases:
+  "@xyo-network/address-payload-plugin": patch
+  "@xyo-network/config-payload-plugin": patch
+  "@xyo-network/core-payload-plugins": patch
+  "@xyo-network/domain-payload-plugin": patch
+  "@xyo-network/id-payload-plugin": patch
+  "@xyo-network/query-payload-plugin": patch
+  "@xyo-network/schema-payload-plugin": patch
+  "@xyo-network/sdk-js": patch
+  "@xyo-network/value-payload-plugin": patch

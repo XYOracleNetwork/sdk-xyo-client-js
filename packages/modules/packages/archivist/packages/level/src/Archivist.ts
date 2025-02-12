@@ -70,7 +70,7 @@ export abstract class AbstractLevelDbArchivist<
   }
 
   get folderPath() {
-    return `${this.location}/${this.storeName}`
+    return `${this.location}/${this.config.dbName}/${this.storeName}`
   }
 
   get location() {

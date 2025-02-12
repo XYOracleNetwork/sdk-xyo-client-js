@@ -13,6 +13,15 @@ export interface SchemaField<T extends Schema = Schema> {
 /** Additional fields for a payload */
 export interface PayloadFields extends SchemaField {}
 
+// elevate - include the data hash in the parent boundwitness [data hash so that the opcodes get ignored]
+export type OpCode = 'elevate'
+
+export interface PayloadMetaFields {
+  $chain: {
+    ops: OpCode[]
+  }
+}
+
 export type WithPayload<T extends EmptyObject | void = void> =
   DeepRestrictToStringKeys<WithoutMeta<WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>>>
 

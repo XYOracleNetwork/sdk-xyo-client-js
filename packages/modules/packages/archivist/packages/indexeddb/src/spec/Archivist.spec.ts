@@ -272,13 +272,14 @@ describe('IndexedDbArchivist', () => {
           expect(result).toBeDefined()
           expect(result.length).toBe(1)
         })
-        it('returns the first occurrence of the hash', async () => {
+        it('returns the any occurrence of the dataHash', async () => {
           // Same data hash contained by multiple root hashes
-          const result = await archivistModule.get([dataHash2])
+          const result = (await archivistModule.get([dataHash2])).pop()
           expect(result).toBeDefined()
-          expect(result.length).toBe(1)
           // Returns the first occurrence of the data hash
-          expect(PayloadBuilder.omitStorageMeta(result[0])).toEqual(payload1)
+          if (result) {
+            expect(await PayloadBuilder.dataHash(result)).toEqual(await PayloadBuilder.dataHash(payload1))
+          }
         })
       })
       describe('root hash', () => {

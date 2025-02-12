@@ -14,11 +14,12 @@ import {
   ArchivistModuleEventData,
   ArchivistNextOptions,
   ArchivistNextQuerySchema,
+  ArchivistParams,
   AttachableArchivistInstance,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
-  AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams,
+  AnyConfigSchema, creatableModule, ModuleInstance,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
@@ -29,7 +30,7 @@ import { LRUCache } from 'lru-cache'
 import { MemoryArchivistConfig, MemoryArchivistConfigSchema } from './Config.ts'
 
 export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivistConfig> = AnyConfigSchema<MemoryArchivistConfig>> =
-  ModuleParams<TConfig>
+  ArchivistParams<TConfig>
 @creatableModule()
 export class MemoryArchivist<
   TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,

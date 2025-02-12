@@ -9,6 +9,7 @@ import {
   ArchivistModuleEventData,
   ArchivistNextOptions,
   ArchivistNextQuerySchema,
+  ArchivistParams,
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
 import {
@@ -17,7 +18,6 @@ import {
   ModuleIdentifier,
   ModuleInstance,
   ModuleLimitationViewLabel,
-  ModuleParams,
 } from '@xyo-network/module-model'
 import {
   Payload, Schema, WithStorageMeta,
@@ -33,7 +33,7 @@ export type ViewArchivistConfig = ArchivistConfig<
   ViewArchivistConfigSchema
 >
 
-export type ViewArchivistParams<TConfig extends AnyConfigSchema<ViewArchivistConfig> = AnyConfigSchema<ViewArchivistConfig>> = ModuleParams<TConfig>
+export type ViewArchivistParams<TConfig extends AnyConfigSchema<ViewArchivistConfig> = AnyConfigSchema<ViewArchivistConfig>> = ArchivistParams<TConfig>
 
 @labeledCreatableModuleFactory()
 export class ViewArchivist<

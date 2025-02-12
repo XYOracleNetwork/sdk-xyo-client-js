@@ -297,7 +297,10 @@ export abstract class AbstractArchivist<
     if (this.storeParentReads) {
       await this.insertWithConfig(parentFoundPayloads)
     }
-    return PayloadBuilder.omitPrivateStorageMeta([...foundPayloads, ...parentFoundPayloads]).sort(PayloadBuilder.compareStorageMeta)
+    return this.omitClientMetaForDataHashes(
+      hashes,
+      PayloadBuilder.omitPrivateStorageMeta([...foundPayloads, ...parentFoundPayloads]).toSorted(PayloadBuilder.compareStorageMeta),
+    )
   }
 
   protected insertHandler(_payloads: WithStorageMeta<Payload>[]): Promisable<WithStorageMeta<Payload>[]> {
@@ -430,6 +433,21 @@ export abstract class AbstractArchivist<
         }),
       )
     ).filter(exists).flat()
+  }
+
+  private omitClientMetaForDataHashes<T extends Payload>(hashes: Hash[], payloads: WithStorageMeta<T>[]): WithStorageMeta<T>[] {
+    return payloads.map((payload) => {
+      // if retrieved by dataHash and not hash (both could have been specified)
+      if (hashes.includes(payload._dataHash) && !hashes.includes(payload._hash)) {
+        // scrub client meta
+        const result = PayloadBuilder.omitClientMeta(payload) as WithStorageMeta<T>
+        // we also scrub the _hash
+        result._hash = result._dataHash
+        return result
+      } else {
+        return payload
+      }
+    })
   }
 
   private async resolveArchivists(archivists: ModuleIdentifier[] = [], archivistInstances?: ArchivistInstance[]) {

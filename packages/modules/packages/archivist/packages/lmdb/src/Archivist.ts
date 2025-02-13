@@ -8,7 +8,6 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistModuleEventData,
   ArchivistNextOptions,
-  buildStandardIndexName,
   IndexDescription,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -21,33 +20,28 @@ import {
   Database, open, RootDatabase,
 } from 'lmdb'
 
-import { LevelDbArchivistConfigSchema } from './Config.ts'
-import { LevelDbArchivistParams } from './Params.ts'
+import { LmdbArchivistConfigSchema } from './Config.ts'
+import { LmdbArchivistParams } from './Params.ts'
 
 export abstract class AbstractLmdbArchivist<
-  TParams extends LevelDbArchivistParams = LevelDbArchivistParams,
+  TParams extends LmdbArchivistParams = LmdbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
-  static override readonly configSchemas: Schema[] = [...super.configSchemas, LevelDbArchivistConfigSchema]
-  static override readonly defaultConfigSchema: Schema = LevelDbArchivistConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, LmdbArchivistConfigSchema]
+  static override readonly defaultConfigSchema: Schema = LmdbArchivistConfigSchema
 
-  private static readonly dataHashIndex: IndexDescription = {
+  protected static readonly dataHashIndex: IndexDescription = {
     key: { _dataHash: 1 }, multiEntry: false, unique: false,
   }
 
-  private static readonly sequenceIndex: IndexDescription = {
+  protected static readonly sequenceIndex: IndexDescription = {
     key: { _sequence: 1 }, multiEntry: false, unique: true,
   }
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  static readonly sequenceIndexName = buildStandardIndexName(AbstractLmdbArchivist.sequenceIndex)
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  static readonly dataHashIndexName = buildStandardIndexName(AbstractLmdbArchivist.dataHashIndex)
-
-  private dataHashIndex!: Database<Hash, string>
-  private db!: RootDatabase
-  private hashIndex!: Database<WithStorageMeta<Payload>, Hash>
-  private sequenceIndex!: Database<Hash, Hex>
+  protected dataHashIndex!: Database<Hash, string>
+  protected db!: RootDatabase
+  protected hashIndex!: Database<WithStorageMeta<Payload>, Hash>
+  protected sequenceIndex!: Database<Hash, Hex>
 
   get dbName() {
     return assertEx(this.config.dbName, () => 'No dbName specified')

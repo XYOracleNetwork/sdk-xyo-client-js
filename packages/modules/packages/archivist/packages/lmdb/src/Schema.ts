@@ -1,2 +1,2 @@
-export const LevelDbArchivistSchema = 'network.xyo.archivist.leveldb' as const
-export type LevelDbArchivistSchema = typeof LevelDbArchivistSchema
+export const LmdbArchivistSchema = 'network.xyo.archivist.lmdb' as const
+export type LmdbArchivistSchema = typeof LmdbArchivistSchema

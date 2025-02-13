@@ -1,11 +1,11 @@
 import type { ArchivistConfig } from '@xyo-network/archivist-model'
 
-import { LevelDbArchivistSchema } from './Schema.ts'
+import { LmdbArchivistSchema } from './Schema.ts'
 
-export type LevelDbArchivistConfigSchema = `${LevelDbArchivistSchema}.config`
-export const LevelDbArchivistConfigSchema: LevelDbArchivistConfigSchema = `${LevelDbArchivistSchema}.config`
+export type LmdbArchivistConfigSchema = `${LmdbArchivistSchema}.config`
+export const LmdbArchivistConfigSchema: LmdbArchivistConfigSchema = `${LmdbArchivistSchema}.config`
 
-export type LevelDbArchivistConfig<TStoreName extends string = string> = ArchivistConfig<{
+export type LmdbArchivistConfig<TStoreName extends string = string> = ArchivistConfig<{
   /**
    * If true, the store will be cleared on start
    */
@@ -18,7 +18,7 @@ export type LevelDbArchivistConfig<TStoreName extends string = string> = Archivi
    * The location where the folder for the db will be created
    */
   location?: string
-  schema: LevelDbArchivistConfigSchema
+  schema: LmdbArchivistConfigSchema
   /**
    * The name of the object store - becomes a sub-level
    */

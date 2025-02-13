@@ -22,7 +22,7 @@ import {
 } from 'vitest'
 
 import { LevelDbArchivist } from '../Archivist.ts'
-import { LevelDbArchivistConfigSchema } from '../Config.ts'
+import { LmdbArchivistConfigSchema } from '../Config.ts'
 
 /**
  * @group module

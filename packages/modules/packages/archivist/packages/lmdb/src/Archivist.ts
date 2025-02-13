@@ -1,29 +1,29 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Hash, Hex } from '@xylabs/hex'
+import type { Hash, Hex } from '@xylabs/hex'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
-import {
+import type {
   ArchivistInsertQuery,
-  ArchivistInsertQuerySchema,
   ArchivistModuleEventData,
   ArchivistNextOptions,
   IndexDescription,
 } from '@xyo-network/archivist-model'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { ArchivistInsertQuerySchema } from '@xyo-network/archivist-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import {
+import type {
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
-import {
-  Database, open, RootDatabase,
-} from 'lmdb'
+import type { Database, RootDatabase } from 'lmdb'
+import { open } from 'lmdb'
 
 import { LmdbArchivistConfigSchema } from './Config.ts'
-import { LmdbArchivistParams } from './Params.ts'
+import type { LmdbArchivistParams } from './Params.ts'
 
-export abstract class AbstractLmdbArchivist<
+@creatableModule()
+export class LmdbArchivist<
   TParams extends LmdbArchivistParams = LmdbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
@@ -84,10 +84,11 @@ export abstract class AbstractLmdbArchivist<
   }
 
   protected override async clearHandler(): Promise<void> {
+    // Ensure all operations are synchronous within transaction
     await this.db.transaction(() => {
-      this.hashIndex.clearAsync()
-      this.dataHashIndex.clearAsync()
-      this.sequenceIndex.clearAsync()
+      this.hashIndex.clearSync()
+      this.dataHashIndex.clearSync()
+      this.sequenceIndex.clearSync()
     })
     return this.emit('cleared', { mod: this })
   }
@@ -149,6 +150,3 @@ export abstract class AbstractLmdbArchivist<
     return all.slice(startIndex, startIndex + limit)
   }
 }
-
-@creatableModule()
-export class LmdbArchivist extends AbstractLmdbArchivist {}

@@ -16,19 +16,19 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import { LevelDbArchivist } from '../Archivist.ts'
+import { LmdbArchivist } from '../Archivist.ts'
 import { LmdbArchivistConfigSchema } from '../Config.ts'
 
 /**
  * @group module
  * @group archivist
  */
-describe('LevelArchivist', () => {
+describe('LmdbArchivist', () => {
   it('should listen to cleared events', async () => {
-    const archivist = await LevelDbArchivist.create({
+    const archivist = await LmdbArchivist.create({
       account: 'random',
       config: {
-        schema: LevelDbArchivistConfigSchema, location: tmpdir(), dbName: 'test1.db', storeName: 'payloads', clearStoreOnStart: true,
+        schema: LmdbArchivistConfigSchema, location: tmpdir(), dbName: 'test1.db', storeName: 'payloads', clearStoreOnStart: true,
       },
     })
 
@@ -47,10 +47,10 @@ describe('LevelArchivist', () => {
   })
 
   it('should return items inserted in the order they were provided in', async () => {
-    const archivist = await LevelDbArchivist.create({
+    const archivist = await LmdbArchivist.create({
       account: 'random',
       config: {
-        schema: LevelDbArchivistConfigSchema, location: tmpdir(), dbName: 'test2.db', storeName: 'payloads', clearStoreOnStart: true,
+        schema: LmdbArchivistConfigSchema, location: tmpdir(), dbName: 'test2.db', storeName: 'payloads', clearStoreOnStart: true,
       },
     })
     const payloads: Id[] = Array.from({ length: 100 }, (_, i) => new PayloadBuilder<Id>({ schema: IdSchema }).fields({ salt: `${i}` }).build())
@@ -95,10 +95,10 @@ describe('LevelArchivist', () => {
   })
 
   it('next', async () => {
-    const archivist = await LevelDbArchivist.create({
+    const archivist = await LmdbArchivist.create({
       account: await HDWallet.random(),
       config: {
-        schema: LevelDbArchivistConfigSchema, location: tmpdir(), dbName: 'test3.db', storeName: 'payloads', clearStoreOnStart: true,
+        schema: LmdbArchivistConfigSchema, location: tmpdir(), dbName: 'test3.db', storeName: 'payloads', clearStoreOnStart: true,
       },
     })
     const account = await HDWallet.random()

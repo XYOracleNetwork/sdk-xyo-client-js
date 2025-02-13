@@ -21,14 +21,14 @@ import {
   beforeAll, describe, expect, it,
 } from 'vitest'
 
-import { LevelDbArchivist } from '../Archivist.ts'
+import { LmdbArchivist } from '../Archivist.ts'
 import { LmdbArchivistConfigSchema } from '../Config.ts'
 
 /**
  * @group module
  * @group archivist
  */
-describe('LevelDbArchivist [full]', () => {
+describe('LmdbArchivist [full]', () => {
   type TestPayload = Payload<{ salt: string; schema: string }>
 
   const fillDb = async (db: ArchivistInstance, count: number = 10): Promise<TestPayload[]> => {
@@ -59,10 +59,10 @@ describe('LevelDbArchivist [full]', () => {
     describe('dbName', () => {
       it('supplied via config uses config value', async () => {
         const dbName = 'testDbName'
-        const archivist = await LevelDbArchivist.create({
+        const archivist = await LmdbArchivist.create({
           account,
           config: {
-            dbName, schema: LevelDbArchivistConfigSchema, storeName: 'payloads', location: tmpdir(), clearStoreOnStart: true,
+            dbName, schema: LmdbArchivistConfigSchema, storeName: 'payloads', location: tmpdir(), clearStoreOnStart: true,
           },
         })
         expect(archivist.dbName).toBe(dbName)
@@ -72,10 +72,10 @@ describe('LevelDbArchivist [full]', () => {
       it('supplied via config uses config value', async () => {
         const dbName = 'testDbName'
         const storeName = 'testStoreName'
-        const archivist = await LevelDbArchivist.create({
+        const archivist = await LmdbArchivist.create({
           account,
           config: {
-            dbName, schema: LevelDbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
+            dbName, schema: LmdbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
           },
         })
         expect(archivist.storeName).toBe(storeName)
@@ -84,16 +84,16 @@ describe('LevelDbArchivist [full]', () => {
         const dbName = 'testDbName'
         const storeName1 = 'testStoreName1'
         const storeName2 = 'testStoreName2'
-        const archivist1 = await LevelDbArchivist.create({
+        const archivist1 = await LmdbArchivist.create({
           account,
           config: {
-            dbName, schema: LevelDbArchivistConfigSchema, storeName: storeName1, location: tmpdir(), clearStoreOnStart: true,
+            dbName, schema: LmdbArchivistConfigSchema, storeName: storeName1, location: tmpdir(), clearStoreOnStart: true,
           },
         })
-        const archivist2 = await LevelDbArchivist.create({
+        const archivist2 = await LmdbArchivist.create({
           account,
           config: {
-            dbName, schema: LevelDbArchivistConfigSchema, storeName: storeName2, location: tmpdir(), clearStoreOnStart: true,
+            dbName, schema: LmdbArchivistConfigSchema, storeName: storeName2, location: tmpdir(), clearStoreOnStart: true,
           },
         })
 
@@ -114,10 +114,10 @@ describe('LevelDbArchivist [full]', () => {
     let sources: Payload[] = []
     let archivistModule: ArchivistInstance
     beforeAll(async () => {
-      archivistModule = await LevelDbArchivist.create({
+      archivistModule = await LmdbArchivist.create({
         account,
         config: {
-          dbName, schema: LevelDbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
+          dbName, schema: LmdbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
         },
       })
       sources = await fillDb(archivistModule)
@@ -136,10 +136,10 @@ describe('LevelDbArchivist [full]', () => {
     let sources: Payload[] = []
     let archivistModule: ArchivistInstance
     beforeAll(async () => {
-      archivistModule = await LevelDbArchivist.create({
+      archivistModule = await LmdbArchivist.create({
         account,
         config: {
-          dbName, schema: LevelDbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
+          dbName, schema: LmdbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
         },
       })
       sources = await fillDb(archivistModule)
@@ -160,10 +160,10 @@ describe('LevelDbArchivist [full]', () => {
     let sources: TestPayload[] = []
     let archivistModule: ArchivistInstance
     beforeAll(async () => {
-      archivistModule = await LevelDbArchivist.create({
+      archivistModule = await LmdbArchivist.create({
         account,
         config: {
-          dbName, schema: LevelDbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
+          dbName, schema: LmdbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
         },
       })
       sources = await fillDb(archivistModule)
@@ -267,10 +267,10 @@ describe('LevelDbArchivist [full]', () => {
       let sources: Payload[] = []
       let archivistModule: ArchivistInstance
       beforeAll(async () => {
-        archivistModule = await LevelDbArchivist.create({
+        archivistModule = await LmdbArchivist.create({
           account,
           config: {
-            dbName, schema: LevelDbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
+            dbName, schema: LmdbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
           },
         })
         sources = await fillDb(archivistModule)
@@ -309,10 +309,10 @@ describe('LevelDbArchivist [full]', () => {
       const storeName = '91c6b87d-3ac8-4cfd-8aee-d509f3de0299'
       let archivistModule: ArchivistInstance
       beforeAll(async () => {
-        archivistModule = await LevelDbArchivist.create({
+        archivistModule = await LmdbArchivist.create({
           account,
           config: {
-            dbName, schema: LevelDbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
+            dbName, schema: LmdbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
           },
         })
       })
@@ -342,10 +342,10 @@ describe('LevelDbArchivist [full]', () => {
     const dbName = 'bd86d2dd-dc48-4621-8c1f-105ba2e90288'
     const storeName = 'f8d14049-2966-4198-a2ab-1c096a949316'
     it('next', async () => {
-      const archivist = await LevelDbArchivist.create({
+      const archivist = await LmdbArchivist.create({
         account: 'random',
         config: {
-          dbName, schema: LevelDbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
+          dbName, schema: LmdbArchivistConfigSchema, storeName, location: tmpdir(), clearStoreOnStart: true,
         },
       })
       const account = await Account.random()
@@ -418,8 +418,8 @@ describe('LevelDbArchivist [full]', () => {
     const storeName = v4()
     const location = tmpdir()
     const clearStoreOnStart = true
-    const schema = LevelDbArchivistConfigSchema
-    return await LevelDbArchivist.create({
+    const schema = LmdbArchivistConfigSchema
+    return await LmdbArchivist.create({
       account: 'random',
       config: {
         dbName, schema, storeName, location, clearStoreOnStart,

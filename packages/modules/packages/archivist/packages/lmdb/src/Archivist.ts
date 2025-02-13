@@ -9,14 +9,24 @@ import type {
   ArchivistNextOptions,
   IndexDescription,
 } from '@xyo-network/archivist-model'
-import { ArchivistInsertQuerySchema } from '@xyo-network/archivist-model'
+import {
+  ArchivistAllQuerySchema,
+  ArchivistClearQuerySchema,
+  ArchivistCommitQuerySchema,
+  ArchivistDeleteQuerySchema,
+  ArchivistInsertQuerySchema,
+  ArchivistNextQuerySchema,
+} from '@xyo-network/archivist-model'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  Payload, Schema, WithStorageMeta,
+import {
+  type Payload, type Schema, SequenceConstants,
+  type WithStorageMeta,
 } from '@xyo-network/payload-model'
-import type { Database, RootDatabase } from 'lmdb'
+import type {
+  Database, RangeOptions, RootDatabase,
+} from 'lmdb'
 import { open } from 'lmdb'
 
 import { LmdbArchivistConfigSchema } from './Config.ts'
@@ -53,6 +63,18 @@ export class LmdbArchivist<
 
   get location() {
     return assertEx(this.config.location, () => 'No location specified')
+  }
+
+  override get queries() {
+    return [
+      ArchivistAllQuerySchema,
+      ArchivistDeleteQuerySchema,
+      ArchivistClearQuerySchema,
+      ArchivistInsertQuerySchema,
+      ArchivistCommitQuerySchema,
+      ArchivistNextQuerySchema,
+      ...super.queries,
+    ]
   }
 
   get storeName() {
@@ -111,9 +133,9 @@ export class LmdbArchivist<
       for (const hash of hashes) {
         const payload = this.hashIndex.get(hash)
         if (payload) {
-          this.hashIndex.remove(hash)
-          this.dataHashIndex.remove(payload._dataHash)
-          this.sequenceIndex.remove(payload._sequence)
+          this.hashIndex.removeSync(hash)
+          this.dataHashIndex.removeSync(payload._dataHash)
+          this.sequenceIndex.removeSync(payload._sequence)
         }
       }
     })
@@ -132,9 +154,9 @@ export class LmdbArchivist<
   protected override async insertHandler(payloads: WithStorageMeta<Payload>[]): Promise<WithStorageMeta<Payload>[]> {
     await this.db.transaction(() => {
       for (const payload of payloads) {
-        this.hashIndex.put(payload._hash, payload)
-        this.dataHashIndex.put(payload._dataHash, payload._hash)
-        this.sequenceIndex.put(payload._sequence, payload._hash)
+        this.hashIndex.putSync(payload._hash, payload)
+        this.dataHashIndex.putSync(payload._dataHash, payload._hash)
+        this.sequenceIndex.putSync(payload._sequence, payload._hash)
       }
     })
     return payloads
@@ -142,16 +164,21 @@ export class LmdbArchivist<
 
   protected override nextHandler(options?: ArchivistNextOptions): WithStorageMeta<Payload>[] {
     const {
-      limit = 100, cursor, order, open = true,
+      limit = 100, cursor, order, open = cursor ? true : false,
     } = options ?? {}
 
-    let all = this.allHandler()
-    if (order === 'desc') {
-      all = all.reverse()
-    }
-    const startIndex = cursor
-      ? all.findIndex(({ _sequence }) => _sequence === cursor) + (open ? 1 : 0)
-      : 0
-    return all.slice(startIndex, startIndex + limit)
+    // Determine search range based on order (ascending or descending)
+    const rangeOptions: RangeOptions = order === 'desc'
+      ? { start: cursor ?? SequenceConstants.maxLocalSequence, reverse: true }
+      : { start: cursor ?? SequenceConstants.minLocalSequence }
+
+    // Get range of sequence-indexed hashes
+    const sequenceEntries = [...this.sequenceIndex.getRange(rangeOptions)]
+      .slice(open ? 1 : 0, limit + (open ? 1 : 0)) // Apply cursor offset and limit
+
+    // Fetch full payloads using hashes retrieved from sequence index
+    return sequenceEntries
+      .map(({ value: hash }) => this.hashIndex.get(hash))
+      .filter(exists)
   }
 }

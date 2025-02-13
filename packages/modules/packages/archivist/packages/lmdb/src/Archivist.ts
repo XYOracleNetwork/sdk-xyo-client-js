@@ -46,7 +46,7 @@ export abstract class AbstractLmdbArchivist<
 
   private dataHashIndex!: Database<Hash, string>
   private db!: RootDatabase
-  private payloads!: Database<WithStorageMeta<Payload>, Hash>
+  private hashIndex!: Database<WithStorageMeta<Payload>, Hash>
   private sequenceIndex!: Database<Hash, Hex>
 
   get dbName() {
@@ -75,7 +75,7 @@ export abstract class AbstractLmdbArchivist<
     })
 
     // Open sub-databases
-    this.payloads = this.db.openDB<WithStorageMeta<Payload>, Hash>({ name: 'payloads' })
+    this.hashIndex = this.db.openDB<WithStorageMeta<Payload>, Hash>({ name: 'payloads' })
     this.dataHashIndex = this.db.openDB<Hash, string>({ name: 'dataHashIndex' })
     this.sequenceIndex = this.db.openDB<Hash, Hex>({ name: 'sequenceIndex' })
 
@@ -86,12 +86,12 @@ export abstract class AbstractLmdbArchivist<
   }
 
   protected override allHandler(): WithStorageMeta<Payload>[] {
-    return [...this.payloads.getRange({})].map(entry => entry.value).sort(PayloadBuilder.compareStorageMeta)
+    return [...this.hashIndex.getRange({})].map(entry => entry.value).sort(PayloadBuilder.compareStorageMeta)
   }
 
   protected override async clearHandler(): Promise<void> {
     await this.db.transaction(() => {
-      this.payloads.clearAsync()
+      this.hashIndex.clearAsync()
       this.dataHashIndex.clearAsync()
       this.sequenceIndex.clearAsync()
     })
@@ -114,9 +114,9 @@ export abstract class AbstractLmdbArchivist<
   protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
     await this.db.transaction(() => {
       for (const hash of hashes) {
-        const payload = this.payloads.get(hash)
+        const payload = this.hashIndex.get(hash)
         if (payload) {
-          this.payloads.remove(hash)
+          this.hashIndex.remove(hash)
           this.dataHashIndex.remove(payload._dataHash)
           this.sequenceIndex.remove(payload._sequence)
         }
@@ -126,13 +126,13 @@ export abstract class AbstractLmdbArchivist<
   }
 
   protected override getHandler(hashes: Hash[]): WithStorageMeta<Payload>[] {
-    return hashes.map(hash => this.payloads.get(hash)).filter(exists)
+    return hashes.map(hash => this.hashIndex.get(hash)).filter(exists)
   }
 
   protected override async insertHandler(payloads: WithStorageMeta<Payload>[]): Promise<WithStorageMeta<Payload>[]> {
     await this.db.transaction(() => {
       for (const payload of payloads) {
-        this.payloads.put(payload._hash, payload)
+        this.hashIndex.put(payload._hash, payload)
         this.dataHashIndex.put(payload._dataHash, payload._hash)
         this.sequenceIndex.put(payload._sequence, payload._hash)
       }

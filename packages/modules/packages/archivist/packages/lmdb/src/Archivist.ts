@@ -121,7 +121,12 @@ export class LmdbArchivist<
   }
 
   protected override getHandler(hashes: Hash[]): WithStorageMeta<Payload>[] {
-    return hashes.map(hash => this.hashIndex.get(hash)).filter(exists)
+    return hashes.map((hash) => {
+      const byHash = this.hashIndex.get(hash)
+      if (byHash) return byHash
+      const byDataHash = this.dataHashIndex.get(hash)
+      if (byDataHash) return this.hashIndex.get(byDataHash)
+    }).filter(exists)
   }
 
   protected override async insertHandler(payloads: WithStorageMeta<Payload>[]): Promise<WithStorageMeta<Payload>[]> {

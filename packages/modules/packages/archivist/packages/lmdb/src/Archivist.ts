@@ -1,18 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash, Hex } from '@xylabs/hex'
-import { fulfilled, Promisable } from '@xylabs/promise'
+import { fulfilled } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
-  ArchivistAllQuerySchema,
-  ArchivistClearQuerySchema,
-  ArchivistCommitQuerySchema,
-  ArchivistDeleteQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
   ArchivistModuleEventData,
   ArchivistNextOptions,
-  ArchivistNextQuerySchema,
   buildStandardIndexName,
   IndexDescription,
 } from '@xyo-network/archivist-model'
@@ -23,29 +18,13 @@ import {
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
 import {
-  AbstractBatchOperation, AbstractLevel, AbstractSublevel,
-} from 'abstract-level'
-import { Mutex } from 'async-mutex'
-import { Level } from 'level'
+  Database, open, RootDatabase,
+} from 'lmdb'
 
 import { LevelDbArchivistConfigSchema } from './Config.ts'
 import { LevelDbArchivistParams } from './Params.ts'
 
-/** Note: We have indexes as top level sublevels since making them a sublevel of a store, getting all the values of that store includes the sublevels  */
-
-export interface PayloadStore {
-  [s: string]: WithStorageMeta
-}
-
-export type AbstractPayloadLevel = AbstractLevel<string | Buffer | Uint8Array, Hash, WithStorageMeta<Payload>>
-export type AbstractPayloadSubLevel = AbstractSublevel<AbstractPayloadLevel, string | Buffer | Uint8Array, Hash, WithStorageMeta<Payload>>
-export type AbstractIndexSubLevel<T> = AbstractSublevel<AbstractPayloadLevel, string | Buffer | Uint8Array, T, Hash>
-
-const indexSubLevelName = (storeName: string, indexName: string) => {
-  return `_${storeName}|${indexName}`
-}
-
-export abstract class AbstractLevelDbArchivist<
+export abstract class AbstractLmdbArchivist<
   TParams extends LevelDbArchivistParams = LevelDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
@@ -61,9 +40,14 @@ export abstract class AbstractLevelDbArchivist<
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  static readonly dataHashIndexName = buildStandardIndexName(AbstractLevelDbArchivist.dataHashIndex)
+  static readonly sequenceIndexName = buildStandardIndexName(AbstractLmdbArchivist.sequenceIndex)
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  static readonly sequenceIndexName = buildStandardIndexName(AbstractLevelDbArchivist.sequenceIndex)
+  static readonly dataHashIndexName = buildStandardIndexName(AbstractLmdbArchivist.dataHashIndex)
+
+  private dataHashIndex!: Database<Hash, string>
+  private db!: RootDatabase
+  private payloads!: Database<WithStorageMeta<Payload>, Hash>
+  private sequenceIndex!: Database<Hash, Hex>
 
   get dbName() {
     return assertEx(this.config.dbName, () => 'No dbName specified')
@@ -77,54 +61,47 @@ export abstract class AbstractLevelDbArchivist<
     return assertEx(this.config.location, () => 'No location specified')
   }
 
-  override get queries() {
-    return [
-      ArchivistAllQuerySchema,
-      ArchivistDeleteQuerySchema,
-      ArchivistClearQuerySchema,
-      ArchivistInsertQuerySchema,
-      ArchivistCommitQuerySchema,
-      ArchivistNextQuerySchema,
-      ...super.queries,
-    ]
-  }
-
   get storeName() {
     return assertEx(this.config.storeName, () => 'No storeName specified')
   }
 
-  private static findIndexFromCursor(payloads: WithStorageMeta[], cursor: Hex) {
-    const index = payloads.findIndex(({ _sequence }) => _sequence === cursor)
-    if (index === -1) {
-      return Infinity // move to the end
+  override async startHandler(): Promise<boolean> {
+    await super.startHandler()
+
+    // Open LMDB database
+    this.db = open({
+      path: this.folderPath,
+      maxDbs: 3, // Payloads, dataHashIndex, sequenceIndex
+    })
+
+    // Open sub-databases
+    this.payloads = this.db.openDB<WithStorageMeta<Payload>, Hash>({ name: 'payloads' })
+    this.dataHashIndex = this.db.openDB<Hash, string>({ name: 'dataHashIndex' })
+    this.sequenceIndex = this.db.openDB<Hash, Hex>({ name: 'sequenceIndex' })
+
+    if (this.config.clearStoreOnStart) {
+      await this.clearHandler()
     }
-    return index
+    return true
   }
 
-  protected override async allHandler(): Promise<WithStorageMeta<Payload>[]> {
-    return await this.withStore(async (db) => {
-      const values = [...(await db.values().all())]
-      return values.filter(exists).sort(PayloadBuilder.compareStorageMeta)
-    })
+  protected override allHandler(): WithStorageMeta<Payload>[] {
+    return [...this.payloads.getRange({})].map(entry => entry.value).sort(PayloadBuilder.compareStorageMeta)
   }
 
   protected override async clearHandler(): Promise<void> {
-    await this.withDb(async (db) => {
-      await db.clear()
-    })
-    await this.withDataHashIndex(async (index) => {
-      await index.clear()
-    })
-    await this.withSequenceIndex(async (index) => {
-      await index.clear()
+    await this.db.transaction(() => {
+      this.payloads.clearAsync()
+      this.dataHashIndex.clearAsync()
+      this.sequenceIndex.clearAsync()
     })
     return this.emit('cleared', { mod: this })
   }
 
   protected override async commitHandler(): Promise<BoundWitness[]> {
-    const payloads = assertEx(await this.allHandler(), () => 'Nothing to commit')
+    const payloads = this.allHandler()
     const settled = await Promise.allSettled(
-      Object.values((await this.parentArchivists()).commit ?? [])?.map(async (parent) => {
+      Object.values((await this.parentArchivists()).commit ?? []).map(async (parent) => {
         const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
         const query = await this.bindQuery(queryPayload, payloads)
         return (await parent?.query(query[0], query[1]))?.[0]
@@ -135,156 +112,49 @@ export abstract class AbstractLevelDbArchivist<
   }
 
   protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
-    // not using the getHandler since duplicate data hashes are not handled
-    const payloadsWithMeta = (await this.allHandler()).filter(({ _hash, _dataHash }) => hashes.includes(_hash) || hashes.includes(_dataHash))
-    // Delete the payloads
-    const batchCommands: Array<AbstractBatchOperation<AbstractPayloadSubLevel, Hash, WithStorageMeta<Payload>>> = payloadsWithMeta.map(payload => ({
-      type: 'del',
-      key: payload._hash,
-    }))
-
-    await this.withStore(async (store) => {
-      await store.batch(batchCommands)
+    await this.db.transaction(() => {
+      for (const hash of hashes) {
+        const payload = this.payloads.get(hash)
+        if (payload) {
+          this.payloads.remove(hash)
+          this.dataHashIndex.remove(payload._dataHash)
+          this.sequenceIndex.remove(payload._sequence)
+        }
+      }
     })
-
-    // Delete the dataHash indexes
-    const batchDataHashIndexCommands: Array<AbstractBatchOperation<AbstractPayloadSubLevel, string, Hash>> = payloadsWithMeta.map(payload => ({
-      type: 'del',
-      key: payload._dataHash,
-    }))
-
-    await this.withDataHashIndex(async (index) => {
-      await index.batch(batchDataHashIndexCommands)
-    })
-
-    // Delete the sequence indexes
-    const batchSequenceIndexCommands: Array<AbstractBatchOperation<AbstractPayloadSubLevel, Hex, Hash>> = payloadsWithMeta.map(payload => ({
-      type: 'del',
-      key: payload._sequence,
-    }))
-
-    await this.withSequenceIndex(async (index) => {
-      await index.batch(batchSequenceIndexCommands)
-    })
-
     return hashes
   }
 
-  protected override async getHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
-    const foundByHash = await this.withStore(async (store) => {
-      return (await store.getMany(hashes)).filter(exists)
-    })
-    const remainingHashes = hashes.filter(hash => !foundByHash.some(({ _hash }) => _hash === hash))
-    const hashesFromDataHashes = await this.withDataHashIndex(async (index) => {
-      return (await index.getMany(remainingHashes)).filter(exists)
-    })
-    const foundByDataHash = hashesFromDataHashes.length > 0
-      ? await this.withStore(async (store) => {
-        return (await store.getMany(hashesFromDataHashes)).filter(exists)
-      })
-      : []
-    const result = [...foundByHash, ...foundByDataHash].sort(PayloadBuilder.compareStorageMeta)
-    return result
+  protected override getHandler(hashes: Hash[]): WithStorageMeta<Payload>[] {
+    return hashes.map(hash => this.payloads.get(hash)).filter(exists)
   }
 
   protected override async insertHandler(payloads: WithStorageMeta<Payload>[]): Promise<WithStorageMeta<Payload>[]> {
-    // Insert the payloads
-    const payloadsWithMeta = payloads.toSorted(PayloadBuilder.compareStorageMeta)
-    const batchCommands: Array<AbstractBatchOperation<AbstractPayloadSubLevel, Hash, WithStorageMeta<Payload>>> = payloadsWithMeta.map(payload => ({
-      type: 'put', key: payload._hash, value: payload, keyEncoding: 'utf8', valueEncoding: 'json',
-    }))
-    await this.withStore(async (store) => {
-      await store.batch(batchCommands)
+    await this.db.transaction(() => {
+      for (const payload of payloads) {
+        this.payloads.put(payload._hash, payload)
+        this.dataHashIndex.put(payload._dataHash, payload._hash)
+        this.sequenceIndex.put(payload._sequence, payload._hash)
+      }
     })
-
-    // Insert the dataHash indexes
-    // Note: We use the dataHash|hash for the key to allow for multiple entries
-    const batchDataHashIndexCommands: Array<AbstractBatchOperation<AbstractPayloadLevel, string, Hash>> = payloadsWithMeta.map(payload => ({
-      type: 'put', key: payload._dataHash, value: payload._hash, keyEncoding: 'utf8', valueEncoding: 'utf8',
-    }))
-    await this.withDataHashIndex(async (index) => {
-      await index.batch(batchDataHashIndexCommands)
-    })
-
-    // Insert the sequence indexes
-    // Note: We use the dataHash|hash for the key to allow for multiple entries
-    const batchSequenceIndexCommands: Array<AbstractBatchOperation<AbstractPayloadLevel, Hex, Hash>> = payloadsWithMeta.map(payload => ({
-      type: 'put', key: payload._sequence, value: payload._hash, keyEncoding: 'utf8', valueEncoding: 'utf8',
-    }))
-    await this.withSequenceIndex(async (index) => {
-      await index.batch(batchSequenceIndexCommands)
-    })
-
-    return payloadsWithMeta
+    return payloads
   }
 
-  protected override async nextHandler(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
+  protected override nextHandler(options?: ArchivistNextOptions): WithStorageMeta<Payload>[] {
     const {
       limit = 100, cursor, order, open = true,
     } = options ?? {}
-    let all = await this.allHandler()
+
+    let all = this.allHandler()
     if (order === 'desc') {
       all = all.reverse()
     }
     const startIndex = cursor
-      ? AbstractLevelDbArchivist.findIndexFromCursor(all, cursor) + (open ? 1 : 0)
+      ? all.findIndex(({ _sequence }) => _sequence === cursor) + (open ? 1 : 0)
       : 0
-    const result = all.slice(startIndex, startIndex + limit)
-    return result
+    return all.slice(startIndex, startIndex + limit)
   }
-
-  protected override async startHandler(): Promise<boolean> {
-    await super.startHandler()
-    // NOTE: We could defer this creation to first access but we
-    // want to fail fast here in case something is wrong
-    await this.withStore(() => {})
-    if (this.config.clearStoreOnStart) {
-      await this.clearHandler()
-    }
-    return true
-  }
-
-  protected withDataHashIndex<T>(func: (index: AbstractIndexSubLevel<string>) => Promisable<T>): Promisable<T> {
-    return this.withDb(async (db) => {
-      const index = db.sublevel<string, Hash>(
-        indexSubLevelName(this.storeName, AbstractLevelDbArchivist.dataHashIndexName),
-        { keyEncoding: 'utf8', valueEncoding: 'utf8' },
-      )
-      return await func(index)
-    })
-  }
-
-  protected withSequenceIndex<T>(func: (index: AbstractIndexSubLevel<Hex>) => Promisable<T>): Promisable<T> {
-    return this.withDb(async (db) => {
-      const index = db.sublevel<Hex, Hash>(
-        indexSubLevelName(this.storeName, AbstractLevelDbArchivist.sequenceIndexName),
-        { keyEncoding: 'utf8', valueEncoding: 'utf8' },
-      )
-      return await func(index)
-    })
-  }
-
-  protected async withStore<T>(func: (store: AbstractPayloadSubLevel) => Promisable<T>): Promise<T> {
-    return await this.withDb(async (db) => {
-      const subLevel: AbstractPayloadSubLevel = db.sublevel<Hash, WithStorageMeta<Payload>>(this.storeName, { keyEncoding: 'utf8', valueEncoding: 'json' })
-      return await func(subLevel)
-    })
-  }
-
-  protected abstract withDb<T>(func: (db: AbstractPayloadLevel) => Promisable<T>): Promisable<T>
 }
 
 @creatableModule()
-export class LevelDbArchivist extends AbstractLevelDbArchivist {
-  private dbMutex = new Mutex()
-  protected override async withDb<T>(func: (db: AbstractPayloadLevel) => Promisable<T>): Promise<T> {
-    return await this.dbMutex.runExclusive(async () => {
-      const db: AbstractPayloadLevel = new Level<Hash, WithStorageMeta<Payload>>(this.folderPath, { keyEncoding: 'utf8', valueEncoding: 'json' })
-      try {
-        return await func(db)
-      } finally {
-        await db.close()
-      }
-    })
-  }
-}
+export class LmdbArchivist extends AbstractLmdbArchivist {}

@@ -368,7 +368,6 @@ describe('LmdbArchivist [full]', () => {
 
       await archivist.insert(payloads1)
       await delay(1)
-      console.log(toJsonString(payloads1, 10))
       const [bw, payloads, errors] = await archivist.insertQuery(payloads2, account)
       await delay(1)
       await archivist.insert(payloads3)

@@ -169,11 +169,11 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   }
 
   privateChildren(): Promisable<ModuleInstance[]> {
-    return []
+    return [...this.params.privateChildren ?? []]
   }
 
   publicChildren(): Promisable<ModuleInstance[]> {
-    return []
+    return [...this.params.publicChildren ?? []]
   }
 
   removeParent(address: Address) {

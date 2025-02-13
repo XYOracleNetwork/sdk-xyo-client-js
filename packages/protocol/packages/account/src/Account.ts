@@ -41,6 +41,7 @@ function getPrivateKeyFromPhrase(phrase: string, path?: string): string {
 
 @staticImplements<AccountStatic<AccountInstance, AccountConfig>>()
 export class Account extends EllipticKey implements AccountInstance {
+  // eslint-disable-next-line sonarjs/public-static-readonly
   static previousHashStore: PreviousHashStore | undefined = undefined
   static readonly uniqueName = globallyUnique('Account', Account, 'xyo')
   protected static _addressMap: Record<string, WeakRef<AccountInstance>> = {}

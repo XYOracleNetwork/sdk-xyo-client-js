@@ -53,12 +53,12 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return isAddress(id) ? await this.detachUsingAddress(id as Address) : await this.detachUsingName(id)
   }
 
-  override privateChildren(): Promise<ModuleInstance[]> {
-    return this.attachedPrivateModules()
+  override async privateChildren(): Promise<ModuleInstance[]> {
+    return [...(await this.attachedPrivateModules()), ...this.params.privateChildren ?? []]
   }
 
-  override publicChildren(): Promise<ModuleInstance[]> {
-    return this.attachedPublicModules()
+  override async publicChildren(): Promise<ModuleInstance[]> {
+    return [...(await this.attachedPublicModules()), ...this.params.publicChildren ?? []]
   }
 
   async register(mod: AttachableModuleInstance) {

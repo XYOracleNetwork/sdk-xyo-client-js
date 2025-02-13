@@ -47,12 +47,14 @@ export type Payload<T extends void | EmptyObject | WithSchema = void, S extends 
 
 export type OverridablePayload<T extends Payload> = WithoutMeta<Omit<T, 'schema'> & PayloadFields>
 
-/** @deprecated $sources are now optional in all Payloads */
 export type WithSources<T extends EmptyObject> = T & SourcesMetaField
-/** @deprecated $sources are now optional in all Payloads */
+/** @deprecated optional $sources are now optional in all Payloads */
 export type WithOptionalSources<T extends EmptyObject> = (T & SourcesMetaField) | T
 
 export type PayloadWithSources<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = WithSources<Payload<T, S>>
+
+/** @deprecated optional $sources are now optional in all Payloads */
+// eslint-disable-next-line sonarjs/deprecation
 export type PayloadWithOptionalSources<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = WithOptionalSources<Payload<T, S>>
 
 export type WithAnySchema<T extends Payload> = OverridablePayload<T>

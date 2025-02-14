@@ -1,0 +1,61 @@
+{
+  "name": "@xyo-network/archivist-benchmark-tests",
+  "version": "3.9.5",
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "homepage": "https://xyo.network",
+  "bugs": {
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues",
+    "email": "support@xyo.network"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "license": "LGPL-3.0-only",
+  "author": {
+    "name": "XYO Development Team",
+    "email": "support@xyo.network",
+    "url": "https://xyo.network"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/neutral/index.d.ts",
+      "default": "./dist/neutral/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "module": "dist/neutral/index.mjs",
+  "types": "dist/neutral/index.d.ts",
+  "dependencies": {
+    "@xylabs/array": "^4.5.1",
+    "@xylabs/assert": "^4.5.1",
+    "@xylabs/exists": "^4.5.1",
+    "@xylabs/hex": "^4.5.1",
+    "@xylabs/object": "^4.5.1",
+    "@xylabs/promise": "^4.5.1",
+    "@xylabs/set": "^4.5.1",
+    "@xyo-network/account-model": "workspace:^",
+    "@xyo-network/archivist-leveldb": "workspace:^",
+    "@xyo-network/archivist-lmdb": "workspace:^",
+    "@xyo-network/archivist-model": "workspace:^",
+    "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/boundwitness-wrapper": "workspace:^",
+    "@xyo-network/id-payload-plugin": "workspace:^",
+    "@xyo-network/module-abstract": "workspace:^",
+    "@xyo-network/module-model": "workspace:^",
+    "@xyo-network/payload-builder": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
+    "uuid": "^11.0.5"
+  },
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^5.0.24",
+    "@xylabs/tsconfig": "^5.0.24",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

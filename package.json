@@ -68,7 +68,7 @@
     "@xyo-network/modules": "workspace:^",
     "@xyo-network/protocol": "workspace:^",
     "@xyo-network/sdk-utils": "workspace:^",
-    "@xyo-network/shared": "workspace:^"
+    "@xyo-network/shared": "2.33.0"
   },
   "devDependencies": {
     "@firebase/app": "^0.11.1",

@@ -33,7 +33,7 @@ describe('LMDB vs LevelDB', () => {
   }
 
   const payloads = Array.from(
-    { length: 200 },
+    { length: 100 },
     (_, i) => new PayloadBuilder<Id>({ schema: IdSchema }).fields({ salt: `${i}` }).build(),
 
   )
@@ -44,29 +44,29 @@ describe('LMDB vs LevelDB', () => {
   const dataHash = '3a3b8deca568ff820b0b7c8714fbdf82b40fb54f4b15aca8745e06b81291558e'
 
   describe('insert (single)', () => {
-    bench('leveldb', async () => {
+    bench('LevelDbArchivist', async () => {
       await levelDbArchivist.insert([payloads[0]])
     }, { setup: levelDBSetup })
 
-    bench('lmdb', async () => {
+    bench('LmdbArchivist', async () => {
       await lmdbArchivist.insert([payloads[0]])
     }, { setup: lmdbArchivistSetup })
   })
   describe('insert (many)', () => {
-    bench('leveldb', async () => {
+    bench('LevelDbArchivist', async () => {
       await levelDbArchivist.insert(payloads)
     }, { setup: levelDBSetup })
 
-    bench('lmdb', async () => {
+    bench('LmdbArchivist', async () => {
       await lmdbArchivist.insert(payloads)
     }, { setup: lmdbArchivistSetup })
   })
   describe('get (by hash)', () => {
-    bench('leveldb', async () => {
+    bench('LevelDbArchivist', async () => {
       await levelDbArchivist.get([hash])
     }, { setup: levelDBSetup })
 
-    bench('lmdb', async () => {
+    bench('LmdbArchivist', async () => {
       await lmdbArchivist.get([hash])
     }, { setup: lmdbArchivistSetup })
   })
@@ -74,21 +74,21 @@ describe('LMDB vs LevelDB', () => {
     const limit = 100
     describe('asc', () => {
       const order = 'asc'
-      bench('leveldb', async () => {
+      bench('LevelDbArchivist', async () => {
         await levelDbArchivist.next({ limit, order })
       }, { setup: levelDBSetup })
 
-      bench('lmdb', async () => {
+      bench('LmdbArchivist', async () => {
         await lmdbArchivist.next({ limit, order })
       }, { setup: lmdbArchivistSetup })
     })
     describe('desc', () => {
       const order = 'desc'
-      bench('leveldb', async () => {
+      bench('LevelDbArchivist', async () => {
         await levelDbArchivist.next({ limit, order })
       }, { setup: levelDBSetup })
 
-      bench('lmdb', async () => {
+      bench('LmdbArchivist', async () => {
         await lmdbArchivist.next({ limit, order })
       }, { setup: lmdbArchivistSetup })
     })

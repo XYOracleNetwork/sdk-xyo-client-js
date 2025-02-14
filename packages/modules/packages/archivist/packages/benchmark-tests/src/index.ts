@@ -1,1 +1,1 @@
-export * from './query/index.ts'
+export const ARCHIVIST_BENCHMARK_TESTS = true

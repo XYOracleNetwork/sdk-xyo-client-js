@@ -276,15 +276,25 @@ export abstract class AbstractLevelDbArchivist<
 
 @creatableModule()
 export class LevelDbArchivist extends AbstractLevelDbArchivist {
-  private dbMutex = new Mutex()
-  protected override async withDb<T>(func: (db: AbstractPayloadLevel) => Promisable<T>): Promise<T> {
-    return await this.dbMutex.runExclusive(async () => {
-      const db: AbstractPayloadLevel = new Level<Hash, WithStorageMeta<Payload>>(this.folderPath, { keyEncoding: 'utf8', valueEncoding: 'json' })
-      try {
-        return await func(db)
-      } finally {
-        await db.close()
-      }
+  private _db: Level<Hash, WithStorageMeta<Payload>> | undefined
+  private _dbMutex = new Mutex()
+
+  protected override async stopHandler(timeout?: number): Promise<boolean> {
+    await this._dbMutex.runExclusive(async () => {
+      await this._db?.close()
+      this._db = undefined
     })
+    return await super.stopHandler(timeout)
+  }
+
+  protected override async withDb<T>(func: (db: AbstractPayloadLevel) => Promisable<T>): Promise<T> {
+    const db = await this._dbMutex.runExclusive(async () => {
+      if (!this._db) {
+        this._db = new Level<Hash, WithStorageMeta<Payload>>(this.folderPath, { keyEncoding: 'utf8', valueEncoding: 'json' })
+        await this._db.open()
+      }
+      return this._db
+    })
+    return await func(db)
   }
 }

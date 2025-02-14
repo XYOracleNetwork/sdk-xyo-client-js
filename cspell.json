@@ -48,6 +48,7 @@
     "keccak",
     "keypair",
     "libauth",
+    "Lmdb",
     "lognormal",
     "malleate",
     "malleation",

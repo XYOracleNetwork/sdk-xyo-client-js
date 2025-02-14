@@ -66,6 +66,15 @@ describe('LMDB vs LevelDB', () => {
       await lmdbArchivist.get([hash])
     }, { setup: lmdbArchivistSetup })
   })
+  describe('get (missing hash)', () => {
+    bench('LevelDbArchivist', async () => {
+      await levelDbArchivist.get([''])
+    }, { setup: levelDBSetup })
+
+    bench('LmdbArchivist', async () => {
+      await lmdbArchivist.get([''])
+    }, { setup: lmdbArchivistSetup })
+  })
   describe('next', () => {
     const limit = 100
     describe('asc', () => {

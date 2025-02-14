@@ -35,9 +35,7 @@ describe('LevelDbArchivist [full]', () => {
     const sources = Array.from({ length: count }).map((_, i) => {
       return { salt: `${i}`, schema: IdSchema }
     })
-    for (const source of sources) {
-      await db.insert([source])
-    }
+    await db.insert(sources)
     return sources
   }
 

@@ -9,7 +9,7 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import { PayloadBuilder } from '../index.ts'
+import { PayloadBuilder } from '../Builder.ts'
 
 describe('PayloadBuilder', () => {
   const testObject = {

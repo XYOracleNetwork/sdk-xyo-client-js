@@ -57,6 +57,7 @@
   "resolutions": {
     "@noble/hashes": "^1.6.1",
     "eslint-import-resolver-typescript": "3.7.0",
+    "eslint-plugin-sonarjs": "3.0.1",
     "axios": "^1",
     "ethers": "^6",
     "fake-indexeddb": "^4",

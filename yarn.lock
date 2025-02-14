@@ -10142,7 +10142,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-sonarjs@npm:3.0.2":
+"eslint-plugin-sonarjs@npm:^3.0.1":
   version: 3.0.2
   resolution: "eslint-plugin-sonarjs@npm:3.0.2"
   dependencies:

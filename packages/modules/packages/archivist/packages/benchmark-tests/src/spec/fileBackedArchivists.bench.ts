@@ -27,7 +27,7 @@ describe('LMDB vs LevelDB', () => {
     levelDbArchivist = await LevelDbArchivist.create({
       account: 'random',
       config: {
-        location: Path.join(v4(), process.cwd(), '.store'),
+        location: Path.join(process.cwd(), '.store', v4()),
         dbName: 'levelDbArchivist.bench.db',
         storeName: 'payloads',
         clearStoreOnStart: true,
@@ -49,7 +49,7 @@ describe('LMDB vs LevelDB', () => {
     lmdbArchivist = await LmdbArchivist.create({
       account: 'random',
       config: {
-        location: Path.join(v4(), process.cwd(), '.store'),
+        location: Path.join(process.cwd(), '.store', v4()),
         dbName: 'lmdbArchivist.bench.db',
         storeName: 'payloads',
         clearStoreOnStart: true,

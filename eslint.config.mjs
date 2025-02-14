@@ -88,6 +88,8 @@ export default [
       'sonarjs/pseudo-random': ['off'],
       'sonarjs/post-message': ['off'],
       'sonarjs/no-empty-test-file': ['off'],
+      'sonarjs/no-commented-code': ['off'],
+      'sonarjs/todo-tag': ['off'],
     },
   },
 ]

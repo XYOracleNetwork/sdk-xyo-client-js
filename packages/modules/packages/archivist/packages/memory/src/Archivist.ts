@@ -43,6 +43,7 @@ export class MemoryArchivist<
 
   private _cache?: LRUCache<Hash, WithStorageMeta<Payload>>
   private _dataHashIndex?: LRUCache<Hash, Hash>
+  private _sequenceIndex: WithStorageMeta<Payload>[] = []
 
   override get queries() {
     return [
@@ -90,7 +91,8 @@ export class MemoryArchivist<
 
   protected override clearHandler(): void | Promise<void> {
     this.cache.clear()
-    this.dataHashIndex.clear()
+    this.rebuildDataHashIndex()
+    this.rebuildDataHashIndex()
     return this.emit('cleared', { mod: this })
   }
 
@@ -119,6 +121,7 @@ export class MemoryArchivist<
       })))
       .filter(exists)
     this.rebuildDataHashIndex()
+    await this.rebuildSequenceIndex()
     return deletedHashes
   }
 
@@ -135,24 +138,24 @@ export class MemoryArchivist<
 
   protected override insertHandler(payloads: WithStorageMeta<Payload>[]): WithStorageMeta<Payload>[] {
     const payloadsWithMeta = payloads.toSorted(PayloadBuilder.compareStorageMeta)
+    this._sequenceIndex.push(...payloads)
     return payloadsWithMeta.map((payload) => {
       return this.insertPayloadIntoCache(payload)
     })
   }
 
-  protected override async nextHandler(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
+  protected override nextHandler(options?: ArchivistNextOptions): Promisable<WithStorageMeta<Payload>[]> {
     const {
       limit = 100, cursor, order, open = true,
     } = options ?? {}
-    let all = await this.allHandler()
+    let all = this._sequenceIndex
     if (order === 'desc') {
-      all = all.reverse()
+      all = all.toReversed()
     }
     const startIndex = cursor
       ? MemoryArchivist.findIndexFromCursor(all, cursor) + (open ? 1 : 0)
       : 0
-    const result = all.slice(startIndex, startIndex + limit)
-    return result
+    return all.slice(startIndex, startIndex + limit)
   }
 
   private insertPayloadIntoCache(payload: WithStorageMeta<Payload>): WithStorageMeta<Payload> {
@@ -167,5 +170,9 @@ export class MemoryArchivist<
     for (const payload of payloads) {
       this.dataHashIndex.set(payload._dataHash, payload._hash)
     }
+  }
+
+  private async rebuildSequenceIndex() {
+    this._sequenceIndex = (await this.allHandler()).toSorted(PayloadBuilder.compareStorageMeta)
   }
 }

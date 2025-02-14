@@ -56,8 +56,8 @@
   },
   "resolutions": {
     "@noble/hashes": "^1.6.1",
-    "eslint-import-resolver-typescript": "3.7.0",
     "axios": "^1",
+    "eslint-import-resolver-typescript": "3.7.0",
     "ethers": "^6",
     "fake-indexeddb": "^4",
     "quick-lru": "^5"

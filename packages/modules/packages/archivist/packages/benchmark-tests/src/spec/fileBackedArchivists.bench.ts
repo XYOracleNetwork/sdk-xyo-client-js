@@ -8,6 +8,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { bench, describe } from 'vitest'
 
 describe('LMDB vs LevelDB', () => {
+  const totalTestPayloads = 100
   let levelDbArchivist: LevelDbArchivist
   let levelDBSetup = async () => {
     levelDbArchivist = await LevelDbArchivist.create({
@@ -28,7 +29,7 @@ describe('LMDB vs LevelDB', () => {
   }
 
   const payloads = Array.from(
-    { length: 100 },
+    { length: totalTestPayloads },
     (_, i) => new PayloadBuilder<Id>({ schema: IdSchema }).fields({ salt: `${i}` }).build(),
 
   )
@@ -76,7 +77,7 @@ describe('LMDB vs LevelDB', () => {
     }, { setup: lmdbArchivistSetup })
   })
   describe('next', () => {
-    const limit = 100
+    const limit = Math.trunc(totalTestPayloads / 2)
     describe('asc', () => {
       const order = 'asc'
       bench('LevelDbArchivist', async () => {

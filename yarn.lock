@@ -5628,6 +5628,36 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/archivist-benchmark-tests@workspace:packages/modules/packages/archivist/packages/benchmark-tests":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/archivist-benchmark-tests@workspace:packages/modules/packages/archivist/packages/benchmark-tests"
+  dependencies:
+    "@xylabs/array": "npm:^4.5.1"
+    "@xylabs/assert": "npm:^4.5.1"
+    "@xylabs/exists": "npm:^4.5.1"
+    "@xylabs/hex": "npm:^4.5.1"
+    "@xylabs/object": "npm:^4.5.1"
+    "@xylabs/promise": "npm:^4.5.1"
+    "@xylabs/set": "npm:^4.5.1"
+    "@xylabs/ts-scripts-yarn3": "npm:^5.0.24"
+    "@xylabs/tsconfig": "npm:^5.0.24"
+    "@xyo-network/account-model": "workspace:^"
+    "@xyo-network/archivist-leveldb": "workspace:^"
+    "@xyo-network/archivist-lmdb": "workspace:^"
+    "@xyo-network/archivist-model": "workspace:^"
+    "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/boundwitness-wrapper": "workspace:^"
+    "@xyo-network/id-payload-plugin": "workspace:^"
+    "@xyo-network/module-abstract": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/payload-builder": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    typescript: "npm:^5.7.3"
+    uuid: "npm:^11.0.5"
+    vitest: "npm:^3.0.5"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/archivist-cookie@workspace:^, @xyo-network/archivist-cookie@workspace:packages/modules/packages/archivist/packages/cookie":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-cookie@workspace:packages/modules/packages/archivist/packages/cookie"
@@ -5706,7 +5736,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist-leveldb@workspace:packages/modules/packages/archivist/packages/level":
+"@xyo-network/archivist-leveldb@workspace:^, @xyo-network/archivist-leveldb@workspace:packages/modules/packages/archivist/packages/level":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-leveldb@workspace:packages/modules/packages/archivist/packages/level"
   dependencies:
@@ -5738,7 +5768,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist-lmdb@workspace:packages/modules/packages/archivist/packages/lmdb":
+"@xyo-network/archivist-lmdb@workspace:^, @xyo-network/archivist-lmdb@workspace:packages/modules/packages/archivist/packages/lmdb":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-lmdb@workspace:packages/modules/packages/archivist/packages/lmdb"
   dependencies:

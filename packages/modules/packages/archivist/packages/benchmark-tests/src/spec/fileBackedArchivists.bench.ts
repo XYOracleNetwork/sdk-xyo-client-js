@@ -1,4 +1,4 @@
-import { tmpdir } from 'node:os'
+import Path from 'node:path'
 
 import type { Hash } from '@xylabs/hex'
 import { LevelDbArchivist, LevelDbArchivistConfigSchema } from '@xyo-network/archivist-leveldb'
@@ -7,6 +7,7 @@ import type { Id } from '@xyo-network/id-payload-plugin'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { WithSources } from '@xyo-network/payload-model'
+import { v4 } from 'uuid'
 import { bench, describe } from 'vitest'
 
 describe('LMDB vs LevelDB', () => {
@@ -26,7 +27,11 @@ describe('LMDB vs LevelDB', () => {
     levelDbArchivist = await LevelDbArchivist.create({
       account: 'random',
       config: {
-        location: tmpdir(), dbName: 'levelDbArchivist.bench.db', storeName: 'payloads', clearStoreOnStart: true, schema: LevelDbArchivistConfigSchema,
+        location: Path.join(v4(), process.cwd(), '.store'),
+        dbName: 'levelDbArchivist.bench.db',
+        storeName: 'payloads',
+        clearStoreOnStart: true,
+        schema: LevelDbArchivistConfigSchema,
       },
     })
     const payload = payloads[Math.trunc(totalTestPayloads / 2)]
@@ -44,7 +49,11 @@ describe('LMDB vs LevelDB', () => {
     lmdbArchivist = await LmdbArchivist.create({
       account: 'random',
       config: {
-        location: tmpdir(), dbName: 'lmdbArchivist.bench.db', storeName: 'payloads', clearStoreOnStart: true, schema: LmdbArchivistConfigSchema,
+        location: Path.join(v4(), process.cwd(), '.store'),
+        dbName: 'lmdbArchivist.bench.db',
+        storeName: 'payloads',
+        clearStoreOnStart: true,
+        schema: LmdbArchivistConfigSchema,
       },
     })
     const payload = payloads[Math.trunc(totalTestPayloads / 2)]

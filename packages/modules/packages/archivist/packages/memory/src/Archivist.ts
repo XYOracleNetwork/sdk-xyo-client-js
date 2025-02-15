@@ -148,7 +148,7 @@ export class MemoryArchivist<
     const {
       limit = 100, cursor, order, open = true,
     } = options ?? {}
-    let all = this._sequenceIndex
+    let all = this._sequenceIndex.toSorted(PayloadBuilder.compareStorageMeta)
     if (order === 'desc') {
       all = all.toReversed()
     }

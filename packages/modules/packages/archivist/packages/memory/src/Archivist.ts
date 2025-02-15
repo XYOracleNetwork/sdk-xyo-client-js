@@ -86,7 +86,7 @@ export class MemoryArchivist<
   }
 
   protected override allHandler(): Promisable<WithStorageMeta<Payload>[]> {
-    return [...this.cache.values()].filter(exists).sort(PayloadBuilder.compareStorageMeta)
+    return [...this.cache.values()].filter(exists).toSorted(PayloadBuilder.compareStorageMeta)
   }
 
   protected override clearHandler(): void | Promise<void> {
@@ -138,7 +138,7 @@ export class MemoryArchivist<
 
   protected override insertHandler(payloads: WithStorageMeta<Payload>[]): WithStorageMeta<Payload>[] {
     const payloadsWithMeta = payloads.toSorted(PayloadBuilder.compareStorageMeta)
-    this._sequenceIndex.push(...payloads)
+    this._sequenceIndex.push(...payloadsWithMeta)
     return payloadsWithMeta.map((payload) => {
       return this.insertPayloadIntoCache(payload)
     })

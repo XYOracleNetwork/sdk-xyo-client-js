@@ -34,7 +34,7 @@
     "idb": "^8.0.2"
   },
   "devDependencies": {
-    "@types/node": "^22.13.1",
+    "@types/node": "^22.13.4",
     "@types/uuid": "10.0.0",
     "@xylabs/ts-scripts-yarn3": "^5.0.24",
     "@xylabs/tsconfig": "^5.0.24",

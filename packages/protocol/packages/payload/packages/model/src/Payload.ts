@@ -26,7 +26,7 @@ export interface ChainMetaField {
 export interface PayloadMetaFields extends SourcesMetaField, ChainMetaField {}
 
 export type WithPayload<T extends EmptyObject | void = void> =
-  DeepRestrictToStringKeys<WithoutMeta<WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>>>
+  DeepRestrictToStringKeys<WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>>
 
 /** Base Type for Payloads */
 export type Payload<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> =

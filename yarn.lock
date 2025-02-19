@@ -4892,6 +4892,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
+    ajv: "npm:^8.17.1"
     typescript: "npm:^5.7.3"
     vitest: "npm:^3.0.5"
   languageName: unknown

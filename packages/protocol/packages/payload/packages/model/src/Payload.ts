@@ -17,13 +17,11 @@ export interface PayloadFields extends SchemaField {}
 export type OpCode = 'elevate'
 
 export interface SourcesMetaField { $sources: Hash[] }
-export interface ChainMetaField {
-  $chain: {
-    ops?: OpCode[]
-  }
+export interface ChainMetaFields {
+  $opCodes?: OpCode[]
 }
 
-export interface PayloadMetaFields extends SourcesMetaField, ChainMetaField {}
+export interface PayloadMetaFields extends SourcesMetaField, ChainMetaFields {}
 
 export type WithPayload<T extends EmptyObject | void = void> =
   DeepRestrictToStringKeys<WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>>

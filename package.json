@@ -42,7 +42,7 @@
   ],
   "scripts": {
     "bench": "vitest bench",
-    "build": "xy build -j 8 && xy statics",
+    "build": "yarn build-tests && xy build -j 8 && xy statics",
     "build-tests": "tsc --noEmit --lib dom,esnext",
     "build-typedoc-site": "typedoc",
     "compile": "./scripts/clear-scrollback-buffer.sh && yarn xy compile",

@@ -39,7 +39,8 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^",
+    "ajv": "^8.17.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^5.0.24",

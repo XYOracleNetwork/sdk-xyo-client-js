@@ -39,7 +39,6 @@
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "async-mutex": "^0.5.0",
     "lmdb": "^3.2.6"
   },
   "devDependencies": {

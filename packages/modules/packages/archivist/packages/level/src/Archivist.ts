@@ -24,7 +24,7 @@ import {
 } from '@xyo-network/payload-model'
 import {
   AbstractBatchOperation, AbstractLevel, AbstractSublevel,
-} from 'abstract-level'
+} from 'abstract-level-2'
 import { Mutex } from 'async-mutex'
 import { Level } from 'level'
 

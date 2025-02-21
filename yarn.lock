@@ -4600,7 +4600,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
-    abstract-level: "npm:^2.0.2"
+    abstract-level-2: "npm:abstract-level@^2"
     async-mutex: "npm:^0.5.0"
     level: "npm:^9.0.0"
     typescript: "npm:^5.7.3"
@@ -4632,7 +4632,6 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
-    async-mutex: "npm:^0.5.0"
     lmdb: "npm:^3.2.6"
     typescript: "npm:^5.7.3"
     uuid: "npm:^11.0.5"
@@ -7958,7 +7957,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"abstract-level@npm:^2.0.0, abstract-level@npm:^2.0.1, abstract-level@npm:^2.0.2":
+"abstract-level-2@npm:abstract-level@^2, abstract-level@npm:^2.0.0, abstract-level@npm:^2.0.1":
   version: 2.0.2
   resolution: "abstract-level@npm:2.0.2"
   dependencies:

@@ -43,7 +43,7 @@
     "@xyo-network/module-wrapper": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.5"
+    "vitest": "^3.0.6"
   },
   "publishConfig": {
     "access": "public"

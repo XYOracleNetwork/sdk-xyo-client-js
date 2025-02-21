@@ -50,7 +50,7 @@
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.5"
+    "vitest": "^3.0.6"
   },
   "publishConfig": {
     "access": "public"

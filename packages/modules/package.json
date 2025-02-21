@@ -59,7 +59,7 @@
     "@xyo-network/witness-adhoc": "workspace:^",
     "@xyo-network/witness-model": "workspace:^",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.5"
+    "vitest": "^3.0.6"
   },
   "publishConfig": {
     "access": "public"

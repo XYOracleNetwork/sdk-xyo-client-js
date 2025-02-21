@@ -54,7 +54,7 @@
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.5"
+    "vitest": "^3.0.6"
   },
   "publishConfig": {
     "access": "public"

@@ -61,25 +61,33 @@ export abstract class AbstractSentinel<
 
   async report(inPayloads?: Payload[]): Promise<WithoutPrivateStorageMeta<Payload>[]> {
     this._noOverride('report')
-    const reportPromise = (async () => {
-      await this.emit('reportStart', { inPayloads, mod: this })
-      const payloads = await this.reportHandler(inPayloads)
-
-      // create boundwitness
-      const result = (await new BoundWitnessBuilder().payloads(payloads).signer(this.account).build()).flat()
-
-      if (this.config.archiving) {
-        forget(this.storeToArchivists(result))
-      }
-
-      await this.emitReportEnd(inPayloads, result)
-      return result
-    })()
-    if (this.synchronous) {
-      return await reportPromise
-    } else {
-      forget(reportPromise)
+    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
       return []
+    }
+    try {
+      await this.globalReentrancyMutex?.acquire()
+      const reportPromise = (async () => {
+        await this.emit('reportStart', { inPayloads, mod: this })
+        const payloads = await this.reportHandler(inPayloads)
+
+        // create boundwitness
+        const result = (await new BoundWitnessBuilder().payloads(payloads).signer(this.account).build()).flat()
+
+        if (this.config.archiving) {
+          forget(this.storeToArchivists(result))
+        }
+
+        await this.emitReportEnd(inPayloads, result)
+        return result
+      })()
+      if (this.synchronous) {
+        return await reportPromise
+      } else {
+        forget(reportPromise)
+        return []
+      }
+    } finally {
+      this.globalReentrancyMutex?.release()
     }
   }
 

@@ -6888,6 +6888,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/query-payload-plugin": "workspace:^"
     "@xyo-network/wallet-model": "workspace:^"
+    async-mutex: "npm:^0.5.0"
     lru-cache: "npm:^11.0.2"
     typescript: "npm:^5.7.3"
     vitest: "npm:^3.0.5"

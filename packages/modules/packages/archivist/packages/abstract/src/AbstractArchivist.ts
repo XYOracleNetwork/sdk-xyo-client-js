@@ -93,12 +93,20 @@ export abstract class AbstractArchivist<
     return !!this.config?.storeParentReads
   }
 
-  all(): PromisableArray<WithStorageMeta<Payload>> {
+  async all(): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('all')
-    return this.busy(async () => {
-      await this.started('throw')
-      return PayloadBuilder.omitPrivateStorageMeta(await this.allHandler())
-    })
+    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+      return []
+    }
+    try {
+      await this.globalReentrancyMutex?.acquire()
+      return await this.busy(async () => {
+        await this.started('throw')
+        return PayloadBuilder.omitPrivateStorageMeta(await this.allHandler())
+      })
+    } finally {
+      this.globalReentrancyMutex?.release()
+    }
   }
 
   async allQuery(account: AccountInstance): Promise<ModuleQueryResult> {
@@ -106,12 +114,20 @@ export abstract class AbstractArchivist<
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
-  clear(): Promisable<void> {
+  async clear(): Promise<void> {
     this._noOverride('clear')
-    return this.busy(async () => {
-      await this.started('throw')
-      return await this.clearHandler()
-    })
+    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+      return
+    }
+    try {
+      await this.globalReentrancyMutex?.acquire()
+      return await this.busy(async () => {
+        await this.started('throw')
+        return await this.clearHandler()
+      })
+    } finally {
+      this.globalReentrancyMutex?.release()
+    }
   }
 
   async clearQuery(account: AccountInstance): Promise<ModuleQueryResult> {
@@ -119,12 +135,20 @@ export abstract class AbstractArchivist<
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
-  commit(): Promisable<BoundWitness[]> {
+  async commit(): Promise<BoundWitness[]> {
     this._noOverride('commit')
-    return this.busy(async () => {
-      await this.started('throw')
-      return await this.commitHandler()
-    })
+    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+      return []
+    }
+    try {
+      await this.globalReentrancyMutex?.acquire()
+      return await this.busy(async () => {
+        await this.started('throw')
+        return await this.commitHandler()
+      })
+    } finally {
+      this.globalReentrancyMutex?.release()
+    }
   }
 
   async commitQuery(account: AccountInstance): Promise<ModuleQueryResult> {
@@ -134,10 +158,18 @@ export abstract class AbstractArchivist<
 
   async delete(hashes: Hash[]): Promise<Hash[]> {
     this._noOverride('delete')
-    return await this.busy(async () => {
-      await this.started('throw')
-      return await this.deleteWithConfig(hashes)
-    })
+    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+      return []
+    }
+    try {
+      await this.globalReentrancyMutex?.acquire()
+      return await this.busy(async () => {
+        await this.started('throw')
+        return await this.deleteWithConfig(hashes)
+      })
+    } finally {
+      this.globalReentrancyMutex?.release()
+    }
   }
 
   async deleteQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -147,10 +179,18 @@ export abstract class AbstractArchivist<
 
   async get(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('get')
-    return await this.busy(async () => {
-      await this.started('throw')
-      return await this.getWithConfig(hashes)
-    })
+    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+      return []
+    }
+    try {
+      await this.globalReentrancyMutex?.acquire()
+      return await this.busy(async () => {
+        await this.started('throw')
+        return await this.getWithConfig(hashes)
+      })
+    } finally {
+      this.globalReentrancyMutex?.release()
+    }
   }
 
   async getQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -160,10 +200,18 @@ export abstract class AbstractArchivist<
 
   async insert(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('insert')
-    return await this.busy(async () => {
-      await this.started('throw')
-      return await this.insertWithConfig(PayloadBuilder.omitStorageMeta(payloads))
-    })
+    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+      return []
+    }
+    try {
+      await this.globalReentrancyMutex?.acquire()
+      return await this.busy(async () => {
+        await this.started('throw')
+        return await this.insertWithConfig(PayloadBuilder.omitStorageMeta(payloads))
+      })
+    } finally {
+      this.globalReentrancyMutex?.release()
+    }
   }
 
   async insertQuery(payloads: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -173,11 +221,19 @@ export abstract class AbstractArchivist<
 
   async next(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('next')
-    return await this.busy(async () => {
-      await this.started('throw')
-      const { limit = AbstractArchivist.defaultNextLimit, ...otherOptions } = options ?? {}
-      return await this.nextWithConfig({ limit, ...otherOptions })
-    })
+    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+      return []
+    }
+    try {
+      await this.globalReentrancyMutex?.acquire()
+      return await this.busy(async () => {
+        await this.started('throw')
+        const { limit = AbstractArchivist.defaultNextLimit, ...otherOptions } = options ?? {}
+        return await this.nextWithConfig({ limit, ...otherOptions })
+      })
+    } finally {
+      this.globalReentrancyMutex?.release()
+    }
   }
 
   async nextQuery(options?: ArchivistNextOptions, account?: AccountInstance): Promise<ModuleQueryResult> {

@@ -50,19 +50,27 @@ export abstract class AbstractDiviner<
   }
 
   /** @function divine The main entry point for a diviner.  Do not override this function.  Implement/override divineHandler for custom functionality */
-  divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<DivinerDivineResult<TOut>[]> {
+  async divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<DivinerDivineResult<TOut>[]> {
     this._noOverride('divine')
-    return this.busy(async () => {
-      const retryConfig = retryConfigIn ?? this.config.retry
-      await this.started('throw')
-      await this.emit('divineStart', { inPayloads: payloads, mod: this })
-      const resultPayloads
-        = (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
-      await this.emit('divineEnd', {
-        errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads,
+    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+      return []
+    }
+    try {
+      await this.globalReentrancyMutex?.acquire()
+      return await this.busy(async () => {
+        const retryConfig = retryConfigIn ?? this.config.retry
+        await this.started('throw')
+        await this.emit('divineStart', { inPayloads: payloads, mod: this })
+        const resultPayloads
+          = (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
+        await this.emit('divineEnd', {
+          errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads,
+        })
+        return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
       })
-      return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
-    })
+    } finally {
+      this.globalReentrancyMutex?.release()
+    }
   }
 
   async divineQuery(payloads?: TIn[], account?: AccountInstance, _retry?: RetryConfig): Promise<ModuleQueryResult<TOut>> {

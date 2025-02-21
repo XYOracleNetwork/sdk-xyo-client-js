@@ -13,8 +13,6 @@ export interface ModuleConfigFields {
   /** @field The name/address of the Archivist to use for this module */
   readonly archivist?: ModuleIdentifier
 
-  readonly consoleLogger?: LogLevel
-
   /**
    * @field The labels used for this module. If a label is specified, then the
    * ModuleFactoryLocator will attempt to find a ModuleFactory with the corresponding
@@ -22,7 +20,9 @@ export interface ModuleConfigFields {
    */
   readonly labels?: Labels
 
-  /** @field Friendly name of module (not collision resistent). Can be used to resolve module when registered/attached to Node. */
+  readonly logLevel?: LogLevel
+
+  /** @field Friendly name of module (not collision resistant). Can be used to resolve module when registered/attached to Node. */
   readonly name?: ModuleName
 
   /** @field paging settings for queries */

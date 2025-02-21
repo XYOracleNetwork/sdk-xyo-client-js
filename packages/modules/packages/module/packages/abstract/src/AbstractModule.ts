@@ -68,6 +68,7 @@ import type {
 } from '@xyo-network/payload-model'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
 import type { WalletInstance } from '@xyo-network/wallet-model'
+import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
 import { determineAccount } from './determineAccount.ts'
@@ -95,6 +96,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   // cache manifest based on maxDepth
   protected _cachedManifests = new LRUCache<number, ModuleManifestPayload>({ max: 10, ttl: 1000 * 60 * 5 })
+
+  protected _globalReentrancyMutex: Mutex | undefined = undefined
 
   protected _lastError?: ModuleDetailsError
 
@@ -159,14 +162,19 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return !!this.params.ephemeralQueryAccountEnabled
   }
 
+  get globalReentrancyMutex() {
+    this._globalReentrancyMutex = this._globalReentrancyMutex ?? this.reentrancy?.scope === 'global' ? new Mutex() : undefined
+    return this._globalReentrancyMutex
+  }
+
   get id() {
     return this.modName ?? this.address
   }
 
   override get logger() {
-    const consoleLogger = this.config.consoleLogger
+    const logLevel = this.config.logLevel
     this._logger
-      = (this._logger ?? consoleLogger) ? new ConsoleLogger(consoleLogger) : (this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger)
+      = (this._logger ?? logLevel) ? new ConsoleLogger(logLevel) : (this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger)
     return this._logger
   }
 
@@ -180,6 +188,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   get queries(): Schema[] {
     return [ModuleAddressQuerySchema, ModuleSubscribeQuerySchema, ModuleManifestQuerySchema, ModuleStateQuerySchema]
+  }
+
+  get reentrancy() {
+    return this.config.reentrancy
   }
 
   get status() {

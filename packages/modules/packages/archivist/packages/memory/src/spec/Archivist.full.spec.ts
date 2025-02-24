@@ -294,13 +294,13 @@ describe('MemoryArchivist [full]', () => {
       ]
 
       await archivist.insert(payloads1)
-      await delay(1)
+      await delay(2)
       const [bw, payloads, errors] = await archivist.insertQuery(payloads2, account)
-      await delay(1)
+      await delay(2)
       await archivist.insert(payloads3)
-      await delay(1)
+      await delay(2)
       await archivist.insert(payloads4)
-      await delay(1)
+      await delay(2)
       expect(bw).toBeDefined()
       expect(payloads).toBeDefined()
       expect(errors).toBeDefined()
@@ -319,6 +319,7 @@ describe('MemoryArchivist [full]', () => {
 
       const batch4 = await archivist.next?.({ limit: 20, cursor: batch1?.[0]._sequence })
       expect(batch4.length).toBe(3)
+      expect(PayloadBuilder.omitStorageMeta(batch4?.[0])).toEqual(payloads2[0])
       expect(await PayloadBuilder.dataHash(batch4?.[0])).toEqual(await PayloadBuilder.dataHash(payloads2[0]))
 
       // desc

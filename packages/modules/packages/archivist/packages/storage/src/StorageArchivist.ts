@@ -107,7 +107,6 @@ export class StorageArchivist<
         }
       })
       .sort(PayloadBuilder.compareStorageMeta)
-      .map(payload => PayloadBuilder.omitStorageMeta(payload))
   }
 
   protected override clearHandler(): void | Promise<void> {
@@ -176,7 +175,7 @@ export class StorageArchivist<
           found.add(payload._dataHash)
           return true
         }
-      }).map(payload => PayloadBuilder.omitStorageMeta(payload))
+      })
   }
 
   protected override async insertHandler(payloads: WithStorageMeta<Payload>[]): Promise<WithStorageMeta<Payload>[]> {

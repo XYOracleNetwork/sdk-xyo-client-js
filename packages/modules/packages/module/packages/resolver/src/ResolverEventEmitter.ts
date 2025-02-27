@@ -1,4 +1,4 @@
-import {
+import type {
   Module, ModuleIdentifier, ModuleResolver,
 } from '@xyo-network/module-model'
 

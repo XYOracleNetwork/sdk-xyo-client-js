@@ -1,4 +1,4 @@
-import { AnyObject, EmptyObject } from '@xylabs/object'
+import type { AnyObject, EmptyObject } from '@xylabs/object'
 import { typeOf } from '@xylabs/typeof'
 
 export const removeEmptyFields = <T extends EmptyObject>(obj: T): T => {

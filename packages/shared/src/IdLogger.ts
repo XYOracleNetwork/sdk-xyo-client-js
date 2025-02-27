@@ -1,4 +1,5 @@
-import { getFunctionName, Logger } from '@xylabs/logger'
+import type { Logger } from '@xylabs/logger'
+import { getFunctionName } from '@xylabs/logger'
 
 /** @deprecated use from @xylabs/logger instead */
 export class IdLogger implements Logger {

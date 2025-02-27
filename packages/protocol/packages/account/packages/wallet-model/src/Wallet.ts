@@ -1,8 +1,8 @@
-import { Hex } from '@xylabs/hex'
-import {
+import type { Hex } from '@xylabs/hex'
+import type {
   AccountConfig, AccountInstance, AccountStatic,
 } from '@xyo-network/account-model'
-import { Mnemonic } from 'ethers'
+import type { Mnemonic } from 'ethers'
 
 export interface WalletInstance extends AccountInstance {
   readonly chainCode: string

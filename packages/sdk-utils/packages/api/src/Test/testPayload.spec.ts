@@ -1,5 +1,5 @@
-import { StringKeyObject } from '@xylabs/object'
-import { Payload } from '@xyo-network/payload-model'
+import type { StringKeyObject } from '@xylabs/object'
+import type { Payload } from '@xyo-network/payload-model'
 import { expect, it } from 'vitest'
 
 const testSchema = 'network.xyo.test'

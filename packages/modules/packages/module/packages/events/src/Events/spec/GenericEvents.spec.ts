@@ -1,12 +1,12 @@
 import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
-import { Promisable } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/promise'
 import {
   describe, expect, it,
 } from 'vitest'
 
-import { EventData } from '../../model/index.ts'
+import type { EventData } from '../../model/index.ts'
 import { Events } from '../Events.ts'
 
 type ParentTestEvents = {

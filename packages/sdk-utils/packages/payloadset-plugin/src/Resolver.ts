@@ -1,15 +1,17 @@
 import { forget } from '@xylabs/forget'
-import { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
+import type { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { PayloadSetPayload } from '@xyo-network/payload-model'
-import { WitnessModule, WitnessParams } from '@xyo-network/witness-model'
+import type { PayloadSetPayload } from '@xyo-network/payload-model'
+import type { WitnessModule, WitnessParams } from '@xyo-network/witness-model'
 
-import {
-  isPayloadSetDivinerPlugin,
-  isPayloadSetWitnessPlugin,
+import type {
   PayloadSetDivinerPlugin,
   PayloadSetPlugin,
   PayloadSetWitnessPlugin,
+} from './Plugin.ts'
+import {
+  isPayloadSetDivinerPlugin,
+  isPayloadSetWitnessPlugin,
   tryAsPayloadSetDivinerPlugin,
   tryAsPayloadSetWitnessPlugin,
 } from './Plugin.ts'

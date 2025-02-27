@@ -1,6 +1,6 @@
-import { EventData } from '@xyo-network/module-events'
-import { Module, ModuleEventArgs } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { EventData } from '@xyo-network/module-events'
+import type { Module, ModuleEventArgs } from '@xyo-network/module-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 export type InsertedEventArgs<T extends Module = Module> = ModuleEventArgs<
   T,

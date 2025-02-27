@@ -1,9 +1,10 @@
-import { IsObjectFactory, TypeCheck } from '@xylabs/object'
-import { ObjectTypeShape } from '@xylabs/typeof'
+import type { TypeCheck } from '@xylabs/object'
+import { IsObjectFactory } from '@xylabs/object'
+import type { ObjectTypeShape } from '@xylabs/typeof'
 import { isAttachableModuleInstance } from '@xyo-network/module-model'
 
 import { isSentinelInstance } from '../typeChecks.ts'
-import { AttachableSentinelInstance } from './AttachableInstance.ts'
+import type { AttachableSentinelInstance } from './AttachableInstance.ts'
 
 export const requiredAttachableSentinelInstanceFunctions: ObjectTypeShape = {}
 

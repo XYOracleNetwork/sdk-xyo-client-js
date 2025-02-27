@@ -1,4 +1,4 @@
-import { ArchivistConfig } from '@xyo-network/archivist-model'
+import type { ArchivistConfig } from '@xyo-network/archivist-model'
 
 import { FirebaseArchivistSchema } from './Schema.ts'
 

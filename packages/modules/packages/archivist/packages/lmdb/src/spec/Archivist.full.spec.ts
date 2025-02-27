@@ -4,16 +4,16 @@
 import { tmpdir } from 'node:os'
 
 import { delay } from '@xylabs/delay'
-import { Hash } from '@xylabs/hex'
-import { AnyObject } from '@xylabs/object'
-import { Account, AccountInstance } from '@xyo-network/account'
+import type { Hash } from '@xylabs/hex'
+import type { AnyObject } from '@xylabs/object'
+import type { AccountInstance } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { generateArchivistNextTests } from '@xyo-network/archivist-acceptance-tests'
-import {
-  ArchivistInstance, isArchivistInstance, isArchivistModule,
-} from '@xyo-network/archivist-model'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { v4 } from 'uuid'
 import {

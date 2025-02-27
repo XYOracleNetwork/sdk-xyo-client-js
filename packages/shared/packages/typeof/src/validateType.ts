@@ -1,5 +1,5 @@
 import { typeOf } from './typeOf.ts'
-import { TypeOfTypes } from './TypeOfTypes.ts'
+import type { TypeOfTypes } from './TypeOfTypes.ts'
 
 export const validateType = <T>(typeName: TypeOfTypes, value: T, optional = false): [T | undefined, Error[]] => {
   switch (typeOf(value)) {

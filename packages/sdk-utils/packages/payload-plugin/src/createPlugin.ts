@@ -1,10 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { PayloadPlugin } from './Plugin.ts'
+import type { PayloadPlugin } from './Plugin.ts'
 
 export const defaultPayloadPluginFunctions = <T extends Payload>(schema: string): PayloadPlugin<T> => {
   return {

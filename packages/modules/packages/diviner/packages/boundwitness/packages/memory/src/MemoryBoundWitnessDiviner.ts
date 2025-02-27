@@ -1,10 +1,12 @@
 import { assertEx } from '@xylabs/assert'
-import { BoundWitness, isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
-import {
+import type {
   BoundWitnessDivinerParams,
-  BoundWitnessDivinerQueryPayload, isBoundWitnessDivinerQueryPayload,
+  BoundWitnessDivinerQueryPayload,
 } from '@xyo-network/diviner-boundwitness-model'
+import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 
 import { applyBoundWitnessDivinerQueryPayload } from './applyBoundWitnessDivinerQueryPayload.ts'
 

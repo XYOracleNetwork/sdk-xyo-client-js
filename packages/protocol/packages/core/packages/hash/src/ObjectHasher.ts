@@ -1,16 +1,13 @@
 /* eslint-disable sonarjs/public-static-readonly */
 /* eslint-disable sonarjs/no-nested-assignment */
 import { assertEx } from '@xylabs/assert'
-import {
-  asHash, Hash, hexFromArrayBuffer,
-} from '@xylabs/hex'
-import {
-  EmptyObject, ObjectWrapper, omitBy,
-} from '@xylabs/object'
+import type { Hash } from '@xylabs/hex'
+import { asHash, hexFromArrayBuffer } from '@xylabs/hex'
+import type { EmptyObject } from '@xylabs/object'
+import { ObjectWrapper, omitBy } from '@xylabs/object'
 import { subtle } from '@xylabs/platform'
-import {
-  ModuleThread, Pool, spawn, Worker,
-} from '@xylabs/threads'
+import type { ModuleThread, Worker } from '@xylabs/threads'
+import { Pool, spawn } from '@xylabs/threads'
 import { WasmSupport } from '@xyo-network/wasm'
 import { sha256 } from 'hash-wasm'
 

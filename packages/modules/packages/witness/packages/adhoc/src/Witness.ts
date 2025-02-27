@@ -1,8 +1,8 @@
-import { Promisable } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import { AnyConfigSchema } from '@xyo-network/module-model'
-import { Payload, Schema } from '@xyo-network/payload-model'
-import {
+import type { AnyConfigSchema } from '@xyo-network/module-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
+import type {
   WitnessConfig, WitnessModule, WitnessParams,
 } from '@xyo-network/witness-model'
 

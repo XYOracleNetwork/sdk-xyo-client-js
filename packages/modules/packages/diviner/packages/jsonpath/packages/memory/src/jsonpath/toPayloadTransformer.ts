@@ -1,5 +1,5 @@
-import { JsonPathTransformExpression, PayloadTransformer } from '@xyo-network/diviner-jsonpath-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { JsonPathTransformExpression, PayloadTransformer } from '@xyo-network/diviner-jsonpath-model'
+import type { Payload } from '@xyo-network/payload-model'
 import jsonpath from 'jsonpath'
 
 /**

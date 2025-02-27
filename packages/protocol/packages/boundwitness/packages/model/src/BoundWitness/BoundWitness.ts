@@ -1,10 +1,10 @@
-import {
+import type {
   Address, Hash, Hex,
 } from '@xylabs/hex'
-import { EmptyObject, JsonObject } from '@xylabs/object'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import type { EmptyObject, JsonObject } from '@xylabs/object'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
-import { BoundWitnessSchema } from './BoundWitnessSchema.ts'
+import type { BoundWitnessSchema } from './BoundWitnessSchema.ts'
 
 export interface BoundWitnessRequiredFields {
   /** @field Array of signatures by the accounts that are listed in addresses */
@@ -26,8 +26,8 @@ export interface BoundWitnessMeta {
 }
 
 export interface BoundWitnessBlockField {
-  /** @field sequential number (if this boundwitness is part of a multi-party chain) zero padded to 32 characters */
-  block: Hex
+  /** @field sequential number (if this boundwitness is part of a multi-party chain) */
+  block: number
 }
 
 export interface BoundWitnessChainField {

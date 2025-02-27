@@ -6,11 +6,12 @@ import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
-import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
+import type { PackageManifestPayload } from '@xyo-network/manifest'
+import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
-import { ModuleState } from '@xyo-network/module-model'
-import { MemoryNode } from '@xyo-network/node-memory'
-import { Payload } from '@xyo-network/payload-model'
+import type { ModuleState } from '@xyo-network/module-model'
+import type { MemoryNode } from '@xyo-network/node-memory'
+import type { Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,

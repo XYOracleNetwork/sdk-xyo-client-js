@@ -1,13 +1,14 @@
 import { assertEx } from '@xylabs/assert'
-import { Address, Hash } from '@xylabs/hex'
+import type { Address, Hash } from '@xylabs/hex'
 import { isObject } from '@xylabs/object'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
-  asBoundWitness, BoundWitness,
+  asBoundWitness,
   BoundWitnessSchema, isBoundWitness,
 } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithoutPrivateStorageMeta } from '@xyo-network/payload-model'
+import type { Payload, WithoutPrivateStorageMeta } from '@xyo-network/payload-model'
 import {
   isPayloadWrapperBase, PayloadWrapper, PayloadWrapperBase,
 } from '@xyo-network/payload-wrapper'

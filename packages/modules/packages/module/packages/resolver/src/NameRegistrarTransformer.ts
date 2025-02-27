@@ -1,7 +1,7 @@
-import { Address } from '@xylabs/hex'
-import { DivinerInstance } from '@xyo-network/diviner-model'
+import type { Address } from '@xylabs/hex'
+import type { DivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import { ModuleIdentifier, ModuleIdentifierTransformer } from '@xyo-network/module-model'
+import type { ModuleIdentifier, ModuleIdentifierTransformer } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
 export class NameRegistrarTransformer implements ModuleIdentifierTransformer {

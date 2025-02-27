@@ -1,5 +1,5 @@
 import { isAnyPayload } from './isPayload.ts'
-import { Payload, WithSources } from './Payload.ts'
+import type { Payload, WithSources } from './Payload.ts'
 
 export function isPayloadOfSchemaType<T extends Payload | never = never>(schema: T['schema']) {
   return (x?: unknown | null): x is T => isAnyPayload(x) && x?.schema === schema

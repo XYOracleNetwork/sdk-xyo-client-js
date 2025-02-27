@@ -1,4 +1,5 @@
-import axios, { AxiosResponseTransformer } from 'axios'
+import type { AxiosResponseTransformer } from 'axios'
+import axios from 'axios'
 
 export const locationDivinerApiResponseTransformer: AxiosResponseTransformer = (data, _headers) => {
   return data.data

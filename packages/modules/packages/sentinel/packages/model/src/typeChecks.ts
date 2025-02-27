@@ -3,8 +3,8 @@ import {
   IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory,
 } from '@xyo-network/module-model'
 
-import { SentinelInstance } from './Instance.ts'
-import { SentinelModule } from './Module.ts'
+import type { SentinelInstance } from './Instance.ts'
+import type { SentinelModule } from './Module.ts'
 import { SentinelReportQuerySchema } from './Queries/index.ts'
 
 export const isSentinelInstance = new IsInstanceFactory<SentinelInstance>().create({ report: 'function' }, [isModuleInstance])

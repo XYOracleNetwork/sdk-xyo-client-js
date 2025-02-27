@@ -1,22 +1,24 @@
-import { Promisable } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/promise'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import {
+import type {
   ForecastingDivinerConfig,
-  ForecastingDivinerConfigSchema,
   ForecastingDivinerQueryPayload,
   ForecastingMethod,
   ForecastingSettings,
   ForecastPayload,
-  ForecastPayloadSchema,
-  isForecastingDivinerQueryPayload,
   PayloadValueTransformer,
 } from '@xyo-network/diviner-forecasting-model'
 import {
+  ForecastingDivinerConfigSchema,
+  ForecastPayloadSchema,
+  isForecastingDivinerQueryPayload,
+} from '@xyo-network/diviner-forecasting-model'
+import type {
   DivinerInstance, DivinerModuleEventData, DivinerParams,
 } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module-model'
+import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import {
+import type {
   Payload, Schema, WithSources,
 } from '@xyo-network/payload-model'
 

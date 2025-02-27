@@ -1,11 +1,12 @@
 import Path from 'node:path'
 
-import { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/hex'
 import { LevelDbArchivist, LevelDbArchivistConfigSchema } from '@xyo-network/archivist-leveldb'
 import { LmdbArchivist, LmdbArchivistConfigSchema } from '@xyo-network/archivist-lmdb'
-import { Id, IdSchema } from '@xyo-network/id-payload-plugin'
+import type { Id } from '@xyo-network/id-payload-plugin'
+import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { WithSources } from '@xyo-network/payload-model'
+import type { WithSources } from '@xyo-network/payload-model'
 import { v4 } from 'uuid'
 import { bench, describe } from 'vitest'
 

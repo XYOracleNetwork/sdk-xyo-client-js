@@ -1,4 +1,4 @@
-import { ModuleIdentifier } from '@xyo-network/module-model'
+import type { ModuleIdentifier } from '@xyo-network/module-model'
 
 export interface ModuleTask<TEndpoints extends string = string> {
   /** @field the name of the endPoint that is being called.  If not specified, the default endPoint is used */

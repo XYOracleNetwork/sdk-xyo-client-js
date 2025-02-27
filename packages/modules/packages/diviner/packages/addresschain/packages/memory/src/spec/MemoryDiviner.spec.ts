@@ -6,9 +6,8 @@ import { delay } from '@xylabs/delay'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import {
-  asOptionalBoundWitness, BoundWitness, BoundWitnessSchema,
-} from '@xyo-network/boundwitness-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { asOptionalBoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'

@@ -5,7 +5,8 @@ import {
   it,
 } from 'vitest'
 
-import { WasmFeature, WasmSupport } from '../WasmSupport.ts'
+import type { WasmFeature } from '../WasmSupport.ts'
+import { WasmSupport } from '../WasmSupport.ts'
 
 describe('WasmSupport', () => {
   const allFeatures: WasmFeature[] = [

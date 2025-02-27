@@ -1,9 +1,10 @@
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import { DistinctDivinerConfig, DistinctDivinerConfigSchema } from '@xyo-network/diviner-distinct-model'
-import { DivinerParams } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module-model'
+import type { DistinctDivinerConfig } from '@xyo-network/diviner-distinct-model'
+import { DistinctDivinerConfigSchema } from '@xyo-network/diviner-distinct-model'
+import type { DivinerParams } from '@xyo-network/diviner-model'
+import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
 export type DistinctDivinerParams = DivinerParams<AnyConfigSchema<DistinctDivinerConfig>>
 

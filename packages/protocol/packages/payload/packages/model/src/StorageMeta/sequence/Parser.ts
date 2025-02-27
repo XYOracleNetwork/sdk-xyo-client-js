@@ -1,15 +1,20 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
-import {
+import type {
   Address,
   Hash, Hex,
+} from '@xylabs/hex'
+import {
   isAddress,
   toHex,
 } from '@xylabs/hex'
 
-import {
-  Epoch, isQualifiedSequence, isSequence, LocalSequence, Nonce, QualifiedSequence,
+import type {
+  Epoch, LocalSequence, Nonce, QualifiedSequence,
   Sequence,
+} from './Sequence.ts'
+import {
+  isQualifiedSequence, isSequence,
   SequenceConstants,
 } from './Sequence.ts'
 

@@ -1,5 +1,6 @@
-import { ModuleInstance } from '@xyo-network/module-model'
-import { asNodeInstance, NodeInstance } from '@xyo-network/node-model'
+import type { ModuleInstance } from '@xyo-network/module-model'
+import type { NodeInstance } from '@xyo-network/node-model'
+import { asNodeInstance } from '@xyo-network/node-model'
 
 export const attachedPrivateModules = async (node: NodeInstance, maxDepth = 1): Promise<ModuleInstance[]> => {
   const remainingDepth = maxDepth - 1

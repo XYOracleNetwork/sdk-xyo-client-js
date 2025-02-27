@@ -1,7 +1,9 @@
 import '@xylabs/vitest-extended'
 
-import { AddressPayload, AddressSchema } from '@xyo-network/module-model'
-import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
+import type { AddressPayload } from '@xyo-network/module-model'
+import { AddressSchema } from '@xyo-network/module-model'
+import type { QueryPayload } from '@xyo-network/query-payload-plugin'
+import { QuerySchema } from '@xyo-network/query-payload-plugin'
 import {
   describe, expect, it,
 } from 'vitest'

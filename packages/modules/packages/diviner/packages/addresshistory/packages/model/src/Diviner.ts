@@ -1,7 +1,7 @@
-import {
-  isPayloadOfSchemaType,
+import type {
   Payload, PayloadFindFilter, Query,
 } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 export const AddressHistorySchema = 'network.xyo.diviner.address.history' as const
 export type AddressHistorySchema = typeof AddressHistorySchema

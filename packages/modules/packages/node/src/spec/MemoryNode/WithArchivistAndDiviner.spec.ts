@@ -4,11 +4,11 @@ import '@xylabs/vitest-extended'
 import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistPayloadDiviner, ArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner-archivist'
-import { HuriPayload, HuriSchema } from '@xyo-network/diviner-huri'
+import type { HuriPayload } from '@xyo-network/diviner-huri'
+import { HuriSchema } from '@xyo-network/diviner-huri'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import {
-  Payload, PayloadBuilder, PayloadSchema,
-} from '@xyo-network/payload'
+import type { Payload } from '@xyo-network/payload'
+import { PayloadBuilder, PayloadSchema } from '@xyo-network/payload'
 import {
   describe, expect,
   it,

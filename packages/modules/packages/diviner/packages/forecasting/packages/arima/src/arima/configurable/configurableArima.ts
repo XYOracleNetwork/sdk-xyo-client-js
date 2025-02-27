@@ -1,8 +1,9 @@
-import {
+import type {
   Forecast, ForecastingMethod, PayloadValueTransformer,
 } from '@xyo-network/diviner-forecasting-model'
-import { Payload } from '@xyo-network/payload-model'
-import ARIMA, { ARIMAOptions } from 'arima'
+import type { Payload } from '@xyo-network/payload-model'
+import type { ARIMAOptions } from 'arima'
+import ARIMA from 'arima'
 
 export const commonOpts: ARIMAOptions = { verbose: false }
 

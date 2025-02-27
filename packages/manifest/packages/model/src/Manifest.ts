@@ -1,4 +1,4 @@
-import { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 
 export type ModuleAlias = Exclude<string, 'reserved-alias-value-8346534876'>
 

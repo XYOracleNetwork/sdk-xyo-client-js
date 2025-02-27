@@ -1,9 +1,9 @@
-import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { Module, ModuleQueries } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { Module, ModuleQueries } from '@xyo-network/module-model'
+import type { Payload } from '@xyo-network/payload-model'
 
-import { Queryable, QueryValidator } from './QueryValidator.ts'
+import type { Queryable, QueryValidator } from './QueryValidator.ts'
 
 export const isQuerySupportedByModule = async <T extends QueryBoundWitness = QueryBoundWitness>(
   mod: Module,

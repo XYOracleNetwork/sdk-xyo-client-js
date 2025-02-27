@@ -1,11 +1,11 @@
 import { AsObjectFactory } from '@xylabs/object'
+import type { WithStorageMeta } from '@xyo-network/payload-model'
 import {
-  isPayloadOfSchemaType, isStorageMeta, notPayloadOfSchemaType, WithStorageMeta,
+  isPayloadOfSchemaType, isStorageMeta, notPayloadOfSchemaType,
 } from '@xyo-network/payload-model'
 
-import {
-  BoundWitness, BoundWitnessSchema, UnsignedBoundWitness,
-} from './BoundWitness/index.ts'
+import type { BoundWitness, UnsignedBoundWitness } from './BoundWitness/index.ts'
+import { BoundWitnessSchema } from './BoundWitness/index.ts'
 
 export const isBoundWitness = (value: unknown): value is BoundWitness => isPayloadOfSchemaType<BoundWitness>(BoundWitnessSchema)(value)
 

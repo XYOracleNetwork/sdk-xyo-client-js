@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios'
+import type { AxiosResponse } from 'axios'
 
-import { ApiEnvelope } from './Envelope.ts'
+import type { ApiEnvelope } from './Envelope.ts'
 
 export type ApiResponse<T = unknown, D = unknown> = AxiosResponse<T, D>
 

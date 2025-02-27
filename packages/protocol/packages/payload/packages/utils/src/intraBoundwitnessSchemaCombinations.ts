@@ -1,6 +1,6 @@
-import { Hash } from '@xylabs/hex'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { Schema } from '@xyo-network/payload-model'
+import type { Hash } from '@xylabs/hex'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import type { Schema } from '@xyo-network/payload-model'
 
 /**
  * Returns all the possible combinations of payloads for the supplied schemas within the bound witness

@@ -1,10 +1,11 @@
-import { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 import { v4 as uuid } from 'uuid'
 import {
   describe, expect, it,
 } from 'vitest'
 
-import { Storage, StoragePreviousHashStore } from '../StoragePreviousHashStore.ts'
+import type { Storage } from '../StoragePreviousHashStore.ts'
+import { StoragePreviousHashStore } from '../StoragePreviousHashStore.ts'
 
 describe('StoragePreviousHashStore', () => {
   const previousHash = '2e8de18ece40481f132e6d2f05617e05cd896a9098d28ed65afdf0d72203b490'

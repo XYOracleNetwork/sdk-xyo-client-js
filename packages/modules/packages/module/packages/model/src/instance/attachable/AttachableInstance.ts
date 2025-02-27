@@ -1,9 +1,10 @@
-import { IsObjectFactory, TypeCheck } from '@xylabs/object'
+import type { TypeCheck } from '@xylabs/object'
+import { IsObjectFactory } from '@xylabs/object'
 
-import { ModuleEventData } from '../../EventsModels/index.ts'
-import { ModuleParams } from '../../ModuleParams.ts'
-import { ModuleInstance } from '../Instance.ts'
-import { ModuleResolverInstance } from '../ModuleResolver.ts'
+import type { ModuleEventData } from '../../EventsModels/index.ts'
+import type { ModuleParams } from '../../ModuleParams.ts'
+import type { ModuleInstance } from '../Instance.ts'
+import type { ModuleResolverInstance } from '../ModuleResolver.ts'
 
 export interface AttachableModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends ModuleInstance<TParams, TEventData> {

@@ -1,8 +1,10 @@
-import { Hash, isHash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/hex'
+import { isHash } from '@xylabs/hex'
 import { AsObjectFactory } from '@xylabs/object'
 
-import { Payload } from '../Payload.ts'
-import { DataHashStorageMeta, isDataHashStorageMeta } from './DataHash.ts'
+import type { Payload } from '../Payload.ts'
+import type { DataHashStorageMeta } from './DataHash.ts'
+import { isDataHashStorageMeta } from './DataHash.ts'
 
 export interface HashStorageMeta extends DataHashStorageMeta {
   _hash: Hash

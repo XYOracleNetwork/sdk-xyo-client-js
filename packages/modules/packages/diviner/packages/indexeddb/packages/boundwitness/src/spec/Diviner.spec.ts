@@ -4,13 +4,13 @@ import { filterAs } from '@xylabs/array'
 import { delay } from '@xylabs/delay'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import {
-  asOptionalBoundWitnessWithStorageMeta, BoundWitness, isBoundWitness,
-} from '@xyo-network/boundwitness-model'
-import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { asOptionalBoundWitnessWithStorageMeta, isBoundWitness } from '@xyo-network/boundwitness-model'
+import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
+import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { WithStorageMeta } from '@xyo-network/payload-model'
+import type { WithStorageMeta } from '@xyo-network/payload-model'
 import {
   IDBCursor,
   IDBCursorWithValue,

@@ -1,8 +1,8 @@
-import { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 
-import { ModuleInstance } from '../instance/index.ts'
-import { ModuleName } from '../ModuleIdentifier.ts'
-import { ModuleResolveDirection } from './model.ts'
+import type { ModuleInstance } from '../instance/index.ts'
+import type { ModuleName } from '../ModuleIdentifier.ts'
+import type { ModuleResolveDirection } from './model.ts'
 import {
   resolveLocalNameToInstance,
   resolveLocalNameToInstanceAll,

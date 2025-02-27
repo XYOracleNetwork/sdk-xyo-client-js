@@ -7,10 +7,11 @@ import { JsonPatchDiviner } from '@xyo-network/diviner-jsonpatch-memory'
 import { JsonPathAggregateDiviner } from '@xyo-network/diviner-jsonpath-aggregate-memory'
 import { JsonPathDiviner } from '@xyo-network/diviner-jsonpath-memory'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
+import type { PackageManifestPayload } from '@xyo-network/manifest'
+import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
-import { MemoryNode } from '@xyo-network/node-memory'
-import { Payload } from '@xyo-network/payload-model'
+import type { MemoryNode } from '@xyo-network/node-memory'
+import type { Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,

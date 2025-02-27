@@ -1,8 +1,8 @@
 import { exists } from '@xylabs/exists'
 import { isSequence } from '@xyo-network/payload-model'
 
-import { PayloadRule } from '../PayloadRule.ts'
-import { PayloadSequenceOrderRule } from '../Rules/index.ts'
+import type { PayloadRule } from '../PayloadRule.ts'
+import type { PayloadSequenceOrderRule } from '../Rules/index.ts'
 
 export const isPayloadSequenceOrderRule = (rule: PayloadRule): rule is PayloadSequenceOrderRule => {
   const { order, sequence } = rule as Partial<PayloadSequenceOrderRule>

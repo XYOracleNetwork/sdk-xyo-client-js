@@ -1,14 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import {
-  JsonPathDivinerConfigSchema, JsonPathDivinerParams, PayloadTransformer,
-} from '@xyo-network/diviner-jsonpath-model'
-import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import type { JsonPathDivinerParams, PayloadTransformer } from '@xyo-network/diviner-jsonpath-model'
+import { JsonPathDivinerConfigSchema } from '@xyo-network/diviner-jsonpath-model'
+import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import {
-  Payload, PayloadSchema,
+import type {
+  Payload,
   Schema, WithoutSchema,
 } from '@xyo-network/payload-model'
+import { PayloadSchema } from '@xyo-network/payload-model'
 
 import { toPayloadTransformer } from './jsonpath/index.ts'
 

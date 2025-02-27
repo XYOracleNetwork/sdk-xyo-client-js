@@ -1,7 +1,7 @@
-import { Promisable } from '@xylabs/promise'
-import { ModuleIdentifier, ModuleQueryResult } from '@xyo-network/module-model'
+import type { Promisable } from '@xylabs/promise'
+import type { ModuleIdentifier, ModuleQueryResult } from '@xyo-network/module-model'
 
-import { BridgeExposeOptions, BridgeUnexposeOptions } from './Queries/index.ts'
+import type { BridgeExposeOptions, BridgeUnexposeOptions } from './Queries/index.ts'
 
 export interface BridgeRawQueryFunctions {
   connectQuery?: (id: ModuleIdentifier, maxDepth?: number) => Promisable<ModuleQueryResult>

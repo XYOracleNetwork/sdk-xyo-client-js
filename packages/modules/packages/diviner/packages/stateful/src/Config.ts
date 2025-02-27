@@ -1,5 +1,5 @@
-import { DivinerConfig } from '@xyo-network/diviner-model'
-import { ModuleIdentifier } from '@xyo-network/module-model'
+import type { DivinerConfig } from '@xyo-network/diviner-model'
+import type { ModuleIdentifier } from '@xyo-network/module-model'
 
 import { StatefulDivinerSchema } from './Schema.ts'
 

@@ -13,7 +13,7 @@ import {
   isPhraseInitializationConfig,
   isPrivateKeyInitializationConfig,
 } from '@xyo-network/account-model'
-import { PrivateKeyInstance } from '@xyo-network/key-model'
+import type { PrivateKeyInstance } from '@xyo-network/key-model'
 import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import {
   defaultPath, HDNodeWallet, Mnemonic,

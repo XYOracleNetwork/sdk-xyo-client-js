@@ -1,7 +1,8 @@
 import { createServer as createHttpServer } from 'node:http'
 
-import { Address } from '@xylabs/hex'
-import { Server, Socket } from 'socket.io'
+import type { Address } from '@xylabs/hex'
+import type { Socket } from 'socket.io'
+import { Server } from 'socket.io'
 
 export const BridgeCommands = {
   bridge: 'bridge',

@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import {
   describe, expect, it,
 } from 'vitest'

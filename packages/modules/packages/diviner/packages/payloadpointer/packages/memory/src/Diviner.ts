@@ -1,18 +1,19 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
-import {
-  asDivinerInstance, DivinerInstance, DivinerModuleEventData,
-} from '@xyo-network/diviner-model'
-import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
-import {
-  isPointerPayload,
-  PayloadPointerDivinerConfigSchema,
+import type { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
+import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { asDivinerInstance } from '@xyo-network/diviner-model'
+import type { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
+import type {
   PayloadPointerDivinerParams,
   PointerPayload,
 } from '@xyo-network/diviner-payload-pointer-model'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  isPointerPayload,
+  PayloadPointerDivinerConfigSchema,
+} from '@xyo-network/diviner-payload-pointer-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
 import { findPayload } from './findPayload.ts'
 

@@ -6,15 +6,15 @@ export * from './Get.ts'
 export * from './Insert.ts'
 export * from './Next.ts'
 
-import { ModuleQueries } from '@xyo-network/module-model'
+import type { ModuleQueries } from '@xyo-network/module-model'
 
-import { ArchivistAllQuery } from './All.ts'
-import { ArchivistClearQuery } from './Clear.ts'
-import { ArchivistCommitQuery } from './Commit.ts'
-import { ArchivistDeleteQuery } from './Delete.ts'
-import { ArchivistGetQuery } from './Get.ts'
-import { ArchivistInsertQuery } from './Insert.ts'
-import { ArchivistNextQuery } from './Next.ts'
+import type { ArchivistAllQuery } from './All.ts'
+import type { ArchivistClearQuery } from './Clear.ts'
+import type { ArchivistCommitQuery } from './Commit.ts'
+import type { ArchivistDeleteQuery } from './Delete.ts'
+import type { ArchivistGetQuery } from './Get.ts'
+import type { ArchivistInsertQuery } from './Insert.ts'
+import type { ArchivistNextQuery } from './Next.ts'
 
 export type ArchivistQueries =
   | ArchivistAllQuery

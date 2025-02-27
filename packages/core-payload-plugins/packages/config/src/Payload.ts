@@ -1,7 +1,7 @@
-import { AnyObject, WithAdditional } from '@xylabs/object'
-import { Payload } from '@xyo-network/payload-model'
+import type { AnyObject, WithAdditional } from '@xylabs/object'
+import type { Payload } from '@xyo-network/payload-model'
 
-import { ConfigSchema } from './Schema.ts'
+import type { ConfigSchema } from './Schema.ts'
 
 export type ConfigPayload<T extends AnyObject | undefined = undefined> = WithAdditional<
   Payload<{

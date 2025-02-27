@@ -1,4 +1,4 @@
-import { KnipConfig } from 'knip'
+import type { KnipConfig } from 'knip'
 
 type WorkspaceConfig = Exclude<KnipConfig['workspaces'], undefined>[keyof KnipConfig['workspaces']]
 

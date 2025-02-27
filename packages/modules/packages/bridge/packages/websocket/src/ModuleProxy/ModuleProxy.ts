@@ -1,8 +1,9 @@
-import { Address } from '@xylabs/hex'
-import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/bridge-abstract'
-import { ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { Address } from '@xylabs/hex'
+import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { ModuleProxyParams } from '@xyo-network/bridge-abstract'
+import { AbstractModuleProxy } from '@xyo-network/bridge-abstract'
+import type { ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 export interface WebsocketBridgeQuerySender {
   sendBridgeQuery: <TOut extends Payload = Payload, TQuery extends QueryBoundWitness = QueryBoundWitness, TIn extends Payload = Payload>(

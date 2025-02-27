@@ -1,10 +1,9 @@
 import { filterAs } from '@xylabs/array'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
-import {
-  asOptionalId, Id, IdPayload, IdSchema,
-} from '@xyo-network/id-payload-plugin'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import type { Id, IdPayload } from '@xyo-network/id-payload-plugin'
+import { asOptionalId, IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { WithStorageMeta } from '@xyo-network/payload-model'
+import type { WithStorageMeta } from '@xyo-network/payload-model'
 import { v4 as uuid } from 'uuid'
 import { expect } from 'vitest'
 

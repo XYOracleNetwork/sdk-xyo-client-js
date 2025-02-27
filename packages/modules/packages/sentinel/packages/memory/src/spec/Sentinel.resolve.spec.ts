@@ -3,15 +3,15 @@ import '@xylabs/vitest-extended'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadSchema } from '@xyo-network/payload-model'
-import {
-  ReportEndEventArgs, SentinelConfig, SentinelConfigSchema,
-} from '@xyo-network/sentinel-model'
+import type { ReportEndEventArgs, SentinelConfig } from '@xyo-network/sentinel-model'
+import { SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 import {
   describe, expect, test,
 } from 'vitest'
 
-import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel.ts'
+import type { MemorySentinelParams } from '../MemorySentinel.ts'
+import { MemorySentinel } from '../MemorySentinel.ts'
 
 /**
  * @group sentinel

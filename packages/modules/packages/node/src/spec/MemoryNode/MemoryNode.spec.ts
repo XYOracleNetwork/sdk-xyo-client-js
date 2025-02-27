@@ -2,21 +2,25 @@
 import { delay } from '@xylabs/delay'
 import { matchers } from '@xylabs/vitest-matchers'
 import { HDWallet } from '@xyo-network/account'
-import { AccountInstance } from '@xyo-network/account-model'
+import type { AccountInstance } from '@xyo-network/account-model'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { AttachableArchivistInstance } from '@xyo-network/archivist-model'
-import {
+import type { AttachableArchivistInstance } from '@xyo-network/archivist-model'
+import type {
   AddressPayload,
-  AddressSchema,
   AttachableModuleInstance,
   Module,
   ModuleDescription,
   ModuleDescriptionPayload,
+} from '@xyo-network/module-model'
+import {
+  AddressSchema,
   ModuleDescriptionSchema,
 } from '@xyo-network/module-model'
 import { MemoryNode, MemoryNodeHelper } from '@xyo-network/node-memory'
-import { ModuleAttachedEventArgs, NodeConfigSchema } from '@xyo-network/node-model'
-import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload'
+import type { ModuleAttachedEventArgs } from '@xyo-network/node-model'
+import { NodeConfigSchema } from '@xyo-network/node-model'
+import type { Payload } from '@xyo-network/payload'
+import { isPayloadOfSchemaType } from '@xyo-network/payload'
 import {
   beforeAll,
   beforeEach,

@@ -2,17 +2,19 @@
 /* eslint-disable complexity */
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Address, isAddress } from '@xylabs/hex'
-import { IdLogger, Logger } from '@xylabs/logger'
+import type { Address } from '@xylabs/hex'
+import { isAddress } from '@xylabs/hex'
+import type { Logger } from '@xylabs/logger'
+import { IdLogger } from '@xylabs/logger'
 import { toJsonString } from '@xylabs/object'
 
-import {
-  asModuleInstance,
+import type {
   ModuleFilterOptions, ModuleInstance, ModuleResolver,
 } from '../instance/index.ts'
+import { asModuleInstance } from '../instance/index.ts'
 import { duplicateModules } from '../lib/index.ts'
-import { ModuleIdentifier } from '../ModuleIdentifier.ts'
-import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.ts'
+import type { ModuleIdentifier } from '../ModuleIdentifier.ts'
+import type { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.ts'
 import { ResolveHelperStatic } from './ResolveHelperStatic.ts'
 import { resolvePathToAddress } from './resolvePathToAddress.ts'
 import { traceModuleIdentifier } from './traceModuleIdentifier.ts'

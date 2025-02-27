@@ -1,4 +1,4 @@
-import { Hex } from '@xylabs/hex'
+import type { Hex } from '@xylabs/hex'
 
 export interface DataInstance {
   base58: string

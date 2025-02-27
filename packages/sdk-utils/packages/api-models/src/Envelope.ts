@@ -1,5 +1,5 @@
-import { ApiError } from './Error.ts'
-import { ApiWarning } from './Warning.ts'
+import type { ApiError } from './Error.ts'
+import type { ApiWarning } from './Warning.ts'
 
 export interface ApiEnvelopeBase {
   warning?: ApiWarning[]

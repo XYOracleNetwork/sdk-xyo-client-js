@@ -1,9 +1,9 @@
-import {
-  ModuleConfigSchema, ModuleInstance, ModuleStateQuerySchema,
-} from '@xyo-network/module-model'
+import type { ModuleInstance } from '@xyo-network/module-model'
+import { ModuleConfigSchema, ModuleStateQuerySchema } from '@xyo-network/module-model'
+import type { MockedObject } from 'vitest'
 import {
   beforeEach, describe, expect,
-  it, MockedObject,
+  it,
   vi,
 } from 'vitest'
 

@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import {
+import type {
   PayloadAddressRule, PayloadRule, PayloadSchemaRule, PayloadSequenceOrderRule,
 } from '@xyo-network/diviner-payload-pointer-model'
 import { SequenceConstants } from '@xyo-network/payload-model'

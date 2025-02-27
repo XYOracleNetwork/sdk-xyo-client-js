@@ -1,4 +1,4 @@
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 export const HuriSchema = 'network.xyo.huri' as const
 export type HuriSchema = typeof HuriSchema

@@ -1,18 +1,20 @@
-import { AccountInstance } from '@xyo-network/account-model'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
-import {
+import type { AccountInstance } from '@xyo-network/account-model'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import type {
   BridgeInstance, QuerySendFinishedEventArgs, QuerySendStartedEventArgs,
 } from '@xyo-network/bridge-model'
-import {
+import type {
   ArchivingModuleConfig,
   CacheConfig,
   ModuleFilterOptions,
   ModuleIdentifier,
-  ModuleInstance, ObjectResolverPriority,
+  ModuleInstance,
 } from '@xyo-network/module-model'
-import { CompositeModuleResolver, ModuleResolverParams } from '@xyo-network/module-resolver'
+import { ObjectResolverPriority } from '@xyo-network/module-model'
+import type { ModuleResolverParams } from '@xyo-network/module-resolver'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 
-import { ModuleProxyParams } from './AbstractModuleProxy/index.ts'
+import type { ModuleProxyParams } from './AbstractModuleProxy/index.ts'
 
 export interface BridgeModuleResolverParams extends ModuleResolverParams {
   additionalSigners?: AccountInstance[]

@@ -1,9 +1,9 @@
-import { EmptyObject, WithAdditional } from '@xylabs/object'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import type { EmptyObject, WithAdditional } from '@xylabs/object'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
-import { ArchivingModuleConfig } from './Archiving.ts'
-import { ModuleConfigFields } from './Fields.ts'
-import { ArchivingReentrancyConfig } from './Reentrancy.ts'
+import type { ArchivingModuleConfig } from './Archiving.ts'
+import type { ModuleConfigFields } from './Fields.ts'
+import type { ArchivingReentrancyConfig } from './Reentrancy.ts'
 
 export const ModuleConfigSchema = 'network.xyo.module.config' as const
 export type ModuleConfigSchema = typeof ModuleConfigSchema

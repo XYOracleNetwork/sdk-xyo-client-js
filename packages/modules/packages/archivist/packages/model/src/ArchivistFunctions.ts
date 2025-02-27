@@ -1,6 +1,6 @@
-import { Promisable, PromisableArray } from '@xylabs/promise'
+import type { Promisable, PromisableArray } from '@xylabs/promise'
 
-import { NextOptions } from './NextOptions.ts'
+import type { NextOptions } from './NextOptions.ts'
 
 export interface AllArchivistFunctions<TReadResponse> {
   all(): PromisableArray<TReadResponse>

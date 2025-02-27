@@ -1,5 +1,6 @@
-import { Payload, SchemaRegEx } from '@xyo-network/payload-model'
-import { JSONSchemaType } from 'ajv'
+import type { Payload } from '@xyo-network/payload-model'
+import { SchemaRegEx } from '@xyo-network/payload-model'
+import type { JSONSchemaType } from 'ajv'
 
 export const payloadJsonSchema: JSONSchemaType<Payload> = {
   additionalProperties: true,

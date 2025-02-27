@@ -1,7 +1,7 @@
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import { AddressChainDivinerParams } from '@xyo-network/diviner-address-chain-model'
-import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { AddressChainDivinerParams } from '@xyo-network/diviner-address-chain-model'
+import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 export abstract class AddressChainDiviner<
   TParams extends AddressChainDivinerParams = AddressChainDivinerParams,

@@ -1,4 +1,4 @@
-import {
+import type {
   PayloadAddressRule, PayloadSchemaRule, PayloadSequenceOrderRule,
 } from './Rules/index.ts'
 

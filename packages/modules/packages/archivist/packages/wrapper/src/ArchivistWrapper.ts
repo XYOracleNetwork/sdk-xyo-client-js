@@ -1,29 +1,31 @@
-import { Hash } from '@xylabs/hex'
-import { AccountInstance } from '@xyo-network/account-model'
-import {
+import type { Hash } from '@xylabs/hex'
+import type { AccountInstance } from '@xyo-network/account-model'
+import type {
   ArchivistAllQuery,
-  ArchivistAllQuerySchema,
   ArchivistClearQuery,
-  ArchivistClearQuerySchema,
   ArchivistCommitQuery,
-  ArchivistCommitQuerySchema,
   ArchivistDeleteQuery,
-  ArchivistDeleteQuerySchema,
   ArchivistGetQuery,
-  ArchivistGetQuerySchema,
   ArchivistInsertQuery,
-  ArchivistInsertQuerySchema,
   ArchivistModuleInstance,
   ArchivistNextOptions,
   ArchivistNextQuery,
-  ArchivistNextQuerySchema,
   AttachableArchivistInstance,
+} from '@xyo-network/archivist-model'
+import {
+  ArchivistAllQuerySchema,
+  ArchivistClearQuerySchema,
+  ArchivistCommitQuerySchema,
+  ArchivistDeleteQuerySchema,
+  ArchivistGetQuerySchema,
+  ArchivistInsertQuerySchema,
+  ArchivistNextQuerySchema,
   isArchivistInstance,
   isArchivistModule,
 } from '@xyo-network/archivist-model'
-import { ModuleQueryResult } from '@xyo-network/module-model'
+import type { ModuleQueryResult } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
-import { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 
 constructableModuleWrapper()
 export class ArchivistWrapper<TWrappedModule extends ArchivistModuleInstance = ArchivistModuleInstance>

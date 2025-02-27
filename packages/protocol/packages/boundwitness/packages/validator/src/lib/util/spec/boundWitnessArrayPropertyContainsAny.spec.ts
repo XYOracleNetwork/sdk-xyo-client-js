@@ -1,7 +1,8 @@
 import '@xylabs/vitest-extended'
 
-import { Address } from '@xylabs/hex'
-import { HDWallet, WalletInstance } from '@xyo-network/account'
+import type { Address } from '@xylabs/hex'
+import type { WalletInstance } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
   beforeAll,

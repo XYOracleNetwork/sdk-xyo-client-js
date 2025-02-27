@@ -1,14 +1,15 @@
-import { Order } from '@xyo-network/diviner-payload-model'
-import {
+import type { Order } from '@xyo-network/diviner-payload-model'
+import type {
   PayloadAddressRule,
   PayloadPointerPayload,
-  PayloadPointerSchema,
   PayloadRule,
   PayloadSchemaRule,
   PayloadSequenceOrderRule,
 } from '@xyo-network/diviner-payload-pointer-model'
+import { PayloadPointerSchema } from '@xyo-network/diviner-payload-pointer-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Sequence, SequenceConstants } from '@xyo-network/payload-model'
+import type { Sequence } from '@xyo-network/payload-model'
+import { SequenceConstants } from '@xyo-network/payload-model'
 
 export const createPointer = (
   addresses: string[][] = [],

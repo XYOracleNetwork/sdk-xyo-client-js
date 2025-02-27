@@ -1,8 +1,9 @@
-import { IsObjectFactory, TypeCheck } from '@xylabs/object'
-import { ObjectTypeShape } from '@xylabs/typeof'
+import type { TypeCheck } from '@xylabs/object'
+import { IsObjectFactory } from '@xylabs/object'
+import type { ObjectTypeShape } from '@xylabs/typeof'
 
 import { isModule } from '../module/index.ts'
-import { ModuleInstance } from './Instance.ts'
+import type { ModuleInstance } from './Instance.ts'
 
 export const requiredModuleInstanceFunctions: ObjectTypeShape = {
   manifest: 'function',

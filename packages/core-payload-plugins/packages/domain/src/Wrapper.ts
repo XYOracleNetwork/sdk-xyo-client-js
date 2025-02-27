@@ -1,18 +1,17 @@
 import { axios } from '@xylabs/axios'
-import { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/hex'
 import { Base } from '@xylabs/object'
 import { isBrowser } from '@xylabs/platform'
-import { ApiEnvelope } from '@xyo-network/api-models'
+import type { ApiEnvelope } from '@xyo-network/api-models'
 import { DnsRecordType, domainResolve } from '@xyo-network/dns'
-import {
-  FetchedPayload, Huri, HuriOptions,
-} from '@xyo-network/huri'
-import { NetworkPayload } from '@xyo-network/network'
+import type { FetchedPayload, HuriOptions } from '@xyo-network/huri'
+import { Huri } from '@xyo-network/huri'
+import type { NetworkPayload } from '@xyo-network/network'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { AxiosError } from 'axios'
+import type { AxiosError } from 'axios'
 
-import { Alias, DomainPayload } from './Payload.ts'
+import type { Alias, DomainPayload } from './Payload.ts'
 
 export interface FetchedAlias extends FetchedPayload {
   alias: Alias

@@ -1,4 +1,4 @@
-import { DomainPayload } from './Payload.ts'
+import type { DomainPayload } from './Payload.ts'
 import { DomainSchema } from './Schema.ts'
 
 export const domainConfigTemplate = (): DomainPayload => ({

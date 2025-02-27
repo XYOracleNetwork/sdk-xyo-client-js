@@ -1,4 +1,5 @@
-import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 export const TimestampSchema = 'network.xyo.timestamp' as const
 export type TimestampSchema = typeof TimestampSchema

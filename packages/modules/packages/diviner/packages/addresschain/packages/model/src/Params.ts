@@ -1,6 +1,6 @@
-import { DivinerParams } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module-model'
+import type { DivinerParams } from '@xyo-network/diviner-model'
+import type { AnyConfigSchema } from '@xyo-network/module-model'
 
-import { AddressChainDivinerConfig } from './Config.ts'
+import type { AddressChainDivinerConfig } from './Config.ts'
 
 export type AddressChainDivinerParams = DivinerParams<AnyConfigSchema<AddressChainDivinerConfig>>

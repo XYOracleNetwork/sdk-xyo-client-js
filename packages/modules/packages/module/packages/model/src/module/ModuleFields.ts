@@ -1,12 +1,12 @@
-import { Address } from '@xylabs/hex'
-import { Promisable } from '@xylabs/promise'
-import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { Address } from '@xylabs/hex'
+import type { Promisable } from '@xylabs/promise'
+import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { Payload } from '@xyo-network/payload-model'
 
-import { ModuleConfig } from '../Config/index.ts'
-import { ModuleName } from '../ModuleIdentifier.ts'
-import { ModuleParams } from '../ModuleParams.ts'
-import { ModuleQueryResult } from '../ModuleQueryResult.ts'
+import type { ModuleConfig } from '../Config/index.ts'
+import type { ModuleName } from '../ModuleIdentifier.ts'
+import type { ModuleParams } from '../ModuleParams.ts'
+import type { ModuleQueryResult } from '../ModuleQueryResult.ts'
 
 export interface ModuleFields<TParams extends ModuleParams = ModuleParams> {
   address: Address

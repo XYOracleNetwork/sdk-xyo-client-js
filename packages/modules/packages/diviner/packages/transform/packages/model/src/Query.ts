@@ -1,6 +1,6 @@
-import { Payload, Query } from '@xyo-network/payload-model'
+import type { Payload, Query } from '@xyo-network/payload-model'
 
-import { TransformSettings } from './Config/index.ts'
+import type { TransformSettings } from './Config/index.ts'
 import { TransformDivinerSchema } from './Schema.ts'
 
 export type TransformDivinerQuerySchema = `${TransformDivinerSchema}.query`

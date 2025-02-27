@@ -6,7 +6,7 @@ import {
   AddressValue, Elliptic, HDWallet,
 } from '@xyo-network/account'
 import { PayloadBuilder } from '@xyo-network/payload'
-import { AnyPayload } from '@xyo-network/payload-model'
+import type { AnyPayload } from '@xyo-network/payload-model'
 import {
   describe, expect, it,
 } from 'vitest'

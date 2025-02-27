@@ -1,5 +1,5 @@
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { SentinelIntervalAutomationPayload } from '@xyo-network/sentinel-model'
+import type { SentinelIntervalAutomationPayload } from '@xyo-network/sentinel-model'
 
 export class SentinelIntervalAutomationWrapper<
   T extends SentinelIntervalAutomationPayload = SentinelIntervalAutomationPayload,

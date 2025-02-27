@@ -1,5 +1,5 @@
-import { AddressValueInstance } from './AddressValue.ts'
-import { EllipticKeyInstance } from './EllipticKey.ts'
+import type { AddressValueInstance } from './AddressValue.ts'
+import type { EllipticKeyInstance } from './EllipticKey.ts'
 
 export interface PublicKeyInstance extends EllipticKeyInstance {
   get address(): AddressValueInstance

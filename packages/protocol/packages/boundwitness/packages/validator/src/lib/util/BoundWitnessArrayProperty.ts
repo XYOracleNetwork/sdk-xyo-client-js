@@ -1,4 +1,4 @@
-import { BoundWitness } from '@xyo-network/boundwitness-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
 
 /**
  * The properties of a boundwitness that are string-like arrays

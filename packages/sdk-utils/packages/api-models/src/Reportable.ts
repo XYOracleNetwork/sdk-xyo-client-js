@@ -1,5 +1,5 @@
-import { ApiError } from './Error.ts'
-import { ApiResponse } from './Response.ts'
+import type { ApiError } from './Error.ts'
+import type { ApiResponse } from './Response.ts'
 
 export interface ApiReportable {
   onError?: (error: ApiError, depth: number) => void

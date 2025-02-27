@@ -1,6 +1,6 @@
-import { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 
-import { ModuleInstance } from '../instance/index.ts'
+import type { ModuleInstance } from '../instance/index.ts'
 import { duplicateModules } from '../lib/index.ts'
 
 export const resolveAllUp = async (root: ModuleInstance, maxDepth = 10, exclude: Address[] = []): Promise<ModuleInstance[]> => {

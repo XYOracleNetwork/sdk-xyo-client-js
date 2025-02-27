@@ -1,6 +1,6 @@
-import { EmptyObject, WithAdditional } from '@xylabs/object'
-import { ArchivistConfig } from '@xyo-network/archivist-model'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import type { EmptyObject, WithAdditional } from '@xylabs/object'
+import type { ArchivistConfig } from '@xyo-network/archivist-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
 export const MemoryArchivistConfigSchema = 'network.xyo.archivist.memory.config' as const
 export type MemoryArchivistConfigSchema = typeof MemoryArchivistConfigSchema

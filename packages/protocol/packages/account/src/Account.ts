@@ -15,7 +15,7 @@ import {
   PhraseInitializationConfig,
   PrivateKeyInitializationConfig,
 } from '@xyo-network/account-model'
-import { PrivateKeyInstance, PublicKeyInstance } from '@xyo-network/key-model'
+import type { PrivateKeyInstance, PublicKeyInstance } from '@xyo-network/key-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Mutex } from 'async-mutex'
 import {

@@ -1,6 +1,6 @@
-import { Payload, Query } from '@xyo-network/payload-model'
+import type { Payload, Query } from '@xyo-network/payload-model'
 
-import { ForecastingSettings } from './Config/index.ts'
+import type { ForecastingSettings } from './Config/index.ts'
 import { ForecastingDivinerSchema } from './Schema.ts'
 
 export type ForecastingDivinerQuerySchema = `${ForecastingDivinerSchema}.query`

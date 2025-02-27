@@ -1,4 +1,4 @@
-import { JsonValue } from '@xylabs/object'
+import type { JsonValue } from '@xylabs/object'
 
 export class ModuleDetailsError extends Error {
   constructor(

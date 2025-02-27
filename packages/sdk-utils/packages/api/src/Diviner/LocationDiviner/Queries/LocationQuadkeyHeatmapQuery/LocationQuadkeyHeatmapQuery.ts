@@ -1,4 +1,4 @@
-import { LocationWitnessSchema } from '../../Witnesses/index.ts'
+import type { LocationWitnessSchema } from '../../Witnesses/index.ts'
 
 export const LocationQuadkeyHeatmapQuerySchema = 'network.xyo.location.heatmap.quadkey.query' as const
 export type LocationQuadkeyHeatmapQuerySchema = typeof LocationQuadkeyHeatmapQuerySchema

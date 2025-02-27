@@ -1,7 +1,7 @@
-import {
+import type {
   ApiConfig, ApiResponseBody, ApiResponseTuple, ApiResponseTupleOrBody, ApiResponseType,
 } from '@xyo-network/api-models'
-import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
+import type { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 
 import { ApiBase } from './Base.ts'
 import { objToQuery } from './objToQuery.ts'

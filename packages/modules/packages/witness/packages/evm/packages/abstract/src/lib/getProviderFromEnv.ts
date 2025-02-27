@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import type { Provider } from 'ethers'
 import {
-  InfuraProvider, InfuraWebSocketProvider, JsonRpcProvider, Provider,
+  InfuraProvider, InfuraWebSocketProvider, JsonRpcProvider,
   WebSocketProvider,
 } from 'ethers'
 

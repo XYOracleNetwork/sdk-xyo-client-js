@@ -1,6 +1,5 @@
-import {
-  AnyObject, EmptyObject, isObject,
-} from '@xylabs/object'
+import type { AnyObject, EmptyObject } from '@xylabs/object'
+import { isObject } from '@xylabs/object'
 
 // if an object, sub-sort
 const subSort = (value: unknown) => {

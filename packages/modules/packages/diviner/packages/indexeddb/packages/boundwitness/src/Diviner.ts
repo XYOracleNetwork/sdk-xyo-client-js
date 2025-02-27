@@ -2,18 +2,19 @@ import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
-import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
-import { BoundWitnessDivinerQueryPayload, isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import {
+import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
+import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
+import type {
   Schema, Sequence, WithStorageMeta,
 } from '@xyo-network/payload-model'
-import {
-  IDBPCursorWithValue, IDBPDatabase, openDB,
-} from 'idb'
+import type { IDBPCursorWithValue, IDBPDatabase } from 'idb'
+import { openDB } from 'idb'
 
 import { IndexedDbBoundWitnessDivinerConfigSchema } from './Config.ts'
-import { IndexedDbBoundWitnessDivinerParams } from './Params.ts'
+import type { IndexedDbBoundWitnessDivinerParams } from './Params.ts'
 
 interface BoundWitnessStore {
   [s: string]: WithStorageMeta<BoundWitness>

@@ -1,17 +1,19 @@
 import { assertEx } from '@xylabs/assert'
-import { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 import { isBoundWitness, isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { BoundWitnessStatsDiviner } from '@xyo-network/diviner-boundwitness-stats-abstract'
-import {
-  BoundWitnessStatsDivinerConfigSchema,
+import type {
   BoundWitnessStatsDivinerParams,
-  BoundWitnessStatsDivinerSchema,
   BoundWitnessStatsPayload,
   BoundWitnessStatsQueryPayload,
+} from '@xyo-network/diviner-boundwitness-stats-model'
+import {
+  BoundWitnessStatsDivinerConfigSchema,
+  BoundWitnessStatsDivinerSchema,
   isBoundWitnessStatsQueryPayload,
 } from '@xyo-network/diviner-boundwitness-stats-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
 export class MemoryBoundWitnessStatsDiviner<
   TParams extends BoundWitnessStatsDivinerParams = BoundWitnessStatsDivinerParams,

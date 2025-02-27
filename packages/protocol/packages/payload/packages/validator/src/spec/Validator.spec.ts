@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 import { expect, test } from 'vitest'
 

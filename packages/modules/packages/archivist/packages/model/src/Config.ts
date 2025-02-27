@@ -1,8 +1,8 @@
-import { EmptyObject, WithAdditional } from '@xylabs/object'
-import { ModuleConfig, ModuleIdentifier } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { EmptyObject, WithAdditional } from '@xylabs/object'
+import type { ModuleConfig, ModuleIdentifier } from '@xyo-network/module-model'
+import type { Payload } from '@xyo-network/payload-model'
 
-import { IndexDescription } from './IndexDescription.ts'
+import type { IndexDescription } from './IndexDescription.ts'
 
 export interface ArchivistParents {
   commit?: ModuleIdentifier[]

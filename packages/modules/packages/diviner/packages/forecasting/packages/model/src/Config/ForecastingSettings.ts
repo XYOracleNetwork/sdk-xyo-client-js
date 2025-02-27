@@ -1,5 +1,5 @@
-import { Address } from '@xylabs/hex'
-import { Schema } from '@xyo-network/payload-model'
+import type { Address } from '@xylabs/hex'
+import type { Schema } from '@xyo-network/payload-model'
 
 export interface ForecastingSettings {
   batchLimit?: number

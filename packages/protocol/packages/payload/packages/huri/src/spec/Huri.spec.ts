@@ -2,7 +2,7 @@ import '@xylabs/vitest-extended'
 
 import { axios } from '@xylabs/axios'
 import { delay } from '@xylabs/delay'
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import {
   describe, expect, it, test,
 } from 'vitest'

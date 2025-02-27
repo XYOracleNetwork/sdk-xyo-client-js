@@ -1,8 +1,9 @@
 import { exists } from '@xylabs/exists'
 import { difference } from '@xylabs/set'
-import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 /**
  * Returns tuples of bound witnesses and their payloads from the supplied payloads. Omits

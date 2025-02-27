@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
-import { Promisable } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/promise'
 import {
   describe, expect, it,
 } from 'vitest'

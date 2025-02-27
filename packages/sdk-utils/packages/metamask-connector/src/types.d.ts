@@ -1,4 +1,4 @@
-import { BaseProvider } from '@metamask/providers'
+import type { BaseProvider } from '@metamask/providers'
 
 declare global {
   var ethereum: BaseProvider

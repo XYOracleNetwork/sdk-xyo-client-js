@@ -6,7 +6,8 @@ import {
 } from 'vitest'
 
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
-import { HttpBridge, HttpBridgeParams } from '../HttpBridgeFull.ts'
+import type { HttpBridgeParams } from '../HttpBridgeFull.ts'
+import { HttpBridge } from '../HttpBridgeFull.ts'
 
 describe('HttpBridge', () => {
   let httpBridge: HttpBridge<HttpBridgeParams>

@@ -1,6 +1,6 @@
-import { Logger } from '@xylabs/logger'
+import type { Logger } from '@xylabs/logger'
 
-import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.ts'
+import type { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.ts'
 
 export class ResolveHelperStatic {
   static readonly defaultLogger?: Logger

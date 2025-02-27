@@ -1,4 +1,4 @@
-import { Hash, Hex } from '@xylabs/hex'
+import type { Hash, Hex } from '@xylabs/hex'
 
 export interface NextOptions<TId = Hex> {
   cursor?: TId

@@ -1,10 +1,12 @@
 import { assertEx } from '@xylabs/assert'
-import {
-  boundingBoxToCenter,
-  GeoJson,
+import type {
   MercatorBoundingBox,
   MercatorLngLat,
   MercatorTile,
+} from '@xylabs/geo'
+import {
+  boundingBoxToCenter,
+  GeoJson,
   tileFromPoint,
   tileFromQuadkey,
   tilesFromBoundingBox,
@@ -12,7 +14,8 @@ import {
   tileToQuadkey,
 } from '@xylabs/geo'
 import { hexFromArrayBuffer, hexFromHexString } from '@xylabs/hex'
-import mb, { LngLatLike } from 'mapbox-gl'
+import type { LngLatLike } from 'mapbox-gl'
+import mb from 'mapbox-gl'
 const { LngLat } = mb
 
 import { RelativeDirectionConstantLookup } from './RelativeDirectionConstantLookup.ts'

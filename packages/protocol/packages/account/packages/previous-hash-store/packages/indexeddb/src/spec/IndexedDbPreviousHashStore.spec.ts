@@ -1,4 +1,4 @@
-import { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 import {
   IDBCursor,
   IDBCursorWithValue,

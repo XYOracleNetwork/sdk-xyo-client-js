@@ -1,10 +1,10 @@
-import { Hash } from '@xylabs/hex'
-import {
+import type { Hash } from '@xylabs/hex'
+import type {
   DeepOmitStartsWith, DeepPickStartsWith, DeepRestrictToStringKeys, EmptyObject,
   JsonObject,
 } from '@xylabs/object'
 
-import { Schema, WithSchema } from './Schema.ts'
+import type { Schema, WithSchema } from './Schema.ts'
 
 export interface SchemaField<T extends Schema = Schema> {
   schema: T

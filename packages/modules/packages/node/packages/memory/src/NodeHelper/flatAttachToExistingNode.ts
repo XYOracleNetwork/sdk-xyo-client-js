@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { asAttachableModuleInstance, ModuleIdentifier } from '@xyo-network/module-model'
-import { NodeInstance } from '@xyo-network/node-model'
+import type { ModuleIdentifier } from '@xyo-network/module-model'
+import { asAttachableModuleInstance } from '@xyo-network/module-model'
+import type { NodeInstance } from '@xyo-network/node-model'
 
 export const flatAttachAllToExistingNode = async (source: NodeInstance, destination: NodeInstance): Promise<NodeInstance> => {
   const children = (await source.publicChildren()).map(child => asAttachableModuleInstance(child)).filter(exists)

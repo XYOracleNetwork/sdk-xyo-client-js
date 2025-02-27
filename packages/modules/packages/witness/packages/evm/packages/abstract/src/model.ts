@@ -1,4 +1,4 @@
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 export const EvmAddressSchema = 'network.xyo.evm.address' as const
 export type EvmAddressSchema = typeof EvmAddressSchema

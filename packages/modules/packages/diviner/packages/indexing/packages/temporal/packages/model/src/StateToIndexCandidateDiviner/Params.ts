@@ -1,7 +1,7 @@
-import { DivinerParams } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module-model'
+import type { DivinerParams } from '@xyo-network/diviner-model'
+import type { AnyConfigSchema } from '@xyo-network/module-model'
 
-import { TemporalIndexingDivinerStateToIndexCandidateDivinerConfig } from './Config.ts'
+import type { TemporalIndexingDivinerStateToIndexCandidateDivinerConfig } from './Config.ts'
 
 export type TemporalIndexingDivinerStateToIndexCandidateDivinerParams = DivinerParams<
   AnyConfigSchema<TemporalIndexingDivinerStateToIndexCandidateDivinerConfig>

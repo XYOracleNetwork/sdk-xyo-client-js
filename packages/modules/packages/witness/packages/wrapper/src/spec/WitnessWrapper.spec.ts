@@ -1,9 +1,9 @@
 import '@xylabs/vitest-extended'
 
-import { Promisable } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Account } from '@xyo-network/account'
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 import { isWitnessInstance, WitnessConfigSchema } from '@xyo-network/witness-model'
 import {
   describe, expect, test,

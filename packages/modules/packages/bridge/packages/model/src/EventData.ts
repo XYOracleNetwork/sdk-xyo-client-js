@@ -1,6 +1,6 @@
-import { ModuleEventData } from '@xyo-network/module-model'
+import type { ModuleEventData } from '@xyo-network/module-model'
 
-import {
+import type {
   ExposedEventData,
   QueryFulfillFinishedEventData,
   QueryFulfillStartedEventData,

@@ -1,28 +1,30 @@
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/object'
-import { Promisable } from '@xylabs/promise'
-import { AccountInstance } from '@xyo-network/account-model'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
-import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { Promisable } from '@xylabs/promise'
+import type { AccountInstance } from '@xyo-network/account-model'
+import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import {
-  creatableModule,
+import type {
   ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult,
 } from '@xyo-network/module-model'
+import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import {
+import type {
   Payload, Schema, WithoutPrivateStorageMeta,
 } from '@xyo-network/payload-model'
-import {
+import type {
   CustomWitnessInstance,
-  WitnessConfigSchema,
   WitnessInstance,
   WitnessModuleEventData,
   WitnessObserveQuery,
-  WitnessObserveQuerySchema,
   WitnessParams,
   WitnessQueries,
+} from '@xyo-network/witness-model'
+import {
+  WitnessConfigSchema,
+  WitnessObserveQuerySchema,
 } from '@xyo-network/witness-model'
 
 creatableModule()

@@ -1,5 +1,6 @@
 import { ArchivistConfigSchema } from '@xyo-network/archivist-model'
-import { PackageManifestPayload, PackageManifestPayloadSchema } from '@xyo-network/manifest-model'
+import type { PackageManifestPayload } from '@xyo-network/manifest-model'
+import { PackageManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { SentinelConfigSchema } from '@xyo-network/sentinel-model'
 

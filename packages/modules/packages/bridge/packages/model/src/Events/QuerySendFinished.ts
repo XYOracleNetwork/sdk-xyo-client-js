@@ -1,9 +1,9 @@
-import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { EventData } from '@xyo-network/module-events'
-import {
+import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import type { EventData } from '@xyo-network/module-events'
+import type {
   Module, ModuleEventArgs, ModuleQueryResult,
 } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 export type QuerySendFinishedEventArgs<T extends Module = Module> = ModuleEventArgs<
   T,

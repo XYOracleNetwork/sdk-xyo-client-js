@@ -1,4 +1,5 @@
-import { instantiateSecp256k1, Secp256k1 } from '@bitauth/libauth'
+import type { Secp256k1 } from '@bitauth/libauth'
+import { instantiateSecp256k1 } from '@bitauth/libauth'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import { toHex } from '@xylabs/hex'

@@ -1,24 +1,28 @@
 import { assertEx } from '@xylabs/assert'
-import { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/hex'
 import { toJson } from '@xylabs/object'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
+import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import {
+import type {
   AnyConfigSchema,
-  isModuleState,
   ModuleInstance,
   ModuleParams,
   ModuleState,
-  ModuleStateSchema,
   StateDictionary,
 } from '@xyo-network/module-model'
+import {
+  isModuleState,
+  ModuleStateSchema,
+} from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { SequenceConstants, WithStorageMeta } from '@xyo-network/payload-model'
+import type { WithStorageMeta } from '@xyo-network/payload-model'
+import { SequenceConstants } from '@xyo-network/payload-model'
 
-import { StatefulDivinerConfig } from './Config.ts'
+import type { StatefulDivinerConfig } from './Config.ts'
 
 export type StatefulModuleParams = ModuleParams<AnyConfigSchema<StatefulDivinerConfig>>
 

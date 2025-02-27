@@ -1,11 +1,11 @@
-import { Address } from '@xylabs/hex'
-import { Promisable } from '@xylabs/promise'
-import { AccountInstance } from '@xyo-network/account-model'
-import { ModuleManifestPayload } from '@xyo-network/manifest-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { Address } from '@xylabs/hex'
+import type { Promisable } from '@xylabs/promise'
+import type { AccountInstance } from '@xyo-network/account-model'
+import type { ModuleManifestPayload } from '@xyo-network/manifest-model'
+import type { Payload } from '@xyo-network/payload-model'
 
-import { ModuleQueryResult } from '../ModuleQueryResult.ts'
-import { AddressPayload, AddressPreviousHashPayload } from '../Payload/index.ts'
+import type { ModuleQueryResult } from '../ModuleQueryResult.ts'
+import type { AddressPayload, AddressPreviousHashPayload } from '../Payload/index.ts'
 
 export interface ModuleQueryFunctions {
   manifest: (maxDepth?: number, ignoreAddresses?: Address[]) => Promisable<ModuleManifestPayload>

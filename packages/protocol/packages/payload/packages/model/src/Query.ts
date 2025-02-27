@@ -1,8 +1,8 @@
-import { Address } from '@xylabs/hex'
-import { EmptyObject } from '@xylabs/object'
+import type { Address } from '@xylabs/hex'
+import type { EmptyObject } from '@xylabs/object'
 
-import { Payload } from './Payload.ts'
-import { Schema, WithSchema } from './Schema.ts'
+import type { Payload } from './Payload.ts'
+import type { Schema, WithSchema } from './Schema.ts'
 
 export interface QueryFields {
   /** @field The addresses of the intended handlers */

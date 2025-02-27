@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
-import { AnyObject } from '@xylabs/object'
-import { Payload } from '@xyo-network/payload-model'
+import type { AnyObject } from '@xylabs/object'
+import type { Payload } from '@xyo-network/payload-model'
 import {
   describe, expect, it,
 } from 'vitest'

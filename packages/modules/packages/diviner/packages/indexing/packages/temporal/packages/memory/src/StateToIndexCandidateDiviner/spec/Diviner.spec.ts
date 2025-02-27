@@ -4,24 +4,22 @@ import { filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
-import { MemoryArchivist } from '@xyo-network/archivist-memory'
+import type { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
-import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
+import type { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
+import type { PackageManifestPayload } from '@xyo-network/manifest'
+import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
-import {
-  isModuleState, ModuleState, ModuleStateSchema,
-} from '@xyo-network/module-model'
+import type { ModuleState } from '@xyo-network/module-model'
+import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import {
-  asOptionalStorageMeta, Payload, WithStorageMeta,
-} from '@xyo-network/payload-model'
-import {
-  isTimestamp, TimeStamp, TimestampSchema,
-} from '@xyo-network/witness-timestamp'
+import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import { asOptionalStorageMeta } from '@xyo-network/payload-model'
+import type { TimeStamp } from '@xyo-network/witness-timestamp'
+import { isTimestamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import {
   beforeAll, describe, expect, it,
 } from 'vitest'

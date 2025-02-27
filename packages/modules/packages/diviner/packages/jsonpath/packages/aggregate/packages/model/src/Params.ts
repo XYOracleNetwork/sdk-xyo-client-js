@@ -1,7 +1,7 @@
-import { DivinerParams } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module-model'
+import type { DivinerParams } from '@xyo-network/diviner-model'
+import type { AnyConfigSchema } from '@xyo-network/module-model'
 
-import { JsonPathAggregateDivinerConfig } from './Config.ts'
+import type { JsonPathAggregateDivinerConfig } from './Config.ts'
 
 /**
  * The params type the JSON Path diviner

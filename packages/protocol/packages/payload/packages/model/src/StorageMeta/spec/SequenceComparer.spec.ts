@@ -1,12 +1,14 @@
 // SequenceComparer.spec.ts
 
-import { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 import {
   describe, expect, it,
 } from 'vitest'
 
-import {
+import type {
   Epoch, Nonce, Sequence,
+} from '../sequence/index.ts'
+import {
   SequenceComparer,
   SequenceParser,
 } from '../sequence/index.ts'

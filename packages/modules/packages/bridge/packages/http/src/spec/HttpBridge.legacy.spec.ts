@@ -1,7 +1,8 @@
 import '@xylabs/vitest-extended'
 
 import { MemoryNode } from '@xyo-network/node-memory'
-import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
+import type { NodeInstance } from '@xyo-network/node-model'
+import { NodeConfigSchema } from '@xyo-network/node-model'
 import {
   describe, expect, it,
 } from 'vitest'

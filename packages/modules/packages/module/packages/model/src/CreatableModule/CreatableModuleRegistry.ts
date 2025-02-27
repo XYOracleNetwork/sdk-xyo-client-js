@@ -1,9 +1,9 @@
-import { Schema } from '@xyo-network/payload-model'
+import type { Schema } from '@xyo-network/payload-model'
 
-import { AttachableModuleInstance } from '../instance/index.ts'
-import { Labels } from '../Labels/index.ts'
-import { CreatableModuleFactory } from './CreatableModule.ts'
-import { LabeledCreatableModuleFactory } from './LabeledCreatableModuleFactory.ts'
+import type { AttachableModuleInstance } from '../instance/index.ts'
+import type { Labels } from '../Labels/index.ts'
+import type { CreatableModuleFactory } from './CreatableModule.ts'
+import type { LabeledCreatableModuleFactory } from './LabeledCreatableModuleFactory.ts'
 
 export interface CreatableModuleRegistry {
   [key: Schema]: (CreatableModuleFactory | LabeledCreatableModuleFactory)[] | undefined

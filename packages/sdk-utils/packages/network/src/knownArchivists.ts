@@ -1,4 +1,5 @@
-import { NetworkNodePayload, NetworkNodeSchema } from './NetworkNodePayload.ts'
+import type { NetworkNodePayload } from './NetworkNodePayload.ts'
+import { NetworkNodeSchema } from './NetworkNodePayload.ts'
 
 const kerplunkArchivist = (): NetworkNodePayload => {
   return {

@@ -2,16 +2,15 @@ import { containsAll, filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { hexFromHexString } from '@xylabs/hex'
-import {
-  asBlock, asOptionalBoundWitness, BoundWitness,
-} from '@xyo-network/boundwitness-model'
-import { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { asBlock, asOptionalBoundWitness } from '@xyo-network/boundwitness-model'
+import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import {
+import type {
   Payload,
-  SequenceConstants,
   WithStorageMeta,
 } from '@xyo-network/payload-model'
+import { SequenceConstants } from '@xyo-network/payload-model'
 
 // eslint-disable-next-line complexity
 export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivinerQueryPayload, payloads: WithStorageMeta<Payload>[] = []): BoundWitness[] => {

@@ -1,5 +1,5 @@
-import { Hash } from '@xylabs/hex'
-import { Query } from '@xyo-network/payload-model'
+import type { Hash } from '@xylabs/hex'
+import type { Query } from '@xyo-network/payload-model'
 
 export const ArchivistDeleteQuerySchema = 'network.xyo.query.archivist.delete' as const
 export type ArchivistDeleteQuerySchema = typeof ArchivistDeleteQuerySchema

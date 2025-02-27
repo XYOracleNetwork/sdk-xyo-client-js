@@ -1,7 +1,7 @@
-import { Module } from '@xyo-network/module-model'
+import type { Module } from '@xyo-network/module-model'
 
-import { SentinelModuleEventData } from './EventData.ts'
-import { SentinelParams } from './Params.ts'
+import type { SentinelModuleEventData } from './EventData.ts'
+import type { SentinelParams } from './Params.ts'
 
 export interface SentinelModule<TParams extends SentinelParams = SentinelParams, TEventData extends SentinelModuleEventData = SentinelModuleEventData>
   extends Module<TParams, TEventData> {}

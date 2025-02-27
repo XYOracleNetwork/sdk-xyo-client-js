@@ -1,7 +1,7 @@
-import { Hash } from '@xylabs/hex'
-import { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import type { Hash } from '@xylabs/hex'
+import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 
-import {
+import type {
   AllArchivistFunctions, ReadArchivistFunctions, StashArchivistFunctions, WriteArchivistFunctions,
 } from './ArchivistFunctions.ts'
 

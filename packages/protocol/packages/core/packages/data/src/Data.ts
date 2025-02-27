@@ -1,7 +1,7 @@
 import { base16, base58 } from '@scure/base'
 import { toArrayBuffer, toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
-import { Hex } from '@xylabs/hex'
+import type { Hex } from '@xylabs/hex'
 import { keccak256 } from 'ethers'
 
 import { AbstractData } from './AbstractData.ts'

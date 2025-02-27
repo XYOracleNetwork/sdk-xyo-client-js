@@ -1,8 +1,8 @@
-import { Hash } from '@xylabs/hex'
-import { JsonValue } from '@xylabs/object'
+import type { Hash } from '@xylabs/hex'
+import type { JsonValue } from '@xylabs/object'
 
 import { isPayloadOfSchemaType } from './isPayloadOfSchemaType.ts'
-import { Payload } from './Payload.ts'
+import type { Payload } from './Payload.ts'
 
 export const ModuleErrorSchema = 'network.xyo.error.module' as const
 export type ModuleErrorSchema = typeof ModuleErrorSchema

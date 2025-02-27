@@ -1,22 +1,24 @@
 import { hexFrom } from '@xylabs/hex'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import { DivinerParams } from '@xyo-network/diviner-model'
-import {
+import type { DivinerParams } from '@xyo-network/diviner-model'
+import type {
   BigIntPayload,
   BigIntRangePayload,
+  NumberPayload,
+  NumberRangePayload,
+  RangeDivinerConfig,
+  RangePayload,
+} from '@xyo-network/diviner-range-model'
+import {
   BigIntSchema,
   isBigIntRangePayload,
   isNumberRangePayload,
   isRangePayload,
-  NumberPayload,
-  NumberRangePayload,
   NumberSchema,
-  RangeDivinerConfig,
   RangeDivinerConfigSchema,
-  RangePayload,
 } from '@xyo-network/diviner-range-model'
-import { AnyConfigSchema } from '@xyo-network/module-model'
-import { Schema } from '@xyo-network/payload-model'
+import type { AnyConfigSchema } from '@xyo-network/module-model'
+import type { Schema } from '@xyo-network/payload-model'
 
 export type RangeDivinerParams = DivinerParams<AnyConfigSchema<RangeDivinerConfig>>
 

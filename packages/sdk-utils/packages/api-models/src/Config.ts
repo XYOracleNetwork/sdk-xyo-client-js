@@ -1,4 +1,4 @@
-import { ApiReportable } from './Reportable.ts'
+import type { ApiReportable } from './Reportable.ts'
 
 interface ApiConfig extends ApiReportable {
   /** @description The domain where the api is located */

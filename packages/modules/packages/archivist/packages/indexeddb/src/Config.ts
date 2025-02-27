@@ -1,4 +1,4 @@
-import { ArchivistConfig } from '@xyo-network/archivist-model'
+import type { ArchivistConfig } from '@xyo-network/archivist-model'
 
 import { IndexedDbArchivistSchema } from './Schema.ts'
 

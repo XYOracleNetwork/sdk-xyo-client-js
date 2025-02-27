@@ -1,15 +1,17 @@
 import '@xylabs/vitest-extended'
 
-import { ApiConfig } from '@xyo-network/api-models'
+import type { ApiConfig } from '@xyo-network/api-models'
 import {
   describe, expect, it,
 } from 'vitest'
 
 import { LocationDivinerApi } from '../LocationDivinerApi.ts'
-import {
+import type {
   LocationHeatmapQueryCreationRequest,
-  LocationHeatmapQuerySchema,
   LocationTimeRangeQueryCreationRequest,
+} from '../Queries/index.ts'
+import {
+  LocationHeatmapQuerySchema,
   LocationTimeRangeQuerySchema,
 } from '../Queries/index.ts'
 import { LocationWitnessSchema } from '../Witnesses/index.ts'

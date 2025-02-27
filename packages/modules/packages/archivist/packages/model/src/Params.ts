@@ -1,8 +1,8 @@
-import { EmptyObject, WithAdditional } from '@xylabs/object'
-import { AnyConfigSchema, ModuleParams } from '@xyo-network/module-model'
+import type { EmptyObject, WithAdditional } from '@xylabs/object'
+import type { AnyConfigSchema, ModuleParams } from '@xyo-network/module-model'
 
-import { ArchivistConfig } from './Config.ts'
-import { ArchivistInstance } from './Instance.ts'
+import type { ArchivistConfig } from './Config.ts'
+import type { ArchivistInstance } from './Instance.ts'
 
 export interface ArchivistParentInstances {
   commit?: ArchivistInstance[]

@@ -1,4 +1,4 @@
-import { EmptyObject } from '@xylabs/object'
+import type { EmptyObject } from '@xylabs/object'
 
 import { createBrowserWorker } from './createBrowserWorker.ts'
 import { createNodeWorker } from './createNodeWorker.ts'

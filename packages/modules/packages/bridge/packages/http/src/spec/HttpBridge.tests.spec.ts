@@ -2,7 +2,7 @@
 /* eslint-disable max-nested-callbacks */
 import '@xylabs/vitest-extended'
 
-import { AbstractBridge } from '@xyo-network/bridge-abstract'
+import type { AbstractBridge } from '@xyo-network/bridge-abstract'
 import {
   describe, expect, it,
 } from 'vitest'

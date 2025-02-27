@@ -1,8 +1,9 @@
-import { IsObjectFactory, TypeCheck } from '@xylabs/object'
-import { ObjectTypeShape } from '@xylabs/typeof'
+import type { TypeCheck } from '@xylabs/object'
+import { IsObjectFactory } from '@xylabs/object'
+import type { ObjectTypeShape } from '@xylabs/typeof'
 
 import { isModuleInstance } from '../isModuleInstance.ts'
-import { AttachableModuleInstance } from './AttachableInstance.ts'
+import type { AttachableModuleInstance } from './AttachableInstance.ts'
 
 export const requiredAttachableModuleInstanceFunctions: ObjectTypeShape = {
   downResolver: 'object',

@@ -1,9 +1,9 @@
-import type { Address } from '@xylabs/hex'
-import type {
+import { Address } from '@xylabs/hex'
+import {
   AnyObject, EmptyObject, TypeCheck,
 } from '@xylabs/object'
 
-import type { ModuleName } from '../ModuleIdentifier.ts'
+import { ModuleName } from '../ModuleIdentifier.ts'
 
 export type Direction = 'up' | 'down' | 'all'
 export type Visibility = 'public' | 'private' | 'all'

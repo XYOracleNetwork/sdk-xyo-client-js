@@ -1,11 +1,11 @@
-import type {
+import {
   BaseParams, EmptyObject, WithAdditional,
 } from '@xylabs/object'
-import type { AccountInstance } from '@xyo-network/account-model'
+import { AccountInstance } from '@xyo-network/account-model'
 
-import type { AnyConfigSchema, ModuleConfig } from './Config/index.ts'
-import type { ModuleInstance } from './instance/index.ts'
-import type { ModuleIdentifierTransformer } from './ModuleIdentifierTransformer.ts'
+import { AnyConfigSchema, ModuleConfig } from './Config/index.ts'
+import { ModuleInstance } from './instance/index.ts'
+import { ModuleIdentifierTransformer } from './ModuleIdentifierTransformer.ts'
 
 export type ModuleParams<
   TConfig extends AnyConfigSchema<ModuleConfig> | void = void,

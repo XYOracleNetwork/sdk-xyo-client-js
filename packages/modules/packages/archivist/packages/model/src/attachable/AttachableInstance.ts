@@ -1,12 +1,11 @@
-import type { TypeCheck } from '@xylabs/object'
-import { IsObjectFactory } from '@xylabs/object'
-import type { AttachableModuleInstance } from '@xyo-network/module-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { IsObjectFactory, TypeCheck } from '@xylabs/object'
+import { AttachableModuleInstance } from '@xyo-network/module-model'
+import { Payload } from '@xyo-network/payload-model'
 
-import type { ArchivistModuleEventData } from '../EventData.ts'
-import type { ArchivistInstance } from '../Instance.ts'
-import type { ArchivistModuleInstance } from '../ModuleInstance.ts'
-import type { ArchivistParams } from '../Params.ts'
+import { ArchivistModuleEventData } from '../EventData.ts'
+import { ArchivistInstance } from '../Instance.ts'
+import { ArchivistModuleInstance } from '../ModuleInstance.ts'
+import { ArchivistParams } from '../Params.ts'
 
 export interface AttachableArchivistInstance<
   TParams extends ArchivistParams = ArchivistParams,

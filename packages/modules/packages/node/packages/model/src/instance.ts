@@ -1,12 +1,12 @@
-import type { Address } from '@xylabs/hex'
-import type { AccountInstance } from '@xyo-network/account-model'
-import type {
+import { Address } from '@xylabs/hex'
+import { AccountInstance } from '@xyo-network/account-model'
+import {
   AddressPayload, AttachableModuleInstance, ModuleIdentifier, ModuleInstance, ModuleQueryResult,
 } from '@xyo-network/module-model'
 
-import type { ChildCertification, ChildCertificationFields } from './ChildCertification.ts'
-import type { NodeModule, NodeModuleEventData } from './Node.ts'
-import type { NodeParams } from './Params.ts'
+import { ChildCertification, ChildCertificationFields } from './ChildCertification.ts'
+import { NodeModule, NodeModuleEventData } from './Node.ts'
+import { NodeParams } from './Params.ts'
 
 export interface NodeQueryFunctions {
   attach: (id: ModuleIdentifier, external?: boolean) => Promise<Address | undefined>

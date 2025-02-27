@@ -1,7 +1,7 @@
 import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import { staticImplements } from '@xylabs/static-implements'
-import type {
+import {
   AddressValueInstance, PublicKeyInstance, PublicKeyStatic,
 } from '@xyo-network/key-model'
 

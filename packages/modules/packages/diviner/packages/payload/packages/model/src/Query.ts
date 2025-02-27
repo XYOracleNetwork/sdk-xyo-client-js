@@ -1,7 +1,7 @@
-import { AsObjectFactory, type EmptyObject } from '@xylabs/object'
-import { isPayloadOfSchemaType, type Query } from '@xyo-network/payload-model'
+import { AsObjectFactory, EmptyObject } from '@xylabs/object'
+import { isPayloadOfSchemaType, Query } from '@xyo-network/payload-model'
 
-import type { PayloadDivinerPredicate } from './Predicate.ts'
+import { PayloadDivinerPredicate } from './Predicate.ts'
 import { PayloadDivinerSchema } from './Schema.ts'
 
 export type PayloadDivinerQuerySchema = `${PayloadDivinerSchema}.query`

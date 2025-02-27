@@ -1,11 +1,11 @@
-import type { IndexingDivinerStage, IndexingDivinerStageConfig } from '@xyo-network/diviner-indexing-model'
-import type { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
-import type { DivinerConfig, SearchableStorage } from '@xyo-network/diviner-model'
+import { IndexingDivinerStage, IndexingDivinerStageConfig } from '@xyo-network/diviner-indexing-model'
+import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
+import { DivinerConfig, SearchableStorage } from '@xyo-network/diviner-model'
 
-import type { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig } from './DivinerQueryToIndexQueryDiviner/index.ts'
-import type { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfig } from './IndexQueryResponseToDivinerQueryResponseDiviner/index.ts'
+import { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig } from './DivinerQueryToIndexQueryDiviner/index.ts'
+import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfig } from './IndexQueryResponseToDivinerQueryResponseDiviner/index.ts'
 import { TemporalIndexingDivinerSchema } from './Schema.ts'
-import type { TemporalIndexingDivinerStateToIndexCandidateDivinerConfig } from './StateToIndexCandidateDiviner/index.ts'
+import { TemporalIndexingDivinerStateToIndexCandidateDivinerConfig } from './StateToIndexCandidateDiviner/index.ts'
 
 export const TemporalIndexingDivinerConfigSchema = `${TemporalIndexingDivinerSchema}.config` as const
 export type TemporalIndexingDivinerConfigSchema = typeof TemporalIndexingDivinerConfigSchema

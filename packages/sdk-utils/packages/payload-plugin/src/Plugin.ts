@@ -1,7 +1,7 @@
-import type { Validator } from '@xylabs/object'
-import type { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
-import type { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { Validator } from '@xylabs/object'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export type PayloadPluginFunc<TPayload extends Payload = Payload> = () => PayloadPlugin<TPayload>
 

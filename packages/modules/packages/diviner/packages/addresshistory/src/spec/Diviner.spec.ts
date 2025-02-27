@@ -1,10 +1,9 @@
 import '@xylabs/vitest-extended'
 
-import type { AccountInstance } from '@xyo-network/account'
-import { Account } from '@xyo-network/account'
+import { Account, AccountInstance } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryQuerySchema } from '@xyo-network/diviner-address-history-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import {

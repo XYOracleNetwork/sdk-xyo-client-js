@@ -1,6 +1,6 @@
-import type { Schema } from '@xyo-network/payload-model'
+import { Schema } from '@xyo-network/payload-model'
 
-import type { ModuleIdentifier } from '../ModuleIdentifier.ts'
+import { ModuleIdentifier } from '../ModuleIdentifier.ts'
 
 export interface ArchivingModuleConfig {
   readonly archiving?: {

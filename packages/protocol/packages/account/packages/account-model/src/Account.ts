@@ -1,7 +1,7 @@
 import { isArrayBuffer } from '@xylabs/arraybuffer'
-import type { Address, Hash } from '@xylabs/hex'
-import type { PrivateKeyInstance, PublicKeyInstance } from '@xyo-network/key-model'
-import type { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
+import { Address, Hash } from '@xylabs/hex'
+import { PrivateKeyInstance, PublicKeyInstance } from '@xyo-network/key-model'
+import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 
 export const ethMessagePrefix = '\u0019Ethereum Signed Message:\n'
 

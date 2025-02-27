@@ -1,5 +1,5 @@
-import type { ModuleIdentifier } from '@xyo-network/module-model'
-import type { Payload, Query } from '@xyo-network/payload-model'
+import { ModuleIdentifier } from '@xyo-network/module-model'
+import { Payload, Query } from '@xyo-network/payload-model'
 
 export const BridgeExposeQuerySchema = 'network.xyo.query.bridge.expose' as const
 export type BridgeExposeQuerySchema = typeof BridgeExposeQuerySchema

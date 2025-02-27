@@ -41,7 +41,7 @@ import {
 } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
-import type { ModuleWrapperParams } from './models.ts'
+import { ModuleWrapperParams } from './models.ts'
 
 export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   defaultLogger?: Logger

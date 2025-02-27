@@ -1,7 +1,7 @@
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import type { BoundWitnessStatsDivinerParams } from '@xyo-network/diviner-boundwitness-stats-model'
-import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { BoundWitnessStatsDivinerParams } from '@xyo-network/diviner-boundwitness-stats-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export abstract class BoundWitnessStatsDiviner<
   TParams extends BoundWitnessStatsDivinerParams = BoundWitnessStatsDivinerParams,

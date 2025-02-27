@@ -1,7 +1,6 @@
 import fs from 'node:fs'
 
-import type { RulesTestEnvironment } from '@firebase/rules-unit-testing'
-import { initializeTestEnvironment } from '@firebase/rules-unit-testing'
+import { initializeTestEnvironment, RulesTestEnvironment } from '@firebase/rules-unit-testing'
 import {
   afterAll,
   beforeAll, expect, test,

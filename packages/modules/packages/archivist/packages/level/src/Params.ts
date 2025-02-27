@@ -1,7 +1,7 @@
-import type { ArchivistParams } from '@xyo-network/archivist-model'
-import type { AnyConfigSchema } from '@xyo-network/module-model'
+import { ArchivistParams } from '@xyo-network/archivist-model'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 
-import type { LevelDbArchivistConfig } from './Config.ts'
+import { LevelDbArchivistConfig } from './Config.ts'
 
 export type LevelDbArchivistParams = ArchivistParams<AnyConfigSchema<LevelDbArchivistConfig>, {
 

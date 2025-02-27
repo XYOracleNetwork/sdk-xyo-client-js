@@ -1,7 +1,7 @@
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import type { NodeInstance } from '@xyo-network/node-model'
+import { NodeInstance } from '@xyo-network/node-model'
 
-import type { PayloadPointerDiviner } from '../../../Diviner.ts'
+import { PayloadPointerDiviner } from '../../../Diviner.ts'
 import { getTestNode, PayloadPointerDivinerName } from '../Node/index.ts'
 
 export const getPayloadPointerDiviner = async (node?: NodeInstance) => {

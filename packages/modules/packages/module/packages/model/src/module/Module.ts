@@ -1,8 +1,8 @@
-import type { EventFunctions } from '@xyo-network/module-events'
+import { EventFunctions } from '@xyo-network/module-events'
 
-import type { ModuleEventData } from '../EventsModels/index.ts'
-import type { ModuleParams } from '../ModuleParams.ts'
-import type { ModuleFields } from './ModuleFields.ts'
+import { ModuleEventData } from '../EventsModels/index.ts'
+import { ModuleParams } from '../ModuleParams.ts'
+import { ModuleFields } from './ModuleFields.ts'
 
 export interface Module<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData<object> = ModuleEventData<object>>
   extends ModuleFields<TParams>,

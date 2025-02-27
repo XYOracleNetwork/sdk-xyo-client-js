@@ -1,6 +1,6 @@
-import type { Hash } from '@xylabs/hex'
-import type { EmptyObject, WithAdditional } from '@xylabs/object'
-import type {
+import { Hash } from '@xylabs/hex'
+import { EmptyObject, WithAdditional } from '@xylabs/object'
+import {
   Payload, Schema, WithSchema,
 } from '@xyo-network/payload-model'
 

@@ -1,5 +1,5 @@
-import type { DivinerConfig } from '@xyo-network/diviner-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { DivinerConfig } from '@xyo-network/diviner-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { BoundWitnessStatsDivinerSchema } from './Schema.ts'
 

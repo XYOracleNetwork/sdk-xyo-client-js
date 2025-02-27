@@ -1,5 +1,5 @@
-import type { IndexDescription } from '@xyo-network/archivist-model'
-import type { DivinerConfig } from '@xyo-network/diviner-model'
+import { IndexDescription } from '@xyo-network/archivist-model'
+import { DivinerConfig } from '@xyo-network/diviner-model'
 
 import { IndexedDbBoundWitnessDivinerSchema } from './Schema.ts'
 

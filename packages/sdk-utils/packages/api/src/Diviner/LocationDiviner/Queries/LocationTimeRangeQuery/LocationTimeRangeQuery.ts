@@ -1,4 +1,4 @@
-import type { LocationWitnessSchema } from '../../Witnesses/index.ts'
+import { LocationWitnessSchema } from '../../Witnesses/index.ts'
 
 export const LocationTimeRangeQuerySchema = 'network.xyo.location.range.query' as const
 export type LocationTimeRangeQuerySchema = typeof LocationTimeRangeQuerySchema

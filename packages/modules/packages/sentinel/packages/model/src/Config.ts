@@ -1,9 +1,9 @@
-import type { WithAdditional } from '@xylabs/object'
-import type { ModuleConfig } from '@xyo-network/module-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { WithAdditional } from '@xylabs/object'
+import { ModuleConfig } from '@xyo-network/module-model'
+import { Payload } from '@xyo-network/payload-model'
 
-import type { SentinelAutomationPayload } from './Automation.ts'
-import type { Task } from './Task.ts'
+import { SentinelAutomationPayload } from './Automation.ts'
+import { Task } from './Task.ts'
 
 export const SentinelConfigSchema = 'network.xyo.sentinel.config' as const
 export type SentinelConfigSchema = typeof SentinelConfigSchema

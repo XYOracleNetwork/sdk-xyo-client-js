@@ -1,11 +1,10 @@
-import type { Address } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
+import { Address } from '@xylabs/hex'
+import { Promisable } from '@xylabs/promise'
 
-import type { ModuleIdentifier } from '../ModuleIdentifier.ts'
-import type { ModuleInstance } from './Instance.ts'
-import type { ObjectFilterOptions } from './ObjectFilter.ts'
-import type { ObjectResolver } from './ObjectResolver.ts'
-import { isObjectResolver } from './ObjectResolver.ts'
+import { ModuleIdentifier } from '../ModuleIdentifier.ts'
+import { ModuleInstance } from './Instance.ts'
+import { ObjectFilterOptions } from './ObjectFilter.ts'
+import { isObjectResolver, ObjectResolver } from './ObjectResolver.ts'
 
 export const isModuleResolver = isObjectResolver<ModuleInstance>
 

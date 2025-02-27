@@ -36,18 +36,18 @@
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "ajv": "^8.17.1",
-    "axios": "^1.7.9",
+    "axios": "^1.8.1",
     "lru-cache": "^11.0.2"
   },
   "devDependencies": {
     "@xylabs/assert": "^4.5.1",
-    "@xylabs/ts-scripts-yarn3": "^5.0.24",
-    "@xylabs/tsconfig-dom": "^5.0.24",
+    "@xylabs/ts-scripts-yarn3": "^5.0.25",
+    "@xylabs/tsconfig-dom": "^5.0.25",
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.6"
+    "vitest": "^3.0.7"
   },
   "publishConfig": {
     "access": "public"

@@ -1,29 +1,27 @@
 import { assertEx } from '@xylabs/assert'
-import type { Address } from '@xylabs/hex'
-import { isAddress } from '@xylabs/hex'
+import { Address, isAddress } from '@xylabs/hex'
 import { Account } from '@xyo-network/account'
-import type { BridgeModuleResolverParams } from '@xyo-network/bridge-abstract'
-import { AbstractBridgeModuleResolver, wrapModuleWithType } from '@xyo-network/bridge-abstract'
-import type { ConfigPayload } from '@xyo-network/config-payload-plugin'
-import { ConfigSchema } from '@xyo-network/config-payload-plugin'
-import type {
-  ModuleConfig,
-  ModuleFilterOptions,
-  ModuleIdentifier,
-  ModuleInstance,
-} from '@xyo-network/module-model'
+import {
+  AbstractBridgeModuleResolver, BridgeModuleResolverParams, wrapModuleWithType,
+} from '@xyo-network/bridge-abstract'
+import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   asModuleInstance,
   isModuleInstance,
+  ModuleConfig,
   ModuleConfigSchema,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
   ResolveHelper,
 } from '@xyo-network/module-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
-import type { BridgeQuerySender, HttpModuleProxyParams } from './ModuleProxy/index.ts'
-import { HttpModuleProxy } from './ModuleProxy/index.ts'
+import {
+  BridgeQuerySender, HttpModuleProxy, HttpModuleProxyParams,
+} from './ModuleProxy/index.ts'
 
 const NotFoundModule = { notFound: true }
 

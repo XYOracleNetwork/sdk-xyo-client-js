@@ -1,6 +1,6 @@
-import type { ApiConfig } from '@xyo-network/api-models'
+import { ApiConfig } from '@xyo-network/api-models'
 import { Huri } from '@xyo-network/huri'
-import type { Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { ApiSimple } from '../Simple.ts'
 

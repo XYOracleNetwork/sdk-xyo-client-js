@@ -1,36 +1,34 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Hash, Hex } from '@xylabs/hex'
+import { Hash, Hex } from '@xylabs/hex'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
-import type {
-  ArchivistInsertQuery,
-  ArchivistModuleEventData,
-  ArchivistNextOptions,
-  IndexDescription,
-} from '@xyo-network/archivist-model'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
   ArchivistDeleteQuerySchema,
+  ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistModuleEventData,
+  ArchivistNextOptions,
   ArchivistNextQuerySchema,
+  IndexDescription,
 } from '@xyo-network/archivist-model'
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  type Payload, type Schema, SequenceConstants,
-  type WithStorageMeta,
+  Payload, Schema, SequenceConstants,
+  WithStorageMeta,
 } from '@xyo-network/payload-model'
-import type {
-  Database, RangeOptions, RootDatabase,
+import {
+  Database, open,
+  RangeOptions, RootDatabase,
 } from 'lmdb'
-import { open } from 'lmdb'
 
 import { LmdbArchivistConfigSchema } from './Config.ts'
-import type { LmdbArchivistParams } from './Params.ts'
+import { LmdbArchivistParams } from './Params.ts'
 
 @creatableModule()
 export class LmdbArchivist<

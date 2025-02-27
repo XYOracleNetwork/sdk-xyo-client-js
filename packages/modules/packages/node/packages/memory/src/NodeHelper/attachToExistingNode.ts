@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import type { ModuleIdentifier } from '@xyo-network/module-model'
-import type { NodeInstance } from '@xyo-network/node-model'
-import { asNodeInstance } from '@xyo-network/node-model'
+import { ModuleIdentifier } from '@xyo-network/module-model'
+import { asNodeInstance, NodeInstance } from '@xyo-network/node-model'
 
 import { MemoryNode } from '../MemoryNode.ts'
 import { flatAttachToExistingNode } from './flatAttachToExistingNode.ts'

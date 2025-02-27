@@ -1,7 +1,8 @@
-import type { Address, Hash } from '@xylabs/hex'
-import type { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
-import type { DBSchema, IDBPDatabase } from 'idb'
-import { openDB } from 'idb'
+import { Address, Hash } from '@xylabs/hex'
+import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
+import {
+  DBSchema, IDBPDatabase, openDB,
+} from 'idb'
 
 export interface PreviousHashStoreSchemaV1 extends DBSchema {
   'previous-hash': {

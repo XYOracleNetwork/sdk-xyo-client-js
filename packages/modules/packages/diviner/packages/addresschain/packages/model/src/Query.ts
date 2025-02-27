@@ -1,6 +1,6 @@
 import {
   isPayloadOfSchemaType,
-  type PayloadFindFilter, type Query,
+  PayloadFindFilter, Query,
 } from '@xyo-network/payload-model'
 
 import { AddressChainQuerySchema } from './Schema.ts'

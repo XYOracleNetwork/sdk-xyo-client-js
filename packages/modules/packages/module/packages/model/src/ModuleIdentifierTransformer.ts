@@ -1,6 +1,6 @@
-import type { Promisable } from '@xylabs/promise'
+import { Promisable } from '@xylabs/promise'
 
-import type { ModuleIdentifier } from './ModuleIdentifier.ts'
+import { ModuleIdentifier } from './ModuleIdentifier.ts'
 
 export type ModuleIdentifierTransformerFunc = (id: ModuleIdentifier) => Promisable<ModuleIdentifier | undefined>
 

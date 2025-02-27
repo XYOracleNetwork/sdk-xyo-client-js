@@ -1,5 +1,4 @@
-import type { AddressPayload } from '@xyo-network/module-model'
-import { AddressSchema } from '@xyo-network/module-model'
+import { AddressPayload, AddressSchema } from '@xyo-network/module-model'
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { addressPayloadTemplate } from './Template.ts'

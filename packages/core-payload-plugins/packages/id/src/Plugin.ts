@@ -1,6 +1,6 @@
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import type { Id } from './Payload.ts'
+import { Id } from './Payload.ts'
 import { IdSchema } from './Schema.ts'
 import { idPayloadTemplate } from './Template.ts'
 

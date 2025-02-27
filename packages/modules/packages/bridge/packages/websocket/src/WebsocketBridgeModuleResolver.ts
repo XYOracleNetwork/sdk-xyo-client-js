@@ -1,25 +1,23 @@
 import { assertEx } from '@xylabs/assert'
-import type { Address } from '@xylabs/hex'
-import { isAddress } from '@xylabs/hex'
+import { Address, isAddress } from '@xylabs/hex'
 import { Account } from '@xyo-network/account'
-import type { BridgeModuleResolverParams } from '@xyo-network/bridge-abstract'
-import { AbstractBridgeModuleResolver, wrapModuleWithType } from '@xyo-network/bridge-abstract'
-import type { ConfigPayload } from '@xyo-network/config-payload-plugin'
-import { ConfigSchema } from '@xyo-network/config-payload-plugin'
-import type {
+import {
+  AbstractBridgeModuleResolver, BridgeModuleResolverParams, wrapModuleWithType,
+} from '@xyo-network/bridge-abstract'
+import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
+import {
+  asModuleInstance,
   ModuleConfig,
+  ModuleConfigSchema,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
-} from '@xyo-network/module-model'
-import {
-  asModuleInstance,
-  ModuleConfigSchema,
   ResolveHelper,
 } from '@xyo-network/module-model'
 
-import type { WebsocketBridgeQuerySender, WebsocketModuleProxyParams } from './ModuleProxy/index.ts'
-import { WebsocketModuleProxy } from './ModuleProxy/index.ts'
+import {
+  WebsocketBridgeQuerySender, WebsocketModuleProxy, WebsocketModuleProxyParams,
+} from './ModuleProxy/index.ts'
 
 export interface WebsocketBridgeModuleResolverParams extends BridgeModuleResolverParams {
   querySender: WebsocketBridgeQuerySender

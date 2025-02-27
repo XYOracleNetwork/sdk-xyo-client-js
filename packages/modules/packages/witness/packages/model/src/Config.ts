@@ -1,6 +1,6 @@
-import type { EmptyObject, WithAdditional } from '@xylabs/object'
-import type { ModuleConfig } from '@xyo-network/module-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { EmptyObject, WithAdditional } from '@xylabs/object'
+import { ModuleConfig } from '@xyo-network/module-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export const WitnessConfigSchema = 'network.xyo.witness.config' as const
 export type WitnessConfigSchema = typeof WitnessConfigSchema

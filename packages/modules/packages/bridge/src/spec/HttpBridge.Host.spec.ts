@@ -1,14 +1,12 @@
 import '@xylabs/vitest-extended'
 
 import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/bridge-http'
-import type {
-  AsyncQueryBusIntersectConfig,
-  PubSubBridgeConfig,
-  PubSubBridgeParams,
-} from '@xyo-network/bridge-pub-sub'
 import {
+  AsyncQueryBusIntersectConfig,
   PubSubBridge,
+  PubSubBridgeConfig,
   PubSubBridgeConfigSchema,
+  PubSubBridgeParams,
 } from '@xyo-network/bridge-pub-sub'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'

@@ -1,6 +1,6 @@
-import type { Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
-import type { TransformDivinerSchema } from '../Schema.ts'
+import { TransformDivinerSchema } from '../Schema.ts'
 
 export type TransformDictionary = { [key: string]: string }
 

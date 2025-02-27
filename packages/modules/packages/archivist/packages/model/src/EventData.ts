@@ -1,6 +1,6 @@
-import type { ModuleEventData } from '@xyo-network/module-model'
+import { ModuleEventData } from '@xyo-network/module-model'
 
-import type {
+import {
   ClearedEventData, DeletedEventData, InsertedEventData,
 } from './EventModels/index.ts'
 

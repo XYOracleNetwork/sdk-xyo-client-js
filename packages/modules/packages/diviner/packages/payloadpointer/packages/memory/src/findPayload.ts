@@ -1,16 +1,14 @@
-import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import type { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
-import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import type { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
-import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import type {
+import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
+import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
+import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
+import {
+  isBoundWitnessPointer,
   PayloadRule, PayloadSearchCriteria, PointerPayload,
 } from '@xyo-network/diviner-payload-pointer-model'
-import { isBoundWitnessPointer } from '@xyo-network/diviner-payload-pointer-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { combineRules } from './combineRules.ts'

@@ -1,27 +1,25 @@
 import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
-import type { AbstractWitness } from '@xyo-network/abstract-witness'
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
-import type {
-  SentinelConfig,
-  SentinelIntervalAutomationPayload,
-} from '@xyo-network/sentinel-model'
 import {
+  SentinelConfig,
   SentinelConfigSchema,
+  SentinelIntervalAutomationPayload,
   SentinelIntervalAutomationSchema,
 } from '@xyo-network/sentinel-model'
-import type { AdhocWitnessConfig } from '@xyo-network/witness-adhoc'
-import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
+import {
+  AdhocWitness, AdhocWitnessConfig, AdhocWitnessConfigSchema,
+} from '@xyo-network/witness-adhoc'
 import {
   beforeEach,
   describe, expect, it,
 } from 'vitest'
 
 import { MemorySentinel } from '../MemorySentinel.ts'
-import type { OnSentinelRunnerTriggerResult } from '../SentinelRunner.ts'
-import { SentinelRunner } from '../SentinelRunner.ts'
+import { OnSentinelRunnerTriggerResult, SentinelRunner } from '../SentinelRunner.ts'
 
 /**
  * @group sentinel

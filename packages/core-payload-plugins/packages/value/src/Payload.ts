@@ -1,6 +1,5 @@
-import type { JsonValue } from '@xylabs/object'
-import type { Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { JsonValue } from '@xylabs/object'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 import { ValueSchema } from './Schema.ts'
 

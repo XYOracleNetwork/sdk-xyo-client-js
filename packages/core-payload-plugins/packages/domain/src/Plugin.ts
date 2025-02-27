@@ -1,7 +1,7 @@
-import type { Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import type { DomainPayload } from './Payload.ts'
+import { DomainPayload } from './Payload.ts'
 import { DomainSchema } from './Schema.ts'
 import { domainConfigTemplate } from './Template.ts'
 import { DomainPayloadWrapper } from './Wrapper.ts'

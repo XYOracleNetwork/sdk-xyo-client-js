@@ -10,10 +10,9 @@ export type ModuleManifestPayloadSchema = typeof ModuleManifestPayloadSchema
 export const NodeManifestPayloadSchema = 'network.xyo.node.manifest' as const
 export type NodeManifestPayloadSchema = typeof NodeManifestPayloadSchema
 
-import type { Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
-import type {
+import {
   ModuleManifest, NodeManifest, PackageManifest,
 } from './Manifest.ts'
 

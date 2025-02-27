@@ -1,6 +1,6 @@
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import type { SchemaPayload } from './Payload.ts'
+import { SchemaPayload } from './Payload.ts'
 import { SchemaSchema } from './Schema.ts'
 import { schemaPayloadTemplate } from './Template.ts'
 

@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import type { NodeManifestPayload } from '@xyo-network/manifest-model'
+import { NodeManifestPayload } from '@xyo-network/manifest-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 import {
   describe, expect, it,

@@ -1,8 +1,8 @@
-import type { TransformDivinerParams } from '@xyo-network/diviner-transform-abstract'
-import { AbstractTransformDiviner } from '@xyo-network/diviner-transform-abstract'
-import type { PayloadTransformer, Transform } from '@xyo-network/diviner-transform-model'
-import { TransformDivinerConfigSchema } from '@xyo-network/diviner-transform-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import { AbstractTransformDiviner, TransformDivinerParams } from '@xyo-network/diviner-transform-abstract'
+import {
+  PayloadTransformer, Transform, TransformDivinerConfigSchema,
+} from '@xyo-network/diviner-transform-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import { ValueSchema } from '@xyo-network/value-payload-plugin'
 import jsonpath from 'jsonpath'
 

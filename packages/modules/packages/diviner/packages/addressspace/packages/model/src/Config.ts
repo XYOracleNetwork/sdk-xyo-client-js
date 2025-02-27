@@ -1,4 +1,4 @@
-import type { DivinerConfig } from '@xyo-network/diviner-model'
+import { DivinerConfig } from '@xyo-network/diviner-model'
 
 import { AddressSpaceSchema } from './Schema.ts'
 

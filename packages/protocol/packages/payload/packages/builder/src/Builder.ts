@@ -1,31 +1,29 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Hash } from '@xylabs/hex'
-import type {
-  AnyObject, Compare, EmptyObject,
-} from '@xylabs/object'
+import { Hash } from '@xylabs/hex'
 import {
+  AnyObject, Compare, EmptyObject,
   isJsonObject, omitByPrefix, pickByPrefix, toJson,
 } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
+import { Promisable } from '@xylabs/promise'
 import { ObjectHasher, removeEmptyFields } from '@xyo-network/hash'
 import {
-  type Payload, type Schema,
-  type Sequence,
+  Payload, Schema,
+  Sequence,
   SequenceComparer,
   SequenceParser,
-  type WithHashStorageMeta,
-  type WithOnlyClientMeta,
-  type WithOptionalSchema,
-  type WithoutClientMeta,
-  type WithoutMeta,
-  type WithoutPrivateStorageMeta,
-  type WithoutSchema,
-  type WithoutStorageMeta,
-  type WithStorageMeta,
+  WithHashStorageMeta,
+  WithOnlyClientMeta,
+  WithOptionalSchema,
+  WithoutClientMeta,
+  WithoutMeta,
+  WithoutPrivateStorageMeta,
+  WithoutSchema,
+  WithoutStorageMeta,
+  WithStorageMeta,
 } from '@xyo-network/payload-model'
 
-import type { PayloadBuilderOptions } from './Options.ts'
+import { PayloadBuilderOptions } from './Options.ts'
 
 export const omitSchema = <T extends WithOptionalSchema>(payload: T): WithoutSchema<T> => {
   const result = structuredClone(payload)

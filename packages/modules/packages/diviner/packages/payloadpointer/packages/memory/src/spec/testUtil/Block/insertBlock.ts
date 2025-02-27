@@ -1,6 +1,6 @@
-import type { ArchivistInstance } from '@xyo-network/archivist-model'
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { getNewBlock } from './getNewBlock.ts'
 

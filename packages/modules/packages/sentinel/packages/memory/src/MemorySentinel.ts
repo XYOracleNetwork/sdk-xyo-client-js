@@ -1,19 +1,17 @@
-import type { Address } from '@xylabs/hex'
+import { Address } from '@xylabs/hex'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import type { AnyConfigSchema, ModuleIdentifier } from '@xyo-network/module-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import { AnyConfigSchema, ModuleIdentifier } from '@xyo-network/module-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import { AbstractSentinel } from '@xyo-network/sentinel-abstract'
-import type {
+import {
+  asSentinelInstance,
   ResolvedTask,
   SentinelConfig,
+  SentinelConfigSchema,
   SentinelInstance,
   SentinelModuleEventData,
   SentinelParams,
-} from '@xyo-network/sentinel-model'
-import {
-  asSentinelInstance,
-  SentinelConfigSchema,
 } from '@xyo-network/sentinel-model'
 import { asWitnessInstance } from '@xyo-network/witness-model'
 

@@ -1,4 +1,4 @@
-import type { Address, Hash } from '@xylabs/hex'
+import { Address, Hash } from '@xylabs/hex'
 
 export interface PreviousHashStore {
   getItem(address: Address): Hash | null | Promise<Hash | null>

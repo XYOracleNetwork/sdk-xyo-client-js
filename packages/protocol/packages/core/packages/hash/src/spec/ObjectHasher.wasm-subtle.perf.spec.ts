@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
-import type { AnyObject } from '@xylabs/object'
+import { AnyObject } from '@xylabs/object'
 import {
   beforeAll,
   describe, expect, test,

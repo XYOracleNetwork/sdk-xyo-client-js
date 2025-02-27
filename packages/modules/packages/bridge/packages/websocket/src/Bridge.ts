@@ -1,5 +1,4 @@
-import type { Server as HttpServer } from 'node:http'
-import { createServer as createHttpServer } from 'node:http'
+import { createServer as createHttpServer, Server as HttpServer } from 'node:http'
 
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'

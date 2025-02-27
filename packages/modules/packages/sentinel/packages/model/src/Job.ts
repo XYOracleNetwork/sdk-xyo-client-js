@@ -1,4 +1,4 @@
-import type { ResolvedTask } from './ResolvedTask.ts'
+import { ResolvedTask } from './ResolvedTask.ts'
 
 export interface SentinelJob {
   tasks: ResolvedTask[][]

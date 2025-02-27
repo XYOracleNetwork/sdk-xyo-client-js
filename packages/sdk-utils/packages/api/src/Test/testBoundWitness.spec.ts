@@ -1,5 +1,4 @@
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { it } from 'vitest'
 
 const testBoundWitness: BoundWitness = {

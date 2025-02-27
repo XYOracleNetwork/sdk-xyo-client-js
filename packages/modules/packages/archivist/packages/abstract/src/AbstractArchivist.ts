@@ -1,47 +1,45 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Address, Hash } from '@xylabs/hex'
+import { Address, Hash } from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
-import type { Promisable, PromisableArray } from '@xylabs/promise'
+import { Promisable, PromisableArray } from '@xylabs/promise'
 import { difference } from '@xylabs/set'
-import type { AccountInstance } from '@xyo-network/account-model'
-import type {
+import { AccountInstance } from '@xyo-network/account-model'
+import {
   ArchivistAllQuery,
+  ArchivistAllQuerySchema,
   ArchivistClearQuery,
+  ArchivistClearQuerySchema,
   ArchivistCommitQuery,
+  ArchivistCommitQuerySchema,
+  ArchivistConfigSchema,
   ArchivistDeleteQuery,
+  ArchivistDeleteQuerySchema,
   ArchivistGetQuery,
+  ArchivistGetQuerySchema,
   ArchivistInsertQuery,
+  ArchivistInsertQuerySchema,
   ArchivistInstance,
   ArchivistModuleEventData,
   ArchivistNextOptions,
   ArchivistNextQuery,
+  ArchivistNextQuerySchema,
   ArchivistParams,
   ArchivistQueries,
+  asArchivistInstance,
   AttachableArchivistInstance,
+  isArchivistInstance,
   ReadArchivist,
 } from '@xyo-network/archivist-model'
-import {
-  ArchivistAllQuerySchema,
-  ArchivistClearQuerySchema,
-  ArchivistCommitQuerySchema,
-  ArchivistConfigSchema,
-  ArchivistDeleteQuerySchema,
-  ArchivistGetQuerySchema,
-  ArchivistInsertQuerySchema,
-  ArchivistNextQuerySchema,
-  asArchivistInstance,
-  isArchivistInstance,
-} from '@xyo-network/archivist-model'
-import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import type {
+import {
+  duplicateModules,
   ModuleConfig, ModuleIdentifier, ModuleQueryHandlerResult, ModuleQueryResult,
 } from '@xyo-network/module-model'
-import { duplicateModules } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
+import {
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
 

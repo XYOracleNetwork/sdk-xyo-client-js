@@ -1,5 +1,5 @@
-import type { Logger } from '@xylabs/logger'
-import type { Schema } from '@xyo-network/payload-model'
+import { Logger } from '@xylabs/logger'
+import { Schema } from '@xyo-network/payload-model'
 
 export interface PayloadBuilderOptions {
   readonly logger?: Logger

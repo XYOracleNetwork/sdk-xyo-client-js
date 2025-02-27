@@ -1,7 +1,7 @@
 import { AsObjectFactory } from '@xylabs/object'
 
-import type { Payload } from '../Payload.ts'
-import type { Sequence } from './sequence/index.ts'
+import { Payload } from '../Payload.ts'
+import { Sequence } from './sequence/index.ts'
 
 export interface SequenceStorageMeta {
   _sequence: Sequence

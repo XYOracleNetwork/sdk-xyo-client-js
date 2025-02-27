@@ -1,6 +1,6 @@
-import type { AttachableModuleInstance } from '../instance/index.ts'
-import type { WithOptionalLabels } from '../Labels/index.ts'
-import type { CreatableModuleFactory } from './CreatableModule.ts'
+import { AttachableModuleInstance } from '../instance/index.ts'
+import { WithOptionalLabels } from '../Labels/index.ts'
+import { CreatableModuleFactory } from './CreatableModule.ts'
 
 export type LabeledCreatableModuleFactory<T extends AttachableModuleInstance | void = void> = CreatableModuleFactory<T> & WithOptionalLabels
 

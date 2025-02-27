@@ -1,22 +1,19 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
-import type { Address } from '@xylabs/hex'
+import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
-import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
-import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import type { CacheConfig, ModuleQueryResult } from '@xyo-network/module-model'
+import { isBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { CacheConfig, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
+import {
   ModuleError, Payload, WithSources,
 } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase.ts'
-import type { AsyncQueryBusClientParams } from './model/index.ts'
-import { Pending } from './model/index.ts'
+import { AsyncQueryBusClientParams, Pending } from './model/index.ts'
 
 export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = AsyncQueryBusClientParams> extends AsyncQueryBusBase<TParams> {
   protected _queryCache?: LRUCache<Address, Pending | ModuleQueryResult>

@@ -3,18 +3,18 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { removeFields } from '@xylabs/object'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
-import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
-import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import type {
+import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
+import {
   Payload, Schema, Sequence,
 } from '@xyo-network/payload-model'
-import type { IDBPCursorWithValue, IDBPDatabase } from 'idb'
-import { openDB } from 'idb'
+import {
+  IDBPCursorWithValue, IDBPDatabase, openDB,
+} from 'idb'
 
 import { IndexedDbPayloadDivinerConfigSchema } from './Config.ts'
-import type { IndexedDbPayloadDivinerParams } from './Params.ts'
+import { IndexedDbPayloadDivinerParams } from './Params.ts'
 
 interface PayloadStore {
   [s: string]: Payload

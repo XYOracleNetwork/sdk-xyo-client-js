@@ -1,19 +1,17 @@
-import type { AccountInstance } from '@xyo-network/account-model'
-import type { ArchivistInstance } from '@xyo-network/archivist-model'
-import type { ModuleQueryResult } from '@xyo-network/module-model'
+import { AccountInstance } from '@xyo-network/account-model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
+import { ModuleQueryResult } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
-import type { Payload } from '@xyo-network/payload-model'
-import type {
-  SentinelInstance,
-  SentinelModule,
-  SentinelReportQuery,
-} from '@xyo-network/sentinel-model'
+import { Payload } from '@xyo-network/payload-model'
 import {
   isSentinelInstance,
   isSentinelModule,
+  SentinelInstance,
+  SentinelModule,
+  SentinelReportQuery,
   SentinelReportQuerySchema,
 } from '@xyo-network/sentinel-model'
-import type { WitnessInstance } from '@xyo-network/witness-model'
+import { WitnessInstance } from '@xyo-network/witness-model'
 
 constructableModuleWrapper()
 export class SentinelWrapper<TModule extends SentinelModule = SentinelModule>

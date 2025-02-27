@@ -5,15 +5,14 @@ import '@xylabs/vitest-extended'
 import { delay } from '@xylabs/delay'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { GenericPayloadDivinerConfigSchema } from '@xyo-network/diviner-payload-generic'
-import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
+import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  isSequenceStorageMeta, type Payload,
+  isSequenceStorageMeta, Payload,
   SequenceConstants,
-  type WithSequenceStorageMeta,
-  type WithStorageMeta,
+  WithSequenceStorageMeta,
+  WithStorageMeta,
 } from '@xyo-network/payload-model'
 import {
   beforeAll,

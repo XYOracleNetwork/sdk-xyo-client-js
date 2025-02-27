@@ -1,9 +1,8 @@
 import '@xylabs/vitest-extended'
 
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'
-import type { Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import {
   describe, expect,
   it,

@@ -1,7 +1,7 @@
-import type { BridgeClientConfig } from '@xyo-network/bridge-model'
-import type { CacheConfig } from '@xyo-network/module-model'
+import { BridgeClientConfig } from '@xyo-network/bridge-model'
+import { CacheConfig } from '@xyo-network/module-model'
 
-import type { AsyncQueryBusBaseConfig } from './BaseConfig.ts'
+import { AsyncQueryBusBaseConfig } from './BaseConfig.ts'
 
 export interface AsyncQueryBusClientConfig extends AsyncQueryBusBaseConfig, BridgeClientConfig {
   /**

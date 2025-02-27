@@ -1,10 +1,9 @@
-import type { TypeCheck } from '@xylabs/object'
-import { IsObjectFactory } from '@xylabs/object'
-import type { ObjectTypeShape } from '@xylabs/typeof'
+import { IsObjectFactory, TypeCheck } from '@xylabs/object'
+import { ObjectTypeShape } from '@xylabs/typeof'
 import { isAttachableModuleInstance } from '@xyo-network/module-model'
 
 import { isArchivistInstance } from '../typeChecks.ts'
-import type { AttachableArchivistInstance } from './AttachableInstance.ts'
+import { AttachableArchivistInstance } from './AttachableInstance.ts'
 
 export const requiredAttachableArchivistInstanceFunctions: ObjectTypeShape = {}
 

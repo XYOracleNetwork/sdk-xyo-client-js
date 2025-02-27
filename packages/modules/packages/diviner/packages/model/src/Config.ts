@@ -1,6 +1,6 @@
-import type { EmptyObject, WithAdditional } from '@xylabs/object'
-import type { ModuleConfig } from '@xyo-network/module-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import { EmptyObject, WithAdditional } from '@xylabs/object'
+import { ModuleConfig } from '@xyo-network/module-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export const DivinerConfigSchema = 'network.xyo.diviner.config' as const
 export type DivinerConfigSchema = typeof DivinerConfigSchema

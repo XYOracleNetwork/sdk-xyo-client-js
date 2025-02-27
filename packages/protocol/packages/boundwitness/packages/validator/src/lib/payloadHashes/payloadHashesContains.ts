@@ -1,5 +1,5 @@
-import type { Hash } from '@xylabs/hex'
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { Hash } from '@xylabs/hex'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 
 import { boundWitnessArrayPropertyContains } from '../util/index.ts'
 

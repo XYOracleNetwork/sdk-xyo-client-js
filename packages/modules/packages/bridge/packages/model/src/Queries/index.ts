@@ -1,9 +1,9 @@
-import type { ModuleQueries } from '@xyo-network/module-model'
+import { ModuleQueries } from '@xyo-network/module-model'
 
-import type { BridgeConnectQuery } from './Connect.ts'
-import type { BridgeDisconnectQuery } from './Disconnect.ts'
-import type { BridgeExposeQuery } from './Expose.ts'
-import type { BridgeUnexposeQuery } from './Unexpose.ts'
+import { BridgeConnectQuery } from './Connect.ts'
+import { BridgeDisconnectQuery } from './Disconnect.ts'
+import { BridgeExposeQuery } from './Expose.ts'
+import { BridgeUnexposeQuery } from './Unexpose.ts'
 
 export * from './Connect.ts'
 export * from './Disconnect.ts'

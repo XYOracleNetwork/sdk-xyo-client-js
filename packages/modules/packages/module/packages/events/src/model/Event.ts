@@ -1,4 +1,4 @@
-import type { Promisable } from '@xylabs/promise'
+import { Promisable } from '@xylabs/promise'
 
 export type EventName = PropertyKey
 export type EventArgs = string | number | object

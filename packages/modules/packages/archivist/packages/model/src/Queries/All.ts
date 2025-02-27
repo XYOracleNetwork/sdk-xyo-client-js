@@ -1,4 +1,4 @@
-import type { Query } from '@xyo-network/payload-model'
+import { Query } from '@xyo-network/payload-model'
 
 export const ArchivistAllQuerySchema = 'network.xyo.query.archivist.all' as const
 export type ArchivistAllQuerySchema = typeof ArchivistAllQuerySchema

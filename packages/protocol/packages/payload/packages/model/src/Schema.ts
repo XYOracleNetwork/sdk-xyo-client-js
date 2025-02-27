@@ -1,5 +1,4 @@
-import type { EmptyObject } from '@xylabs/object'
-import { AsTypeFactory } from '@xylabs/object'
+import { AsTypeFactory, EmptyObject } from '@xylabs/object'
 
 export const SchemaRegEx = String.raw`^((?!-)[a-z0-9-]{1, 63}(?<!-)\.)+$`
 

@@ -1,10 +1,10 @@
 import { axios } from '@xylabs/axios'
-import type { ApiConfig } from '@xyo-network/api-models'
-import type { RawAxiosRequestConfig } from 'axios'
+import { ApiConfig } from '@xyo-network/api-models'
+import { RawAxiosRequestConfig } from 'axios'
 
 import { getLocationDivinerApiResponseTransformer } from './LocationDivinerApiResponseTransformer.ts'
-import type { GetLocationQueryResponse } from './models.ts'
-import type { LocationQueryCreationResponse, SupportedLocationQueryCreationRequest } from './Queries/index.ts'
+import { GetLocationQueryResponse } from './models.ts'
+import { LocationQueryCreationResponse, SupportedLocationQueryCreationRequest } from './Queries/index.ts'
 
 class LocationDivinerApi {
   config: ApiConfig

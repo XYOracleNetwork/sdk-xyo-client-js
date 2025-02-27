@@ -1,5 +1,5 @@
-import type { Order } from '@xyo-network/diviner-payload-model'
-import type { Sequence } from '@xyo-network/payload-model'
+import { Order } from '@xyo-network/diviner-payload-model'
+import { Sequence } from '@xyo-network/payload-model'
 
 export interface PayloadSequenceOrderRule {
   order?: Order

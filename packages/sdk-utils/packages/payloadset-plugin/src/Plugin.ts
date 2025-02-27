@@ -1,10 +1,10 @@
-import type { Validator } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
-import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import type { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import type { DivinerModule } from '@xyo-network/diviner-model'
-import type { PayloadSetPayload } from '@xyo-network/payload-model'
-import type { WitnessModule } from '@xyo-network/witness-model'
+import { Validator } from '@xylabs/object'
+import { Promisable } from '@xylabs/promise'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { DivinerModule } from '@xyo-network/diviner-model'
+import { PayloadSetPayload } from '@xyo-network/payload-model'
+import { WitnessModule } from '@xyo-network/witness-model'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type PayloadSetPluginFunc = () => PayloadSetPlugin<any>

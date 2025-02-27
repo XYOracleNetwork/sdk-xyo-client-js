@@ -1,29 +1,25 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
-import type { Address } from '@xylabs/hex'
+import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
-import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { isQueryBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
+import { isQueryBoundWitnessWithStorageMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { isBridgeInstance } from '@xyo-network/bridge-model'
-import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import type {
-  ModuleIdentifier,
-  ModuleInstance,
-} from '@xyo-network/module-model'
+import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import {
   asModuleInstance,
   ModuleConfigSchema,
+  ModuleIdentifier,
+  ModuleInstance,
   resolveAddressToInstance,
   ResolveHelper,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  type Schema, SequenceConstants, type WithStorageMeta,
+  Schema, SequenceConstants, WithStorageMeta,
 } from '@xyo-network/payload-model'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase.ts'
-import type { AsyncQueryBusHostParams } from './model/index.ts'
+import { AsyncQueryBusHostParams } from './model/index.ts'
 
 export interface ExposeOptions {
   allowedQueries?: Schema[]

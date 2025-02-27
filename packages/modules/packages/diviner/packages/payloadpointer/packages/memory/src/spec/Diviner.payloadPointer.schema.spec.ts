@@ -2,16 +2,16 @@ import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
 import { Account } from '@xyo-network/account'
-import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import type { NodeInstance } from '@xyo-network/node-model'
+import { NodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import {
   beforeAll, describe, expect, it,
 } from 'vitest'
 
-import type { PayloadPointerDiviner } from '../Diviner.ts'
+import { PayloadPointerDiviner } from '../Diviner.ts'
 import {
   createPointer,
   getArchivist,

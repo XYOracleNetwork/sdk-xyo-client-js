@@ -3,8 +3,8 @@ import {
   IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory,
 } from '@xyo-network/module-model'
 
-import type { ArchivistInstance } from './Instance.ts'
-import type { ArchivistModuleInstance } from './ModuleInstance.ts'
+import { ArchivistInstance } from './Instance.ts'
+import { ArchivistModuleInstance } from './ModuleInstance.ts'
 import { ArchivistGetQuerySchema } from './Queries/index.ts'
 
 export const isArchivistInstance = new IsInstanceFactory<ArchivistInstance>().create({ get: 'function' }, [isModuleInstance])

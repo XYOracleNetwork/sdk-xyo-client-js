@@ -1,9 +1,9 @@
-import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import type { EventData } from '@xyo-network/module-events'
-import type { Payload } from '@xyo-network/payload-model'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { EventData } from '@xyo-network/module-events'
+import { Payload } from '@xyo-network/payload-model'
 
-import type { ModuleQueryResult } from '../ModuleQueryResult.ts'
-import type { ModuleEventArgs } from './ModuleEventArgs.ts'
+import { ModuleQueryResult } from '../ModuleQueryResult.ts'
+import { ModuleEventArgs } from './ModuleEventArgs.ts'
 
 export type ModuleQueriedEventArgs<TModule extends object = object> = ModuleEventArgs<
   TModule,

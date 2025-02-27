@@ -1,5 +1,5 @@
-import type { Address } from '@xylabs/hex'
-import type { Payload } from '@xyo-network/payload-model'
+import { Address } from '@xylabs/hex'
+import { Payload } from '@xyo-network/payload-model'
 
 export const AddressSchema = 'network.xyo.address' as const
 export type AddressSchema = typeof AddressSchema

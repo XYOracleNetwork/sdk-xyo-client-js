@@ -1,7 +1,7 @@
-import type { EmptyObject } from '@xylabs/object'
-import type { AnyConfigSchema, ModuleParams } from '@xyo-network/module-model'
+import { EmptyObject } from '@xylabs/object'
+import { AnyConfigSchema, ModuleParams } from '@xyo-network/module-model'
 
-import type { SentinelConfig } from './Config.ts'
+import { SentinelConfig } from './Config.ts'
 
 export type SentinelParams<
   TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>,

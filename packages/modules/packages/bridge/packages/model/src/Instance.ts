@@ -1,11 +1,11 @@
-import type { Address } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
-import type { ModuleInstance } from '@xyo-network/module-model'
+import { Address } from '@xylabs/hex'
+import { Promisable } from '@xylabs/promise'
+import { ModuleInstance } from '@xyo-network/module-model'
 
-import type { BridgeModuleEventData } from './EventData.ts'
-import type { BridgeModule } from './Module.ts'
-import type { BridgeParams } from './Params.ts'
-import type { BridgeQueryFunctions } from './QueryFunctions.ts'
+import { BridgeModuleEventData } from './EventData.ts'
+import { BridgeModule } from './Module.ts'
+import { BridgeParams } from './Params.ts'
+import { BridgeQueryFunctions } from './QueryFunctions.ts'
 
 export interface BridgeInstance<TParams extends BridgeParams = BridgeParams, TEventData extends BridgeModuleEventData = BridgeModuleEventData>
   extends BridgeModule<TParams, TEventData>,

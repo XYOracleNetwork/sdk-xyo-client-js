@@ -1,12 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import type { JsonPatchDivinerParams } from '@xyo-network/diviner-jsonpatch-model'
-import { JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
-import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
-import type { applyPatch, Operation } from 'fast-json-patch'
-import fastJsonPatch from 'fast-json-patch'
+import { JsonPatchDivinerConfigSchema, JsonPatchDivinerParams } from '@xyo-network/diviner-jsonpatch-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
+import fastJsonPatch, { applyPatch, Operation } from 'fast-json-patch'
 
 const FJP = fastJsonPatch as { applyPatch: typeof applyPatch }
 

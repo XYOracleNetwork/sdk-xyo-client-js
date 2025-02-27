@@ -1,10 +1,9 @@
-import type { Validator } from '@xylabs/object'
-import type { Payload } from '@xyo-network/payload-model'
-import { PayloadSchema } from '@xyo-network/payload-model'
-import type { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { Validator } from '@xylabs/object'
+import { Payload, PayloadSchema } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { createPayloadPlugin } from './createPlugin.ts'
-import type { PayloadPlugin } from './Plugin.ts'
+import { PayloadPlugin } from './Plugin.ts'
 
 export class PayloadPluginResolver {
   schema = PayloadSchema

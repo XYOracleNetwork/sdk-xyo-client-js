@@ -1,26 +1,25 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Hash } from '@xylabs/hex'
-import type { Promisable, PromisableArray } from '@xylabs/promise'
-import { fulfilled } from '@xylabs/promise'
+import { Hash } from '@xylabs/hex'
+import {
+  fulfilled, Promisable, PromisableArray,
+} from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
-import type {
-  ArchivistConfig,
-  ArchivistInsertQuery,
-  ArchivistModuleEventData,
-  ArchivistParams,
-} from '@xyo-network/archivist-model'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
+  ArchivistConfig,
   ArchivistDeleteQuerySchema,
+  ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistModuleEventData,
+  ArchivistParams,
 } from '@xyo-network/archivist-model'
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import type { AnyConfigSchema } from '@xyo-network/module-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
+import {
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
 import Cookies from 'js-cookie'

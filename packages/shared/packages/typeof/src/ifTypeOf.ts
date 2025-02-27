@@ -1,5 +1,5 @@
 import { typeOf } from './typeOf.ts'
-import type { TypeOfTypes } from './TypeOfTypes.ts'
+import { TypeOfTypes } from './TypeOfTypes.ts'
 
 export const ifTypeOf = <T, R>(
   typeName: TypeOfTypes,

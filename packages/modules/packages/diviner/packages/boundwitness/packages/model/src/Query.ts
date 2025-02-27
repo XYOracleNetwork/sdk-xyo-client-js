@@ -1,7 +1,6 @@
-import type { Query } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Query } from '@xyo-network/payload-model'
 
-import type { BoundWitnessDivinerPredicate } from './Predicate.ts'
+import { BoundWitnessDivinerPredicate } from './Predicate.ts'
 import { BoundWitnessDivinerSchema } from './Schema.ts'
 
 export type BoundWitnessDivinerQuerySchema = `${BoundWitnessDivinerSchema}.query`

@@ -1,13 +1,12 @@
-import type { EmptyObject, WithAdditional } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
+import { EmptyObject, WithAdditional } from '@xylabs/object'
+import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import type { AnyConfigSchema } from '@xyo-network/module-model'
-import { creatableModule } from '@xyo-network/module-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
-import type {
+import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
+import {
   CustomWitnessInstance, WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams,
 } from '@xyo-network/witness-model'
-import type { Provider } from 'ethers'
+import { Provider } from 'ethers'
 
 export const EvmWitnessConfigSchema = 'network.xyo.evm.witness' as const
 export type EvmWitnessConfigSchema = typeof EvmWitnessConfigSchema

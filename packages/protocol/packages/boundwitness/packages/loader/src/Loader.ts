@@ -1,13 +1,11 @@
 import { exists } from '@xylabs/exists'
-import type { Hash } from '@xylabs/hex'
-import type { BaseParams } from '@xylabs/object'
-import { Base } from '@xylabs/object'
+import { Hash } from '@xylabs/hex'
+import { Base, BaseParams } from '@xylabs/object'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { asBoundWitness } from '@xyo-network/boundwitness-model'
 import { Huri } from '@xyo-network/huri'
-import type { Payload } from '@xyo-network/payload-model'
-import { isAnyPayload } from '@xyo-network/payload-model'
+import { isAnyPayload, Payload } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
 export interface PayloadWorkingSet {

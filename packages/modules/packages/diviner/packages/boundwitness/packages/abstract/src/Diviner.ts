@@ -1,9 +1,10 @@
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import type { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { BoundWitnessDivinerConfigSchema } from '@xyo-network/diviner-boundwitness-model'
-import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import type { Schema } from '@xyo-network/payload-model'
+import {
+  BoundWitnessDivinerConfigSchema, BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload,
+} from '@xyo-network/diviner-boundwitness-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { Schema } from '@xyo-network/payload-model'
 
 export abstract class BoundWitnessDiviner<
   TParams extends BoundWitnessDivinerParams = BoundWitnessDivinerParams,

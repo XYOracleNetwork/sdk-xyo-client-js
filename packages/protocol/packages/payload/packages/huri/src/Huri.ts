@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { axios } from '@xylabs/axios'
-import type { Address, Hash } from '@xylabs/hex'
-import { isHash } from '@xylabs/hex'
+import {
+  Address, Hash, isHash,
+} from '@xylabs/hex'
 import { AddressValue } from '@xyo-network/account'
-import type { Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export type ObjectCategory = 'block' | 'payload'
 

@@ -1,10 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Address } from '@xylabs/hex'
-import { isAddress } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
-import type { EventListener } from '@xyo-network/module-events'
-import type {
+import { Address, isAddress } from '@xylabs/hex'
+import { Promisable } from '@xylabs/promise'
+import { EventListener } from '@xyo-network/module-events'
+import {
   AnyConfigSchema,
   AttachableModuleInstance,
   Module,
@@ -12,12 +11,12 @@ import type {
   ModuleInstance,
   ModuleResolverInstance,
 } from '@xyo-network/module-model'
-import type { CompositeModuleResolver } from '@xyo-network/module-resolver'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AbstractNode } from '@xyo-network/node-abstract'
-import type {
-  AttachableNodeInstance, ChildCertificationFields, NodeConfig, NodeModuleEventData, NodeParams,
+import {
+  AttachableNodeInstance, ChildCertificationFields, isNodeModule,
+  NodeConfig, NodeModuleEventData, NodeParams,
 } from '@xyo-network/node-model'
-import { isNodeModule } from '@xyo-network/node-model'
 import { Mutex } from 'async-mutex'
 
 export type MemoryNodeParams = NodeParams<AnyConfigSchema<NodeConfig>>

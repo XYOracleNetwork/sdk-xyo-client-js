@@ -6,18 +6,18 @@ import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistConfigSchema, asArchivistInstance } from '@xyo-network/archivist-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
-import type { SearchableStorage } from '@xyo-network/diviner-model'
+import { SearchableStorage } from '@xyo-network/diviner-model'
 import { AbstractModule } from '@xyo-network/module-abstract'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asNodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   describe, expect, it,
 } from 'vitest'
 
-import type { AsyncQueryBusIntersectConfig } from '../AsyncQueryBus/index.ts'
+import { AsyncQueryBusIntersectConfig } from '../AsyncQueryBus/index.ts'
 import { PubSubBridge } from '../PubSubBridge.ts'
 
 /**

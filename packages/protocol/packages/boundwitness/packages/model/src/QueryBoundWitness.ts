@@ -1,7 +1,7 @@
-import type { Hash } from '@xylabs/hex'
-import { isStorageMeta, type WithStorageMeta } from '@xyo-network/payload-model'
+import { Hash } from '@xylabs/hex'
+import { isStorageMeta, WithStorageMeta } from '@xyo-network/payload-model'
 
-import type { BoundWitness } from './BoundWitness/index.ts'
+import { BoundWitness } from './BoundWitness/index.ts'
 import { isBoundWitness } from './isBoundWitness.ts'
 
 export type QueryBoundWitnessFields = {

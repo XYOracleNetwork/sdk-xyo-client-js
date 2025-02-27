@@ -1,11 +1,10 @@
-import type { TypeCheck } from '@xylabs/object'
-import { IsObjectFactory } from '@xylabs/object'
-import type { AttachableModuleInstance } from '@xyo-network/module-model'
+import { IsObjectFactory, TypeCheck } from '@xylabs/object'
+import { AttachableModuleInstance } from '@xyo-network/module-model'
 
-import type { SentinelModuleEventData } from '../EventData.ts'
-import type { SentinelInstance } from '../Instance.ts'
-import type { SentinelModule } from '../Module.ts'
-import type { SentinelParams } from '../Params.ts'
+import { SentinelModuleEventData } from '../EventData.ts'
+import { SentinelInstance } from '../Instance.ts'
+import { SentinelModule } from '../Module.ts'
+import { SentinelParams } from '../Params.ts'
 
 export interface AttachableSentinelInstance<
   TParams extends SentinelParams = SentinelParams,

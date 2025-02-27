@@ -1,9 +1,9 @@
-import type { Address } from '@xylabs/hex'
-import type { Logger } from '@xylabs/logger'
-import type { AccountInstance } from '@xyo-network/account-model'
-import type { Schema } from '@xyo-network/payload-model'
+import { Address } from '@xylabs/hex'
+import { Logger } from '@xylabs/logger'
+import { AccountInstance } from '@xyo-network/account-model'
+import { Schema } from '@xyo-network/payload-model'
 
-import type { AttachableModuleInstance } from '../instance/index.ts'
+import { AttachableModuleInstance } from '../instance/index.ts'
 
 export type CreatableModuleFactory<T extends AttachableModuleInstance | void = void> = Omit<
   CreatableModule<T extends AttachableModuleInstance ? T : AttachableModuleInstance>,

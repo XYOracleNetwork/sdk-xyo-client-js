@@ -1,9 +1,10 @@
-import type { ModuleInstance } from '@xyo-network/module-model'
-import { ModuleConfigSchema, ModuleStateQuerySchema } from '@xyo-network/module-model'
-import type { MockedObject } from 'vitest'
+import {
+  ModuleConfigSchema, ModuleInstance, ModuleStateQuerySchema,
+} from '@xyo-network/module-model'
 import {
   beforeEach, describe, expect,
-  it, vi,
+  it, MockedObject,
+  vi,
 } from 'vitest'
 
 import { CompositeModuleResolver } from '../CompositeModuleResolver.ts'

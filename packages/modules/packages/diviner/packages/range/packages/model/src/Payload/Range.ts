@@ -1,7 +1,5 @@
-import type { Hex } from '@xylabs/hex'
-import { isHex } from '@xylabs/hex'
-import type { Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { Hex, isHex } from '@xylabs/hex'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 /* Note: We decorate these names with Payload since Range is a system type */
 

@@ -4,11 +4,10 @@ import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
+import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 import {
   beforeAll, describe, expect, it,
 } from 'vitest'

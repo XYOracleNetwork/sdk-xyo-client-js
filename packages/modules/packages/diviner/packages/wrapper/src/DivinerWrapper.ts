@@ -1,19 +1,17 @@
-import type { RetryConfig } from '@xylabs/retry'
-import type { AccountInstance } from '@xyo-network/account-model'
-import type {
+import { RetryConfig } from '@xylabs/retry'
+import { AccountInstance } from '@xyo-network/account-model'
+import {
   DivinerDivineQuery,
+  DivinerDivineQuerySchema,
   DivinerInstance,
   DivinerModule,
   DivinerParams,
-} from '@xyo-network/diviner-model'
-import {
-  DivinerDivineQuerySchema,
   isDivinerInstance,
   isDivinerModule,
 } from '@xyo-network/diviner-model'
-import type { ModuleQueryResult } from '@xyo-network/module-model'
+import { ModuleQueryResult } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
-import type {
+import {
   Payload, WithoutPrivateStorageMeta, WithSources,
 } from '@xyo-network/payload-model'
 

@@ -1,6 +1,6 @@
-import type { Module, ModuleEventData } from '@xyo-network/module-model'
+import { Module, ModuleEventData } from '@xyo-network/module-model'
 
-import type {
+import {
   JobEndEventData,
   JobStartEventData,
   ReportEndEventData,

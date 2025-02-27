@@ -1,6 +1,6 @@
 import {
   isPayloadOfSchemaType,
-  type Payload, type PayloadFindFilter, type Query,
+  Payload, PayloadFindFilter, Query,
 } from '@xyo-network/payload-model'
 
 export const AddressHistorySchema = 'network.xyo.diviner.address.history' as const

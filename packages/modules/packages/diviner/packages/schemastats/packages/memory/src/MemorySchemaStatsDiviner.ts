@@ -1,19 +1,17 @@
 import { assertEx } from '@xylabs/assert'
-import type { Address } from '@xylabs/hex'
+import { Address } from '@xylabs/hex'
 import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { SchemaStatsDiviner } from '@xyo-network/diviner-schema-stats-abstract'
-import type {
-  SchemaStatsDivinerParams,
-  SchemaStatsPayload,
-  SchemaStatsQueryPayload,
-} from '@xyo-network/diviner-schema-stats-model'
 import {
   isSchemaStatsQueryPayload,
   SchemaStatsDivinerConfigSchema,
+  SchemaStatsDivinerParams,
   SchemaStatsDivinerSchema,
+  SchemaStatsPayload,
+  SchemaStatsQueryPayload,
 } from '@xyo-network/diviner-schema-stats-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams = SchemaStatsDivinerParams> extends SchemaStatsDiviner<TParams> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, SchemaStatsDivinerConfigSchema]

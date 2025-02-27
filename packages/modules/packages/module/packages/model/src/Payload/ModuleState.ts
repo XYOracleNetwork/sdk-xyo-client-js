@@ -1,6 +1,7 @@
 import { AsObjectFactory } from '@xylabs/object'
-import type { Payload, WithSources } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources } from '@xyo-network/payload-model'
+import {
+  isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources, Payload, WithSources,
+} from '@xyo-network/payload-model'
 
 export interface StateDictionary {
   [key: string]: string | number

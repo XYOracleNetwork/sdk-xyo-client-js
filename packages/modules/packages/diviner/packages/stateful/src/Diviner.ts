@@ -1,24 +1,24 @@
 import { assertEx } from '@xylabs/assert'
-import type { Hash } from '@xylabs/hex'
+import { Hash } from '@xylabs/hex'
 import { toJson } from '@xylabs/object'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import type { ModuleState, StateDictionary } from '@xyo-network/module-model'
-import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
+import {
+  isModuleState, ModuleState, ModuleStateSchema, StateDictionary,
+} from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  type Payload, type Schema, SequenceConstants,
-  type WithStorageMeta,
+  Payload, Schema, SequenceConstants,
+  WithStorageMeta,
 } from '@xyo-network/payload-model'
 
 import { StatefulDivinerConfigSchema } from './Config.ts'
-import type { StatefulDivinerParams } from './Params.ts'
+import { StatefulDivinerParams } from './Params.ts'
 
 const moduleName = 'StatefulDiviner'
 

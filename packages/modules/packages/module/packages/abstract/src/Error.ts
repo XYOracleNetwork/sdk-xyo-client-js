@@ -1,8 +1,9 @@
-import type { Hash } from '@xylabs/hex'
-import type { JsonValue } from '@xylabs/object'
+import { Hash } from '@xylabs/hex'
+import { JsonValue } from '@xylabs/object'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { ModuleError, WithOptionalSources } from '@xyo-network/payload-model'
-import { ModuleErrorSchema } from '@xyo-network/payload-model'
+import {
+  ModuleError, ModuleErrorSchema, WithOptionalSources,
+} from '@xyo-network/payload-model'
 
 export class ModuleErrorBuilder extends PayloadBuilder<WithOptionalSources<ModuleError>> {
   _details?: JsonValue

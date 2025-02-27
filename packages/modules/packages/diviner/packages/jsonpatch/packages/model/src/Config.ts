@@ -1,5 +1,5 @@
-import type { DivinerConfig } from '@xyo-network/diviner-model'
-import type { Operation } from 'fast-json-patch'
+import { DivinerConfig } from '@xyo-network/diviner-model'
+import { Operation } from 'fast-json-patch'
 
 import { JsonPatchDivinerSchema } from './Schema.ts'
 

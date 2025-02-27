@@ -1,4 +1,4 @@
-import type { Module } from '../module/index.ts'
+import { Module } from '../module/index.ts'
 
 /**
  * Used to filter duplicates from an array of modules

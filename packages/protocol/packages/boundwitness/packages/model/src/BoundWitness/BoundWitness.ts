@@ -1,10 +1,10 @@
-import type {
+import {
   Address, Hash, Hex,
 } from '@xylabs/hex'
-import type { EmptyObject, JsonObject } from '@xylabs/object'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import { EmptyObject, JsonObject } from '@xylabs/object'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
-import type { BoundWitnessSchema } from './BoundWitnessSchema.ts'
+import { BoundWitnessSchema } from './BoundWitnessSchema.ts'
 
 export interface BoundWitnessRequiredFields {
   /** @field Array of signatures by the accounts that are listed in addresses */

@@ -1,30 +1,29 @@
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
-import type { RetryConfig, RetryConfigWithComplete } from '@xylabs/retry'
-import { retry } from '@xylabs/retry'
-import type { AccountInstance } from '@xyo-network/account-model'
-import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { Promisable } from '@xylabs/promise'
+import {
+  retry, RetryConfig, RetryConfigWithComplete,
+} from '@xylabs/retry'
+import { AccountInstance } from '@xyo-network/account-model'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import type {
+import {
   AttachableDivinerInstance,
+  DivinerConfigSchema,
   DivinerDivineQuery,
+  DivinerDivineQuerySchema,
   DivinerDivineResult,
   DivinerInstance,
   DivinerModuleEventData,
   DivinerParams,
   DivinerQueries,
 } from '@xyo-network/diviner-model'
-import {
-  DivinerConfigSchema,
-  DivinerDivineQuerySchema,
-} from '@xyo-network/diviner-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import type {
+import {
   ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
+import {
   Payload, Schema, WithOptionalSources, WithoutPrivateStorageMeta,
 } from '@xyo-network/payload-model'
 

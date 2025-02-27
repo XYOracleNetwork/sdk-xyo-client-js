@@ -1,46 +1,40 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Address } from '@xylabs/hex'
-import type { TypeCheck } from '@xylabs/object'
-import { globallyUnique } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
-import type { TypedValue } from '@xylabs/typeof'
-import type { AccountInstance } from '@xyo-network/account-model'
-import type { ArchivistInstance } from '@xyo-network/archivist-model'
-import { asArchivistInstance } from '@xyo-network/archivist-model'
-import type { ModuleManifestPayload } from '@xyo-network/manifest-model'
-import { ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
-import type {
+import { Address } from '@xylabs/hex'
+import { globallyUnique, TypeCheck } from '@xylabs/object'
+import { Promisable } from '@xylabs/promise'
+import { TypedValue } from '@xylabs/typeof'
+import { AccountInstance } from '@xyo-network/account-model'
+import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
+import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
+import {
   AddressPayload,
   AddressPreviousHashPayload,
   AttachableModuleInstance,
+  duplicateModules,
   ModuleEventData,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
   ModuleManifestQuery,
+  ModuleManifestQuerySchema,
   ModuleName,
   ModuleNameResolver,
   ModuleParams,
   ModuleQueryResult,
   ModuleStateQuery,
-  ObjectFilterOptions,
-  ResolveHelperConfig,
-} from '@xyo-network/module-model'
-import {
-  duplicateModules,
-  ModuleManifestQuerySchema,
   ModuleStateQuerySchema,
+  ObjectFilterOptions,
   resolveAll,
   resolveAllDown,
   resolveAllUp,
   ResolveHelper,
+  ResolveHelperConfig,
   resolvePathToInstance,
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
-import type { NodeInstance } from '@xyo-network/node-model'
-import { asNodeInstance } from '@xyo-network/node-model'
-import type { Payload, Query } from '@xyo-network/payload-model'
+import { asNodeInstance, NodeInstance } from '@xyo-network/node-model'
+import { Payload, Query } from '@xyo-network/payload-model'
 
 import { AbstractModule } from './AbstractModule.ts'
 

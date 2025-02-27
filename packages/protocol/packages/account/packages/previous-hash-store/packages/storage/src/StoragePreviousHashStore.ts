@@ -1,7 +1,6 @@
-import type { Address, Hash } from '@xylabs/hex'
-import type { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
-import type { StoreBase } from 'store2'
-import store from 'store2'
+import { Address, Hash } from '@xylabs/hex'
+import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
+import store, { StoreBase } from 'store2'
 
 export type Storage = 'local' | 'session' | 'page'
 

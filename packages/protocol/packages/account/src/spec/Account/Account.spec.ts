@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { toArrayBuffer } from '@xylabs/arraybuffer'
-import type { AccountInstance, AccountStatic } from '@xyo-network/account-model'
+import { AccountInstance, AccountStatic } from '@xyo-network/account-model'
 import {
   beforeAll,
   describe, expect, it, test,

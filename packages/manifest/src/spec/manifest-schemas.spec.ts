@@ -1,7 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import type { ValidateFunction } from 'ajv'
-import { Ajv } from 'ajv'
+import { Ajv, ValidateFunction } from 'ajv'
 import {
   beforeEach,
   describe, expect, it,

@@ -1,8 +1,8 @@
 import {
-  type Address, type Hex, isAddress,
+  Address, Hex, isAddress,
 } from '@xylabs/hex'
 import { matchers } from '@xylabs/vitest-matchers'
-import type { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
+import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import {
   defaultPath, Mnemonic, SigningKey,
 } from 'ethers'

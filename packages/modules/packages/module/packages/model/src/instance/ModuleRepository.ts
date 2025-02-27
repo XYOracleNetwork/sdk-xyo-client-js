@@ -1,7 +1,7 @@
-import type { Address } from '@xylabs/hex'
+import { Address } from '@xylabs/hex'
 
-import type { ModuleInstance } from './Instance.ts'
-import type { ModuleResolverInstance } from './ModuleResolver.ts'
+import { ModuleInstance } from './Instance.ts'
+import { ModuleResolverInstance } from './ModuleResolver.ts'
 
 export interface ModuleRepository<T extends ModuleInstance = ModuleInstance> extends ModuleResolverInstance<T> {
   add(mod: T): this

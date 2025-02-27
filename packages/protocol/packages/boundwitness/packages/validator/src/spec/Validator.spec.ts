@@ -1,10 +1,8 @@
 import '@xylabs/vitest-extended'
 
-import type { WalletInstance } from '@xyo-network/account'
-import { HDWallet } from '@xyo-network/account'
+import { HDWallet, WalletInstance } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import type { Payload } from '@xyo-network/payload'
-import { PayloadBuilder } from '@xyo-network/payload'
+import { Payload, PayloadBuilder } from '@xyo-network/payload'
 import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 import { expect, test } from 'vitest'
 

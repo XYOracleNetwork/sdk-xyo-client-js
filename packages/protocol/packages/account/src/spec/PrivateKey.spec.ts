@@ -1,5 +1,5 @@
 import { toArrayBuffer } from '@xylabs/arraybuffer'
-import type { PrivateKeyInstance } from '@xyo-network/key-model'
+import { PrivateKeyInstance } from '@xyo-network/key-model'
 
 import { PrivateKey } from '../Key/index.ts'
 

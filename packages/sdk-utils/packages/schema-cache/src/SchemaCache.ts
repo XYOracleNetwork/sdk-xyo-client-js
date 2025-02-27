@@ -1,15 +1,13 @@
 import { handleError } from '@xylabs/error'
 import { DomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
-import type { FetchedPayload } from '@xyo-network/huri'
-import type { SchemaPayload } from '@xyo-network/schema-payload-plugin'
-import { SchemaSchema } from '@xyo-network/schema-payload-plugin'
-import type { SchemaObject } from 'ajv'
-import { Ajv } from 'ajv'
+import { FetchedPayload } from '@xyo-network/huri'
+import { SchemaPayload, SchemaSchema } from '@xyo-network/schema-payload-plugin'
+import { Ajv, SchemaObject } from 'ajv'
 import { isAxiosError } from 'axios'
 import { LRUCache } from 'lru-cache'
 
 import { Debounce } from './Debounce.ts'
-import type { SchemaNameToValidatorMap } from './SchemaNameToValidatorMap.ts'
+import { SchemaNameToValidatorMap } from './SchemaNameToValidatorMap.ts'
 
 const getSchemaNameFromSchema = (schema: SchemaObject) => {
   if (schema.$id) {

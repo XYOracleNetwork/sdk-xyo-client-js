@@ -1,8 +1,7 @@
-import type { ModuleIdentifier } from '@xyo-network/module-model'
-import { NodeConfigSchema, type NodeInstance } from '@xyo-network/node-model'
+import { ModuleIdentifier } from '@xyo-network/module-model'
+import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 
-import type { MemoryNodeParams } from '../MemoryNode.ts'
-import { MemoryNode } from '../MemoryNode.ts'
+import { MemoryNode, MemoryNodeParams } from '../MemoryNode.ts'
 import { attachToExistingNode } from './attachToExistingNode.ts'
 
 const DEFAULT_NODE_PARAMS = { config: { schema: NodeConfigSchema } }

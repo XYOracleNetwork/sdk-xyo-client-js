@@ -1,5 +1,5 @@
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import type {
+import { BoundWitness } from '@xyo-network/boundwitness-model'
+import {
   ModuleError, Payload, WithoutPrivateStorageMeta,
 } from '@xyo-network/payload-model'
 

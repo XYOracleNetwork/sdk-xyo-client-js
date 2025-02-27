@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import '@xylabs/vitest-extended'
 
-import type { AnyObject } from '@xylabs/object'
+import { AnyObject } from '@xylabs/object'
 import { ObjectHasher } from '@xyo-network/hash'
-import type { Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,

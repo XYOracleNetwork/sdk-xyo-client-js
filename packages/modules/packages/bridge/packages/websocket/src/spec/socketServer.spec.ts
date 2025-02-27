@@ -1,7 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import type { Socket } from 'socket.io-client'
-import { io as Client } from 'socket.io-client'
+import { io as Client, Socket } from 'socket.io-client'
 import {
   afterAll,
   afterEach,

@@ -1,5 +1,5 @@
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import type { PayloadDivinerPredicate } from '@xyo-network/diviner-payload-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { PayloadDivinerPredicate } from '@xyo-network/diviner-payload-model'
 
 export type WithoutSchemas<T> = Omit<Omit<T, 'schema'>, 'schemas'>
 

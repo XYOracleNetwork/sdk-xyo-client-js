@@ -1,10 +1,10 @@
-import type { LogLevel } from '@xylabs/logger'
-import type { RetryConfig } from '@xylabs/retry'
-import type { Schema } from '@xyo-network/payload-model'
+import { LogLevel } from '@xylabs/logger'
+import { RetryConfig } from '@xylabs/retry'
+import { Schema } from '@xyo-network/payload-model'
 
-import type { Labels } from '../Labels/index.ts'
-import type { ModuleIdentifier, ModuleName } from '../ModuleIdentifier.ts'
-import type { ModuleSecurityConfig } from './Security.ts'
+import { Labels } from '../Labels/index.ts'
+import { ModuleIdentifier, ModuleName } from '../ModuleIdentifier.ts'
+import { ModuleSecurityConfig } from './Security.ts'
 
 export interface ModuleConfigFields {
   /** Limit to only these allowed queries */

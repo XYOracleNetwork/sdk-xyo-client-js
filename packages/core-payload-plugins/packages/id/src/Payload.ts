@@ -1,11 +1,9 @@
 import { AsObjectFactory } from '@xylabs/object'
-import type {
-  Payload,
-  WithSources,
-} from '@xyo-network/payload-model'
 import {
   isPayloadOfSchemaType,
   isPayloadOfSchemaTypeWithSources,
+  Payload,
+  WithSources,
 } from '@xyo-network/payload-model'
 
 import { IdSchema } from './Schema.ts'

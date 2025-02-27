@@ -1,20 +1,22 @@
 import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
-import type { Address, Hash } from '@xylabs/hex'
-import { hexFromArrayBuffer } from '@xylabs/hex'
-import type { AccountInstance } from '@xyo-network/account-model'
-import type {
+import {
+  Address, Hash, hexFromArrayBuffer,
+} from '@xylabs/hex'
+import { AccountInstance } from '@xyo-network/account-model'
+import {
   BoundWitness,
+  BoundWitnessSchema,
   Signed,
   UnsignedBoundWitness,
 } from '@xyo-network/boundwitness-model'
-import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import {
   ObjectHasher, removeEmptyFields, sortFields,
 } from '@xyo-network/hash'
-import type { PayloadBuilderOptions } from '@xyo-network/payload-builder'
-import { omitSchema, PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
+import {
+  omitSchema, PayloadBuilder, PayloadBuilderOptions,
+} from '@xyo-network/payload-builder'
+import {
   AnyPayload,
   ModuleError, Payload, Schema, WithoutMeta,
   WithoutSchema,

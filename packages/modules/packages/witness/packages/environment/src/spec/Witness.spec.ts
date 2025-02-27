@@ -9,8 +9,7 @@ import {
 } from 'vitest'
 
 import { EnvironmentWitnessConfigSchema } from '../Config.ts'
-import type { EnvironmentSubset } from '../Payload.ts'
-import { EnvironmentSubsetSchema } from '../Payload.ts'
+import { EnvironmentSubset, EnvironmentSubsetSchema } from '../Payload.ts'
 import { EnvironmentWitness } from '../Witness.ts'
 
 /**

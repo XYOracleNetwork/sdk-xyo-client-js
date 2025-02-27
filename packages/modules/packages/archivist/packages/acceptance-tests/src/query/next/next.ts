@@ -1,8 +1,7 @@
 import { filterAs } from '@xylabs/array'
-import type { ArchivistInstance } from '@xyo-network/archivist-model'
-import type { IdPayload } from '@xyo-network/id-payload-plugin'
-import { asOptionalId } from '@xyo-network/id-payload-plugin'
-import { type WithStorageMeta } from '@xyo-network/payload-model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
+import { asOptionalId, IdPayload } from '@xyo-network/id-payload-plugin'
+import { WithStorageMeta } from '@xyo-network/payload-model'
 import {
   beforeEach, describe, expect, it,
 } from 'vitest'

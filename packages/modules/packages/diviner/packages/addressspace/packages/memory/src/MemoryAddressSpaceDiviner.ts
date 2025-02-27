@@ -1,14 +1,12 @@
 import { assertEx } from '@xylabs/assert'
-import type { Address } from '@xylabs/hex'
+import { Address } from '@xylabs/hex'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
-import type { AddressSpaceDivinerParams } from '@xyo-network/diviner-address-space-model'
-import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner-address-space-model'
-import type { AddressPayload } from '@xyo-network/module-model'
-import { AddressSchema } from '@xyo-network/module-model'
+import { AddressSpaceDivinerConfigSchema, AddressSpaceDivinerParams } from '@xyo-network/diviner-address-space-model'
+import { AddressPayload, AddressSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 /**
  * This Diviner returns the list of all addresses encountered for the reachable archivists

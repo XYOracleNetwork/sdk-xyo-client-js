@@ -1,8 +1,8 @@
-import type { Address } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
-import type { ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { Address } from '@xylabs/hex'
+import { Promisable } from '@xylabs/promise'
+import { ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 
-import type { BridgeExposeOptions, BridgeUnexposeOptions } from './Queries/index.ts'
+import { BridgeExposeOptions, BridgeUnexposeOptions } from './Queries/index.ts'
 
 export interface BridgeQueryFunctions {
   connect?: (id: ModuleIdentifier, maxDepth?: number) => Promisable<Address | undefined>

@@ -1,13 +1,11 @@
 import '@xylabs/vitest-extended'
 
 import { asArchivistInstance } from '@xyo-network/archivist-model'
-import type { ModuleDescriptionPayload } from '@xyo-network/module-model'
-import { ModuleDescriptionSchema } from '@xyo-network/module-model'
+import { ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   describe, expect, it,

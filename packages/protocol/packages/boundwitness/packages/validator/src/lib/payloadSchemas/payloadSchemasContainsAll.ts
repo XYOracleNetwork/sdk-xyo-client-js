@@ -1,5 +1,5 @@
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import type { Schema } from '@xyo-network/payload-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { Schema } from '@xyo-network/payload-model'
 
 import { boundWitnessArrayPropertyContainsAll } from '../util/index.ts'
 

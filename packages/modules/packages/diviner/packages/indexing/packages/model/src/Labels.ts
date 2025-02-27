@@ -1,6 +1,6 @@
-import type { Labels } from '@xyo-network/module-model'
+import { Labels } from '@xyo-network/module-model'
 
-import type { DivinerStageSchema, IndexingDivinerStage } from './Stage.ts'
+import { DivinerStageSchema, IndexingDivinerStage } from './Stage.ts'
 
 /**
  * Labels for Indexing Diviner Stage Diviners

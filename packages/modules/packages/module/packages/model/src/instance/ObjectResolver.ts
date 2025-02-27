@@ -1,8 +1,8 @@
-import type { AnyObject, EmptyObject } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
+import { AnyObject, EmptyObject } from '@xylabs/object'
+import { Promisable } from '@xylabs/promise'
 
-import type { ModuleIdentifier } from '../ModuleIdentifier.ts'
-import type { ObjectFilterOptions } from './ObjectFilter.ts'
+import { ModuleIdentifier } from '../ModuleIdentifier.ts'
+import { ObjectFilterOptions } from './ObjectFilter.ts'
 
 export const isObjectResolver = <T extends EmptyObject = AnyObject>(value?: unknown): value is ObjectResolver<T> => {
   return typeof (value as Partial<ObjectResolver<T>>).resolve === 'function'

@@ -1,14 +1,13 @@
 import { generateMnemonic } from '@scure/bip39'
 import { wordlist } from '@scure/bip39/wordlists/english'
 import { forget } from '@xylabs/forget'
-import type { Address } from '@xylabs/hex'
-import type { Logger } from '@xylabs/logger'
+import { Address } from '@xylabs/hex'
+import { Logger } from '@xylabs/logger'
 import { HDWallet } from '@xyo-network/account'
-import type { PackageManifestPayload } from '@xyo-network/manifest'
-import { ManifestWrapper } from '@xyo-network/manifest'
-import type { NodeInstance } from '@xyo-network/node-model'
+import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
+import { NodeInstance } from '@xyo-network/node-model'
 
-import type {
+import {
   Message, QueryMessage, QueryResultMessage,
 } from '../WorkerBridge.ts'
 

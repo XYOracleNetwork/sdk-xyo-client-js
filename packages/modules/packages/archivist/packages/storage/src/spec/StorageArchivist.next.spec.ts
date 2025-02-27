@@ -2,7 +2,7 @@ import { delay } from '@xylabs/delay'
 import { Account } from '@xyo-network/account'
 import { generateArchivistNextTests } from '@xyo-network/archivist-acceptance-tests'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 import { v4 } from 'uuid'
 import {
   describe, expect,

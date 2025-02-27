@@ -1,6 +1,6 @@
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 
-import type { BoundWitnessArrayProperty, BoundWitnessArrayPropertyValue } from './BoundWitnessArrayProperty.ts'
+import { BoundWitnessArrayProperty, BoundWitnessArrayPropertyValue } from './BoundWitnessArrayProperty.ts'
 
 /**
  * Checks if the boundwitness contains the addresses

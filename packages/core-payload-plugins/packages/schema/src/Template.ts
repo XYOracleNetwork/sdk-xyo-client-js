@@ -1,4 +1,4 @@
-import type { SchemaPayload } from './Payload.ts'
+import { SchemaPayload } from './Payload.ts'
 import { SchemaSchema } from './Schema.ts'
 export const schemaPayloadTemplate = (): SchemaPayload => ({
   definition: {

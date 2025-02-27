@@ -3,10 +3,9 @@ import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-mem
 import { BoundWitnessDivinerConfigSchema } from '@xyo-network/diviner-boundwitness-model'
 import { GenericPayloadDivinerConfigSchema } from '@xyo-network/diviner-payload-generic'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
-import type { PayloadPointerDivinerConfig } from '@xyo-network/diviner-payload-pointer-model'
-import { PayloadPointerDivinerConfigSchema } from '@xyo-network/diviner-payload-pointer-model'
+import { PayloadPointerDivinerConfig, PayloadPointerDivinerConfigSchema } from '@xyo-network/diviner-payload-pointer-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import type { NodeInstance } from '@xyo-network/node-model'
+import { NodeInstance } from '@xyo-network/node-model'
 
 import { PayloadPointerDiviner } from '../../../Diviner.ts'
 

@@ -1,5 +1,5 @@
 import { PayloadHasher } from '@xyo-network/hash'
-import type { Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 /**
  * Generates a unique key for a tuple of payloads

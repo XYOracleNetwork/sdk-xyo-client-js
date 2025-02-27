@@ -1,8 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { Account } from '@xyo-network/account'
-import type { AnyPayload } from '@xyo-network/payload'
-import { PayloadBuilder } from '@xyo-network/payload'
+import { AnyPayload, PayloadBuilder } from '@xyo-network/payload'
 import {
   describe, expect, it,
 } from 'vitest'

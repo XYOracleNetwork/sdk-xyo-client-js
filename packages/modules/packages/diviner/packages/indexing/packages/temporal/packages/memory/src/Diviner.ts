@@ -1,8 +1,7 @@
 import { IndexingDiviner } from '@xyo-network/diviner-indexing-memory'
-import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import type { TemporalIndexingDivinerParams } from '@xyo-network/diviner-temporal-indexing-model'
-import { TemporalIndexingDivinerConfigSchema } from '@xyo-network/diviner-temporal-indexing-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { TemporalIndexingDivinerConfigSchema, TemporalIndexingDivinerParams } from '@xyo-network/diviner-temporal-indexing-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export class TemporalIndexingDiviner<
   TParams extends TemporalIndexingDivinerParams = TemporalIndexingDivinerParams,

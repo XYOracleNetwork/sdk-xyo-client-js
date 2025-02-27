@@ -1,25 +1,23 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import type { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import type { ForecastingDivinerParams } from '@xyo-network/diviner-forecasting-abstract'
-import { AbstractForecastingDiviner } from '@xyo-network/diviner-forecasting-abstract'
-import type {
+import { BoundWitness } from '@xyo-network/boundwitness-model'
+import {
+  BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema,
+} from '@xyo-network/diviner-boundwitness-model'
+import { AbstractForecastingDiviner, ForecastingDivinerParams } from '@xyo-network/diviner-forecasting-abstract'
+import {
+  arimaForecastingMethod,
   arimaForecastingName,
+  seasonalArimaForecastingMethod,
   seasonalArimaForecastingName,
 } from '@xyo-network/diviner-forecasting-method-arima'
 import {
-  arimaForecastingMethod,
-  seasonalArimaForecastingMethod,
-} from '@xyo-network/diviner-forecasting-method-arima'
-import type { ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner-forecasting-model'
-import { ForecastingDivinerConfigSchema } from '@xyo-network/diviner-forecasting-model'
-import type { DivinerInstance } from '@xyo-network/diviner-model'
-import { asDivinerInstance } from '@xyo-network/diviner-model'
-import type { ModuleIdentifier } from '@xyo-network/module-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+  ForecastingDivinerConfigSchema, ForecastingMethod, PayloadValueTransformer,
+} from '@xyo-network/diviner-forecasting-model'
+import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
+import { ModuleIdentifier } from '@xyo-network/module-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import jsonpath from 'jsonpath'
 
 export type SupportedForecastingType = typeof arimaForecastingName | typeof seasonalArimaForecastingName

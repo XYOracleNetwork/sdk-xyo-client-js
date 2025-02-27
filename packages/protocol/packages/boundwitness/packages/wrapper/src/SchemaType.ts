@@ -1,11 +1,10 @@
-import type {
+import {
   Address, Hash, Hex,
 } from '@xylabs/hex'
 // import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import type { Schema } from '@xyo-network/payload-model'
-import { SchemaRegEx } from '@xyo-network/payload-model'
+import { Schema, SchemaRegEx } from '@xyo-network/payload-model'
 // import { payloadJsonSchema } from '@xyo-network/payload-wrapper'
-import type { JSONSchemaType } from 'ajv'
+import { JSONSchemaType } from 'ajv'
 
 export const hexJsonSchema: JSONSchemaType<Hex> = {
   type: 'string',

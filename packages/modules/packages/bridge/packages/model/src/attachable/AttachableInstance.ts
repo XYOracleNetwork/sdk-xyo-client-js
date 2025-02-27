@@ -1,11 +1,10 @@
-import type { TypeCheck } from '@xylabs/object'
-import { IsObjectFactory } from '@xylabs/object'
-import type { AttachableModuleInstance } from '@xyo-network/module-model'
+import { IsObjectFactory, TypeCheck } from '@xylabs/object'
+import { AttachableModuleInstance } from '@xyo-network/module-model'
 
-import type { BridgeModuleEventData } from '../EventData.ts'
-import type { BridgeInstance } from '../Instance.ts'
-import type { BridgeModule } from '../Module.ts'
-import type { BridgeParams } from '../Params.ts'
+import { BridgeModuleEventData } from '../EventData.ts'
+import { BridgeInstance } from '../Instance.ts'
+import { BridgeModule } from '../Module.ts'
+import { BridgeParams } from '../Params.ts'
 
 export interface AttachableBridgeInstance<
   TParams extends BridgeParams = BridgeParams,

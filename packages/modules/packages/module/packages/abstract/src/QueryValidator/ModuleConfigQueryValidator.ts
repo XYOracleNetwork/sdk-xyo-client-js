@@ -1,11 +1,11 @@
-import type { Address } from '@xylabs/hex'
+import { Address } from '@xylabs/hex'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import type {
+import {
   AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQueries,
 } from '@xyo-network/module-model'
-import type { Schema } from '@xyo-network/payload-model'
+import { Schema } from '@xyo-network/payload-model'
 
-import type { Queryable, QueryValidator } from './QueryValidator.ts'
+import { Queryable, QueryValidator } from './QueryValidator.ts'
 
 // eslint-disable-next-line sonarjs/redundant-type-aliases
 export type SortedPipedAddressesString = string

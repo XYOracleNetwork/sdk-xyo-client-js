@@ -1,20 +1,19 @@
 import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
-import type { AbstractWitness } from '@xyo-network/abstract-witness'
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import type { Archivist, AttachableArchivistInstance } from '@xyo-network/archivist-model'
+import { Archivist, AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import type { AttachableModuleInstance } from '@xyo-network/module-model'
+import { AttachableModuleInstance } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
-import { PayloadSchema } from '@xyo-network/payload-model'
-import type { MemorySentinelParams } from '@xyo-network/sentinel-memory'
-import { MemorySentinel } from '@xyo-network/sentinel-memory'
-import type { ReportEndEventArgs, SentinelConfig } from '@xyo-network/sentinel-model'
-import { SentinelConfigSchema } from '@xyo-network/sentinel-model'
+import { Payload, PayloadSchema } from '@xyo-network/payload-model'
+import { MemorySentinel, MemorySentinelParams } from '@xyo-network/sentinel-memory'
+import {
+  ReportEndEventArgs, SentinelConfig, SentinelConfigSchema,
+} from '@xyo-network/sentinel-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 import {
   beforeEach,

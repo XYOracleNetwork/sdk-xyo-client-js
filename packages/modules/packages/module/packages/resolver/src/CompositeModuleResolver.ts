@@ -1,10 +1,11 @@
 /* eslint-disable max-statements */
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Address } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
-import type {
+import { Address } from '@xylabs/hex'
+import { Promisable } from '@xylabs/promise'
+import {
   CacheConfig,
+  duplicateModules,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleIdentifierPart,
@@ -13,16 +14,12 @@ import type {
   ModuleRepository,
   ModuleResolverInstance,
   ObjectFilterOptions,
-} from '@xyo-network/module-model'
-import {
-  duplicateModules,
   ObjectResolverPriority,
   ResolveHelper,
 } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
-import type { ModuleResolverParams } from './AbstractModuleResolver.ts'
-import { AbstractModuleResolver } from './AbstractModuleResolver.ts'
+import { AbstractModuleResolver, ModuleResolverParams } from './AbstractModuleResolver.ts'
 import { SimpleModuleResolver } from './SimpleModuleResolver.ts'
 
 export interface CompositeModuleResolverParams extends ModuleResolverParams {

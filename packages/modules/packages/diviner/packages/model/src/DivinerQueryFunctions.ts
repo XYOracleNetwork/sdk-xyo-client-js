@@ -1,7 +1,7 @@
-import type { RetryConfig } from '@xylabs/retry'
-import type { AccountInstance } from '@xyo-network/account-model'
-import type { ModuleQueryResult } from '@xyo-network/module-model'
-import type {
+import { RetryConfig } from '@xylabs/retry'
+import { AccountInstance } from '@xyo-network/account-model'
+import { ModuleQueryResult } from '@xyo-network/module-model'
+import {
   Payload, WithOptionalSources, WithoutPrivateStorageMeta,
 } from '@xyo-network/payload-model'
 

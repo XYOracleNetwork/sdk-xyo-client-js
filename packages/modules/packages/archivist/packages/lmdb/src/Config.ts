@@ -1,4 +1,4 @@
-import type { ArchivistConfig } from '@xyo-network/archivist-model'
+import { ArchivistConfig } from '@xyo-network/archivist-model'
 
 import { LmdbArchivistSchema } from './Schema.ts'
 

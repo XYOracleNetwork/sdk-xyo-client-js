@@ -33,7 +33,7 @@ import {
   isPayloadOfSchemaType, Payload, Schema,
 } from '@xyo-network/payload-model'
 import { Mutex, Semaphore } from 'async-mutex'
-import type { AxiosError } from 'axios'
+import { AxiosError } from 'axios'
 import { LRUCache } from 'lru-cache'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig.ts'

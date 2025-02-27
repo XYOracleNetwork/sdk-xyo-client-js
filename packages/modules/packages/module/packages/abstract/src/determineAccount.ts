@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import type { AccountInstance } from '@xyo-network/account-model'
-import type { WalletInstance } from '@xyo-network/wallet-model'
+import { AccountInstance } from '@xyo-network/account-model'
+import { WalletInstance } from '@xyo-network/wallet-model'
 
 export interface DetermineAccountFromAccountParams {
   account: AccountInstance | 'random'

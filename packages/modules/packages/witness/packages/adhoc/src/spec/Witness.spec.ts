@@ -7,8 +7,9 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import type { AdhocWitnessConfig } from '../Witness.ts'
-import { AdhocWitness, AdhocWitnessConfigSchema } from '../Witness.ts'
+import {
+  AdhocWitness, AdhocWitnessConfig, AdhocWitnessConfigSchema,
+} from '../Witness.ts'
 
 describe('AdhocWitness', () => {
   describe('observe', () => {

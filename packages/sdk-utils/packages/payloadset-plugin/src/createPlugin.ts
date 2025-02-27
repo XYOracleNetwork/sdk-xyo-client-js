@@ -1,9 +1,9 @@
 /* eslint-disable sonarjs/no-identical-functions */
-import type { DivinerModule } from '@xyo-network/diviner-model'
-import type { PayloadSetPayload } from '@xyo-network/payload-model'
-import type { WitnessModule } from '@xyo-network/witness-model'
+import { DivinerModule } from '@xyo-network/diviner-model'
+import { PayloadSetPayload } from '@xyo-network/payload-model'
+import { WitnessModule } from '@xyo-network/witness-model'
 
-import type {
+import {
   PayloadSetDivinerPlugin, PayloadSetDualPlugin, PayloadSetWitnessPlugin,
 } from './Plugin.ts'
 

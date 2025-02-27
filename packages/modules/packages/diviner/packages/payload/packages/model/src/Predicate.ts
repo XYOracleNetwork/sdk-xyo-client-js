@@ -1,7 +1,7 @@
-import type { EmptyObject } from '@xylabs/object'
-import type { Schema, Sequence } from '@xyo-network/payload-model'
+import { EmptyObject } from '@xylabs/object'
+import { Schema, Sequence } from '@xyo-network/payload-model'
 
-import type { Order } from './Order.ts'
+import { Order } from './Order.ts'
 
 export type PayloadDivinerPredicate<T extends EmptyObject = EmptyObject> = Partial<
   {

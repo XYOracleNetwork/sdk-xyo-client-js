@@ -1,5 +1,5 @@
-import type { Address } from '@xylabs/hex'
-import type { Query } from '@xyo-network/payload-model'
+import { Address } from '@xylabs/hex'
+import { Query } from '@xyo-network/payload-model'
 
 export const ModuleSubscribeQuerySchema = 'network.xyo.query.module.subscribe' as const
 export type ModuleSubscribeQuerySchema = typeof ModuleSubscribeQuerySchema

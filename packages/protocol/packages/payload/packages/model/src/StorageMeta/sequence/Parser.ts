@@ -1,18 +1,16 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import {
-  type Address,
-  type Hash, type Hex,
+  Address,
+  Hash, Hex,
   isAddress,
   toHex,
 } from '@xylabs/hex'
 
-import type {
-  Epoch, LocalSequence, Nonce, QualifiedSequence,
-  Sequence,
-} from './Sequence.ts'
 import {
-  isQualifiedSequence, isSequence, SequenceConstants,
+  Epoch, isQualifiedSequence, isSequence, LocalSequence, Nonce, QualifiedSequence,
+  Sequence,
+  SequenceConstants,
 } from './Sequence.ts'
 
 export class SequenceParser {

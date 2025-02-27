@@ -2,14 +2,15 @@ import { containsAll, filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { hexFromHexString } from '@xylabs/hex'
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { asBlock, asOptionalBoundWitness } from '@xyo-network/boundwitness-model'
-import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
+import {
+  asBlock, asOptionalBoundWitness, BoundWitness,
+} from '@xyo-network/boundwitness-model'
+import { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  type Payload,
+  Payload,
   SequenceConstants,
-  type WithStorageMeta,
+  WithStorageMeta,
 } from '@xyo-network/payload-model'
 
 // eslint-disable-next-line complexity

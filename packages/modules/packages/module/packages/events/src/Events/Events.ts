@@ -1,10 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { handleError } from '@xylabs/error'
 import { forget } from '@xylabs/forget'
-import type { BaseParams } from '@xylabs/object'
-import { Base } from '@xylabs/object'
+import { Base, BaseParams } from '@xylabs/object'
 
-import type {
+import {
   EventAnyListener, EventArgs, EventData, EventFunctions, EventListener, EventName,
 } from '../model/index.ts'
 

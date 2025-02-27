@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { HDWallet } from '@xyo-network/account'
-import type { PackageManifestPayload } from '@xyo-network/manifest-model'
+import { PackageManifestPayload } from '@xyo-network/manifest-model'
 import {
   asNodeInstance, isNodeInstance, isNodeModule,
 } from '@xyo-network/node-model'

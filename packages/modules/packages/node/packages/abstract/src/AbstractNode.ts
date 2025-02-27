@@ -1,15 +1,17 @@
 import { assertEx } from '@xylabs/assert'
-import type { Address } from '@xylabs/hex'
+import { Address } from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
-import type { AccountInstance } from '@xyo-network/account-model'
-import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { Promisable } from '@xylabs/promise'
+import { AccountInstance } from '@xyo-network/account-model'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import type { ModuleManifestPayload, NodeManifestPayload } from '@xyo-network/manifest-model'
-import { NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import {
+  ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema,
+} from '@xyo-network/manifest-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import type {
+import {
   AddressPayload,
+  AddressSchema,
   Module,
   ModuleConfig,
   ModuleIdentifier,
@@ -17,33 +19,30 @@ import type {
   ModuleQueryHandlerResult,
   ModuleQueryResult,
 } from '@xyo-network/module-model'
-import { AddressSchema } from '@xyo-network/module-model'
-import type {
+import {
   AttachableNodeInstance,
   ChildCertification,
   ChildCertificationFields,
+  ChildCertificationSchema,
   NodeAttachedQuery,
+  NodeAttachedQuerySchema,
   NodeAttachQuery,
+  NodeAttachQuerySchema,
   NodeCertifyQuery,
+  NodeCertifyQuerySchema,
+  NodeConfigSchema,
   NodeDetachQuery,
+  NodeDetachQuerySchema,
   NodeInstance,
   NodeModule,
   NodeModuleEventData,
   NodeParams,
   NodeQueries,
   NodeRegisteredQuery,
-} from '@xyo-network/node-model'
-import {
-  ChildCertificationSchema,
-  NodeAttachedQuerySchema,
-  NodeAttachQuerySchema,
-  NodeCertifyQuerySchema,
-  NodeConfigSchema,
-  NodeDetachQuerySchema,
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractModuleInstance<TParams, TEventData>

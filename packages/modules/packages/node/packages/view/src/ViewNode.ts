@@ -1,29 +1,26 @@
 import { assertEx } from '@xylabs/assert'
-import type { Address } from '@xylabs/hex'
-import type { EventListener } from '@xyo-network/module-events'
-import type {
+import { Address } from '@xylabs/hex'
+import { EventListener } from '@xyo-network/module-events'
+import {
   AnyConfigSchema,
   ModuleFilterOptions,
   ModuleIdentifier,
-  ModuleInstance,
+  ModuleInstance, ModuleLimitationViewLabel,
 } from '@xyo-network/module-model'
-import { ModuleLimitationViewLabel } from '@xyo-network/module-model'
 import { SimpleModuleResolver } from '@xyo-network/module-resolver'
 import { MemoryNode, MemoryNodeHelper } from '@xyo-network/node-memory'
-import type {
-  AttachableNodeInstance,
-  NodeConfig,
-  NodeModuleEventData,
-  NodeParams,
-} from '@xyo-network/node-model'
 import {
   asNodeInstance,
+  AttachableNodeInstance,
   isNodeModule,
   NodeAttachQuerySchema,
+  NodeConfig,
   NodeDetachQuerySchema,
+  NodeModuleEventData,
+  NodeParams,
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
-import type { Schema } from '@xyo-network/payload-model'
+import { Schema } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
 export const ViewNodeConfigSchema = 'network.xyo.node.view.config' as const

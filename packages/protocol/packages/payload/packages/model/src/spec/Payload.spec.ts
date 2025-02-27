@@ -4,7 +4,7 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import type { Payload } from '../Payload.ts'
+import { Payload } from '../Payload.ts'
 
 const TestPayloadSchema = 'com.test.schema'
 type TestPayloadSchema = typeof TestPayloadSchema

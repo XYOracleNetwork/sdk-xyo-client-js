@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
-import type { Provider } from 'ethers'
 import {
-  InfuraProvider, InfuraWebSocketProvider, JsonRpcProvider, WebSocketProvider,
+  InfuraProvider, InfuraWebSocketProvider, JsonRpcProvider, Provider,
+  WebSocketProvider,
 } from 'ethers'
 
 export type ProviderSource = 'infura' | 'quicknode'

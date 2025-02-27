@@ -1,7 +1,7 @@
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import type { SchemaStatsDivinerParams } from '@xyo-network/diviner-schema-stats-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { SchemaStatsDivinerParams } from '@xyo-network/diviner-schema-stats-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export abstract class SchemaStatsDiviner<
   TParams extends SchemaStatsDivinerParams = SchemaStatsDivinerParams,

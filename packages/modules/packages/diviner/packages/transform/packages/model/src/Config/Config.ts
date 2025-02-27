@@ -1,6 +1,6 @@
-import type { DivinerConfig } from '@xyo-network/diviner-model'
+import { DivinerConfig } from '@xyo-network/diviner-model'
 
-import type { TransformDictionary } from '../Payload/index.ts'
+import { TransformDictionary } from '../Payload/index.ts'
 import { TransformDivinerSchema } from '../Schema.ts'
 
 export type TransformDivinerConfigSchema = `${TransformDivinerSchema}.config`

@@ -2,18 +2,17 @@ import '@xylabs/vitest-extended'
 
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
-import type { AccountInstance } from '@xyo-network/account'
-import { Account } from '@xyo-network/account'
-import type { ArchivistInstance } from '@xyo-network/archivist-model'
-import type { NodeInstance } from '@xyo-network/node-model'
+import { Account, AccountInstance } from '@xyo-network/account'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
+import { NodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { type Payload, SequenceConstants } from '@xyo-network/payload-model'
+import { Payload, SequenceConstants } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
 } from 'vitest'
 
-import type { PayloadPointerDiviner } from '../Diviner.ts'
+import { PayloadPointerDiviner } from '../Diviner.ts'
 import {
   createPointer,
   getArchivist,

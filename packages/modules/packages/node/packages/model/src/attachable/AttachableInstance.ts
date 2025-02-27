@@ -1,10 +1,9 @@
-import type { TypeCheck } from '@xylabs/object'
-import { IsObjectFactory } from '@xylabs/object'
-import type { AttachableModuleInstance } from '@xyo-network/module-model'
+import { IsObjectFactory, TypeCheck } from '@xylabs/object'
+import { AttachableModuleInstance } from '@xyo-network/module-model'
 
-import type { NodeInstance } from '../instance.ts'
-import type { NodeModule, NodeModuleEventData } from '../Node.ts'
-import type { NodeParams } from '../Params.ts'
+import { NodeInstance } from '../instance.ts'
+import { NodeModule, NodeModuleEventData } from '../Node.ts'
+import { NodeParams } from '../Params.ts'
 
 export interface AttachableNodeInstance<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends NodeModule<TParams, TEventData>,

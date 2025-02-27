@@ -1,13 +1,13 @@
 /* eslint-disable sonarjs/deprecation */
-import type { EmptyObject, WithAdditional } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
+import { EmptyObject, WithAdditional } from '@xylabs/object'
+import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import type { AnyConfigSchema } from '@xyo-network/module-model'
-import type { Payload } from '@xyo-network/payload-model'
-import type {
+import { AnyConfigSchema } from '@xyo-network/module-model'
+import { Payload } from '@xyo-network/payload-model'
+import {
   WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams,
 } from '@xyo-network/witness-model'
-import type { Provider } from 'ethers'
+import { Provider } from 'ethers'
 
 /** @deprecated use EvmWitnessConfigSchema version instead */
 export const BlockchainWitnessConfigSchema = 'network.xyo.blockchain.witness' as const

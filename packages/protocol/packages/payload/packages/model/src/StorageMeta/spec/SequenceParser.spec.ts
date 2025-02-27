@@ -1,7 +1,8 @@
 import '@xylabs/vitest-extended'
 
-import type { Address, Hash } from '@xylabs/hex'
-import { toHex } from '@xylabs/hex'
+import {
+  Address, Hash, toHex,
+} from '@xylabs/hex'
 import {
   describe, expect, it,
 } from 'vitest'

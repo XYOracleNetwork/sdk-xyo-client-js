@@ -1,8 +1,7 @@
 import '@xylabs/vitest-extended'
 
-import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,

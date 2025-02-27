@@ -1,16 +1,16 @@
 import '@xylabs/vitest-extended'
 
-import type { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
-import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import { isPayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import type { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig } from '@xyo-network/diviner-temporal-indexing-model'
+import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import {
+  isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema,
+} from '@xyo-network/diviner-payload-model'
+import {
+  TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig,
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
   TemporalIndexingDivinerResultIndexSchema,
 } from '@xyo-network/diviner-temporal-indexing-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,

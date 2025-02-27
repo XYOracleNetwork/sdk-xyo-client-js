@@ -4,77 +4,73 @@ import { assertEx } from '@xylabs/assert'
 import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
-import type { Address, Hash } from '@xylabs/hex'
-import type { Logger } from '@xylabs/logger'
+import { Address, Hash } from '@xylabs/hex'
 import {
-  ConsoleLogger, IdLogger, LogLevel,
+  ConsoleLogger, IdLogger, Logger,
+  LogLevel,
 } from '@xylabs/logger'
 import { Base, globallyUnique } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
-import { PromiseEx } from '@xylabs/promise'
+import { Promisable, PromiseEx } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
-import type { AccountInstance } from '@xyo-network/account-model'
-import type { ArchivistInstance } from '@xyo-network/archivist-model'
-import { asArchivistInstance } from '@xyo-network/archivist-model'
+import { AccountInstance } from '@xyo-network/account-model'
+import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
-  type BoundWitness, isQueryBoundWitness, type QueryBoundWitness,
+  BoundWitness, isQueryBoundWitness, QueryBoundWitness,
 } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import type { ConfigPayload } from '@xyo-network/config-payload-plugin'
-import { ConfigSchema } from '@xyo-network/config-payload-plugin'
-import type { ModuleManifestPayload } from '@xyo-network/manifest-model'
+import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
+import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { BaseEmitter } from '@xyo-network/module-event-emitter'
-import type {
+import {
   AddressPayload,
   AddressPreviousHashPayload,
+  AddressPreviousHashSchema,
+  AddressSchema,
   ArchivingModuleConfig,
   AttachableModuleInstance,
   CreatableModule,
   CreatableModuleFactory,
+  DeadModuleError,
+  isModuleName,
+  isSerializable,
   Labels,
   Module,
+  ModuleAddressQuerySchema,
   ModuleBusyEventArgs,
   ModuleConfig,
+  ModuleConfigSchema,
   ModuleDescriptionPayload,
+  ModuleDescriptionSchema,
   ModuleDetailsError,
   ModuleEventData,
+  ModuleFactory,
+  ModuleManifestQuerySchema,
   ModuleParams,
   ModuleQueriedEventArgs,
   ModuleQueries,
   ModuleQueryHandlerResult,
   ModuleQueryResult,
   ModuleResolverInstance,
-  ModuleStatus,
-} from '@xyo-network/module-model'
-import {
-  AddressPreviousHashSchema,
-  AddressSchema,
-  DeadModuleError,
-  isModuleName,
-  isSerializable,
-  ModuleAddressQuerySchema,
-  ModuleConfigSchema,
-  ModuleDescriptionSchema,
-  ModuleFactory,
-  ModuleManifestQuerySchema,
   ModuleStateQuerySchema,
+  ModuleStatus,
   ModuleSubscribeQuerySchema,
   ObjectResolverPriority,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
+import {
   ModuleError, Payload, Query, Schema,
 } from '@xyo-network/payload-model'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
-import type { WalletInstance } from '@xyo-network/wallet-model'
+import { WalletInstance } from '@xyo-network/wallet-model'
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
 import { determineAccount } from './determineAccount.ts'
 import { ModuleErrorBuilder } from './Error.ts'
-import type { Queryable } from './QueryValidator/index.ts'
-import { ModuleConfigQueryValidator, SupportedQueryValidator } from './QueryValidator/index.ts'
+import {
+  ModuleConfigQueryValidator, Queryable, SupportedQueryValidator,
+} from './QueryValidator/index.ts'
 
 const MODULE_NOT_STARTED = 'Module not Started' as const
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>

@@ -1,4 +1,4 @@
-import type { EmptyObject } from '@xylabs/object'
+import { EmptyObject } from '@xylabs/object'
 
 /** Object with a timestamp */
 export interface Timestamp {

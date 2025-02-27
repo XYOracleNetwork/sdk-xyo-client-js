@@ -1,7 +1,7 @@
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import type { AddressSpaceDivinerParams } from '@xyo-network/diviner-address-space-model'
-import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { AddressSpaceDivinerParams } from '@xyo-network/diviner-address-space-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export abstract class AddressSpaceDiviner<
   TParams extends AddressSpaceDivinerParams = AddressSpaceDivinerParams,

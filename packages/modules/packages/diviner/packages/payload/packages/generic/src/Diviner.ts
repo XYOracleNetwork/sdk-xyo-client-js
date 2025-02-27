@@ -1,22 +1,22 @@
 import { filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
-import { type Hex } from '@xylabs/hex'
-import type { ArchivistInstance, ArchivistModuleEventData } from '@xyo-network/archivist-model'
-import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { Hex } from '@xylabs/hex'
+import { ArchivistInstance, ArchivistModuleEventData } from '@xyo-network/archivist-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import {
   asPayloadDivinerQueryPayload,
-  type Order,
-  type PayloadDivinerConfig,
-  type PayloadDivinerParams,
-  type PayloadDivinerQueryPayload,
+  Order,
+  PayloadDivinerConfig,
+  PayloadDivinerParams,
+  PayloadDivinerQueryPayload,
 } from '@xyo-network/diviner-payload-model'
-import type { EventListener } from '@xyo-network/module-events'
+import { EventListener } from '@xyo-network/module-events'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
-  type Payload, type Schema,
-  type WithStorageMeta,
+  Payload, Schema,
+  WithStorageMeta,
 } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 

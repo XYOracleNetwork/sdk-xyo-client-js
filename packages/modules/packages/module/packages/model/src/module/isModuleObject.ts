@@ -1,7 +1,7 @@
 import { IsObjectFactory } from '@xylabs/object'
-import type { ObjectTypeShape } from '@xylabs/typeof'
+import { ObjectTypeShape } from '@xylabs/typeof'
 
-import type { Module } from './Module.ts'
+import { Module } from './Module.ts'
 
 export const requiredModuleShape: ObjectTypeShape = {
   address: 'string',

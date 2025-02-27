@@ -1,5 +1,5 @@
 import {
-  isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources, type Payload,
+  isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources, Payload,
 } from '@xyo-network/payload-model'
 
 import { SchemaSchema } from './Schema.ts'

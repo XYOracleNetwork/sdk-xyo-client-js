@@ -1,15 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Address } from '@xylabs/hex'
-import type { Order } from '@xyo-network/diviner-payload-model'
-import type {
-  PayloadRule,
-  PayloadSearchCriteria,
-} from '@xyo-network/diviner-payload-pointer-model'
+import { Address } from '@xylabs/hex'
+import { Order } from '@xyo-network/diviner-payload-model'
 import {
   isPayloadAddressRule,
   isPayloadSchemaRule,
   isPayloadSequenceOrderRule,
+  PayloadRule,
+  PayloadSearchCriteria,
 } from '@xyo-network/diviner-payload-pointer-model'
 
 // TODO: Could make it so that composability is such that we:

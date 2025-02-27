@@ -2,7 +2,7 @@ import '@xylabs/vitest-extended'
 
 import { toJsonString } from '@xylabs/object'
 import { HDWallet } from '@xyo-network/account'
-import type { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
+import { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 import { AddressSchema } from '@xyo-network/module-model'
 import {
   describe, expect, test,

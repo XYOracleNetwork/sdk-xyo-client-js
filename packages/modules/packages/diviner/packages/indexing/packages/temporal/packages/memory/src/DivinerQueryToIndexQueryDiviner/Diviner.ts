@@ -1,18 +1,18 @@
-import type { Hash } from '@xylabs/hex'
+import { Hash } from '@xylabs/hex'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { jsonPathToTransformersDictionary, reducePayloads } from '@xyo-network/diviner-jsonpath-aggregate-memory'
-import type { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
-import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import type { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerParams } from '@xyo-network/diviner-temporal-indexing-model'
+import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
+import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import {
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
+  TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerParams,
   TemporalIndexingDivinerResultIndexSchema,
 } from '@xyo-network/diviner-temporal-indexing-model'
-import type { Labels } from '@xyo-network/module-model'
+import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import {
+  isPayloadOfSchemaType, Payload, Schema,
+} from '@xyo-network/payload-model'
 // TODO: Inherit from JsonPathAggregateDiviner
 /**
  * A diviner that converts diviner query to index query

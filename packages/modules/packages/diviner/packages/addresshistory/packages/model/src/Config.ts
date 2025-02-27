@@ -1,5 +1,5 @@
-import type { Address } from '@xylabs/hex'
-import type { DivinerConfig } from '@xyo-network/diviner-model'
+import { Address } from '@xylabs/hex'
+import { DivinerConfig } from '@xyo-network/diviner-model'
 
 import { AddressHistorySchema } from './Diviner.ts'
 

@@ -1,4 +1,4 @@
-import type { DnsRecordType } from './DnsRecordType.ts'
+import { DnsRecordType } from './DnsRecordType.ts'
 
 export interface GoogleDnsResultQuestion {
   cd?: boolean

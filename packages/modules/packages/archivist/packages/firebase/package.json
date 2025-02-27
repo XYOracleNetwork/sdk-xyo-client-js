@@ -41,11 +41,11 @@
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^4.0.1",
-    "@xylabs/ts-scripts-yarn3": "^5.0.24",
-    "@xylabs/tsconfig": "^5.0.24",
+    "@xylabs/ts-scripts-yarn3": "^5.0.25",
+    "@xylabs/tsconfig": "^5.0.25",
     "firebase": "^11.3.1",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.6"
+    "vitest": "^3.0.7"
   },
   "publishConfig": {
     "access": "public"

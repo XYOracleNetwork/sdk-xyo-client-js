@@ -1,5 +1,5 @@
 import { ModuleConfigSchema, ModuleDetailsError } from '@xyo-network/module-model'
-import type { Schema } from '@xyo-network/payload-model'
+import { Schema } from '@xyo-network/payload-model'
 import {
   describe, expect,
   test,

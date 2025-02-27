@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Promisable } from '@xylabs/promise'
-import { isQueryBoundWitness, type QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { Promisable } from '@xylabs/promise'
+import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'
-import type { Payload, Query } from '@xyo-network/payload-model'
+import { Payload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { BoundWitnessWrapper } from './BoundWitnessWrapper.ts'

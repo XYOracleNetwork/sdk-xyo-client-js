@@ -1,9 +1,9 @@
-import type { ArchivistInstance } from '@xyo-network/archivist-model'
-import type { DivinerInstance } from '@xyo-network/diviner-model'
-import type { ModuleInstance } from '@xyo-network/module-model'
-import type { WitnessInstance } from '@xyo-network/witness-model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
+import { DivinerInstance } from '@xyo-network/diviner-model'
+import { ModuleInstance } from '@xyo-network/module-model'
+import { WitnessInstance } from '@xyo-network/witness-model'
 
-import type {
+import {
   ArchivistTask, DivinerTask, ModuleTask, WitnessTask,
 } from './Task.ts'
 

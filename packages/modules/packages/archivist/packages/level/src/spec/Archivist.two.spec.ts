@@ -2,8 +2,7 @@ import '@xylabs/vitest-extended'
 
 import { tmpdir } from 'node:os'
 
-import type { Id } from '@xyo-network/id-payload-plugin'
-import { IdSchema } from '@xyo-network/id-payload-plugin'
+import { Id, IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
   describe, expect, it,

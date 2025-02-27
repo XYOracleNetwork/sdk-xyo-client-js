@@ -1,13 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
-import type {
+import { Payload } from '@xyo-network/payload-model'
+import {
+  isSentinelIntervalAutomation,
   SentinelAutomationPayload,
   SentinelInstance,
   SentinelIntervalAutomationPayload,
 } from '@xyo-network/sentinel-model'
-import { isSentinelIntervalAutomation } from '@xyo-network/sentinel-model'
 
 import { SentinelIntervalAutomationWrapper } from './SentinelIntervalAutomationWrapper.ts'
 

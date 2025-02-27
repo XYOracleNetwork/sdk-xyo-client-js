@@ -1,10 +1,10 @@
-import type { BaseParams } from '@xylabs/object'
-import type { QueryFulfillFinishedEventArgs, QueryFulfillStartedEventArgs } from '@xyo-network/bridge-model'
-import type { ModuleInstance } from '@xyo-network/module-model'
+import { BaseParams } from '@xylabs/object'
+import { QueryFulfillFinishedEventArgs, QueryFulfillStartedEventArgs } from '@xyo-network/bridge-model'
+import { ModuleInstance } from '@xyo-network/module-model'
 
-import type { AsyncQueryBusBaseConfig } from './BaseConfig.ts'
-import type { AsyncQueryBusClientConfig } from './ClientConfig.ts'
-import type { AsyncQueryBusHostConfig } from './HostConfig.ts'
+import { AsyncQueryBusBaseConfig } from './BaseConfig.ts'
+import { AsyncQueryBusClientConfig } from './ClientConfig.ts'
+import { AsyncQueryBusHostConfig } from './HostConfig.ts'
 
 export type AsyncQueryBusParams<TConfig extends AsyncQueryBusBaseConfig = AsyncQueryBusBaseConfig> = BaseParams<{
   config?: TConfig

@@ -2,15 +2,14 @@
 /* eslint-disable max-statements */
 
 import { delay } from '@xylabs/delay'
-import type { Hash } from '@xylabs/hex'
-import type { AnyObject } from '@xylabs/object'
-import type { AccountInstance } from '@xyo-network/account'
-import { Account } from '@xyo-network/account'
+import { Hash } from '@xylabs/hex'
+import { AnyObject } from '@xylabs/object'
+import { Account, AccountInstance } from '@xyo-network/account'
 import { generateArchivistNextTests } from '@xyo-network/archivist-acceptance-tests'
-import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   beforeAll, describe, expect, it,

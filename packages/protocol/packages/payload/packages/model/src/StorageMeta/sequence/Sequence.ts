@@ -1,5 +1,6 @@
-import type { Address, Hex } from '@xylabs/hex'
-import { isHex } from '@xylabs/hex'
+import {
+  Address, Hex, isHex,
+} from '@xylabs/hex'
 
 // we use Exclude to intentionally make the type not equal to string
 export type LocalSequence = Hex & Exclude<string, 'reserved-local-sequence-value'>

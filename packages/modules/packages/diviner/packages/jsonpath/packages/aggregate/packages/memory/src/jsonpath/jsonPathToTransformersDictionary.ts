@@ -1,4 +1,4 @@
-import type { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
+import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
 import { toPayloadTransformer } from '@xyo-network/diviner-jsonpath-memory'
 
 /**

@@ -1,4 +1,4 @@
-import type { Task } from './Task.ts'
+import { Task } from './Task.ts'
 
 export type VoidFunction = (...anyArguments: unknown[]) => void
 

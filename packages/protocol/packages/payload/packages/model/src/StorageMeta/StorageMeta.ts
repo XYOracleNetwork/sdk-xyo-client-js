@@ -1,8 +1,8 @@
 import { AsObjectFactory } from '@xylabs/object'
 
-import type { Payload } from '../Payload.ts'
-import { type HashStorageMeta, isHashStorageMeta } from './Hash.ts'
-import { isSequenceStorageMeta, type SequenceStorageMeta } from './Sequence.ts'
+import { Payload } from '../Payload.ts'
+import { HashStorageMeta, isHashStorageMeta } from './Hash.ts'
+import { isSequenceStorageMeta, SequenceStorageMeta } from './Sequence.ts'
 
 export interface StorageMeta extends SequenceStorageMeta, HashStorageMeta {}
 

@@ -1,7 +1,7 @@
-import type { Address } from '@xylabs/hex'
+import { Address } from '@xylabs/hex'
 
-import type { ModuleInstance } from '../instance/index.ts'
-import type { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.ts'
+import { ModuleInstance } from '../instance/index.ts'
+import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer.ts'
 import { ResolveHelperStatic } from './ResolveHelperStatic.ts'
 import { resolvePathToInstance } from './resolvePathToInstance.ts'
 

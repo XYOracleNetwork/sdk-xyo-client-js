@@ -1,5 +1,5 @@
-import type { EventData } from '@xyo-network/module-events'
-import type {
+import { EventData } from '@xyo-network/module-events'
+import {
   Module, ModuleEventArgs, ModuleInstance,
 } from '@xyo-network/module-model'
 

@@ -1,18 +1,18 @@
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
-import type {
+import {
   ModuleManifest, NodeManifest, PackageManifestPayload,
 } from '@xyo-network/manifest-model'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
-import type {
+import {
+  isModuleName,
   ModuleIdentifierTransformer, ModuleInstance, ModuleParams,
 } from '@xyo-network/module-model'
-import { isModuleName } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import type { NodeInstance } from '@xyo-network/node-model'
-import type { WithAnySchema } from '@xyo-network/payload-model'
+import { NodeInstance } from '@xyo-network/node-model'
+import { WithAnySchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import type { WalletInstance } from '@xyo-network/wallet-model'
+import { WalletInstance } from '@xyo-network/wallet-model'
 
 export interface ManifestWrapperExParams {
   locator?: ModuleFactoryLocator

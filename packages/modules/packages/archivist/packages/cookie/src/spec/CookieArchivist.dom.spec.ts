@@ -3,10 +3,10 @@
  */
 
 import { delay } from '@xylabs/delay'
-import type { Promisable } from '@xylabs/promise'
-import type { ArchivistInstance } from '@xyo-network/archivist-model'
+import { Promisable } from '@xylabs/promise'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
-import type { Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { expect, test } from 'vitest'
 

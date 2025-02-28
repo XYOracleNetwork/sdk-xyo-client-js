@@ -8,7 +8,7 @@ import { getNewPayloads } from '../Payload/index.ts'
 
 export const getNewBoundWitness = async (signers?: AccountInstance[], payloads?: Payload[]): Promise<[BoundWitness, Payload[], ModuleError[]]> => {
   return await (new BoundWitnessBuilder().payloads(payloads ?? (getNewPayloads(1))))
-    .witnesses(signers ?? [await unitTestSigningAccount()])
+    .signers(signers ?? [await unitTestSigningAccount()])
     .build()
 }
 

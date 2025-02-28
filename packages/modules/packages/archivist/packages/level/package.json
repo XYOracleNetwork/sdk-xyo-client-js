@@ -46,14 +46,14 @@
   "devDependencies": {
     "@xylabs/delay": "^4.5.1",
     "@xylabs/object": "^4.5.1",
-    "@xylabs/ts-scripts-yarn3": "^5.0.25",
-    "@xylabs/tsconfig": "^5.0.25",
+    "@xylabs/ts-scripts-yarn3": "^5.0.39",
+    "@xylabs/tsconfig": "^5.0.39",
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-acceptance-tests": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.2",
     "uuid": "^11.1.0",
     "vitest": "^3.0.7"
   },

@@ -57,7 +57,7 @@ export class PayloadPointerDiviner<
    */
   private async getConfigArchivist(): Promise<ArchivistInstance> {
     const name = assertEx(this.config?.archivist, () => 'Missing archivist in config')
-    return assertEx(await this.getArchivist(), () => `Config.archivist module value of ${name} not resolved`)
+    return assertEx(await this.archivistInstance(), () => `Config.archivist module value of ${name} not resolved`)
   }
 
   /**

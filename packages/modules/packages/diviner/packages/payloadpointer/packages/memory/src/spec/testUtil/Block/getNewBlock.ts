@@ -6,7 +6,7 @@ import { unitTestSigningAccount } from '../Account/index.ts'
 // import { getNewPayloads } from '../Payload/index.ts'
 
 export const getNewBlock = async (...payloads: Payload[]): Promise<BoundWitness> => {
-  return (await (new BoundWitnessBuilder().witness(await unitTestSigningAccount()).payloads(payloads)).build())[0]
+  return (await (new BoundWitnessBuilder().signer(await unitTestSigningAccount()).payloads(payloads)).build())[0]
 }
 
 /*

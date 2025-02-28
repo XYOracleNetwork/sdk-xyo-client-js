@@ -44,7 +44,7 @@ describe('PayloadPointerDiviner', () => {
       sut = await getPayloadPointerDiviner(node)
       const [bw] = await new BoundWitnessBuilder()
         .payloads([payloadA, payloadB])
-        .witness(await account)
+        .signer(await account)
         .build()
       const payloads: Payload[] = [bw, payloadA, payloadB]
       for (const payload of payloads) {

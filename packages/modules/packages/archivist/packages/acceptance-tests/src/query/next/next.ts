@@ -1,6 +1,6 @@
 import { filterAs } from '@xylabs/array'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
-import type { IdPayload } from '@xyo-network/id-payload-plugin'
+import type { Id } from '@xyo-network/id-payload-plugin'
 import { asOptionalId } from '@xyo-network/id-payload-plugin'
 import type { WithStorageMeta } from '@xyo-network/payload-model'
 import {
@@ -15,7 +15,7 @@ export const generateArchivistNextTests = (
 ) => {
   describe(title, () => {
     let sut: ArchivistInstance
-    let payloads: WithStorageMeta<IdPayload>[]
+    let payloads: WithStorageMeta<Id>[]
     beforeEach(async () => {
       sut = await moduleFactory()
       payloads = await fillDb(sut, 10)

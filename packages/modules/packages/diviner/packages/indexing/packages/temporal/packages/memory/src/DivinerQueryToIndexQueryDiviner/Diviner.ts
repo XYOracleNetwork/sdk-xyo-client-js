@@ -102,7 +102,7 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
     if (queries.length > 0) {
       return await Promise.all(
         queries.map(async (query) => {
-          const fields = await reducePayloads<PayloadDivinerQueryPayload & { $sources?: Hash[];sources?: Hash[] }>(
+          const fields = await reducePayloads<PayloadDivinerQueryPayload & { $sources?: Hash[]; sources?: Hash[] }>(
             [query],
             this.payloadTransformers,
             this.indexQuerySchema,

@@ -1,10 +1,10 @@
 import type { Hash } from '@xylabs/hex'
 import type { JsonValue } from '@xylabs/object'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { ModuleError, WithOptionalSources } from '@xyo-network/payload-model'
+import type { ModuleError } from '@xyo-network/payload-model'
 import { ModuleErrorSchema } from '@xyo-network/payload-model'
 
-export class ModuleErrorBuilder extends PayloadBuilder<WithOptionalSources<ModuleError>> {
+export class ModuleErrorBuilder extends PayloadBuilder<ModuleError> {
   _details?: JsonValue
   _message?: string
   _name?: string
@@ -13,7 +13,7 @@ export class ModuleErrorBuilder extends PayloadBuilder<WithOptionalSources<Modul
     super({ schema: ModuleErrorSchema })
   }
 
-  override build(): WithOptionalSources<ModuleError> {
+  override build(): ModuleError {
     this.fields({
       details: this._details,
       message: this._message,

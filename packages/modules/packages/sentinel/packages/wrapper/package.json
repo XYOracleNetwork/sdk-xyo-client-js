@@ -39,8 +39,8 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^4.5.1",
-    "@xylabs/ts-scripts-yarn3": "^5.0.25",
-    "@xylabs/tsconfig": "^5.0.25",
+    "@xylabs/ts-scripts-yarn3": "^5.0.39",
+    "@xylabs/tsconfig": "^5.0.39",
     "@xylabs/vitest-extended": "^4.5.1",
     "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/account": "workspace:^",
@@ -51,7 +51,7 @@
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/sentinel-memory": "workspace:^",
     "@xyo-network/witness-adhoc": "workspace:^",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.2",
     "vitest": "^3.0.7"
   },
   "publishConfig": {

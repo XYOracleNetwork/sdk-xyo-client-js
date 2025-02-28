@@ -1,4 +1,4 @@
-import { PayloadHasher } from '@xyo-network/hash'
+import { ObjectHasher } from '@xyo-network/hash'
 import type { Payload } from '@xyo-network/payload-model'
 
 /**
@@ -9,7 +9,7 @@ import type { Payload } from '@xyo-network/payload-model'
 const generateKeyForTuple = async (payloads: Payload[]): Promise<string> => {
   // return (await Promise.all(array.map((p) => PayloadBuilder.dataHash(p)))).join('|')
   await Promise.resolve() // Here to reserve the right to make this async
-  return payloads.map(p => PayloadHasher.stringifyHashFields(p)).join('|')
+  return payloads.map(p => ObjectHasher.stringifyHashFields(p)).join('|')
 }
 
 /**

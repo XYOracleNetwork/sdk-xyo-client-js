@@ -44,9 +44,9 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.25",
-    "@xylabs/tsconfig": "^5.0.25",
-    "typescript": "^5.7.3"
+    "@xylabs/ts-scripts-yarn3": "^5.0.39",
+    "@xylabs/tsconfig": "^5.0.39",
+    "typescript": "^5.8.2"
   },
   "publishConfig": {
     "access": "public"

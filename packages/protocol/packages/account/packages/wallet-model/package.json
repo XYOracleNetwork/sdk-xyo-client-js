@@ -33,10 +33,10 @@
     "@xyo-network/account-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.25",
-    "@xylabs/tsconfig": "^5.0.25",
+    "@xylabs/ts-scripts-yarn3": "^5.0.39",
+    "@xylabs/tsconfig": "^5.0.39",
     "ethers": "^6.13.5",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   },
   "peerDependencies": {
     "ethers": "^6"

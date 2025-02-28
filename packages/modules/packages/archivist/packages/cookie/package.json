@@ -44,11 +44,11 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
     "@xylabs/delay": "^4.5.1",
-    "@xylabs/ts-scripts-yarn3": "^5.0.25",
-    "@xylabs/tsconfig": "^5.0.25",
+    "@xylabs/ts-scripts-yarn3": "^5.0.39",
+    "@xylabs/tsconfig": "^5.0.39",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.2",
     "vitest": "^3.0.7"
   },
   "publishConfig": {

@@ -25,7 +25,7 @@ import type {
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
-  Payload, Schema, WithOptionalSources, WithoutPrivateStorageMeta,
+  Payload, Schema, WithoutPrivateStorageMeta,
 } from '@xyo-network/payload-model'
 
 export abstract class AbstractDiviner<
@@ -103,5 +103,5 @@ export abstract class AbstractDiviner<
   }
 
   /** @function divineHandler Implement or override to add custom functionality to a diviner */
-  protected abstract divineHandler(payloads?: TIn[]): Promisable<WithOptionalSources<TOut>[]>
+  protected abstract divineHandler(payloads?: TIn[]): Promisable<TOut[]>
 }

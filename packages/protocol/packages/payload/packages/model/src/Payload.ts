@@ -18,7 +18,7 @@ export type OpCode = 'elevate'
 
 export interface SourcesMetaField { $sources: Hash[] }
 export interface ChainMetaFields {
-  $opCodes?: OpCode[]
+  $opCodes: OpCode[]
 }
 
 export interface PayloadMetaFields extends SourcesMetaField, ChainMetaFields {}

@@ -4,7 +4,7 @@ import type { JSONSchemaType } from 'ajv'
 
 export const HexRegEx = (bytes?: number) => bytes ? `^[a-f0-9]{${bytes * 2}}$` : '^[a-f0-9]+$'
 export const HashRegEx = HexRegEx(32)
-export const AddressRegEx = HexRegEx(32)
+export const AddressRegEx = HexRegEx(20)
 
 export const payloadJsonSchema: JSONSchemaType<Payload> = {
   $id: 'https://schemas.xyo.network/2.0/payload',

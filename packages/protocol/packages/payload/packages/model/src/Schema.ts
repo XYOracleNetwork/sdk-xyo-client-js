@@ -1,7 +1,7 @@
 import type { EmptyObject } from '@xylabs/object'
 import { AsTypeFactory } from '@xylabs/object'
 
-export const SchemaRegEx = String.raw`^((?!-)[a-z0-9-]{1, 63}(?<!-)\.)+$`
+export const SchemaRegEx = '^(?:[a-z0-9]+\.)*[a-z0-9]+$' as const
 
 /** Schema type in Javascript is a string */
 // eslint-disable-next-line sonarjs/redundant-type-aliases

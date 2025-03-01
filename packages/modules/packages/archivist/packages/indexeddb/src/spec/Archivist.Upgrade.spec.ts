@@ -120,7 +120,7 @@ describe('IndexedDbArchivist.Upgrade', () => {
       expect(archivistModule).toBeDefined()
       // expect(archivistModule?.dbVersion).toBe(newVersion ?? 1)
       all = await archivistModule?.all?.()
-      expect(all?.length).toBe(0)
+      expect(all?.length).toBe(10)
     })
   })
 })

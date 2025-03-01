@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/manifest-wrapper",
-  "version": "3.9.24",
+  "version": "3.9.25",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.5.2",
+    "@xylabs/assert": "^4.5.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/manifest-model": "workspace:^",
     "@xyo-network/module-factory-locator": "workspace:^",
@@ -41,10 +41,10 @@
     "@xyo-network/wallet-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/object": "^4.5.2",
+    "@xylabs/object": "^4.5.4",
     "@xylabs/ts-scripts-yarn3": "^5.0.39",
     "@xylabs/tsconfig": "^5.0.39",
-    "@xylabs/vitest-extended": "^4.5.2",
+    "@xylabs/vitest-extended": "^4.5.4",
     "typescript": "^5.8.2",
     "vitest": "^3.0.7"
   },

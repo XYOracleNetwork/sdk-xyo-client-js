@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/manifest-model",
-  "version": "3.9.24",
+  "version": "3.9.25",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,7 +37,7 @@
     "package-compile": "yarn gen-schema && yarn package-compile-only"
   },
   "dependencies": {
-    "@xylabs/hex": "^4.5.2",
+    "@xylabs/hex": "^4.5.4",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {

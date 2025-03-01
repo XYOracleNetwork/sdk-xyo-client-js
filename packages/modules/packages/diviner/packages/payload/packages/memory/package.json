@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-payload-memory",
-  "version": "3.9.24",
+  "version": "3.9.25",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -32,10 +32,10 @@
     "@xyo-network/diviner-payload-generic": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.5.2",
+    "@xylabs/delay": "^4.5.4",
     "@xylabs/ts-scripts-yarn3": "^5.0.39",
     "@xylabs/tsconfig": "^5.0.39",
-    "@xylabs/vitest-extended": "^4.5.2",
+    "@xylabs/vitest-extended": "^4.5.4",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

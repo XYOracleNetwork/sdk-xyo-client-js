@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-leveldb",
-  "version": "3.9.24",
+  "version": "3.9.25",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,10 +29,10 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/browser/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.5.2",
-    "@xylabs/exists": "^4.5.2",
-    "@xylabs/hex": "^4.5.2",
-    "@xylabs/promise": "^4.5.2",
+    "@xylabs/assert": "^4.5.4",
+    "@xylabs/exists": "^4.5.4",
+    "@xylabs/hex": "^4.5.4",
+    "@xylabs/promise": "^4.5.4",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -44,11 +44,11 @@
     "level": "^9.0.0"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.5.2",
-    "@xylabs/object": "^4.5.2",
+    "@xylabs/delay": "^4.5.4",
+    "@xylabs/object": "^4.5.4",
     "@xylabs/ts-scripts-yarn3": "^5.0.39",
     "@xylabs/tsconfig": "^5.0.39",
-    "@xylabs/vitest-extended": "^4.5.2",
+    "@xylabs/vitest-extended": "^4.5.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-acceptance-tests": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",

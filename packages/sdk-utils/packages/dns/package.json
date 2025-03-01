@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/dns",
-  "version": "3.9.24",
+  "version": "3.9.25",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/axios": "^4.5.2"
+    "@xylabs/axios": "^4.5.4"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^5.0.39",

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/boundwitness-validator",
-  "version": "3.9.24",
+  "version": "3.9.25",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,10 +29,10 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.5.2",
-    "@xylabs/arraybuffer": "^4.5.2",
-    "@xylabs/hex": "^4.5.2",
-    "@xylabs/typeof": "^4.5.2",
+    "@xylabs/array": "^4.5.4",
+    "@xylabs/arraybuffer": "^4.5.4",
+    "@xylabs/hex": "^4.5.4",
+    "@xylabs/typeof": "^4.5.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/payload": "workspace:^",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^5.0.39",
     "@xylabs/tsconfig": "^5.0.39",
-    "@xylabs/vitest-extended": "^4.5.2",
+    "@xylabs/vitest-extended": "^4.5.4",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/schema-name-validator": "workspace:^",
     "typescript": "^5.8.2",

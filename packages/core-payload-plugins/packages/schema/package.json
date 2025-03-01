@@ -35,7 +35,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^5.0.39",
     "@xylabs/tsconfig": "^5.0.39",
-    "@xylabs/vitest-extended": "^4.5.1",
+    "@xylabs/vitest-extended": "^4.5.2",
     "typescript": "^5.8.2",
     "vitest": "^3.0.7"
   },

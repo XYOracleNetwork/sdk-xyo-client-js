@@ -1,5 +1,6 @@
 import type { Address } from '@xylabs/hex'
-import type { Payload } from '@xyo-network/payload-model'
+import { AsObjectFactory } from '@xylabs/object'
+import { isPayloadOfSchemaType, type Payload } from '@xyo-network/payload-model'
 
 export const AddressSchema = 'network.xyo.address' as const
 export type AddressSchema = typeof AddressSchema
@@ -12,6 +13,13 @@ export interface AddressFields {
 }
 
 export type AddressPayload = Payload<AddressFields, AddressSchema>
+
+/**
+ * Identity function for determining if an object is an Address
+ */
+export const isAddressPayload = isPayloadOfSchemaType<AddressPayload>(AddressSchema)
+export const asAddressPayload = AsObjectFactory.create(isAddressPayload)
+export const asOptionalAddressPayload = AsObjectFactory.createOptional(isAddressPayload)
 
 export interface AddressChildFields extends AddressFields {
   /**

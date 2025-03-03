@@ -10,8 +10,8 @@ import {
 } from 'vitest'
 
 import { ManifestWrapper } from '../Wrapper.ts'
-import simpleNodeChildManifest from './simple-node-child.json' assert {type: 'json'}
-import simpleNodeParentManifest from './simple-node-parent.json' assert {type: 'json'}
+import simpleNodeChildManifest from './simple-node-child.json' with {type: 'json'}
+import simpleNodeParentManifest from './simple-node-parent.json' with {type: 'json'}
 
 describe('Manifest', () => {
   describe('Create Node from Manifest', () => {

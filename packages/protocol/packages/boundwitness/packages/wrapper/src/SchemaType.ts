@@ -1,11 +1,11 @@
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { SchemaRegEx } from '@xyo-network/payload-model'
 import {
-  AddressRegEx, HashRegEx, HexRegEx, payloadJsonSchema,
+  AddressRegEx, HashRegEx, HexRegExMinMax, payloadJsonSchema,
 } from '@xyo-network/payload-wrapper'
 import type { JSONSchemaType } from 'ajv'
 
-export const SignatureRegEx = HexRegEx(32)
+export const SignatureRegEx = HexRegExMinMax(64, 64)
 
 export const boundWitnessProperties: JSONSchemaType<BoundWitness>['properties'] = {
   ...payloadJsonSchema.properties,
@@ -23,7 +23,7 @@ export const boundWitnessProperties: JSONSchemaType<BoundWitness>['properties'] 
   $sourceQuery: { type: 'string', pattern: HashRegEx },
   $sources: { items: { type: 'string', pattern: HashRegEx }, type: 'array' },
   $opCodes: { items: { type: 'string' }, type: 'array' },
-  $signatures: { items: { type: 'string', pattern: HexRegEx(64) }, type: 'array' },
+  $signatures: { items: { type: 'string', pattern: SignatureRegEx }, type: 'array' },
 }
 
 export const boundWitnessJsonSchema: JSONSchemaType<BoundWitness> = {

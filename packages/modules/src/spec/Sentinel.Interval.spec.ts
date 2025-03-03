@@ -17,7 +17,7 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import SentinelManifest from './Sentinel.Interval.spec.json' assert {type: 'json'}
+import SentinelManifest from './Sentinel.Interval.spec.json' with {type: 'json'}
 
 /**
  * @group sentinel

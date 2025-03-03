@@ -8,7 +8,7 @@ import {
 } from 'vitest'
 
 import { ManifestWrapper } from '../Wrapper.ts'
-import simpleNodeInlineLazyManifest from './simple-node-inline-lazy-manifest.json' assert {type: 'json'}
+import simpleNodeInlineLazyManifest from './simple-node-inline-lazy-manifest.json' with {type: 'json'}
 
 describe('Manifest', () => {
   describe('Create Node from Manifest [Lazy]', () => {

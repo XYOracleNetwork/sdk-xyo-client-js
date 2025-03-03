@@ -9,7 +9,7 @@ import {
 } from 'vitest'
 
 import { ManifestWrapper } from '../Wrapper.ts'
-import simpleNodeInlineManifest from './simple-node-inline-manifest.json' assert { type: 'json' }
+import simpleNodeInlineManifest from './simple-node-inline-manifest.json' with { type: 'json' }
 
 describe('Manifest', () => {
   describe('Create Node from Manifest', () => {

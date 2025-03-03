@@ -18,7 +18,7 @@ import {
 } from 'vitest'
 
 import { StatefulDiviner } from '../Diviner.ts'
-import TestManifest from './TestManifest.json' assert {type: 'json'}
+import TestManifest from './TestManifest.json' with {type: 'json'}
 
 class TestStatefulDiviner extends StatefulDiviner {
   callCommitState(state: ModuleState) {

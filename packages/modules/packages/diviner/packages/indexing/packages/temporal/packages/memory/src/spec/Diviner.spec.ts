@@ -32,7 +32,7 @@ import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../Divin
 import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../IndexCandidateToIndexDiviner/index.ts'
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner/index.ts'
 import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../StateToIndexCandidateDiviner/index.ts'
-import imageThumbnailDivinerManifest from './TemporalDiviner.json' assert {type: 'json'}
+import imageThumbnailDivinerManifest from './TemporalDiviner.json' with {type: 'json'}
 
 type ImageThumbnail = Payload<{
   http?: {

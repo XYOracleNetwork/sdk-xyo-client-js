@@ -7,11 +7,11 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import dappPackageManifestSchemaCompiled from '../compilations/dapp-package-manifest-schema.json' assert { type: 'json' }
-import packageManifestSchemaCompiled from '../compilations/schema.json' assert { type: 'json' }
-import dappPackageManifestSchema from '../dapp-package-manifest-schema.json' assert { type: 'json' }
-import packageManifestSchema from '../schema.json' assert { type: 'json' }
-import sharedDefinitions from '../shared/definitions-schema.json' assert { type: 'json' }
+import dappPackageManifestSchemaCompiled from '../compilations/dapp-package-manifest-schema.json' with { type: 'json' }
+import packageManifestSchemaCompiled from '../compilations/schema.json' with { type: 'json' }
+import dappPackageManifestSchema from '../dapp-package-manifest-schema.json' with { type: 'json' }
+import packageManifestSchema from '../schema.json' with { type: 'json' }
+import sharedDefinitions from '../shared/definitions-schema.json' with { type: 'json' }
 import {
   invalidDappPackageManifestSchema, invalidPackageManifestSchema, validDappPackageManifestSchema, validPackageManifestSchema,
 } from './cases/index.ts'

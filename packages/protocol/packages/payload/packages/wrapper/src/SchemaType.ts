@@ -14,11 +14,8 @@ export const payloadPropertiesJsonSchema: JSONSchemaType<Payload>['properties'] 
   $sources: {
     type: 'array',
     items: { type: 'string', pattern: HashRegEx },
-    nullable: true,
   },
-  $opCodes: {
-    items: { type: 'string' }, type: 'array', nullable: true,
-  },
+  $opCodes: { items: { type: 'string' }, type: 'array' },
   schema: { pattern: SchemaRegEx, type: 'string' },
 }
 

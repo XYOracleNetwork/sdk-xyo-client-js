@@ -36,7 +36,7 @@ export const omitSchema = <T extends WithOptionalSchema>(payload: T): WithoutSch
 }
 
 export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
-  protected _fields?: WithoutMeta<WithoutSchema<T>>
+  protected _fields?: WithoutStorageMeta<WithoutSchema<T>>
   protected _meta?: WithOnlyClientMeta<T>
   protected _schema: Schema
 
@@ -194,6 +194,14 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
       : omitByPrefix(payloads, '_', maxDepth)
   }
 
+  static pickClientMeta<T extends EmptyObject>(payload: T, maxDepth?: number): WithOnlyClientMeta<T>
+  static pickClientMeta<T extends EmptyObject>(payloads: T[], maxDepth?: number): WithOnlyClientMeta<T>[]
+  static pickClientMeta<T extends EmptyObject>(payloads: T | T[], maxDepth = 100): WithOnlyClientMeta<T> | WithOnlyClientMeta<T>[] {
+    return Array.isArray(payloads)
+      ? payloads.map(payload => this.pickClientMeta(payload, maxDepth))
+      : pickByPrefix(payloads, '$', maxDepth)
+  }
+
   static sortByStorageMeta<T extends Payload>(
     payloads: WithStorageMeta<T>[],
     direction: -1 | 1 = 1,
@@ -278,9 +286,9 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
     )
   }
 
-  fields(fields: WithoutMeta<WithoutSchema<T>>) {
+  fields(fields: WithoutStorageMeta<WithoutSchema<T>>) {
     // we need to do the cast here since ts seems to not like nested, yet same, generics
-    this._fields = omitSchema(PayloadBuilder.omitMeta(removeEmptyFields(structuredClone(fields)))) as unknown as WithoutMeta<WithoutSchema<T>>
+    this._fields = omitSchema(PayloadBuilder.omitStorageMeta(removeEmptyFields(structuredClone(fields)), 1)) as unknown as WithoutStorageMeta<WithoutSchema<T>>
     return this
   }
 

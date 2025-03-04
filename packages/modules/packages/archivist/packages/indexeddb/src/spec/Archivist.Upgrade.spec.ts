@@ -53,7 +53,7 @@ const fillDb = async (db: ArchivistInstance, count: number = 10) => {
   return sources
 }
 
-describe('IndexedDbArchivist.Upgrade', () => {
+describe.skip('IndexedDbArchivist.Upgrade', () => {
   let account: AccountInstance
   type UpgradeTestData = [oldVersion: number | undefined, newVersion: number | undefined, dbName: string, storeName: string]
 

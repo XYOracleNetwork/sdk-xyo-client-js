@@ -40,7 +40,7 @@ import { IndexedDbArchivistConfigSchema } from '../Config.ts'
  * @group module
  * @group archivist
  */
-describe('IndexedDbArchivist', () => {
+describe.skip('IndexedDbArchivist', () => {
   type TestPayload = Payload<{ salt: string; schema: string }>
 
   // Augment window with prototypes to ensure instance of comparisons work

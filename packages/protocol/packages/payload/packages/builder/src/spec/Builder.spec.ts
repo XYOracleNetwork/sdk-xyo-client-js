@@ -43,7 +43,7 @@ describe('PayloadBuilder', () => {
     expect(actual._client).toBeUndefined()
     expect(actual._hash).toBeUndefined()
     expect(actual._testUnderscore).toBeUndefined()
-    expect(actual.$testDollar).toBeUndefined()
+    expect(actual.$testDollar).toBeDefined()
     expect(actual.schema).toBeDefined()
     expect(Object.keys(actual).length).toBeGreaterThan(1)
     expect(Object.keys(actual.testSomeNullObject as object).length).toBe(2)
@@ -55,10 +55,10 @@ describe('PayloadBuilder', () => {
     expect((actual as any).testUnderscoreObjectInArray[0]._test).toBeUndefined()
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect((actual as any).testDollarObject.$test).toBeUndefined()
+    expect((actual as any).testDollarObject.$test).toBeDefined()
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect((actual as any).testDollarObjectInArray[0].$test).toBeUndefined()
+    expect((actual as any).testDollarObjectInArray[0].$test).toBeDefined()
 
     let builderNoStamp = new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })
     expect(builderNoStamp).toBeDefined()

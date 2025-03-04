@@ -73,7 +73,7 @@ describe('LMDB vs LevelDB', () => {
 
   const payloads = Array.from(
     { length: totalTestPayloads },
-    (_, i) => new PayloadBuilder<WithSources<Id>>({ schema: IdSchema }).fields({ salt: `${i}` }).meta({ $sources: [missingHash] }).build(),
+    (_, i) => new PayloadBuilder<WithSources<Id>>({ schema: IdSchema }).fields({ salt: `${i}`, $sources: [missingHash] }).build(),
 
   )
 

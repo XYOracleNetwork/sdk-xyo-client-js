@@ -16,8 +16,9 @@ import type { PayloadBuilderOptions } from '@xyo-network/payload-builder'
 import { omitSchema, PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   AnyPayload,
-  ModuleError, Payload, Schema, WithoutMeta,
+  ModuleError, Payload, Schema,
   WithoutSchema,
+  WithoutStorageMeta,
 } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
@@ -172,17 +173,15 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  override fields(fields: WithoutMeta<WithoutSchema<Omit<TBoundWitness, GeneratedBoundWitnessFields>>>): this {
+  override fields(fields: WithoutStorageMeta<WithoutSchema<Omit<TBoundWitness, GeneratedBoundWitnessFields>>>): this {
     const clone = structuredClone(fields) as unknown as Partial<TBoundWitness>
     for (const field of GeneratedBoundWitnessFields) {
       delete clone[field]
     }
     // we need to do the cast here since ts seems to not like nested, yet same, generics
     this._fields = omitSchema(
-      BoundWitnessBuilder.omitMeta(
-        removeEmptyFields(structuredClone(fields)),
-      ),
-    ) as unknown as WithoutMeta<WithoutSchema<TBoundWitness>>
+      BoundWitnessBuilder.omitStorageMeta(removeEmptyFields(structuredClone(fields))),
+    ) as unknown as WithoutStorageMeta<WithoutSchema<TBoundWitness>>
     return this
   }
 

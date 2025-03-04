@@ -288,7 +288,7 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
 
   fields(fields: WithoutStorageMeta<WithoutSchema<T>>) {
     // we need to do the cast here since ts seems to not like nested, yet same, generics
-    this._fields = omitSchema(PayloadBuilder.omitStorageMeta(removeEmptyFields(structuredClone(fields)), 1)) as unknown as WithoutStorageMeta<WithoutSchema<T>>
+    this._fields = omitSchema(PayloadBuilder.omitStorageMeta(removeEmptyFields(structuredClone(fields)))) as unknown as WithoutStorageMeta<WithoutSchema<T>>
     return this
   }
 

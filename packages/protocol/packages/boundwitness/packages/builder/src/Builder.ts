@@ -125,9 +125,10 @@ export class BoundWitnessBuilder<
   override async build(): Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]> {
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
       const $signatures = await this.sign()
+      const dataHashableFields = await this.dataHashableFields()
 
       const ret = {
-        ...this._meta, ...this._fields, $signatures,
+        ...this._meta, ...this._fields, ...dataHashableFields, $signatures,
       } as Signed<TBoundWitness>
       return [
         ret,

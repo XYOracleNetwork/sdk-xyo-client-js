@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-payload-stats",
-  "version": "3.9.29",
+  "version": "3.9.30",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

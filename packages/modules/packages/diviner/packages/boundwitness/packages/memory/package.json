@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-boundwitness-memory",
-  "version": "3.9.33",
+  "version": "3.9.34",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

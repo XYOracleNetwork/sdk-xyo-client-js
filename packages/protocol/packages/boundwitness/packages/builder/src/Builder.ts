@@ -128,7 +128,7 @@ export class BoundWitnessBuilder<
       const $signatures = await this.sign()
 
       const ret = {
-        ...this._meta, ...dataHashableFields, ...this.fields, $signatures,
+        ...this._meta, ...dataHashableFields, ...this._fields, $signatures,
       } as Signed<TBoundWitness>
       return [
         ret,

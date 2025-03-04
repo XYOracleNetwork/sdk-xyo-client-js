@@ -142,7 +142,7 @@ describe.sequential('BoundWitnessBuilder', () => {
         .payloads(testCase.payloads)
         .build()
 
-      // Ensure the BW is correct
+      // Ensure the BW is corrects
       expect(await PayloadBuilder.dataHash(bw)).toEqual(testCase.dataHash)
 
       for (let i = 0; i < testCase.payloadHashes.length; i++) {

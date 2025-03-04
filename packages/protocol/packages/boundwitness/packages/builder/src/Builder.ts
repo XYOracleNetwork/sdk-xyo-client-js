@@ -124,11 +124,11 @@ export class BoundWitnessBuilder<
 
   override async build(): Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]> {
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
-      const $signatures = await this.sign()
       const dataHashableFields = await this.dataHashableFields()
+      const $signatures = await this.sign()
 
       const ret = {
-        ...this._meta, ...this._fields, ...dataHashableFields, $signatures,
+        ...this._meta, ...dataHashableFields, ...this.fields, $signatures,
       } as Signed<TBoundWitness>
       return [
         ret,
@@ -148,7 +148,7 @@ export class BoundWitnessBuilder<
     const generatedFields: Pick<TBoundWitness, GeneratedBoundWitnessFields> = await this.generatedFields()
     BoundWitnessBuilder.validateGeneratedFields(generatedFields)
     const fields: WithoutSchema<TBoundWitness> = {
-      ...this._fields,
+      ...PayloadBuilder.omitMeta(this._fields ?? {}),
       ...generatedFields,
     } as WithoutSchema<TBoundWitness>
     return await BoundWitnessBuilder.dataHashableFields<TBoundWitness>(this._schema, fields)

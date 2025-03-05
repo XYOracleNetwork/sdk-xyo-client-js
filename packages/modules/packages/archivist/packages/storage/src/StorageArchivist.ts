@@ -162,20 +162,11 @@ export class StorageArchivist<
   }
 
   protected override getHandler(hashes: string[]): Promisable<WithStorageMeta<Payload>[]> {
-    const found = new Set<string>()
     return (
       hashes.map((hash) => {
         return this.storage.get(hash)
       })
     ).filter(exists)
-      .filter((payload) => {
-        if (found.has(payload._dataHash)) {
-          return false
-        } else {
-          found.add(payload._dataHash)
-          return true
-        }
-      })
   }
 
   protected override async insertHandler(payloads: WithStorageMeta<Payload>[]): Promise<WithStorageMeta<Payload>[]> {

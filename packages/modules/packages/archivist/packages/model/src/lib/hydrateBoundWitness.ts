@@ -19,7 +19,11 @@ export const tryHydrateTypedBoundWitness = async <T extends BoundWitness>(archiv
 export const hydrateTypedBoundWitness = async <T extends BoundWitness>(archivist: ReadArchivist, hashOrBw: Hash | WithStorageMeta<T>,
   identity: IdentityFunction<WithStorageMeta<T>>): Promise<HydratedBoundWitness<T>> => {
   const bw = isHash(hashOrBw) ? await getTypedBoundWitness(archivist, hashOrBw, identity) : hashOrBw
-  return [bw, (await archivist.get(bw?.payload_hashes)).filter(exists)]
+  const payloads = (await archivist.get(bw?.payload_hashes)).filter(exists)
+  if (payloads.length !== bw.payload_hashes.length) {
+    throw new Error(`missing payloads for ${bw._hash}`)
+  }
+  return [bw, payloads]
 }
 
 export const hydrateBoundWitness = (

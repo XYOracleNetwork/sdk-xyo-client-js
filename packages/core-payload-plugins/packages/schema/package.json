@@ -33,11 +33,11 @@
     "@xyo-network/payload-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.39",
-    "@xylabs/tsconfig": "^5.0.39",
-    "@xylabs/vitest-extended": "^4.5.7",
+    "@xylabs/ts-scripts-yarn3": "^5.1.14",
+    "@xylabs/tsconfig": "^5.1.14",
+    "@xylabs/vitest-extended": "^4.5.10",
     "typescript": "^5.8.2",
-    "vitest": "^3.0.7"
+    "vitest": "^3.0.8"
   },
   "publishConfig": {
     "access": "public"

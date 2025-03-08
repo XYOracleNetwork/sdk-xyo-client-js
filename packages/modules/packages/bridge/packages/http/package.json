@@ -37,13 +37,13 @@
   "module": "dist/neutral/index-browser.mjs",
   "types": "dist/neutral/index-browser.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.5.7",
-    "@xylabs/axios": "^4.5.7",
-    "@xylabs/exists": "^4.5.7",
-    "@xylabs/forget": "^4.5.7",
-    "@xylabs/hex": "^4.5.7",
-    "@xylabs/object": "^4.5.7",
-    "@xylabs/promise": "^4.5.7",
+    "@xylabs/assert": "^4.5.10",
+    "@xylabs/axios": "^4.5.10",
+    "@xylabs/exists": "^4.5.10",
+    "@xylabs/forget": "^4.5.10",
+    "@xylabs/hex": "^4.5.10",
+    "@xylabs/object": "^4.5.10",
+    "@xylabs/promise": "^4.5.10",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -55,7 +55,7 @@
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "async-mutex": "^0.5.0",
-    "axios": "^1.8.1",
+    "axios": "^1.8.2",
     "express": "^4.21.2",
     "http-status-codes": "^2.3.0",
     "lru-cache": "^11.0.2"
@@ -64,9 +64,9 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.9",
     "@xylabs/sdk-api-express-ecs": "^2.1.0",
-    "@xylabs/ts-scripts-yarn3": "^5.0.39",
-    "@xylabs/tsconfig": "^5.0.39",
-    "@xylabs/vitest-extended": "^4.5.7",
+    "@xylabs/ts-scripts-yarn3": "^5.1.14",
+    "@xylabs/tsconfig": "^5.1.14",
+    "@xylabs/vitest-extended": "^4.5.10",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/bridge-abstract": "workspace:^",
@@ -78,7 +78,7 @@
     "@xyo-network/payload-wrapper": "workspace:^",
     "get-port-please": "^3.1.2",
     "typescript": "^5.8.2",
-    "vitest": "^3.0.7"
+    "vitest": "^3.0.8"
   },
   "peerDependencies": {
     "@xylabs/sdk-api-express-ecs": "^2.1.0"

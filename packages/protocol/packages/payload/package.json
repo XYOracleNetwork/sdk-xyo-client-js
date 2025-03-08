@@ -36,8 +36,8 @@
     "@xyo-network/payload-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.39",
-    "@xylabs/tsconfig": "^5.0.39",
+    "@xylabs/ts-scripts-yarn3": "^5.1.14",
+    "@xylabs/tsconfig": "^5.1.14",
     "typescript": "^5.8.2"
   },
   "publishConfig": {

@@ -29,14 +29,14 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/arraybuffer": "^4.5.7",
-    "@xylabs/hex": "^4.5.7",
+    "@xylabs/arraybuffer": "^4.5.10",
+    "@xylabs/hex": "^4.5.10",
     "@xyo-network/key-model": "workspace:^",
     "@xyo-network/previous-hash-store-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.39",
-    "@xylabs/tsconfig": "^5.0.39",
+    "@xylabs/ts-scripts-yarn3": "^5.1.14",
+    "@xylabs/tsconfig": "^5.1.14",
     "ethers": "^6.13.5",
     "typescript": "^5.8.2"
   },

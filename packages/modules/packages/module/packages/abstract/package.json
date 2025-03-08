@@ -29,15 +29,15 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.5.7",
-    "@xylabs/error": "^4.5.7",
-    "@xylabs/exists": "^4.5.7",
-    "@xylabs/forget": "^4.5.7",
-    "@xylabs/hex": "^4.5.7",
-    "@xylabs/logger": "^4.5.7",
-    "@xylabs/object": "^4.5.7",
-    "@xylabs/promise": "^4.5.7",
-    "@xylabs/typeof": "^4.5.7",
+    "@xylabs/assert": "^4.5.10",
+    "@xylabs/error": "^4.5.10",
+    "@xylabs/exists": "^4.5.10",
+    "@xylabs/forget": "^4.5.10",
+    "@xylabs/hex": "^4.5.10",
+    "@xylabs/logger": "^4.5.10",
+    "@xylabs/object": "^4.5.10",
+    "@xylabs/promise": "^4.5.10",
+    "@xylabs/typeof": "^4.5.10",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
@@ -58,11 +58,11 @@
     "lru-cache": "^11.0.2"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.0.39",
-    "@xylabs/tsconfig": "^5.0.39",
-    "@xylabs/vitest-extended": "^4.5.7",
+    "@xylabs/ts-scripts-yarn3": "^5.1.14",
+    "@xylabs/tsconfig": "^5.1.14",
+    "@xylabs/vitest-extended": "^4.5.10",
     "typescript": "^5.8.2",
-    "vitest": "^3.0.7"
+    "vitest": "^3.0.8"
   },
   "publishConfig": {
     "access": "public"

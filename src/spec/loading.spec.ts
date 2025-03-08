@@ -1,6 +1,5 @@
 import '@xylabs/vitest-extended'
 
-// eslint-disable-next-line no-restricted-imports
 import * as Modules from '@xyo-network/modules'
 import * as SdkUtils from '@xyo-network/sdk-utils'
 import { describe, test } from 'vitest'

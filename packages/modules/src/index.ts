@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-imports */
 export * from '@xyo-network/archivist'
 export * from '@xyo-network/bridge'
 export * from '@xyo-network/diviner'

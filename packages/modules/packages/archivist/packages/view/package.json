@@ -37,8 +37,8 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.0.2",
-    "@xylabs/tsconfig": "^6.0.2",
+    "@xylabs/ts-scripts-yarn3": "^6.0.3",
+    "@xylabs/tsconfig": "^6.0.3",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",

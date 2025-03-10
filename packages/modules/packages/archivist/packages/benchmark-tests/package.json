@@ -50,8 +50,8 @@
     "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.0.2",
-    "@xylabs/tsconfig": "^6.0.2",
+    "@xylabs/ts-scripts-yarn3": "^6.0.3",
+    "@xylabs/tsconfig": "^6.0.3",
     "typescript": "^5.8.2",
     "vitest": "^3.0.8"
   },

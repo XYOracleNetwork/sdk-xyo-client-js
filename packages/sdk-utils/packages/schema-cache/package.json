@@ -41,8 +41,8 @@
   },
   "devDependencies": {
     "@xylabs/assert": "^4.5.10",
-    "@xylabs/ts-scripts-yarn3": "^6.0.2",
-    "@xylabs/tsconfig-dom": "^6.0.2",
+    "@xylabs/ts-scripts-yarn3": "^6.0.3",
+    "@xylabs/tsconfig-dom": "^6.0.3",
     "@xylabs/vitest-extended": "^4.5.10",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",

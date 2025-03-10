@@ -41,8 +41,8 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^4.5.10",
-    "@xylabs/ts-scripts-yarn3": "^6.0.2",
-    "@xylabs/tsconfig": "^6.0.2",
+    "@xylabs/ts-scripts-yarn3": "^6.0.3",
+    "@xylabs/tsconfig": "^6.0.3",
     "@xylabs/vitest-extended": "^4.5.10",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",

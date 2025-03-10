@@ -37,8 +37,8 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.0.0",
-    "@xylabs/tsconfig": "^6.0.0",
+    "@xylabs/ts-scripts-yarn3": "^6.0.2",
+    "@xylabs/tsconfig": "^6.0.2",
     "@xylabs/vitest-extended": "^4.5.10",
     "@xyo-network/diviner-identity": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",

@@ -36,8 +36,8 @@
     "@xyo-network/witness-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.0.0",
-    "@xylabs/tsconfig": "^6.0.0",
+    "@xylabs/ts-scripts-yarn3": "^6.0.2",
+    "@xylabs/tsconfig": "^6.0.2",
     "typescript": "^5.8.2"
   },
   "publishConfig": {

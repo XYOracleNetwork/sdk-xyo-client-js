@@ -22,20 +22,20 @@
   "exports": {
     ".": {
       "browser": {
-        "types": "./dist/browser/index-browser.d.ts",
+        "types": "./dist/types/index-browser.d.ts",
         "default": "./dist/browser/index-browser.mjs"
       },
       "node": {
-        "types": "./dist/node/index.d.ts",
+        "types": "./dist/types/index.d.ts",
         "default": "./dist/node/index.mjs"
       },
-      "types": "./dist/neutral/index-browser.d.ts",
+      "types": "./dist/types/index-browser.d.ts",
       "default": "./dist/neutral/index-browser.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index-browser.mjs",
-  "types": "dist/neutral/index-browser.d.ts",
+  "types": "dist/types/index-browser.d.ts",
   "dependencies": {
     "@xylabs/assert": "^4.5.10",
     "@xylabs/axios": "^4.5.10",
@@ -62,10 +62,10 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^22.13.9",
+    "@types/node": "^22.13.10",
     "@xylabs/sdk-api-express-ecs": "^2.1.0",
-    "@xylabs/ts-scripts-yarn3": "^5.1.14",
-    "@xylabs/tsconfig": "^5.1.14",
+    "@xylabs/ts-scripts-yarn3": "^6.0.0",
+    "@xylabs/tsconfig": "^6.0.0",
     "@xylabs/vitest-extended": "^4.5.10",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",

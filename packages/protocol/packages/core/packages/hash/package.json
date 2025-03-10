@@ -22,14 +22,14 @@
   "exports": {
     ".": {
       "browser": {
-        "types": "./dist/browser/index-browser.d.ts",
+        "types": "./dist/types/index-browser.d.ts",
         "default": "./dist/browser/index-browser.mjs"
       },
       "node": {
-        "types": "./dist/node/index.d.ts",
+        "types": "./dist/types/index.d.ts",
         "default": "./dist/node/index.mjs"
       },
-      "types": "./dist/neutral/index.d.ts",
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/neutral/index.mjs"
     },
     "./worker/subtleHash-bundle.mjs": {
@@ -41,7 +41,7 @@
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
-  "types": "dist/neutral/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "bundle": "yarn subtleHashBundle && yarn wasmHashBundle",
     "package-build": "echo build && package-build-only && yarn bundle && yarn publint",
@@ -61,10 +61,10 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^4.5.10",
-    "@xylabs/tsconfig": "^5.1.14",
+    "@xylabs/tsconfig": "^6.0.0",
     "@xylabs/vitest-extended": "^4.5.10",
-    "esbuild": "^0.25.0",
-    "publint": "^0.3.8",
+    "esbuild": "^0.25.1",
+    "publint": "^0.3.9",
     "typescript": "^5.8.2",
     "vitest": "^3.0.8"
   },

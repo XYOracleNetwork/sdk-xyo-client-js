@@ -21,13 +21,13 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/neutral/index.d.ts",
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/neutral/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
-  "types": "dist/neutral/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "dependencies": {
     "@xylabs/assert": "^4.5.10",
     "@xylabs/exists": "^4.5.10",
@@ -41,8 +41,8 @@
     "@xyo-network/payload-utils": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.1.14",
-    "@xylabs/tsconfig": "^5.1.14",
+    "@xylabs/ts-scripts-yarn3": "^6.0.0",
+    "@xylabs/tsconfig": "^6.0.0",
     "@xylabs/vitest-extended": "^4.5.10",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",

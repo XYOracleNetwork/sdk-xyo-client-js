@@ -1,3 +1,4 @@
+/* eslint-disable import-x/no-internal-modules */
 import '@xylabs/vitest-extended'
 
 import type { ValidateFunction } from 'ajv'

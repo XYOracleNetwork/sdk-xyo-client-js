@@ -21,13 +21,13 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/neutral/index.d.ts",
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/neutral/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
-  "types": "dist/neutral/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "dependencies": {
     "@xyo-network/diviner-transform-abstract": "workspace:^",
     "@xyo-network/diviner-transform-model": "workspace:^",
@@ -37,8 +37,8 @@
   },
   "devDependencies": {
     "@types/jsonpath": "^0.2.4",
-    "@xylabs/ts-scripts-yarn3": "^5.1.14",
-    "@xylabs/tsconfig": "^5.1.14",
+    "@xylabs/ts-scripts-yarn3": "^6.0.0",
+    "@xylabs/tsconfig": "^6.0.0",
     "@xylabs/vitest-extended": "^4.5.10",
     "@xyo-network/account": "workspace:^",
     "typescript": "^5.8.2",

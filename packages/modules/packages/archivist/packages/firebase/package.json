@@ -21,13 +21,13 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/browser/index.d.ts",
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/browser/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/browser/index.mjs",
-  "types": "dist/browser/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "dependencies": {
     "@firebase/app": "^0.11.2",
     "@firebase/firestore": "^4.7.9",
@@ -41,8 +41,8 @@
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^4.0.1",
-    "@xylabs/ts-scripts-yarn3": "^5.1.14",
-    "@xylabs/tsconfig": "^5.1.14",
+    "@xylabs/ts-scripts-yarn3": "^6.0.0",
+    "@xylabs/tsconfig": "^6.0.0",
     "firebase": "^11.4.0",
     "typescript": "^5.8.2",
     "vitest": "^3.0.8"

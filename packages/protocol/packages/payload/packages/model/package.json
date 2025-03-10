@@ -29,13 +29,13 @@
         "types": "./types.node.d.ts",
         "default": "./dist/node/index.mjs"
       },
-      "types": "./dist/neutral/index.d.ts",
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/neutral/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
-  "types": "dist/neutral/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "dependencies": {
     "@xylabs/arraybuffer": "^4.5.10",
     "@xylabs/assert": "^4.5.10",
@@ -43,8 +43,8 @@
     "@xylabs/object": "^4.5.10"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^5.1.14",
-    "@xylabs/tsconfig": "^5.1.14",
+    "@xylabs/ts-scripts-yarn3": "^6.0.0",
+    "@xylabs/tsconfig": "^6.0.0",
     "@xylabs/vitest-extended": "^4.5.10",
     "typescript": "^5.8.2",
     "vitest": "^3.0.8"

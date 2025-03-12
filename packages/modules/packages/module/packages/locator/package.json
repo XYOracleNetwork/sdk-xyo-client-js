@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.5.10",
+    "@xylabs/assert": "^4.6.0",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-view": "workspace:^",
     "@xyo-network/bridge-http": "workspace:^",
@@ -45,8 +45,8 @@
     "@xyo-network/witness-adhoc": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.0.3",
-    "@xylabs/tsconfig": "^6.0.3",
+    "@xylabs/ts-scripts-yarn3": "^6.0.5",
+    "@xylabs/tsconfig": "^6.0.5",
     "typescript": "^5.8.2"
   },
   "publishConfig": {

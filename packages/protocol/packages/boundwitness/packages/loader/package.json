@@ -41,8 +41,8 @@
   },
   "devDependencies": {
     "@xylabs/object": "^4.6.0",
-    "@xylabs/ts-scripts-yarn3": "^6.0.5",
-    "@xylabs/tsconfig": "^6.0.5",
+    "@xylabs/ts-scripts-yarn3": "^6.0.7",
+    "@xylabs/tsconfig": "^6.0.7",
     "typescript": "^5.8.2",
     "vitest": "^3.0.8"
   },

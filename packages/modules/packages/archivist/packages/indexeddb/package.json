@@ -44,8 +44,8 @@
   "devDependencies": {
     "@xylabs/delay": "^4.6.0",
     "@xylabs/object": "^4.6.0",
-    "@xylabs/ts-scripts-yarn3": "^6.0.5",
-    "@xylabs/tsconfig": "^6.0.5",
+    "@xylabs/ts-scripts-yarn3": "^6.0.7",
+    "@xylabs/tsconfig": "^6.0.7",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-acceptance-tests": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",

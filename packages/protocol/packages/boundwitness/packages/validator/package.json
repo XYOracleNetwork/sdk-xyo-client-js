@@ -40,8 +40,8 @@
     "@xyo-network/payload-validator": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.0.5",
-    "@xylabs/tsconfig": "^6.0.5",
+    "@xylabs/ts-scripts-yarn3": "^6.0.7",
+    "@xylabs/tsconfig": "^6.0.7",
     "@xylabs/vitest-extended": "^4.6.0",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/schema-name-validator": "workspace:^",

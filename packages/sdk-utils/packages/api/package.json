@@ -34,14 +34,14 @@
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/huri": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "axios": "^1.8.2"
+    "axios": "^1.8.3"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",
     "@types/uuid": "^10.0.0",
     "@xylabs/object": "^4.6.0",
-    "@xylabs/ts-scripts-yarn3": "^6.0.5",
-    "@xylabs/tsconfig": "^6.0.5",
+    "@xylabs/ts-scripts-yarn3": "^6.0.7",
+    "@xylabs/tsconfig": "^6.0.7",
     "@xylabs/vitest-extended": "^4.6.0",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",

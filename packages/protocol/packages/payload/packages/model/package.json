@@ -22,11 +22,11 @@
   "exports": {
     ".": {
       "browser": {
-        "types": "./types/index.d.ts",
+        "types": "./dist/types/index.d.ts",
         "default": "./dist/browser/index.mjs"
       },
       "node": {
-        "types": "./types/index.d.ts",
+        "types": "./dist/types/index.d.ts",
         "default": "./dist/node/index.mjs"
       },
       "types": "./dist/types/index.d.ts",

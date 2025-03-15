@@ -63,10 +63,10 @@
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.10",
-    "@xylabs/eslint-config-flat": "^6.1.0",
+    "@xylabs/eslint-config-flat": "^6.1.1",
     "@xylabs/sdk-api-express-ecs": "^2.1.0",
-    "@xylabs/ts-scripts-yarn3": "^6.1.0",
-    "@xylabs/tsconfig": "^6.1.0",
+    "@xylabs/ts-scripts-yarn3": "^6.1.1",
+    "@xylabs/tsconfig": "^6.1.1",
     "@xylabs/vitest-extended": "^4.6.0",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",

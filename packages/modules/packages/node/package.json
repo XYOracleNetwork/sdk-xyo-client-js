@@ -37,8 +37,8 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^4.6.0",
-    "@xylabs/ts-scripts-yarn3": "^6.1.0",
-    "@xylabs/tsconfig": "^6.1.0",
+    "@xylabs/ts-scripts-yarn3": "^6.1.1",
+    "@xylabs/tsconfig": "^6.1.1",
     "@xylabs/vitest-extended": "^4.6.0",
     "@xylabs/vitest-matchers": "^4.6.0",
     "@xyo-network/account": "workspace:^",

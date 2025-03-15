@@ -61,8 +61,8 @@
     "lru-cache": "^11.0.2"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.1.0",
-    "@xylabs/tsconfig": "^6.1.0",
+    "@xylabs/ts-scripts-yarn3": "^6.1.1",
+    "@xylabs/tsconfig": "^6.1.1",
     "typescript": "^5.8.2"
   },
   "publishConfig": {

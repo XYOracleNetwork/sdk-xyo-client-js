@@ -47,8 +47,8 @@
     "ethers": "6.13.5"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.1.0",
-    "@xylabs/tsconfig": "^6.1.0",
+    "@xylabs/ts-scripts-yarn3": "^6.1.1",
+    "@xylabs/tsconfig": "^6.1.1",
     "@xylabs/vitest-extended": "^4.6.0",
     "@xylabs/vitest-matchers": "^4.6.0",
     "typescript": "^5.8.2",

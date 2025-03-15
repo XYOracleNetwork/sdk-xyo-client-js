@@ -21,14 +21,6 @@
   "type": "module",
   "exports": {
     ".": {
-      "browser": {
-        "types": "./dist/types/index.d.ts",
-        "default": "./dist/browser/index.mjs"
-      },
-      "node": {
-        "types": "./dist/types/index.d.ts",
-        "default": "./dist/node/index.mjs"
-      },
       "types": "./dist/types/index.d.ts",
       "default": "./dist/neutral/index.mjs"
     },
@@ -58,8 +50,8 @@
     "lru-cache": "^11.0.2"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.0.7",
-    "@xylabs/tsconfig": "^6.0.7",
+    "@xylabs/ts-scripts-yarn3": "^6.1.0",
+    "@xylabs/tsconfig": "^6.1.0",
     "typescript": "^5.8.2"
   },
   "publishConfig": {

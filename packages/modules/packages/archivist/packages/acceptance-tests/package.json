@@ -32,8 +32,6 @@
     "@xylabs/array": "^4.6.0",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
-    "@xyo-network/module-abstract": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "uuid": "^11.1.0"

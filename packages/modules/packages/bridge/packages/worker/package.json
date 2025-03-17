@@ -30,12 +30,12 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@scure/bip39": "^1.5.4",
-    "@xylabs/assert": "^4.6.0",
-    "@xylabs/forget": "^4.6.0",
-    "@xylabs/hex": "^4.6.0",
-    "@xylabs/logger": "^4.6.0",
-    "@xylabs/object": "^4.6.0",
-    "@xylabs/promise": "^4.6.0",
+    "@xylabs/assert": "^4.6.4",
+    "@xylabs/forget": "^4.6.4",
+    "@xylabs/hex": "^4.6.4",
+    "@xylabs/logger": "^4.6.4",
+    "@xylabs/object": "^4.6.4",
+    "@xylabs/promise": "^4.6.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -50,8 +50,8 @@
     "lru-cache": "^11.0.2"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.1.1",
-    "@xylabs/tsconfig": "^6.1.1",
+    "@xylabs/ts-scripts-yarn3": "^6.1.4",
+    "@xylabs/tsconfig": "^6.1.4",
     "typescript": "^5.8.2"
   },
   "publishConfig": {

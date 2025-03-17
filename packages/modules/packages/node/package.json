@@ -36,11 +36,11 @@
     "@xyo-network/node-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.6.0",
-    "@xylabs/ts-scripts-yarn3": "^6.1.1",
-    "@xylabs/tsconfig": "^6.1.1",
-    "@xylabs/vitest-extended": "^4.6.0",
-    "@xylabs/vitest-matchers": "^4.6.0",
+    "@xylabs/delay": "^4.6.4",
+    "@xylabs/ts-scripts-yarn3": "^6.1.4",
+    "@xylabs/tsconfig": "^6.1.4",
+    "@xylabs/vitest-extended": "^4.6.4",
+    "@xylabs/vitest-matchers": "^4.6.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
@@ -53,7 +53,7 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/witness-adhoc": "workspace:^",
     "typescript": "^5.8.2",
-    "vitest": "^3.0.8"
+    "vitest": "^3.0.9"
   },
   "publishConfig": {
     "access": "public"

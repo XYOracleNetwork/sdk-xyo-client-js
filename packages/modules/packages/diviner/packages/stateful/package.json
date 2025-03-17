@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.6.0",
-    "@xylabs/hex": "^4.6.0",
-    "@xylabs/object": "^4.6.0",
+    "@xylabs/assert": "^4.6.4",
+    "@xylabs/hex": "^4.6.4",
+    "@xylabs/object": "^4.6.4",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
@@ -45,9 +45,9 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.1.1",
-    "@xylabs/tsconfig": "^6.1.1",
-    "@xylabs/vitest-extended": "^4.6.0",
+    "@xylabs/ts-scripts-yarn3": "^6.1.4",
+    "@xylabs/tsconfig": "^6.1.4",
+    "@xylabs/vitest-extended": "^4.6.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/diviner-boundwitness-memory": "workspace:^",
@@ -56,7 +56,7 @@
     "@xyo-network/module-factory-locator": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "typescript": "^5.8.2",
-    "vitest": "^3.0.8"
+    "vitest": "^3.0.9"
   },
   "publishConfig": {
     "access": "public"

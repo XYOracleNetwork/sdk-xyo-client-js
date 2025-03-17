@@ -29,10 +29,10 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.6.0",
-    "@xylabs/exists": "^4.6.0",
-    "@xylabs/hex": "^4.6.0",
-    "@xylabs/promise": "^4.6.0",
+    "@xylabs/assert": "^4.6.4",
+    "@xylabs/exists": "^4.6.4",
+    "@xylabs/hex": "^4.6.4",
+    "@xylabs/promise": "^4.6.4",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -44,18 +44,18 @@
     "level": "^9.0.0"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.6.0",
-    "@xylabs/object": "^4.6.0",
-    "@xylabs/ts-scripts-yarn3": "^6.1.1",
-    "@xylabs/tsconfig": "^6.1.1",
-    "@xylabs/vitest-extended": "^4.6.0",
+    "@xylabs/delay": "^4.6.4",
+    "@xylabs/object": "^4.6.4",
+    "@xylabs/ts-scripts-yarn3": "^6.1.4",
+    "@xylabs/tsconfig": "^6.1.4",
+    "@xylabs/vitest-extended": "^4.6.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-acceptance-tests": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
     "typescript": "^5.8.2",
     "uuid": "^11.1.0",
-    "vitest": "^3.0.8"
+    "vitest": "^3.0.9"
   },
   "publishConfig": {
     "access": "public"

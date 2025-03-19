@@ -30,7 +30,7 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@metamask/providers": "^20.0.0",
-    "@xylabs/forget": "^4.7.1",
+    "@xylabs/forget": "^4.8.0-rc.2",
     "ethers": "6.13.5"
   },
   "devDependencies": {

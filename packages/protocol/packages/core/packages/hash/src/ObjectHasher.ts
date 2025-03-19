@@ -6,7 +6,7 @@ import { asHash, hexFromArrayBuffer } from '@xylabs/hex'
 import type { EmptyObject } from '@xylabs/object'
 import { ObjectWrapper, omitBy } from '@xylabs/object'
 import { subtle } from '@xylabs/platform'
-import type { ModuleThread, Worker } from '@xylabs/threads'
+import { ModuleThread, Worker } from '@xylabs/threads/master'
 import { Pool, spawn } from '@xylabs/threads'
 import { WasmSupport } from '@xyo-network/wasm'
 import { sha256 } from 'hash-wasm'
@@ -82,7 +82,7 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
     }
   }
 
-  static createWorker(url?: URL, func?: () => unknown) {
+  static createWorker(url?: URL, func?: () => unknown): Worker {
     if (url) console.debug(`createWorker: ${url}`)
     return assertEx(this.createBrowserWorker?.(url) ?? this.createNodeWorker?.(func), () => 'Unable to create worker')
   }

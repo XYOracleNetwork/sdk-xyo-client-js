@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/arraybuffer": "^4.7.1",
-    "@xylabs/hex": "^4.7.1",
+    "@xylabs/arraybuffer": "^4.8.0-rc.2",
+    "@xylabs/hex": "^4.8.0-rc.2",
     "@xyo-network/key-model": "workspace:^",
     "@xyo-network/previous-hash-store-model": "workspace:^"
   },

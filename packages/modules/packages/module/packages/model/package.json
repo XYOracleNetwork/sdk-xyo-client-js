@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/module-model",
-  "version": "3.9.38",
+  "version": "3.10.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,14 +29,14 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.7.1",
-    "@xylabs/exists": "^4.7.1",
-    "@xylabs/hex": "^4.7.1",
-    "@xylabs/logger": "^4.7.1",
-    "@xylabs/object": "^4.7.1",
-    "@xylabs/promise": "^4.7.1",
-    "@xylabs/retry": "^4.7.1",
-    "@xylabs/typeof": "^4.7.1",
+    "@xylabs/assert": "^4.7.2",
+    "@xylabs/exists": "^4.7.2",
+    "@xylabs/hex": "^4.7.2",
+    "@xylabs/logger": "^4.7.2",
+    "@xylabs/object": "^4.7.2",
+    "@xylabs/promise": "^4.7.2",
+    "@xylabs/retry": "^4.7.2",
+    "@xylabs/typeof": "^4.7.2",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/manifest-model": "workspace:^",
@@ -46,7 +46,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.1.4",
     "@xylabs/tsconfig": "^6.1.4",
-    "@xylabs/vitest-extended": "^4.7.1",
+    "@xylabs/vitest-extended": "^4.7.2",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9"
   },

@@ -1,6 +1,6 @@
 import { Worker } from '@xylabs/threads'
 
-export const createNodeWorker = (func?: () => unknown) => {
+export const createNodeWorker = (func?: () => unknown): Worker => {
   try {
     const code = func?.toString().slice(6) ?? ''
     return new Worker(
@@ -9,6 +9,6 @@ export const createNodeWorker = (func?: () => unknown) => {
       { fromSource: true } as any,
     )
   } catch {
-    return
+    throw new Error('Unable to create worker')
   }
 }

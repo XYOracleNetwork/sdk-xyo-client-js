@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/payload-utils",
-  "version": "3.9.38",
+  "version": "3.10.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/exists": "^4.7.1",
-    "@xylabs/hex": "^4.7.1",
-    "@xylabs/set": "^4.7.1",
+    "@xylabs/exists": "^4.7.2",
+    "@xylabs/hex": "^4.7.2",
+    "@xylabs/set": "^4.7.2",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/hash": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
@@ -40,7 +40,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.1.4",
     "@xylabs/tsconfig": "^6.1.4",
-    "@xylabs/vitest-extended": "^4.7.1",
+    "@xylabs/vitest-extended": "^4.7.2",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9"

@@ -1,5 +1,5 @@
 import { subtle } from '@xylabs/platform'
-import { expose } from '@xylabs/threads'
+import { expose } from '@xylabs/threads/worker'
 
 expose({
   async hash(data: ArrayBuffer) {

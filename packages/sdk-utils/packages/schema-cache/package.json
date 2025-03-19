@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/schema-cache",
-  "version": "3.9.38",
+  "version": "3.10.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/delay": "^4.7.1",
-    "@xylabs/error": "^4.7.1",
+    "@xylabs/delay": "^4.7.2",
+    "@xylabs/error": "^4.7.2",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/huri": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
@@ -40,10 +40,10 @@
     "lru-cache": "^11.0.2"
   },
   "devDependencies": {
-    "@xylabs/assert": "^4.7.1",
+    "@xylabs/assert": "^4.7.2",
     "@xylabs/ts-scripts-yarn3": "^6.1.4",
     "@xylabs/tsconfig-dom": "^6.1.4",
-    "@xylabs/vitest-extended": "^4.7.1",
+    "@xylabs/vitest-extended": "^4.7.2",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "typescript": "^5.8.2",

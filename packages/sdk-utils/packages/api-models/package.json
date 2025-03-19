@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/api-models",
-  "version": "3.9.38",
+  "version": "3.10.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

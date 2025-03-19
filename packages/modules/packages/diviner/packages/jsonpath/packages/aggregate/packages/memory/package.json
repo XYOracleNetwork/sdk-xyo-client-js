@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-jsonpath-aggregate-memory",
-  "version": "3.10.0-rc.1",
+  "version": "3.10.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.8.0-rc.2",
-    "@xylabs/exists": "^4.8.0-rc.2",
+    "@xylabs/assert": "^4.7.2",
+    "@xylabs/exists": "^4.7.2",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:^",
@@ -43,7 +43,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.1.4",
     "@xylabs/tsconfig": "^6.1.4",
-    "@xylabs/vitest-extended": "^4.8.0-rc.2",
+    "@xylabs/vitest-extended": "^4.7.2",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
@@ -53,6 +53,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "stableVersion": "3.9.38"
+  }
 }

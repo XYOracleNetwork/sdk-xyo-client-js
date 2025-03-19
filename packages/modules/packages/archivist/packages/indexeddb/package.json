@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-indexeddb",
-  "version": "3.10.0-rc.1",
+  "version": "3.10.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,11 +29,11 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.8.0-rc.2",
-    "@xylabs/assert": "^4.8.0-rc.2",
-    "@xylabs/exists": "^4.8.0-rc.2",
-    "@xylabs/hex": "^4.8.0-rc.2",
-    "@xylabs/indexed-db": "^4.8.0-rc.2",
+    "@xylabs/array": "^4.7.2",
+    "@xylabs/assert": "^4.7.2",
+    "@xylabs/exists": "^4.7.2",
+    "@xylabs/hex": "^4.7.2",
+    "@xylabs/indexed-db": "^4.7.2",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -42,8 +42,8 @@
     "idb": "^8.0.2"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.8.0-rc.2",
-    "@xylabs/object": "^4.8.0-rc.2",
+    "@xylabs/delay": "^4.7.2",
+    "@xylabs/object": "^4.7.2",
     "@xylabs/ts-scripts-yarn3": "^6.1.4",
     "@xylabs/tsconfig": "^6.1.4",
     "@xyo-network/account": "workspace:^",
@@ -57,6 +57,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "stableVersion": "3.9.38"
+  }
 }

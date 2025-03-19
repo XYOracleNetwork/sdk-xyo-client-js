@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/witness-evm-abstract",
-  "version": "3.10.0-rc.1",
+  "version": "3.10.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.8.0-rc.2",
-    "@xylabs/object": "^4.8.0-rc.2",
-    "@xylabs/promise": "^4.8.0-rc.2",
+    "@xylabs/assert": "^4.7.2",
+    "@xylabs/object": "^4.7.2",
+    "@xylabs/promise": "^4.7.2",
     "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
@@ -46,6 +46,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "stableVersion": "3.9.38"
+  }
 }

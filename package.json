@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-js",
-  "version": "3.10.0-rc.1",
+  "version": "3.10.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -69,10 +69,10 @@
     "@typescript-eslint/parser": "^8.26.1",
     "@vitest/coverage-v8": "^3.0.9",
     "@xylabs/eslint-config-flat": "^6.1.4",
-    "@xylabs/forget": "^4.8.0-rc.2",
+    "@xylabs/forget": "^4.7.2",
     "@xylabs/ts-scripts-yarn3": "^6.1.4",
     "@xylabs/tsconfig": "^6.1.4",
-    "@xylabs/vitest-extended": "^4.8.0-rc.2",
+    "@xylabs/vitest-extended": "^4.7.2",
     "dotenv": "^16.4.7",
     "eslint": "^9.22.0",
     "eslint-import-resolver-typescript": "^4.2.2",
@@ -94,6 +94,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "resolutions_comment": "We set the above resolutions to make sure we pull in the latest versions of these packages even if some sub packages request earlier versions",
-  "stableVersion": "3.9.38"
+  "resolutions_comment": "We set the above resolutions to make sure we pull in the latest versions of these packages even if some sub packages request earlier versions"
 }

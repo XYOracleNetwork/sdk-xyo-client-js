@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-cookie",
-  "version": "3.10.1",
+  "version": "3.10.2",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,10 +29,10 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.7.2",
-    "@xylabs/exists": "^4.7.2",
-    "@xylabs/hex": "^4.7.2",
-    "@xylabs/promise": "^4.7.2",
+    "@xylabs/assert": "^4.7.7",
+    "@xylabs/exists": "^4.7.7",
+    "@xylabs/hex": "^4.7.7",
+    "@xylabs/promise": "^4.7.7",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
-    "@xylabs/delay": "^4.7.2",
+    "@xylabs/delay": "^4.7.7",
     "@xylabs/ts-scripts-yarn3": "^6.1.4",
     "@xylabs/tsconfig": "^6.1.4",
     "@xyo-network/id-payload-plugin": "workspace:^",

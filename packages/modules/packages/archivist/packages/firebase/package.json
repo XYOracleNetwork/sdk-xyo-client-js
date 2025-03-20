@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-firebase",
-  "version": "3.10.1",
+  "version": "3.10.2",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,11 +29,11 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@firebase/app": "^0.11.2",
-    "@firebase/firestore": "^4.7.9",
-    "@xylabs/assert": "^4.7.2",
-    "@xylabs/exists": "^4.7.2",
-    "@xylabs/hex": "^4.7.2",
+    "@firebase/app": "^0.11.3",
+    "@firebase/firestore": "^4.7.10",
+    "@xylabs/assert": "^4.7.7",
+    "@xylabs/exists": "^4.7.7",
+    "@xylabs/hex": "^4.7.7",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -43,7 +43,7 @@
     "@firebase/rules-unit-testing": "^4.0.1",
     "@xylabs/ts-scripts-yarn3": "^6.1.4",
     "@xylabs/tsconfig": "^6.1.4",
-    "firebase": "^11.4.0",
+    "firebase": "^11.5.0",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9"
   },

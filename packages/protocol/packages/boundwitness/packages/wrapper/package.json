@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/boundwitness-wrapper",
-  "version": "3.10.1",
+  "version": "3.10.2",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,11 +29,11 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.7.2",
-    "@xylabs/exists": "^4.7.2",
-    "@xylabs/hex": "^4.7.2",
-    "@xylabs/object": "^4.7.2",
-    "@xylabs/promise": "^4.7.2",
+    "@xylabs/assert": "^4.7.7",
+    "@xylabs/exists": "^4.7.7",
+    "@xylabs/hex": "^4.7.7",
+    "@xylabs/object": "^4.7.7",
+    "@xylabs/promise": "^4.7.7",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-validator": "workspace:^",
     "@xyo-network/payload": "workspace:^",
@@ -45,7 +45,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.1.4",
     "@xylabs/tsconfig": "^6.1.4",
-    "@xylabs/vitest-extended": "^4.7.2",
+    "@xylabs/vitest-extended": "^4.7.7",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9"
   },

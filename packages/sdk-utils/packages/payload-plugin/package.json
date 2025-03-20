@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/payload-plugin",
-  "version": "3.10.1",
+  "version": "3.10.2",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.7.2",
-    "@xylabs/object": "^4.7.2",
+    "@xylabs/assert": "^4.7.7",
+    "@xylabs/object": "^4.7.7",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-validator": "workspace:^",

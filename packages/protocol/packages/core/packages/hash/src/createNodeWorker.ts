@@ -1,4 +1,4 @@
-import { Worker } from '@xylabs/threads'
+import { Worker } from '@xylabs/threads/master'
 
 export const createNodeWorker = (func?: () => unknown): Worker => {
   try {

@@ -7,7 +7,7 @@ import type { EmptyObject } from '@xylabs/object'
 import { ObjectWrapper, omitBy } from '@xylabs/object'
 import { subtle } from '@xylabs/platform'
 import { ModuleThread, Worker } from '@xylabs/threads/master'
-import { Pool, spawn } from '@xylabs/threads'
+import { Pool, spawn } from '@xylabs/threads/master'
 import { WasmSupport } from '@xyo-network/wasm'
 import { sha256 } from 'hash-wasm'
 

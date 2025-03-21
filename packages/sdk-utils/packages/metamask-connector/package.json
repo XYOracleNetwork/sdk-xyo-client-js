@@ -29,8 +29,8 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@metamask/providers": "^20.0.0",
-    "@xylabs/forget": "^4.7.7",
+    "@metamask/providers": "^21.0.0",
+    "@xylabs/forget": "^4.7.11",
     "ethers": "6.13.5"
   },
   "devDependencies": {

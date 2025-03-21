@@ -29,15 +29,15 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/object": "^4.7.7",
-    "@xylabs/promise": "^4.7.7",
+    "@xylabs/object": "^4.7.11",
+    "@xylabs/promise": "^4.7.11",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/schema-name-validator": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.1.4",
     "@xylabs/tsconfig": "^6.1.4",
-    "@xylabs/vitest-extended": "^4.7.7",
+    "@xylabs/vitest-extended": "^4.7.11",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9"
   },

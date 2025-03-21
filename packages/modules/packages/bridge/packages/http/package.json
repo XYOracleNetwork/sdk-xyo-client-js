@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/bridge-http",
-  "version": "3.10.3",
+  "version": "3.10.4",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -22,20 +22,31 @@
   "exports": {
     ".": {
       "browser": {
-        "types": "./dist/types/index-browser.d.ts",
-        "default": "./dist/browser/index-browser.mjs"
+        "types": "./dist/types/index-client.d.ts",
+        "default": "./dist/browser/index-client.mjs"
       },
       "node": {
         "types": "./dist/types/index.d.ts",
         "default": "./dist/node/index.mjs"
       },
-      "types": "./dist/types/index-browser.d.ts",
-      "default": "./dist/neutral/index-browser.mjs"
+      "types": "./dist/types/index-client.d.ts",
+      "default": "./dist/neutral/index-client.mjs"
+    },
+    "./client": {
+      "types": "./dist/types/index-client.d.ts",
+      "default": "./dist/neutral/index-client.mjs"
     },
     "./package.json": "./package.json"
   },
-  "module": "dist/neutral/index-browser.mjs",
-  "types": "dist/types/index-browser.d.ts",
+  "module": "dist/neutral/index-client.mjs",
+  "types": "dist/types/index-client.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
   "dependencies": {
     "@xylabs/assert": "^4.7.11",
     "@xylabs/axios": "^4.7.11",

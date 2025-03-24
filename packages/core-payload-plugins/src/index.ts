@@ -11,10 +11,11 @@ import { ConfigPayloadPlugin } from '@xyo-network/config-payload-plugin'
 import { DomainPayloadPlugin } from '@xyo-network/domain-payload-plugin'
 import { IdPayloadPlugin } from '@xyo-network/id-payload-plugin'
 import type { PayloadPluginFunc } from '@xyo-network/payload-plugin'
+import type { AnyPayload } from '@xyo-network/protocol'
 import { QueryPayloadPlugin } from '@xyo-network/query-payload-plugin'
 import { SchemaPayloadPlugin } from '@xyo-network/schema-payload-plugin'
 
-export const PayloadPlugins: PayloadPluginFunc[] = [
+export const PayloadPlugins: PayloadPluginFunc<AnyPayload>[] = [
   AddressPayloadPlugin,
   SchemaPayloadPlugin,
   DomainPayloadPlugin,

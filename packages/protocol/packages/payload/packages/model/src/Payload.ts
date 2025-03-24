@@ -67,4 +67,4 @@ export type WithOptionalSchema<T extends EmptyObject = EmptyObject> = WithoutSch
 
 export type WithOnlyClientMeta<T extends EmptyObject> = DeepPickStartsWith<T, '$'>
 
-export type AnyPayload = Payload<JsonObject, Schema>
+export type AnyPayload = Payload<object, Schema>

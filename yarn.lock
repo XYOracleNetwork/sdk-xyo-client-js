@@ -7162,6 +7162,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-validator": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
+    ajv: "npm:^8.17.1"
     typescript: "npm:^5.8.2"
   languageName: unknown
   linkType: soft
@@ -7400,6 +7401,7 @@ __metadata:
     "@xylabs/vitest-extended": "npm:^4.7.11"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
+    ajv: "npm:^8.17.1"
     typescript: "npm:^5.8.2"
     vitest: "npm:^3.0.9"
   languageName: unknown

@@ -9,6 +9,7 @@ export type SchemaPayload = Payload<{
    */
   definition: {
     [key: string]: unknown
+    $id?: string
   }
   /**
    * The schema this schema extends (if any)
@@ -17,11 +18,12 @@ export type SchemaPayload = Payload<{
 
   /** @deprecated use definition.$id instead */
   name?: string
-}, SchemaSchema> & {
-  definition: {
-    $id?: string
-  }
-}
+
+  /**
+   * The version of the schema major * 1,000,000 + minor * 1,000 + patch
+   */
+  version?: number
+}, SchemaSchema>
 
 /**
  * Identity function for determining if an object is an Schema

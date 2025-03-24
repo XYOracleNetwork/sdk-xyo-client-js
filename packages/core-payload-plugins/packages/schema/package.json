@@ -30,7 +30,8 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^",
+    "ajv": "^8.17.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.1.4",

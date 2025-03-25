@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/core-payload-plugins",
-  "version": "3.10.4",
+  "version": "3.10.5",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -33,6 +33,7 @@
     "@xyo-network/config-payload-plugin": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",

@@ -43,11 +43,11 @@
     "@xyo-network/module-events": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "lru-cache": "^11.0.2"
+    "lru-cache": "^11.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.1.4",
-    "@xylabs/tsconfig": "^6.1.4",
+    "@xylabs/ts-scripts-yarn3": "^6.1.5",
+    "@xylabs/tsconfig": "^6.1.5",
     "typescript": "^5.8.2"
   },
   "publishConfig": {

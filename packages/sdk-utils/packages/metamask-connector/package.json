@@ -31,11 +31,11 @@
   "dependencies": {
     "@metamask/providers": "^21.0.0",
     "@xylabs/forget": "^4.7.11",
-    "ethers": "6.13.5"
+    "ethers": "6.13.6"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.1.4",
-    "@xylabs/tsconfig-dom": "^6.1.4",
+    "@xylabs/ts-scripts-yarn3": "^6.1.5",
+    "@xylabs/tsconfig-dom": "^6.1.5",
     "typescript": "^5.8.2"
   },
   "publishConfig": {

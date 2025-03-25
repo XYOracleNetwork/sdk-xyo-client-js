@@ -34,10 +34,10 @@
     "idb": "^8.0.2"
   },
   "devDependencies": {
-    "@types/node": "^22.13.11",
+    "@types/node": "^22.13.13",
     "@types/uuid": "10.0.0",
-    "@xylabs/ts-scripts-yarn3": "^6.1.4",
-    "@xylabs/tsconfig": "^6.1.4",
+    "@xylabs/ts-scripts-yarn3": "^6.1.5",
+    "@xylabs/tsconfig": "^6.1.5",
     "fake-indexeddb": "^6.0.0",
     "typescript": "^5.8.2",
     "uuid": "^11.1.0",

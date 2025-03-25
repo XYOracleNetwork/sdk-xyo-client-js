@@ -51,12 +51,12 @@
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "async-mutex": "^0.5.0",
-    "lru-cache": "^11.0.2"
+    "lru-cache": "^11.1.0"
   },
   "devDependencies": {
     "@xylabs/logger": "^4.7.11",
-    "@xylabs/ts-scripts-yarn3": "^6.1.4",
-    "@xylabs/tsconfig": "^6.1.4",
+    "@xylabs/ts-scripts-yarn3": "^6.1.5",
+    "@xylabs/tsconfig": "^6.1.5",
     "@xylabs/vitest-extended": "^4.7.11",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/diviner-boundwitness-memory": "workspace:^",

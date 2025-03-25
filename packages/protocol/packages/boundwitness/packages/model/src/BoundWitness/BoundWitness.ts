@@ -41,16 +41,16 @@ export interface BoundWitnessOptionalFields extends Partial<BoundWitnessBlockFie
 
 export interface BoundWitnessFields extends BoundWitnessRequiredFields, Partial<BoundWitnessOptionalFields> {}
 
-export type UnsignedBoundWitness<T extends Payload | EmptyObject | void = void> = Payload<
+export type UnsignedBoundWitness<T extends EmptyObject | void = void> = Payload<
   T extends void ? BoundWitnessFields : BoundWitnessFields & T,
-  T extends void ? BoundWitnessSchema
-    : T extends Payload ? T['schema']
-      : BoundWitnessSchema
+  BoundWitnessSchema
 > & BoundWitnessMeta
 
-export type Signed<T> = T & {
+export type Signed<T extends UnsignedBoundWitness = UnsignedBoundWitness> = T & {
   $signatures: Hex[]
 }
+
+export type SignedBoundWitness = Signed<UnsignedBoundWitness>
 
 export type WithBlock = BoundWitness & BoundWitnessBlockField
 

@@ -36,12 +36,12 @@
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/witness-model": "workspace:^",
-    "ethers": "6.13.5"
+    "ethers": "6.13.6"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.1.4",
-    "@xylabs/tsconfig": "^6.1.4",
-    "ethers": "6.13.5",
+    "@xylabs/ts-scripts-yarn3": "^6.1.5",
+    "@xylabs/tsconfig": "^6.1.5",
+    "ethers": "6.13.6",
     "typescript": "^5.8.2"
   },
   "publishConfig": {

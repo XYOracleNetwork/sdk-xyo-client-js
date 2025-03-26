@@ -1,4 +1,4 @@
 {
-  "exclude": ["dist", "./dist", "./**/dist", "./**/docs", ".*"],
+  "exclude": ["dist", "docs"],
   "extends": "@xylabs/tsconfig"
 }

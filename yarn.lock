@@ -7436,6 +7436,7 @@ __metadata:
     jsdom: "npm:^26.0.0"
     knip: "npm:^5.46.0"
     reflect-metadata: "npm:^0.2.2"
+    rimraf: "npm:^6.0.1"
     supertest: "npm:^7.1.0"
     tslib: "npm:^2.8.1"
     typedoc: "npm:^0.28.1"
@@ -10704,7 +10705,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^11.0.1":
+"glob@npm:^11.0.0, glob@npm:^11.0.1":
   version: 11.0.1
   resolution: "glob@npm:11.0.1"
   dependencies:
@@ -14083,6 +14084,18 @@ __metadata:
   bin:
     rimraf: dist/esm/bin.mjs
   checksum: 10/f3b8ce81eecbde4628b07bdf9e2fa8b684e0caea4999acb1e3b0402c695cd41f28cd075609a808e61ce2672f528ca079f675ab1d8e8d5f86d56643a03e0b8d2e
+  languageName: node
+  linkType: hard
+
+"rimraf@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "rimraf@npm:6.0.1"
+  dependencies:
+    glob: "npm:^11.0.0"
+    package-json-from-dist: "npm:^1.0.0"
+  bin:
+    rimraf: dist/esm/bin.mjs
+  checksum: 10/0eb7edf08aa39017496c99ba675552dda11a20811ba78f8232da2ba945308c91e9cd673f95998b1a8202bc7436d33390831d23ea38ae52751038d56373ad99e2
   languageName: node
   linkType: hard
 

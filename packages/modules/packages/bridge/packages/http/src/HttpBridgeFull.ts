@@ -2,8 +2,6 @@ import { Server } from 'node:http'
 
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Address } from '@xylabs/hex'
-import { toJsonString } from '@xylabs/object'
 import {
   asyncHandler,
   customPoweredByHeader,
@@ -12,7 +10,9 @@ import {
   jsonBodyParser,
   responseProfiler,
   useRequestCounters,
-} from '@xylabs/sdk-api-express-ecs'
+} from '@xylabs/express'
+import { Address } from '@xylabs/hex'
+import { toJsonString } from '@xylabs/object'
 import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import {
   BridgeExposeOptions, BridgeParams, BridgeUnexposeOptions,

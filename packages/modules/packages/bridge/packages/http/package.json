@@ -75,7 +75,7 @@
     "@types/express": "^5.0.1",
     "@types/node": "^22.13.13",
     "@xylabs/eslint-config-flat": "^6.1.5",
-    "@xylabs/sdk-api-express-ecs": "^2.1.0",
+    "@xylabs/express": "^4.7.11",
     "@xylabs/ts-scripts-yarn3": "^6.1.5",
     "@xylabs/tsconfig": "^6.1.5",
     "@xylabs/vitest-extended": "^4.7.11",
@@ -93,10 +93,10 @@
     "vitest": "^3.0.9"
   },
   "peerDependencies": {
-    "@xylabs/sdk-api-express-ecs": "^2.1.0"
+    "@xylabs/express": "^4.7.11"
   },
   "peerDependenciesMeta": {
-    "@xylabs/sdk-api-express-ecs": {
+    "@xylabs/express": {
       "optional": true
     }
   },

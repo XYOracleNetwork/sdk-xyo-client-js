@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/axios": "^4.7.11",
+    "@xylabs/axios": "^4.7.15",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/huri": "workspace:^",
@@ -37,18 +37,18 @@
     "axios": "^1.8.4"
   },
   "devDependencies": {
-    "@types/node": "^22.13.13",
+    "@types/node": "^22.13.14",
     "@types/uuid": "^10.0.0",
-    "@xylabs/object": "^4.7.11",
-    "@xylabs/ts-scripts-yarn3": "^6.1.5",
-    "@xylabs/tsconfig": "^6.1.5",
-    "@xylabs/vitest-extended": "^4.7.11",
+    "@xylabs/object": "^4.7.15",
+    "@xylabs/ts-scripts-yarn3": "^6.1.16",
+    "@xylabs/tsconfig": "^6.1.16",
+    "@xylabs/vitest-extended": "^4.7.15",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
     "typescript": "^5.8.2",
     "uuid": "^11.1.0",
-    "vitest": "^3.0.9"
+    "vitest": "^3.1.1"
   },
   "publishConfig": {
     "access": "public"

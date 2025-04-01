@@ -29,19 +29,19 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.7.11",
+    "@xylabs/hex": "^4.7.15",
     "@xyo-network/previous-hash-store-model": "workspace:^",
     "idb": "^8.0.2"
   },
   "devDependencies": {
-    "@types/node": "^22.13.13",
+    "@types/node": "^22.13.14",
     "@types/uuid": "10.0.0",
-    "@xylabs/ts-scripts-yarn3": "^6.1.5",
-    "@xylabs/tsconfig": "^6.1.5",
+    "@xylabs/ts-scripts-yarn3": "^6.1.16",
+    "@xylabs/tsconfig": "^6.1.16",
     "fake-indexeddb": "^6.0.0",
     "typescript": "^5.8.2",
     "uuid": "^11.1.0",
-    "vitest": "^3.0.9"
+    "vitest": "^3.1.1"
   },
   "publishConfig": {
     "access": "public"

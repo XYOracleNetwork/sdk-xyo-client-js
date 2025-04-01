@@ -8,7 +8,7 @@ import {
 } from '@xylabs/eslint-config-flat'
 
 export default [
-  { ignores: ['eslint.config.mjs'] },
+  { ignores: ['dist', '**/packages/*/dist', '.yarn', 'node_modules', '**/packages/*/node_modules'] },
   unicornConfig,
   workspacesConfig,
   rulesConfig,

@@ -1,4 +1,0 @@
-{
-  "extends": "@xylabs/tsconfig",
-  "include": ["**/*.spec.ts", "**/*.d.ts"]
-}

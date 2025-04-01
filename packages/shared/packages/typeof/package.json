@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "devDependencies": {
-    "@types/node": "^22.13.13",
-    "@xylabs/ts-scripts-yarn3": "^6.1.5",
-    "@xylabs/tsconfig": "^6.1.5",
+    "@types/node": "^22.13.14",
+    "@xylabs/ts-scripts-yarn3": "^6.1.16",
+    "@xylabs/tsconfig": "^6.1.16",
     "typescript": "^5.8.2"
   },
   "publishConfig": {

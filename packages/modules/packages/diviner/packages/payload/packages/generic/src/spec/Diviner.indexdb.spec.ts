@@ -8,20 +8,6 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 import {
-  IDBCursor,
-  IDBCursorWithValue,
-  IDBDatabase,
-  IDBFactory,
-  IDBIndex,
-  IDBKeyRange,
-  IDBObjectStore,
-  IDBOpenDBRequest,
-  IDBRequest,
-  IDBTransaction,
-  IDBVersionChangeEvent,
-  indexedDB,
-} from 'fake-indexeddb'
-import {
   beforeAll, describe, expect, it,
 } from 'vitest'
 
@@ -41,20 +27,6 @@ describe('GenericPayloadDiviner', () => {
   let payloadC: Payload<{ foo: string[]; schema: string }>
   let payloadD: Payload<{ foo: string[]; schema: string }>
   let insertedPayloads: WithStorageMeta<Payload>[]
-
-  // Augment window with prototypes to ensure instance of comparisons work
-  globalThis.IDBCursor = IDBCursor
-  globalThis.IDBCursorWithValue = IDBCursorWithValue
-  globalThis.IDBDatabase = IDBDatabase
-  globalThis.IDBFactory = IDBFactory
-  globalThis.IDBIndex = IDBIndex
-  globalThis.IDBKeyRange = IDBKeyRange
-  globalThis.IDBObjectStore = IDBObjectStore
-  globalThis.IDBOpenDBRequest = IDBOpenDBRequest
-  globalThis.IDBRequest = IDBRequest
-  globalThis.IDBTransaction = IDBTransaction
-  globalThis.IDBVersionChangeEvent = IDBVersionChangeEvent
-  globalThis.indexedDB = indexedDB
 
   beforeAll(async () => {
     payloadA = {

@@ -32,8 +32,8 @@
     "@xyo-network/witness-blockchain-abstract": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.1.5",
-    "@xylabs/tsconfig": "^6.1.5",
+    "@xylabs/ts-scripts-yarn3": "^6.1.16",
+    "@xylabs/tsconfig": "^6.1.16",
     "typescript": "^5.8.2"
   },
   "publishConfig": {

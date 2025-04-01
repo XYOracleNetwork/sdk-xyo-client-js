@@ -6,7 +6,6 @@ import {
   AddressValue, Elliptic, HDWallet,
 } from '@xyo-network/account'
 import { PayloadBuilder } from '@xyo-network/payload'
-import type { AnyPayload } from '@xyo-network/payload-model'
 import {
   describe, expect, it,
 } from 'vitest'
@@ -14,7 +13,7 @@ import {
 import { BoundWitnessBuilder } from '../Builder.ts'
 
 const schema = 'network.xyo.temp'
-const payload1: AnyPayload = {
+const payload1 = {
   number_field: 1,
   object_field: {
     number_value: 2,
@@ -25,7 +24,7 @@ const payload1: AnyPayload = {
   timestamp: 1_618_603_439_107,
 }
 
-const payload2: AnyPayload = {
+const payload2 = {
   number_field: 1,
   object_field: {
     number_value: 2,

@@ -8,6 +8,7 @@ import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import type {
+  AnyPayload,
   Payload, Schema, Sequence,
 } from '@xyo-network/payload-model'
 import type { IDBPCursorWithValue, IDBPDatabase } from 'idb'
@@ -19,8 +20,6 @@ import type { IndexedDbPayloadDivinerParams } from './Params.ts'
 interface PayloadStore {
   [s: string]: Payload
 }
-
-type AnyPayload = Payload<Record<string, unknown>>
 
 type ValueFilter = (payload?: AnyPayload | null) => boolean
 

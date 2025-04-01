@@ -1,13 +1,13 @@
 import type { Validator } from '@xylabs/object'
 import type { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import type { AnyPayload, Payload } from '@xyo-network/payload-model'
 import type { PayloadWrapper } from '@xyo-network/payload-wrapper'
 // eslint-disable-next-line import-x/no-internal-modules
 import type { SomeJSONSchema } from 'ajv/dist/types/json-schema.js'
 
 export type PayloadPluginFunc<TPayload extends Payload = Payload> = () => PayloadPlugin<TPayload>
 
-export type PayloadPlugin<TPayload extends Payload = Payload> = {
+export type PayloadPlugin<TPayload extends Payload = AnyPayload> = {
   build?: () => PayloadBuilder<TPayload>
   jsonSchema?: SomeJSONSchema
   schema: TPayload['schema']

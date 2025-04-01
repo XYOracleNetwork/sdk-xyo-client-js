@@ -29,11 +29,11 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@firebase/app": "^0.11.3",
+    "@firebase/app": "^0.11.4",
     "@firebase/firestore": "^4.7.10",
-    "@xylabs/assert": "^4.7.11",
-    "@xylabs/exists": "^4.7.11",
-    "@xylabs/hex": "^4.7.11",
+    "@xylabs/assert": "^4.7.15",
+    "@xylabs/exists": "^4.7.15",
+    "@xylabs/hex": "^4.7.15",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -41,11 +41,11 @@
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^4.0.1",
-    "@xylabs/ts-scripts-yarn3": "^6.1.5",
-    "@xylabs/tsconfig": "^6.1.5",
-    "firebase": "^11.5.0",
+    "@xylabs/ts-scripts-yarn3": "^6.1.16",
+    "@xylabs/tsconfig": "^6.1.16",
+    "firebase": "^11.6.0",
     "typescript": "^5.8.2",
-    "vitest": "^3.0.9"
+    "vitest": "^3.1.1"
   },
   "publishConfig": {
     "access": "public"

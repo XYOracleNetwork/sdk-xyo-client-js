@@ -2,7 +2,7 @@ import '@xylabs/vitest-extended'
 
 import type { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import type { AnyPayload } from '@xyo-network/payload-model'
 import {
   describe, expect, it,
 } from 'vitest'
@@ -11,7 +11,6 @@ import { jsonPathToTransformersDictionary } from '../jsonPathToTransformersDicti
 import { reducePayloads } from '../reducePayloads.ts'
 
 describe('transformPayloads', () => {
-  type AnyPayload = Payload<{ [key: string]: unknown }>
   type TestData = [
     description: string,
     payloads: AnyPayload[],

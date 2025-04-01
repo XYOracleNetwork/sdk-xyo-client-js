@@ -1,7 +1,6 @@
 import '@xylabs/vitest-extended'
 
 import { Account } from '@xyo-network/account'
-import type { AnyPayload } from '@xyo-network/payload'
 import { PayloadBuilder } from '@xyo-network/payload'
 import {
   describe, expect, it,
@@ -15,7 +14,7 @@ const payloadsPromise = (async () =>
   await Promise.all(
     Array(5000)
       .fill(Math.random())
-      .map(value => new PayloadBuilder<AnyPayload>({ schema }).fields({ value }).build()),
+      .map(value => new PayloadBuilder({ schema }).fields({ value }).build()),
   ))()
 
 describe('BoundWitnessBuilder-Perf', () => {

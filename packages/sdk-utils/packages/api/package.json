@@ -37,11 +37,11 @@
     "axios": "^1.8.4"
   },
   "devDependencies": {
-    "@types/node": "^22.13.14",
+    "@types/node": "^22.14.0",
     "@types/uuid": "^10.0.0",
     "@xylabs/object": "^4.7.15",
-    "@xylabs/ts-scripts-yarn3": "^6.1.16",
-    "@xylabs/tsconfig": "^6.1.16",
+    "@xylabs/ts-scripts-yarn3": "^6.2.1",
+    "@xylabs/tsconfig": "^6.2.1",
     "@xylabs/vitest-extended": "^4.7.15",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",

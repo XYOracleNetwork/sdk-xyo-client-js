@@ -34,8 +34,8 @@
     "@xyo-network/diviner-payload-stats-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.1.16",
-    "@xylabs/tsconfig": "^6.1.16",
+    "@xylabs/ts-scripts-yarn3": "^6.2.1",
+    "@xylabs/tsconfig": "^6.2.1",
     "typescript": "^5.8.2"
   },
   "publishConfig": {

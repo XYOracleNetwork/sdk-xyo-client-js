@@ -2,7 +2,6 @@
 
 [![Build](https://img.shields.io/github/actions/workflow/status/XYOracleNetwork/sdk-xyo-client-js/build.yml?label=sdk-xyo-client-js)](https://github.com/XYOracleNetwork/sdk-xyo-client-js/actions)
 [![Build](https://img.shields.io/github/actions/workflow/status/XYOracleNetwork/sdk-xyo-react-js/build.yml?label=sdk-xyo-react-js)](https://github.com/XYOracleNetwork/sdk-xyo-react-js/actions)
-[![Build](https://img.shields.io/github/actions/workflow/status/XYOracleNetwork/sdk-xyo-js/build.yml?label=sdk-xyo-js)](https://github.com/XYOracleNetwork/sdk-xyo-js/actions)
 [![Build](https://img.shields.io/github/actions/workflow/status/XYOracleNetwork/sdk-xyo-typechain/build.yml?label=sdk-xyo-typechain)](https://github.com/XYOracleNetwork/sdk-xyo-typechain/actions)
 
 [![Build](https://img.shields.io/github/actions/workflow/status/XYOracleNetwork/plugins/build.yml?label=plugins)](https://github.com/XYOracleNetwork/plugins/actions)

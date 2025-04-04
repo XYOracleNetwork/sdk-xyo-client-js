@@ -108,11 +108,11 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
    */
   static async hash<T extends EmptyObject>(obj: T): Promise<Hash> {
     const stringToHash = this.stringifyHashFields(obj)
+    const enc = new TextEncoder()
+    const data = enc.encode(stringToHash)
 
     if (ObjectHasher.allowSubtle) {
       try {
-        const enc = new TextEncoder()
-        const data = enc.encode(stringToHash)
         const hashArray = await this.subtleHash(data)
         return hexFromArrayBuffer(hashArray, { bitLength: 256 })
       } catch {
@@ -123,12 +123,26 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
     await this.wasmInitialized
     if (this.wasmSupport.canUseWasm) {
       try {
-        return await this.wasmHash(stringToHash)
+        return await this.wasmHash(data)
       } catch {
         this.wasmSupport.allowWasm = false
       }
     }
-    throw new Error('No wasm hashing available')
+    throw new Error('No subtle or wasm hashing available')
+  }
+
+  static async hashBytes(bytes: ArrayBuffer | Uint8Array): Promise<Hash> {
+    const bytesArray = new Uint8Array(bytes)
+    if (ObjectHasher.allowSubtle) {
+      const hashArray = await this.subtleHash(bytesArray)
+      return hexFromArrayBuffer(hashArray, { bitLength: 256 })
+    } else {
+      await this.wasmInitialized
+      if (this.wasmSupport.canUseWasm) {
+        return await this.wasmHash(bytesArray)
+      }
+      throw new Error('No subtle or wasm hashing available')
+    }
   }
 
   static hashFields<T extends EmptyObject>(obj: T): T {
@@ -177,7 +191,7 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
     return pool === null ? await subtle.digest('SHA-256', data) : pool.queue(async thread => await thread.hash(data))
   }
 
-  static async wasmHash(data: string) {
+  static async wasmHash(data: Uint8Array): Promise<Hash> {
     const pool = this.wasmHashPool
     return pool === null ? asHash(await sha256(data), true) : pool.queue(async thread => await thread.hash(data))
   }

@@ -8,6 +8,20 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 import {
+  IDBCursor,
+  IDBCursorWithValue,
+  IDBDatabase,
+  IDBFactory,
+  IDBIndex,
+  IDBKeyRange,
+  IDBObjectStore,
+  IDBOpenDBRequest,
+  IDBRequest,
+  IDBTransaction,
+  IDBVersionChangeEvent,
+  indexedDB,
+} from 'fake-indexeddb'
+import {
   beforeAll, describe, expect, it,
 } from 'vitest'
 
@@ -19,6 +33,23 @@ import { GenericPayloadDiviner, GenericPayloadDivinerConfigSchema } from '../Div
  */
 
 describe('GenericPayloadDiviner', () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const globalThisAny = globalThis as any
+
+  // Augment window with prototypes to ensure instance of comparisons work
+  globalThisAny.IDBCursor = IDBCursor
+  globalThisAny.IDBCursorWithValue = IDBCursorWithValue
+  globalThisAny.IDBDatabase = IDBDatabase
+  globalThisAny.IDBFactory = IDBFactory
+  globalThisAny.IDBIndex = IDBIndex
+  globalThisAny.IDBKeyRange = IDBKeyRange
+  globalThisAny.IDBObjectStore = IDBObjectStore
+  globalThisAny.IDBOpenDBRequest = IDBOpenDBRequest
+  globalThisAny.IDBRequest = IDBRequest
+  globalThisAny.IDBTransaction = IDBTransaction
+  globalThisAny.IDBVersionChangeEvent = IDBVersionChangeEvent
+  globalThisAny.indexedDB = indexedDB
+
   let archivist: IndexedDbArchivist
   let sut: GenericPayloadDiviner
   let node: MemoryNode

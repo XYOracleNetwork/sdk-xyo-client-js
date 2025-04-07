@@ -1,6 +1,5 @@
-import type {
-  BaseParams, EmptyObject, WithAdditional,
-} from '@xylabs/object'
+import type { BaseParams } from '@xylabs/base'
+import type { EmptyObject, WithAdditional } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account-model'
 
 import type { AnyConfigSchema, ModuleConfig } from './Config/index.ts'

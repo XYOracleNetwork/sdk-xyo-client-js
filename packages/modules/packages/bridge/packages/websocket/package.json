@@ -37,10 +37,10 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.7.15",
-    "@xylabs/hex": "^4.7.15",
-    "@xylabs/object": "^4.7.15",
-    "@xylabs/promise": "^4.7.15",
+    "@xylabs/assert": "^4.8.0",
+    "@xylabs/hex": "^4.8.0",
+    "@xylabs/object": "^4.8.0",
+    "@xylabs/promise": "^4.8.0",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/bridge-abstract": "workspace:^",
@@ -55,7 +55,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.2.1",
     "@xylabs/tsconfig": "^6.2.1",
-    "@xylabs/vitest-extended": "^4.7.15",
+    "@xylabs/vitest-extended": "^4.8.0",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
@@ -63,7 +63,7 @@
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
     "socket.io-client": "^4.8.1",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "vitest": "^3.1.1"
   },
   "publishConfig": {

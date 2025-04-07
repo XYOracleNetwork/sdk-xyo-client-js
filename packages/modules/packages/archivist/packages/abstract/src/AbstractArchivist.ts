@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import { globallyUnique } from '@xylabs/base'
 import { exists } from '@xylabs/exists'
 import type { Address, Hash } from '@xylabs/hex'
-import { globallyUnique } from '@xylabs/object'
 import type { Promisable, PromisableArray } from '@xylabs/promise'
 import { difference } from '@xylabs/set'
 import type { AccountInstance } from '@xyo-network/account-model'

@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { globallyUnique } from '@xylabs/object'
+import { globallyUnique } from '@xylabs/base'
 import type { Promisable } from '@xylabs/promise'
 import type { RetryConfig, RetryConfigWithComplete } from '@xylabs/retry'
 import { retry } from '@xylabs/retry'

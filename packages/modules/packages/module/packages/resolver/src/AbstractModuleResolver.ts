@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
+import type { BaseParams } from '@xylabs/base'
+import { Base } from '@xylabs/base'
 import type { Address } from '@xylabs/hex'
-import type { BaseParams } from '@xylabs/object'
-import { Base, toJsonString } from '@xylabs/object'
+import { toJsonString } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import type {
   ModuleFilterOptions,

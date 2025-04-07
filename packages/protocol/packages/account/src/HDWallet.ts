@@ -2,10 +2,10 @@ import { generateMnemonic } from '@scure/bip39'
 import { wordlist as englishWordlist } from '@scure/bip39/wordlists/english'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
+import { globallyUnique } from '@xylabs/base'
 import {
   Address, Hex, hexFromHexString,
 } from '@xylabs/hex'
-import { globallyUnique } from '@xylabs/object'
 import { staticImplements } from '@xylabs/static-implements'
 import {
   AccountConfig,

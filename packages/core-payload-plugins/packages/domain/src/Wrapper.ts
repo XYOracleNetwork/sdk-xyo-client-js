@@ -1,6 +1,6 @@
 import { axios } from '@xylabs/axios'
+import { Base } from '@xylabs/base'
 import type { Hash } from '@xylabs/hex'
-import { Base } from '@xylabs/object'
 import { isBrowser } from '@xylabs/platform'
 import type { ApiEnvelope } from '@xyo-network/api-models'
 import { DnsRecordType, domainResolve } from '@xyo-network/dns'

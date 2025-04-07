@@ -1,11 +1,11 @@
 import { toArrayBuffer, toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
+import { globallyUnique } from '@xylabs/base'
 import {
   Address,
   Hash,
   toHex,
 } from '@xylabs/hex'
-import { globallyUnique } from '@xylabs/object'
 import { staticImplements } from '@xylabs/static-implements'
 import {
   AccountConfig,

@@ -38,10 +38,10 @@
     "@xyo-network/witness-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.7.15",
+    "@xylabs/delay": "^4.8.0",
     "@xylabs/ts-scripts-yarn3": "^6.2.1",
     "@xylabs/tsconfig": "^6.2.1",
-    "@xylabs/vitest-extended": "^4.7.15",
+    "@xylabs/vitest-extended": "^4.8.0",
     "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
@@ -51,7 +51,7 @@
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/sentinel-memory": "workspace:^",
     "@xyo-network/witness-adhoc": "workspace:^",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "vitest": "^3.1.1"
   },
   "publishConfig": {

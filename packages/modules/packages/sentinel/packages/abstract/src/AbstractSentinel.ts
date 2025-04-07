@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { globallyUnique } from '@xylabs/base'
 import { forget } from '@xylabs/forget'
-import { globallyUnique } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'

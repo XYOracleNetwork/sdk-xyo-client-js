@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
+import type { BaseParams } from '@xylabs/base'
+import { Base } from '@xylabs/base'
 import { handleError } from '@xylabs/error'
 import { forget } from '@xylabs/forget'
-import type { BaseParams } from '@xylabs/object'
-import { Base } from '@xylabs/object'
 
 import type {
   EventAnyListener, EventArgs, EventData, EventFunctions, EventListener, EventName,

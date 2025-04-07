@@ -1,4 +1,4 @@
-import type { BaseParams } from '@xylabs/object'
+import type { BaseParams } from '@xylabs/base'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { Module } from '@xyo-network/module-model'
 

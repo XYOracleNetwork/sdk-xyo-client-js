@@ -30,13 +30,13 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@metamask/providers": "^21.0.0",
-    "@xylabs/forget": "^4.7.15",
+    "@xylabs/forget": "^4.8.0",
     "ethers": "6.13.6"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.2.1",
     "@xylabs/tsconfig-dom": "^6.2.1",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "publishConfig": {
     "access": "public"

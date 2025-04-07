@@ -1,6 +1,7 @@
 /* eslint-disable complexity */
 /* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
+import { Base, globallyUnique } from '@xylabs/base'
 import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
@@ -10,7 +11,6 @@ import {
   ConsoleLogger, IdLogger,
   LogLevel,
 } from '@xylabs/logger'
-import { Base, globallyUnique } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import { PromiseEx } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'

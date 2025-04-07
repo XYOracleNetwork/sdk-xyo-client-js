@@ -1,5 +1,5 @@
-import type { BaseParams } from '@xylabs/object'
-import { Base } from '@xylabs/object'
+import type { BaseParams } from '@xylabs/base'
+import { Base } from '@xylabs/base'
 import type {
   EventAnyListener, EventData, EventFunctions, EventListener,
 } from '@xyo-network/module-events'

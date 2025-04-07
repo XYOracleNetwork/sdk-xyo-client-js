@@ -29,16 +29,16 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/object": "^4.7.15",
-    "@xylabs/promise": "^4.7.15",
+    "@xylabs/object": "^4.8.0",
+    "@xylabs/promise": "^4.8.0",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/schema-name-validator": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.2.1",
     "@xylabs/tsconfig": "^6.2.1",
-    "@xylabs/vitest-extended": "^4.7.15",
-    "typescript": "^5.8.2",
+    "@xylabs/vitest-extended": "^4.8.0",
+    "typescript": "^5.8.3",
     "vitest": "^3.1.1"
   },
   "publishConfig": {

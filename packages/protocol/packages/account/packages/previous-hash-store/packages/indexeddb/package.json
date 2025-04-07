@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.7.15",
+    "@xylabs/hex": "^4.8.0",
     "@xyo-network/previous-hash-store-model": "workspace:^",
     "idb": "^8.0.2"
   },
@@ -39,7 +39,7 @@
     "@xylabs/ts-scripts-yarn3": "^6.2.1",
     "@xylabs/tsconfig": "^6.2.1",
     "fake-indexeddb": "^6.0.0",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "uuid": "^11.1.0",
     "vitest": "^3.1.1"
   },

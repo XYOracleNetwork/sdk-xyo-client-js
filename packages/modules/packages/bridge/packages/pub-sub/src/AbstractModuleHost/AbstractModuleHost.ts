@@ -1,5 +1,5 @@
-import type { BaseParams } from '@xylabs/object'
-import { Base } from '@xylabs/object'
+import type { BaseParams } from '@xylabs/base'
+import { Base } from '@xylabs/base'
 import type { Promisable } from '@xylabs/promise'
 import type { ModuleInstance } from '@xyo-network/module-model'
 

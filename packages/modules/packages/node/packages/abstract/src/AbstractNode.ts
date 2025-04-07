@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { globallyUnique } from '@xylabs/base'
 import type { Address } from '@xylabs/hex'
-import { globallyUnique } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/module-event-emitter",
-  "version": "3.10.8",
+  "version": "3.11.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

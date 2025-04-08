@@ -15,5 +15,5 @@ export const isStorageMeta = (value: unknown): value is StorageMeta => {
   return isSequenceStorageMeta(value) && isHashStorageMeta(value)
 }
 
-export const asStorageStorageMeta = AsObjectFactory.create(isStorageMeta)
+export const asStorageMeta = AsObjectFactory.create(isStorageMeta)
 export const asOptionalStorageMeta = AsObjectFactory.createOptional(isStorageMeta)

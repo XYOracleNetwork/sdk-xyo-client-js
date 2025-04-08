@@ -73,9 +73,7 @@ describe('LMDB vs LevelDB', () => {
 
   const payloads = Array.from(
     { length: totalTestPayloads },
-    (_, i) => new PayloadBuilder<WithSources<Id>>({ schema: IdSchema }).fields({ salt: `${i}`, $sources: [missingHash] })
-      .meta({ $sources: [missingHash] }).build(),
-
+    (_, i) => new PayloadBuilder<WithSources<Id>>({ schema: IdSchema }).fields({ salt: `${i}` }).meta({ $sources: [missingHash] }).build(),
   )
 
   // NOTE: Pre-hashed  since bench does not support async beforeAll setup for local vars

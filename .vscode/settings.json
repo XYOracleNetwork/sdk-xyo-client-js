@@ -11,7 +11,7 @@
     "other": "on"
   },
   "editor.tabSize": 2,
-  "editor.suggestSelection": "first",
+  "editor.suggestSelection": "recentlyUsed",
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },

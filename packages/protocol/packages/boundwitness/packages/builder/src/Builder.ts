@@ -2,6 +2,8 @@ import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import type { Address, Hash } from '@xylabs/hex'
 import { hexFromArrayBuffer } from '@xylabs/hex'
+import type { AnyObject } from '@xylabs/object'
+import { pickByPrefix } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type {
   BoundWitness,
@@ -17,6 +19,8 @@ import { omitSchema, PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   AnyPayload,
   ModuleError, Payload, Schema,
+  WithOnlyClientMeta,
+  WithoutClientMeta,
   WithoutSchema,
   WithoutStorageMeta,
 } from '@xyo-network/payload-model'
@@ -173,15 +177,45 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  override fields(fields: WithoutStorageMeta<WithoutSchema<Omit<TBoundWitness, GeneratedBoundWitnessFields>>>): this {
+  override fields(fields: WithoutStorageMeta<WithoutClientMeta<WithoutSchema<Omit<TBoundWitness, GeneratedBoundWitnessFields>>>>): this {
+    // clean it up just incase
     const clone = structuredClone(fields) as unknown as Partial<TBoundWitness>
     for (const field of GeneratedBoundWitnessFields) {
       delete clone[field]
     }
     // we need to do the cast here since ts seems to not like nested, yet same, generics
-    this._fields = omitSchema(
-      BoundWitnessBuilder.omitStorageMeta(removeEmptyFields(structuredClone(fields))),
-    ) as unknown as WithoutStorageMeta<WithoutSchema<TBoundWitness>>
+    this._fields
+      = BoundWitnessBuilder.omitStorageMeta(
+        BoundWitnessBuilder.omitClientMeta(
+          omitSchema(removeEmptyFields(clone)),
+        ),
+      ) as unknown as WithoutStorageMeta<WithoutClientMeta<WithoutSchema<TBoundWitness>>>
+    return this
+  }
+
+  override from(
+    bw: WithoutSchema<TBoundWitness>,
+  ) {
+    // clean it up just incase
+    const clone = structuredClone(bw) as unknown as Partial<TBoundWitness>
+    for (const field of GeneratedBoundWitnessFields) {
+      delete clone[field]
+    }
+
+    // delete the $signatures if they are there
+    delete (clone as AnyObject).$signatures
+
+    // we need to do the cast here since ts seems to not like nested, yet same, generics
+    this._fields
+      = BoundWitnessBuilder.omitStorageMeta(
+        BoundWitnessBuilder.omitClientMeta(
+          omitSchema(removeEmptyFields(clone)),
+        ),
+      ) as unknown as WithoutStorageMeta<WithoutClientMeta<WithoutSchema<TBoundWitness>>>
+
+    // we need to do the cast here since ts seems to not like nested, yet same, generics
+    this._meta
+      = pickByPrefix(bw, '$') as unknown as WithOnlyClientMeta<TBoundWitness>
     return this
   }
 

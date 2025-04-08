@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-temporal-indexing-memory",
-  "version": "3.11.0",
+  "version": "3.12.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

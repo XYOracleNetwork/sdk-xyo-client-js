@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/address-payload-plugin",
-  "version": "3.12.0",
+  "version": "3.12.1",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {

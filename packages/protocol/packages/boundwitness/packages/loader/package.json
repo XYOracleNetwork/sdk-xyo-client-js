@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/base": "^4.8.0",
-    "@xylabs/exists": "^4.8.0",
-    "@xylabs/hex": "^4.8.0",
+    "@xylabs/base": "^4.8.1",
+    "@xylabs/exists": "^4.8.1",
+    "@xylabs/hex": "^4.8.1",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -40,7 +40,7 @@
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {
-    "@xylabs/object": "^4.8.0",
+    "@xylabs/object": "^4.8.1",
     "@xylabs/ts-scripts-yarn3": "^6.2.1",
     "@xylabs/tsconfig": "^6.2.1",
     "typescript": "^5.8.3",

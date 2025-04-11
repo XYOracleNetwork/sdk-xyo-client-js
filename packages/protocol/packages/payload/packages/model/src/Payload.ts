@@ -12,12 +12,9 @@ export interface SchemaField<T extends Schema = Schema> {
 /** Additional fields for a payload */
 export interface PayloadFields extends SchemaField {}
 
-// elevate - include the data hash in the parent boundwitness [data hash so that the opcodes get ignored]
-export type OpCode = 'elevate'
-
 export interface SourcesMetaField { $sources: Hash[] }
 export interface ChainMetaFields {
-  $opCodes: OpCode[]
+  $opCodes: string[]
 }
 
 export interface PayloadMetaFields extends SourcesMetaField, ChainMetaFields {}

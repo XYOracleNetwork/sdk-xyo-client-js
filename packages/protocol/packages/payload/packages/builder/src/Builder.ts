@@ -298,29 +298,6 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
     return this
   }
 
-  from(
-    bw: WithoutSchema<T>,
-  ) {
-    // clean it up just incase
-    const clone = structuredClone(bw) as unknown as Partial<T>
-
-    // delete the $signatures if they are there
-    delete (clone as AnyObject).$signatures
-
-    // we need to do the cast here since ts seems to not like nested, yet same, generics
-    this._fields
-      = PayloadBuilder.omitStorageMeta(
-        PayloadBuilder.omitClientMeta(
-          omitSchema(removeEmptyFields(clone)),
-        ),
-      ) as unknown as WithoutStorageMeta<WithoutClientMeta<WithoutSchema<T>>>
-
-    // we need to do the cast here since ts seems to not like nested, yet same, generics
-    this._meta
-      = pickByPrefix(bw, '$', 100) as unknown as WithOnlyClientMeta<T>
-    return this
-  }
-
   meta(meta: WithOnlyClientMeta<T>) {
     // we need to do the cast here since ts seems to not like nested, yet same, generics
     this._meta = pickByPrefix(meta, '$') as WithOnlyClientMeta<T>

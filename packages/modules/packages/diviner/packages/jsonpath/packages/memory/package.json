@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.8.1",
+    "@xylabs/assert": "^4.8.4",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-jsonpath-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
@@ -41,7 +41,7 @@
     "@types/jsonpath": "^0.2.4",
     "@xylabs/ts-scripts-yarn3": "^6.2.1",
     "@xylabs/tsconfig": "^6.2.1",
-    "@xylabs/vitest-extended": "^4.8.1",
+    "@xylabs/vitest-extended": "^4.8.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/wallet-model": "workspace:^",
     "typescript": "^5.8.3",

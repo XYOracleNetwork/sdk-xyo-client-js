@@ -15,7 +15,7 @@ describe('PayloadBuilder', () => {
   test('build', () => {
     let builder = new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })
     expect(builder).toBeDefined()
-    builder = builder.from({
+    builder = builder.fields({
       $testDollar: 1,
       _testUnderscore: 1,
       testArray: [1, 2, 3],

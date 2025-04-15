@@ -1,7 +1,4 @@
 {
-  "compilerOptions": {
-    "lib": ["esnext", "dom"],
-  },
-  "exclude": ["dist", "docs", "node_modules"],
+  "exclude": ["dist", "docs", "node_modules", "packages"],
   "extends": "@xylabs/tsconfig"
 }

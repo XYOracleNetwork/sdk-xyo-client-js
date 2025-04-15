@@ -33,13 +33,13 @@
 Using npm:
 
 ```sh
-npm i --save @xyo-network/sdk-xyo-client-js
+npm i --save @xyo-network/sdk-js
 ```
 
 Using yarn:
 
 ```sh
-yarn add @xyo-network/sdk-xyo-client-js
+yarn add @xyo-network/sdk-js
 ```
 
 ## Packages
@@ -82,8 +82,8 @@ yarn xy compile
 [main-build]: https://github.com/XYOracleNetwork/sdk-xyo-client-js/actions/workflows/build.yml/badge.svg
 [main-build-link]: https://github.com/XYOracleNetwork/sdk-xyo-client-js/actions/workflows/build.yml
 
-[npm-badge]: https://img.shields.io/npm/v/@xyo-network/sdk-xyo-client-js.svg
-[npm-link]: https://www.npmjs.com/package/@xyo-network/sdk-xyo-client-js
+[npm-badge]: https://img.shields.io/npm/v/@xyo-network/sdk-js.svg
+[npm-link]: https://www.npmjs.com/package/@xyo-network/sdk-js
 
 [codacy-badge]: https://app.codacy.com/project/badge/Grade/ba1f344ae34e4bfe999331cf4e27b9f5
 [codacy-link]: https://www.codacy.com/gh/XYOracleNetwork/sdk-xyo-client-js/dashboard?utm_source=github.com&utm_medium=referral&utm_content=XYOracleNetwork/sdk-xyo-client-js&utm_campaign=Badge_Grade

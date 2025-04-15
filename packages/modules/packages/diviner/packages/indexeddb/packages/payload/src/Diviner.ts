@@ -1,3 +1,5 @@
+/// <reference lib="dom" />
+
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'

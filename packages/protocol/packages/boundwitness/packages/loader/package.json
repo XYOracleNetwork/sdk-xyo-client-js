@@ -40,7 +40,6 @@
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {
-    "@xylabs/object": "^4.8.4",
     "@xylabs/ts-scripts-yarn3": "^6.2.1",
     "@xylabs/tsconfig": "^6.2.1",
     "typescript": "^5.8.3",

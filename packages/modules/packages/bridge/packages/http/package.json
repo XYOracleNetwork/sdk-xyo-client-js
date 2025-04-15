@@ -74,7 +74,6 @@
   "devDependencies": {
     "@types/express": "^5.0.1",
     "@types/node": "^22.14.1",
-    "@xylabs/eslint-config-flat": "^6.2.1",
     "@xylabs/express": "^4.8.4",
     "@xylabs/ts-scripts-yarn3": "^6.2.1",
     "@xylabs/tsconfig": "^6.2.1",

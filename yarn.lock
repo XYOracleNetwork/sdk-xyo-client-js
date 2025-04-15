@@ -1777,13 +1777,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material/material-color-utilities@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@material/material-color-utilities@npm:0.3.0"
-  checksum: 10/ad861ca2e725f74b647a03769aab5e61cafbfb38b40508e76e51bf6866c5615a306be751c56f3317d8e0fdb506e3cec877d22289b6ce2b5337dd8d5b1447003f
-  languageName: node
-  linkType: hard
-
 "@metamask/json-rpc-engine@npm:^10.0.2, @metamask/json-rpc-engine@npm:^10.0.3":
   version: 10.0.3
   resolution: "@metamask/json-rpc-engine@npm:10.0.3"
@@ -4600,7 +4593,6 @@ __metadata:
     "@xylabs/arraybuffer": "npm:^4.8.4"
     "@xylabs/assert": "npm:^4.8.4"
     "@xylabs/hex": "npm:^4.8.4"
-    "@xylabs/object": "npm:^4.8.4"
     "@xylabs/ts-scripts-yarn3": "npm:^6.2.1"
     "@xylabs/tsconfig": "npm:^6.2.1"
     "@xylabs/vitest-extended": "npm:^4.8.4"
@@ -4624,7 +4616,6 @@ __metadata:
     "@xylabs/base": "npm:^4.8.4"
     "@xylabs/exists": "npm:^4.8.4"
     "@xylabs/hex": "npm:^4.8.4"
-    "@xylabs/object": "npm:^4.8.4"
     "@xylabs/ts-scripts-yarn3": "npm:^6.2.1"
     "@xylabs/tsconfig": "npm:^6.2.1"
     "@xyo-network/archivist-memory": "workspace:^"
@@ -4763,7 +4754,6 @@ __metadata:
     "@types/node": "npm:^22.14.1"
     "@xylabs/assert": "npm:^4.8.4"
     "@xylabs/axios": "npm:^4.8.4"
-    "@xylabs/eslint-config-flat": "npm:^6.2.1"
     "@xylabs/exists": "npm:^4.8.4"
     "@xylabs/express": "npm:^4.8.4"
     "@xylabs/forget": "npm:^4.8.4"
@@ -5148,7 +5138,6 @@ __metadata:
   resolution: "@xyo-network/diviner-address-history@workspace:packages/modules/packages/diviner/packages/addresshistory"
   dependencies:
     "@xylabs/assert": "npm:^4.8.4"
-    "@xylabs/eslint-config-flat": "npm:^6.2.1"
     "@xylabs/exists": "npm:^4.8.4"
     "@xylabs/hex": "npm:^4.8.4"
     "@xylabs/ts-scripts-yarn3": "npm:^6.2.1"
@@ -7360,7 +7349,7 @@ __metadata:
     supertest: "npm:^7.1.0"
     tslib: "npm:^2.8.1"
     typedoc: "npm:^0.28.2"
-    typedoc-material-theme: "npm:^1.4.0"
+    typedoc-plugin-markdown: "npm:^4.6.2"
     typescript: "npm:^5.8.3"
     vitest: "npm:^3.1.1"
   languageName: unknown
@@ -14628,14 +14617,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-material-theme@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "typedoc-material-theme@npm:1.4.0"
-  dependencies:
-    "@material/material-color-utilities": "npm:^0.3.0"
+"typedoc-plugin-markdown@npm:^4.6.2":
+  version: 4.6.2
+  resolution: "typedoc-plugin-markdown@npm:4.6.2"
   peerDependencies:
-    typedoc: ^0.25.13 || ^0.26.x || ^0.27.x || ^0.28.x
-  checksum: 10/c18ba03491554af124f546558e6f1b4a0ad4a2f4083a562a0c40c1bf4d2b11a7289fc4177642aa9babbb4c75f2aaecb4de828217101c98b3436ed332867c8788
+    typedoc: 0.28.x
+  checksum: 10/4a6a9a4c1f34b3ae858b9f8eac5b194e4e9434affde3523f4541e69c88dc42a148595b6b4281dc27c35d8999f1d3cc111e1bf79043cfa9e8e2c12aaf092ac38d
   languageName: node
   linkType: hard
 

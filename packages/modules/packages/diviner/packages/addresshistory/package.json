@@ -42,7 +42,6 @@
     "@xyo-network/payload-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/eslint-config-flat": "^6.2.1",
     "@xylabs/ts-scripts-yarn3": "^6.2.1",
     "@xylabs/tsconfig": "^6.2.1",
     "@xylabs/vitest-extended": "^4.8.4",

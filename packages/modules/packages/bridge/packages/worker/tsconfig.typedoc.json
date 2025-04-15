@@ -1,5 +1,0 @@
-{
-  "exclude": ["**/spec/*", "**/*.spec.*", "src/worker/*"],
-  "extends": "./tsconfig.json"
-}
-

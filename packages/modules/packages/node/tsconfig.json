@@ -1,4 +1,5 @@
 {
-  "exclude": ["dist", "docs", "node_modules"],
+  "exclude": ["dist", "node_modules", "build", "packages"],
   "extends": "@xylabs/tsconfig"
 }
+

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/witness-blockchain-abstract",
-  "version": "3.12.3",
+  "version": "3.12.4",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

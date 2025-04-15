@@ -94,5 +94,6 @@
   "publishConfig": {
     "access": "public"
   },
+  "readme": "docs/README.md",
   "resolutions_comment": "We set the above resolutions to make sure we pull in the latest versions of these packages even if some sub packages request earlier versions"
 }

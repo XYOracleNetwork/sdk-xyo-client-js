@@ -1,6 +1,5 @@
 node_modules
 dist
-docs
 .DS_Store
 *.log
 .rollup.cache
@@ -18,6 +17,8 @@ docs
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+docs
 
 coverage
 

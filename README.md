@@ -18,6 +18,7 @@
 -   [Table of Contents](#table-of-contents)
 -   [Description](#description)
 -   [Install](#install)
+-   [Packages](#packages)
 -   [Maintainers](#maintainers)
 -   [License](#license)
 -   [Credits](#credits)
@@ -40,6 +41,9 @@ Using yarn:
 ```sh
 yarn add @xyo-network/sdk-xyo-client-js
 ```
+
+## Packages
+List of packages and documentation can be found [here](./packages.md).
 
 ## Building the sdk locally
 

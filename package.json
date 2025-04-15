@@ -39,6 +39,8 @@
     "compile": "./scripts/clear-scrollback-buffer.sh && yarn xy compile",
     "coverage": "vitest --coverage --watch false",
     "deploy": "xy deploy",
+    "package-build": "yarn package-clean && rimraf docs && yarn package-build-only && typedoc && xy statics",
+    "package-clean": "rimraf dist",
     "free-3033": "kill -9 $(lsof -t -i :3033)",
     "free-8080": "kill -9 $(lsof -t -i :8080)",
     "free-mongo": "kill -9 $(lsof -t -i :55391) && kill -9 $(lsof -t -i :55393)",
@@ -94,6 +96,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "readme": "docs/README.md",
+  "readme": "README.md",
   "resolutions_comment": "We set the above resolutions to make sure we pull in the latest versions of these packages even if some sub packages request earlier versions"
 }

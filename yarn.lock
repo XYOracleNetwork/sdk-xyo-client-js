@@ -7352,6 +7352,8 @@ __metadata:
     typedoc-plugin-markdown: "npm:^4.6.2"
     typescript: "npm:^5.8.3"
     vitest: "npm:^3.1.1"
+  bin:
+    build-docs: ./scripts/generate-docs-for-package.mjs
   languageName: unknown
   linkType: soft
 

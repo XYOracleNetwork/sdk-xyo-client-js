@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.8.4",
-    "@xylabs/exists": "^4.8.4",
+    "@xylabs/assert": "^4.8.7",
+    "@xylabs/exists": "^4.8.7",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-boundwitness-model": "workspace:^",

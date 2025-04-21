@@ -22,7 +22,6 @@ export const boundWitnessProperties: JSONSchemaType<BoundWitness>['properties'] 
   $destination: { items: { type: 'string', pattern: HashRegEx }, type: 'array' },
   $sourceQuery: { type: 'string', pattern: HashRegEx },
   $sources: { items: { type: 'string', pattern: HashRegEx }, type: 'array' },
-  $opCodes: { items: { type: 'string' }, type: 'array' },
   $signatures: { items: { type: 'string', pattern: SignatureRegEx }, type: 'array' },
 }
 

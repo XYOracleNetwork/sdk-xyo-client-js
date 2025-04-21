@@ -61,12 +61,12 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^4.8.7",
-    "@xylabs/tsconfig": "^6.3.1",
+    "@xylabs/tsconfig": "^6.3.4",
     "@xylabs/vitest-extended": "^4.8.7",
     "esbuild": "^0.25.2",
     "publint": "^0.3.12",
     "typescript": "^5.8.3",
-    "vitest": "^3.1.1"
+    "vitest": "^3.1.2"
   },
   "publishConfig": {
     "access": "public"

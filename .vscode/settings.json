@@ -67,6 +67,7 @@
     "cryengine",
     "deepmerge",
     "depcheck",
+    "depcruise",
     "dmarc",
     "DNSSEC",
     "edns",

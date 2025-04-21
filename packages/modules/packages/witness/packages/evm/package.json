@@ -32,8 +32,8 @@
     "@xyo-network/witness-evm-abstract": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.3.1",
-    "@xylabs/tsconfig": "^6.3.1",
+    "@xylabs/ts-scripts-yarn3": "^6.3.4",
+    "@xylabs/tsconfig": "^6.3.4",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

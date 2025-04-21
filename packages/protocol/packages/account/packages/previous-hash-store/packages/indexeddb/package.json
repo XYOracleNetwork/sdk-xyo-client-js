@@ -36,12 +36,12 @@
   "devDependencies": {
     "@types/node": "^22.14.1",
     "@types/uuid": "10.0.0",
-    "@xylabs/ts-scripts-yarn3": "^6.3.1",
-    "@xylabs/tsconfig": "^6.3.1",
+    "@xylabs/ts-scripts-yarn3": "^6.3.4",
+    "@xylabs/tsconfig": "^6.3.4",
     "fake-indexeddb": "^6.0.0",
     "typescript": "^5.8.3",
     "uuid": "^11.1.0",
-    "vitest": "^3.1.1"
+    "vitest": "^3.1.2"
   },
   "publishConfig": {
     "access": "public"

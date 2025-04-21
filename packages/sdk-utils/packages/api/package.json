@@ -40,15 +40,15 @@
     "@types/node": "^22.14.1",
     "@types/uuid": "^10.0.0",
     "@xylabs/object": "^4.8.7",
-    "@xylabs/ts-scripts-yarn3": "^6.3.1",
-    "@xylabs/tsconfig": "^6.3.1",
+    "@xylabs/ts-scripts-yarn3": "^6.3.4",
+    "@xylabs/tsconfig": "^6.3.4",
     "@xylabs/vitest-extended": "^4.8.7",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
     "typescript": "^5.8.3",
     "uuid": "^11.1.0",
-    "vitest": "^3.1.1"
+    "vitest": "^3.1.2"
   },
   "publishConfig": {
     "access": "public"

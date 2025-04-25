@@ -30,12 +30,7 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@xyo-network/archivist-abstract": "workspace:^",
-    "@xyo-network/archivist-cookie": "workspace:^",
-    "@xyo-network/archivist-indexeddb": "workspace:^",
-    "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
-    "@xyo-network/archivist-storage": "workspace:^",
-    "@xyo-network/archivist-view": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^"
   },
   "devDependencies": {

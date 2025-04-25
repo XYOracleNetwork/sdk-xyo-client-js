@@ -1961,10 +1961,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:^1.6":
+"@noble/hashes@npm:1.3.2":
+  version: 1.3.2
+  resolution: "@noble/hashes@npm:1.3.2"
+  checksum: 10/685f59d2d44d88e738114b71011d343a9f7dce9dfb0a121f1489132f9247baa60bc985e5ec6f3213d114fbd1e1168e7294644e46cbd0ce2eba37994f28eeb51b
+  languageName: node
+  linkType: hard
+
+"@noble/hashes@npm:1.4.0, @noble/hashes@npm:~1.4.0":
+  version: 1.4.0
+  resolution: "@noble/hashes@npm:1.4.0"
+  checksum: 10/e156e65794c473794c52fa9d06baf1eb20903d0d96719530f523cc4450f6c721a957c544796e6efd0197b2296e7cd70efeb312f861465e17940a3e3c7e0febc6
+  languageName: node
+  linkType: hard
+
+"@noble/hashes@npm:^1.3.1, @noble/hashes@npm:~1.8.0":
   version: 1.8.0
   resolution: "@noble/hashes@npm:1.8.0"
   checksum: 10/474b7f56bc6fb2d5b3a42132561e221b0ea4f91e590f4655312ca13667840896b34195e2b53b7f097ec080a1fdd3b58d902c2a8d0fbdf51d2e238b53808a177e
+  languageName: node
+  linkType: hard
+
+"@noble/hashes@npm:~1.7.1":
+  version: 1.7.2
+  resolution: "@noble/hashes@npm:1.7.2"
+  checksum: 10/b5af9e4b91543dcc46a811b5b2c57bfdeb41728361979a19d6110a743e2cb0459872553f68d3a46326d21959964db2776b8c8b4db85ac1d9f63ebcaddf7d59b6
   languageName: node
   linkType: hard
 
@@ -4384,7 +4405,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist-cookie@workspace:^, @xyo-network/archivist-cookie@workspace:packages/modules/packages/archivist/packages/cookie":
+"@xyo-network/archivist-cookie@workspace:packages/modules/packages/archivist/packages/cookie":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-cookie@workspace:packages/modules/packages/archivist/packages/cookie"
   dependencies:
@@ -4618,7 +4639,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist-storage@workspace:^, @xyo-network/archivist-storage@workspace:packages/modules/packages/archivist/packages/storage":
+"@xyo-network/archivist-storage@workspace:packages/modules/packages/archivist/packages/storage":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-storage@workspace:packages/modules/packages/archivist/packages/storage"
   dependencies:
@@ -4698,12 +4719,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
     "@xyo-network/archivist-abstract": "workspace:^"
-    "@xyo-network/archivist-cookie": "workspace:^"
-    "@xyo-network/archivist-indexeddb": "workspace:^"
-    "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
-    "@xyo-network/archivist-storage": "workspace:^"
-    "@xyo-network/archivist-view": "workspace:^"
     "@xyo-network/archivist-wrapper": "workspace:^"
     typescript: "npm:^5.8.3"
   languageName: unknown
@@ -4713,9 +4729,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bip39@workspace:packages/protocol/packages/bip39"
   dependencies:
-    "@noble/hashes": "npm:^1.8.0"
-    "@scure/base": "npm:^1.2.5"
-    "@scure/bip39": "npm:^1.6.0"
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
     typescript: "npm:^5.8.3"
@@ -5263,7 +5276,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-address-chain@workspace:^, @xyo-network/diviner-address-chain@workspace:packages/modules/packages/diviner/packages/addresschain":
+"@xyo-network/diviner-address-chain@workspace:packages/modules/packages/diviner/packages/addresschain":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-chain@workspace:packages/modules/packages/diviner/packages/addresschain"
   dependencies:
@@ -5368,7 +5381,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-address-space@workspace:^, @xyo-network/diviner-address-space@workspace:packages/modules/packages/diviner/packages/addressspace":
+"@xyo-network/diviner-address-space@workspace:packages/modules/packages/diviner/packages/addressspace":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-space@workspace:packages/modules/packages/diviner/packages/addressspace"
   dependencies:
@@ -5527,7 +5540,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-boundwitness-stats@workspace:^, @xyo-network/diviner-boundwitness-stats@workspace:packages/modules/packages/diviner/packages/boundwitnessstats":
+"@xyo-network/diviner-boundwitness-stats@workspace:packages/modules/packages/diviner/packages/boundwitnessstats":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-stats@workspace:packages/modules/packages/diviner/packages/boundwitnessstats"
   dependencies:
@@ -5540,7 +5553,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-boundwitness@workspace:^, @xyo-network/diviner-boundwitness@workspace:packages/modules/packages/diviner/packages/boundwitness":
+"@xyo-network/diviner-boundwitness@workspace:packages/modules/packages/diviner/packages/boundwitness":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness@workspace:packages/modules/packages/diviner/packages/boundwitness"
   dependencies:
@@ -5615,7 +5628,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-distinct@workspace:^, @xyo-network/diviner-distinct@workspace:packages/modules/packages/diviner/packages/distinct":
+"@xyo-network/diviner-distinct@workspace:packages/modules/packages/diviner/packages/distinct":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-distinct@workspace:packages/modules/packages/diviner/packages/distinct"
   dependencies:
@@ -5717,7 +5730,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-hash-lease@workspace:^, @xyo-network/diviner-hash-lease@workspace:packages/modules/packages/diviner/packages/hash":
+"@xyo-network/diviner-hash-lease@workspace:packages/modules/packages/diviner/packages/hash":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-hash-lease@workspace:packages/modules/packages/diviner/packages/hash"
   dependencies:
@@ -5766,7 +5779,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-indexeddb@workspace:^, @xyo-network/diviner-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb":
+"@xyo-network/diviner-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb"
   dependencies:
@@ -5817,7 +5830,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-indexing@workspace:^, @xyo-network/diviner-indexing@workspace:packages/modules/packages/diviner/packages/indexing":
+"@xyo-network/diviner-indexing@workspace:packages/modules/packages/diviner/packages/indexing":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-indexing@workspace:packages/modules/packages/diviner/packages/indexing"
   dependencies:
@@ -5863,7 +5876,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-jsonpatch@workspace:^, @xyo-network/diviner-jsonpatch@workspace:packages/modules/packages/diviner/packages/jsonpatch":
+"@xyo-network/diviner-jsonpatch@workspace:packages/modules/packages/diviner/packages/jsonpatch":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-jsonpatch@workspace:packages/modules/packages/diviner/packages/jsonpatch"
   dependencies:
@@ -5963,7 +5976,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-jsonpath@workspace:^, @xyo-network/diviner-jsonpath@workspace:packages/modules/packages/diviner/packages/jsonpath":
+"@xyo-network/diviner-jsonpath@workspace:packages/modules/packages/diviner/packages/jsonpath":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-jsonpath@workspace:packages/modules/packages/diviner/packages/jsonpath"
   dependencies:
@@ -6244,7 +6257,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-payload@workspace:^, @xyo-network/diviner-payload@workspace:packages/modules/packages/diviner/packages/payload":
+"@xyo-network/diviner-payload@workspace:packages/modules/packages/diviner/packages/payload":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload@workspace:packages/modules/packages/diviner/packages/payload"
   dependencies:
@@ -6271,7 +6284,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-range@workspace:^, @xyo-network/diviner-range@workspace:packages/modules/packages/diviner/packages/range":
+"@xyo-network/diviner-range@workspace:packages/modules/packages/diviner/packages/range":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-range@workspace:packages/modules/packages/diviner/packages/range"
   dependencies:
@@ -6596,23 +6609,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
     "@xyo-network/diviner-abstract": "workspace:^"
-    "@xyo-network/diviner-address-chain": "workspace:^"
-    "@xyo-network/diviner-address-history": "workspace:^"
-    "@xyo-network/diviner-address-space": "workspace:^"
-    "@xyo-network/diviner-archivist": "workspace:^"
-    "@xyo-network/diviner-boundwitness": "workspace:^"
-    "@xyo-network/diviner-boundwitness-stats": "workspace:^"
-    "@xyo-network/diviner-distinct": "workspace:^"
-    "@xyo-network/diviner-hash-lease": "workspace:^"
-    "@xyo-network/diviner-huri": "workspace:^"
-    "@xyo-network/diviner-identity": "workspace:^"
-    "@xyo-network/diviner-indexeddb": "workspace:^"
-    "@xyo-network/diviner-indexing": "workspace:^"
-    "@xyo-network/diviner-jsonpatch": "workspace:^"
-    "@xyo-network/diviner-jsonpath": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
-    "@xyo-network/diviner-payload": "workspace:^"
-    "@xyo-network/diviner-range": "workspace:^"
     "@xyo-network/diviner-wrapper": "workspace:^"
     typescript: "npm:^5.8.3"
   languageName: unknown
@@ -7700,7 +7697,6 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
     "@xyo-network/sentinel-abstract": "workspace:^"
-    "@xyo-network/sentinel-memory": "workspace:^"
     "@xyo-network/sentinel-model": "workspace:^"
     typescript: "npm:^5.8.3"
   languageName: unknown
@@ -7861,7 +7857,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/witness-evm@workspace:^, @xyo-network/witness-evm@workspace:packages/modules/packages/witness/packages/evm":
+"@xyo-network/witness-evm@workspace:packages/modules/packages/witness/packages/evm":
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-evm@workspace:packages/modules/packages/witness/packages/evm"
   dependencies:
@@ -7932,9 +7928,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
     "@xyo-network/abstract-witness": "workspace:^"
-    "@xyo-network/witness-evm": "workspace:^"
     "@xyo-network/witness-model": "workspace:^"
-    "@xyo-network/witness-timestamp": "workspace:^"
     "@xyo-network/witness-wrapper": "workspace:^"
     typescript: "npm:^5.8.3"
   languageName: unknown

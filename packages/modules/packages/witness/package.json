@@ -30,9 +30,7 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@xyo-network/abstract-witness": "workspace:^",
-    "@xyo-network/witness-evm": "workspace:^",
     "@xyo-network/witness-model": "workspace:^",
-    "@xyo-network/witness-timestamp": "workspace:^",
     "@xyo-network/witness-wrapper": "workspace:^"
   },
   "devDependencies": {

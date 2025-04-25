@@ -48,11 +48,9 @@
     "test": "vitest --watch false"
   },
   "resolutions": {
-    "@noble/hashes": "^1.6",
     "axios": "^1",
     "ethers": "^6",
-    "fake-indexeddb": "^4",
-    "quick-lru": "^4"
+    "fake-indexeddb": "^4"
   },
   "dependencies": {
     "@xyo-network/core-payload-plugins": "workspace:^",

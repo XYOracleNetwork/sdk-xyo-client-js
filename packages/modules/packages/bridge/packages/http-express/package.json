@@ -1,0 +1,78 @@
+{
+  "name": "@xyo-network/bridge-http-express",
+  "version": "3.13.0",
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "homepage": "https://xyo.network",
+  "bugs": {
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues",
+    "email": "support@xyo.network"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "license": "LGPL-3.0-only",
+  "author": {
+    "name": "XYO Development Team",
+    "email": "support@xyo.network",
+    "url": "https://xyo.network"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/neutral/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "module": "dist/neutral/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
+  "dependencies": {
+    "@xylabs/assert": "^4.8.7",
+    "@xylabs/exists": "^4.8.7",
+    "@xylabs/hex": "^4.8.7",
+    "@xylabs/object": "^4.8.7",
+    "@xyo-network/account": "workspace:^",
+    "@xyo-network/api-models": "workspace:^",
+    "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/bridge-abstract": "workspace:^",
+    "@xyo-network/bridge-http": "workspace:^",
+    "@xyo-network/bridge-model": "workspace:^",
+    "@xyo-network/module-model": "workspace:^",
+    "@xyo-network/node-model": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
+    "express": "^5.1.0",
+    "http-status-codes": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.2",
+    "@xylabs/express": "^4.8.7",
+    "@xylabs/ts-scripts-yarn3": "^6.3.5",
+    "@xylabs/tsconfig": "^6.3.5",
+    "@xylabs/vitest-extended": "^4.8.7",
+    "@xyo-network/account": "workspace:^",
+    "@xyo-network/archivist-model": "workspace:^",
+    "@xyo-network/bridge-abstract": "workspace:^",
+    "@xyo-network/diviner-model": "workspace:^",
+    "@xyo-network/module-resolver": "workspace:^",
+    "@xyo-network/node-memory": "workspace:^",
+    "@xyo-network/node-model": "workspace:^",
+    "@xyo-network/payload-builder": "workspace:^",
+    "@xyo-network/payload-wrapper": "workspace:^",
+    "get-port-please": "^3.1.2",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@scure/bip39": "^1.5.4",
+    "@scure/bip39": "^1.6.0",
     "@xylabs/assert": "^4.8.7",
     "@xylabs/forget": "^4.8.7",
     "@xylabs/hex": "^4.8.7",
@@ -50,8 +50,8 @@
     "lru-cache": "^11.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.3.4",
-    "@xylabs/tsconfig": "^6.3.4",
+    "@xylabs/ts-scripts-yarn3": "^6.3.5",
+    "@xylabs/tsconfig": "^6.3.5",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

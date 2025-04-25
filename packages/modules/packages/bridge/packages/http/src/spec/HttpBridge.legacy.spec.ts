@@ -7,8 +7,8 @@ import {
   describe, expect, it,
 } from 'vitest'
 
+import { HttpBridge } from '../HttpBridge.ts'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
-import { HttpBridge } from '../HttpBridgeFull.ts'
 
 /**
  * @group module

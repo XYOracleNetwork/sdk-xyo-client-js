@@ -21,25 +21,13 @@
   "type": "module",
   "exports": {
     ".": {
-      "browser": {
-        "types": "./dist/types/index-client.d.ts",
-        "default": "./dist/browser/index-client.mjs"
-      },
-      "node": {
-        "types": "./dist/types/index.d.ts",
-        "default": "./dist/node/index.mjs"
-      },
-      "types": "./dist/types/index-client.d.ts",
-      "default": "./dist/neutral/index-client.mjs"
-    },
-    "./client": {
-      "types": "./dist/types/index-client.d.ts",
-      "default": "./dist/neutral/index-client.mjs"
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/neutral/index.mjs"
     },
     "./package.json": "./package.json"
   },
-  "module": "dist/neutral/index-client.mjs",
-  "types": "dist/types/index-client.d.ts",
+  "module": "dist/neutral/index.mjs",
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist",
     "src",
@@ -66,17 +54,13 @@
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "async-mutex": "^0.5.0",
-    "axios": "^1.8.4",
-    "express": "^5.1.0",
-    "http-status-codes": "^2.3.0",
+    "axios": "^1.9.0",
     "lru-cache": "^11.1.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.1",
-    "@types/node": "^22.14.1",
-    "@xylabs/express": "^4.8.7",
-    "@xylabs/ts-scripts-yarn3": "^6.3.4",
-    "@xylabs/tsconfig": "^6.3.4",
+    "@types/node": "^22.15.2",
+    "@xylabs/ts-scripts-yarn3": "^6.3.5",
+    "@xylabs/tsconfig": "^6.3.5",
     "@xylabs/vitest-extended": "^4.8.7",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
@@ -87,17 +71,8 @@
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
-    "get-port-please": "^3.1.2",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
-  },
-  "peerDependencies": {
-    "@xylabs/express": "^4.7.11"
-  },
-  "peerDependenciesMeta": {
-    "@xylabs/express": {
-      "optional": true
-    }
   },
   "publishConfig": {
     "access": "public"

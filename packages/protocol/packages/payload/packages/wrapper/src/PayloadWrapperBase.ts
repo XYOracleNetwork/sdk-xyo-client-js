@@ -71,6 +71,10 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> {
     return (await this.getErrors()).length === 0
   }
 
+  async hash() {
+    return await PayloadBuilder.hash(this.payload)
+  }
+
   // intentionally a function to prevent confusion with payload
   schema(): string {
     return assertEx(this.payload?.schema, () => 'Missing payload schema')

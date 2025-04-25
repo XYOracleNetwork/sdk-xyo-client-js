@@ -1,5 +1,7 @@
 import '@xylabs/vitest-extended'
 
+import type { HttpBridgeConfig, HttpBridgeParams } from '@xyo-network/bridge-http'
+import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/bridge-http'
 import type { ModuleDescriptionPayload } from '@xyo-network/module-model'
 import { ModuleDescriptionSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -12,23 +14,22 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import type { HttpBridgeConfig } from '../HttpBridgeConfig.ts'
-import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
-import type { HttpBridgeParams } from '../HttpBridgeFull.ts'
-import { HttpBridge } from '../HttpBridgeFull.ts'
+import type { HttpBridgeExpressConfig, HttpBridgeExpressParams } from '../HttpBridge.ts'
+import { HttpBridgeExpress, HttpBridgeExpressConfigSchema } from '../HttpBridge.ts'
 
 const account = 'random'
-const schema = HttpBridgeConfigSchema
+const hostSchema = HttpBridgeExpressConfigSchema
+const clientSchema = HttpBridgeConfigSchema
 const security = { allowAnonymous: true }
 
 /**
  * @group module
  * @group bridge
  */
-describe('HttpBridge', () => {
+describe('HttpBridgeExpress', () => {
   let port: number
   let url: string
-  let hostBridge: HttpBridge<HttpBridgeParams>
+  let hostBridge: HttpBridgeExpress<HttpBridgeExpressParams>
   let clientBridge: HttpBridge<HttpBridgeParams>
   let hostNode: MemoryNode
   let clientNode: MemoryNode
@@ -46,18 +47,18 @@ describe('HttpBridge', () => {
     port = await getPort()
     url = `http://localhost:${port}`
 
-    const host: HttpBridgeConfig['host'] = { port }
+    const host: HttpBridgeExpressConfig['host'] = { port }
     const client: HttpBridgeConfig['client'] = { discoverRoots: 'start', url }
-    hostBridge = await HttpBridge.create({
+    hostBridge = await HttpBridgeExpress.create({
       account,
       config: {
-        host, name: 'TestBridgeHost', schema, security,
+        host, name: 'TestBridgeHost', schema: hostSchema, security,
       },
     })
     clientBridge = await HttpBridge.create({
       account,
       config: {
-        client, name: 'TestBridgeClient', schema, security,
+        client, name: 'TestBridgeClient', schema: clientSchema, security,
       },
     })
 
@@ -115,7 +116,7 @@ describe('HttpBridge', () => {
           expect((await hostBridge.exposed()).includes(exposedMod.address)).toBeTrue()
         })
         it.skip('should be resolvable from client', async () => {
-          // TODO: Implement .connect on HttpBridge and call here before resolving
+          // TODO: Implement .connect on HttpBridgeExpress and call here before resolving
           const result = await clientBridge.resolve(exposedMod.address)
           expect(result).toBeDefined()
           expect(asAttachableNodeInstance(result, () => `Failed to resolve correct object type [${result?.constructor.name}]`)).toBeDefined()

@@ -48,8 +48,8 @@
     "mongodb": "~6.13.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.3.4",
-    "@xylabs/tsconfig": "^6.3.4",
+    "@xylabs/ts-scripts-yarn3": "^6.3.5",
+    "@xylabs/tsconfig": "^6.3.5",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3"
   },

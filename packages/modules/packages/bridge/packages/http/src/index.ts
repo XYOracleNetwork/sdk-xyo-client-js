@@ -1,2 +1,2 @@
+export * from './HttpBridge.ts'
 export * from './HttpBridgeConfig.ts'
-export * from './HttpBridgeFull.ts'

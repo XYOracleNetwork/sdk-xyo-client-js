@@ -45,7 +45,7 @@ export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridg
 }
 
 @creatableModule()
-export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams>, BridgeQuerySender {
+export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams>, BridgeQuerySender {
   static readonly axios = new AxiosJson()
   static override readonly configSchemas: Schema[] = [...super.configSchemas, HttpBridgeConfigSchema]
   static override readonly defaultConfigSchema: Schema = HttpBridgeConfigSchema
@@ -56,12 +56,12 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
 
   private _axios?: AxiosJson
   private _discoverRootsMutex = new Mutex()
-  private _failureTimeCache = new LRUCache<Address, number>({ max: HttpBridgeBase.maxFailureCacheSize })
+  private _failureTimeCache = new LRUCache<Address, number>({ max: HttpBridge.maxFailureCacheSize })
   private _querySemaphore?: Semaphore
   private _resolver?: HttpBridgeModuleResolver
 
   get axios() {
-    this._axios = this._axios ?? this.params.axios ?? HttpBridgeBase.axios
+    this._axios = this._axios ?? this.params.axios ?? HttpBridge.axios
     return this._axios
   }
 
@@ -71,15 +71,15 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
   }
 
   get failureRetryTime() {
-    return this.config.failureRetryTime ?? HttpBridgeBase.defaultFailureRetryTime
+    return this.config.failureRetryTime ?? HttpBridge.defaultFailureRetryTime
   }
 
   get maxConnections() {
-    return this.config.maxConnections ?? HttpBridgeBase.defaultMaxConnections
+    return this.config.maxConnections ?? HttpBridge.defaultMaxConnections
   }
 
   get maxPayloadSizeWarning() {
-    return this.config.maxPayloadSizeWarning ?? HttpBridgeBase.defaultMaxPayloadSizeWarning
+    return this.config.maxPayloadSizeWarning ?? HttpBridge.defaultMaxPayloadSizeWarning
   }
 
   get querySemaphore() {

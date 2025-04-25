@@ -14,6 +14,7 @@ import {
 import { Address } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
 import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { HttpBridge, HttpBridgeConfig } from '@xyo-network/bridge-http'
 import {
   BridgeExposeOptions, BridgeParams, BridgeUnexposeOptions,
 } from '@xyo-network/bridge-model'
@@ -21,14 +22,11 @@ import {
 import {
   AnyConfigSchema, creatableModule, ModuleInstance, ModuleQueryResult, resolveAddressToInstanceUp,
 } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import express, {
   Application, Request, Response,
 } from 'express'
 import { StatusCodes } from 'http-status-codes'
-
-import { HttpBridgeBase } from './HttpBridgeBase.ts'
-import { HttpBridgeConfig } from './HttpBridgeConfig.ts'
 
 /**
  * The type of the path parameters for the address path.
@@ -49,10 +47,16 @@ type PostAddressRequestBody = [QueryBoundWitness, undefined | Payload[]]
   error: string
 } */
 
-export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {}
+export const HttpBridgeExpressConfigSchema = 'network.xyo.bridge.http.express.config' as const
+export type HttpBridgeExpressConfigSchema = typeof HttpBridgeExpressConfigSchema
+
+export interface HttpBridgeExpressConfig extends HttpBridgeConfig<{}, HttpBridgeExpressConfigSchema> {}
+
+export interface HttpBridgeExpressParams extends BridgeParams<AnyConfigSchema<HttpBridgeExpressConfig>> {}
 
 @creatableModule()
-export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase<TParams> {
+export class HttpBridgeExpress<TParams extends HttpBridgeExpressParams> extends HttpBridge<TParams> {
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, HttpBridgeExpressConfigSchema]
   protected _app?: Application
   protected _exposedModules: WeakRef<ModuleInstance>[] = []
   protected _server?: Server

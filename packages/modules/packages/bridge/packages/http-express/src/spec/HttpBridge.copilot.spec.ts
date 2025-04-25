@@ -5,24 +5,23 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
-import type { HttpBridgeParams } from '../HttpBridgeFull.ts'
-import { HttpBridge } from '../HttpBridgeFull.ts'
+import type { HttpBridgeExpressParams } from '../HttpBridge.ts'
+import { HttpBridgeExpress, HttpBridgeExpressConfigSchema } from '../HttpBridge.ts'
 
-describe('HttpBridge', () => {
-  let httpBridge: HttpBridge<HttpBridgeParams>
+describe('HttpBridgeExpress', () => {
+  let httpBridge: HttpBridgeExpress<HttpBridgeExpressParams>
 
   beforeEach(async () => {
-    httpBridge = await HttpBridge.create({
+    httpBridge = await HttpBridgeExpress.create({
       account: 'random',
       config: {
-        name: 'TestBridge', nodeUrl: 'http://localhost:8080', schema: HttpBridgeConfigSchema, security: { allowAnonymous: true },
+        name: 'TestBridge', nodeUrl: 'http://localhost:8080', schema: HttpBridgeExpressConfigSchema, security: { allowAnonymous: true },
       },
     })
   })
 
-  it('should create an instance of HttpBridge', () => {
-    expect(httpBridge).toBeInstanceOf(HttpBridge)
+  it('should create an instance of HttpBridgeExpress', () => {
+    expect(httpBridge).toBeInstanceOf(HttpBridgeExpress)
   })
 
   it('should have axios instance', () => {

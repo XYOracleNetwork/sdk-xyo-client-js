@@ -1,6 +1,3 @@
 export * from '@xyo-network/bridge-abstract'
-export * from '@xyo-network/bridge-http'
 export * from '@xyo-network/bridge-model'
-export * from '@xyo-network/bridge-module-resolver'
-export * from '@xyo-network/bridge-pub-sub'
 export * from '@xyo-network/bridge-wrapper'

@@ -30,21 +30,15 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@xyo-network/bridge-abstract": "workspace:^",
-    "@xyo-network/bridge-http": "workspace:^",
     "@xyo-network/bridge-model": "workspace:^",
-    "@xyo-network/bridge-module-resolver": "workspace:^",
     "@xyo-network/bridge-pub-sub": "workspace:^",
     "@xyo-network/bridge-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.3.4",
-    "@xylabs/tsconfig": "^6.3.4",
-    "@xylabs/vitest-extended": "^4.8.7",
+    "@xylabs/ts-scripts-yarn3": "^6.3.5",
+    "@xylabs/tsconfig": "^6.3.5",
     "@xyo-network/bridge-pub-sub": "workspace:^",
-    "@xyo-network/node-memory": "workspace:^",
-    "@xyo-network/node-model": "workspace:^",
-    "typescript": "^5.8.3",
-    "vitest": "^3.1.2"
+    "typescript": "^5.8.3"
   },
   "publishConfig": {
     "access": "public"

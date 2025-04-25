@@ -101,7 +101,7 @@ describe.runIf(hasMongoDBConfig())('Archivist', () => {
     ]
     it.each(cases)('%s', async (_title, getData) => {
       const payloads = getData()
-      const results = await archivist.get(await Promise.all(payloads.map(p => p.dataHash())))
+      const results = await archivist.get(await Promise.all(payloads.map(p => p.hash())))
       for (const [i, result] of results.entries()) {
         const payload = payloads[i]
         expect(await PayloadBuilder.dataHash(result)).toEqual(await payload.dataHash())

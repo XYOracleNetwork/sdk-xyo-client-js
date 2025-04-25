@@ -13,10 +13,10 @@ import {
 
 describe('PayloadBuilder', () => {
   test('build', () => {
-    let builder = new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let builder = new PayloadBuilder<any>({ schema })
     expect(builder).toBeDefined()
     builder = builder.fields({
-      $testDollar: 1,
       _testUnderscore: 1,
       testArray: [1, 2, 3],
       testBoolean: true,
@@ -33,7 +33,7 @@ describe('PayloadBuilder', () => {
       testUndefined: undefined,
       testUnderscoreObject: { _test: 1 },
       testUnderscoreObjectInArray: [{ _test: 1 }],
-    })
+    }).meta({ $testDollar: 1 })
     expect(builder).toBeDefined()
 
     const actual = builder.build()
@@ -49,10 +49,10 @@ describe('PayloadBuilder', () => {
     expect(Object.keys(actual.testSomeNullObject as object).length).toBe(2)
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect((actual as any).testUnderscoreObject._test).toBeUndefined()
+    expect((actual as any).testUnderscoreObject._test).toBeDefined()
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect((actual as any).testUnderscoreObjectInArray[0]._test).toBeUndefined()
+    expect((actual as any).testUnderscoreObjectInArray[0]._test).toBeDefined()
 
     // TODO: Determine how we want to handle nested meta
     // expect((actual as any).testDollarObject.$test).toBeDefined()

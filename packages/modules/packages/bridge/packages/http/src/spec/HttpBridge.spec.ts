@@ -27,8 +27,8 @@ import {
   describe, expect, it,
 } from 'vitest'
 
+import { HttpBridge } from '../HttpBridge.ts'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig.ts'
-import { HttpBridge } from '../HttpBridgeFull.ts'
 
 const archivistName = 'XYOPublic:Archivist' // TODO: This should be configurable
 const discoverRoots = 'start'

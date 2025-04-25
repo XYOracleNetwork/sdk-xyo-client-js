@@ -29,8 +29,8 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@firebase/app": "^0.11.4",
-    "@firebase/firestore": "^4.7.10",
+    "@firebase/app": "^0.11.5",
+    "@firebase/firestore": "^4.7.11",
     "@xylabs/assert": "^4.8.7",
     "@xylabs/exists": "^4.8.7",
     "@xylabs/hex": "^4.8.7",
@@ -41,9 +41,9 @@
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^4.0.1",
-    "@xylabs/ts-scripts-yarn3": "^6.3.4",
-    "@xylabs/tsconfig": "^6.3.4",
-    "firebase": "^11.6.0",
+    "@xylabs/ts-scripts-yarn3": "^6.3.5",
+    "@xylabs/tsconfig": "^6.3.5",
+    "firebase": "^11.6.1",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
   },

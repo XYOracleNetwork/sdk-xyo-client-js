@@ -49,7 +49,6 @@
   },
   "resolutions": {
     "axios": "^1",
-    "ethers": "^6",
     "fake-indexeddb": "^4"
   },
   "dependencies": {

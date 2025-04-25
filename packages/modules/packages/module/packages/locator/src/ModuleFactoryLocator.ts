@@ -4,6 +4,7 @@ import type {
   CreatableModuleRegistry,
   LabeledCreatableModuleFactory,
   Labels,
+  ModuleFactoryLocatorInstance,
 } from '@xyo-network/module-model'
 import {
   hasAllLabels,
@@ -17,7 +18,7 @@ import { standardCreatableFactories } from './standardCreatableFactories.ts'
 /**
  * A class which encapsulates the Service Locator Pattern for Module Factories
  */
-export class ModuleFactoryLocator {
+export class ModuleFactoryLocator implements ModuleFactoryLocatorInstance {
   private _frozen = false
 
   constructor(protected readonly _registry: CreatableModuleRegistry = standardCreatableFactories()) {}

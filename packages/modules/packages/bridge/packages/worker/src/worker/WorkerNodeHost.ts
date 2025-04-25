@@ -6,6 +6,8 @@ import type { Logger } from '@xylabs/logger'
 import { HDWallet } from '@xyo-network/account'
 import type { PackageManifestPayload } from '@xyo-network/manifest'
 import { ManifestWrapper } from '@xyo-network/manifest'
+import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
+import type { ModuleFactoryLocatorInstance } from '@xyo-network/module-model'
 import type { NodeInstance } from '@xyo-network/node-model'
 
 import type {
@@ -30,9 +32,9 @@ export class WorkerNodeHost {
     protected logger?: Logger,
   ) {}
 
-  static async create(config: PackageManifestPayload) {
+  static async create(config: PackageManifestPayload, locator: ModuleFactoryLocatorInstance) {
     const mnemonic = generateMnemonic(wordlist, 256)
-    const manifest = new ManifestWrapper(config, await HDWallet.fromPhrase(mnemonic))
+    const manifest = new ManifestWrapper(config, await HDWallet.fromPhrase(mnemonic), locator)
     const [node] = await manifest.loadNodes()
     const worker = new this(node)
     worker.attachNode(node)
@@ -44,7 +46,7 @@ export class WorkerNodeHost {
       switch (event.data.type) {
         case 'createNode': {
           const message: CreateNodeMessage = event.data
-          const worker = await this.create(message.manifest)
+          const worker = await this.create(message.manifest, new ModuleFactoryLocator())
           logger?.log(`createNode: ${worker.node.address}`)
           const response: NodeCreatedMessage = { address: worker.node.address, type: 'nodeCreated' }
           postMessage(response)

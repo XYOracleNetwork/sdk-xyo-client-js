@@ -4,6 +4,7 @@ import { HDWallet } from '@xyo-network/account'
 import type {
   ModuleManifest, NodeManifest, PackageManifestPayload,
 } from '@xyo-network/manifest-model'
+import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import { AddressSchema } from '@xyo-network/module-model'
 import {
   describe, expect, test,
@@ -21,7 +22,7 @@ describe('Manifest', () => {
       const manifest = new ManifestWrapper(
         simpleNodeParentManifest as PackageManifestPayload,
         wallet,
-        undefined,
+        new ModuleFactoryLocator(),
         simpleNodeChildManifest.nodes[0].modules.public as ModuleManifest[],
       )
       const [node] = await manifest.loadNodes()

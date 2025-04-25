@@ -5093,6 +5093,7 @@ __metadata:
     "@xyo-network/bridge-model": "workspace:^"
     "@xyo-network/manifest": "workspace:^"
     "@xyo-network/manifest-model": "workspace:^"
+    "@xyo-network/module-factory-locator": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/node-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
@@ -7796,7 +7797,7 @@ __metadata:
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/witness-model": "workspace:^"
-    ethers: "npm:6.13.6"
+    ethers: "npm:^6.13.6"
     typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
@@ -9969,7 +9970,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^6":
+"ethers@npm:6.13.6, ethers@npm:^6.13.6":
   version: 6.13.6
   resolution: "ethers@npm:6.13.6"
   dependencies:

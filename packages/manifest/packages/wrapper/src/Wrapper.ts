@@ -3,8 +3,8 @@ import { HDWallet } from '@xyo-network/account'
 import type {
   ModuleManifest, NodeManifest, PackageManifestPayload,
 } from '@xyo-network/manifest-model'
-import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type {
+  ModuleFactoryLocatorInstance,
   ModuleIdentifierTransformer, ModuleInstance, ModuleParams,
 } from '@xyo-network/module-model'
 import { isModuleName } from '@xyo-network/module-model'
@@ -21,7 +21,7 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
   constructor(
     payload: TManifest extends WithAnySchema<PackageManifestPayload> ? TManifest : WithAnySchema<PackageManifestPayload>,
     protected readonly wallet: WalletInstance,
-    protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator(),
+    protected readonly locator: ModuleFactoryLocatorInstance,
     protected readonly publicChildren: ModuleManifest[] = [],
     protected readonly privateChildren: ModuleManifest[] = [],
     protected readonly moduleIdentifierTransformers?: ModuleIdentifierTransformer[],

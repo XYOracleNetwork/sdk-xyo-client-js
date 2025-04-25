@@ -3,6 +3,7 @@ import '@xylabs/vitest-extended'
 import { toJsonString } from '@xylabs/object'
 import { HDWallet } from '@xyo-network/account'
 import type { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
+import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import { AddressSchema } from '@xyo-network/module-model'
 import {
   describe, expect, test,
@@ -16,7 +17,7 @@ describe('Manifest', () => {
     test('Simple Node [Inline]', async () => {
       const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
       const wallet = await HDWallet.fromPhrase(mnemonic)
-      const manifest = new ManifestWrapper(simpleNodeInlineManifest as PackageManifestPayload, wallet)
+      const manifest = new ManifestWrapper(simpleNodeInlineManifest as PackageManifestPayload, wallet, new ModuleFactoryLocator())
       const [node] = await manifest.loadNodes()
       expect(node).toBeDefined()
 

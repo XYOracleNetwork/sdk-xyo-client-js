@@ -4916,6 +4916,7 @@ __metadata:
     "@xyo-network/bridge-abstract": "workspace:^"
     "@xyo-network/bridge-http": "workspace:^"
     "@xyo-network/bridge-model": "workspace:^"
+    "@xyo-network/bridge-pub-sub": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/module-resolver": "workspace:^"
@@ -5125,7 +5126,6 @@ __metadata:
     "@xylabs/tsconfig": "npm:^6.3.5"
     "@xyo-network/bridge-abstract": "workspace:^"
     "@xyo-network/bridge-model": "workspace:^"
-    "@xyo-network/bridge-pub-sub": "workspace:^"
     "@xyo-network/bridge-wrapper": "workspace:^"
     typescript: "npm:^5.8.3"
   languageName: unknown

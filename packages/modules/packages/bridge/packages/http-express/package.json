@@ -62,6 +62,7 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/bridge-abstract": "workspace:^",
+    "@xyo-network/bridge-pub-sub": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-resolver": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

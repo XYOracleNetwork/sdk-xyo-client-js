@@ -1,10 +1,10 @@
 import '@xylabs/vitest-extended'
 
-import { HDWallet } from '@xyo-network/account'
 import type { JsonPathTransformExpression } from '@xyo-network/diviner-jsonpath-model'
 import { JsonPathDivinerConfigSchema } from '@xyo-network/diviner-jsonpath-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { AnyPayload } from '@xyo-network/payload-model'
+import { HDWallet } from '@xyo-network/wallet'
 import type { WalletInstance } from '@xyo-network/wallet-model'
 import {
   beforeAll,

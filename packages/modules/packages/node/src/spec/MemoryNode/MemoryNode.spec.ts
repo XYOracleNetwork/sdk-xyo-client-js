@@ -1,7 +1,6 @@
 /* eslint-disable sonarjs/assertions-in-tests */
 import { delay } from '@xylabs/delay'
 import { matchers } from '@xylabs/vitest-matchers'
-import { HDWallet } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import type { AttachableArchivistInstance } from '@xyo-network/archivist-model'
@@ -21,6 +20,7 @@ import type { ModuleAttachedEventArgs } from '@xyo-network/node-model'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import type { Payload } from '@xyo-network/payload'
 import { isPayloadOfSchemaType } from '@xyo-network/payload'
+import { HDWallet } from '@xyo-network/wallet'
 import {
   beforeAll,
   beforeEach,

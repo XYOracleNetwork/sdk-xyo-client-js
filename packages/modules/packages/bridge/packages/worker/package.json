@@ -36,7 +36,6 @@
     "@xylabs/logger": "^4.8.7",
     "@xylabs/object": "^4.8.7",
     "@xylabs/promise": "^4.8.7",
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/bridge-abstract": "workspace:^",
@@ -48,6 +47,7 @@
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/sentinel-model": "workspace:^",
+    "@xyo-network/wallet": "workspace:^",
     "lru-cache": "^11.1.0"
   },
   "devDependencies": {

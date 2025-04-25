@@ -3,9 +3,11 @@ import '@xylabs/vitest-extended'
 import { toArrayBuffer } from '@xylabs/arraybuffer'
 import {
   Account,
-  AddressValue, Elliptic, HDWallet,
+  AddressValue,
 } from '@xyo-network/account'
+import { Elliptic } from '@xyo-network/elliptic'
 import { PayloadBuilder } from '@xyo-network/payload'
+import { HDWallet } from '@xyo-network/wallet'
 import {
   describe, expect, it,
 } from 'vitest'

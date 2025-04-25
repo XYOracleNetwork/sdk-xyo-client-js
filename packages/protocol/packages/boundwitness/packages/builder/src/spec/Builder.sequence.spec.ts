@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
-import { HDWallet } from '@xyo-network/account'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { HDWallet } from '@xyo-network/wallet'
 import {
   afterAll,
   beforeAll,

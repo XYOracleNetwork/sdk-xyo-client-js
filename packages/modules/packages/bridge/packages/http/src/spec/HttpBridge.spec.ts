@@ -4,7 +4,6 @@
 import '@xylabs/vitest-extended'
 
 import { assertEx } from '@xylabs/assert'
-import { HDWallet } from '@xyo-network/account'
 import type { ApiConfig } from '@xyo-network/api-models'
 import type { AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import {
@@ -23,6 +22,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { HDWallet } from '@xyo-network/wallet'
 import {
   describe, expect, it,
 } from 'vitest'

@@ -1,7 +1,6 @@
 import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
-import { HDWallet } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { JsonPatchDiviner } from '@xyo-network/diviner-jsonpatch-memory'
 import { JsonPathAggregateDiviner } from '@xyo-network/diviner-jsonpath-aggregate-memory'
@@ -12,6 +11,7 @@ import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { MemoryNode } from '@xyo-network/node-memory'
 import type { Payload } from '@xyo-network/payload-model'
+import { HDWallet } from '@xyo-network/wallet'
 import {
   beforeAll,
   describe, expect, it,

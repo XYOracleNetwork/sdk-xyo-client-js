@@ -49,6 +49,7 @@
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/payload": "workspace:^",
+    "@xyo-network/wallet": "workspace:^",
     "@xyo-network/witness-adhoc": "workspace:^",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"

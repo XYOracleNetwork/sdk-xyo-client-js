@@ -1,11 +1,11 @@
 import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import { staticImplements } from '@xylabs/static-implements'
+import { Elliptic } from '@xyo-network/elliptic'
 import type {
   PrivateKeyInstance, PrivateKeyStatic, PublicKeyInstance,
 } from '@xyo-network/key-model'
 
-import { Elliptic } from '../Elliptic.ts'
 import { EllipticKey } from './EllipticKey.ts'
 import { PublicKey } from './PublicKey.ts'
 

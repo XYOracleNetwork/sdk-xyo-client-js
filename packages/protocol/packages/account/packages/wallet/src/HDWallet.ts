@@ -7,6 +7,7 @@ import {
   Address, Hex, hexFromHexString,
 } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
+import { Account, PrivateKey } from '@xyo-network/account'
 import {
   AccountConfig,
   isMnemonicInitializationConfig,
@@ -18,9 +19,6 @@ import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import {
   defaultPath, HDNodeWallet, Mnemonic,
 } from 'ethers'
-
-import { Account } from './Account.ts'
-import { PrivateKey } from './Key/index.ts'
 
 @staticImplements<WalletStatic>()
 export class HDWallet extends Account implements WalletInstance {

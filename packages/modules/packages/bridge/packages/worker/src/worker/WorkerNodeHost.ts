@@ -3,12 +3,12 @@ import { wordlist } from '@scure/bip39/wordlists/english'
 import { forget } from '@xylabs/forget'
 import type { Address } from '@xylabs/hex'
 import type { Logger } from '@xylabs/logger'
-import { HDWallet } from '@xyo-network/account'
 import type { PackageManifestPayload } from '@xyo-network/manifest'
 import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { ModuleFactoryLocatorInstance } from '@xyo-network/module-model'
 import type { NodeInstance } from '@xyo-network/node-model'
+import { HDWallet } from '@xyo-network/wallet'
 
 import type {
   Message, QueryMessage, QueryResultMessage,

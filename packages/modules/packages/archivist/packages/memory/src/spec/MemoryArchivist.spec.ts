@@ -3,7 +3,6 @@ import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
 import { toJsonString } from '@xylabs/object'
-import { HDWallet } from '@xyo-network/account'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import type { Id } from '@xyo-network/id-payload-plugin'
 import {
@@ -11,6 +10,7 @@ import {
   IdSchema, isId,
 } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { HDWallet } from '@xyo-network/wallet'
 import {
   describe, expect, it,
 } from 'vitest'

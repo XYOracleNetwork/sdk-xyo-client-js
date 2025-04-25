@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { HDWallet } from '@xyo-network/account'
 import type {
   ModuleManifest, NodeManifest, PackageManifestPayload,
 } from '@xyo-network/manifest-model'
@@ -12,6 +11,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import type { NodeInstance } from '@xyo-network/node-model'
 import type { WithAnySchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { HDWallet } from '@xyo-network/wallet'
 import type { WalletInstance } from '@xyo-network/wallet-model'
 
 export interface ManifestWrapperExParams {

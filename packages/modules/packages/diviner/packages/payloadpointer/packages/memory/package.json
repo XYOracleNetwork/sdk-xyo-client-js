@@ -61,6 +61,7 @@
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
+    "@xyo-network/wallet": "workspace:^",
     "@xyo-network/wallet-model": "workspace:^",
     "typescript": "^5.8.3",
     "uuid": "^11.1.0",

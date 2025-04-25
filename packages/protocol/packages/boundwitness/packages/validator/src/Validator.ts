@@ -1,9 +1,9 @@
 import { uniq } from '@xylabs/array'
 import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { validateType } from '@xylabs/typeof'
-import { Elliptic } from '@xyo-network/account'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { Elliptic } from '@xyo-network/elliptic'
 import { PayloadBuilder } from '@xyo-network/payload'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 

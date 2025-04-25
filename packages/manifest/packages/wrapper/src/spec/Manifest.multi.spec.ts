@@ -1,11 +1,11 @@
 import '@xylabs/vitest-extended'
 
-import { HDWallet } from '@xyo-network/account'
 import type {
   ModuleManifest, NodeManifest, PackageManifestPayload,
 } from '@xyo-network/manifest-model'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import { AddressSchema } from '@xyo-network/module-model'
+import { HDWallet } from '@xyo-network/wallet'
 import {
   describe, expect, test,
 } from 'vitest'

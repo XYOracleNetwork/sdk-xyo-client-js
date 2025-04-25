@@ -15,6 +15,7 @@ import {
   PhraseInitializationConfig,
   PrivateKeyInitializationConfig,
 } from '@xyo-network/account-model'
+import { Elliptic } from '@xyo-network/elliptic'
 import type { PrivateKeyInstance, PublicKeyInstance } from '@xyo-network/key-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Mutex } from 'async-mutex'
@@ -22,7 +23,6 @@ import {
   HDNodeWallet, Mnemonic, randomBytes,
 } from 'ethers'
 
-import { Elliptic } from './Elliptic.ts'
 import { EllipticKey, PrivateKey } from './Key/index.ts'
 
 const nameOf = <T>(name: keyof T) => name

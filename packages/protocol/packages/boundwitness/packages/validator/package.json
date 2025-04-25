@@ -35,6 +35,7 @@
     "@xylabs/typeof": "^4.8.7",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/elliptic": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-validator": "workspace:^"
@@ -45,6 +46,7 @@
     "@xylabs/vitest-extended": "^4.8.7",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/schema-name-validator": "workspace:^",
+    "@xyo-network/wallet": "workspace:^",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
   },

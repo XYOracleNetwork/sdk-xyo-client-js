@@ -1,9 +1,8 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
+import { Elliptic } from '@xyo-network/elliptic'
 import {
   describe, expect, it,
 } from 'vitest'
-
-import { Elliptic } from '../Elliptic.ts'
 
 describe('AddressValue', () => {
   const valid: [string, string, string][] = [

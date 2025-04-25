@@ -1,8 +1,8 @@
+import { Account } from '@xyo-network/account'
 import {
   describe, expect, it,
 } from 'vitest'
 
-import { Account } from '../Account.ts'
 import { HDWallet } from '../HDWallet.ts'
 
 describe('Address', () => {

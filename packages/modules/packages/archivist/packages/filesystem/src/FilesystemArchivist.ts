@@ -4,7 +4,6 @@ import { assertEx } from '@xylabs/assert'
 import { handleError } from '@xylabs/error'
 import { Hash } from '@xylabs/hex'
 import { PromisableArray } from '@xylabs/promise'
-import { HDWallet } from '@xyo-network/account'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import {
@@ -19,6 +18,7 @@ import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import {
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
+import { HDWallet } from '@xyo-network/wallet'
 
 export interface FileSystemArchivistData {
   payloads: Payload[]

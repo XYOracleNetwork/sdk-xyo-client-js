@@ -7,18 +7,12 @@ const config: KnipConfig = {
   entry: [
     'src/index.ts*',
     'src/index-*.ts*',
-    '*.ts',
-    '*.mjs',
-    'scripts/**/*.*',
-    'bin/*',
-    'src/**/*.stories.ts*',
-    'src/**/*.spec.ts',
   ],
-  project: ['src/**/*.ts*', '*.ts*'],
+  project: ['src/**/*.ts*'],
   ignoreDependencies: ['@xylabs/ts-scripts-yarn3', 'tslib'],
   workspaces: {
     '.': {
-      entry: [...entry, 'src/**/*.ts', './storybook/**/*.ts', 'vite.config.ts'],
+      entry,
       project,
       ignoreDependencies: [
         '@typescript-eslint/eslint-plugin',

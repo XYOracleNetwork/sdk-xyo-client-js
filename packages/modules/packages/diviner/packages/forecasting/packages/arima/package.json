@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/package.json",
   "name": "@xyo-network/diviner-forecasting-method-arima",
-  "version": "3.14.1",
+  "version": "3.14.2",
   "description": "XYO Archivist",
   "license": "LGPL-3.0-only",
   "author": "Arie Trouw",

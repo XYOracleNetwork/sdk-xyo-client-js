@@ -5145,7 +5145,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/core-payload-plugins@workspace:^, @xyo-network/core-payload-plugins@workspace:packages/core-payload-plugins":
+"@xyo-network/core-payload-plugins@workspace:packages/core-payload-plugins":
   version: 0.0.0-use.local
   resolution: "@xyo-network/core-payload-plugins@workspace:packages/core-payload-plugins"
   dependencies:
@@ -6929,6 +6929,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^6.3.5"
     "@xyo-network/module-model": "npm:^3.14.0"
     "@xyo-network/payload-mongodb": "workspace:^"
+    "@xyo-network/shared": "workspace:^"
     typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
@@ -7546,12 +7547,10 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
     "@xylabs/vitest-extended": "npm:^4.8.7"
-    "@xyo-network/core-payload-plugins": "workspace:^"
     "@xyo-network/manifest": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/protocol": "workspace:^"
     "@xyo-network/sdk-utils": "workspace:^"
-    "@xyo-network/shared": "workspace:^"
     dependency-cruiser: "npm:^16.10.1"
     dotenv: "npm:^16.5.0"
     eslint: "npm:^9.25.1"
@@ -7747,13 +7746,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
     "@xyo-network/account-model": "workspace:^"
-    ethers: "npm:6.13.6"
     typescript: "npm:^5.8.3"
-  peerDependencies:
-    ethers: ^6
-  peerDependenciesMeta:
-    ethers:
-      optional: true
   languageName: unknown
   linkType: soft
 

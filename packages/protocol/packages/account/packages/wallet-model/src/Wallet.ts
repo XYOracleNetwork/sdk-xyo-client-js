@@ -2,7 +2,8 @@ import type { Hex } from '@xylabs/hex'
 import type {
   AccountConfig, AccountInstance, AccountStatic,
 } from '@xyo-network/account-model'
-import type { Mnemonic } from 'ethers'
+
+import type { MnemonicInstance } from './Mnemonic.ts'
 
 export interface WalletInstance extends AccountInstance {
   readonly chainCode: string
@@ -11,7 +12,7 @@ export interface WalletInstance extends AccountInstance {
   readonly extendedKey: string
   readonly fingerprint: string
   readonly index: number
-  readonly mnemonic?: Mnemonic | null
+  readonly mnemonic?: MnemonicInstance | null
   readonly neuter: () => WalletInstance
   readonly parentFingerprint: string
   readonly path: string | null
@@ -22,7 +23,7 @@ export interface WalletInstance extends AccountInstance {
 export interface WalletStatic<T extends WalletInstance = WalletInstance> extends Omit<AccountStatic<T>, 'create'> {
   create(config: AccountConfig): Promise<T>
   fromExtendedKey(key: string): Promise<T>
-  fromMnemonic(mnemonic: Mnemonic): Promise<T>
+  fromMnemonic(mnemonic: MnemonicInstance): Promise<T>
   fromPhrase(mnemonic: string, path?: string): Promise<T>
   fromSeed(seed: string | ArrayBufferLike): Promise<T>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

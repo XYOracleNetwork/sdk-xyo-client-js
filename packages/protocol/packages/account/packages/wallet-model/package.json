@@ -35,16 +35,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.3.5",
     "@xylabs/tsconfig": "^6.3.5",
-    "ethers": "6.13.6",
     "typescript": "^5.8.3"
-  },
-  "peerDependencies": {
-    "ethers": "^6"
-  },
-  "peerDependenciesMeta": {
-    "ethers": {
-      "optional": true
-    }
   },
   "publishConfig": {
     "access": "public"

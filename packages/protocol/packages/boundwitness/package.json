@@ -30,7 +30,6 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@xyo-network/boundwitness-builder": "workspace:^",
-    "@xyo-network/boundwitness-loader": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-validator": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^"

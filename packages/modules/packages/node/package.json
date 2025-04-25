@@ -29,10 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xyo-network/node-abstract": "workspace:^",
-    "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
-    "@xyo-network/node-view": "workspace:^",
     "@xyo-network/node-wrapper": "workspace:^"
   },
   "devDependencies": {
@@ -50,6 +47,7 @@
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/manifest-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
+    "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/witness-adhoc": "workspace:^",
     "typescript": "^5.8.3",

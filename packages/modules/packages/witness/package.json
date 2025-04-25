@@ -29,7 +29,6 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/witness-model": "workspace:^",
     "@xyo-network/witness-wrapper": "workspace:^"
   },

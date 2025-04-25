@@ -29,7 +29,6 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xyo-network/sentinel-abstract": "workspace:^",
     "@xyo-network/sentinel-model": "workspace:^"
   },
   "devDependencies": {

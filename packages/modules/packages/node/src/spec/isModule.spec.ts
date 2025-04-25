@@ -3,13 +3,14 @@ import '@xylabs/vitest-extended'
 
 import { Account } from '@xyo-network/account'
 import { isModuleInstance } from '@xyo-network/module-model'
+import { MemoryNode } from '@xyo-network/node-memory'
 import {
   describe, expect, test,
 } from 'vitest'
 
 // eslint-disable-next-line no-restricted-imports
 import {
-  isNodeInstance, MemoryNode, NodeConfigSchema, NodeWrapper,
+  isNodeInstance, NodeConfigSchema, NodeWrapper,
 } from '../index.ts'
 
 /**

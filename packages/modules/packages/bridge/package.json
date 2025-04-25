@@ -29,7 +29,6 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xyo-network/bridge-abstract": "workspace:^",
     "@xyo-network/bridge-model": "workspace:^",
     "@xyo-network/bridge-wrapper": "workspace:^"
   },

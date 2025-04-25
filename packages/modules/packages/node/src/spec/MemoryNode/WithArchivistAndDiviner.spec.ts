@@ -7,15 +7,13 @@ import { ArchivistPayloadDiviner, ArchivistPayloadDivinerConfigSchema } from '@x
 import type { HuriPayload } from '@xyo-network/diviner-huri'
 import { HuriSchema } from '@xyo-network/diviner-huri'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
+import { MemoryNode } from '@xyo-network/node-memory'
 import type { Payload } from '@xyo-network/payload'
 import { PayloadBuilder, PayloadSchema } from '@xyo-network/payload'
 import {
   describe, expect,
   it,
 } from 'vitest'
-
-// eslint-disable-next-line no-restricted-imports
-import { MemoryNode } from '../../index.ts'
 
 /**
  * @group node

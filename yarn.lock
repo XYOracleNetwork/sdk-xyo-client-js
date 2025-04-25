@@ -4718,7 +4718,6 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
-    "@xyo-network/archivist-abstract": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/archivist-wrapper": "workspace:^"
     typescript: "npm:^5.8.3"
@@ -5122,7 +5121,6 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
-    "@xyo-network/bridge-abstract": "workspace:^"
     "@xyo-network/bridge-model": "workspace:^"
     "@xyo-network/bridge-wrapper": "workspace:^"
     typescript: "npm:^5.8.3"
@@ -6607,7 +6605,6 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
-    "@xyo-network/diviner-abstract": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/diviner-wrapper": "workspace:^"
     typescript: "npm:^5.8.3"
@@ -7025,7 +7022,6 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
-    "@xyo-network/module-abstract": "workspace:^"
     "@xyo-network/module-event-emitter": "workspace:^"
     "@xyo-network/module-events": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
@@ -7201,10 +7197,8 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/manifest-model": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
-    "@xyo-network/node-abstract": "workspace:^"
     "@xyo-network/node-memory": "workspace:^"
     "@xyo-network/node-model": "workspace:^"
-    "@xyo-network/node-view": "workspace:^"
     "@xyo-network/node-wrapper": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness-adhoc": "workspace:^"
@@ -7694,7 +7688,6 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
-    "@xyo-network/sentinel-abstract": "workspace:^"
     "@xyo-network/sentinel-model": "workspace:^"
     typescript: "npm:^5.8.3"
   languageName: unknown
@@ -7919,7 +7912,6 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
-    "@xyo-network/abstract-witness": "workspace:^"
     "@xyo-network/witness-model": "workspace:^"
     "@xyo-network/witness-wrapper": "workspace:^"
     typescript: "npm:^5.8.3"

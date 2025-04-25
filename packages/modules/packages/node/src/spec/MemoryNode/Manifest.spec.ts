@@ -1,13 +1,11 @@
 import '@xylabs/vitest-extended'
 
 import type { NodeManifestPayload } from '@xyo-network/manifest-model'
+import { MemoryNode } from '@xyo-network/node-memory'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 import {
   describe, expect, it,
 } from 'vitest'
-
-// eslint-disable-next-line no-restricted-imports
-import { MemoryNode } from '../../index.ts'
 
 /**
  * @group node

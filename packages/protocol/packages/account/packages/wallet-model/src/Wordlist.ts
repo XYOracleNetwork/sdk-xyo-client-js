@@ -2,7 +2,7 @@ export interface WordlistInstance {
   locale: string
 
   /**
-     *  Maps an 11-bit value into its coresponding word in the list.
+     *  Maps an 11-bit value into its corresponding word in the list.
      *
      *  Sub-classes MUST override this.
      */

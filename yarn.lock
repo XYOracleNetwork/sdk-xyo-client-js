@@ -3841,16 +3841,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/arraybuffer @npm:^4.8.7":
-  version: 4.8.7
-  resolution: "@xylabs/arraybuffer @npm:4.8.7::__archiveUrl=https%3A%2F%2Fregistry.npmjs.org%2F%40xylabs%2Farraybuffer%2F-%2Farraybuffer-4.8.7.tgz"
-  dependencies:
-    "@xylabs/assert": "npm:^4.8.7"
-    "@xylabs/hex": "npm:^4.8.7"
-  checksum: 10/45d755ca11d6a7d2f946175f9df71ac02c1f6ae791ebd06d697e2494f1dbee65585f7a31b47086a8069c0e21d75f0e85f25a562e5cc21f7e5a4b17a63d66b7a4
-  languageName: node
-  linkType: hard
-
 "@xylabs/arraybuffer@npm:^4.8.7":
   version: 4.8.7
   resolution: "@xylabs/arraybuffer@npm:4.8.7"
@@ -3877,17 +3867,6 @@ __metadata:
     axios: "npm:^1.8.4"
     pako: "npm:^2.1.0"
   checksum: 10/613a240396cc0179375715e29c18ca7db975eae0d46d412b049e55c5eee5e6802f44e482d3f7348f7b949acd36a4b071a3fb49dba3331cc115c7a88e35bacbb2
-  languageName: node
-  linkType: hard
-
-"@xylabs/base @npm:^4.8.7":
-  version: 4.8.7
-  resolution: "@xylabs/base @npm:4.8.7::__archiveUrl=https%3A%2F%2Fregistry.npmjs.org%2F%40xylabs%2Fbase%2F-%2Fbase-4.8.7.tgz"
-  dependencies:
-    "@xylabs/assert": "npm:^4.8.7"
-    "@xylabs/logger": "npm:^4.8.7"
-    "@xylabs/object": "npm:^4.8.7"
-  checksum: 10/a07ca901f7b521c7b4c0d705bcd452e0f6dd39fe09947cf1fbb6fb521c10f3a6027def2bc482ac6fcf8d2ea6d8f4ba67880b7a339171a6e48aad772ef7ffdef2
   languageName: node
   linkType: hard
 
@@ -4275,11 +4254,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/account@npm:^3.14.5, @xyo-network/account@workspace:^, @xyo-network/account@workspace:packages/protocol/packages/account/packages/account":
+"@xyo-network/account@npm:^3.14.10, @xyo-network/account@workspace:^, @xyo-network/account@workspace:packages/protocol/packages/account/packages/account":
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/protocol/packages/account/packages/account"
   dependencies:
-    "@xylabs/arraybuffer ": "npm:^4.8.7"
+    "@xylabs/arraybuffer": "npm:^4.8.7"
     "@xylabs/assert": "npm:^4.8.7"
     "@xylabs/base": "npm:^4.8.7"
     "@xylabs/hex": "npm:^4.8.7"
@@ -4349,7 +4328,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist-abstract@npm:^3.14.5, @xyo-network/archivist-abstract@workspace:^, @xyo-network/archivist-abstract@workspace:packages/modules/packages/archivist/packages/abstract":
+"@xyo-network/archivist-abstract@npm:^3.14.10, @xyo-network/archivist-abstract@workspace:^, @xyo-network/archivist-abstract@workspace:packages/modules/packages/archivist/packages/abstract":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-abstract@workspace:packages/modules/packages/archivist/packages/abstract"
   dependencies:
@@ -4374,7 +4353,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist-acceptance-tests@npm:^3.14.5, @xyo-network/archivist-acceptance-tests@workspace:^, @xyo-network/archivist-acceptance-tests@workspace:packages/modules/packages/archivist/packages/acceptance-tests":
+"@xyo-network/archivist-acceptance-tests@npm:^3.14.10, @xyo-network/archivist-acceptance-tests@workspace:^, @xyo-network/archivist-acceptance-tests@workspace:packages/modules/packages/archivist/packages/acceptance-tests":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-acceptance-tests@workspace:packages/modules/packages/archivist/packages/acceptance-tests"
   dependencies:
@@ -4599,14 +4578,14 @@ __metadata:
     "@xylabs/mongo": "npm:^4.8.7"
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
-    "@xyo-network/archivist-model": "npm:^3.14.5"
-    "@xyo-network/module-model": "npm:^3.14.5"
+    "@xyo-network/archivist-model": "npm:^3.14.10"
+    "@xyo-network/module-model": "npm:^3.14.10"
     knip: "npm:^5.50.5"
     typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist-model@npm:^3.14.5, @xyo-network/archivist-model@workspace:^, @xyo-network/archivist-model@workspace:packages/modules/packages/archivist/packages/model":
+"@xyo-network/archivist-model@npm:^3.14.10, @xyo-network/archivist-model@workspace:^, @xyo-network/archivist-model@workspace:packages/modules/packages/archivist/packages/model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-model@workspace:packages/modules/packages/archivist/packages/model"
   dependencies:
@@ -4639,20 +4618,20 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
     "@xylabs/vitest-extended": "npm:^4.8.7"
-    "@xyo-network/account": "npm:^3.14.5"
-    "@xyo-network/archivist-abstract": "npm:^3.14.5"
-    "@xyo-network/archivist-acceptance-tests": "npm:^3.14.5"
-    "@xyo-network/archivist-model": "npm:^3.14.5"
+    "@xyo-network/account": "npm:^3.14.10"
+    "@xyo-network/archivist-abstract": "npm:^3.14.10"
+    "@xyo-network/archivist-acceptance-tests": "npm:^3.14.10"
+    "@xyo-network/archivist-model": "npm:^3.14.10"
     "@xyo-network/archivist-model-mongodb": "workspace:^"
-    "@xyo-network/archivist-wrapper": "npm:^3.14.5"
-    "@xyo-network/boundwitness-builder": "npm:^3.14.5"
-    "@xyo-network/boundwitness-model": "npm:^3.14.5"
-    "@xyo-network/boundwitness-wrapper": "npm:^3.14.5"
+    "@xyo-network/archivist-wrapper": "npm:^3.14.10"
+    "@xyo-network/boundwitness-builder": "npm:^3.14.10"
+    "@xyo-network/boundwitness-model": "npm:^3.14.10"
+    "@xyo-network/boundwitness-wrapper": "npm:^3.14.10"
     "@xyo-network/module-abstract-mongodb": "workspace:^"
-    "@xyo-network/payload-builder": "npm:^3.14.5"
-    "@xyo-network/payload-model": "npm:^3.14.5"
+    "@xyo-network/payload-builder": "npm:^3.14.10"
+    "@xyo-network/payload-model": "npm:^3.14.10"
     "@xyo-network/payload-mongodb": "workspace:^"
-    "@xyo-network/payload-wrapper": "npm:^3.14.5"
+    "@xyo-network/payload-wrapper": "npm:^3.14.10"
     knip: "npm:^5.50.5"
     mongodb: "npm:~6.13.1"
     typescript: "npm:^5.8.3"
@@ -4714,7 +4693,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist-wrapper@npm:^3.14.5, @xyo-network/archivist-wrapper@workspace:^, @xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper":
+"@xyo-network/archivist-wrapper@npm:^3.14.10, @xyo-network/archivist-wrapper@workspace:^, @xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper"
   dependencies:
@@ -4760,7 +4739,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/boundwitness-builder@npm:^3.14.5, @xyo-network/boundwitness-builder@workspace:^, @xyo-network/boundwitness-builder@workspace:packages/protocol/packages/boundwitness/packages/builder":
+"@xyo-network/boundwitness-builder@npm:^3.14.10, @xyo-network/boundwitness-builder@workspace:^, @xyo-network/boundwitness-builder@workspace:packages/protocol/packages/boundwitness/packages/builder":
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-builder@workspace:packages/protocol/packages/boundwitness/packages/builder"
   dependencies:
@@ -4806,7 +4785,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/boundwitness-model@npm:^3.14.5, @xyo-network/boundwitness-model@workspace:^, @xyo-network/boundwitness-model@workspace:packages/protocol/packages/boundwitness/packages/model":
+"@xyo-network/boundwitness-model@npm:^3.14.10, @xyo-network/boundwitness-model@workspace:^, @xyo-network/boundwitness-model@workspace:packages/protocol/packages/boundwitness/packages/model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-model@workspace:packages/protocol/packages/boundwitness/packages/model"
   dependencies:
@@ -4847,7 +4826,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/boundwitness-wrapper@npm:^3.14.5, @xyo-network/boundwitness-wrapper@workspace:^, @xyo-network/boundwitness-wrapper@workspace:packages/protocol/packages/boundwitness/packages/wrapper":
+"@xyo-network/boundwitness-wrapper@npm:^3.14.10, @xyo-network/boundwitness-wrapper@workspace:^, @xyo-network/boundwitness-wrapper@workspace:packages/protocol/packages/boundwitness/packages/wrapper":
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-wrapper@workspace:packages/protocol/packages/boundwitness/packages/wrapper"
   dependencies:
@@ -5252,7 +5231,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/data@npm:^3.14.5, @xyo-network/data@workspace:^, @xyo-network/data@workspace:packages/protocol/packages/core/packages/data":
+"@xyo-network/data@npm:^3.14.10, @xyo-network/data@workspace:^, @xyo-network/data@workspace:packages/protocol/packages/core/packages/data":
   version: 0.0.0-use.local
   resolution: "@xyo-network/data@workspace:packages/protocol/packages/core/packages/data"
   dependencies:
@@ -6822,7 +6801,7 @@ __metadata:
     "@xylabs/hex": "npm:^4.8.7"
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
-    "@xyo-network/data": "npm:^3.14.5"
+    "@xyo-network/data": "npm:^3.14.10"
     async-mutex: "npm:^0.5.0"
     knip: "npm:^5.50.5"
     typescript: "npm:^5.8.3"
@@ -7004,7 +6983,7 @@ __metadata:
     "@xylabs/static-implements": "npm:^4.8.7"
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
-    "@xyo-network/module-model": "npm:^3.14.5"
+    "@xyo-network/module-model": "npm:^3.14.10"
     "@xyo-network/module-model-mongodb": "workspace:^"
     "@xyo-network/payload-mongodb": "workspace:^"
     knip: "npm:^5.50.5"
@@ -7119,7 +7098,7 @@ __metadata:
     "@xylabs/mongo": "npm:^4.8.7"
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
-    "@xyo-network/module-model": "npm:^3.14.5"
+    "@xyo-network/module-model": "npm:^3.14.10"
     "@xyo-network/payload-mongodb": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     knip: "npm:^5.50.5"
@@ -7127,7 +7106,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/module-model@npm:^3.14.5, @xyo-network/module-model@workspace:^, @xyo-network/module-model@workspace:packages/modules/packages/module/packages/model":
+"@xyo-network/module-model@npm:^3.14.10, @xyo-network/module-model@workspace:^, @xyo-network/module-model@workspace:packages/modules/packages/module/packages/model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-model@workspace:packages/modules/packages/module/packages/model"
   dependencies:
@@ -7430,7 +7409,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-builder@npm:^3.14.5, @xyo-network/payload-builder@workspace:^, @xyo-network/payload-builder@workspace:packages/protocol/packages/payload/packages/builder":
+"@xyo-network/payload-builder@npm:^3.14.10, @xyo-network/payload-builder@workspace:^, @xyo-network/payload-builder@workspace:packages/protocol/packages/payload/packages/builder":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-builder@workspace:packages/protocol/packages/payload/packages/builder"
   dependencies:
@@ -7451,7 +7430,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-model@npm:^3.14.5, @xyo-network/payload-model@workspace:^, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model":
+"@xyo-network/payload-model@npm:^3.14.10, @xyo-network/payload-model@workspace:^, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model"
   dependencies:
@@ -7475,9 +7454,9 @@ __metadata:
     "@xylabs/object": "npm:^4.8.7"
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
-    "@xyo-network/boundwitness-model": "npm:^3.14.5"
-    "@xyo-network/payload-builder": "npm:^3.14.5"
-    "@xyo-network/payload-model": "npm:^3.14.5"
+    "@xyo-network/boundwitness-model": "npm:^3.14.10"
+    "@xyo-network/payload-builder": "npm:^3.14.10"
+    "@xyo-network/payload-model": "npm:^3.14.10"
     knip: "npm:^5.50.5"
     typescript: "npm:^5.8.3"
   languageName: unknown
@@ -7539,7 +7518,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-wrapper@npm:^3.14.5, @xyo-network/payload-wrapper@workspace:^, @xyo-network/payload-wrapper@workspace:packages/protocol/packages/payload/packages/wrapper":
+"@xyo-network/payload-wrapper@npm:^3.14.10, @xyo-network/payload-wrapper@workspace:^, @xyo-network/payload-wrapper@workspace:packages/protocol/packages/payload/packages/wrapper":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-wrapper@workspace:packages/protocol/packages/payload/packages/wrapper"
   dependencies:
@@ -7990,7 +7969,7 @@ __metadata:
     "@scure/bip39": "npm:^1.6.0"
     "@xylabs/arraybuffer": "npm:^4.8.7"
     "@xylabs/assert": "npm:^4.8.7"
-    "@xylabs/base ": "npm:^4.8.7"
+    "@xylabs/base": "npm:^4.8.7"
     "@xylabs/hex": "npm:^4.8.7"
     "@xylabs/static-implements": "npm:^4.8.7"
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"

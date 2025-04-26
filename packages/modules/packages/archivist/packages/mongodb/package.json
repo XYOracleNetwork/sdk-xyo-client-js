@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-mongodb",
-  "version": "3.14.5",
+  "version": "3.14.10",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -39,15 +39,15 @@
   "dependencies": {
     "@xylabs/exists": "^4.8.7",
     "@xylabs/hex": "^4.8.7",
-    "@xyo-network/archivist-abstract": "^3.14.5",
-    "@xyo-network/archivist-model": "^3.14.5",
+    "@xyo-network/archivist-abstract": "^3.14.10",
+    "@xyo-network/archivist-model": "^3.14.10",
     "@xyo-network/archivist-model-mongodb": "workspace:^",
-    "@xyo-network/boundwitness-model": "^3.14.5",
-    "@xyo-network/boundwitness-wrapper": "^3.14.5",
+    "@xyo-network/boundwitness-model": "^3.14.10",
+    "@xyo-network/boundwitness-wrapper": "^3.14.10",
     "@xyo-network/module-abstract-mongodb": "workspace:^",
-    "@xyo-network/payload-model": "^3.14.5",
+    "@xyo-network/payload-model": "^3.14.10",
     "@xyo-network/payload-mongodb": "workspace:^",
-    "@xyo-network/payload-wrapper": "^3.14.5",
+    "@xyo-network/payload-wrapper": "^3.14.10",
     "mongodb": "~6.13.1"
   },
   "devDependencies": {
@@ -56,11 +56,11 @@
     "@xylabs/ts-scripts-yarn3": "^6.3.5",
     "@xylabs/tsconfig": "^6.3.5",
     "@xylabs/vitest-extended": "^4.8.7",
-    "@xyo-network/account": "^3.14.5",
-    "@xyo-network/archivist-acceptance-tests": "^3.14.5",
-    "@xyo-network/archivist-wrapper": "^3.14.5",
-    "@xyo-network/boundwitness-builder": "^3.14.5",
-    "@xyo-network/payload-builder": "^3.14.5",
+    "@xyo-network/account": "^3.14.10",
+    "@xyo-network/archivist-acceptance-tests": "^3.14.10",
+    "@xyo-network/archivist-wrapper": "^3.14.10",
+    "@xyo-network/boundwitness-builder": "^3.14.10",
+    "@xyo-network/payload-builder": "^3.14.10",
     "knip": "^5.50.5",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"

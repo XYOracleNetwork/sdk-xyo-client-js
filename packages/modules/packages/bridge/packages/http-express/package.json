@@ -48,7 +48,7 @@
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "express": "^5.1.0",
+    "express": "^4",
     "http-status-codes": "^2.3.0"
   },
   "devDependencies": {
@@ -69,6 +69,7 @@
     "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/wallet": "workspace:^",
     "get-port-please": "^3.1.2",
+    "knip": "^5.50.5",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
   },

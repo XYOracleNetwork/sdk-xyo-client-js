@@ -55,6 +55,7 @@
     "@xyo-network/manifest": "workspace:^",
     "@xyo-network/module-factory-locator": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
+    "knip": "^5.50.5",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
   },

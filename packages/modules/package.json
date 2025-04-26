@@ -58,6 +58,7 @@
     "@xyo-network/wallet": "workspace:^",
     "@xyo-network/witness-adhoc": "workspace:^",
     "@xyo-network/witness-model": "workspace:^",
+    "knip": "^5.50.5",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
   },

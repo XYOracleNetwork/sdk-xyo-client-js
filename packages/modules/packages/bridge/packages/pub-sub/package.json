@@ -65,6 +65,7 @@
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
+    "knip": "^5.50.5",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
   },

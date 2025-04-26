@@ -61,6 +61,7 @@
     "@xyo-network/archivist-wrapper": "^3.14.5",
     "@xyo-network/boundwitness-builder": "^3.14.5",
     "@xyo-network/payload-builder": "^3.14.5",
+    "knip": "^5.50.5",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
   },

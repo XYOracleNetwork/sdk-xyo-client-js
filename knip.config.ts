@@ -1,14 +1,19 @@
 import type { KnipConfig } from 'knip'
 
 const entry = ['src/index.ts*', 'src/index-*.ts*', '*.ts', '*.mjs', 'scripts/**/*.*', 'bin/*', 'src/**/*.stories.ts*', 'src/**/*.spec.ts']
-const project = ['src/**/*.ts*', '*.ts*']
+const project = ['src/**/*.ts*']
+const ignore = ['packages/**']
+const typescript = {
+  config: [
+    'tsconfig.json',
+  ],
+}
 
 const config: KnipConfig = {
-  entry: [
-    'src/index.ts*',
-    'src/index-*.ts*',
-  ],
-  project: ['src/**/*.ts*'],
+  entry,
+  ignore,
+  project,
+  typescript,
   ignoreDependencies: ['@xylabs/ts-scripts-yarn3', 'tslib'],
   workspaces: {
     '.': {
@@ -21,17 +26,42 @@ const config: KnipConfig = {
         'eslint-import-resolver-typescript',
       ],
     },
-    'packages/*': { entry, project },
-    'packages/*/packages/*': { entry, project },
-    'packages/*/packages/packages/*': { entry, project },
-    'packages/*/packages/*/packages/*': { entry, project },
-    'packages/*/packages/*/packages/*/packages/*': { entry, project },
-  },
-  typescript: {
-    config: [
-      'tsconfig.json',
-      'packages/**/*/tsconfig.json',
-    ],
+    'packages/*': {
+      entry,
+      ignore,
+      project,
+      typescript,
+    },
+    'packages/*/packages/*': {
+      entry,
+      ignore,
+      project,
+      typescript,
+    },
+    'packages/*/packages/packages/*': {
+      entry,
+      ignore,
+      project,
+      typescript,
+    },
+    'packages/*/packages/*/packages/*': {
+      entry,
+      ignore,
+      project,
+      typescript,
+    },
+    'packages/*/packages/*/packages/*/packages/*': {
+      entry,
+      ignore,
+      project,
+      typescript,
+    },
+    'packages/*/packages/*/packages/*/packages/*/packages/*': {
+      entry,
+      ignore,
+      project,
+      typescript,
+    },
   },
 }
 

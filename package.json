@@ -41,6 +41,9 @@
     "cycle": "node ./scripts/run-cycle.mjs",
     "depends": "node ./scripts/imports.mjs",
     "deploy": "xy deploy",
+    "knip:unlisted": "echo ---Unlisted Dependencies--- && yarn workspaces foreach -Ap --exclude @xyo-network/sdk-js --no-interlaced run knip --include unlisted",
+    "knip:modules": "echo ---Unlisted Dependencies--- && yarn workspace @xyo-network/modules run knip --include unlisted --no-exit-code",
+    "knip:wallet": "echo ---Unlisted Dependencies--- && yarn workspace @xyo-network/wallet run knip --include unlisted --no-exit-code",
     "free-3033": "kill -9 $(lsof -t -i :3033)",
     "free-8080": "kill -9 $(lsof -t -i :8080)",
     "free-mongo": "kill -9 $(lsof -t -i :55391) && kill -9 $(lsof -t -i :55393)",
@@ -50,7 +53,8 @@
   },
   "resolutions": {
     "axios": "^1",
-    "fake-indexeddb": "^4"
+    "fake-indexeddb": "^4",
+    "unrs-resolver": "1.7.0"
   },
   "dependencies": {
     "@xyo-network/manifest": "workspace:^",

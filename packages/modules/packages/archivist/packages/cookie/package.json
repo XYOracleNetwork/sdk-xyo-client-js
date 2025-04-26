@@ -48,6 +48,7 @@
     "@xylabs/tsconfig": "^6.3.5",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
+    "knip": "^5.50.5",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
   },

@@ -64,6 +64,7 @@
     "@xylabs/tsconfig": "^6.3.5",
     "@xylabs/vitest-extended": "^4.8.7",
     "esbuild": "^0.25.3",
+    "knip": "^5.50.5",
     "publint": "^0.3.12",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"

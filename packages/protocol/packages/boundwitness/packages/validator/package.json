@@ -47,6 +47,7 @@
     "@xyo-network/schema-name-validator": "workspace:^",
     "@xyo-network/wallet": "workspace:^",
     "@xyo-network/wallet-model": "workspace:^",
+    "knip": "^5.50.5",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
   },

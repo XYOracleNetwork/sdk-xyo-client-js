@@ -52,6 +52,7 @@
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/witness-adhoc": "workspace:^",
+    "knip": "^5.50.5",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
   },

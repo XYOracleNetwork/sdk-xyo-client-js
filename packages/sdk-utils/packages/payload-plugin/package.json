@@ -40,6 +40,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.3.5",
     "@xylabs/tsconfig": "^6.3.5",
+    "knip": "^5.50.5",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

@@ -36,6 +36,7 @@
     "@xylabs/ts-scripts-yarn3": "^6.3.5",
     "@xylabs/tsconfig": "^6.3.5",
     "@xylabs/vitest-extended": "^4.8.7",
+    "knip": "^5.50.5",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
   },

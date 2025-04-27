@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/elliptic",
-  "version": "3.14.10",
+  "version": "3.14.12",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -33,7 +33,7 @@
     "@xylabs/arraybuffer": "^4.8.7",
     "@xylabs/assert": "^4.8.7",
     "@xylabs/hex": "^4.8.7",
-    "@xyo-network/data": "^3.14.10",
+    "@xyo-network/data": "^3.14.12",
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {

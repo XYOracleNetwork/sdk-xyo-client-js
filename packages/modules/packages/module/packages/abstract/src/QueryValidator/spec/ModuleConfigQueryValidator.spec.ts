@@ -1,8 +1,8 @@
 import '@xylabs/vitest-extended'
 
 import type { Address, Hex } from '@xylabs/hex'
-import type { AccountInstance } from '@xyo-network/account'
 import { Account } from '@xyo-network/account'
+import type { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { CosigningAddressSet, ModuleConfig } from '@xyo-network/module-model'
 import { ModuleConfigSchema, ModuleStateQuerySchema } from '@xyo-network/module-model'

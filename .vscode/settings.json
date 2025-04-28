@@ -68,6 +68,7 @@
     "deepmerge",
     "depcheck",
     "depcruise",
+    "deplint",
     "dmarc",
     "DNSSEC",
     "edns",

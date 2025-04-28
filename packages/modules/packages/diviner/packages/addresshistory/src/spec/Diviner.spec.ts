@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
-import type { AccountInstance } from '@xyo-network/account'
 import { Account } from '@xyo-network/account'
+import type { AccountInstance } from '@xyo-network/account-model'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'

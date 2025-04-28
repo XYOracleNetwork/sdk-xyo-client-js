@@ -4265,7 +4265,10 @@ __metadata:
     "@xylabs/static-implements": "npm:^4.8.7"
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
+    "@xyo-network/account-model": "workspace:^"
+    "@xyo-network/data": "workspace:^"
     "@xyo-network/elliptic": "workspace:^"
+    "@xyo-network/key-model": "workspace:^"
     "@xyo-network/previous-hash-store": "workspace:^"
     "@xyo-network/previous-hash-store-model": "workspace:^"
     async-mutex: "npm:^0.5.0"
@@ -4454,6 +4457,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
     "@xyo-network/archivist-abstract": "workspace:^"
     "@xyo-network/archivist-acceptance-tests": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
@@ -5231,7 +5235,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/data@npm:^3.14.12, @xyo-network/data@workspace:^, @xyo-network/data@workspace:packages/protocol/packages/core/packages/data":
+"@xyo-network/data@workspace:^, @xyo-network/data@workspace:packages/protocol/packages/core/packages/data":
   version: 0.0.0-use.local
   resolution: "@xyo-network/data@workspace:packages/protocol/packages/core/packages/data"
   dependencies:
@@ -5374,6 +5378,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^6.3.5"
     "@xylabs/vitest-extended": "npm:^4.8.7"
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/archivist-wrapper": "workspace:^"
@@ -6801,7 +6806,8 @@ __metadata:
     "@xylabs/hex": "npm:^4.8.7"
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
-    "@xyo-network/data": "npm:^3.14.12"
+    "@xyo-network/data": "workspace:^"
+    "@xyo-network/wasm": "workspace:^"
     async-mutex: "npm:^0.5.0"
     knip: "npm:^5.50.5"
     typescript: "npm:^5.8.3"
@@ -7754,10 +7760,12 @@ __metadata:
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/protocol": "workspace:^"
     "@xyo-network/sdk-utils": "workspace:^"
+    chalk: "npm:^5.4.1"
     dependency-cruiser: "npm:^16.10.1"
     dotenv: "npm:^16.5.0"
     eslint: "npm:^9.25.1"
     eslint-import-resolver-typescript: "npm:^4.3.4"
+    glob: "npm:^11.0.2"
     jsdom: "npm:^26.1.0"
     knip: "npm:^5.50.5"
     reflect-metadata: "npm:^0.2.2"
@@ -7975,6 +7983,9 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^6.3.5"
     "@xylabs/tsconfig": "npm:^6.3.5"
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
+    "@xyo-network/key-model": "workspace:^"
+    "@xyo-network/wallet-model": "workspace:^"
     ethers: "npm:^6.13.7"
     knip: "npm:^5.50.5"
     typescript: "npm:^5.8.3"
@@ -10903,7 +10914,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^11.0.0, glob@npm:^11.0.1":
+"glob@npm:^11.0.0, glob@npm:^11.0.1, glob@npm:^11.0.2":
   version: 11.0.2
   resolution: "glob@npm:11.0.2"
   dependencies:

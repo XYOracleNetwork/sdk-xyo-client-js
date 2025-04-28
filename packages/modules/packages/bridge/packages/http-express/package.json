@@ -38,6 +38,7 @@
   "dependencies": {
     "@xylabs/assert": "^4.8.7",
     "@xylabs/exists": "^4.8.7",
+    "@xylabs/express": "^4.8.7",
     "@xylabs/hex": "^4.8.7",
     "@xylabs/object": "^4.8.7",
     "@xyo-network/api-models": "workspace:^",
@@ -54,7 +55,6 @@
   "devDependencies": {
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.2",
-    "@xylabs/express": "^4.8.7",
     "@xylabs/ts-scripts-yarn3": "^6.3.5",
     "@xylabs/tsconfig": "^6.3.5",
     "@xylabs/vitest-extended": "^4.8.7",

@@ -1,5 +1,5 @@
-import type { AccountInstance } from '@xyo-network/account'
 import { Account } from '@xyo-network/account'
+import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import {

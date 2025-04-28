@@ -47,6 +47,7 @@
     "@xylabs/ts-scripts-yarn3": "^6.3.5",
     "@xylabs/tsconfig": "^6.3.5",
     "@xyo-network/account": "workspace:^",
+    "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-acceptance-tests": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",

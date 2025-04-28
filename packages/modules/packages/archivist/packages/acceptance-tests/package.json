@@ -34,14 +34,14 @@
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "vitest": "^3.1.2"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.3.5",
     "@xylabs/tsconfig": "^6.3.5",
     "knip": "^5.50.5",
-    "typescript": "^5.8.3",
-    "vitest": "^3.1.2"
+    "typescript": "^5.8.3"
   },
   "publishConfig": {
     "access": "public"

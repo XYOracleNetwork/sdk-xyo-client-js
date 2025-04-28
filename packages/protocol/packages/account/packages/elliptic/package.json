@@ -33,7 +33,8 @@
     "@xylabs/arraybuffer": "^4.8.7",
     "@xylabs/assert": "^4.8.7",
     "@xylabs/hex": "^4.8.7",
-    "@xyo-network/data": "^3.14.12",
+    "@xyo-network/data": "workspace:^",
+    "@xyo-network/wasm": "workspace:^",
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {

@@ -44,9 +44,6 @@
     "free-3033": "kill -9 $(lsof -t -i :3033)",
     "free-8080": "kill -9 $(lsof -t -i :8080)",
     "free-mongo": "kill -9 $(lsof -t -i :55391) && kill -9 $(lsof -t -i :55393)",
-    "knip:modules": "echo ---Unlisted Dependencies--- && yarn workspace @xyo-network/modules run knip --include unlisted --no-exit-code",
-    "knip:unlisted": "echo ---Unlisted Dependencies--- && yarn workspaces foreach -Ap --exclude @xyo-network/sdk-js --no-interlaced run knip --include unlisted",
-    "knip:wallet": "echo ---Unlisted Dependencies--- && yarn workspace @xyo-network/wallet run knip --include unlisted --no-exit-code",
     "package-build": "yarn package-clean && rimraf docs && yarn package-build-only && typedoc && xy statics",
     "package-clean": "rimraf dist",
     "test": "vitest --watch false"

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/previous-hash-store-storage",
-  "version": "3.14.13",
+  "version": "3.14.14",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -34,10 +34,10 @@
     "store2": "^2.14.4"
   },
   "devDependencies": {
-    "@types/node": "^22.15.2",
+    "@types/node": "^22.15.3",
     "@types/uuid": "^10.0.0",
-    "@xylabs/ts-scripts-yarn3": "^6.3.5",
-    "@xylabs/tsconfig": "^6.3.5",
+    "@xylabs/ts-scripts-yarn3": "^6.4.0",
+    "@xylabs/tsconfig": "^6.4.0",
     "knip": "^5.50.5",
     "typescript": "^5.8.3",
     "uuid": "^11.1.0",

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-benchmark-tests",
-  "version": "3.14.13",
+  "version": "3.14.14",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -28,21 +28,19 @@
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
-  "dependencies": {
+  "devDependencies": {
     "@xylabs/hex": "^4.8.7",
+    "@xylabs/ts-scripts-yarn3": "^6.4.0",
+    "@xylabs/tsconfig": "^6.4.0",
     "@xyo-network/archivist-leveldb": "workspace:^",
     "@xyo-network/archivist-lmdb": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
+    "knip": "^5.50.5",
+    "typescript": "^5.8.3",
     "uuid": "^11.1.0",
     "vitest": "^3.1.2"
-  },
-  "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.3.5",
-    "@xylabs/tsconfig": "^6.3.5",
-    "knip": "^5.50.5",
-    "typescript": "^5.8.3"
   },
   "publishConfig": {
     "access": "public"

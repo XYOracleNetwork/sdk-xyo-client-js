@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-jsonpath-aggregate-memory",
-  "version": "3.14.13",
+  "version": "3.14.14",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -41,8 +41,8 @@
     "@xyo-network/payload-utils": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.3.5",
-    "@xylabs/tsconfig": "^6.3.5",
+    "@xylabs/ts-scripts-yarn3": "^6.4.0",
+    "@xylabs/tsconfig": "^6.4.0",
     "@xylabs/vitest-extended": "^4.8.7",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/query-payload-plugin",
-  "version": "3.14.13",
+  "version": "3.14.14",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -33,8 +33,8 @@
     "@xyo-network/payload-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.3.5",
-    "@xylabs/tsconfig": "^6.3.5",
+    "@xylabs/ts-scripts-yarn3": "^6.4.0",
+    "@xylabs/tsconfig": "^6.4.0",
     "@xylabs/vitest-extended": "^4.8.7",
     "knip": "^5.50.5",
     "typescript": "^5.8.3",

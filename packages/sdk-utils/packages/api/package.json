@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/api",
-  "version": "3.14.13",
+  "version": "3.14.14",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,11 +37,11 @@
     "axios": "^1.9.0"
   },
   "devDependencies": {
-    "@types/node": "^22.15.2",
+    "@types/node": "^22.15.3",
     "@types/uuid": "^10.0.0",
     "@xylabs/object": "^4.8.7",
-    "@xylabs/ts-scripts-yarn3": "^6.3.5",
-    "@xylabs/tsconfig": "^6.3.5",
+    "@xylabs/ts-scripts-yarn3": "^6.4.0",
+    "@xylabs/tsconfig": "^6.4.0",
     "@xylabs/vitest-extended": "^4.8.7",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",

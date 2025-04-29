@@ -38,8 +38,8 @@
     "fast-json-patch": "^3.1.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.4.5",
-    "@xylabs/tsconfig": "^6.4.5",
+    "@xylabs/ts-scripts-yarn3": "^6.4.6",
+    "@xylabs/tsconfig": "^6.4.6",
     "@xylabs/vitest-extended": "^4.8.9",
     "@xyo-network/wallet": "workspace:^",
     "@xyo-network/wallet-model": "workspace:^",

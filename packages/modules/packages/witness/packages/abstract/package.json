@@ -43,8 +43,8 @@
     "@xyo-network/witness-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.4.5",
-    "@xylabs/tsconfig": "^6.4.5",
+    "@xylabs/ts-scripts-yarn3": "^6.4.6",
+    "@xylabs/tsconfig": "^6.4.6",
     "@xylabs/vitest-extended": "^4.8.9",
     "knip": "^5.50.5",
     "typescript": "^5.8.3",

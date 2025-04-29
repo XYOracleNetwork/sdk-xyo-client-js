@@ -32,7 +32,6 @@
     "@xylabs/assert": "^4.8.9",
     "@xylabs/exists": "^4.8.9",
     "@xyo-network/archivist-model": "workspace:^",
-    "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-boundwitness-model": "workspace:^",
     "@xyo-network/diviner-forecasting-abstract": "workspace:^",
     "@xyo-network/diviner-forecasting-method-arima": "workspace:^",
@@ -44,8 +43,9 @@
   },
   "devDependencies": {
     "@types/jsonpath": "^0.2.4",
-    "@xylabs/ts-scripts-yarn3": "^6.4.5",
-    "@xylabs/tsconfig": "^6.4.5",
+    "@xylabs/ts-scripts-yarn3": "^6.4.6",
+    "@xylabs/tsconfig": "^6.4.6",
+    "@xyo-network/boundwitness-model": "workspace:^",
     "knip": "^5.50.5",
     "typescript": "^5.8.3"
   },

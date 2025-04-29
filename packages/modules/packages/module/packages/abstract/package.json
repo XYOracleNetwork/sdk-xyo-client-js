@@ -38,7 +38,6 @@
     "@xylabs/logger": "^4.8.9",
     "@xylabs/object": "^4.8.9",
     "@xylabs/promise": "^4.8.9",
-    "@xylabs/typeof": "^4.8.9",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
@@ -59,8 +58,9 @@
     "lru-cache": "^11.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.4.5",
-    "@xylabs/tsconfig": "^6.4.5",
+    "@xylabs/ts-scripts-yarn3": "^6.4.6",
+    "@xylabs/tsconfig": "^6.4.6",
+    "@xylabs/typeof": "^4.8.9",
     "@xylabs/vitest-extended": "^4.8.9",
     "knip": "^5.50.5",
     "typescript": "^5.8.3",

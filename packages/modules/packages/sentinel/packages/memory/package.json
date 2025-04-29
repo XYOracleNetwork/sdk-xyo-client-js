@@ -31,7 +31,6 @@
   "dependencies": {
     "@xylabs/assert": "^4.8.9",
     "@xylabs/forget": "^4.8.9",
-    "@xylabs/hex": "^4.8.9",
     "@xylabs/promise": "^4.8.9",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -44,8 +43,9 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^4.8.9",
-    "@xylabs/ts-scripts-yarn3": "^6.4.5",
-    "@xylabs/tsconfig": "^6.4.5",
+    "@xylabs/hex": "^4.8.9",
+    "@xylabs/ts-scripts-yarn3": "^6.4.6",
+    "@xylabs/tsconfig": "^6.4.6",
     "@xylabs/vitest-extended": "^4.8.9",
     "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",

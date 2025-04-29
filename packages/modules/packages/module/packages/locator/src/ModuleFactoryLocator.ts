@@ -56,7 +56,7 @@ export class ModuleFactoryLocator implements ModuleFactoryLocatorInstance {
     )
   }
 
-  merge(locator: ModuleFactoryLocator): ModuleFactoryLocator {
+  merge(locator: ModuleFactoryLocatorInstance): ModuleFactoryLocatorInstance {
     const registry = { ...this.registry }
     for (const schema in locator.registry) {
       if (registry[schema]) {

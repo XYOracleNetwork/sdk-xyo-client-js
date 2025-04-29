@@ -47,11 +47,6 @@
     "package-clean": "rimraf dist",
     "test": "vitest --watch false"
   },
-  "resolutions": {
-    "axios": "^1",
-    "fake-indexeddb": "^4",
-    "unrs-resolver": "1.7.0"
-  },
   "dependencies": {
     "@xyo-network/manifest": "workspace:^",
     "@xyo-network/modules": "workspace:^",

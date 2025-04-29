@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.8.7",
+    "@xylabs/hex": "^4.8.9",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/manifest-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -39,8 +39,8 @@
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.4.0",
-    "@xylabs/tsconfig": "^6.4.0",
+    "@xylabs/ts-scripts-yarn3": "^6.4.5",
+    "@xylabs/tsconfig": "^6.4.5",
     "knip": "^5.50.5",
     "typescript": "^5.8.3"
   },

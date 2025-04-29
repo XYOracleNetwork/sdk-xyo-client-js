@@ -37,13 +37,13 @@
     "package-compile": "yarn gen-schema && yarn package-compile-only"
   },
   "dependencies": {
-    "@xylabs/hex": "^4.8.7",
+    "@xylabs/hex": "^4.8.9",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
-    "@xylabs/ts-scripts-yarn3": "^6.4.0",
-    "@xylabs/tsconfig": "^6.4.0",
+    "@xylabs/ts-scripts-yarn3": "^6.4.5",
+    "@xylabs/tsconfig": "^6.4.5",
     "knip": "^5.50.5",
     "typescript": "^5.8.3",
     "typescript-json-schema": "^0.65.1"

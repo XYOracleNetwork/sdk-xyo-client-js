@@ -37,14 +37,14 @@
   "module": "dist/node/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/object": "^4.8.7",
+    "@xylabs/object": "^4.8.9",
     "@xyo-network/boundwitness-model": "^3.14.14",
     "@xyo-network/payload-builder": "^3.14.14",
     "@xyo-network/payload-model": "^3.14.14"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.4.0",
-    "@xylabs/tsconfig": "^6.4.0",
+    "@xylabs/ts-scripts-yarn3": "^6.4.5",
+    "@xylabs/tsconfig": "^6.4.5",
     "knip": "^5.50.5",
     "typescript": "^5.8.3"
   },

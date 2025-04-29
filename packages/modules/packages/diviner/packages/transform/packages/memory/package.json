@@ -37,9 +37,9 @@
   },
   "devDependencies": {
     "@types/jsonpath": "^0.2.4",
-    "@xylabs/ts-scripts-yarn3": "^6.4.0",
-    "@xylabs/tsconfig": "^6.4.0",
-    "@xylabs/vitest-extended": "^4.8.7",
+    "@xylabs/ts-scripts-yarn3": "^6.4.5",
+    "@xylabs/tsconfig": "^6.4.5",
+    "@xylabs/vitest-extended": "^4.8.9",
     "@xyo-network/account": "workspace:^",
     "knip": "^5.50.5",
     "typescript": "^5.8.3",

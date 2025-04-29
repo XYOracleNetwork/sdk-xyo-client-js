@@ -30,12 +30,12 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@metamask/providers": "^22.1.0",
-    "@xylabs/forget": "^4.8.7",
+    "@xylabs/forget": "^4.8.9",
     "ethers": "6.13.7"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.4.0",
-    "@xylabs/tsconfig-dom": "^6.4.0",
+    "@xylabs/ts-scripts-yarn3": "^6.4.5",
+    "@xylabs/tsconfig-dom": "^6.4.5",
     "knip": "^5.50.5",
     "typescript": "^5.8.3"
   },

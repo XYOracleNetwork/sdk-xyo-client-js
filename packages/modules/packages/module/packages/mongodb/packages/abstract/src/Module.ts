@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { merge } from '@xylabs/lodash'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xylabs/mongo'
 import { staticImplements } from '@xylabs/static-implements'
 import {
@@ -12,6 +11,7 @@ import { AnyAbstractModule } from './AnyAbstractModule.ts'
 import { COLLECTIONS } from './Collections.ts'
 import { getBaseMongoSdkPrivateConfig } from './config/index.ts'
 import { IndexDescription } from './IndexDescription.ts'
+import { merge } from './merge.ts'
 
 const standardIndexes: IndexDescription[] = [
   {

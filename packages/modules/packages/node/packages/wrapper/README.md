@@ -1,4 +1,14 @@
+# @xyo-network/node-wrapper
+
 [![logo][]](https://xyo.network)
+
+Version: 3.14.16
+
+Primary SDK for using XYO Protocol 2.0
+
+## Documentation
+
+[TypeDoc Generated Documentation](https://gitbook.xyo.network/xyo-data-lab/xyo-reference/package-documentation/xyo-network__node-wrapper)
 
 Part of [sdk-xyo-client-js](https://www.npmjs.com/package/@xyo-network/sdk-xyo-client-js)
 

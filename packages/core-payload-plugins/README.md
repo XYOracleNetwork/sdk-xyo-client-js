@@ -1,4 +1,14 @@
+# @xyo-network/core-payload-plugins
+
 [![logo][]](https://xyo.network)
+
+Version: 3.14.16
+
+Typescript/Javascript Plugins for XYO Platform
+
+## Documentation
+
+[TypeDoc Generated Documentation](https://gitbook.xyo.network/xyo-data-lab/xyo-reference/package-documentation/xyo-network__core-payload-plugins)
 
 Part of [sdk-xyo-client-js](https://www.npmjs.com/package/@xyo-network/sdk-xyo-client-js)
 

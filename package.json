@@ -45,6 +45,7 @@
     "free-mongo": "kill -9 $(lsof -t -i :55391) && kill -9 $(lsof -t -i :55393)",
     "package-build": "yarn package-clean && rimraf docs && yarn package-build-only && typedoc && xy statics",
     "package-clean": "rimraf dist",
+    "readme:gen": "node scripts/readme-gen.mjs",
     "test": "vitest --watch false"
   },
   "dependencies": {

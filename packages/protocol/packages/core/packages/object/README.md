@@ -1,8 +1,16 @@
+# @xyo-network/object
+
 [![logo][]](https://xyo.network)
 
-Part of [sdk-xyo-client-js](https://www.npmjs.com/package/@xyo-network/sdk-xyo-client-js)
+Version: 3.14.16
 
-[![Socket Badge](https://socket.dev/api/badge/npm/package/@xyo-network/core)](https://socket.dev/npm/package/@xyo-network/core)
+Primary SDK for using XYO Protocol 2.0
+
+## Documentation
+
+[TypeDoc Generated Documentation](https://gitbook.xyo.network/xyo-data-lab/xyo-reference/package-documentation/xyo-network__object)
+
+Part of [sdk-xyo-client-js](https://www.npmjs.com/package/@xyo-network/sdk-xyo-client-js)
 
 ## License
 

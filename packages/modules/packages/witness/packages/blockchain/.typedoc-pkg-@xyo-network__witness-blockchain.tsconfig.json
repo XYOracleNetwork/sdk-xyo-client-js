@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "strict": true,
+    "moduleResolution": "Node",
+    "skipLibCheck": true
+  },
+  "include": [
+    "/Users/arietrouw/Github/XYOracleNetwork/sdk-xyo-client-js/packages/modules/packages/witness/packages/blockchain/dist/types/index.d.ts"
+  ]
+}

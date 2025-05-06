@@ -50,7 +50,6 @@
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
-    "knip": "^5.54.1",
     "typescript": "^5.8.3",
     "vitest": "^3.1.3"
   },

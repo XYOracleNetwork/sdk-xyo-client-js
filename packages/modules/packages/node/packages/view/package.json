@@ -42,7 +42,6 @@
     "@xylabs/ts-scripts-yarn3": "^6.5.5",
     "@xylabs/tsconfig": "^6.5.5",
     "@xyo-network/module-events": "workspace:^",
-    "knip": "^5.54.1",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

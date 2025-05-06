@@ -51,7 +51,6 @@
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/sentinel-memory": "workspace:^",
     "@xyo-network/witness-adhoc": "workspace:^",
-    "knip": "^5.54.1",
     "typescript": "^5.8.3",
     "vitest": "^3.1.3"
   },

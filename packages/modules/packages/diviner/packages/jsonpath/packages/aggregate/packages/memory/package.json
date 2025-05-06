@@ -48,7 +48,6 @@
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/diviner-jsonpath-model": "workspace:^",
-    "knip": "^5.54.1",
     "typescript": "^5.8.3",
     "vitest": "^3.1.3"
   },

@@ -71,7 +71,6 @@
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/wallet": "workspace:^",
-    "knip": "^5.54.1",
     "typescript": "^5.8.3",
     "vitest": "^3.1.3"
   },

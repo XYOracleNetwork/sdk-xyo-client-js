@@ -42,7 +42,6 @@
     "@xylabs/vitest-extended": "^4.9.3",
     "@xyo-network/diviner-identity": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
-    "knip": "^5.54.1",
     "typescript": "^5.8.3",
     "vitest": "^3.1.3"
   },

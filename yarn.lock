@@ -4082,6 +4082,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     knip: "npm:^5.54.1"
+    lru-cache: "npm:^11.1.0"
     typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft

@@ -15,12 +15,18 @@ export interface ArchivistStorage {
   indexes?: IndexDescription[]
 }
 
+export interface ArchivistGetCache {
+  enabled?: boolean
+  maxEntries?: number
+}
+
 export const ArchivistConfigSchema = 'network.xyo.archivist.config' as const
 export type ArchivistConfigSchema = typeof ArchivistConfigSchema
 
 export type ArchivistConfig<TConfig extends Payload | EmptyObject | void = void, TSchema extends string | void = void> = ModuleConfig<
   WithAdditional<
     {
+      getCache?: ArchivistGetCache
       /** @field address of one or more parent archivists to read from */
       parents?: ArchivistParents
       /** @field fail if some parents can not be resolved (true if unspecified) */

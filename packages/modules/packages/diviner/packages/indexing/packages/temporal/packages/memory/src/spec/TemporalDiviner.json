@@ -1,5 +1,4 @@
 {
-  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
   "nodes": [
     {
       "config": {
@@ -81,7 +80,9 @@
           {
             "config": {
               "filter": {
-                "payload_schemas": ["network.xyo.image.thumbnail"]
+                "payload_schemas": [
+                  "network.xyo.image.thumbnail"
+                ]
               },
               "labels": {
                 "network.xyo.diviner.stage": "stateToIndexCandidateDiviner",

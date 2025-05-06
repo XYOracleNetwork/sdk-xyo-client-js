@@ -44,6 +44,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
+import { LRUCache } from 'lru-cache'
 
 const NOT_IMPLEMENTED = 'Not implemented' as const
 
@@ -74,6 +75,7 @@ export abstract class AbstractArchivist<
   // override this if a specialized archivist should have a different default next limit
   protected static defaultNextLimitSetting = 100
 
+  private _getCache?: LRUCache<Hash, WithStorageMeta<Payload>>
   private _parentArchivists?: ArchivistParentInstanceMap
 
   // do not override this!  It is meant to get the this.defaultNextLimitSetting and work if it is overridden
@@ -306,12 +308,23 @@ export abstract class AbstractArchivist<
     throw new Error(NOT_IMPLEMENTED)
   }
 
+  // eslint-disable-next-line max-statements
   protected async getWithConfig(hashes: Hash[], _config?: InsertConfig): Promise<WithStorageMeta<Payload>[]> {
     // Filter out duplicates
     const requestedHashes = new Set(hashes)
 
+    // read from cache if we are caching
+    const cache = this._getCache
+    let fromCache: WithStorageMeta<Payload>[] = []
+    let remainingHashes = [...requestedHashes]
+    if (cache !== undefined) {
+      fromCache = hashes.map(hash => cache.get(hash)).filter(exists)
+      remainingHashes = hashes.filter(hash => !fromCache.some(payload => payload?._hash === hash || payload?._dataHash === hash))
+    }
+
     // Attempt to find the payloads in the store
-    const gotten = await this.getHandler([...requestedHashes])
+    const fromGet = await this.getHandler([...remainingHashes])
+    const gotten = [...fromCache, ...fromGet].toSorted(PayloadBuilder.compareStorageMeta)
 
     // Do not just blindly return what the archivist told us but
     // ensure to only return requested payloads and keep track of
@@ -353,10 +366,24 @@ export abstract class AbstractArchivist<
     if (this.storeParentReads) {
       await this.insertWithConfig(parentFoundPayloads)
     }
-    return this.omitClientMetaForDataHashes(
+    const result = this.omitClientMetaForDataHashes(
       hashes,
       PayloadBuilder.omitPrivateStorageMeta([...foundPayloads, ...parentFoundPayloads]).toSorted(PayloadBuilder.compareStorageMeta),
     )
+
+    // write to cache if we are caching
+    if (cache !== undefined) {
+      for (const payload of gotten) {
+        cache.set(payload._hash, payload)
+        cache.set(payload._dataHash, payload)
+      }
+      for (const payload of parentFoundPayloads) {
+        cache.set(payload._hash, payload)
+        cache.set(payload._dataHash, payload)
+      }
+    }
+
+    return result
   }
 
   protected insertHandler(_payloads: WithStorageMeta<Payload>[]): Promisable<WithStorageMeta<Payload>[]> {
@@ -474,6 +501,18 @@ export abstract class AbstractArchivist<
       await this.insertWithConfig([sanitizedQuery])
     }
     return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
+  }
+
+  protected override startHandler() {
+    if (this.config.getCache?.enabled === true) {
+      this._getCache = new LRUCache({
+        max: this.config.getCache?.maxEntries ?? 10_000,
+        allowStale: true,
+        noDisposeOnSet: false,
+        updateAgeOnGet: true,
+      })
+    }
+    return super.startHandler()
   }
 
   protected async writeToParent(parent: ArchivistInstance, payloads: Payload[]): Promise<Payload[]> {

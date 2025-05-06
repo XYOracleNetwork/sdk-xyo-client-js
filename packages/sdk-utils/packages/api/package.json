@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/axios": "^4.8.9",
+    "@xylabs/axios": "^4.9.3",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/huri": "workspace:^",
@@ -37,19 +37,19 @@
     "axios": "^1.9.0"
   },
   "devDependencies": {
-    "@types/node": "^22.15.3",
+    "@types/node": "^22.15.14",
     "@types/uuid": "^10.0.0",
-    "@xylabs/object": "^4.8.9",
-    "@xylabs/ts-scripts-yarn3": "^6.4.6",
-    "@xylabs/tsconfig": "^6.4.6",
-    "@xylabs/vitest-extended": "^4.8.9",
+    "@xylabs/object": "^4.9.3",
+    "@xylabs/ts-scripts-yarn3": "^6.5.5",
+    "@xylabs/tsconfig": "^6.5.5",
+    "@xylabs/vitest-extended": "^4.9.3",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
-    "knip": "^5.50.5",
+    "knip": "^5.54.1",
     "typescript": "^5.8.3",
     "uuid": "^11.1.0",
-    "vitest": "^3.1.2"
+    "vitest": "^3.1.3"
   },
   "publishConfig": {
     "access": "public"

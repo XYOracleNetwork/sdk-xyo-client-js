@@ -32,10 +32,10 @@
     "@xyo-network/data": "workspace:^"
   },
   "devDependencies": {
-    "@types/node": "^22.15.3",
-    "@xylabs/ts-scripts-yarn3": "^6.4.6",
-    "@xylabs/tsconfig": "^6.4.6",
-    "knip": "^5.50.5",
+    "@types/node": "^22.15.14",
+    "@xylabs/ts-scripts-yarn3": "^6.5.5",
+    "@xylabs/tsconfig": "^6.5.5",
+    "knip": "^5.54.1",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

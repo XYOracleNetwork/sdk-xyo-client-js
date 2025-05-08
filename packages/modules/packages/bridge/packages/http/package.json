@@ -36,13 +36,13 @@
     "package.json"
   ],
   "dependencies": {
-    "@xylabs/assert": "^4.9.3",
-    "@xylabs/axios": "^4.9.3",
-    "@xylabs/exists": "^4.9.3",
-    "@xylabs/forget": "^4.9.3",
-    "@xylabs/hex": "^4.9.3",
-    "@xylabs/object": "^4.9.3",
-    "@xylabs/promise": "^4.9.3",
+    "@xylabs/assert": "^4.9.4",
+    "@xylabs/axios": "^4.9.4",
+    "@xylabs/exists": "^4.9.4",
+    "@xylabs/forget": "^4.9.4",
+    "@xylabs/hex": "^4.9.4",
+    "@xylabs/object": "^4.9.4",
+    "@xylabs/promise": "^4.9.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -58,10 +58,10 @@
     "lru-cache": "^11.1.0"
   },
   "devDependencies": {
-    "@types/node": "^22.15.14",
+    "@types/node": "^22.15.17",
     "@xylabs/ts-scripts-yarn3": "^6.5.5",
     "@xylabs/tsconfig": "^6.5.5",
-    "@xylabs/vitest-extended": "^4.9.3",
+    "@xylabs/vitest-extended": "^4.9.4",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/bridge-abstract": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",

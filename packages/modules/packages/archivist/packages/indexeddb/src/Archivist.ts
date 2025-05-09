@@ -7,7 +7,7 @@ import {
   withDb,
   withReadOnlyStore, withReadWriteStore,
 } from '@xylabs/indexed-db'
-import { AbstractArchivist } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -43,6 +43,8 @@ export class IndexedDbArchivist<
   static readonly defaultDbName = 'archivist'
   static readonly defaultDbVersion = 1
   static readonly defaultStoreName = 'payloads'
+  static override readonly labels = { ...super.labels, [StorageClassLabel]: 'disk' }
+
   private static readonly dataHashIndex: IndexDescription = {
     key: { _dataHash: 1 }, multiEntry: false, unique: false,
   }

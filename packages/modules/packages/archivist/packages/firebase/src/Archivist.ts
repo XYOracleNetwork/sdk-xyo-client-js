@@ -8,7 +8,7 @@ import {
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
-import { AbstractArchivist } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import { ArchivistInsertQuerySchema, ArchivistModuleEventData } from '@xyo-network/archivist-model'
 import { creatableModule } from '@xyo-network/module-model'
 import {
@@ -25,6 +25,7 @@ export class FirebaseArchivist<
 > extends AbstractArchivist<TParams, TEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, FirebaseArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = FirebaseArchivistConfigSchema
+  static override readonly labels = { ...super.labels, [StorageClassLabel]: 'network' }
 
   override get queries() {
     return [

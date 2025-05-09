@@ -1,10 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Hash, Hex } from '@xylabs/hex'
-import { fulfilled, Promisable } from '@xylabs/promise'
+import {
+  Hash, Hex, hexToBigInt,
+} from '@xylabs/hex'
+import {
+  fulfilled, Promisable, PromisableArray,
+} from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
-import { AbstractArchivist } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -16,6 +20,8 @@ import {
   ArchivistNextOptions,
   ArchivistNextQuerySchema,
   ArchivistParams,
+  ArchivistSnapshotPayload,
+  ArchivistSnapshotPayloadSchema,
   AttachableArchivistInstance,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -41,6 +47,7 @@ export class MemoryArchivist<
   implements AttachableArchivistInstance, ModuleInstance {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, MemoryArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = MemoryArchivistConfigSchema
+  static override readonly labels = { ...super.labels, [StorageClassLabel]: 'memory' }
 
   private _cache?: LRUCache<Hash, WithStorageMeta<Payload>>
   private _dataHashIndex?: LRUCache<Hash, Hash>
@@ -157,6 +164,19 @@ export class MemoryArchivist<
       ? MemoryArchivist.findIndexFromCursor(all, cursor) + (open ? 1 : 0)
       : 0
     return all.slice(startIndex, startIndex + limit)
+  }
+
+  protected override snapshotHandler(): PromisableArray<ArchivistSnapshotPayload<WithStorageMeta<Payload>, Hash>> {
+    return [{
+      hash: Object.fromEntries(
+        [...this.cache.entries()].toSorted(([, payloadA], [, payloadB]) => {
+          const diff = hexToBigInt(payloadA._sequence) - hexToBigInt(payloadB._sequence)
+          return diff > 0n ? 1 : diff < 0n ? -1 : 0
+        }),
+      ),
+      dataHash: Object.fromEntries(this.dataHashIndex.entries()),
+      schema: ArchivistSnapshotPayloadSchema,
+    }]
   }
 
   private insertPayloadIntoCache(payload: WithStorageMeta<Payload>): WithStorageMeta<Payload> {

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
 import { exists } from '@xylabs/exists'
@@ -18,6 +19,7 @@ import type {
   ArchivistNextQuery,
   ArchivistParams,
   ArchivistQueries,
+  ArchivistSnapshotPayload,
   AttachableArchivistInstance,
   ReadArchivist,
 } from '@xyo-network/archivist-model'
@@ -30,6 +32,7 @@ import {
   ArchivistGetQuerySchema,
   ArchivistInsertQuerySchema,
   ArchivistNextQuerySchema,
+  ArchivistSnapshotQuerySchema,
   asArchivistInstance,
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
@@ -45,6 +48,8 @@ import type {
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
+
+import { StorageClassLabel } from './StorageClassLabel.ts'
 
 const NOT_IMPLEMENTED = 'Not implemented' as const
 
@@ -70,6 +75,7 @@ export abstract class AbstractArchivist<
   implements AttachableArchivistInstance<TParams, TEventData, Payload> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, ArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = ArchivistConfigSchema
+  static override readonly labels = { ...super.labels, [StorageClassLabel]: 'unknown' }
   static override readonly uniqueName = globallyUnique('AbstractArchivist', AbstractArchivist, 'xyo')
 
   // override this if a specialized archivist should have a different default next limit
@@ -241,6 +247,22 @@ export abstract class AbstractArchivist<
   async nextQuery(options?: ArchivistNextOptions, account?: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistNextQuery = { schema: ArchivistNextQuerySchema, ...options }
     return await this.sendQueryRaw(queryPayload, undefined, account)
+  }
+
+  async snapshot(): Promise<ArchivistSnapshotPayload<WithStorageMeta<Payload>, Hash>[]> {
+    this._noOverride('snapshot')
+    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+      throw new Error('Cannot take snapshot while in a global reentrancy lock')
+    }
+    try {
+      await this.globalReentrancyMutex?.acquire()
+      return await this.busy(async () => {
+        await this.started('throw')
+        return await this.snapshotHandler()
+      })
+    } finally {
+      this.globalReentrancyMutex?.release()
+    }
   }
 
   protected allHandler(): PromisableArray<WithStorageMeta<Payload>> {
@@ -489,6 +511,10 @@ export abstract class AbstractArchivist<
         resultPayloads.push(...(await this.nextHandler(queryPayload)))
         break
       }
+      case ArchivistSnapshotQuerySchema: {
+        resultPayloads.push(...(await this.snapshotHandler()))
+        break
+      }
       default: {
         const result = await super.queryHandler(sanitizedQuery, sanitizedPayloads)
         if (this.config.storeQueries) {
@@ -501,6 +527,10 @@ export abstract class AbstractArchivist<
       await this.insertWithConfig([sanitizedQuery])
     }
     return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
+  }
+
+  protected snapshotHandler(): PromisableArray<ArchivistSnapshotPayload<WithStorageMeta<Payload>, Hash>> {
+    throw new Error(NOT_IMPLEMENTED)
   }
 
   protected override startHandler() {

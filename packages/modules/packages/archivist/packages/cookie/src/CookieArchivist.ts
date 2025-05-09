@@ -3,7 +3,7 @@ import { exists } from '@xylabs/exists'
 import type { Hash } from '@xylabs/hex'
 import type { Promisable, PromisableArray } from '@xylabs/promise'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractArchivist } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import type {
   ArchivistConfig,
   ArchivistInsertQuery,
@@ -44,6 +44,7 @@ export class CookieArchivist<
 > extends AbstractArchivist<TParams, TEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, CookieArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = CookieArchivistConfigSchema
+  static override readonly labels = { ...super.labels, [StorageClassLabel]: 'disk' }
 
   get domain() {
     return this.config?.domain

@@ -3,7 +3,7 @@ import { exists } from '@xylabs/exists'
 import type { Hash, Hex } from '@xylabs/hex'
 import type { Promisable, PromisableArray } from '@xylabs/promise'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractArchivist } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import type {
   ArchivistConfig,
   ArchivistInsertQuery,
@@ -50,6 +50,7 @@ export class StorageArchivist<
   implements ArchivistInstance {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, StorageArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = StorageArchivistConfigSchema
+  static override readonly labels = { ...super.labels, [StorageClassLabel]: 'disk' }
 
   private _privateStorage: StoreBase | undefined
   private _storage: StoreBase | undefined

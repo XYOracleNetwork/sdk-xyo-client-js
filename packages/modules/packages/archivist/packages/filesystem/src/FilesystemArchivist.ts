@@ -4,7 +4,7 @@ import { assertEx } from '@xylabs/assert'
 import { handleError } from '@xylabs/error'
 import { Hash } from '@xylabs/hex'
 import { PromisableArray } from '@xylabs/promise'
-import { AbstractArchivist } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import {
   ArchivistAllQuerySchema,
@@ -43,6 +43,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
   implements ArchivistInstance {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, FilesystemArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = FilesystemArchivistConfigSchema
+  static override readonly labels = { ...super.labels, [StorageClassLabel]: 'disk' }
 
   private _memoryArchivist?: MemoryArchivist
 

@@ -1,3 +1,5 @@
+import type { EventName } from '@xyo-network/module-events'
+import type { ModuleIdentifier } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
@@ -7,8 +9,8 @@ export type SentinelAutomationSchema = typeof SentinelAutomationSchema
 export const SentinelIntervalAutomationSchema = 'network.xyo.automation.interval' as const
 export type SentinelIntervalAutomationSchema = typeof SentinelIntervalAutomationSchema
 
-export const SentinelEventAutomationSchema = 'network.xyo.automation.event' as const
-export type SentinelEventAutomationSchema = typeof SentinelEventAutomationSchema
+export const SentinelModuleEventAutomationSchema = 'network.xyo.automation.event.module' as const
+export type SentinelModuleEventAutomationSchema = typeof SentinelModuleEventAutomationSchema
 
 export type SentinelBaseAutomationPayload<T extends Payload> = Payload<
   {
@@ -41,14 +43,16 @@ export type SentinelIntervalAutomationPayload = SentinelBaseAutomationPayload<{
 
 export const isSentinelIntervalAutomation = isPayloadOfSchemaType<SentinelIntervalAutomationPayload>(SentinelIntervalAutomationSchema)
 
-/** Settings for an Event Automation */
-export type SentinelEventAutomationPayload = SentinelBaseAutomationPayload<{
-  schema: SentinelEventAutomationSchema
+/** Settings for an Module Event Automation */
+export type SentinelModuleEventAutomationPayload = SentinelBaseAutomationPayload<{
+  eventName: EventName
+  schema: SentinelModuleEventAutomationSchema
+  source: ModuleIdentifier
   type: 'event'
 }>
 
 /** Settings for an Automation */
 export type SentinelAutomationPayload = Payload<
-  SentinelIntervalAutomationPayload | SentinelEventAutomationPayload,
-  SentinelAutomationSchema | SentinelIntervalAutomationSchema | SentinelEventAutomationSchema
+  SentinelIntervalAutomationPayload | SentinelModuleEventAutomationPayload,
+  SentinelAutomationSchema | SentinelIntervalAutomationSchema | SentinelModuleEventAutomationSchema
 >

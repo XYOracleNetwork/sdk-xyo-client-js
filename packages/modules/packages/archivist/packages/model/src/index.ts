@@ -1,4 +1,5 @@
 export * from './ArchivistFunctions.ts'
+export * from './ArchivistSnapshot.ts'
 export * from './attachable/index.ts'
 export * from './Config.ts'
 export * from './EventData.ts'

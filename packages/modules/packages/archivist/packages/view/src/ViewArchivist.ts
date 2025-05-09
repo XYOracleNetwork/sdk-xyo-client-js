@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
-import { AbstractArchivist } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistConfig,
@@ -44,7 +44,7 @@ export class ViewArchivist<
   implements ArchivistInstance, ModuleInstance {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, ViewArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = ViewArchivistConfigSchema
-  static override readonly labels = { ...ModuleLimitationViewLabel }
+  static override readonly labels = { ...ModuleLimitationViewLabel, [StorageClassLabel]: 'proxy' }
 
   private _originArchivistInstance?: ArchivistInstance
 

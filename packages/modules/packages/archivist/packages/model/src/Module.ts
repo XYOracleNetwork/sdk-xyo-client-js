@@ -8,6 +8,6 @@ export interface ArchivistModule<
   TReadResponse extends Payload = Payload,
   TWriteResponse extends Payload = Payload,
   TWrite extends Payload = TReadResponse & Payload,
-  TId = Hash,
+  TId extends string = Hash,
 > extends Archivist<TReadResponse, TWriteResponse, TWrite, TId>,
   ModuleQueryFunctions {}

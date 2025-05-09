@@ -10,6 +10,8 @@ import type {
   ArchivistModuleInstance,
   ArchivistNextOptions,
   ArchivistNextQuery,
+  ArchivistSnapshotPayload,
+  ArchivistSnapshotQuery,
   AttachableArchivistInstance,
 } from '@xyo-network/archivist-model'
 import {
@@ -20,6 +22,7 @@ import {
   ArchivistGetQuerySchema,
   ArchivistInsertQuerySchema,
   ArchivistNextQuerySchema,
+  ArchivistSnapshotQuerySchema,
   isArchivistInstance,
   isArchivistModule,
 } from '@xyo-network/archivist-model'
@@ -103,6 +106,16 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModuleInstance = A
 
   async nextQuery(options?: ArchivistNextOptions, account?: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistNextQuery = { schema: ArchivistNextQuerySchema, ...options }
+    return await this.sendQueryRaw(queryPayload, undefined, account)
+  }
+
+  async snapshot(options?: {}): Promise<ArchivistSnapshotPayload<WithStorageMeta<Payload>, Hash>[]> {
+    const queryPayload: ArchivistSnapshotQuery = { ...options, schema: ArchivistSnapshotQuerySchema }
+    return await this.sendQuery(queryPayload)
+  }
+
+  async snapshotQuery(options?: {}, account?: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistSnapshotQuery = { schema: ArchivistSnapshotQuerySchema, ...options }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 }

@@ -1,5 +1,7 @@
 import type { Hash } from '@xylabs/hex'
-import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import type {
+  Payload, PayloadHashMap, WithStorageMeta,
+} from '@xyo-network/payload-model'
 
 import type {
   AllArchivistFunctions, ReadArchivistFunctions, StashArchivistFunctions, WriteArchivistFunctions,
@@ -7,25 +9,26 @@ import type {
 
 export interface AllArchivist<
   TReadResponse extends Payload = Payload,
-> extends AllArchivistFunctions<WithStorageMeta<TReadResponse>> {}
+  TId extends string = Hash,
+> extends AllArchivistFunctions<WithStorageMeta<TReadResponse>, PayloadHashMap<WithStorageMeta<TReadResponse>, TId>> {}
 
 export interface ReadArchivist<
   TReadResponse extends Payload = Payload,
-  TId = Hash,
+  TId extends string = Hash,
 > extends ReadArchivistFunctions<WithStorageMeta<TReadResponse>, TId> {}
 
 export interface WriteArchivist<
   TReadResponse extends Payload = Payload,
   TWriteResponse extends Payload = TReadResponse,
   TWrite extends Payload = TReadResponse,
-  TId = Hash,
-> extends WriteArchivistFunctions<WithStorageMeta<TReadResponse>, TWriteResponse, TWrite, TId> {}
+  TId extends string = Hash,
+> extends WriteArchivistFunctions<WithStorageMeta<TReadResponse>, WithStorageMeta<TWriteResponse>, TWrite, TId> {}
 
 export interface ReadWriteArchivist<
   TReadResponse extends Payload = Payload,
   TWriteResponse extends Payload = TReadResponse,
   TWrite extends Payload = TReadResponse,
-  TId = Hash,
+  TId extends string = Hash,
 > extends WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>, ReadArchivist<TReadResponse, TId> {}
 
 export interface StashArchivist<
@@ -36,15 +39,15 @@ export interface FullArchivist<
   TReadResponse extends Payload = Payload,
   TWriteResponse extends Payload = TReadResponse,
   TWrite extends Payload = TReadResponse,
-  TId = Hash,
+  TId extends string = Hash,
 > extends ReadWriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>, StashArchivist<TWriteResponse> {}
 
 export interface Archivist<
   TReadResponse extends Payload = Payload,
   TWriteResponse extends Payload = Payload,
   TWrite extends Payload = TReadResponse & Payload,
-  TId = Hash,
+  TId extends string = Hash,
 > extends ReadArchivist<WithStorageMeta<TReadResponse>, TId>,
-  AllArchivist<WithStorageMeta<TReadResponse>>,
+  AllArchivist<WithStorageMeta<TReadResponse>, TId>,
   WriteArchivist<WithStorageMeta<TReadResponse>, WithStorageMeta<TWriteResponse>, TWrite, TId>,
   StashArchivistFunctions<TWriteResponse> {}

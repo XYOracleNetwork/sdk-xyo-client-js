@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash, Hex } from '@xylabs/hex'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractArchivist } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -37,6 +37,7 @@ export class LmdbArchivist<
 > extends AbstractArchivist<TParams, TEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, LmdbArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = LmdbArchivistConfigSchema
+  static override readonly labels = { ...super.labels, [StorageClassLabel]: 'disk' }
 
   protected static readonly dataHashIndex: IndexDescription = {
     key: { _dataHash: 1 }, multiEntry: false, unique: false,

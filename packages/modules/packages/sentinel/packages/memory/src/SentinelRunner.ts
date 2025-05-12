@@ -1,5 +1,8 @@
 import { assertEx } from '@xylabs/assert'
+import type { BaseParams } from '@xylabs/base'
+import { Base } from '@xylabs/base'
 import { forget } from '@xylabs/forget'
+import { spanRootAsync } from '@xylabs/telemetry'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import type {
@@ -13,17 +16,24 @@ import { SentinelIntervalAutomationWrapper } from './SentinelIntervalAutomationW
 
 export type OnSentinelRunnerTriggerResult = (result: Payload[]) => void
 
-export class SentinelRunner {
+export interface SentinelRunnerParams extends BaseParams {
+  automations?: SentinelAutomationPayload[]
+  onTriggerResult?: OnSentinelRunnerTriggerResult
+  sentinel: SentinelInstance
+}
+
+export class SentinelRunner extends Base {
   protected _automations: Record<string, SentinelAutomationPayload> = {}
   protected onTriggerResult: OnSentinelRunnerTriggerResult | undefined
   protected sentinel: SentinelInstance
   protected timeoutId?: NodeJS.Timeout | string | number
 
-  constructor(sentinel: SentinelInstance, automations?: SentinelAutomationPayload[], onTriggerResult?: OnSentinelRunnerTriggerResult) {
-    this.sentinel = sentinel
-    this.onTriggerResult = onTriggerResult
+  constructor(params: SentinelRunnerParams) {
+    super(params)
+    this.sentinel = params.sentinel
+    this.onTriggerResult = params.onTriggerResult
     // eslint-disable-next-line sonarjs/no-async-constructor
-    if (automations) for (const automation of automations) forget(this.add(automation))
+    if (params.automations) for (const automation of params.automations) forget(this.add(automation))
   }
 
   get automations() {
@@ -104,12 +114,13 @@ export class SentinelRunner {
   }
 
   private async trigger(automation: SentinelIntervalAutomationPayload) {
-    const wrapper = new SentinelIntervalAutomationWrapper(automation)
-    this.remove(await wrapper.dataHash(), false)
-    wrapper.next()
-    await this.add(wrapper.payload, false)
-    const triggerResult = await this.sentinel.report()
-    this.onTriggerResult?.(triggerResult)
-    // await this.start()
+    return await spanRootAsync('SentinelRunner.trigger', async () => {
+      const wrapper = new SentinelIntervalAutomationWrapper(automation)
+      this.remove(await wrapper.dataHash(), false)
+      wrapper.next()
+      await this.add(wrapper.payload, false)
+      const triggerResult = await this.sentinel.report()
+      this.onTriggerResult?.(triggerResult)
+    }, this.tracer)
   }
 }

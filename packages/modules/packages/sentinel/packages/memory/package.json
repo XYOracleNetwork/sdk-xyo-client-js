@@ -30,8 +30,10 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@xylabs/assert": "^4.9.8",
+    "@xylabs/base": "^4.9.8",
     "@xylabs/forget": "^4.9.8",
     "@xylabs/promise": "^4.9.8",
+    "@xylabs/telemetry": "^4.9.8",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",

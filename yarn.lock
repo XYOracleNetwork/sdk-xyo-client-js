@@ -7398,10 +7398,12 @@ __metadata:
   resolution: "@xyo-network/sentinel-memory@workspace:packages/modules/packages/sentinel/packages/memory"
   dependencies:
     "@xylabs/assert": "npm:^4.9.8"
+    "@xylabs/base": "npm:^4.9.8"
     "@xylabs/delay": "npm:^4.9.8"
     "@xylabs/forget": "npm:^4.9.8"
     "@xylabs/hex": "npm:^4.9.8"
     "@xylabs/promise": "npm:^4.9.8"
+    "@xylabs/telemetry": "npm:^4.9.8"
     "@xylabs/ts-scripts-yarn3": "npm:^6.5.5"
     "@xylabs/tsconfig": "npm:^6.5.5"
     "@xylabs/vitest-extended": "npm:^4.9.8"

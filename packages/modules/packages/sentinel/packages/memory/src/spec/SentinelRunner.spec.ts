@@ -76,7 +76,9 @@ describe('SentinelRunner', () => {
       expect(results[1]?.schema).toBe(IdSchema)
     }
 
-    const runner = new SentinelRunner(sentinel, [intervalAutomation], onTriggerResult)
+    const runner = new SentinelRunner({
+      sentinel, automations: [intervalAutomation], onTriggerResult,
+    })
     runner.start()
     while (timeoutCount) {
       if (triggered) {

@@ -50,7 +50,9 @@ export class MemorySentinel<
   override async startHandler(timeout?: number): Promise<boolean> {
     if (await super.startHandler(timeout)) {
       if ((this.config.automations?.length ?? 0) > 0) {
-        this.runner = new SentinelRunner({ sentinel: this, automations: this.config.automations })
+        this.runner = new SentinelRunner({
+          sentinel: this, automations: this.config.automations, traceProvider: this.params.traceProvider,
+        })
         this.runner.start()
       }
       return true

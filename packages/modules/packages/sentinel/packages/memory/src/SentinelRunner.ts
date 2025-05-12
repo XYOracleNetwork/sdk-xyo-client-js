@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import type { BaseParams } from '@xylabs/base'
 import { Base } from '@xylabs/base'
 import { forget } from '@xylabs/forget'
-import { spanRootAsync } from '@xylabs/telemetry'
+import { spanRoot, spanRootAsync } from '@xylabs/telemetry'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import type {
@@ -78,26 +78,28 @@ export class SentinelRunner extends Base {
   }
 
   start() {
-    assertEx(this.timeoutId === undefined, () => 'Already started')
-    const automation = this.next
-    if (isSentinelIntervalAutomation(automation)) {
-      const now = Date.now()
-      const start = Math.max(automation.start ?? now, now)
-      const delay = Math.max(start - now, 0)
-      if (delay < Number.POSITIVE_INFINITY) {
+    return spanRoot('start', () => {
+      assertEx(this.timeoutId === undefined, () => 'Already started')
+      const automation = this.next
+      if (isSentinelIntervalAutomation(automation)) {
+        const now = Date.now()
+        const start = Math.max(automation.start ?? now, now)
+        const delay = Math.max(start - now, 0)
+        if (delay < Number.POSITIVE_INFINITY) {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        this.timeoutId = setTimeout(async () => {
-          try {
+          this.timeoutId = setTimeout(async () => {
+            try {
             // Run the automation
-            await this.trigger(automation)
-            this.stop()
-          } finally {
+              await this.trigger(automation)
+              this.stop()
+            } finally {
             // No matter what start the next automation
-            this.start()
-          }
-        }, delay)
+              forget(this.start())
+            }
+          }, delay)
+        }
       }
-    }
+    }, this.tracer)
   }
 
   stop() {
@@ -114,7 +116,7 @@ export class SentinelRunner extends Base {
   }
 
   private async trigger(automation: SentinelIntervalAutomationPayload) {
-    return await spanRootAsync('SentinelRunner.trigger', async () => {
+    return await spanRootAsync('trigger', async () => {
       const wrapper = new SentinelIntervalAutomationWrapper(automation)
       this.remove(await wrapper.dataHash(), false)
       wrapper.next()

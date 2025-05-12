@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.9.4",
-    "@xylabs/object": "^4.9.4",
+    "@xylabs/hex": "^4.9.7",
+    "@xylabs/object": "^4.9.7",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {

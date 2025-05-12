@@ -29,11 +29,11 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.9.4",
-    "@xylabs/assert": "^4.9.4",
-    "@xylabs/exists": "^4.9.4",
-    "@xylabs/hex": "^4.9.4",
-    "@xylabs/indexed-db": "^4.9.4",
+    "@xylabs/array": "^4.9.7",
+    "@xylabs/assert": "^4.9.7",
+    "@xylabs/exists": "^4.9.7",
+    "@xylabs/hex": "^4.9.7",
+    "@xylabs/indexed-db": "^4.9.7",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -42,8 +42,8 @@
     "idb": "^8.0.3"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.9.4",
-    "@xylabs/object": "^4.9.4",
+    "@xylabs/delay": "^4.9.7",
+    "@xylabs/object": "^4.9.7",
     "@xylabs/ts-scripts-yarn3": "^6.5.5",
     "@xylabs/tsconfig": "^6.5.5",
     "@xyo-network/account": "workspace:^",
@@ -51,7 +51,7 @@
     "@xyo-network/archivist-acceptance-tests": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
-    "fake-indexeddb": "^6.0.0",
+    "fake-indexeddb": "^6.0.1",
     "typescript": "^5.8.3",
     "uuid": "^11.1.0",
     "vitest": "^3.1.3"

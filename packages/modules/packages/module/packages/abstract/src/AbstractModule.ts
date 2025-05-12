@@ -13,6 +13,7 @@ import {
 } from '@xylabs/logger'
 import type { Promisable } from '@xylabs/promise'
 import { PromiseEx } from '@xylabs/promise'
+import { spanAsync } from '@xylabs/telemetry'
 import { Account } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
@@ -234,37 +235,39 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     params: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ) {
     this._noOverride('create')
-    if (!this.configSchemas || this.configSchemas.length === 0) {
-      throw new Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
-    }
+    return await spanAsync('create', async () => {
+      if (!this.configSchemas || this.configSchemas.length === 0) {
+        throw new Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
+      }
 
-    if (!this.defaultConfigSchema) {
-      throw new Error(`Missing defaultConfigSchema [${params?.config?.schema}][${this.name}]`)
-    }
+      if (!this.defaultConfigSchema) {
+        throw new Error(`Missing defaultConfigSchema [${params?.config?.schema}][${this.name}]`)
+      }
 
-    assertEx(params?.config?.name === undefined || isModuleName(params.config.name), () => `Invalid module name: ${params?.config?.name}`)
+      assertEx(params?.config?.name === undefined || isModuleName(params.config.name), () => `Invalid module name: ${params?.config?.name}`)
 
-    const { account } = params ?? {}
+      const { account } = params ?? {}
 
-    const schema: Schema = params?.config?.schema ?? this.defaultConfigSchema
-    const allowedSchemas: Schema[] = this.configSchemas
+      const schema: Schema = params?.config?.schema ?? this.defaultConfigSchema
+      const allowedSchemas: Schema[] = this.configSchemas
 
-    assertEx(allowedSchemas.includes(schema), () => `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`)
-    const mutatedConfig: TModule['params']['config'] = { ...params?.config, schema } as TModule['params']['config']
-    params?.logger?.debug(`config: ${JSON.stringify(mutatedConfig, null, 2)}`)
-    const mutatedParams: TModule['params'] = { ...params, config: mutatedConfig } as TModule['params']
+      assertEx(allowedSchemas.includes(schema), () => `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`)
+      const mutatedConfig: TModule['params']['config'] = { ...params?.config, schema } as TModule['params']['config']
+      params?.logger?.debug(`config: ${JSON.stringify(mutatedConfig, null, 2)}`)
+      const mutatedParams: TModule['params'] = { ...params, config: mutatedConfig } as TModule['params']
 
-    const activeLogger = params?.logger ?? AbstractModule.defaultLogger
-    const generatedAccount = await AbstractModule.determineAccount({ account })
-    const address = generatedAccount.address
-    mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${address}`) : undefined
+      const activeLogger = params?.logger ?? AbstractModule.defaultLogger
+      const generatedAccount = await AbstractModule.determineAccount({ account })
+      const address = generatedAccount.address
+      mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${address}`) : undefined
 
-    const newModule = new this(AbstractModule.privateConstructorKey, mutatedParams, generatedAccount, address)
+      const newModule = new this(AbstractModule.privateConstructorKey, mutatedParams, generatedAccount, address)
 
-    if (!AbstractModule.enableLazyLoad) {
-      await newModule.start?.()
-    }
-    return newModule
+      if (!AbstractModule.enableLazyLoad) {
+        await newModule.start?.()
+      }
+      return newModule
+    }, params.traceProvider?.getTracer('AbstractModule[static]'))
   }
 
   static async determineAccount(params: {
@@ -330,48 +333,50 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   ): Promise<ModuleQueryResult> {
     this._checkDead()
     this._noOverride('query')
-    const sourceQuery = assertEx(isQueryBoundWitness(query) ? query : undefined, () => 'Unable to parse query')
-    return await this.busy(async () => {
-      const resultPayloads: Payload[] = []
-      const errorPayloads: ModuleError[] = []
-      const queryAccount = this.ephemeralQueryAccountEnabled ? await Account.random() : undefined
+    return await spanAsync('query', async () => {
+      const sourceQuery = assertEx(isQueryBoundWitness(query) ? query : undefined, () => 'Unable to parse query')
+      return await this.busy(async () => {
+        const resultPayloads: Payload[] = []
+        const errorPayloads: ModuleError[] = []
+        const queryAccount = this.ephemeralQueryAccountEnabled ? await Account.random() : undefined
 
-      try {
-        await this.started('throw')
-        if (!this.allowAnonymous && query.addresses.length === 0) {
-          throw new Error(`Anonymous Queries not allowed, but running anyway [${this.modName}], [${this.address}]`)
+        try {
+          await this.started('throw')
+          if (!this.allowAnonymous && query.addresses.length === 0) {
+            throw new Error(`Anonymous Queries not allowed, but running anyway [${this.modName}], [${this.address}]`)
+          }
+          if (queryConfig?.allowedQueries) {
+            assertEx(queryConfig?.allowedQueries.includes(sourceQuery.schema), () => `Query not allowed [${sourceQuery.schema}]`)
+          }
+          resultPayloads.push(...(await this.queryHandler(sourceQuery, payloads, queryConfig)))
+        } catch (ex) {
+          await handleErrorAsync(ex, async (err) => {
+            const error = err as ModuleDetailsError
+            this._lastError = error
+            // this.status = 'dead'
+            errorPayloads.push(
+              new ModuleErrorBuilder()
+                .meta({ $sources: [await PayloadBuilder.dataHash(sourceQuery)] })
+                .name(this.modName ?? '<Unknown>')
+                .query(sourceQuery.schema)
+                .details(error.details)
+                .message(error.message)
+                .build(),
+            )
+          })
         }
-        if (queryConfig?.allowedQueries) {
-          assertEx(queryConfig?.allowedQueries.includes(sourceQuery.schema), () => `Query not allowed [${sourceQuery.schema}]`)
+        if (this.timestamp) {
+          const timestamp = { schema: 'network.xyo.timestamp', timestamp: Date.now() }
+          resultPayloads.push(timestamp)
         }
-        resultPayloads.push(...(await this.queryHandler(sourceQuery, payloads, queryConfig)))
-      } catch (ex) {
-        await handleErrorAsync(ex, async (err) => {
-          const error = err as ModuleDetailsError
-          this._lastError = error
-          // this.status = 'dead'
-          errorPayloads.push(
-            new ModuleErrorBuilder()
-              .meta({ $sources: [await PayloadBuilder.dataHash(sourceQuery)] })
-              .name(this.modName ?? '<Unknown>')
-              .query(sourceQuery.schema)
-              .details(error.details)
-              .message(error.message)
-              .build(),
-          )
-        })
-      }
-      if (this.timestamp) {
-        const timestamp = { schema: 'network.xyo.timestamp', timestamp: Date.now() }
-        resultPayloads.push(timestamp)
-      }
-      const result = await this.bindQueryResult(sourceQuery, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads)
-      const args: ModuleQueriedEventArgs = {
-        mod: this, payloads, query: sourceQuery, result,
-      }
-      await this.emit('moduleQueried', args)
-      return result
-    })
+        const result = await this.bindQueryResult(sourceQuery, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads)
+        const args: ModuleQueriedEventArgs = {
+          mod: this, payloads, query: sourceQuery, result,
+        }
+        await this.emit('moduleQueried', args)
+        return result
+      })
+    }, this.tracer)
   }
 
   async queryable<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -396,12 +401,15 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return true
   }
 
-  start(_timeout?: number): Promisable<boolean> {
-    // using promise as mutex
-    this._startPromise = this._startPromise ?? this.startHandler()
-    const result = this._startPromise
-    this.status = result ? 'started' : 'dead'
-    return result
+  async start(timeout?: number): Promise<boolean> {
+    this._noOverride('start')
+    return await spanAsync('start', async () => {
+      // using promise as mutex
+      this._startPromise = this._startPromise ?? await this.startHandler(timeout)
+      const result = this._startPromise
+      this.status = result ? 'started' : 'dead'
+      return result
+    }, this.tracer)
   }
 
   async started(notStartedAction: 'error' | 'throw' | 'warn' | 'log' | 'none' = 'log', tryStart = true): Promise<boolean> {
@@ -453,13 +461,16 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   async stop(_timeout?: number): Promise<boolean> {
-    return await this.busy(async () => {
-      const result = await this.stopHandler()
-      this._started = undefined
-      this._startPromise = undefined
-      this.status = result ? 'stopped' : 'dead'
-      return result
-    })
+    this._noOverride('stop')
+    return await spanAsync('start', async () => {
+      return await this.busy(async () => {
+        const result = await this.stopHandler()
+        this._started = undefined
+        this._startPromise = undefined
+        this.status = result ? 'stopped' : 'dead'
+        return result
+      })
+    }, this.tracer)
   }
 
   protected _checkDead() {
@@ -661,7 +672,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
   }
 
-  protected async startHandler(): Promise<boolean> {
+  protected async startHandler(_timeout?: number): Promise<boolean> {
     this.validateConfig()
     await Promise.resolve()
     this._started = true

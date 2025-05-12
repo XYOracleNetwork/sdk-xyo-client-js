@@ -47,8 +47,8 @@ export class MemorySentinel<
     return result
   }
 
-  override async start(timeout?: number | undefined): Promise<boolean> {
-    if (await super.start(timeout)) {
+  override async startHandler(timeout?: number): Promise<boolean> {
+    if (await super.startHandler(timeout)) {
       if ((this.config.automations?.length ?? 0) > 0) {
         this.runner = new SentinelRunner(this, this.config.automations)
         this.runner.start()

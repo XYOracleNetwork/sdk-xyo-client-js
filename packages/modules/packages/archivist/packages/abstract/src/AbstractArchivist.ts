@@ -1,10 +1,13 @@
 /* eslint-disable max-lines */
+import type { Histogram, Meter } from '@opentelemetry/api'
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
 import { exists } from '@xylabs/exists'
 import type { Address, Hash } from '@xylabs/hex'
 import type { Promisable, PromisableArray } from '@xylabs/promise'
 import { difference } from '@xylabs/set'
+import { spanAsync } from '@xylabs/telemetry'
+import { isNull, isUndefined } from '@xylabs/typeof'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type {
   ArchivistAllQuery,
@@ -83,6 +86,8 @@ export abstract class AbstractArchivist<
 
   private _getCache?: LRUCache<Hash, WithStorageMeta<Payload>>
   private _parentArchivists?: ArchivistParentInstanceMap
+  private _payloadCountHistogram?: Histogram | null
+  private _payloadCountMeter?: Meter | null
 
   // do not override this!  It is meant to get the this.defaultNextLimitSetting and work if it is overridden
   static get defaultNextLimit() {
@@ -97,24 +102,41 @@ export abstract class AbstractArchivist<
     return this.config.requireAllParents ?? false
   }
 
+  protected get payloadCountHistogram() {
+    const meter = this.payloadCountMeter
+    if (!isNull(meter)) {
+      this._payloadCountHistogram = meter?.createHistogram('payloadCount', { description: 'Count of payloads in the archivist' })
+    }
+    return this._payloadCountHistogram
+  }
+
+  protected get payloadCountMeter(): Meter | null {
+    if (isUndefined(this._payloadCountMeter)) {
+      this._payloadCountMeter = this.params?.meterProvider?.getMeter('payloadCount') ?? null
+    }
+    return this._payloadCountMeter ?? null
+  }
+
   protected get storeParentReads() {
     return !!this.config?.storeParentReads
   }
 
   async all(): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('all')
-    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
-      return []
-    }
-    try {
-      await this.globalReentrancyMutex?.acquire()
-      return await this.busy(async () => {
-        await this.started('throw')
-        return PayloadBuilder.omitPrivateStorageMeta(await this.allHandler())
-      })
-    } finally {
-      this.globalReentrancyMutex?.release()
-    }
+    return await spanAsync('all', async () => {
+      if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+        return []
+      }
+      try {
+        await this.globalReentrancyMutex?.acquire()
+        return await this.busy(async () => {
+          await this.started('throw')
+          return PayloadBuilder.omitPrivateStorageMeta(await this.allHandler())
+        })
+      } finally {
+        this.globalReentrancyMutex?.release()
+      }
+    }, this.tracer)
   }
 
   async allQuery(account: AccountInstance): Promise<ModuleQueryResult> {
@@ -124,18 +146,21 @@ export abstract class AbstractArchivist<
 
   async clear(): Promise<void> {
     this._noOverride('clear')
-    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
-      return
-    }
-    try {
-      await this.globalReentrancyMutex?.acquire()
-      return await this.busy(async () => {
-        await this.started('throw')
-        return await this.clearHandler()
-      })
-    } finally {
-      this.globalReentrancyMutex?.release()
-    }
+    return await spanAsync('clear', async () => {
+      if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+        return
+      }
+      try {
+        await this.globalReentrancyMutex?.acquire()
+        return await this.busy(async () => {
+          await this.started('throw')
+          await this.clearHandler()
+          this.reportPayloadCount()
+        })
+      } finally {
+        this.globalReentrancyMutex?.release()
+      }
+    }, this.tracer)
   }
 
   async clearQuery(account: AccountInstance): Promise<ModuleQueryResult> {
@@ -145,18 +170,20 @@ export abstract class AbstractArchivist<
 
   async commit(): Promise<BoundWitness[]> {
     this._noOverride('commit')
-    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
-      return []
-    }
-    try {
-      await this.globalReentrancyMutex?.acquire()
-      return await this.busy(async () => {
-        await this.started('throw')
-        return await this.commitHandler()
-      })
-    } finally {
-      this.globalReentrancyMutex?.release()
-    }
+    return await spanAsync('commit', async () => {
+      if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+        return []
+      }
+      try {
+        await this.globalReentrancyMutex?.acquire()
+        return await this.busy(async () => {
+          await this.started('throw')
+          return await this.commitHandler()
+        })
+      } finally {
+        this.globalReentrancyMutex?.release()
+      }
+    }, this.tracer)
   }
 
   async commitQuery(account: AccountInstance): Promise<ModuleQueryResult> {
@@ -166,18 +193,20 @@ export abstract class AbstractArchivist<
 
   async delete(hashes: Hash[]): Promise<Hash[]> {
     this._noOverride('delete')
-    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
-      return []
-    }
-    try {
-      await this.globalReentrancyMutex?.acquire()
-      return await this.busy(async () => {
-        await this.started('throw')
-        return await this.deleteWithConfig(hashes)
-      })
-    } finally {
-      this.globalReentrancyMutex?.release()
-    }
+    return await spanAsync('delete', async () => {
+      if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+        return []
+      }
+      try {
+        await this.globalReentrancyMutex?.acquire()
+        return await this.busy(async () => {
+          await this.started('throw')
+          return await this.deleteWithConfig(hashes)
+        })
+      } finally {
+        this.globalReentrancyMutex?.release()
+      }
+    }, this.tracer)
   }
 
   async deleteQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -187,18 +216,20 @@ export abstract class AbstractArchivist<
 
   async get(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('get')
-    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
-      return []
-    }
-    try {
-      await this.globalReentrancyMutex?.acquire()
-      return await this.busy(async () => {
-        await this.started('throw')
-        return await this.getWithConfig(hashes)
-      })
-    } finally {
-      this.globalReentrancyMutex?.release()
-    }
+    return await spanAsync('get', async () => {
+      if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+        return []
+      }
+      try {
+        await this.globalReentrancyMutex?.acquire()
+        return await this.busy(async () => {
+          await this.started('throw')
+          return await this.getWithConfig(hashes)
+        })
+      } finally {
+        this.globalReentrancyMutex?.release()
+      }
+    }, this.tracer)
   }
 
   async getQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -208,18 +239,20 @@ export abstract class AbstractArchivist<
 
   async insert(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('insert')
-    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
-      return []
-    }
-    try {
-      await this.globalReentrancyMutex?.acquire()
-      return await this.busy(async () => {
-        await this.started('throw')
-        return await this.insertWithConfig(PayloadBuilder.omitStorageMeta(payloads))
-      })
-    } finally {
-      this.globalReentrancyMutex?.release()
-    }
+    return await spanAsync('insert', async () => {
+      if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+        return []
+      }
+      try {
+        await this.globalReentrancyMutex?.acquire()
+        return await this.busy(async () => {
+          await this.started('throw')
+          return await this.insertWithConfig(PayloadBuilder.omitStorageMeta(payloads))
+        })
+      } finally {
+        this.globalReentrancyMutex?.release()
+      }
+    }, this.tracer)
   }
 
   async insertQuery(payloads: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -229,19 +262,21 @@ export abstract class AbstractArchivist<
 
   async next(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('next')
-    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
-      return []
-    }
-    try {
-      await this.globalReentrancyMutex?.acquire()
-      return await this.busy(async () => {
-        await this.started('throw')
-        const { limit = AbstractArchivist.defaultNextLimit, ...otherOptions } = options ?? {}
-        return await this.nextWithConfig({ limit, ...otherOptions })
-      })
-    } finally {
-      this.globalReentrancyMutex?.release()
-    }
+    return await spanAsync('next', async () => {
+      if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+        return []
+      }
+      try {
+        await this.globalReentrancyMutex?.acquire()
+        return await this.busy(async () => {
+          await this.started('throw')
+          const { limit = AbstractArchivist.defaultNextLimit, ...otherOptions } = options ?? {}
+          return await this.nextWithConfig({ limit, ...otherOptions })
+        })
+      } finally {
+        this.globalReentrancyMutex?.release()
+      }
+    }, this.tracer)
   }
 
   async nextQuery(options?: ArchivistNextOptions, account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -251,18 +286,20 @@ export abstract class AbstractArchivist<
 
   async snapshot(): Promise<ArchivistSnapshotPayload<WithStorageMeta<Payload>, Hash>[]> {
     this._noOverride('snapshot')
-    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
-      throw new Error('Cannot take snapshot while in a global reentrancy lock')
-    }
-    try {
-      await this.globalReentrancyMutex?.acquire()
-      return await this.busy(async () => {
-        await this.started('throw')
-        return await this.snapshotHandler()
-      })
-    } finally {
-      this.globalReentrancyMutex?.release()
-    }
+    return await spanAsync('snapshot', async () => {
+      if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+        throw new Error('Cannot take snapshot while in a global reentrancy lock')
+      }
+      try {
+        await this.globalReentrancyMutex?.acquire()
+        return await this.busy(async () => {
+          await this.started('throw')
+          return await this.snapshotHandler()
+        })
+      } finally {
+        this.globalReentrancyMutex?.release()
+      }
+    }, this.tracer)
   }
 
   protected allHandler(): PromisableArray<WithStorageMeta<Payload>> {
@@ -289,7 +326,7 @@ export abstract class AbstractArchivist<
     if (emitEvents) {
       await this.emit('deleted', { hashes: deletedHashes, mod: this })
     }
-
+    this.reportPayloadCount()
     return deletedHashes
   }
 
@@ -444,7 +481,7 @@ export abstract class AbstractArchivist<
     if (emitEvents) {
       await this.emit('inserted', { mod: this, payloads: insertedPayloads })
     }
-
+    this.reportPayloadCount()
     return PayloadBuilder.omitPrivateStorageMeta(insertedPayloads)
   }
 
@@ -464,6 +501,11 @@ export abstract class AbstractArchivist<
       write: { ...await this.resolveArchivists(this.config?.parents?.write) },
     }
     return assertEx(this._parentArchivists)
+  }
+
+  // the number of payloads in the archivist, -1 if not implemented
+  protected payloadCountHandler() {
+    return -1
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -529,11 +571,19 @@ export abstract class AbstractArchivist<
     return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
   }
 
+  protected reportPayloadCount() {
+    this._noOverride('reportPayloadCount')
+    const histogram = this.payloadCountHistogram
+    if (histogram) {
+      histogram.record(this.payloadCountHandler())
+    }
+  }
+
   protected snapshotHandler(): PromisableArray<ArchivistSnapshotPayload<WithStorageMeta<Payload>, Hash>> {
     throw new Error(NOT_IMPLEMENTED)
   }
 
-  protected override startHandler() {
+  protected override async startHandler() {
     if (this.config.getCache?.enabled === true) {
       this._getCache = new LRUCache({
         max: this.config.getCache?.maxEntries ?? 10_000,
@@ -542,7 +592,9 @@ export abstract class AbstractArchivist<
         updateAgeOnGet: true,
       })
     }
-    return super.startHandler()
+    const result = await super.startHandler()
+    this.reportPayloadCount()
+    return result
   }
 
   protected async writeToParent(parent: ArchivistInstance, payloads: Payload[]): Promise<Payload[]> {

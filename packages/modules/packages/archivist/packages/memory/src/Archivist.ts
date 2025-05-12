@@ -166,6 +166,10 @@ export class MemoryArchivist<
     return all.slice(startIndex, startIndex + limit)
   }
 
+  protected override payloadCountHandler() {
+    return this.cache.size
+  }
+
   protected override snapshotHandler(): PromisableArray<ArchivistSnapshotPayload<WithStorageMeta<Payload>, Hash>> {
     return [{
       hash: Object.fromEntries(

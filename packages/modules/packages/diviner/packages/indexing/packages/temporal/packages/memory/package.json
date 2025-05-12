@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.9.4",
-    "@xylabs/assert": "^4.9.4",
-    "@xylabs/exists": "^4.9.4",
+    "@xylabs/array": "^4.9.7",
+    "@xylabs/assert": "^4.9.7",
+    "@xylabs/exists": "^4.9.7",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -54,11 +54,11 @@
     "@xyo-network/witness-timestamp": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.9.4",
-    "@xylabs/hex": "^4.9.4",
+    "@xylabs/delay": "^4.9.7",
+    "@xylabs/hex": "^4.9.7",
     "@xylabs/ts-scripts-yarn3": "^6.5.5",
     "@xylabs/tsconfig": "^6.5.5",
-    "@xylabs/vitest-extended": "^4.9.4",
+    "@xylabs/vitest-extended": "^4.9.7",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/manifest": "workspace:^",

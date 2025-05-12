@@ -6,6 +6,11 @@ import type { AnyConfigSchema, ModuleConfig } from './Config/index.ts'
 import type { ModuleInstance } from './instance/index.ts'
 import type { ModuleIdentifierTransformer } from './ModuleIdentifierTransformer.ts'
 
+export type ModuleChildrenParams = {
+  privateChildren?: ModuleInstance[]
+  publicChildren?: ModuleInstance[]
+}
+
 export type ModuleParams<
   TConfig extends AnyConfigSchema<ModuleConfig> | void = void,
   TAdditionalParams extends EmptyObject | void = void,
@@ -18,8 +23,6 @@ export type ModuleParams<
     config: TConfig extends AnyConfigSchema<ModuleConfig> ? TConfig : AnyConfigSchema<ModuleConfig>
     ephemeralQueryAccountEnabled?: boolean
     moduleIdentifierTransformers?: ModuleIdentifierTransformer[]
-    privateChildren?: ModuleInstance[]
-    publicChildren?: ModuleInstance[]
-  }>,
+  } & ModuleChildrenParams>,
   TAdditionalParams
 >

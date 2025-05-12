@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/exists": "^4.9.4",
-    "@xylabs/hex": "^4.9.4",
-    "@xylabs/set": "^4.9.4",
+    "@xylabs/exists": "^4.9.7",
+    "@xylabs/hex": "^4.9.7",
+    "@xylabs/set": "^4.9.7",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/hash": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
@@ -40,7 +40,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.5.5",
     "@xylabs/tsconfig": "^6.5.5",
-    "@xylabs/vitest-extended": "^4.9.4",
+    "@xylabs/vitest-extended": "^4.9.7",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "typescript": "^5.8.3",
     "vitest": "^3.1.3"

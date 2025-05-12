@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
 import type { Promisable } from '@xylabs/promise'
+import { spanAsync } from '@xylabs/telemetry'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -59,33 +60,35 @@ export abstract class AbstractWitness<
   /** @function observe The main entry point for a witness.  Do not override this function.  Implement/override observeHandler for custom functionality */
   async observe(inPayloads?: TIn[]): Promise<WithoutPrivateStorageMeta<TOut>[]> {
     this._noOverride('observe')
-    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
-      return []
-    }
-    try {
-      return await this.busy(async () => {
-        await this.globalReentrancyMutex?.acquire()
-        this._noOverride('observe')
-        await this.started('throw')
-        await this.emit('observeStart', { inPayloads, mod: this } as TEventData['observeStart'])
-        const outPayloads = assertEx(await this.observeHandler(inPayloads), () => 'Trying to witness nothing')
-        // assertEx(outPayloads.length > 0, 'Trying to witness empty list')
-        for (const payload of outPayloads ?? []) assertEx(payload.schema, () => 'observe: Missing Schema')
+    return await spanAsync('observe', async () => {
+      if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+        return []
+      }
+      try {
+        return await this.busy(async () => {
+          await this.globalReentrancyMutex?.acquire()
+          this._noOverride('observe')
+          await this.started('throw')
+          await this.emit('observeStart', { inPayloads, mod: this } as TEventData['observeStart'])
+          const outPayloads = assertEx(await this.observeHandler(inPayloads), () => 'Trying to witness nothing')
+          // assertEx(outPayloads.length > 0, 'Trying to witness empty list')
+          for (const payload of outPayloads ?? []) assertEx(payload.schema, () => 'observe: Missing Schema')
 
-        const archivist = await this.getArchivistInstance()
-        if (archivist) {
-          await archivist.insert(outPayloads)
-        }
+          const archivist = await this.getArchivistInstance()
+          if (archivist) {
+            await archivist.insert(outPayloads)
+          }
 
-        await this.emit('observeEnd', {
-          inPayloads, mod: this, outPayloads,
-        } as TEventData['observeEnd'])
+          await this.emit('observeEnd', {
+            inPayloads, mod: this, outPayloads,
+          } as TEventData['observeEnd'])
 
-        return PayloadBuilder.omitPrivateStorageMeta(outPayloads)
-      })
-    } finally {
-      this.globalReentrancyMutex?.release()
-    }
+          return PayloadBuilder.omitPrivateStorageMeta(outPayloads)
+        })
+      } finally {
+        this.globalReentrancyMutex?.release()
+      }
+    }, this.tracer)
   }
 
   async observeQuery(payloads?: TIn[], account?: AccountInstance): Promise<ModuleQueryResult<TOut>> {

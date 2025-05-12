@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
 import { forget } from '@xylabs/forget'
+import { spanAsync } from '@xylabs/telemetry'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -61,34 +62,36 @@ export abstract class AbstractSentinel<
 
   async report(inPayloads?: Payload[]): Promise<WithoutPrivateStorageMeta<Payload>[]> {
     this._noOverride('report')
-    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
-      return []
-    }
-    try {
-      await this.globalReentrancyMutex?.acquire()
-      const reportPromise = (async () => {
-        await this.emit('reportStart', { inPayloads, mod: this })
-        const payloads = await this.reportHandler(inPayloads)
-
-        // create boundwitness
-        const result = (await new BoundWitnessBuilder().payloads(payloads).signer(this.account).build()).flat()
-
-        if (this.config.archiving) {
-          forget(this.storeToArchivists(result))
-        }
-
-        await this.emitReportEnd(inPayloads, result)
-        return result
-      })()
-      if (this.synchronous) {
-        return await reportPromise
-      } else {
-        forget(reportPromise)
+    return await spanAsync('report', async () => {
+      if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
       }
-    } finally {
-      this.globalReentrancyMutex?.release()
-    }
+      try {
+        await this.globalReentrancyMutex?.acquire()
+        const reportPromise = (async () => {
+          await this.emit('reportStart', { inPayloads, mod: this })
+          const payloads = await this.reportHandler(inPayloads)
+
+          // create boundwitness
+          const result = (await new BoundWitnessBuilder().payloads(payloads).signer(this.account).build()).flat()
+
+          if (this.config.archiving) {
+            forget(this.storeToArchivists(result))
+          }
+
+          await this.emitReportEnd(inPayloads, result)
+          return result
+        })()
+        if (this.synchronous) {
+          return await reportPromise
+        } else {
+          forget(reportPromise)
+          return []
+        }
+      } finally {
+        this.globalReentrancyMutex?.release()
+      }
+    }, this.tracer)
   }
 
   async reportQuery(payloads?: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {

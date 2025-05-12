@@ -3,6 +3,7 @@ import { globallyUnique } from '@xylabs/base'
 import type { Promisable } from '@xylabs/promise'
 import type { RetryConfig, RetryConfigWithComplete } from '@xylabs/retry'
 import { retry } from '@xylabs/retry'
+import { spanAsync } from '@xylabs/telemetry'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -52,25 +53,27 @@ export abstract class AbstractDiviner<
   /** @function divine The main entry point for a diviner.  Do not override this function.  Implement/override divineHandler for custom functionality */
   async divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<DivinerDivineResult<TOut>[]> {
     this._noOverride('divine')
-    if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
-      return []
-    }
-    try {
-      await this.globalReentrancyMutex?.acquire()
-      return await this.busy(async () => {
-        const retryConfig = retryConfigIn ?? this.config.retry
-        await this.started('throw')
-        await this.emit('divineStart', { inPayloads: payloads, mod: this })
-        const resultPayloads
+    return await spanAsync('divine', async () => {
+      if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+        return []
+      }
+      try {
+        await this.globalReentrancyMutex?.acquire()
+        return await this.busy(async () => {
+          const retryConfig = retryConfigIn ?? this.config.retry
+          await this.started('throw')
+          await this.emit('divineStart', { inPayloads: payloads, mod: this })
+          const resultPayloads
           = (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
-        await this.emit('divineEnd', {
-          errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads,
+          await this.emit('divineEnd', {
+            errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads,
+          })
+          return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
         })
-        return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
-      })
-    } finally {
-      this.globalReentrancyMutex?.release()
-    }
+      } finally {
+        this.globalReentrancyMutex?.release()
+      }
+    }, this.tracer)
   }
 
   async divineQuery(payloads?: TIn[], account?: AccountInstance, _retry?: RetryConfig): Promise<ModuleQueryResult<TOut>> {

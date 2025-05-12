@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import type { BaseParams } from '@xylabs/base'
 import { Base } from '@xylabs/base'
 import { forget } from '@xylabs/forget'
-import { spanRoot, spanRootAsync } from '@xylabs/telemetry'
+import { spanRootAsync } from '@xylabs/telemetry'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import type {
@@ -78,28 +78,28 @@ export class SentinelRunner extends Base {
   }
 
   start() {
-    return spanRoot('start', () => {
-      assertEx(this.timeoutId === undefined, () => 'Already started')
-      const automation = this.next
-      if (isSentinelIntervalAutomation(automation)) {
-        const now = Date.now()
-        const start = Math.max(automation.start ?? now, now)
-        const delay = Math.max(start - now, 0)
-        if (delay < Number.POSITIVE_INFINITY) {
+    assertEx(this.timeoutId === undefined, () => 'Already started')
+    const automation = this.next
+    if (isSentinelIntervalAutomation(automation)) {
+      const now = Date.now()
+      const start = Math.max(automation.start ?? now, now)
+      const delay = Math.max(start - now, 0)
+      if (delay < Number.POSITIVE_INFINITY) {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          this.timeoutId = setTimeout(async () => {
+        this.timeoutId = setTimeout(async () => {
+          return await spanRootAsync('start.setTimeout', async () => {
             try {
             // Run the automation
               await this.trigger(automation)
               this.stop()
             } finally {
             // No matter what start the next automation
-              forget(this.start())
+              this.start()
             }
-          }, delay)
-        }
+          }, this.tracer)
+        }, delay)
       }
-    }, this.tracer)
+    }
   }
 
   stop() {

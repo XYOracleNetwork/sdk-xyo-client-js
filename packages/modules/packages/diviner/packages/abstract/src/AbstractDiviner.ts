@@ -1,10 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
+import { delay } from '@xylabs/delay'
 import type { EventUnsubscribeFunction } from '@xylabs/events'
+import { forget } from '@xylabs/forget'
+import type { Logger } from '@xylabs/logger'
 import type { Promisable } from '@xylabs/promise'
 import type { RetryConfig, RetryConfigWithComplete } from '@xylabs/retry'
 import { retry } from '@xylabs/retry'
 import { spanAsync } from '@xylabs/telemetry'
+import { isDefined, isNull } from '@xylabs/typeof'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { isArchivistInstance } from '@xyo-network/archivist-model'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -25,13 +29,36 @@ import {
 } from '@xyo-network/diviner-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import type {
-  ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult,
+  ModuleConfig, ModuleIdentifier, ModuleInstance, ModuleQueryHandlerResult, ModuleQueryResult,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   Payload, Schema, WithoutPrivateStorageMeta,
 } from '@xyo-network/payload-model'
 import { isWitnessInstance } from '@xyo-network/witness-model'
+
+const delayedResolve = async (
+  parent: ModuleInstance,
+  id: ModuleIdentifier,
+  closure: (mod: ModuleInstance | null) => void,
+  timeout = 30_000,
+  logger?: Logger,
+) => {
+  const start = Date.now()
+  let result: ModuleInstance | undefined
+  while (result) {
+    result = await parent.resolve(id)
+    if (isDefined(result)) {
+      closure(result)
+      break
+    }
+    if (Date.now() - start > timeout) {
+      logger?.error(`Timed out waiting for ${id} to resolve`)
+      closure(null)
+    }
+    await delay(500)
+  }
+}
 
 export abstract class AbstractDiviner<
   TParams extends DivinerParams = DivinerParams,
@@ -118,43 +145,44 @@ export abstract class AbstractDiviner<
       const {
         sourceEvent, sourceModule, targetModuleFunction,
       } = subscription
-      const sourceModuleInstance = await this.resolve(sourceModule)
-      if (sourceModuleInstance) {
-        if (targetModuleFunction === 'divine') {
-          if (isArchivistInstance(sourceModuleInstance)) {
-            if (sourceEvent === 'inserted') {
-              this._eventUnsubscribeFunctions.push(
-                sourceModuleInstance.on(sourceEvent, async ({ outPayloads, payloads }) => {
-                  await this.divine((outPayloads ?? payloads) as Payload[] as TIn[])
-                }),
-              )
-            } else {
-              this.logger?.warn(`Unsupported sourceEvent ${sourceEvent} for ${sourceModuleInstance.modName}`)
-            }
-          } else if (isDivinerInstance(sourceModuleInstance)) {
-            if (sourceEvent === 'divineEnd') {
-              this._eventUnsubscribeFunctions.push(
-                sourceModuleInstance.on(sourceEvent, async ({ outPayloads }) => {
-                  await this.divine(outPayloads as Payload[] as TIn[])
-                }),
-              )
-            } else {
-              this.logger?.warn(`Unsupported sourceEvent ${sourceEvent} for ${sourceModuleInstance.modName}`)
-            }
-          } else if (isWitnessInstance(sourceModuleInstance)) {
-            if (sourceEvent === 'observeEnd') {
-              this._eventUnsubscribeFunctions.push(
-                sourceModuleInstance.on(sourceEvent, async ({ outPayloads }) => {
-                  await this.divine(outPayloads as Payload[] as TIn[])
-                }),
-              )
-            } else {
-              this.logger?.warn(`Unsupported sourceEvent ${sourceEvent} for ${sourceModuleInstance.modName}`)
+      if (targetModuleFunction === 'divine') {
+        forget(delayedResolve(this, sourceModule, (sourceModuleInstance: ModuleInstance | null) => {
+          if (isNull(sourceModuleInstance)) {
+            this.logger?.error(`Failed to resolve ${sourceModule} for ${this.modName}`)
+          } else {
+            if (isArchivistInstance(sourceModuleInstance)) {
+              if (sourceEvent === 'inserted') {
+                this._eventUnsubscribeFunctions.push(
+                  sourceModuleInstance.on(sourceEvent, async ({ outPayloads, payloads }) => {
+                    await this.divine((outPayloads ?? payloads) as Payload[] as TIn[])
+                  }),
+                )
+              } else {
+                this.logger?.warn(`Unsupported sourceEvent ${sourceEvent} for ${sourceModuleInstance.modName}`)
+              }
+            } else if (isDivinerInstance(sourceModuleInstance)) {
+              if (sourceEvent === 'divineEnd') {
+                this._eventUnsubscribeFunctions.push(
+                  sourceModuleInstance.on(sourceEvent, async ({ outPayloads }) => {
+                    await this.divine(outPayloads as Payload[] as TIn[])
+                  }),
+                )
+              } else {
+                this.logger?.warn(`Unsupported sourceEvent ${sourceEvent} for ${sourceModuleInstance.modName}`)
+              }
+            } else if (isWitnessInstance(sourceModuleInstance)) {
+              if (sourceEvent === 'observeEnd') {
+                this._eventUnsubscribeFunctions.push(
+                  sourceModuleInstance.on(sourceEvent, async ({ outPayloads }) => {
+                    await this.divine(outPayloads as Payload[] as TIn[])
+                  }),
+                )
+              } else {
+                this.logger?.warn(`Unsupported sourceEvent ${sourceEvent} for ${sourceModuleInstance.modName}`)
+              }
             }
           }
-        } else {
-          this.logger?.warn(`Unsupported targetModuleFunction ${targetModuleFunction} for ${this.modName}`)
-        }
+        }))
       }
     }
 

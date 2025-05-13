@@ -1,4 +1,4 @@
-import type { EventData } from '@xyo-network/module-events'
+import type { EventData } from '@xylabs/events'
 
 import type { ModuleEventArgs } from './ModuleEventArgs.ts'
 

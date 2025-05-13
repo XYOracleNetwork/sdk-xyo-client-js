@@ -1,5 +1,5 @@
+import type { EventData } from '@xylabs/events'
 import type { Address } from '@xylabs/hex'
-import type { EventData } from '@xyo-network/module-events'
 import type { Module, ModuleEventArgs } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 

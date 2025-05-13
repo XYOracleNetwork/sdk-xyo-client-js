@@ -1,4 +1,4 @@
-import type { EventName } from '@xyo-network/module-events'
+import type { EventName } from '@xylabs/events'
 import type { ModuleIdentifier } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'

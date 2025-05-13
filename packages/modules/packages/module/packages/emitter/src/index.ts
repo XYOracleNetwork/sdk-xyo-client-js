@@ -1,1 +1,1 @@
-export * from './BaseEmitter.ts'
+export * from './ModuleBaseEmitter.ts'

@@ -25,7 +25,7 @@ import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type { ConfigPayload } from '@xyo-network/config-payload-plugin'
 import { ConfigSchema } from '@xyo-network/config-payload-plugin'
 import type { ModuleManifestPayload } from '@xyo-network/manifest-model'
-import { BaseEmitter } from '@xyo-network/module-event-emitter'
+import { ModuleBaseEmitter } from '@xyo-network/module-event-emitter'
 import type {
   AddressPayload,
   AddressPreviousHashPayload,
@@ -79,7 +79,7 @@ import { ModuleConfigQueryValidator, SupportedQueryValidator } from './QueryVali
 
 const MODULE_NOT_STARTED = 'Module not Started' as const
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
-  extends BaseEmitter<TParams, TEventData>
+  extends ModuleBaseEmitter<TParams, TEventData>
   implements Module<TParams, TEventData> {
   static readonly allowRandomAccount: boolean = true
   static readonly configSchemas: Schema[] = [ModuleConfigSchema]

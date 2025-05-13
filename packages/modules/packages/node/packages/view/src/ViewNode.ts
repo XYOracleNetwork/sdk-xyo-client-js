@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import type { EventListener } from '@xylabs/events'
 import type { Address } from '@xylabs/hex'
-import type { EventListener } from '@xyo-network/module-events'
 import type {
   AnyConfigSchema,
   ModuleFilterOptions,

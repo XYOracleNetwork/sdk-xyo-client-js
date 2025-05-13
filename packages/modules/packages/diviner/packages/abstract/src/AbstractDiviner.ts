@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
+import type { EventUnsubscribeFunction } from '@xylabs/events'
 import type { Promisable } from '@xylabs/promise'
 import type { RetryConfig, RetryConfigWithComplete } from '@xylabs/retry'
 import { retry } from '@xylabs/retry'
@@ -23,7 +24,6 @@ import {
   isDivinerInstance,
 } from '@xyo-network/diviner-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import type { EventUnsubscribeFunction } from '@xyo-network/module-events'
 import type {
   ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult,
 } from '@xyo-network/module-model'

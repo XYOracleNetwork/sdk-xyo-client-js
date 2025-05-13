@@ -1,4 +1,4 @@
-import type { EventFunctions } from '@xyo-network/module-events'
+import type { EventFunctions } from '@xylabs/events'
 
 import type { ModuleEventData } from '../EventsModels/index.ts'
 import type { ModuleParams } from '../ModuleParams.ts'

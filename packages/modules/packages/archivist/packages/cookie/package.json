@@ -29,10 +29,10 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.9.16",
-    "@xylabs/exists": "^4.9.16",
-    "@xylabs/hex": "^4.9.16",
-    "@xylabs/promise": "^4.9.16",
+    "@xylabs/assert": "^4.9.17",
+    "@xylabs/exists": "^4.9.17",
+    "@xylabs/hex": "^4.9.17",
+    "@xylabs/promise": "^4.9.17",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
-    "@xylabs/delay": "^4.9.16",
+    "@xylabs/delay": "^4.9.17",
     "@xylabs/ts-scripts-yarn3": "^6.5.5",
     "@xylabs/tsconfig": "^6.5.5",
     "@xyo-network/id-payload-plugin": "workspace:^",

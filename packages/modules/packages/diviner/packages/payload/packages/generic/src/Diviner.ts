@@ -1,5 +1,6 @@
 import { filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
+import type { EventListener } from '@xylabs/events'
 import { forget } from '@xylabs/forget'
 import type { Hex } from '@xylabs/hex'
 import type { ArchivistInstance, ArchivistModuleEventData } from '@xyo-network/archivist-model'
@@ -12,7 +13,6 @@ import type {
   PayloadDivinerQueryPayload,
 } from '@xyo-network/diviner-payload-model'
 import { asPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import type { EventListener } from '@xyo-network/module-events'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   Payload, Schema,

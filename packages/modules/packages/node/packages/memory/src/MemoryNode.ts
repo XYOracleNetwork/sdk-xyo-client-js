@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/assert'
+import type { EventListener } from '@xylabs/events'
 import { exists } from '@xylabs/exists'
 import type { Address } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
 import type { Promisable } from '@xylabs/promise'
-import type { EventListener } from '@xyo-network/module-events'
 import type {
   AnyConfigSchema,
   AttachableModuleInstance,

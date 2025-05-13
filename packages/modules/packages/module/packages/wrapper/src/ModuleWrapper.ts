@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Base } from '@xylabs/base'
+import { EventAnyListener, EventListener } from '@xylabs/events'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { Logger } from '@xylabs/logger'
@@ -9,7 +10,6 @@ import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
-import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,

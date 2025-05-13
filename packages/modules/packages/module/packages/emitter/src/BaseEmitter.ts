@@ -2,8 +2,8 @@ import type { BaseParams } from '@xylabs/base'
 import { Base } from '@xylabs/base'
 import type {
   EventAnyListener, EventData, EventFunctions, EventListener,
-} from '@xyo-network/module-events'
-import { Events } from '@xyo-network/module-events'
+} from '@xylabs/events'
+import { Events } from '@xylabs/events'
 
 export class BaseEmitter<TParams extends BaseParams = BaseParams, TEventData extends EventData = EventData>
   extends Base<TParams>

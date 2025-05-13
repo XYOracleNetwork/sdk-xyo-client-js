@@ -235,39 +235,37 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     params: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ) {
     this._noOverride('create')
-    return await spanAsync('create', async () => {
-      if (!this.configSchemas || this.configSchemas.length === 0) {
-        throw new Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
-      }
+    if (!this.configSchemas || this.configSchemas.length === 0) {
+      throw new Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
+    }
 
-      if (!this.defaultConfigSchema) {
-        throw new Error(`Missing defaultConfigSchema [${params?.config?.schema}][${this.name}]`)
-      }
+    if (!this.defaultConfigSchema) {
+      throw new Error(`Missing defaultConfigSchema [${params?.config?.schema}][${this.name}]`)
+    }
 
-      assertEx(params?.config?.name === undefined || isModuleName(params.config.name), () => `Invalid module name: ${params?.config?.name}`)
+    assertEx(params?.config?.name === undefined || isModuleName(params.config.name), () => `Invalid module name: ${params?.config?.name}`)
 
-      const { account } = params ?? {}
+    const { account } = params ?? {}
 
-      const schema: Schema = params?.config?.schema ?? this.defaultConfigSchema
-      const allowedSchemas: Schema[] = this.configSchemas
+    const schema: Schema = params?.config?.schema ?? this.defaultConfigSchema
+    const allowedSchemas: Schema[] = this.configSchemas
 
-      assertEx(allowedSchemas.includes(schema), () => `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`)
-      const mutatedConfig: TModule['params']['config'] = { ...params?.config, schema } as TModule['params']['config']
-      params?.logger?.debug(`config: ${JSON.stringify(mutatedConfig, null, 2)}`)
-      const mutatedParams: TModule['params'] = { ...params, config: mutatedConfig } as TModule['params']
+    assertEx(allowedSchemas.includes(schema), () => `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`)
+    const mutatedConfig: TModule['params']['config'] = { ...params?.config, schema } as TModule['params']['config']
+    params?.logger?.debug(`config: ${JSON.stringify(mutatedConfig, null, 2)}`)
+    const mutatedParams: TModule['params'] = { ...params, config: mutatedConfig } as TModule['params']
 
-      const activeLogger = params?.logger ?? AbstractModule.defaultLogger
-      const generatedAccount = await AbstractModule.determineAccount({ account })
-      const address = generatedAccount.address
-      mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${address}`) : undefined
+    const activeLogger = params?.logger ?? AbstractModule.defaultLogger
+    const generatedAccount = await AbstractModule.determineAccount({ account })
+    const address = generatedAccount.address
+    mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${address}`) : undefined
 
-      const newModule = new this(AbstractModule.privateConstructorKey, mutatedParams, generatedAccount, address)
+    const newModule = new this(AbstractModule.privateConstructorKey, mutatedParams, generatedAccount, address)
 
-      if (!AbstractModule.enableLazyLoad) {
-        await newModule.start?.()
-      }
-      return newModule
-    }, params.traceProvider?.getTracer('AbstractModule[static]'))
+    if (!AbstractModule.enableLazyLoad) {
+      await newModule.start?.()
+    }
+    return newModule
   }
 
   static async determineAccount(params: {
@@ -403,13 +401,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   async start(timeout?: number): Promise<boolean> {
     this._noOverride('start')
-    return await spanAsync('start', async () => {
-      // using promise as mutex
-      this._startPromise = this._startPromise ?? await this.startHandler(timeout)
-      const result = this._startPromise
-      this.status = result ? 'started' : 'dead'
-      return result
-    }, this.tracer)
+    // using promise as mutex
+    this._startPromise = this._startPromise ?? await this.startHandler(timeout)
+    const result = this._startPromise
+    this.status = result ? 'started' : 'dead'
+    return result
   }
 
   async started(notStartedAction: 'error' | 'throw' | 'warn' | 'log' | 'none' = 'log', tryStart = true): Promise<boolean> {

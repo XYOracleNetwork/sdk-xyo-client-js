@@ -30,11 +30,11 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@scure/bip39": "^1.6.0",
-    "@xylabs/arraybuffer": "^4.9.8",
-    "@xylabs/assert": "^4.9.8",
-    "@xylabs/base": "^4.9.8",
-    "@xylabs/hex": "^4.9.8",
-    "@xylabs/static-implements": "^4.9.8",
+    "@xylabs/arraybuffer": "^4.9.16",
+    "@xylabs/assert": "^4.9.16",
+    "@xylabs/base": "^4.9.16",
+    "@xylabs/hex": "^4.9.16",
+    "@xylabs/static-implements": "^4.9.16",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/key-model": "workspace:^",
@@ -44,7 +44,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.5.5",
     "@xylabs/tsconfig": "^6.5.5",
-    "@xylabs/vitest-matchers": "^4.9.8",
+    "@xylabs/vitest-matchers": "^4.9.16",
     "typescript": "^5.8.3",
     "vitest": "^3.1.3"
   },

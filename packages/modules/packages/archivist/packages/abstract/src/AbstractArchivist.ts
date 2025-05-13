@@ -479,7 +479,9 @@ export abstract class AbstractArchivist<
       await this.writeToParents(insertedPayloads)
     }
     if (emitEvents) {
-      await this.emit('inserted', { mod: this, payloads: insertedPayloads })
+      await this.emit('inserted', {
+        mod: this, payloads: insertedPayloads, outPayloads: insertedPayloads, inPayloads: payloads,
+      })
     }
     this.reportPayloadCount()
     return PayloadBuilder.omitPrivateStorageMeta(insertedPayloads)

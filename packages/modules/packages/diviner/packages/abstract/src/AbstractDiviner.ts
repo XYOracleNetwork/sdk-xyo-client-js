@@ -5,6 +5,7 @@ import type { RetryConfig, RetryConfigWithComplete } from '@xylabs/retry'
 import { retry } from '@xylabs/retry'
 import { spanAsync } from '@xylabs/telemetry'
 import type { AccountInstance } from '@xyo-network/account-model'
+import { isArchivistInstance } from '@xyo-network/archivist-model'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type {
@@ -19,8 +20,10 @@ import type {
 import {
   DivinerConfigSchema,
   DivinerDivineQuerySchema,
+  isDivinerInstance,
 } from '@xyo-network/diviner-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
+import type { EventUnsubscribeFunction } from '@xyo-network/module-events'
 import type {
   ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult,
 } from '@xyo-network/module-model'
@@ -28,6 +31,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   Payload, Schema, WithoutPrivateStorageMeta,
 } from '@xyo-network/payload-model'
+import { isWitnessInstance } from '@xyo-network/witness-model'
 
 export abstract class AbstractDiviner<
   TParams extends DivinerParams = DivinerParams,
@@ -45,6 +49,8 @@ export abstract class AbstractDiviner<
   static override readonly defaultConfigSchema: Schema = DivinerConfigSchema
   static readonly targetSchema: string
   static override readonly uniqueName = globallyUnique('AbstractDiviner', AbstractDiviner, 'xyo')
+
+  private _eventUnsubscribeFunctions: EventUnsubscribeFunction[] = []
 
   override get queries(): string[] {
     return [DivinerDivineQuerySchema, ...super.queries]
@@ -103,6 +109,65 @@ export abstract class AbstractDiviner<
       }
     }
     return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
+  }
+
+  protected override async startHandler(timeout?: number) {
+    const { eventSubscriptions = [] } = this.config
+
+    for (const subscription of eventSubscriptions) {
+      const {
+        sourceEvent, sourceModule, targetModuleFunction,
+      } = subscription
+      const sourceModuleInstance = await this.resolve(sourceModule)
+      if (sourceModuleInstance) {
+        if (targetModuleFunction === 'divine') {
+          if (isArchivistInstance(sourceModuleInstance)) {
+            if (sourceEvent === 'inserted') {
+              this._eventUnsubscribeFunctions.push(
+                sourceModuleInstance.on(sourceEvent, async ({ outPayloads, payloads }) => {
+                  await this.divine((outPayloads ?? payloads) as Payload[] as TIn[])
+                }),
+              )
+            } else {
+              this.logger?.warn(`Unsupported sourceEvent ${sourceEvent} for ${sourceModuleInstance.modName}`)
+            }
+          } else if (isDivinerInstance(sourceModuleInstance)) {
+            if (sourceEvent === 'divineEnd') {
+              this._eventUnsubscribeFunctions.push(
+                sourceModuleInstance.on(sourceEvent, async ({ outPayloads }) => {
+                  await this.divine(outPayloads as Payload[] as TIn[])
+                }),
+              )
+            } else {
+              this.logger?.warn(`Unsupported sourceEvent ${sourceEvent} for ${sourceModuleInstance.modName}`)
+            }
+          } else if (isWitnessInstance(sourceModuleInstance)) {
+            if (sourceEvent === 'observeEnd') {
+              this._eventUnsubscribeFunctions.push(
+                sourceModuleInstance.on(sourceEvent, async ({ outPayloads }) => {
+                  await this.divine(outPayloads as Payload[] as TIn[])
+                }),
+              )
+            } else {
+              this.logger?.warn(`Unsupported sourceEvent ${sourceEvent} for ${sourceModuleInstance.modName}`)
+            }
+          }
+        } else {
+          this.logger?.warn(`Unsupported targetModuleFunction ${targetModuleFunction} for ${this.modName}`)
+        }
+      }
+    }
+
+    return await super.startHandler(timeout)
+  }
+
+  protected override async stopHandler(timeout?: number) {
+    for (const unsubscribe of this._eventUnsubscribeFunctions) {
+      unsubscribe()
+    }
+    this._eventUnsubscribeFunctions = []
+    this._eventUnsubscribeFunctions = []
+    return await super.stopHandler(timeout)
   }
 
   /** @function divineHandler Implement or override to add custom functionality to a diviner */

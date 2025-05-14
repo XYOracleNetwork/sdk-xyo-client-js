@@ -60,12 +60,12 @@ export class MemorySentinel<
     return false
   }
 
-  override async stop(timeout?: number | undefined): Promise<boolean> {
+  override async stopHandler(timeout?: number | undefined): Promise<boolean> {
     if (this.runner) {
       this.runner.stop()
       this.runner = undefined
     }
-    return await super.stop(timeout)
+    return await super.stopHandler(timeout)
   }
 
   private async inputAddresses(input: ModuleIdentifier | ModuleIdentifier[]): Promise<Address[]> {

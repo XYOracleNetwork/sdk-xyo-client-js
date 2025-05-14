@@ -41,8 +41,8 @@
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^4.0.1",
-    "@xylabs/ts-scripts-yarn3": "^6.5.5",
-    "@xylabs/tsconfig": "^6.5.5",
+    "@xylabs/ts-scripts-yarn3": "^6.5.6",
+    "@xylabs/tsconfig": "^6.5.6",
     "firebase": "^11.7.1",
     "typescript": "^5.8.3",
     "vitest": "^3.1.3"

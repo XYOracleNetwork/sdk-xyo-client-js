@@ -8,7 +8,9 @@ import type { Promisable } from '@xylabs/promise'
 import type { RetryConfig, RetryConfigWithComplete } from '@xylabs/retry'
 import { retry } from '@xylabs/retry'
 import { spanAsync } from '@xylabs/telemetry'
-import { isDefined, isNull } from '@xylabs/typeof'
+import {
+  isDefined, isNull, isUndefined,
+} from '@xylabs/typeof'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { isArchivistInstance } from '@xyo-network/archivist-model'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -23,9 +25,7 @@ import type {
   DivinerQueries,
 } from '@xyo-network/diviner-model'
 import {
-  DivinerConfigSchema,
-  DivinerDivineQuerySchema,
-  isDivinerInstance,
+  DivinerConfigSchema, DivinerDivineQuerySchema, isDivinerInstance,
 } from '@xyo-network/diviner-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import type {
@@ -46,13 +46,12 @@ const delayedResolve = async (
 ) => {
   const start = Date.now()
   let result: ModuleInstance | undefined
-  while (result) {
+  while (isUndefined(result)) {
     result = await parent.resolve(id)
     if (isDefined(result)) {
       closure(result)
       break
-    }
-    if (Date.now() - start > timeout) {
+    } else if (Date.now() - start > timeout) {
       logger?.error(`Timed out waiting for ${id} to resolve`)
       closure(null)
     }
@@ -182,7 +181,7 @@ export abstract class AbstractDiviner<
               }
             }
           }
-        }))
+        }, undefined, this.logger))
       }
     }
 

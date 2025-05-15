@@ -34,6 +34,7 @@
     "@xylabs/exists": "^4.9.18",
     "@xylabs/hex": "^4.9.18",
     "@xylabs/indexed-db": "^4.9.18",
+    "@xylabs/typeof": "^4.9.18",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",

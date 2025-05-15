@@ -23,6 +23,7 @@ import type {
   ArchivistParams,
   ArchivistQueries,
   ArchivistSnapshotPayload,
+  ArchivistStatsPayload,
   AttachableArchivistInstance,
   ReadArchivist,
 } from '@xyo-network/archivist-model'
@@ -36,6 +37,7 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistNextQuerySchema,
   ArchivistSnapshotQuerySchema,
+  ArchivistStatsPayloadSchema,
   asArchivistInstance,
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
@@ -65,9 +67,9 @@ export interface InsertConfig extends ActionConfig {
 }
 
 interface ArchivistParentInstanceMap {
-  commit?: Record<string, ArchivistInstance>
-  read?: Record<string, ArchivistInstance>
-  write?: Record<string, ArchivistInstance>
+  commit?: Partial<Record<ModuleIdentifier, ArchivistInstance>>
+  read?: Partial<Record<ModuleIdentifier, ArchivistInstance>>
+  write?: Partial<Record<ModuleIdentifier, ArchivistInstance>>
 }
 
 export abstract class AbstractArchivist<
@@ -330,6 +332,13 @@ export abstract class AbstractArchivist<
     return deletedHashes
   }
 
+  protected generateStats(): Promisable<ArchivistStatsPayload> {
+    return {
+      payloadCount: this.payloadCountHandler(),
+      schema: ArchivistStatsPayloadSchema,
+    }
+  }
+
   protected async getFromParent(hashes: Hash[], archivist: ReadArchivist): Promise<[WithStorageMeta<Payload>[], Hash[]]> {
     const foundPairs = (await PayloadBuilder.dataHashPairs(await archivist.get(hashes))).filter(([, hash]) => {
       const askedFor = hashes.includes(hash)
@@ -355,9 +364,12 @@ export abstract class AbstractArchivist<
 
     // NOTE: intentionally doing this serially
     while (parentIndex < parents.length && remainingHashes.length > 0) {
-      const [found, notfound] = await this.getFromParent(remainingHashes, parents[parentIndex])
-      result = [...result, ...found]
-      remainingHashes = notfound
+      const parent = parents[parentIndex]
+      if (parent) {
+        const [found, notfound] = await this.getFromParent(remainingHashes, parent)
+        result = [...result, ...found]
+        remainingHashes = notfound
+      }
       parentIndex++
     }
     return [result, remainingHashes]
@@ -599,6 +611,10 @@ export abstract class AbstractArchivist<
     return result
   }
 
+  protected override async stateHandler(): Promise<Payload[]> {
+    return [...await super.stateHandler(), await this.generateStats()]
+  }
+
   protected async writeToParent(parent: ArchivistInstance, payloads: Payload[]): Promise<Payload[]> {
     return await parent.insert(PayloadBuilder.omitStorageMeta(payloads))
   }
@@ -633,10 +649,9 @@ export abstract class AbstractArchivist<
     const archivistModules = (await Promise.all(archivists.map(archivist => this.resolve(archivist)))).filter(exists).filter(duplicateModules)
 
     assertEx(
-      !this.requireAllParents || archivistModules.length === archivists.length,
+      !this.requireAllParents || (archivistModules.length === archivists.length),
       () =>
-        `Failed to find some archivists (set allRequired to false if ok): [${archivists.filter(archivist =>
-          archivistModules.map(mod => !(mod.address === archivist || mod.modName === archivist)))}]`,
+        `Failed to find some archivists for ${this.modName} (set allRequired to false if ok)]`,
     )
 
     const archivistInstancesMap: Record<Address, ArchivistInstance> = {}

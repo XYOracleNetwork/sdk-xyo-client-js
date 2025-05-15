@@ -92,7 +92,7 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
     const mods = this.registeredModules().filter(mod => attached.includes(mod.address))
     const existingModule = mods.find(mod => mod.address === address)
     if (existingModule) {
-      this.logger.warn(`ViewNode: Module [${existingModule?.modName ?? existingModule?.address}] already attached at address [${address}]`)
+      this.logger?.warn(`ViewNode: Module [${existingModule?.modName ?? existingModule?.address}] already attached at address [${address}]`)
     }
     const mod = assertEx(this.registeredModuleMap[address], () => `Module [${address}] not found in registered mods`)
 

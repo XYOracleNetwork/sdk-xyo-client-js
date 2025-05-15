@@ -7,6 +7,7 @@ import {
   withDb,
   withReadOnlyStore, withReadWriteStore,
 } from '@xylabs/indexed-db'
+import { isDefined, isUndefined } from '@xylabs/typeof'
 import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -82,15 +83,15 @@ export class IndexedDbArchivist<
    * make the most sense for 99% of use cases.
    */
   get dbName() {
-    if (!this._dbName) {
-      if (this.config?.dbName) {
+    if (isUndefined(this._dbName)) {
+      if (isDefined(this.config?.dbName)) {
         this._dbName = this.config?.dbName
       } else {
-        if (this.config?.name) {
-          this.logger.warn('No dbName provided, using module name: ', this.config?.name)
+        if (isDefined(this.config?.name)) {
+          this.logger?.warn('No dbName provided, using module name: ', this.config?.name)
           this._dbName = this.config?.name
         } else {
-          this.logger.warn('No dbName provided, using default name: ', IndexedDbArchivist.defaultDbName)
+          this.logger?.warn('No dbName provided, using default name: ', IndexedDbArchivist.defaultDbName)
           this._dbName = IndexedDbArchivist.defaultDbName
         }
       }
@@ -122,11 +123,11 @@ export class IndexedDbArchivist<
    * to `payloads`.
    */
   get storeName() {
-    if (!this._storeName) {
-      if (this.config?.storeName) {
+    if (isUndefined(this._storeName)) {
+      if (isDefined(this.config?.storeName)) {
         this._storeName = this.config?.storeName
       } else {
-        this.logger.warn('No storeName provided, using default name: ', IndexedDbArchivist.defaultStoreName)
+        this.logger?.warn('No storeName provided, using default name: ', IndexedDbArchivist.defaultStoreName)
         this._storeName = IndexedDbArchivist.defaultStoreName
       }
     }
@@ -176,7 +177,7 @@ export class IndexedDbArchivist<
             = (await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash))
               ?? (await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.dataHashIndexName, hash))
           // If it does exist
-          if (existing) {
+          if (isDefined(existing)) {
             // Delete it
             await db.delete(this.storeName, existing)
             // Return the hash so it gets added to the list of deleted hashes
@@ -201,7 +202,7 @@ export class IndexedDbArchivist<
     return await withReadOnlyStore(db, storeName, async (store) => {
       const sequenceIndex = assertEx(store?.index(IndexedDbArchivist.sequenceIndexName), () => 'Failed to get sequence index')
       let sequenceCursor: IDBPCursorWithValue<ObjectStore, [string]> | null | undefined
-      const parsedCursor = cursor
+      const parsedCursor = isDefined(cursor)
         ? order === 'asc'
           ? IDBKeyRange.lowerBound(cursor, open)
           : IDBKeyRange.upperBound(cursor, open)
@@ -214,7 +215,7 @@ export class IndexedDbArchivist<
 
       let remaining = limit
       const result: WithStorageMeta[] = []
-      while (remaining) {
+      while (remaining > 0) {
         const value = sequenceCursor?.value
         if (value) {
           result.push(value)

@@ -4,6 +4,7 @@ import { exists } from '@xylabs/exists'
 import type { Address } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
 import type { Promisable } from '@xylabs/promise'
+import { isDefined } from '@xylabs/typeof'
 import type {
   AnyConfigSchema,
   AttachableModuleInstance,
@@ -26,7 +27,7 @@ export type MemoryNodeParams = NodeParams<AnyConfigSchema<NodeConfig>>
 export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractNode<TParams, TEventData>
   implements AttachableNodeInstance<TParams, TEventData> {
-  protected registeredModuleMap: Record<Address, AttachableModuleInstance> = {}
+  protected registeredModuleMap: Partial<Record<Address, AttachableModuleInstance>> = {}
 
   private _attachMutex = new Mutex()
 
@@ -66,7 +67,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     await this.started('throw')
     if (this.registeredModuleMap[mod.address]) {
       if (this.registeredModuleMap[mod.address] === mod) {
-        this.logger.warn(`Module already registered at that address[${mod.address}]|${mod.id}|[${mod.config.schema}]`)
+        this.logger?.warn(`Module already registered at that address[${mod.address}]|${mod.id}|[${mod.config.schema}]`)
       } else {
         throw new Error(`Other module already registered at that address[${mod.address}]|${mod.id}|[${mod.config.schema}]`)
       }
@@ -87,7 +88,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   registeredModules(): AttachableModuleInstance[] {
     return Object.values(this.registeredModuleMap).map((value) => {
       return value
-    })
+    }).filter(exists)
   }
 
   async unregister(mod: ModuleInstance): Promise<ModuleInstance> {
@@ -106,15 +107,15 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return await this._attachMutex.runExclusive(async () => {
       const existingModule = await this.resolve(address)
       if (existingModule) {
-        this.logger.warn(`MemoryNode: Module [${existingModule?.modName ?? existingModule?.address}] already attached at address [${address}]`)
+        this.logger?.warn(`MemoryNode: Module [${existingModule?.modName ?? existingModule?.address}] already attached at address [${address}]`)
       }
       const mod = assertEx(this.registeredModuleMap[address], () => `No Module Registered at address [${address}]`)
 
       if (this._attachedPublicModules.has(mod.address)) {
-        this.logger.warn(`Module [${mod.modName}] already attached at [${address}] (public)`)
+        this.logger?.warn(`Module [${mod.modName}] already attached at [${address}] (public)`)
       }
       if (this._attachedPrivateModules.has(mod.address)) {
-        this.logger.warn(`Module [${mod.modName}] already attached at [${address}] (private)`)
+        this.logger?.warn(`Module [${mod.modName}] already attached at [${address}] (private)`)
       }
 
       const notificationList = await this.getModulesToNotifyAbout(mod)
@@ -203,14 +204,14 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
   private async attachUsingName(name: string, external?: boolean) {
     const address = this.registeredModuleAddressFromName(name)
-    if (address) {
+    if (isDefined(address)) {
       return await this.attachUsingAddress(address, external)
     }
   }
 
   private async detachUsingName(name: string) {
     const address = this.registeredModuleAddressFromName(name)
-    if (address) {
+    if (isDefined(address)) {
       return await this.detachUsingAddress(address)
     }
   }
@@ -258,7 +259,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
   private registeredModuleAddressFromName(name: string) {
     return Object.values(this.registeredModuleMap).find((value) => {
-      return value.modName === name
+      return value?.modName === name
     })?.address
   }
 }

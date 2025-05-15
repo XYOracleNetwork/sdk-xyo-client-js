@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 /* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
 import { Base, globallyUnique } from '@xylabs/base'
@@ -14,6 +13,7 @@ import {
 import type { Promisable } from '@xylabs/promise'
 import { PromiseEx } from '@xylabs/promise'
 import { spanAsync } from '@xylabs/telemetry'
+import { isDefined, isUndefined } from '@xylabs/typeof'
 import { Account } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
@@ -164,7 +164,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get globalReentrancyMutex() {
-    this._globalReentrancyMutex = this._globalReentrancyMutex ?? this.reentrancy?.scope === 'global' ? new Mutex() : undefined
+    this._globalReentrancyMutex = this._globalReentrancyMutex ?? (this.reentrancy?.scope === 'global' ? new Mutex() : undefined)
     return this._globalReentrancyMutex
   }
 
@@ -175,7 +175,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   override get logger() {
     const logLevel = this.config.logLevel
     this._logger
-      = (this._logger ?? logLevel) ? new ConsoleLogger(logLevel) : (this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger)
+      = this._logger ?? this.params?.logger ?? (isDefined(logLevel) ? new ConsoleLogger(logLevel) : Base.defaultLogger)
     return this._logger
   }
 
@@ -235,12 +235,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     params: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ) {
     this._noOverride('create')
-    if (!this.configSchemas || this.configSchemas.length === 0) {
+    if (this.configSchemas.length === 0) {
       throw new Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
-    }
-
-    if (!this.defaultConfigSchema) {
-      throw new Error(`Missing defaultConfigSchema [${params?.config?.schema}][${this.name}]`)
     }
 
     assertEx(params?.config?.name === undefined || isModuleName(params.config.name), () => `Invalid module name: ${params?.config?.name}`)
@@ -258,7 +254,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
     const generatedAccount = await AbstractModule.determineAccount({ account })
     const address = generatedAccount.address
-    mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${address}`) : undefined
+    mutatedParams.logger = new IdLogger(activeLogger, () => `0x${address}`)
 
     const newModule = new this(AbstractModule.privateConstructorKey, mutatedParams, generatedAccount, address)
 
@@ -403,17 +399,16 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     this._noOverride('start')
     // using promise as mutex
     this._startPromise = this._startPromise ?? await this.startHandler(timeout)
-    const result = this._startPromise
+    const result = await this._startPromise
     this.status = result ? 'started' : 'dead'
     return result
   }
 
   async started(notStartedAction: 'error' | 'throw' | 'warn' | 'log' | 'none' = 'log', tryStart = true): Promise<boolean> {
-    const started = await this._started
-    if (started === true) {
+    if (isDefined(this._started) && (await this._started) === true) {
       return true
     }
-    if (!started) {
+    if (isUndefined(this._started)) {
       // using promise as mutex
       this._started = (async () => {
         if (tryStart) {
@@ -450,7 +445,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         return false
       })()
     }
-    if (!this._started) {
+
+    if (isUndefined(this._started)) {
       throw 'Failed to create start promise'
     }
     return await this._started
@@ -488,7 +484,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected async archivistInstance(required: true): Promise<ArchivistInstance>
   protected async archivistInstance(required = false): Promise<ArchivistInstance | undefined> {
     const archivist = this.archivist
-    if (!archivist) {
+    if (isUndefined(archivist)) {
       if (required) {
         throw new Error('No archivist specified')
       }
@@ -584,9 +580,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       queries: this.queries,
       schema: ModuleDescriptionSchema,
     }
-    if (this.config?.name) {
-      description.name = this.modName
-    }
+
+    description.name = this.modName ?? `Unnamed ${this.constructor.name}`
 
     const discover = await this.generateConfigAndAddress()
 
@@ -620,13 +615,13 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected moduleAddressHandler(): Promisable<(AddressPreviousHashPayload | AddressPayload)[]> {
     const address = this.address
     const name = this.modName
-    const previousHash = this.address
-    const moduleAccount = name
+    const previousHash = this.account.previousHash
+    const moduleAccount = isDefined(name)
       ? {
           address, name, schema: AddressSchema,
         }
       : { address, schema: AddressSchema }
-    const moduleAccountPreviousHash = previousHash
+    const moduleAccountPreviousHash = isDefined(previousHash)
       ? {
           address, previousHash, schema: AddressPreviousHashSchema,
         }

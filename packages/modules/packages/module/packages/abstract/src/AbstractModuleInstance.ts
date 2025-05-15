@@ -4,7 +4,7 @@ import { exists } from '@xylabs/exists'
 import type { Address } from '@xylabs/hex'
 import type { TypeCheck } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
-import type { TypedValue } from '@xylabs/typeof'
+import { isDefined, type TypedValue } from '@xylabs/typeof'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
@@ -312,7 +312,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
 
     /* TODO: Figure out what to do with the returning BW.  Should we store them in a queue in case the caller wants to see them? */
 
-    if (errors && errors.length > 0) {
+    if (isDefined(errors) && errors.length > 0) {
       /* TODO: Figure out how to rollup multiple Errors */
       throw errors[0]
     }
@@ -344,7 +344,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       ).map(([bw]) => bw)
     } catch (ex) {
       const error = ex as Error
-      this.logger.error(`Error storing to archivists: ${error.message}`)
+      this.logger?.error(`Error storing to archivists: ${error.message}`)
       return []
     }
   }

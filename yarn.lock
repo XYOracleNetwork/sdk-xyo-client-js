@@ -7515,6 +7515,7 @@ __metadata:
     "@xylabs/telemetry": "npm:^4.9.18"
     "@xylabs/ts-scripts-yarn3": "npm:^6.5.6"
     "@xylabs/tsconfig": "npm:^6.5.6"
+    "@xylabs/typeof": "npm:^4.9.18"
     "@xylabs/vitest-extended": "npm:^4.9.18"
     "@xyo-network/abstract-witness": "workspace:^"
     "@xyo-network/archivist-memory": "workspace:^"

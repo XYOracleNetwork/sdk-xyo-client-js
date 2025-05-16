@@ -3,6 +3,7 @@ import type { BaseParams } from '@xylabs/base'
 import { Base } from '@xylabs/base'
 import { forget } from '@xylabs/forget'
 import { spanRootAsync } from '@xylabs/telemetry'
+import { isDefined } from '@xylabs/typeof'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import type {
@@ -87,13 +88,17 @@ export class SentinelRunner extends Base {
       if (delay < Number.POSITIVE_INFINITY) {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         this.timeoutId = setTimeout(async () => {
+          this.timeoutId = undefined
           return await spanRootAsync('start.setTimeout', async () => {
             try {
             // Run the automation
               await this.trigger(automation)
               this.stop()
+            } catch (ex) {
+              this.logger?.error('Error running automation', { error: ex })
+              this.stop()
             } finally {
-            // No matter what start the next automation
+              // No matter what start the next automation
               this.start()
             }
           }, this.tracer)
@@ -103,7 +108,7 @@ export class SentinelRunner extends Base {
   }
 
   stop() {
-    if (this.timeoutId) {
+    if (isDefined(this.timeoutId)) {
       clearTimeout(this.timeoutId)
       this.timeoutId = undefined
     }

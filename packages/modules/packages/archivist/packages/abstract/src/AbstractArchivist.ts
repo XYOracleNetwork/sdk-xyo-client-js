@@ -193,7 +193,7 @@ export abstract class AbstractArchivist<
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
-  async delete(hashes: Hash[]): Promise<Hash[]> {
+  async delete(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('delete')
     return await spanAsync('delete', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
@@ -316,20 +316,23 @@ export abstract class AbstractArchivist<
     throw new Error(NOT_IMPLEMENTED)
   }
 
-  protected deleteHandler(_hashes: Hash[]): PromisableArray<Hash> {
+  protected deleteHandler(_hashes: Hash[]): PromisableArray<WithStorageMeta<Payload>> {
     throw new Error(NOT_IMPLEMENTED)
   }
 
-  protected async deleteWithConfig(hashes: Hash[], config?: ActionConfig): Promise<Hash[]> {
+  protected async deleteWithConfig(hashes: Hash[], config?: ActionConfig): Promise<WithStorageMeta<Payload>[]> {
     const emitEvents = config?.emitEvents ?? true
 
-    const deletedHashes = await this.deleteHandler(hashes)
+    const payloads = await this.deleteHandler(hashes)
+    const hashesDeleted = payloads.map(p => p._hash)
 
     if (emitEvents) {
-      await this.emit('deleted', { hashes: deletedHashes, mod: this })
+      await this.emit('deleted', {
+        hashes: hashesDeleted, payloads, mod: this,
+      })
     }
     this.reportPayloadCount()
-    return deletedHashes
+    return payloads
   }
 
   protected generateStats(): Promisable<ArchivistStatsPayload> {
@@ -548,11 +551,7 @@ export abstract class AbstractArchivist<
         break
       }
       case ArchivistDeleteQuerySchema: {
-        const resultPayload: ArchivistDeleteQuery = {
-          hashes: [...(await this.deleteWithConfig(queryPayload.hashes))],
-          schema: ArchivistDeleteQuerySchema,
-        }
-        resultPayloads.push(await PayloadBuilder.addStorageMeta(resultPayload))
+        resultPayloads.push(...(await this.deleteWithConfig(queryPayload.hashes)))
         break
       }
       case ArchivistGetQuerySchema: {

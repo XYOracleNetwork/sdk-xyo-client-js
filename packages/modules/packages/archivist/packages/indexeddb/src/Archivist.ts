@@ -158,17 +158,18 @@ export class IndexedDbArchivist<
     await this.useDb(db => db.clear(this.storeName))
   }
 
-  protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
+  protected override async deleteHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     // Filter duplicates to prevent unnecessary DB queries
     const uniqueHashes = [...new Set(hashes)]
     const pairs = await PayloadBuilder.hashPairs(await this.getHandler(uniqueHashes))
+    const payloadsToDelete = await Promise.all(pairs.map(([payload]) => payload))
     const hashesToDelete = (await Promise.all(pairs.map(async (pair) => {
       const dataHash0 = await PayloadBuilder.dataHash(pair[0])
       return [dataHash0, pair[1]]
     }))).flat()
     // Remove any duplicates
     const distinctHashes = [...new Set(hashesToDelete)]
-    return await this.useDb(async (db) => {
+    const deletedHashes = await this.useDb(async (db) => {
       // Only return hashes that were successfully deleted
       const found = await Promise.all(
         distinctHashes.map(async (hash) => {
@@ -187,6 +188,7 @@ export class IndexedDbArchivist<
       )
       return found.filter(exists).filter(hash => uniqueHashes.includes(hash))
     })
+    return payloadsToDelete.filter(payload => deletedHashes.includes(payload._hash) || deletedHashes.includes(payload._dataHash))
   }
 
   protected async getFromCursor(

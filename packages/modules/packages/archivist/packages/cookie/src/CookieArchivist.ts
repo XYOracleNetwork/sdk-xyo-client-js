@@ -120,17 +120,17 @@ export class CookieArchivist<
     }
   }
 
-  protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
+  protected override async deleteHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     const payloadPairs = await PayloadBuilder.dataHashPairs(await this.get(hashes))
     const deletedPairs = (
       await Promise.all(
-        payloadPairs.map<[Payload, Hash]>(([payload, hash]) => {
+        payloadPairs.map<[WithStorageMeta<Payload>, Hash]>(([payload, hash]) => {
           Cookies.remove(hash)
           return [payload, hash]
         }),
       )
     ).filter(exists)
-    return deletedPairs.map(([, hash]) => hash)
+    return deletedPairs.map(([payload]) => payload)
   }
 
   protected override getHandler(hashes: Hash[]): Promisable<WithStorageMeta<Payload>[]> {

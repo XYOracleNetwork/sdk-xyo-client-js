@@ -127,18 +127,18 @@ export class LmdbArchivist<
     return settled.filter(fulfilled).map(result => result.value).filter(exists)
   }
 
-  protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
-    await this.db.transaction(() => {
-      for (const hash of hashes) {
+  protected override async deleteHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
+    return (await this.db.transaction(() => {
+      return hashes.map((hash) => {
         const payload = this.hashIndex.get(hash)
         if (payload) {
           this.hashIndex.removeSync(hash)
           this.dataHashIndex.removeSync(payload._dataHash)
           this.sequenceIndex.removeSync(payload._sequence)
+          return payload
         }
-      }
-    })
-    return hashes
+      })
+    })).filter(exists)
   }
 
   protected override getHandler(hashes: Hash[]): WithStorageMeta<Payload>[] {

@@ -14,7 +14,7 @@ export interface ReadArchivistFunctions<TReadResponse, TId = string> {
 
 export interface WriteArchivistFunctions<TReadResponse, TWriteResponse = TReadResponse, TWrite = TReadResponse, TId = string> {
   clear(): Promisable<void>
-  delete(ids: TId[]): PromisableArray<TId>
+  delete(ids: TId[]): PromisableArray<TReadResponse>
   insert(item: TWrite[]): PromisableArray<TWriteResponse>
 }
 

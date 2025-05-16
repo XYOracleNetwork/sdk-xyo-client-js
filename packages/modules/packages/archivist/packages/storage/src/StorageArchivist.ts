@@ -132,12 +132,15 @@ export class StorageArchivist<
     return (settled.filter(fulfilled).map(result => result.value)).filter(exists)
   }
 
-  protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
+  protected override async deleteHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     return (
       await Promise.all(
         hashes.map((hash) => {
-          this.storage.remove(hash)
-          return hash
+          const payload = this.storage.get(hash)
+          if (payload) {
+            this.storage.remove(hash)
+          }
+          return payload
         }),
       )
     ).filter(exists)

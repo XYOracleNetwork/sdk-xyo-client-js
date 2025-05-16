@@ -135,7 +135,7 @@ export abstract class AbstractLevelDbArchivist<
     return settled.filter(fulfilled).map(result => result.value).filter(exists)
   }
 
-  protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
+  protected override async deleteHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     // not using the getHandler since duplicate data hashes are not handled
     const payloadsWithMeta = (await this.allHandler()).filter(({ _hash, _dataHash }) => hashes.includes(_hash) || hashes.includes(_dataHash))
     // Delete the payloads
@@ -168,7 +168,7 @@ export abstract class AbstractLevelDbArchivist<
       await index.batch(batchSequenceIndexCommands)
     })
 
-    return hashes
+    return payloadsWithMeta
   }
 
   protected override async getHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {

@@ -78,7 +78,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return await this.memoryArchivist.commit()
   }
 
-  protected override deleteHandler(hashes: Hash[]): PromisableArray<Hash> {
+  protected override deleteHandler(hashes: Hash[]): PromisableArray<WithStorageMeta<Payload>> {
     return this.memoryArchivist.delete(hashes)
   }
 

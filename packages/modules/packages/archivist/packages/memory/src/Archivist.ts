@@ -117,20 +117,20 @@ export class MemoryArchivist<
     return settled.filter(fulfilled).map(result => result.value).filter(exists)
   }
 
-  protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
-    const deletedHashes: Hash[] = (await Promise.all(this.cache
+  protected override async deleteHandler(hashes: Hash[]): Promise<WithStorageMeta[]> {
+    const deletedPayloads: WithStorageMeta<Payload>[] = (await Promise.all(this.cache
       .dump()
       .map(async ([key, item]) => {
         const itemValueDataHash = await PayloadBuilder.dataHash(item.value)
         if (hashes.includes(key) || hashes.includes(itemValueDataHash)) {
           this.cache.delete(key)
-          return key
+          return item.value
         }
       })))
       .filter(exists)
     this.rebuildDataHashIndex()
     await this.rebuildSequenceIndex()
-    return deletedHashes
+    return deletedPayloads
   }
 
   protected override getHandler(hashes: Hash[]): Promisable<WithStorageMeta<Payload>[]> {

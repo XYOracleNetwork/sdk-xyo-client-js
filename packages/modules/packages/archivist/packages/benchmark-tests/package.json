@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "devDependencies": {
-    "@xylabs/hex": "^4.9.18",
-    "@xylabs/ts-scripts-yarn3": "^6.5.6",
-    "@xylabs/tsconfig": "^6.5.6",
+    "@xylabs/hex": "^4.10.0",
+    "@xylabs/ts-scripts-yarn3": "^6.5.7",
+    "@xylabs/tsconfig": "^6.5.7",
     "@xyo-network/archivist-leveldb": "workspace:^",
     "@xyo-network/archivist-lmdb": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
@@ -39,7 +39,7 @@
     "@xyo-network/payload-model": "workspace:^",
     "typescript": "^5.8.3",
     "uuid": "^11.1.0",
-    "vitest": "^3.1.3"
+    "vitest": "^3.1.4"
   },
   "publishConfig": {
     "access": "public"

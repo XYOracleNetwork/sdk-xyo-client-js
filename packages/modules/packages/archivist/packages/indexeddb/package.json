@@ -29,12 +29,12 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.9.18",
-    "@xylabs/assert": "^4.9.18",
-    "@xylabs/exists": "^4.9.18",
-    "@xylabs/hex": "^4.9.18",
-    "@xylabs/indexed-db": "^4.9.18",
-    "@xylabs/typeof": "^4.9.18",
+    "@xylabs/array": "^4.10.0",
+    "@xylabs/assert": "^4.10.0",
+    "@xylabs/exists": "^4.10.0",
+    "@xylabs/hex": "^4.10.0",
+    "@xylabs/indexed-db": "^4.10.0",
+    "@xylabs/typeof": "^4.10.0",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -43,10 +43,10 @@
     "idb": "^8.0.3"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.9.18",
-    "@xylabs/object": "^4.9.18",
-    "@xylabs/ts-scripts-yarn3": "^6.5.6",
-    "@xylabs/tsconfig": "^6.5.6",
+    "@xylabs/delay": "^4.10.0",
+    "@xylabs/object": "^4.10.0",
+    "@xylabs/ts-scripts-yarn3": "^6.5.7",
+    "@xylabs/tsconfig": "^6.5.7",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-acceptance-tests": "workspace:^",
@@ -55,7 +55,7 @@
     "fake-indexeddb": "^6.0.1",
     "typescript": "^5.8.3",
     "uuid": "^11.1.0",
-    "vitest": "^3.1.3"
+    "vitest": "^3.1.4"
   },
   "publishConfig": {
     "access": "public"

@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.9.18",
-    "@xylabs/assert": "^4.9.18",
-    "@xylabs/hex": "^4.9.18",
+    "@xylabs/array": "^4.10.0",
+    "@xylabs/assert": "^4.10.0",
+    "@xylabs/hex": "^4.10.0",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-schema-list-abstract": "workspace:^",
     "@xyo-network/diviner-schema-list-model": "workspace:^",
@@ -39,8 +39,8 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.6",
-    "@xylabs/tsconfig": "^6.5.6",
+    "@xylabs/ts-scripts-yarn3": "^6.5.7",
+    "@xylabs/tsconfig": "^6.5.7",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

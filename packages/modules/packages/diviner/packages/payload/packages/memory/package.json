@@ -32,17 +32,17 @@
     "@xyo-network/diviner-payload-generic": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.9.18",
-    "@xylabs/ts-scripts-yarn3": "^6.5.6",
-    "@xylabs/tsconfig": "^6.5.6",
-    "@xylabs/vitest-extended": "^4.9.18",
+    "@xylabs/delay": "^4.10.0",
+    "@xylabs/ts-scripts-yarn3": "^6.5.7",
+    "@xylabs/tsconfig": "^6.5.7",
+    "@xylabs/vitest-extended": "^4.10.0",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "typescript": "^5.8.3",
-    "vitest": "^3.1.3"
+    "vitest": "^3.1.4"
   },
   "publishConfig": {
     "access": "public"

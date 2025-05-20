@@ -29,9 +29,11 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.9.18",
-    "@xylabs/exists": "^4.9.18",
+    "@xylabs/assert": "^4.10.0",
+    "@xylabs/exists": "^4.10.0",
+    "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
+    "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-boundwitness-abstract": "workspace:^",
@@ -40,16 +42,17 @@
     "@xyo-network/diviner-payload-abstract": "workspace:^",
     "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/diviner-payload-pointer-model": "workspace:^",
+    "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^"
   },
   "devDependencies": {
     "@types/uuid": "^10.0.0",
-    "@xylabs/delay": "^4.9.18",
-    "@xylabs/hex": "^4.9.18",
-    "@xylabs/ts-scripts-yarn3": "^6.5.6",
-    "@xylabs/tsconfig": "^6.5.6",
-    "@xylabs/vitest-extended": "^4.9.18",
+    "@xylabs/delay": "^4.10.0",
+    "@xylabs/hex": "^4.10.0",
+    "@xylabs/ts-scripts-yarn3": "^6.5.7",
+    "@xylabs/tsconfig": "^6.5.7",
+    "@xylabs/vitest-extended": "^4.10.0",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
@@ -65,7 +68,7 @@
     "@xyo-network/wallet-model": "workspace:^",
     "typescript": "^5.8.3",
     "uuid": "^11.1.0",
-    "vitest": "^3.1.3"
+    "vitest": "^3.1.4"
   },
   "publishConfig": {
     "access": "public"

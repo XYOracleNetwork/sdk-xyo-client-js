@@ -73,6 +73,7 @@ export class IndexedDbArchivist<
 
   private _dbName?: string
   private _dbVersion?: number
+  private _payloadCount = 0
   private _storeName?: string
 
   /**
@@ -151,11 +152,13 @@ export class IndexedDbArchivist<
     // Get all payloads from the store
     const payloads = await this.useDb(db => db.getAll(this.storeName))
     // Remove any metadata before returning to the client
+    this._payloadCount = payloads.length
     return payloads
   }
 
   protected override async clearHandler(): Promise<void> {
     await this.useDb(db => db.clear(this.storeName))
+    this._payloadCount = 0
   }
 
   protected override async deleteHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
@@ -188,7 +191,9 @@ export class IndexedDbArchivist<
       )
       return found.filter(exists).filter(hash => uniqueHashes.includes(hash))
     })
-    return payloadsToDelete.filter(payload => deletedHashes.includes(payload._hash) || deletedHashes.includes(payload._dataHash))
+    const deletedPayloads = payloadsToDelete.filter(payload => deletedHashes.includes(payload._hash) || deletedHashes.includes(payload._dataHash))
+    this._payloadCount = this._payloadCount - deletedPayloads.length
+    return deletedPayloads
   }
 
   protected async getFromCursor(
@@ -323,6 +328,7 @@ export class IndexedDbArchivist<
               }
             }),
           )
+          this._payloadCount = this._payloadCount + inserted.length
           return inserted
         } else {
           throw new Error('Failed to get store')
@@ -340,11 +346,18 @@ export class IndexedDbArchivist<
     })
   }
 
+  protected override payloadCountHandler() {
+    return this._payloadCount
+  }
+
   protected override async startHandler() {
     await super.startHandler()
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
-    await this.useDb(() => {})
+    // also, gets current payloadCount
+    this._payloadCount = await this.useDb(async (db) => {
+      return await db.count(this.storeName)
+    })
     return true
   }
 

@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import {
   Hash, Hex, hexToBigInt,
+  isHash,
 } from '@xylabs/hex'
 import {
   fulfilled, Promisable, PromisableArray,
@@ -160,7 +161,7 @@ export class MemoryArchivist<
     if (order === 'desc') {
       all = all.toReversed()
     }
-    const startIndex = cursor
+    const startIndex = isHash(cursor)
       ? MemoryArchivist.findIndexFromCursor(all, cursor) + (open ? 1 : 0)
       : 0
     return all.slice(startIndex, startIndex + limit)

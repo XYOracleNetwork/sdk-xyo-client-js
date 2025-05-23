@@ -79,6 +79,10 @@ export class SentinelRunner extends Base {
   }
 
   start() {
+    this.startHandler()
+  }
+
+  startHandler() {
     assertEx(this.timeoutId === undefined, () => 'Already started')
     const automation = this.next
     if (isSentinelIntervalAutomation(automation)) {

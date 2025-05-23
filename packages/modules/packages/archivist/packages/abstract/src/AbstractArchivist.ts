@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import type { Histogram, Meter } from '@opentelemetry/api'
+import type { Gauge, Meter } from '@opentelemetry/api'
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
 import { exists } from '@xylabs/exists'
@@ -88,7 +88,7 @@ export abstract class AbstractArchivist<
 
   private _getCache?: LRUCache<Hash, WithStorageMeta<Payload>>
   private _parentArchivists?: ArchivistParentInstanceMap
-  private _payloadCountHistogram?: Histogram | null
+  private _payloadCountGauge?: Gauge | null
   private _payloadCountMeter?: Meter | null
 
   // do not override this!  It is meant to get the this.defaultNextLimitSetting and work if it is overridden
@@ -104,17 +104,17 @@ export abstract class AbstractArchivist<
     return this.config.requireAllParents ?? false
   }
 
-  protected get payloadCountHistogram() {
+  protected get payloadCountGauge() {
     const meter = this.payloadCountMeter
     if (!isNull(meter)) {
-      this._payloadCountHistogram = meter?.createHistogram('payloadCount', { description: 'Count of payloads in the archivist' })
+      this._payloadCountGauge = meter?.createGauge('payloadCount', { description: 'Payloads in the archivist' })
     }
-    return this._payloadCountHistogram
+    return this._payloadCountGauge
   }
 
   protected get payloadCountMeter(): Meter | null {
     if (isUndefined(this._payloadCountMeter)) {
-      this._payloadCountMeter = this.params?.meterProvider?.getMeter('payloadCount') ?? null
+      this._payloadCountMeter = this.params?.meterProvider?.getMeter(this.id) ?? null
     }
     return this._payloadCountMeter ?? null
   }
@@ -521,6 +521,7 @@ export abstract class AbstractArchivist<
   }
 
   // the number of payloads in the archivist, -1 if not implemented
+  // the implementations of these must be fast, so they may not be promises and should read an auto updated value
   protected payloadCountHandler() {
     return -1
   }
@@ -586,9 +587,9 @@ export abstract class AbstractArchivist<
 
   protected reportPayloadCount() {
     this._noOverride('reportPayloadCount')
-    const histogram = this.payloadCountHistogram
-    if (histogram) {
-      histogram.record(this.payloadCountHandler())
+    const gauge = this.payloadCountGauge
+    if (gauge) {
+      gauge.record(this.payloadCountHandler())
     }
   }
 

@@ -2,11 +2,11 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import {
   Hash, Hex, hexToBigInt,
-  isHash,
 } from '@xylabs/hex'
 import {
   fulfilled, Promisable, PromisableArray,
 } from '@xylabs/promise'
+import { isDefined } from '@xylabs/typeof'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
@@ -161,7 +161,7 @@ export class MemoryArchivist<
     if (order === 'desc') {
       all = all.toReversed()
     }
-    const startIndex = isHash(cursor)
+    const startIndex = isDefined(cursor)
       ? MemoryArchivist.findIndexFromCursor(all, cursor) + (open ? 1 : 0)
       : 0
     return all.slice(startIndex, startIndex + limit)

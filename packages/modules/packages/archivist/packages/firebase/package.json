@@ -30,10 +30,10 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@firebase/app": "^0.13.0",
-    "@firebase/firestore": "^4.7.15",
-    "@xylabs/assert": "^4.10.0",
-    "@xylabs/exists": "^4.10.0",
-    "@xylabs/hex": "^4.10.0",
+    "@firebase/firestore": "^4.7.16",
+    "@xylabs/assert": "^4.11.1",
+    "@xylabs/exists": "^4.11.1",
+    "@xylabs/hex": "^4.11.1",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -43,7 +43,7 @@
     "@firebase/rules-unit-testing": "^4.0.1",
     "@xylabs/ts-scripts-yarn3": "^6.5.7",
     "@xylabs/tsconfig": "^6.5.7",
-    "firebase": "^11.8.0",
+    "firebase": "^11.8.1",
     "typescript": "^5.8.3",
     "vitest": "^3.1.4"
   },

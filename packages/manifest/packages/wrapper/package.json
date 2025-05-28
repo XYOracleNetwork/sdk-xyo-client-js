@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.10.0",
+    "@xylabs/assert": "^4.11.1",
     "@xyo-network/manifest-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
@@ -39,10 +39,10 @@
     "@xyo-network/wallet-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/object": "^4.10.0",
+    "@xylabs/object": "^4.11.1",
     "@xylabs/ts-scripts-yarn3": "^6.5.7",
     "@xylabs/tsconfig": "^6.5.7",
-    "@xylabs/vitest-extended": "^4.10.0",
+    "@xylabs/vitest-extended": "^4.11.1",
     "@xyo-network/module-factory-locator": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
     "typescript": "^5.8.3",

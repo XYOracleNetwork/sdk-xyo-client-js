@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/object": "^4.10.0",
+    "@xylabs/object": "^4.11.1",
     "@xyo-network/diviner-model": "workspace:^"
   },
   "devDependencies": {

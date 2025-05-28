@@ -1,6 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Hash, Hex } from '@xylabs/hex'
+import {
+  Hash, Hex, isHash,
+} from '@xylabs/hex'
 import { fulfilled, Promisable } from '@xylabs/promise'
 import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import {
@@ -181,8 +183,8 @@ export abstract class AbstractLevelDbArchivist<
     })
     const foundByDataHash = hashesFromDataHashes.length > 0
       ? await this.withStore(async (store) => {
-        return (await store.getMany(hashesFromDataHashes)).filter(exists)
-      })
+          return (await store.getMany(hashesFromDataHashes)).filter(exists)
+        })
       : []
     const result = [...foundByHash, ...foundByDataHash].sort(PayloadBuilder.compareStorageMeta)
     return result
@@ -227,7 +229,7 @@ export abstract class AbstractLevelDbArchivist<
     if (order === 'desc') {
       all = all.reverse()
     }
-    const startIndex = cursor
+    const startIndex = isHash(cursor)
       ? AbstractLevelDbArchivist.findIndexFromCursor(all, cursor) + (open ? 1 : 0)
       : 0
     const result = all.slice(startIndex, startIndex + limit)

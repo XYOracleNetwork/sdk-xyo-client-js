@@ -50,13 +50,13 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
   static async addStorageMeta<T extends Payload>(payloads: T | T[], index = 0): Promise<WithStorageMeta<T>[] | WithStorageMeta<T>> {
     return Array.isArray(payloads)
       ? await (async () => {
-        const timestamp = Date.now()
-        return (await Promise.all(payloads.map(async (payload, i) => await this.addSequencedStorageMeta(
-          payload,
-          timestamp,
-          i,
-        )))).sort(this.compareStorageMeta)
-      })()
+          const timestamp = Date.now()
+          return (await Promise.all(payloads.map(async (payload, i) => await this.addSequencedStorageMeta(
+            payload,
+            timestamp,
+            i,
+          )))).sort(this.compareStorageMeta)
+        })()
       : this.addSequencedStorageMeta(
           payloads,
           index,
@@ -102,10 +102,10 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
   static async dataHashes<T extends Payload>(payloads?: T[]): Promise<Hash[] | undefined> {
     return payloads
       ? await Promise.all(
-        payloads.map(async (payload) => {
-          return await this.dataHash(payload)
-        }),
-      )
+          payloads.map(async (payload) => {
+            return await this.dataHash(payload)
+          }),
+        )
       : undefined
   }
 

@@ -34,7 +34,7 @@
     "@xyo-network/wasm": "workspace:^"
   },
   "devDependencies": {
-    "@types/node": "^22.15.21",
+    "@types/node": "^22.15.24",
     "@xylabs/ts-scripts-yarn3": "^6.5.7",
     "@xylabs/tsconfig": "^6.5.7",
     "typescript": "^5.8.3"

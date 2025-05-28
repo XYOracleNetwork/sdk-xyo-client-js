@@ -37,7 +37,7 @@
   "module": "dist/node/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/mongo": "^4.10.0",
+    "@xylabs/mongo": "^4.11.1",
     "@xyo-network/module-model": "^3.17.0",
     "@xyo-network/payload-mongodb": "workspace:^",
     "@xyo-network/shared": "workspace:^"

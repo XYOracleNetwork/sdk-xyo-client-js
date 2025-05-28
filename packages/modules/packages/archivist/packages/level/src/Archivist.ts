@@ -1,9 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import {
-  Hash, Hex, isHash,
-} from '@xylabs/hex'
+import { Hash, Hex } from '@xylabs/hex'
 import { fulfilled, Promisable } from '@xylabs/promise'
+import { isDefined } from '@xylabs/typeof'
 import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -229,7 +228,7 @@ export abstract class AbstractLevelDbArchivist<
     if (order === 'desc') {
       all = all.reverse()
     }
-    const startIndex = isHash(cursor)
+    const startIndex = isDefined(cursor)
       ? AbstractLevelDbArchivist.findIndexFromCursor(all, cursor) + (open ? 1 : 0)
       : 0
     const result = all.slice(startIndex, startIndex + limit)

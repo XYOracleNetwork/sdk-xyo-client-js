@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.11.1",
+    "@xylabs/hex": "^4.11.2",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },

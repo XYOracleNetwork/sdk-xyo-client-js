@@ -19,7 +19,7 @@ import { MongoDBArchivistV2 } from '../ArchivistV2.ts'
 
 type TestDataGetter<T> = () => T
 
-describe.runIf(hasMongoDBConfig())('Archivist', () => {
+describe.runIf(hasMongoDBConfig())('ArchivistV2', () => {
   const boundWitnessesConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.BoundWitnesses }
   const payloadsConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.Payloads }
 

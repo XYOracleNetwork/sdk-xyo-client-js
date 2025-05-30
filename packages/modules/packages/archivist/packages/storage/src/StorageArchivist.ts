@@ -18,6 +18,7 @@ import {
   ArchivistCommitQuerySchema,
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuerySchema,
+  ArchivistNextQuerySchema,
 } from '@xyo-network/archivist-model'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
@@ -74,6 +75,7 @@ export class StorageArchivist<
       ArchivistClearQuerySchema,
       ArchivistInsertQuerySchema,
       ArchivistCommitQuerySchema,
+      ArchivistNextQuerySchema,
       ...super.queries,
     ]
   }

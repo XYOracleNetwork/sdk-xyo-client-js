@@ -62,6 +62,7 @@ export abstract class AbstractSentinel<
 
   async report(inPayloads?: Payload[]): Promise<WithoutPrivateStorageMeta<Payload>[]> {
     this._noOverride('report')
+    this.isSupportedQuery(SentinelReportQuerySchema, 'report')
     return await spanAsync('report', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
@@ -95,6 +96,8 @@ export abstract class AbstractSentinel<
   }
 
   async reportQuery(payloads?: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
+    this._noOverride('reportQuery')
+    this.isSupportedQuery(SentinelReportQuerySchema, 'reportQuery')
     const queryPayload: SentinelReportQuery = { schema: SentinelReportQuerySchema }
     return await this.sendQueryRaw(queryPayload, payloads, account)
   }

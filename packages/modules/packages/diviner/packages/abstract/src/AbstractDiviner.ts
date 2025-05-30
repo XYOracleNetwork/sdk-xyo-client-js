@@ -85,6 +85,7 @@ export abstract class AbstractDiviner<
   /** @function divine The main entry point for a diviner.  Do not override this function.  Implement/override divineHandler for custom functionality */
   async divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<DivinerDivineResult<TOut>[]> {
     this._noOverride('divine')
+    this.isSupportedQuery(DivinerDivineQuerySchema, 'divine')
     return await spanAsync('divine', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
@@ -109,6 +110,8 @@ export abstract class AbstractDiviner<
   }
 
   async divineQuery(payloads?: TIn[], account?: AccountInstance, _retry?: RetryConfig): Promise<ModuleQueryResult<TOut>> {
+    this._noOverride('divineQuery')
+    this.isSupportedQuery(DivinerDivineQuerySchema, 'divineQuery')
     const queryPayload: DivinerDivineQuery = { schema: DivinerDivineQuerySchema }
     return await this.sendQueryRaw(queryPayload, payloads, account)
   }

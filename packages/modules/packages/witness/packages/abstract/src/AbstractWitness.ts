@@ -60,6 +60,7 @@ export abstract class AbstractWitness<
   /** @function observe The main entry point for a witness.  Do not override this function.  Implement/override observeHandler for custom functionality */
   async observe(inPayloads?: TIn[]): Promise<WithoutPrivateStorageMeta<TOut>[]> {
     this._noOverride('observe')
+    this.isSupportedQuery(WitnessObserveQuerySchema, 'observe')
     return await spanAsync('observe', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
@@ -92,6 +93,8 @@ export abstract class AbstractWitness<
   }
 
   async observeQuery(payloads?: TIn[], account?: AccountInstance): Promise<ModuleQueryResult<TOut>> {
+    this._noOverride('observeQuery')
+    this.isSupportedQuery(WitnessObserveQuerySchema, 'observeQuery')
     const queryPayload: WitnessObserveQuery = { schema: WitnessObserveQuerySchema }
     return await this.sendQueryRaw(queryPayload, payloads, account)
   }

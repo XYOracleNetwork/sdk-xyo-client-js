@@ -320,12 +320,15 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   isSupportedQuery(query: Schema, assert: boolean | string = false): boolean {
     // check if ever supported
     if (!this.queries.includes(query)) {
+      if (assert !== false) {
+        assertEx(false, () => `Query not supported [${isString(assert) ? assert : query}] on [${this.modName}, ${this.address}] (queries list)`)
+      }
       return false
     }
     // check if config allows it
     const supported = Array.isArray(this.config.allowedQueries) ? this.config.allowedQueries.includes(query) : true
     if (assert !== false) {
-      assertEx(supported, () => `Query not supported [${isString(assert) ? assert : query}] on [${this.modName}, ${this.address}]`)
+      assertEx(supported, () => `Query not supported [${isString(assert) ? assert : query}] on [${this.modName}, ${this.address}] (config)`)
     }
     return supported
   }

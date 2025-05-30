@@ -3,6 +3,7 @@ import type { Promisable, PromisableArray } from '@xylabs/promise'
 import type { NextOptions } from './NextOptions.ts'
 
 export interface AllArchivistFunctions<TReadResponse, TSnapshotResponse> {
+  /** @deprecated use next or snapshot instead */
   all(): PromisableArray<TReadResponse>
   snapshot(): PromisableArray<TSnapshotResponse>
 }

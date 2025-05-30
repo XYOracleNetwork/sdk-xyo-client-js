@@ -23,6 +23,7 @@ import type {
   ArchivistParams,
   ArchivistQueries,
   ArchivistSnapshotPayload,
+  ArchivistSnapshotQuery,
   ArchivistStatsPayload,
   AttachableArchivistInstance,
   ReadArchivist,
@@ -123,8 +124,10 @@ export abstract class AbstractArchivist<
     return !!this.config?.storeParentReads
   }
 
+  /** deprecated use next or snapshot instead */
   async all(): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('all')
+    this.isSupportedQuery(ArchivistAllQuerySchema, 'all')
     return await spanAsync('all', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
@@ -141,13 +144,17 @@ export abstract class AbstractArchivist<
     }, this.tracer)
   }
 
+  /** deprecated use nextQuery or snapshotQuery instead */
   async allQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+    this._noOverride('allQuery')
+    this.isSupportedQuery(ArchivistAllQuerySchema, 'allQuery')
     const queryPayload: ArchivistAllQuery = { schema: ArchivistAllQuerySchema }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async clear(): Promise<void> {
     this._noOverride('clear')
+    this.isSupportedQuery(ArchivistClearQuerySchema, 'clear')
     return await spanAsync('clear', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return
@@ -166,12 +173,15 @@ export abstract class AbstractArchivist<
   }
 
   async clearQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+    this._noOverride('clearQuery')
+    this.isSupportedQuery(ArchivistClearQuerySchema, 'clearQuery')
     const queryPayload: ArchivistClearQuery = { schema: ArchivistClearQuerySchema }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async commit(): Promise<BoundWitness[]> {
     this._noOverride('commit')
+    this.isSupportedQuery(ArchivistCommitQuerySchema, 'commit')
     return await spanAsync('commit', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
@@ -189,12 +199,15 @@ export abstract class AbstractArchivist<
   }
 
   async commitQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+    this._noOverride('commitQuery')
+    this.isSupportedQuery(ArchivistCommitQuerySchema, 'commitQuery')
     const queryPayload: ArchivistCommitQuery = { schema: ArchivistCommitQuerySchema }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async delete(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('delete')
+    this.isSupportedQuery(ArchivistDeleteQuerySchema, 'delete')
     return await spanAsync('delete', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
@@ -212,12 +225,15 @@ export abstract class AbstractArchivist<
   }
 
   async deleteQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
+    this._noOverride('deleteQuery')
+    this.isSupportedQuery(ArchivistDeleteQuerySchema, 'deleteQuery')
     const queryPayload: ArchivistDeleteQuery = { hashes, schema: ArchivistDeleteQuerySchema }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async get(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('get')
+    this.isSupportedQuery(ArchivistGetQuerySchema, 'get')
     return await spanAsync('get', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
@@ -235,12 +251,15 @@ export abstract class AbstractArchivist<
   }
 
   async getQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
+    this._noOverride('getQuery')
+    this.isSupportedQuery(ArchivistGetQuerySchema, 'getQuery')
     const queryPayload: ArchivistGetQuery = { hashes, schema: ArchivistGetQuerySchema }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async insert(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('insert')
+    this.isSupportedQuery(ArchivistInsertQuerySchema, 'insert')
     return await spanAsync('insert', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
@@ -258,12 +277,15 @@ export abstract class AbstractArchivist<
   }
 
   async insertQuery(payloads: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
+    this._noOverride('insertQuery')
+    this.isSupportedQuery(ArchivistInsertQuerySchema, 'insertQuery')
     const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
     return await this.sendQueryRaw(queryPayload, payloads, account)
   }
 
   async next(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('next')
+    this.isSupportedQuery(ArchivistNextQuerySchema, 'next')
     return await spanAsync('next', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
@@ -282,12 +304,15 @@ export abstract class AbstractArchivist<
   }
 
   async nextQuery(options?: ArchivistNextOptions, account?: AccountInstance): Promise<ModuleQueryResult> {
+    this._noOverride('nextQuery')
+    this.isSupportedQuery(ArchivistNextQuerySchema, 'nextQuery')
     const queryPayload: ArchivistNextQuery = { schema: ArchivistNextQuerySchema, ...options }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async snapshot(): Promise<ArchivistSnapshotPayload<WithStorageMeta<Payload>, Hash>[]> {
     this._noOverride('snapshot')
+    this.isSupportedQuery(ArchivistSnapshotQuerySchema, 'snapshot')
     return await spanAsync('snapshot', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         throw new Error('Cannot take snapshot while in a global reentrancy lock')
@@ -302,6 +327,13 @@ export abstract class AbstractArchivist<
         this.globalReentrancyMutex?.release()
       }
     }, this.tracer)
+  }
+
+  async snapshotQuery(account?: AccountInstance): Promise<ModuleQueryResult> {
+    this._noOverride('snapshotQuery')
+    this.isSupportedQuery(ArchivistSnapshotQuerySchema, 'snapshotQuery')
+    const queryPayload: ArchivistSnapshotQuery = { schema: ArchivistSnapshotQuerySchema }
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   protected allHandler(): PromisableArray<WithStorageMeta<Payload>> {

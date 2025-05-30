@@ -13,7 +13,9 @@ import {
 import type { Promisable } from '@xylabs/promise'
 import { PromiseEx } from '@xylabs/promise'
 import { spanAsync } from '@xylabs/telemetry'
-import { isDefined, isUndefined } from '@xylabs/typeof'
+import {
+  isDefined, isString, isUndefined,
+} from '@xylabs/typeof'
 import { Account } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
@@ -313,6 +315,19 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     eventArgs: TEventArgs,
   ) {
     return super.emit(eventName, eventArgs)
+  }
+
+  isSupportedQuery(query: Schema, assert: boolean | string = false): boolean {
+    // check if ever supported
+    if (!this.queries.includes(query)) {
+      return false
+    }
+    // check if config allows it
+    const supported = Array.isArray(this.config.allowedQueries) ? this.config.allowedQueries.includes(query) : true
+    if (assert !== false) {
+      assertEx(supported, () => `Query not supported [${isString(assert) ? assert : query}] on [${this.modName}, ${this.address}]`)
+    }
+    return supported
   }
 
   previousHash(): Promisable<string | undefined> {

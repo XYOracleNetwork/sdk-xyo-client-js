@@ -29,16 +29,16 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.11.2",
-    "@xylabs/base": "^4.11.2",
-    "@xylabs/events": "^4.11.2",
-    "@xylabs/exists": "^4.11.2",
-    "@xylabs/hex": "^4.11.2",
-    "@xylabs/logger": "^4.11.2",
-    "@xylabs/object": "^4.11.2",
-    "@xylabs/promise": "^4.11.2",
-    "@xylabs/retry": "^4.11.2",
-    "@xylabs/typeof": "^4.11.2",
+    "@xylabs/assert": "^4.11.10",
+    "@xylabs/base": "^4.11.10",
+    "@xylabs/events": "^4.11.10",
+    "@xylabs/exists": "^4.11.10",
+    "@xylabs/hex": "^4.11.10",
+    "@xylabs/logger": "^4.11.10",
+    "@xylabs/object": "^4.11.10",
+    "@xylabs/promise": "^4.11.10",
+    "@xylabs/retry": "^4.11.10",
+    "@xylabs/typeof": "^4.11.10",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/manifest-model": "workspace:^",
@@ -47,9 +47,9 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.5.7",
     "@xylabs/tsconfig": "^6.5.7",
-    "@xylabs/vitest-extended": "^4.11.2",
+    "@xylabs/vitest-extended": "^4.11.10",
     "typescript": "^5.8.3",
-    "vitest": "^3.1.4"
+    "vitest": "^3.2.1"
   },
   "publishConfig": {
     "access": "public"

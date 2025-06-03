@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "devDependencies": {
-    "@xylabs/hex": "^4.11.2",
+    "@xylabs/hex": "^4.11.10",
     "@xylabs/ts-scripts-yarn3": "^6.5.7",
     "@xylabs/tsconfig": "^6.5.7",
     "@xyo-network/archivist-leveldb": "workspace:^",
@@ -39,7 +39,7 @@
     "@xyo-network/payload-model": "workspace:^",
     "typescript": "^5.8.3",
     "uuid": "^11.1.0",
-    "vitest": "^3.1.4"
+    "vitest": "^3.2.1"
   },
   "publishConfig": {
     "access": "public"

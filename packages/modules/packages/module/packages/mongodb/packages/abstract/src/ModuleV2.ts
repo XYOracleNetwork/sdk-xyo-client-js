@@ -59,12 +59,12 @@ export const MongoDBModuleMixinV2 = <
      * Ensures any indexes specified within the config are created. This method should be idempotent
      * allowing for multiple calls without causing errors while ensuring the desired state.
      */
-    async ensureIndexes(): Promise<void> {
-      const configIndexes = (this.config as { storage?: { indexes?: IndexDescription[] } })?.storage?.indexes ?? []
+    async ensureCollection(): Promise<void> {
+      const { max } = this.config
       const payloadCollectionName = this.payloadSdkConfig.collection
 
       const payloadStandardIndexes = standardIndexes.map(ix => ({ ...ix, name: `${payloadCollectionName}.${ix.name}` }))
-      await ensureIndexesExistOnCollection(this.payloads, [...payloadStandardIndexes, ...configIndexes])
+      await ensureIndexesExistOnCollection(this.payloads, [...payloadStandardIndexes])
     }
   }
   return MongoModuleBase

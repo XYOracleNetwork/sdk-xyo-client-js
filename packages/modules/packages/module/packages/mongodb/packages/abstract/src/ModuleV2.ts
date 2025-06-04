@@ -111,11 +111,11 @@ const ensureIndexesExistOnCollection = async (
  * If the collection exists and is not capped, it will be converted.
  * If it doesn't exist, it will be created.
  *
- * @param {string} name - The name of the collection.
- * @param {number} max - The maximum number of documents to retain.
- * @param {number} [fallbackDocSize=1024] - Estimated average document size in bytes if collection is empty.
+ * @param name The name of the collection.
+ * @param max The maximum number of documents to retain.
+ * @param fallbackDocSize Estimated average document size in bytes if collection is empty.
  */
-async function ensureFixedSizeCollection(sdk: BaseMongoSdk<PayloadWithMongoMeta>, name: string, max: number, fallbackDocSize = 1024) {
+const ensureFixedSizeCollection = async (sdk: BaseMongoSdk<PayloadWithMongoMeta>, name: string, max: number, fallbackDocSize = 1024) => {
   await sdk.useMongo(async (client) => {
     const db = client.db()
     const stats = await db.command({ collStats: name })

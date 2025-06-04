@@ -65,6 +65,9 @@ export const MongoDBModuleMixinV2 = <
 
       const payloadStandardIndexes = standardIndexes.map(ix => ({ ...ix, name: `${payloadCollectionName}.${ix.name}` }))
       await ensureIndexesExistOnCollection(this.payloads, [...payloadStandardIndexes])
+      if (max) {
+        await ensureFixedSizeCollection(this.payloads, payloadCollectionName, max)
+      }
     }
   }
   return MongoModuleBase
@@ -100,5 +103,27 @@ const ensureIndexesExistOnCollection = async (
         throw error
       }
     }
+  })
+}
+
+/**
+ * Ensures that a collection is capped with a max document count and a reasonable size.
+ * If the collection exists and is not capped, it will be converted.
+ * If it doesn't exist, it will be created.
+ *
+ * @param {string} name - The name of the collection.
+ * @param {number} max - The maximum number of documents to retain.
+ * @param {number} [fallbackDocSize=1024] - Estimated average document size in bytes if collection is empty.
+ */
+async function ensureFixedSizeCollection(sdk: BaseMongoSdk<PayloadWithMongoMeta>, name: string, max: number, fallbackDocSize = 1024) {
+  await sdk.useMongo(async (client) => {
+    const db = client.db()
+    const stats = await db.command({ collStats: name })
+    if (stats.capped) return
+    const estDocSize = max * fallbackDocSize
+    await db.command({
+      convertToCapped: name,
+      size: max * estDocSize,
+    })
   })
 }

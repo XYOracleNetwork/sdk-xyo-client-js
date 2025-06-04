@@ -4,6 +4,7 @@ import type { ArchivistConfig } from '@xyo-network/archivist-model'
 import type { MongoDBArchivistConfigSchema } from './Schema.ts'
 
 export type MongoDBArchivistConfigV2 = ArchivistConfig<{
+  max?: number
   payloadSdkConfig?: Partial<BaseMongoSdkPublicConfig>
   schema: MongoDBArchivistConfigSchema
 }>

@@ -64,14 +64,16 @@ export const MongoDBModuleMixinV2 = <
       const payloadCollectionName = this.payloadSdkConfig.collection
 
       const payloadStandardIndexes = standardIndexes.map(ix => ({ ...ix, name: `${payloadCollectionName}.${ix.name}` }))
-      // Create indexes (creates collection without having to write data to it)
-      await ensureIndexesExistOnCollection(this.payloads, [...payloadStandardIndexes])
+
       if (max) {
         // Create capped collection if it doesn't exist or convert it if it does
         await ensureCappedCollection(this.payloads, max)
         // Recreate indexes after creating/converting a capped collection as
-        // capped will remove all indexes
+        // capped will remove all indexes on existing collections.
         // https://www.mongodb.com/docs/manual/reference/command/convertToCapped/
+        await ensureIndexesExistOnCollection(this.payloads, [...payloadStandardIndexes])
+      } else {
+      // Create indexes (creates collection without having to write data to it)
         await ensureIndexesExistOnCollection(this.payloads, [...payloadStandardIndexes])
       }
     }
@@ -133,20 +135,12 @@ const ensureCappedCollection = async (sdk: BaseMongoSdk<PayloadWithMongoMeta>, m
       const db = client.db(collection.dbName)
       const exists = await collectionExists(db, name)
       const size = docSize * max
-      if (exists) {
-        const stats = await db.command({ collStats: name })
-        if (stats.capped) {
-          // Already exists and is capped
-          // TODO: Check the existing cap is what we want
-        } else {
-          await ensureExistingCollectionIsCapped(sdk, max, size)
-        }
-      } else {
+      return exists
+        ? await ensureExistingCollectionIsCapped(sdk, max, size)
         // Create capped collection
-        await db.createCollection(name, {
+        : await db.createCollection(name, {
           capped: true, size, max,
         })
-      }
     })
   })
 }
@@ -172,7 +166,7 @@ export async function ensureExistingCollectionIsCapped(
 
       const tmpName = `${name}_tmp_capped`
 
-      const exists = (await db.listCollections({ name }).toArray()).length > 0
+      const exists = await collectionExists(db, name)
       if (!exists) throw new Error(`Collection '${name}' does not exist`)
 
       const size = docSize * max
@@ -185,6 +179,7 @@ export async function ensureExistingCollectionIsCapped(
       // Copy most recent documents (up to max)
       const docs = await collection
         .find()
+        // TODO: Sort on sequence over $natural?
         .sort({ $natural: -1 })
         .limit(max)
         .toArray()

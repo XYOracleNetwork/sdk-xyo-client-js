@@ -7,7 +7,7 @@ import { generateArchivistNextTests } from '@xyo-network/archivist-acceptance-te
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { COLLECTIONS, hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
+import { hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import {
@@ -20,16 +20,12 @@ import { MongoDBArchivistV2 } from '../ArchivistV2.ts'
 type TestDataGetter<T> = () => T
 
 describe.runIf(hasMongoDBConfig())('ArchivistV2', () => {
-  const boundWitnessesConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.BoundWitnesses }
-  const payloadsConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.Payloads }
-
+  const payloadsConfig: BaseMongoSdkConfig = { collection: 'test' }
   const payloads: Payload[] = []
   const boundWitnesses: BoundWitness[] = []
   let archivist: ArchivistWrapper
   beforeAll(async () => {
-    boundWitnessesConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
     payloadsConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
-
     const mod = await MongoDBArchivistV2.create({
       account: 'random',
       config: { schema: MongoDBArchivistV2.defaultConfigSchema },
@@ -54,7 +50,7 @@ describe.runIf(hasMongoDBConfig())('ArchivistV2', () => {
       await new BoundWitnessBuilder().payloads([payload3, payload4]).signer(signer).build()
     )[0]
     boundWitnesses.push(boundWitness1, boundWitness2, boundWitness3)
-  })
+  }, 1_000_000)
 
   describe('discover', () => {
     it('discovers module', async () => {

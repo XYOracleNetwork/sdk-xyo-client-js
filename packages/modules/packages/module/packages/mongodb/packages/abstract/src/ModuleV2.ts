@@ -154,39 +154,42 @@ const ensureCappedCollection = async (sdk: BaseMongoSdk<PayloadWithMongoMeta>, m
  * @param max - The maximum number of documents to retain
  * @param docSize - Fallback size (in bytes) to use if no documents exist (default 1KB)
  */
-export async function ensureExistingCollectionIsCapped(
+const ensureExistingCollectionIsCapped = async (
   sdk: BaseMongoSdk<PayloadWithMongoMeta>,
   max: number,
   docSize = 1024,
-): Promise<void> {
+): Promise<void> => {
   await sdk.useCollection(async (collection) => {
     const name = collection.collectionName.toLowerCase()
     await sdk.useMongo(async (client) => {
       const db = client.db(collection.dbName)
-
-      const tmpName = `${name}_tmp_capped`
-
       const exists = await collectionExists(db, name)
       if (!exists) throw new Error(`Collection '${name}' does not exist`)
 
       const size = docSize * max
 
-      // Create capped collection
+      const stats = await db.command({ collStats: name })
+      if (stats.capped && stats.max === max && stats.maxSize === size) {
+        return
+      }
+
+      const tmpName = `${name}_tmp_capped`
+
+      // Create new capped collection
       await db.createCollection(tmpName, {
         capped: true, size, max,
       })
 
-      // Copy most recent documents (up to max)
+      // Copy most recent documents
       const docs = await collection
         .find()
-        // TODO: Sort on sequence over $natural?
         .sort({ $natural: -1 })
         .limit(max)
         .toArray()
 
       if (docs.length > 0) await db.collection(tmpName).insertMany(docs.toReversed())
 
-      // Drop old collection and rename
+      // Replace old collection
       await collection.drop()
       await db.collection(tmpName).rename(name)
     })

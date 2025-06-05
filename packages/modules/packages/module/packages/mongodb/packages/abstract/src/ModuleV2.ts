@@ -137,3 +137,57 @@ const ensureCappedCollection = async (sdk: BaseMongoSdk<PayloadWithMongoMeta>, c
     })
   })
 }
+
+/**
+ * Converts an existing collection to a capped collection with a max document count.
+ * Since MongoDB doesn't support `max` in `convertToCapped`, this function recreates the collection.
+ *
+ * @param db - The MongoDB database instance
+ * @param name - The name of the collection to convert
+ * @param maxDocs - The maximum number of documents to retain
+ * @param fallbackDocSize - Fallback size (in bytes) to use if no documents exist (default 1KB)
+ */
+export async function convertExistingCollectionToCapped(
+  sdk: BaseMongoSdk<PayloadWithMongoMeta>,
+  maxDocs: number,
+  fallbackDocSize = 1024,
+): Promise<void> {
+  await sdk.useCollection(async (collection) => {
+    const name = collection.collectionName.toLowerCase()
+    await sdk.useMongo(async (client) => {
+      const db = client.db(collection.dbName)
+
+      const tmpName = `${name}_tmp_capped`
+
+      const exists = (await db.listCollections({ name }).toArray()).length > 0
+      if (!exists) throw new Error(`Collection '${name}' does not exist`)
+
+      const bsonSize = fallbackDocSize
+
+      const cappedSize = bsonSize * maxDocs
+
+      console.log(`Estimated doc size: ${bsonSize} bytes`)
+      console.log(`Allocating capped collection size: ${cappedSize} bytes`)
+
+      // Create capped collection
+      await db.createCollection(tmpName, {
+        capped: true,
+        size: cappedSize,
+        max: maxDocs,
+      })
+
+      // Copy most recent documents (up to max)
+      const docs = await collection
+        .find()
+        .sort({ $natural: -1 })
+        .limit(maxDocs)
+        .toArray()
+
+      if (docs.length > 0) await db.collection(tmpName).insertMany(docs.toReversed())
+
+      // Drop old collection and rename
+      await collection.drop()
+      await db.collection(tmpName).rename(name)
+    })
+  })
+}

@@ -11,7 +11,7 @@
         "--inspect-brk",
         "--no-file-parallelism",
         "--testTimeout=120000",
-        "packages/modules/packages/diviner/packages/indexing/packages/temporal/packages/memory/src/IndexCandidateToIndexDiviner/spec/Diviner.spec.ts"
+        "packages/modules/packages/archivist/packages/mongodb/src/spec/ArchivistV2.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [
@@ -28,7 +28,6 @@
       "env": {
         "NODE_ENV": "test"
       },
-      "envFile": "${workspaceRoot}/.env",
     }
   ]
 }

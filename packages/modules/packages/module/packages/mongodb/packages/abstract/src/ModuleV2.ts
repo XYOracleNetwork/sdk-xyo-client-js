@@ -5,7 +5,7 @@ import {
   MongoDBModuleParamsV2, MongoDBModuleStatic, MongoDBModuleV2, MongoDBStorageClassLabels,
 } from '@xyo-network/module-model-mongodb'
 import { PayloadWithMongoMeta } from '@xyo-network/payload-mongodb'
-import { MongoServerError } from 'mongodb'
+import { Db, MongoServerError } from 'mongodb'
 
 import { AnyAbstractModule } from './AnyAbstractModule.ts'
 import { COLLECTIONS } from './Collections.ts'
@@ -59,15 +59,31 @@ export const MongoDBModuleMixinV2 = <
      * Ensures any indexes specified within the config are created. This method should be idempotent
      * allowing for multiple calls without causing errors while ensuring the desired state.
      */
-    async ensureIndexes(): Promise<void> {
-      const configIndexes = (this.config as { storage?: { indexes?: IndexDescription[] } })?.storage?.indexes ?? []
+    async ensureCollection(): Promise<void> {
+      const { max } = this.config
       const payloadCollectionName = this.payloadSdkConfig.collection
 
       const payloadStandardIndexes = standardIndexes.map(ix => ({ ...ix, name: `${payloadCollectionName}.${ix.name}` }))
-      await ensureIndexesExistOnCollection(this.payloads, [...payloadStandardIndexes, ...configIndexes])
+
+      if (max) {
+        // Create capped collection if it doesn't exist or convert it if it does
+        await ensureCappedCollection(this.payloads, max)
+        // Recreate indexes after creating/converting a capped collection as
+        // capped will remove all indexes on existing collections.
+        // https://www.mongodb.com/docs/manual/reference/command/convertToCapped/
+        await ensureIndexesExistOnCollection(this.payloads, [...payloadStandardIndexes])
+      } else {
+      // Create indexes (creates collection without having to write data to it)
+        await ensureIndexesExistOnCollection(this.payloads, [...payloadStandardIndexes])
+      }
     }
   }
   return MongoModuleBase
+}
+
+const collectionExists = async (db: Db, name: string): Promise<boolean> => {
+  const collections = await db.listCollections({ name }).toArray()
+  return collections.length > 0
 }
 
 /**
@@ -100,5 +116,84 @@ const ensureIndexesExistOnCollection = async (
         throw error
       }
     }
+  })
+}
+
+/**
+ * Ensures that a collection is capped with a max document count and a reasonable size.
+ * If the collection exists and is not capped, it will be converted.
+ * If it doesn't exist, it will be created.
+ *
+ * @param name The name of the collection.
+ * @param count The maximum number of documents to retain.
+ * @param documentSize Estimated average document size in bytes if collection is empty.
+ */
+const ensureCappedCollection = async (sdk: BaseMongoSdk<PayloadWithMongoMeta>, max: number, docSize = 1024) => {
+  await sdk.useCollection(async (collection) => {
+    const name = collection.collectionName.toLowerCase()
+    await sdk.useMongo(async (client) => {
+      const db = client.db(collection.dbName)
+      const exists = await collectionExists(db, name)
+      const size = docSize * max
+      return exists
+        ? await ensureExistingCollectionIsCapped(sdk, max, size)
+        // Create capped collection
+        : await db.createCollection(name, {
+          capped: true, size, max,
+        })
+    })
+  })
+}
+
+/**
+ * Converts an existing collection to a capped collection with a max document count.
+ * Since MongoDB doesn't support `max` in `convertToCapped` or `cloneCollectionAsCapped`,
+ * this function recreates the collection to work around Mongo's limitations.
+ * https://www.mongodb.com/docs/manual/reference/command/convertToCapped/
+ * https://www.mongodb.com/docs/manual/reference/command/clonecollectionascapped/
+ * @param db - The MongoDB database instance
+ * @param name - The name of the collection to convert
+ * @param max - The maximum number of documents to retain
+ * @param docSize - Fallback size (in bytes) to use if no documents exist (default 1KB)
+ */
+const ensureExistingCollectionIsCapped = async (
+  sdk: BaseMongoSdk<PayloadWithMongoMeta>,
+  max: number,
+  docSize = 1024,
+): Promise<void> => {
+  await sdk.useCollection(async (collection) => {
+    const name = collection.collectionName.toLowerCase()
+    await sdk.useMongo(async (client) => {
+      const db = client.db(collection.dbName)
+      const exists = await collectionExists(db, name)
+      if (!exists) throw new Error(`Collection '${name}' does not exist`)
+
+      const size = docSize * max
+
+      const stats = await db.command({ collStats: name })
+      if (stats.capped && stats.max === max && stats.maxSize === size) {
+        return
+      }
+
+      const tmpName = `${name}_tmp_capped`
+
+      // Create new capped collection
+      await db.createCollection(tmpName, {
+        capped: true, size, max,
+      })
+
+      // Copy most recent documents
+      const docs = await collection
+        .find()
+        .sort({ $natural: -1 })
+        .limit(max)
+        .toArray()
+
+      if (docs.length > 0) await db.collection(tmpName).insertMany(docs.toReversed())
+
+      // Replace old collection
+      await collection.drop()
+      await db.collection(tmpName).rename(name)
+    })
   })
 }

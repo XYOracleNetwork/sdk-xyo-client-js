@@ -65,7 +65,7 @@ export const MongoDBModuleMixinV2 = <
 
       const payloadStandardIndexes = standardIndexes.map(ix => ({ ...ix, name: `${payloadCollectionName}.${ix.name}` }))
       await ensureIndexesExistOnCollection(this.payloads, [...payloadStandardIndexes])
-      if (max) await ensureCappedCollection(this.payloads, payloadCollectionName, max)
+      if (max) await ensureCappedCollection(this.payloads, max)
     }
   }
   return MongoModuleBase
@@ -113,15 +113,18 @@ const ensureIndexesExistOnCollection = async (
  * @param max The maximum number of documents to retain.
  * @param fallbackDocSize Estimated average document size in bytes if collection is empty.
  */
-const ensureCappedCollection = async (sdk: BaseMongoSdk<PayloadWithMongoMeta>, name: string, max: number, fallbackDocSize = 1024) => {
-  await sdk.useMongo(async (client) => {
-    const db = client.db()
-    const stats = await db.command({ collStats: name })
-    if (stats.capped) return
-    const estDocSize = max * fallbackDocSize
-    await db.command({
-      convertToCapped: name,
-      size: max * estDocSize,
+const ensureCappedCollection = async (sdk: BaseMongoSdk<PayloadWithMongoMeta>, max: number, fallbackDocSize = 1024) => {
+  await sdk.useCollection(async (collection) => {
+    const collectionName = collection.collectionName.toLowerCase()
+    await sdk.useMongo(async (client) => {
+      const db = client.db(collection.dbName)
+      const stats = await db.command({ collStats: collectionName })
+      if (stats.capped) return
+      const estDocSize = max * fallbackDocSize
+      await db.command({
+        convertToCapped: collectionName,
+        size: max * estDocSize,
+      })
     })
   })
 }

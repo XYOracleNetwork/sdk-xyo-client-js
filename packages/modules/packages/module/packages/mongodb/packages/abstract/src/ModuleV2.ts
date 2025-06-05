@@ -147,8 +147,10 @@ const ensureCappedCollection = async (sdk: BaseMongoSdk<PayloadWithMongoMeta>, m
 
 /**
  * Converts an existing collection to a capped collection with a max document count.
- * Since MongoDB doesn't support `max` in `convertToCapped`, this function recreates the collection.
- *
+ * Since MongoDB doesn't support `max` in `convertToCapped` or `cloneCollectionAsCapped`,
+ * this function recreates the collection to work around Mongo's limitations.
+ * https://www.mongodb.com/docs/manual/reference/command/convertToCapped/
+ * https://www.mongodb.com/docs/manual/reference/command/clonecollectionascapped/
  * @param db - The MongoDB database instance
  * @param name - The name of the collection to convert
  * @param max - The maximum number of documents to retain

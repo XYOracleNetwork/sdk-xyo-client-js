@@ -121,19 +121,29 @@ const ensureIndexesExistOnCollection = async (
  * @param count The maximum number of documents to retain.
  * @param documentSize Estimated average document size in bytes if collection is empty.
  */
-const ensureCappedCollection = async (sdk: BaseMongoSdk<PayloadWithMongoMeta>, count: number, documentSize = 1024) => {
+const ensureCappedCollection = async (sdk: BaseMongoSdk<PayloadWithMongoMeta>, max: number, fallbackDocSize = 1024) => {
   await sdk.useCollection(async (collection) => {
-    const collectionName = collection.collectionName.toLowerCase()
+    const name = collection.collectionName.toLowerCase()
     await sdk.useMongo(async (client) => {
       const db = client.db(collection.dbName)
-      const stats = await db.command({ collStats: collectionName })
-      if (stats.capped) return
-      const collectionSize = count * documentSize
-      await db.command({
-        convertToCapped: collectionName,
-        count,
-        size: collectionSize,
-      })
+
+      const exists = (await db.listCollections({ name }).toArray()).length > 0
+      const size = fallbackDocSize * max
+
+      if (exists) {
+        const stats = await db.command({ collStats: name })
+        if (stats.capped) {
+          // Already exists and is capped
+          // TODO: Check the existing cap is what we want
+        } else {
+          await convertExistingCollectionToCapped(sdk, max, size)
+        }
+      } else {
+        // Create capped collection
+        await db.createCollection(name, {
+          capped: true, size, max,
+        })
+      }
     })
   })
 }

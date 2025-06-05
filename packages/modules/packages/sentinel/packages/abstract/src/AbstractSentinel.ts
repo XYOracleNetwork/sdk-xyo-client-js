@@ -77,7 +77,7 @@ export abstract class AbstractSentinel<
           const result = (await new BoundWitnessBuilder().payloads(payloads).signer(this.account).build()).flat()
 
           if (this.config.archiving) {
-            forget(this.storeToArchivists(result))
+            forget(this.storeToArchivists(result), { name: `AbstractSentinel.report.storeArchivist [${this.id}]` })
           }
 
           await this.emitReportEnd(inPayloads, result)
@@ -86,7 +86,7 @@ export abstract class AbstractSentinel<
         if (this.synchronous) {
           return await reportPromise
         } else {
-          forget(reportPromise)
+          forget(reportPromise, { name: `AbstractSentinel.report [${this.id}]` })
           return []
         }
       } finally {
@@ -132,13 +132,14 @@ export abstract class AbstractSentinel<
             return true
           }
           if (typeof input === 'string') {
-            return previousTasks.find(prevTask => prevTask.mod.address === input || prevTask.mod.modName === input)
+            return previousTasks.some(prevTask => prevTask.mod.address === input || prevTask.mod.modName === input)
           }
           if (Array.isArray(input)) {
-            return previousTasks.find(
+            return previousTasks.some(
               prevTask => input.includes(prevTask.mod.address) || input.includes(prevTask.mod.modName ?? prevTask.mod.address),
             )
           }
+          return false
         })
       // remove any tasks that have inputs that are in the current list or the remaining tasks
       const newList = newListCandidates.filter((taskCandidate) => {

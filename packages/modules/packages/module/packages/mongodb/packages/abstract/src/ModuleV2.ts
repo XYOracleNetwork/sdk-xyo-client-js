@@ -139,8 +139,8 @@ const ensureCappedCollection = async (sdk: BaseMongoSdk<PayloadWithMongoMeta>, m
         ? await ensureExistingCollectionIsCapped(sdk, max, size)
         // Create capped collection
         : await db.createCollection(name, {
-          capped: true, size, max,
-        })
+            capped: true, size, max,
+          })
     })
   })
 }

@@ -103,7 +103,7 @@ export class GenericPayloadDiviner<
     await this.updateIndex()
 
     const {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
       schema, schemas, order, limit, cursor, ...props
     } = filter
     let all: TOut[] = this.all(order, cursor)

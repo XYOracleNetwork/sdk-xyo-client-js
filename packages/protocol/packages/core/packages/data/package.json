@@ -30,17 +30,17 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@scure/base": "^1.2.6",
-    "@xylabs/arraybuffer": "^4.11.10",
-    "@xylabs/assert": "^4.11.10",
-    "@xylabs/hex": "^4.11.10",
+    "@xylabs/arraybuffer": "^4.11.14",
+    "@xylabs/assert": "^4.11.14",
+    "@xylabs/hex": "^4.11.14",
     "ethers": "^6.14.3"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.7",
-    "@xylabs/tsconfig": "^6.5.7",
-    "@xylabs/vitest-extended": "^4.11.10",
+    "@xylabs/ts-scripts-yarn3": "^6.5.8",
+    "@xylabs/tsconfig": "^6.5.8",
+    "@xylabs/vitest-extended": "^4.11.14",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.1"
+    "vitest": "^3.2.2"
   },
   "publishConfig": {
     "access": "public"

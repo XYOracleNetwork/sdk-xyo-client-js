@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import '@xylabs/vitest-extended'
 
 import type { AnyObject } from '@xylabs/object'

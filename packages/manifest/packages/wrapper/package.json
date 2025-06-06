@@ -30,6 +30,7 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@xylabs/assert": "^4.11.16",
+    "@xylabs/typeof": "^4.11.16",
     "@xyo-network/manifest-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

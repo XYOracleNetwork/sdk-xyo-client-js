@@ -29,6 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
+    "@xylabs/typeof": "^4.11.16",
     "wasm-feature-detect": "^1.8.0"
   },
   "devDependencies": {

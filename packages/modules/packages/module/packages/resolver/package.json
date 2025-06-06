@@ -35,6 +35,7 @@
     "@xylabs/hex": "^4.11.16",
     "@xylabs/object": "^4.11.16",
     "@xylabs/promise": "^4.11.16",
+    "@xylabs/typeof": "^4.11.16",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",

@@ -4,9 +4,11 @@ import { globallyUnique } from '@xylabs/base'
 import {
   Address,
   Hash,
+  isHash,
   toHex,
 } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
+import { isDefined, isString } from '@xylabs/typeof'
 import {
   AccountConfig,
   AccountInstance,
@@ -29,13 +31,13 @@ const nameOf = <T>(name: keyof T) => name
 
 function getPrivateKeyFromMnemonic(mnemonic: Mnemonic, path?: string): string {
   const node = HDNodeWallet.fromMnemonic(mnemonic)
-  const wallet = path ? node.derivePath?.(path) : node
+  const wallet = isString(path) ? node.derivePath?.(path) : node
   return wallet.privateKey.padStart(64, '0').toLowerCase()
 }
 
 function getPrivateKeyFromPhrase(phrase: string, path?: string): string {
   const node = HDNodeWallet.fromMnemonic(Mnemonic.fromPhrase(phrase))
-  const wallet = path ? node.derivePath?.(path) : node
+  const wallet = isString(path) ? node.derivePath?.(path) : node
   return wallet.privateKey.padStart(64, '0').toLowerCase()
 }
 
@@ -93,7 +95,7 @@ export class Account extends EllipticKey implements AccountInstance {
         privateKeyToUse = toUint8Array(opts.privateKey)
       } else if (nameOf<MnemonicInitializationConfig>('mnemonic') in opts) {
         privateKeyToUse = toUint8Array(getPrivateKeyFromMnemonic(Mnemonic.fromPhrase(opts.mnemonic), opts?.path))
-        node = opts?.path ? HDNodeWallet.fromPhrase(opts.mnemonic).derivePath?.(opts.path) : HDNodeWallet.fromPhrase(opts.mnemonic)
+        node = isString(opts?.path) ? HDNodeWallet.fromPhrase(opts.mnemonic).derivePath?.(opts.path) : HDNodeWallet.fromPhrase(opts.mnemonic)
       }
     }
 
@@ -124,11 +126,11 @@ export class Account extends EllipticKey implements AccountInstance {
 
   async loadPreviousHash(previousHash?: ArrayBufferLike | string): Promise<this> {
     return await this._signingMutex.runExclusive(async () => {
-      if (previousHash) {
-        this._previousHash = previousHash ? toUint8Array(previousHash, 32).buffer : undefined
+      if (isDefined(previousHash)) {
+        this._previousHash = toUint8Array(previousHash, 32).buffer
       } else {
         const previousHashStoreValue = await Account.previousHashStore?.getItem(this.address)
-        if (previousHashStoreValue) {
+        if (isHash(previousHashStoreValue)) {
           this._previousHash = toUint8Array(previousHashStoreValue, 32).buffer
         }
       }
@@ -141,7 +143,7 @@ export class Account extends EllipticKey implements AccountInstance {
     return await this._signingMutex.runExclusive(async () => {
       if (Account.previousHashStore) {
         const storedPreviousHash = await Account.previousHashStore.getItem(this.address)
-        this._previousHash = storedPreviousHash ? toArrayBuffer(storedPreviousHash, 32) : undefined
+        this._previousHash = isHash(storedPreviousHash) ? toArrayBuffer(storedPreviousHash, 32) : undefined
       }
       const currentPreviousHash = this.previousHash
       const passedCurrentHash

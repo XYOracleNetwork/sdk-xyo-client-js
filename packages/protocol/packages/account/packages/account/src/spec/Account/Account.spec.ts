@@ -1,6 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { toArrayBuffer } from '@xylabs/arraybuffer'
+import { isHex } from '@xylabs/hex'
 import type { AccountInstance, AccountStatic } from '@xyo-network/account-model'
 import {
   beforeAll,
@@ -117,7 +118,7 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
         await accountA.sign(toArrayBuffer(hash), toArrayBuffer(oldPreviousHash))
         const privateKey = accountA.private?.hex
         expect(privateKey).toBeDefined()
-        if (privateKey) {
+        if (isHex(privateKey)) {
           const previousHash = accountA.previousHash
           expect(previousHash).toBeDefined()
           const accountB = await Account.create({ previousHash: toArrayBuffer(previousHash), privateKey: toArrayBuffer(privateKey) })

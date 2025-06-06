@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { isString, isUndefined } from '@xylabs/typeof'
 import type { Provider } from 'ethers'
 import {
   InfuraProvider, InfuraWebSocketProvider, JsonRpcProvider,
@@ -14,21 +15,23 @@ export interface GetProvidersFromEnvOptions {
 }
 
 const createInfuraRpc = (chainId: number) => {
-  return process.env.INFURA_PROJECT_ID && process.env.INFURA_PROJECT_SECRET ? new InfuraProvider(chainId, process.env.INFURA_PROJECT_ID) : undefined
+  return (isString(process.env.INFURA_PROJECT_ID) && isString(process.env.INFURA_PROJECT_SECRET))
+    ? new InfuraProvider(chainId, process.env.INFURA_PROJECT_ID, process.env.INFURA_PROJECT_SECRET)
+    : undefined
 }
 
 const createInfuraWss = (chainId: number) => {
-  return process.env.INFURA_PROJECT_ID ? new InfuraWebSocketProvider(chainId, process.env.INFURA_PROJECT_ID) : undefined
+  return isString(process.env.INFURA_PROJECT_ID) ? new InfuraWebSocketProvider(chainId, process.env.INFURA_PROJECT_ID) : undefined
 }
 
 const createQuicknodeWss = (chainId: number) => {
   const quickNodeWSSUri = process.env.QUICKNODE_WSS_URI
-  return quickNodeWSSUri ? new WebSocketProvider(quickNodeWSSUri, chainId) : undefined
+  return isString(quickNodeWSSUri) ? new WebSocketProvider(quickNodeWSSUri, chainId) : undefined
 }
 
 const createQuicknodeRpc = (chainId: number) => {
   const quickNodeHttpsUri = process.env.QUICKNODE_HTTPS_URI
-  return quickNodeHttpsUri ? new JsonRpcProvider(quickNodeHttpsUri, chainId) : undefined
+  return isString(quickNodeHttpsUri) ? new JsonRpcProvider(quickNodeHttpsUri, chainId) : undefined
 }
 
 export const getProviderFromEnv = (
@@ -73,7 +76,7 @@ export const getProviderFromEnv = (
       break
     }
   }
-  if (!provider) {
+  if (isUndefined(provider)) {
     provider = createInfuraWss(chainId) ?? createInfuraRpc(chainId) ?? createQuicknodeRpc(chainId)
   }
   return assertEx(provider, () => `Unable to create provider [${chainId}]: ${providerSource}|${providerType}`)

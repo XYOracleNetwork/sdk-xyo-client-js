@@ -7,6 +7,7 @@ import { isAddress } from '@xylabs/hex'
 import type { Logger } from '@xylabs/logger'
 import { IdLogger } from '@xylabs/logger'
 import { toJsonString } from '@xylabs/object'
+import { isString, isTruthy } from '@xylabs/typeof'
 
 import type {
   ModuleFilterOptions, ModuleInstance, ModuleResolver,
@@ -135,20 +136,18 @@ export class ResolveHelper extends ResolveHelperStatic {
             return undefined
           }
 
-          const resolvedId = (await resolvePathToAddress(mod, id, false, transformers)) ?? id
+          const resolvedId = assertEx((await resolvePathToAddress(mod, id, false, transformers)) ?? id, () => 'Invalid resolvedId')
 
-          if (resolvedId) {
-            const resolvers = [
-              [downResolver, downLocalOptions],
-              [up ? upResolver : undefined, upLocalOptions],
-              [up ? privateResolver : undefined, upLocalOptions],
-            ].filter(([resolver]) => exists(resolver)) as [ModuleResolver, ModuleFilterOptions<T>][]
+          const resolvers = [
+            [downResolver, downLocalOptions],
+            [up ? upResolver : undefined, upLocalOptions],
+            [up ? privateResolver : undefined, upLocalOptions],
+          ].filter(([resolver]) => exists(resolver)) as [ModuleResolver, ModuleFilterOptions<T>][]
 
-            for (const resolver of resolvers) {
-              const [resolverInstance] = resolver
-              if (!result) {
-                result = await this.resolveModuleIdentifier<T>(resolverInstance, resolvedId)
-              }
+          for (const resolver of resolvers) {
+            const [resolverInstance] = resolver
+            if (!result) {
+              result = await this.resolveModuleIdentifier<T>(resolverInstance, resolvedId)
             }
           }
 
@@ -174,12 +173,10 @@ export class ResolveHelper extends ResolveHelperStatic {
     const firstIsAddress = isAddress(first)
     const resolvedModule
       = (await resolver.resolve(first, { maxDepth: firstIsAddress ? 10 : 1 }))
-        ?? (first ? await resolver.resolvePrivate(first, { maxDepth: firstIsAddress ? 10 : 1 }) : undefined)
+        ?? (isString(first) ? await resolver.resolvePrivate(first, { maxDepth: firstIsAddress ? 10 : 1 }) : undefined)
     const finalModule = required ? assertEx(resolvedModule, () => `Failed to resolve [${first}] [${firstIsAddress}]`) : resolvedModule
     const firstModule = asModuleInstance(finalModule, () => `Resolved invalid module instance [${first}]`) as T
-    if (firstModule) {
-      return parts.length > 0 ? await this.resolveModuleIdentifier<T>(firstModule, parts.join(':')) : firstModule
-    }
+    return parts.length > 0 ? await this.resolveModuleIdentifier<T>(firstModule, parts.join(':')) : firstModule
   }
 
   // translates a complex module path to addresses
@@ -198,7 +195,7 @@ export class ResolveHelper extends ResolveHelperStatic {
     logger = this.defaultLogger,
   ) {
     const log = logger ? new IdLogger(logger, () => `validateRequiredResolve [${id}][${result}]`) : undefined
-    if (required && (result === undefined || (Array.isArray(result) && result.length > 0))) {
+    if (isTruthy(required) && (result === undefined || (Array.isArray(result) && result.length > 0))) {
       switch (required) {
         case 'warn': {
           log?.warn('resolve failed', id)

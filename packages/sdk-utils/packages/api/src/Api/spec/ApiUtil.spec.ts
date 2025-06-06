@@ -11,7 +11,7 @@ test('Must have tests defined', () => {
 })
 
 export const getApiConfig = (configData: Partial<ApiConfig> = {}): ApiConfig => {
-  const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
+  const apiDomain = process.env.API_DOMAIN ?? 'http://localhost:8080'
   const defaults: ApiConfig = {
     apiDomain,
     onError: error => error,

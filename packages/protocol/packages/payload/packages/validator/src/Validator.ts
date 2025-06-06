@@ -1,6 +1,7 @@
 import type { Validator } from '@xylabs/object'
 import { ValidatorBase } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
+import { isUndefined } from '@xylabs/typeof'
 import type { Payload } from '@xyo-network/payload-model'
 import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 
@@ -25,7 +26,7 @@ export class PayloadValidator<T extends Payload = Payload> extends ValidatorBase
 
   get schemaValidator() {
     this._schemaValidator = this._schemaValidator ?? PayloadValidator.schemaNameValidatorFactory?.(this.payload.schema)
-    if (!this._schemaValidator) {
+    if (isUndefined(this._schemaValidator)) {
       console.warn(`No schema name validator set [${this.payload.schema}]`)
     }
     return this._schemaValidator

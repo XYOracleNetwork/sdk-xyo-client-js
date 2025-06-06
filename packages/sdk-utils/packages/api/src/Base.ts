@@ -1,4 +1,5 @@
 import { AxiosJson } from '@xylabs/axios'
+import { isString } from '@xylabs/typeof'
 import type {
   ApiConfig,
   ApiEnvelope,
@@ -21,15 +22,15 @@ export class ApiBase<C extends ApiConfig = ApiConfig> implements ApiReportable {
   }
 
   get authenticated() {
-    return !!this.config.apiKey || !!this.config.jwtToken
+    return isString(this.config.apiKey) || isString(this.config.jwtToken)
   }
 
   protected get headers(): Record<string, string> {
     const headers: Record<string, string> = {}
-    if (this.config.jwtToken) {
+    if (isString(this.config.jwtToken)) {
       headers.Authorization = `Bearer ${this.config.jwtToken}`
     }
-    if (this.config.apiKey) {
+    if (isString(this.config.apiKey)) {
       headers['x-api-key'] = this.config.apiKey
     }
     return headers

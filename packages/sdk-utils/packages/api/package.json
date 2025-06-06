@@ -30,6 +30,7 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@xylabs/axios": "^4.11.16",
+    "@xylabs/typeof": "^4.11.16",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/huri": "workspace:^",

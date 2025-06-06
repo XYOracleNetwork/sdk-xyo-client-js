@@ -35,6 +35,8 @@ export const WasmFeatureDetectors = {
   threads: threads,
 } as const
 
+import { isTruthy } from '@xylabs/typeof'
+
 export type WasmFeature = keyof typeof WasmFeatureDetectors
 
 export class WasmSupport {
@@ -157,7 +159,7 @@ export class WasmSupport {
     for (let feature = 0; feature < this.desiredFeatures.length; feature++) {
       const desiredFeature = this.desiredFeatures[feature]
       const detector = WasmFeatureDetectors[desiredFeature]
-      this._featureSupport[desiredFeature] = (await detector()) ? true : false
+      this._featureSupport[desiredFeature] = isTruthy(await detector())
     }
     this._isWasmFeatureSetSupported = Object.values(this._featureSupport).every(Boolean)
   }

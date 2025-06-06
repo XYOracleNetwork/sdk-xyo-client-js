@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { isDefined, isString } from '@xylabs/typeof'
 import type {
   ModuleManifest, NodeManifest, PackageManifestPayload,
 } from '@xyo-network/manifest-model'
@@ -41,7 +42,7 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
 
     if (!(await collision(node, manifest.config.name, external))) {
       // is it already registered?
-      if (node.registeredModules().some(mod => mod.config.name && mod.config.name === manifest.config.name)) {
+      if (node.registeredModules().some(mod => isDefined(mod.config.name) && mod.config.name === manifest.config.name)) {
         assertEx(await node.attach(manifest.config.name, external), () => `Failed to attach module [${manifest.config.name}]`)
       } else {
         if ((manifest as NodeManifest).modules) {
@@ -66,7 +67,7 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
 
   async loadNodeFromManifest(wallet: WalletInstance, manifest: NodeManifest, path?: string, loadConfigChildren = false): Promise<MemoryNode> {
     console.log('loadNodeFromManifest', manifest.config.name)
-    const derivedWallet = path ? await wallet.derivePath(path) : await HDWallet.random()
+    const derivedWallet = isString(path) ? await wallet.derivePath(path) : await HDWallet.random()
     const node = await MemoryNode.create({ account: derivedWallet, config: manifest.config })
     // Load Private Modules
     const privateModules
@@ -126,7 +127,7 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
   private async registerModule(wallet: WalletInstance, node: MemoryNode, manifest: ModuleManifest): Promise<ModuleInstance> {
     const creatableModule = this.locator.locate(manifest.config.schema, manifest.config.labels)
     const path = manifest.config.accountPath
-    const account = path ? await wallet.derivePath(path) : 'random'
+    const account = isString(path) ? await wallet.derivePath(path) : 'random'
     const params: ModuleParams = {
       account,
       config: assertEx(manifest.config, () => 'Missing config'),

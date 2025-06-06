@@ -3,6 +3,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import type { Address } from '@xylabs/hex'
 import type { Promisable } from '@xylabs/promise'
+import { isDefined, isString } from '@xylabs/typeof'
 import type {
   CacheConfig,
   ModuleFilterOptions,
@@ -157,7 +158,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
         )
       }
       const resolvedId = await ResolveHelper.transformModuleIdentifier(id, this.moduleIdentifierTransformers)
-      if (resolvedId) {
+      if (isString(resolvedId)) {
         if (mutatedOptions.maxDepth < 0) {
           return []
         }
@@ -174,7 +175,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
         if (mutatedOptions.maxDepth === 0) {
           const mod = await this._localResolver.resolve(resolvedId, mutatedOptions)
           return (
-            mod
+            isDefined(mod)
               ? Array.isArray(mod)
                 ? mod
                 : [mod]

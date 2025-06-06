@@ -1,4 +1,5 @@
 import { staticImplements } from '@xylabs/static-implements'
+import { isDefined } from '@xylabs/typeof'
 import { Data } from '@xyo-network/data'
 import { Elliptic } from '@xyo-network/elliptic'
 import { AddressValueInstance, AddressValueStatic } from '@xyo-network/key-model'
@@ -22,7 +23,7 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
   }
 
   static async initialize() {
-    return !!(await Elliptic.secp256k1())
+    return isDefined(await Elliptic.secp256k1())
   }
 
   static isAddress(value: unknown) {

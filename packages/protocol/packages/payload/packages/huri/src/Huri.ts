@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { axios } from '@xylabs/axios'
 import type { Address, Hash } from '@xylabs/hex'
 import { isHash } from '@xylabs/hex'
+import { isDefined, isString } from '@xylabs/typeof'
 import { AddressValue } from '@xyo-network/account'
 import type { Payload } from '@xyo-network/payload-model'
 
@@ -58,7 +59,7 @@ export class Huri<T extends Payload = Payload> {
     assertEx(isHash(this.hash), () => `Invalid hash [${this.hash}]`)
 
     // if archivistUri sent, overwrite protocol and archivist
-    if (archivistUri) {
+    if (isString(archivistUri)) {
       const archivistUriParts = archivistUri.split('://')
       this.protocol = archivistUriParts[0]
       this.archivist = archivistUriParts[1]
@@ -74,13 +75,13 @@ export class Huri<T extends Payload = Payload> {
   */
   get href() {
     const parts: string[] = []
-    if (this.protocol) {
+    if (isDefined(this.protocol)) {
       parts.push(`${this.protocol}:/`)
     }
-    if (this.archive) {
+    if (isDefined(this.archive)) {
       parts.push(`${this.archive}`)
     }
-    if (this.archivist) {
+    if (isDefined(this.archivist)) {
       parts.push(`${this.archivist}`)
     }
     parts.push(this.hash)
@@ -88,7 +89,7 @@ export class Huri<T extends Payload = Payload> {
   }
 
   static async fetch<T extends Payload = Payload>(huri: Huri): Promise<T | undefined> {
-    const AuthHeader = huri.token ? { Authorization: `Bearer ${huri.token}` } : undefined
+    const AuthHeader = isDefined(huri.token) ? { Authorization: `Bearer ${huri.token}` } : undefined
     return (await axios.get<T>(huri.href, { headers: AuthHeader })).data
   }
 
@@ -113,7 +114,7 @@ export class Huri<T extends Payload = Payload> {
     const protocolSplit = huri.split('//')
     assertEx(protocolSplit.length <= 2, () => `Invalid second protocol [${protocolSplit[2]}]`)
     const rawProtocol = protocolSplit.length === 2 ? protocolSplit.shift() : undefined
-    if (rawProtocol) {
+    if (isString(rawProtocol)) {
       const protocolParts = rawProtocol?.split(':')
       assertEx(protocolParts.length === 2, () => `Invalid protocol format [${rawProtocol}]`)
       assertEx(protocolParts[1].length === 0, () => `Invalid protocol format (post :) [${rawProtocol}]`)
@@ -162,6 +163,6 @@ export class Huri<T extends Payload = Payload> {
     assertEx(this.archive?.length !== 0, () => 'Invalid archive length')
 
     // the archive should not be set if the archivist is not set
-    assertEx(!(this.archive && !this.archivist), () => 'If specifying archive, archivist is also required')
+    assertEx(!(isString(this.archive) && !isString(this.archivist)), () => 'If specifying archive, archivist is also required')
   }
 }

@@ -14,5 +14,6 @@ export default defineConfig({
       // include: ['**/src/**/*.ts'], // Include files to track
       // exclude: ['node_modules', '**/src/*.spec.*'], // Exclude unnecessary files
     },
+    watch: false,
   },
 })

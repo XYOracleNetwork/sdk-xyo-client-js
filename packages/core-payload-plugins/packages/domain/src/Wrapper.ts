@@ -1,7 +1,8 @@
 import { axios } from '@xylabs/axios'
 import { Base } from '@xylabs/base'
-import type { Hash } from '@xylabs/hex'
+import { type Hash, isHash } from '@xylabs/hex'
 import { isBrowser } from '@xylabs/platform'
+import { isString } from '@xylabs/typeof'
 import type { ApiEnvelope } from '@xyo-network/api-models'
 import { DnsRecordType, domainResolve } from '@xyo-network/dns'
 import type { FetchedPayload, HuriOptions } from '@xyo-network/huri'
@@ -11,7 +12,9 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import type { AxiosError } from 'axios'
 
-import type { Alias, DomainPayload } from './Payload.ts'
+import {
+  type Alias, type DomainPayload, isDomainPayload,
+} from './Payload.ts'
 
 export interface FetchedAlias extends FetchedPayload {
   alias: Alias
@@ -34,10 +37,10 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
   static async discoverDNSEntry(domain: string) {
     try {
       const hash = (await domainResolve(`_xyo.${domain}`, DnsRecordType.TXT))?.Answer?.[0]?.data
-      if (hash) {
+      if (isHash(hash)) {
         const huri = new Huri(hash)
-        const payload = (await huri.fetch()) as DomainPayload
-        if (payload) {
+        const payload = (await huri.fetch())
+        if (isDomainPayload(payload)) {
           return new DomainPayloadWrapper(payload)
         }
       }
@@ -47,7 +50,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
   }
 
   static async discoverRootFile(domain: string, proxy?: string) {
-    return isBrowser() || proxy ? await this.discoverRootFileWithProxy(domain, proxy) : await this.discoverRootFileDirect(domain)
+    return isBrowser() || isString(proxy) ? await this.discoverRootFileWithProxy(domain, proxy) : await this.discoverRootFileDirect(domain)
   }
 
   static async discoverRootFileDirect(domain: string) {
@@ -105,6 +108,6 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
   }
 
   private async getNetwork(hash?: Hash): Promise<NetworkPayload | undefined> {
-    return hash ? await PayloadBuilder.findByDataHash(this.payload.networks, hash) : this.payload.networks?.[0]
+    return isHash(hash) ? await PayloadBuilder.findByDataHash(this.payload.networks, hash) : this.payload.networks?.[0]
   }
 }

@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "devDependencies": {
-    "@xylabs/hex": "^4.11.14",
+    "@xylabs/hex": "^4.11.16",
     "@xylabs/ts-scripts-yarn3": "^6.5.8",
     "@xylabs/tsconfig": "^6.5.8",
     "@xyo-network/archivist-leveldb": "workspace:^",

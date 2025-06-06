@@ -42,7 +42,7 @@
     "@xyo-network/payload-model": "^3.18.4"
   },
   "devDependencies": {
-    "@xylabs/object": "^4.11.14",
+    "@xylabs/object": "^4.11.16",
     "@xylabs/ts-scripts-yarn3": "^6.5.8",
     "@xylabs/tsconfig": "^6.5.8",
     "typescript": "^5.8.3"

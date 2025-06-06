@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
+import { isAddress } from '@xylabs/hex'
 import type { Promisable } from '@xylabs/promise'
 import { spanAsync } from '@xylabs/telemetry'
 import type { AccountInstance } from '@xyo-network/account-model'
@@ -53,7 +54,7 @@ export abstract class AbstractWitness<
 
   async getArchivistInstance() {
     const archivistAddress = this.archivist
-    this._archivistInstance = this._archivistInstance ?? (archivistAddress ? await this.resolve(archivistAddress) : undefined)
+    this._archivistInstance = this._archivistInstance ?? (isAddress(archivistAddress) ? await this.resolve(archivistAddress) : undefined)
     return this._archivistInstance
   }
 

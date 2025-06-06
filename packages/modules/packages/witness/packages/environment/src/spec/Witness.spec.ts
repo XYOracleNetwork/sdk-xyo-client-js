@@ -36,7 +36,7 @@ describe('EnvironmentWitness', () => {
         // NOTE: Due to how we sanitize __ fields from payloads
         // this test can fail on systems where __ fields are present
         // in the environment so we'll sanitize those when comparing
-        const processEnv = PayloadBuilder.omitPrivateStorageMeta(process.env)
+        const processEnv = process.env
         expect(env?.value).toEqual(processEnv)
       })
     })

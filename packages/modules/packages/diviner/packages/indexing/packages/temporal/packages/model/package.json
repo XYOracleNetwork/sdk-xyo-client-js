@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.11.14",
+    "@xylabs/hex": "^4.11.16",
     "@xyo-network/diviner-boundwitness-model": "workspace:^",
     "@xyo-network/diviner-indexing-model": "workspace:^",
     "@xyo-network/diviner-jsonpath-model": "workspace:^",

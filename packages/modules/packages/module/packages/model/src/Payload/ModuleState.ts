@@ -23,3 +23,4 @@ export const isModuleStateWithSources = <T extends StateDictionary = StateDictio
 }
 
 export const asModuleState = AsObjectFactory.create<ModuleState<StateDictionary>>(isModuleState)
+export const asOptionalModuleState = AsObjectFactory.createOptional<ModuleState<StateDictionary>>(isModuleState)

@@ -1,7 +1,7 @@
 import type { NetworkPayload } from '@xyo-network/network'
-import type { Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, type Payload } from '@xyo-network/payload-model'
 
-import type { DomainSchema } from './Schema.ts'
+import { DomainSchema } from './Schema.ts'
 
 export interface Alias {
   /** @field huri to the aliased payload */
@@ -18,3 +18,5 @@ export type DomainPayload = Payload<{
   /** @field Known networks [out] */
   networks?: NetworkPayload[]
 }, DomainSchema>
+
+export const isDomainPayload = isPayloadOfSchemaType<DomainPayload>(DomainSchema)

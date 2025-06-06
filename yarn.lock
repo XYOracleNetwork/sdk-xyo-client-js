@@ -7567,6 +7567,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/sentinel-model": "workspace:^"
+    async-mutex: "npm:^0.2.6"
     typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
@@ -8218,6 +8219,15 @@ __metadata:
   version: 1.0.0
   resolution: "async-function@npm:1.0.0"
   checksum: 10/1a09379937d846f0ce7614e75071c12826945d4e417db634156bf0e4673c495989302f52186dfa9767a1d9181794554717badd193ca2bbab046ef1da741d8efd
+  languageName: node
+  linkType: hard
+
+"async-mutex@npm:^0.2.6":
+  version: 0.2.6
+  resolution: "async-mutex@npm:0.2.6"
+  dependencies:
+    tslib: "npm:^2.0.0"
+  checksum: 10/3cf676fc48b4686abf534cc02d4784bab3f35d7836a0a7476c96e57c3f6607dd3d94cc0989b29d33ce5ae5cde8be8e1a96f3e769ba3b0e1ba4a244f873aa5623
   languageName: node
   linkType: hard
 
@@ -14792,7 +14802,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.1.0, tslib@npm:^2.4.0, tslib@npm:^2.6.2, tslib@npm:^2.8.1":
+"tslib@npm:^2.0.0, tslib@npm:^2.1.0, tslib@npm:^2.4.0, tslib@npm:^2.6.2, tslib@npm:^2.8.1":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7

@@ -53,7 +53,7 @@ export abstract class AbstractSentinel<
   }
 
   get synchronous(): boolean {
-    return this.config.synchronous ?? false
+    return this.config.synchronous ?? true
   }
 
   get throwErrors(): boolean {
@@ -64,12 +64,13 @@ export abstract class AbstractSentinel<
     this._noOverride('report')
     this.isSupportedQuery(SentinelReportQuerySchema, 'report')
     return await spanAsync('report', async () => {
-      if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
-        return []
-      }
-      try {
-        await this.globalReentrancyMutex?.acquire()
-        const reportPromise = (async () => {
+      const reportPromise = (async () => {
+        if (this.reentrancy?.scope === 'global' && this.reentrancy?.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
+          console.warn(`Skipping report for ${this.id} due to global reentrancy lock`)
+          return []
+        }
+        try {
+          await this.globalReentrancyMutex?.acquire()
           await this.emit('reportStart', { inPayloads, mod: this })
           const payloads = await this.reportHandler(inPayloads)
 
@@ -82,15 +83,16 @@ export abstract class AbstractSentinel<
 
           await this.emitReportEnd(inPayloads, result)
           return result
-        })()
-        if (this.synchronous) {
-          return await reportPromise
-        } else {
-          forget(reportPromise, { name: `AbstractSentinel.report [${this.id}]` })
-          return []
+        } finally {
+          this.globalReentrancyMutex?.release()
         }
-      } finally {
-        this.globalReentrancyMutex?.release()
+      }
+      )()
+      if (this.synchronous) {
+        return await reportPromise
+      } else {
+        forget(reportPromise, { name: `AbstractSentinel.report [${this.id}]` })
+        return []
       }
     }, this.tracer)
   }

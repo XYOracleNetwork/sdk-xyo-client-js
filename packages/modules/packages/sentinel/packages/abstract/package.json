@@ -41,7 +41,8 @@
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/sentinel-model": "workspace:^"
+    "@xyo-network/sentinel-model": "workspace:^",
+    "async-mutex": "^0.2.6"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.5.8",

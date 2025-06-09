@@ -147,7 +147,6 @@ export abstract class AbstractArchivist<
   /** deprecated use nextQuery or snapshotQuery instead */
   async allQuery(account: AccountInstance): Promise<ModuleQueryResult> {
     this._noOverride('allQuery')
-    this.isSupportedQuery(ArchivistAllQuerySchema, 'allQuery')
     const queryPayload: ArchivistAllQuery = { schema: ArchivistAllQuerySchema }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
@@ -174,7 +173,6 @@ export abstract class AbstractArchivist<
 
   async clearQuery(account: AccountInstance): Promise<ModuleQueryResult> {
     this._noOverride('clearQuery')
-    this.isSupportedQuery(ArchivistClearQuerySchema, 'clearQuery')
     const queryPayload: ArchivistClearQuery = { schema: ArchivistClearQuerySchema }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
@@ -200,7 +198,6 @@ export abstract class AbstractArchivist<
 
   async commitQuery(account: AccountInstance): Promise<ModuleQueryResult> {
     this._noOverride('commitQuery')
-    this.isSupportedQuery(ArchivistCommitQuerySchema, 'commitQuery')
     const queryPayload: ArchivistCommitQuery = { schema: ArchivistCommitQuerySchema }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
@@ -226,7 +223,6 @@ export abstract class AbstractArchivist<
 
   async deleteQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
     this._noOverride('deleteQuery')
-    this.isSupportedQuery(ArchivistDeleteQuerySchema, 'deleteQuery')
     const queryPayload: ArchivistDeleteQuery = { hashes, schema: ArchivistDeleteQuerySchema }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
@@ -252,7 +248,6 @@ export abstract class AbstractArchivist<
 
   async getQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
     this._noOverride('getQuery')
-    this.isSupportedQuery(ArchivistGetQuerySchema, 'getQuery')
     const queryPayload: ArchivistGetQuery = { hashes, schema: ArchivistGetQuerySchema }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
@@ -278,7 +273,6 @@ export abstract class AbstractArchivist<
 
   async insertQuery(payloads: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
     this._noOverride('insertQuery')
-    this.isSupportedQuery(ArchivistInsertQuerySchema, 'insertQuery')
     const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
     return await this.sendQueryRaw(queryPayload, payloads, account)
   }
@@ -305,7 +299,6 @@ export abstract class AbstractArchivist<
 
   async nextQuery(options?: ArchivistNextOptions, account?: AccountInstance): Promise<ModuleQueryResult> {
     this._noOverride('nextQuery')
-    this.isSupportedQuery(ArchivistNextQuerySchema, 'nextQuery')
     const queryPayload: ArchivistNextQuery = { schema: ArchivistNextQuerySchema, ...options }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
@@ -331,7 +324,6 @@ export abstract class AbstractArchivist<
 
   async snapshotQuery(account?: AccountInstance): Promise<ModuleQueryResult> {
     this._noOverride('snapshotQuery')
-    this.isSupportedQuery(ArchivistSnapshotQuerySchema, 'snapshotQuery')
     const queryPayload: ArchivistSnapshotQuery = { schema: ArchivistSnapshotQuerySchema }
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }

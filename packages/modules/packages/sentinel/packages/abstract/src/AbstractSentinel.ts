@@ -99,7 +99,6 @@ export abstract class AbstractSentinel<
 
   async reportQuery(payloads?: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
     this._noOverride('reportQuery')
-    this.isSupportedQuery(SentinelReportQuerySchema, 'reportQuery')
     const queryPayload: SentinelReportQuery = { schema: SentinelReportQuerySchema }
     return await this.sendQueryRaw(queryPayload, payloads, account)
   }

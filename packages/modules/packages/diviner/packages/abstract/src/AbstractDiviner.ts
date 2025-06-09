@@ -111,7 +111,6 @@ export abstract class AbstractDiviner<
 
   async divineQuery(payloads?: TIn[], account?: AccountInstance, _retry?: RetryConfig): Promise<ModuleQueryResult<TOut>> {
     this._noOverride('divineQuery')
-    this.isSupportedQuery(DivinerDivineQuerySchema, 'divineQuery')
     const queryPayload: DivinerDivineQuery = { schema: DivinerDivineQuerySchema }
     return await this.sendQueryRaw(queryPayload, payloads, account)
   }

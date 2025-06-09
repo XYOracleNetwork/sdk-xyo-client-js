@@ -95,7 +95,6 @@ export abstract class AbstractWitness<
 
   async observeQuery(payloads?: TIn[], account?: AccountInstance): Promise<ModuleQueryResult<TOut>> {
     this._noOverride('observeQuery')
-    this.isSupportedQuery(WitnessObserveQuerySchema, 'observeQuery')
     const queryPayload: WitnessObserveQuery = { schema: WitnessObserveQuerySchema }
     return await this.sendQueryRaw(queryPayload, payloads, account)
   }

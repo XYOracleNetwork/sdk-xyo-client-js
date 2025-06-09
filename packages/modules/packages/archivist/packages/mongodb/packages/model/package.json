@@ -35,7 +35,7 @@
   "module": "dist/node/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/mongo": "^4.11.16",
+    "@xylabs/mongo": "^4.11.17",
     "@xyo-network/archivist-model": "^3.18.6",
     "@xyo-network/module-model": "^3.18.6"
   },

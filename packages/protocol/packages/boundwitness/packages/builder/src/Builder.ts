@@ -42,7 +42,7 @@ const uniqueAccounts = (accounts: AccountInstance[], throwOnFalse = false) => {
 
 export class BoundWitnessBuilder<
   TBoundWitness extends UnsignedBoundWitness = UnsignedBoundWitness,
-  TPayload extends Payload = AnyPayload>
+  TPayload extends Payload = Payload>
   extends PayloadBuilder<
     TBoundWitness,
     Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]>

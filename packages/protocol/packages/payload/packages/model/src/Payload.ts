@@ -1,6 +1,7 @@
 import type { Hash } from '@xylabs/hex'
 import type {
   DeepOmitStartsWith, DeepPickStartsWith, DeepRestrictToStringKeys, EmptyObject,
+  JsonObject,
 } from '@xylabs/object'
 
 import type { Schema, WithSchema } from './Schema.ts'
@@ -60,4 +61,4 @@ export type WithOptionalSchema<T extends EmptyObject = EmptyObject> = WithoutSch
 
 export type WithOnlyClientMeta<T extends EmptyObject> = DeepPickStartsWith<T, '$'>
 
-export type AnyPayload = Payload<Record<string, unknown>, Schema>
+export type AnyPayload = Payload<JsonObject, Schema>

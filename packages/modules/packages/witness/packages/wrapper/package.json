@@ -36,10 +36,10 @@
     "@xyo-network/witness-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/promise": "^4.11.16",
+    "@xylabs/promise": "^4.11.17",
     "@xylabs/ts-scripts-yarn3": "^6.5.8",
     "@xylabs/tsconfig": "^6.5.8",
-    "@xylabs/vitest-extended": "^4.11.16",
+    "@xylabs/vitest-extended": "^4.11.17",
     "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/account": "workspace:^",
     "typescript": "^5.8.3",

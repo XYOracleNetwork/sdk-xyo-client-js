@@ -33,11 +33,11 @@
     "@xyo-network/node-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.11.16",
+    "@xylabs/delay": "^4.11.17",
     "@xylabs/ts-scripts-yarn3": "^6.5.8",
     "@xylabs/tsconfig": "^6.5.8",
-    "@xylabs/vitest-extended": "^4.11.16",
-    "@xylabs/vitest-matchers": "^4.11.16",
+    "@xylabs/vitest-extended": "^4.11.17",
+    "@xylabs/vitest-matchers": "^4.11.17",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",

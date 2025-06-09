@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/witness-model",
-  "version": "3.18.5",
+  "version": "3.18.6",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

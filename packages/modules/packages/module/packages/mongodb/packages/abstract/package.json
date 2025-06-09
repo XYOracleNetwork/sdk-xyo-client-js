@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/module-abstract-mongodb",
-  "version": "3.18.5",
+  "version": "3.18.6",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -41,7 +41,7 @@
     "@xylabs/exists": "^4.11.16",
     "@xylabs/mongo": "^4.11.16",
     "@xylabs/static-implements": "^4.11.16",
-    "@xyo-network/module-model": "^3.18.5",
+    "@xyo-network/module-model": "^3.18.6",
     "@xyo-network/module-model-mongodb": "workspace:^",
     "@xyo-network/payload-mongodb": "workspace:^",
     "mongodb": "~6.17.0"

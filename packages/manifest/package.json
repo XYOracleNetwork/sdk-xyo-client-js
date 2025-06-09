@@ -41,7 +41,7 @@
     "@xylabs/vitest-extended": "^4.11.16",
     "ajv": "^8.17.1",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.2"
+    "vitest": "^3.2.3"
   },
   "publishConfig": {
     "access": "public"

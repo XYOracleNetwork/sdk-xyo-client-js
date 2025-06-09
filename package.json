@@ -58,9 +58,9 @@
     "@firebase/app-compat": "^0.4.1",
     "@stylistic/eslint-plugin": "^4.4.1",
     "@types/supertest": "^6.0.3",
-    "@typescript-eslint/eslint-plugin": "^8.33.1",
-    "@typescript-eslint/parser": "^8.33.1",
-    "@vitest/coverage-v8": "^3.2.2",
+    "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "@typescript-eslint/parser": "^8.34.0",
+    "@vitest/coverage-v8": "^3.2.3",
     "@xylabs/eslint-config-flat": "^6.5.8",
     "@xylabs/forget": "^4.11.16",
     "@xylabs/ts-scripts-yarn3": "^6.5.8",
@@ -83,9 +83,9 @@
     "typedoc": "^0.28.5",
     "typedoc-plugin-markdown": "^4.6.4",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.2"
+    "vitest": "^3.2.3"
   },
-  "packageManager": "yarn@4.9.1",
+  "packageManager": "yarn@4.9.2",
   "volta": {
     "node": "22.3.0",
     "yarn": "1.22.22"

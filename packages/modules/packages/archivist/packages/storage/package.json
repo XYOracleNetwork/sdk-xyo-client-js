@@ -55,7 +55,7 @@
     "@xyo-network/payload-wrapper": "workspace:^",
     "typescript": "^5.8.3",
     "uuid": "^11.1.0",
-    "vitest": "^3.2.2"
+    "vitest": "^3.2.3"
   },
   "publishConfig": {
     "access": "public"

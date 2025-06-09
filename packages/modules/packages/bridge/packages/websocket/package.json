@@ -64,7 +64,7 @@
     "@xyo-network/payload-wrapper": "workspace:^",
     "socket.io-client": "^4.8.1",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.2"
+    "vitest": "^3.2.3"
   },
   "publishConfig": {
     "access": "public"

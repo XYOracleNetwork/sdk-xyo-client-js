@@ -50,7 +50,7 @@
     "http-status-codes": "^2.3.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.2",
+    "@types/express": "^5.0.3",
     "@types/node": "^22.15.30",
     "@xylabs/ts-scripts-yarn3": "^6.5.8",
     "@xylabs/tsconfig": "^6.5.8",
@@ -68,7 +68,7 @@
     "@xyo-network/wallet": "workspace:^",
     "get-port-please": "^3.1.2",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.2"
+    "vitest": "^3.2.3"
   },
   "publishConfig": {
     "access": "public"

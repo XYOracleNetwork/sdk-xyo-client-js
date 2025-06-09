@@ -45,7 +45,7 @@
     "@xylabs/tsconfig": "^6.5.8",
     "firebase": "^11.9.0",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.2"
+    "vitest": "^3.2.3"
   },
   "publishConfig": {
     "access": "public"

@@ -62,7 +62,7 @@
     "@xyo-network/boundwitness-builder": "^3.18.5",
     "@xyo-network/payload-builder": "^3.18.5",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.2"
+    "vitest": "^3.2.3"
   },
   "publishConfig": {
     "access": "public"

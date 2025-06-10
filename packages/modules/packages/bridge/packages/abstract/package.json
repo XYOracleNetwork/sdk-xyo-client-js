@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/bridge-abstract",
-  "version": "3.18.7",
+  "version": "3.18.8",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,13 +29,13 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.11.17",
-    "@xylabs/base": "^4.11.17",
-    "@xylabs/exists": "^4.11.17",
-    "@xylabs/forget": "^4.11.17",
-    "@xylabs/hex": "^4.11.17",
-    "@xylabs/object": "^4.11.17",
-    "@xylabs/promise": "^4.11.17",
+    "@xylabs/assert": "^4.11.19",
+    "@xylabs/base": "^4.11.19",
+    "@xylabs/exists": "^4.11.19",
+    "@xylabs/forget": "^4.11.19",
+    "@xylabs/hex": "^4.11.19",
+    "@xylabs/object": "^4.11.19",
+    "@xylabs/promise": "^4.11.19",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/core-payload-plugins",
-  "version": "3.18.7",
+  "version": "3.18.8",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {

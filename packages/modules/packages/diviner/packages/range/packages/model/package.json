@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-range-model",
-  "version": "3.18.7",
+  "version": "3.18.8",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.11.17",
+    "@xylabs/hex": "^4.11.19",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },

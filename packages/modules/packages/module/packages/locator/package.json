@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/module-factory-locator",
-  "version": "3.18.7",
+  "version": "3.18.8",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.11.17",
+    "@xylabs/assert": "^4.11.19",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-view": "workspace:^",
     "@xyo-network/bridge-http": "workspace:^",

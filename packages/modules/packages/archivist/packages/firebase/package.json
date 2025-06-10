@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-firebase",
-  "version": "3.18.7",
+  "version": "3.18.8",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -31,9 +31,9 @@
   "dependencies": {
     "@firebase/app": "^0.13.1",
     "@firebase/firestore": "^4.7.17",
-    "@xylabs/assert": "^4.11.17",
-    "@xylabs/exists": "^4.11.17",
-    "@xylabs/hex": "^4.11.17",
+    "@xylabs/assert": "^4.11.19",
+    "@xylabs/exists": "^4.11.19",
+    "@xylabs/hex": "^4.11.19",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",

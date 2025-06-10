@@ -7,7 +7,9 @@ import { isAddress } from '@xylabs/hex'
 import type { Logger } from '@xylabs/logger'
 import { IdLogger } from '@xylabs/logger'
 import { toJsonString } from '@xylabs/object'
-import { isString, isTruthy } from '@xylabs/typeof'
+import {
+  isDefined, isString, isTruthy,
+} from '@xylabs/typeof'
 
 import type {
   ModuleFilterOptions, ModuleInstance, ModuleResolver,
@@ -175,8 +177,8 @@ export class ResolveHelper extends ResolveHelperStatic {
       = (await resolver.resolve(first, { maxDepth: firstIsAddress ? 10 : 1 }))
         ?? (isString(first) ? await resolver.resolvePrivate(first, { maxDepth: firstIsAddress ? 10 : 1 }) : undefined)
     const finalModule = required ? assertEx(resolvedModule, () => `Failed to resolve [${first}] [${firstIsAddress}]`) : resolvedModule
-    const firstModule = asModuleInstance(finalModule, () => `Resolved invalid module instance [${first}]`) as T
-    return parts.length > 0 ? await this.resolveModuleIdentifier<T>(firstModule, parts.join(':')) : firstModule
+    const firstModule = asModuleInstance(finalModule, () => `Resolved invalid module instance [${first}]`)
+    return isDefined(firstModule) ? (parts.length > 0 ? await this.resolveModuleIdentifier<T>(firstModule, parts.join(':')) : firstModule as T) : undefined
   }
 
   // translates a complex module path to addresses

@@ -13,7 +13,7 @@ import type { ObjectResolver } from './ObjectResolver.ts'
 
 export type ModulePipeLine = Lowercase<'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many'>
 
-export type ModuleStatus = 'started' | 'stopped' | 'dead' | 'wrapped' | 'proxy'
+export type ModuleStatus = 'started' | 'starting' | 'stopped' | 'stopping' | 'dead' | 'wrapped' | 'proxy'
 
 export class DeadModuleError extends Error {
   constructor(

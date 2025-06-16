@@ -201,6 +201,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this._status
   }
 
+  get statusReporter() {
+    return this.params.statusReporter
+  }
+
   get timestamp() {
     return this.config.timestamp ?? false
   }
@@ -209,6 +213,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     if (this._status !== 'dead') {
       this._status = value
     }
+    this.statusReporter?.reportStatus(`${this.constructor.name}:${this.id}`, value)
   }
 
   abstract get downResolver(): ModuleResolverInstance
@@ -415,10 +420,17 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   async start(timeout?: number): Promise<boolean> {
     this._noOverride('start')
+    this.status = 'starting'
+    let startingTime = 0
+    const startingStatus = setInterval(() => {
+      startingTime += 1000
+      this.statusReporter?.reportStatus(`${this.constructor.name}:${this.id}`, 'starting', startingTime)
+    }, 1000)
     // using promise as mutex
     this._startPromise = this._startPromise ?? await this.startHandler(timeout)
     const result = await this._startPromise
     this.status = result ? 'started' : 'dead'
+    clearInterval(startingStatus)
     return result
   }
 

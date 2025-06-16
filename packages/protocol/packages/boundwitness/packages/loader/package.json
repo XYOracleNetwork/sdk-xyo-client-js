@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/base": "^4.11.19",
-    "@xylabs/exists": "^4.11.19",
-    "@xylabs/hex": "^4.11.19",
+    "@xylabs/base": "^4.11.21",
+    "@xylabs/exists": "^4.11.21",
+    "@xylabs/hex": "^4.11.21",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",

@@ -37,8 +37,8 @@
   "module": "dist/node/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/exists": "^4.11.19",
-    "@xylabs/hex": "^4.11.19",
+    "@xylabs/exists": "^4.11.21",
+    "@xylabs/hex": "^4.11.21",
     "@xyo-network/archivist-abstract": "^3.18.8",
     "@xyo-network/archivist-model": "^3.18.8",
     "@xyo-network/archivist-model-mongodb": "workspace:^",
@@ -51,11 +51,11 @@
     "mongodb": "~6.17.0"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.11.19",
-    "@xylabs/mongo": "^4.11.19",
+    "@xylabs/delay": "^4.11.21",
+    "@xylabs/mongo": "^4.11.21",
     "@xylabs/ts-scripts-yarn3": "^6.5.8",
     "@xylabs/tsconfig": "^6.5.8",
-    "@xylabs/vitest-extended": "^4.11.19",
+    "@xylabs/vitest-extended": "^4.11.21",
     "@xyo-network/account": "^3.18.8",
     "@xyo-network/archivist-acceptance-tests": "^3.18.8",
     "@xyo-network/archivist-wrapper": "^3.18.8",

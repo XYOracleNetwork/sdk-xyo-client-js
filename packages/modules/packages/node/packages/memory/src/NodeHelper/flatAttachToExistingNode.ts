@@ -18,7 +18,7 @@ export const flatAttachAllToExistingNode = async (source: NodeInstance, destinat
 export const flatAttachChildToExistingNode = async (source: NodeInstance, id: ModuleIdentifier, destination: NodeInstance): Promise<NodeInstance> => {
   assertEx(id !== '*', () => '* is not a single child')
   const child = assertEx(await source.resolve(id), () => `Module ${id} not found`)
-  const attachableChild = asAttachableModuleInstance(child, () => `Module ${id} is not attachable`)
+  const attachableChild = asAttachableModuleInstance(child, () => `Module ${id} is not attachable`, { required: true })
   await destination.register?.(attachableChild)
   await destination.attach(child.address, true)
   return destination

@@ -129,7 +129,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   addParent(mod: ModuleInstance) {
     const existingEntry = this._parents.find(parent => parent.address === mod.address)
     if (!existingEntry) {
-      this._parents.push(asNodeInstance(mod, 'Only NodeInstances can be parents'))
+      this._parents.push(asNodeInstance(mod, 'Only NodeInstances can be parents', { required: true }))
     }
   }
 
@@ -288,6 +288,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     }
     const result = {
       config: { name: modName, ...this.config },
+      name: modName,
       schema: ModuleManifestPayloadSchema,
       status: { address: this.address, children: childAddressToName },
     }

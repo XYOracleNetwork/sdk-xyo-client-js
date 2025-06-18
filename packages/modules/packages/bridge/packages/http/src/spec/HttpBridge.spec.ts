@@ -95,6 +95,7 @@ describe('HttpBridge', () => {
     const remoteNode = asAttachableNodeInstance(
       rootModule,
       () => `Failed to resolve correct object type [XYOPublic] [${rootModule?.constructor.name}]`,
+      { required: true },
     )
 
     const state = await remoteNode.state()
@@ -131,7 +132,7 @@ describe('HttpBridge', () => {
     expect(archivistByName3).toEqual(archivistByName1)
     expect(archivistByName3).toEqual(archivistByName2)
     expect(archivistByName2).toBeDefined()
-    const archivistInstance = asArchivistInstance(archivistByName2, 'Failed to cast archivist')
+    const archivistInstance = asArchivistInstance(archivistByName2, 'Failed to cast archivist', { required: true })
     expect(archivistInstance).toBeDefined()
     const knownPayload = PayloadWrapper.parse({ schema: 'network.xyo.test' })?.payload as Payload
     expect(knownPayload).toBeDefined()
@@ -165,7 +166,11 @@ describe('HttpBridge', () => {
     expect(isModule(mod)).toBeTrue()
     expect(isModuleObject(mod)).toBeTrue()
 
-    const remoteNode = asAttachableNodeInstance(mod, `Failed to resolve [XYOPublic] - ${mod?.address} [${mod?.id}] [${mod?.constructor.name}]`)
+    const remoteNode = asAttachableNodeInstance(
+      mod,
+      `Failed to resolve [XYOPublic] - ${mod?.address} [${mod?.id}] [${mod?.constructor.name}]`,
+      { required: true },
+    )
 
     expect(isNodeInstance(remoteNode)).toBeTrue()
     expect(isModuleInstance(remoteNode)).toBeTrue()

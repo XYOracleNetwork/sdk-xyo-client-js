@@ -688,7 +688,7 @@ export abstract class AbstractArchivist<
       prev[mod.address] = asArchivistInstance(mod, () => {
         isArchivistInstance(mod, { log: console })
         return `Unable to cast resolved module to an archivist: [${mod.address}, ${mod.modName}, ${mod.config.schema})}]`
-      })
+      }, { required: true })
 
       return prev
     }, archivistInstancesMap)

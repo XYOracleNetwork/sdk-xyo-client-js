@@ -4,7 +4,7 @@ import type { Payload } from './Payload.ts'
 
 export const isAnyPayload = (value: unknown): value is Payload => {
   if (isObject(value)) {
-    return typeof value.schema === 'string'
+    return typeof (value as Payload).schema === 'string'
   }
   return false
 }

@@ -210,7 +210,7 @@ describe('PubSubBridge', () => {
     const archivistByName = await hostNodeContainerByAddress?.resolve('Archivist')
     expect(archivistByName).toBeDefined()
 
-    const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')
+    const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist', { required: true })
     expect(archivistInstance).toBeDefined()
     const knownPayload = PayloadWrapper.parse({ schema: 'network.xyo.test' })?.payload as Payload
     expect(knownPayload).toBeDefined()

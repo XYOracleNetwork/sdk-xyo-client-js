@@ -15,7 +15,7 @@ export const attachToExistingNode = async (source: NodeInstance, id: ModuleIdent
   } else {
     // all parts that are not the last should be nodes, build them and nest
     const firstModule = await source.resolve(first)
-    const firstNode = asNodeInstance(firstModule, () => 'first part is not a node')
+    const firstNode = asNodeInstance(firstModule, () => 'first part is not a node', { required: true })
     const newNode = await MemoryNode.create({ config: firstNode.config })
     await destination.register?.(newNode)
     await destination.attach(newNode.address, true)

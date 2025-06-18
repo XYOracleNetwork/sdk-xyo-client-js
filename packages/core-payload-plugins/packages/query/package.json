@@ -35,9 +35,9 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.5.8",
     "@xylabs/tsconfig": "^6.5.8",
-    "@xylabs/vitest-extended": "^4.11.21",
+    "@xylabs/vitest-extended": "^4.12.2",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.3"
+    "vitest": "^3.2.4"
   },
   "publishConfig": {
     "access": "public"

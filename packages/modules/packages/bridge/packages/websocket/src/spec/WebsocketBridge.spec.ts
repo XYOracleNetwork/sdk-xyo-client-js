@@ -62,6 +62,7 @@ describe.skip('WebsocketBridge', () => {
     const remoteNode = asAttachableNodeInstance(
       rootModule,
       () => `Failed to resolve correct object type [XYOPublic] [${rootModule?.constructor.name}]`,
+      { required: true },
     )
 
     const state = await remoteNode.state()
@@ -75,7 +76,7 @@ describe.skip('WebsocketBridge', () => {
     expect(archivistByName1).toBeDefined()
     const archivistByName2 = await bridge.resolve('XYOPublic:Archivist')
     expect(archivistByName2).toBeDefined()
-    const archivistInstance = asArchivistInstance(archivistByName2, 'Failed to cast archivist')
+    const archivistInstance = asArchivistInstance(archivistByName2, 'Failed to cast archivist', { required: true })
     expect(archivistInstance).toBeDefined()
     const knownPayload = PayloadWrapper.parse({ schema: 'network.xyo.test' })?.payload as Payload
     expect(knownPayload).toBeDefined()

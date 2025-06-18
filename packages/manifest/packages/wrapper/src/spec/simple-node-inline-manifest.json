@@ -1,5 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
+  "name": "simple-node-inline-manifest",
   "nodes": [
     {
       "config": {

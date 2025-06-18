@@ -1,9 +1,14 @@
 import type { Address } from '@xylabs/hex'
+import { isObject } from '@xylabs/object'
 
 export type ModuleAlias = Exclude<string, 'reserved-alias-value-8346534876'>
 
 export interface Manifest {
   description?: string
+}
+
+export const isManifest = (value: unknown): value is Manifest => {
+  return isObject(value)
 }
 
 export interface ConfigManifest {

@@ -50,7 +50,7 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
         asModuleInstance<T>(value, () => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           return `resolveHandler returned invalid result (*) [${(value as any)?.constructor?.name}][${toJsonString(value)}]`
-        }))
+        }, { required: true }))
     }
     switch (typeof id) {
       case 'string': {

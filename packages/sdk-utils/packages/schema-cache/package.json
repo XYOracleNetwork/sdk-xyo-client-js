@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/delay": "^4.11.21",
-    "@xylabs/error": "^4.11.21",
-    "@xylabs/typeof": "^4.11.21",
+    "@xylabs/delay": "^4.12.2",
+    "@xylabs/error": "^4.12.2",
+    "@xylabs/typeof": "^4.12.2",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/huri": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
@@ -41,14 +41,14 @@
     "lru-cache": "^11.1.0"
   },
   "devDependencies": {
-    "@xylabs/assert": "^4.11.21",
+    "@xylabs/assert": "^4.12.2",
     "@xylabs/ts-scripts-yarn3": "^6.5.8",
     "@xylabs/tsconfig-dom": "^6.5.8",
-    "@xylabs/vitest-extended": "^4.11.21",
+    "@xylabs/vitest-extended": "^4.12.2",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.3"
+    "vitest": "^3.2.4"
   },
   "publishConfig": {
     "access": "public"

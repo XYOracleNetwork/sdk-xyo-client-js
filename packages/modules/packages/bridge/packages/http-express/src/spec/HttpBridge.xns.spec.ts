@@ -40,7 +40,11 @@ describe('HttpBridgeExpress - Xns', () => {
     const rootModule = await bridge?.resolve('XNS')
     expect(rootModule).toBeDefined()
 
-    const remoteNode = asAttachableNodeInstance(rootModule, () => `Failed to resolve correct object type [XYO] [${rootModule?.constructor.name}]`)
+    const remoteNode = asAttachableNodeInstance(
+      rootModule,
+      () => `Failed to resolve correct object type [XYO] [${rootModule?.constructor.name}]`,
+      { required: true },
+    )
 
     const registrarDiviner = asDivinerInstance(await remoteNode.resolve('XNS:AddressRecords:AddressRecordIndexDiviner'))
     expect(registrarDiviner).toBeDefined()

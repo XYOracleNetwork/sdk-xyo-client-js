@@ -4,7 +4,6 @@
   "nodes": [
     {
       "config": {
-        "accountPath": "0'",
         "name": "SimpleMemoryDapp",
         "schema": "network.xyo.node.config"
       },
@@ -12,7 +11,6 @@
         "private": [
           {
             "config": {
-              "accountPath": "1'",
               "name": "SimpleMemoryDappPrivateNode",
               "schema": "network.xyo.node.config"
             },
@@ -30,26 +28,23 @@
                 {
                   "config": {
                     "language": "javascript",
-                    "name": "SimpleArchivist",
+                    "name": "Node1SimpleArchivist",
                     "schema": "network.xyo.archivist.config"
                   }
                 },
                 {
                   "config": {
                     "language": "javascript",
-                    "name": "SimpleSentinel",
+                    "name": "Node1SimpleSentinel",
                     "schema": "network.xyo.sentinel.config",
                     "synchronous": true
                   }
                 },
                 {
                   "config": {
-                    "client": {
-                      "url": "http://localhost:8080"
-                    },
                     "language": "javascript",
-                    "name": "SimpleHttpBridge",
-                    "schema": "network.xyo.bridge.http.config"
+                    "name": "Node1SimpleDiviner",
+                    "schema": "network.xyo.diviner.config"
                   }
                 }
               ]
@@ -59,7 +54,6 @@
         "public": [
           {
             "config": {
-              "accountPath": "2'",
               "name": "SimpleMemoryDappPublicNode",
               "schema": "network.xyo.node.config"
             },
@@ -68,8 +62,15 @@
                 {
                   "config": {
                     "language": "javascript",
-                    "name": "ScratchArchivist",
+                    "name": "Node2ScratchArchivist",
                     "schema": "network.xyo.archivist.config"
+                  }
+                },
+                {
+                  "config": {
+                    "language": "javascript",
+                    "name": "Node2ScratchDiviner",
+                    "schema": "network.xyo.diviner.config"
                   }
                 }
               ],
@@ -77,16 +78,44 @@
                 {
                   "config": {
                     "language": "javascript",
-                    "name": "SimpleArchivist",
+                    "name": "Node2SimpleArchivist",
                     "schema": "network.xyo.archivist.config"
                   }
                 },
                 {
                   "config": {
                     "language": "javascript",
-                    "name": "SimpleSentinel",
+                    "name": "Node2SimpleDiviner",
+                    "schema": "network.xyo.diviner.config"
+                  }
+                },
+                {
+                  "config": {
+                    "automations": [
+                      {
+                        "frequency": 1000,
+                        "frequencyUnits": "millis",
+                        "schema": "network.xyo.automation.interval",
+                        "type": "interval"
+                      }
+                    ],
+                    "name": "Node2SimpleSentinel",
                     "schema": "network.xyo.sentinel.config",
-                    "synchronous": true
+                    "synchronous": true,
+                    "tasks": [
+                      {
+                        "mod": "Node2SimpleDiviner",
+                        "endPoint": "divine"
+                      },
+                      {
+                        "mod": "Node2ScratchDiviner",
+                        "endPoint": "divine"
+                      },
+                      {
+                        "mod": "SimpleMemoryDappPrivateNode:Node1SimpleDiviner",
+                        "endPoint": "divine"
+                      }
+                    ]
                   }
                 }
               ]

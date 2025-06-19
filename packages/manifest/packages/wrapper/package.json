@@ -40,10 +40,12 @@
     "@xyo-network/wallet-model": "workspace:^"
   },
   "devDependencies": {
+    "@xylabs/delay": "^4.12.2",
     "@xylabs/object": "^4.12.2",
     "@xylabs/ts-scripts-yarn3": "^6.5.8",
     "@xylabs/tsconfig": "^6.5.8",
     "@xylabs/vitest-extended": "^4.12.2",
+    "@xyo-network/module-abstract": "workspace:^",
     "@xyo-network/module-factory-locator": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
     "typescript": "^5.8.3",

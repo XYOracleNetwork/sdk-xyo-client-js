@@ -96,12 +96,18 @@ export abstract class AbstractDiviner<
           const retryConfig = retryConfigIn ?? this.config.retry
           await this.started('throw')
           await this.emit('divineStart', { inPayloads: payloads, mod: this })
-          const resultPayloads
-          = (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
+          let outPayloads: TOut[] = []
+          let errors: Error[] = []
+          try {
+            outPayloads = (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
+          } catch (ex) {
+            errors.push(ex as Error)
+            this.logger?.error(`Error in divineHandler: ${ex}`)
+          }
           await this.emit('divineEnd', {
-            errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads,
+            errors, inPayloads: payloads, mod: this, outPayloads,
           })
-          return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
+          return PayloadBuilder.omitPrivateStorageMeta(outPayloads)
         })
       } finally {
         this.globalReentrancyMutex?.release()

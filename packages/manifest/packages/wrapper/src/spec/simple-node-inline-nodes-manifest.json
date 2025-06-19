@@ -1,0 +1,100 @@
+{
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
+  "name": "simple-node-inline-nodes-manifest",
+  "nodes": [
+    {
+      "config": {
+        "accountPath": "0'",
+        "name": "SimpleMemoryDapp",
+        "schema": "network.xyo.node.config"
+      },
+      "modules": {
+        "private": [
+          {
+            "config": {
+              "accountPath": "1'",
+              "name": "SimpleMemoryDappPrivateNode",
+              "schema": "network.xyo.node.config"
+            },
+            "modules": {
+              "private": [
+                {
+                  "config": {
+                    "language": "javascript",
+                    "name": "ScratchArchivist",
+                    "schema": "network.xyo.archivist.config"
+                  }
+                }
+              ],
+              "public": [
+                {
+                  "config": {
+                    "language": "javascript",
+                    "name": "SimpleArchivist",
+                    "schema": "network.xyo.archivist.config"
+                  }
+                },
+                {
+                  "config": {
+                    "language": "javascript",
+                    "name": "SimpleSentinel",
+                    "schema": "network.xyo.sentinel.config",
+                    "synchronous": true
+                  }
+                },
+                {
+                  "config": {
+                    "client": {
+                      "url": "http://localhost:8080"
+                    },
+                    "language": "javascript",
+                    "name": "SimpleHttpBridge",
+                    "schema": "network.xyo.bridge.http.config"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "public": [
+          {
+            "config": {
+              "accountPath": "2'",
+              "name": "SimpleMemoryDappPublicNode",
+              "schema": "network.xyo.node.config"
+            },
+            "modules": {
+              "private": [
+                {
+                  "config": {
+                    "language": "javascript",
+                    "name": "ScratchArchivist",
+                    "schema": "network.xyo.archivist.config"
+                  }
+                }
+              ],
+              "public": [
+                {
+                  "config": {
+                    "language": "javascript",
+                    "name": "SimpleArchivist",
+                    "schema": "network.xyo.archivist.config"
+                  }
+                },
+                {
+                  "config": {
+                    "language": "javascript",
+                    "name": "SimpleSentinel",
+                    "schema": "network.xyo.sentinel.config",
+                    "synchronous": true
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "schema": "network.xyo.manifest"
+}

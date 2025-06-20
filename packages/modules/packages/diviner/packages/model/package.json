@@ -29,11 +29,11 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/events": "^4.12.2",
-    "@xylabs/hex": "^4.12.2",
-    "@xylabs/object": "^4.12.2",
-    "@xylabs/retry": "^4.12.2",
-    "@xylabs/typeof": "^4.12.2",
+    "@xylabs/events": "^4.12.10",
+    "@xylabs/hex": "^4.12.10",
+    "@xylabs/object": "^4.12.10",
+    "@xylabs/retry": "^4.12.10",
+    "@xylabs/typeof": "^4.12.10",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"

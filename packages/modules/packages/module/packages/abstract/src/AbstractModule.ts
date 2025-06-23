@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
 import { Base, globallyUnique } from '@xylabs/base'
+import { AbstractCreatable } from '@xylabs/creatable'
 import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
@@ -81,7 +82,7 @@ import { ModuleConfigQueryValidator, SupportedQueryValidator } from './QueryVali
 
 const MODULE_NOT_STARTED = 'Module not Started' as const
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
-  extends ModuleBaseEmitter<TParams, TEventData>
+  extends AbstractCreatable<TParams, TEventData>
   implements Module<TParams, TEventData> {
   static readonly allowRandomAccount: boolean = true
   static readonly configSchemas: Schema[] = [ModuleConfigSchema]
@@ -201,10 +202,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this._status
   }
 
-  get statusReporter() {
-    return this.params.statusReporter
-  }
-
   get timestamp() {
     return this.config.timestamp ?? false
   }
@@ -213,7 +210,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     if (this._status !== 'dead') {
       this._status = value
     }
-    this.statusReporter?.reportStatus(`${this.constructor.name}:${this.id}`, value)
+    this.statusReporter?.report(`${this.constructor.name}:${this.id}`, value)
   }
 
   abstract get downResolver(): ModuleResolverInstance

@@ -6,10 +6,10 @@ import type { NodeInstance } from '../instance.ts'
 import type { NodeModule, NodeModuleEventData } from '../Node.ts'
 import type { NodeParams } from '../Params.ts'
 
-export interface AttachableNodeInstance<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
-  extends NodeModule<TParams, TEventData>,
-  AttachableModuleInstance<TParams, TEventData>,
-  NodeInstance<TParams, TEventData> {}
+export type AttachableNodeInstance<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData> =
+  NodeModule<TParams, TEventData> &
+  AttachableModuleInstance<TParams, TEventData> &
+  NodeInstance<TParams, TEventData>
 
 export type AttachableNodeInstanceTypeCheck<T extends AttachableNodeInstance = AttachableNodeInstance> = TypeCheck<T>
 

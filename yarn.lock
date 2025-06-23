@@ -3864,6 +3864,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/creatable@npm:^4.12.10":
+  version: 4.12.10
+  resolution: "@xylabs/creatable@npm:4.12.10"
+  dependencies:
+    "@opentelemetry/api": "npm:^1.9.0"
+    "@xylabs/assert": "npm:^4.12.10"
+    "@xylabs/base": "npm:^4.12.10"
+    "@xylabs/events": "npm:^4.12.10"
+    "@xylabs/logger": "npm:^4.12.10"
+    "@xylabs/object": "npm:^4.12.10"
+    "@xylabs/typeof": "npm:^4.12.10"
+  checksum: 10/5c96750ccc1cb1b981a87194839a2afbf9f7fa3ef5ba9acbb538061943a9bc4c60dc77820f82311b3ede64ff6f4deba96f73ff78b17638c41f0c9e00a38736f4
+  languageName: node
+  linkType: hard
+
 "@xylabs/delay@npm:^4.12.10":
   version: 4.12.10
   resolution: "@xylabs/delay@npm:4.12.10"
@@ -6869,7 +6884,9 @@ __metadata:
   dependencies:
     "@xylabs/assert": "npm:^4.12.10"
     "@xylabs/base": "npm:^4.12.10"
+    "@xylabs/creatable": "npm:^4.12.10"
     "@xylabs/error": "npm:^4.12.10"
+    "@xylabs/events": "npm:^4.12.10"
     "@xylabs/exists": "npm:^4.12.10"
     "@xylabs/forget": "npm:^4.12.10"
     "@xylabs/hex": "npm:^4.12.10"
@@ -6971,6 +6988,7 @@ __metadata:
   dependencies:
     "@xylabs/assert": "npm:^4.12.10"
     "@xylabs/base": "npm:^4.12.10"
+    "@xylabs/creatable": "npm:^4.12.10"
     "@xylabs/events": "npm:^4.12.10"
     "@xylabs/exists": "npm:^4.12.10"
     "@xylabs/hex": "npm:^4.12.10"

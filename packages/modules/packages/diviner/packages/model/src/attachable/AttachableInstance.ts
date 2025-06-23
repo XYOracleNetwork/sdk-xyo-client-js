@@ -7,13 +7,13 @@ import type { DivinerModuleEventData } from '../EventData.ts'
 import type { DivinerInstance } from '../Instance.ts'
 import type { DivinerParams } from '../Params.ts'
 
-export interface AttachableDivinerInstance<
+export type AttachableDivinerInstance<
   TParams extends DivinerParams = DivinerParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
   TEventData extends DivinerModuleEventData = DivinerModuleEventData,
-> extends DivinerInstance<TParams, TIn, TOut, TEventData>,
-  AttachableModuleInstance<TParams, TEventData> {}
+> = DivinerInstance<TParams, TIn, TOut, TEventData> &
+  AttachableModuleInstance<TParams, TEventData>
 
 export type AttachableDivinerInstanceTypeCheck<T extends AttachableDivinerInstance = AttachableDivinerInstance> = TypeCheck<T>
 

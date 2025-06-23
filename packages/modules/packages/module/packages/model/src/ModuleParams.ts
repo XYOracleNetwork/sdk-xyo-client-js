@@ -5,7 +5,6 @@ import type { AccountInstance } from '@xyo-network/account-model'
 import type { AnyConfigSchema, ModuleConfig } from './Config/index.ts'
 import type { ModuleInstance } from './instance/index.ts'
 import type { ModuleIdentifierTransformer } from './ModuleIdentifierTransformer.ts'
-import type { ModuleStatusReporter } from './ModuleStatusReporter.ts'
 
 export type ModuleChildrenParams = {
   privateChildren?: ModuleInstance[]
@@ -24,7 +23,6 @@ export type ModuleParams<
     config: TConfig extends AnyConfigSchema<ModuleConfig> ? TConfig : AnyConfigSchema<ModuleConfig>
     ephemeralQueryAccountEnabled?: boolean
     moduleIdentifierTransformers?: ModuleIdentifierTransformer[]
-    statusReporter?: ModuleStatusReporter
   } & ModuleChildrenParams>,
   TAdditionalParams
 >

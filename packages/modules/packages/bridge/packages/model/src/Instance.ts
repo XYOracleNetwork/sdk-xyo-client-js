@@ -7,9 +7,9 @@ import type { BridgeModule } from './Module.ts'
 import type { BridgeParams } from './Params.ts'
 import type { BridgeQueryFunctions } from './QueryFunctions.ts'
 
-export interface BridgeInstance<TParams extends BridgeParams = BridgeParams, TEventData extends BridgeModuleEventData = BridgeModuleEventData>
-  extends BridgeModule<TParams, TEventData>,
-  BridgeQueryFunctions,
-  ModuleInstance<TParams, TEventData> {
-  exposed?: () => Promisable<Address[]>
-}
+export type BridgeInstance<TParams extends BridgeParams = BridgeParams, TEventData extends BridgeModuleEventData = BridgeModuleEventData> =
+  BridgeModule<TParams, TEventData> &
+  BridgeQueryFunctions &
+  ModuleInstance<TParams, TEventData> & {
+    exposed?: () => Promisable<Address[]>
+  }

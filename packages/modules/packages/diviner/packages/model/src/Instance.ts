@@ -6,11 +6,11 @@ import type { DivinerModuleEventData } from './EventData.ts'
 import type { DivinerModule } from './Module.ts'
 import type { DivinerParams } from './Params.ts'
 
-export interface DivinerInstance<
+export type DivinerInstance<
   TParams extends DivinerParams = DivinerParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
   TEvents extends DivinerModuleEventData = DivinerModuleEventData,
-> extends DivinerModule<TParams, TEvents>,
-  DivinerQueryFunctions<TIn, TOut>,
-  ModuleInstance<TParams, TEvents> {}
+> = DivinerModule<TParams, TEvents> &
+  DivinerQueryFunctions<TIn, TOut> &
+  ModuleInstance<TParams, TEvents>

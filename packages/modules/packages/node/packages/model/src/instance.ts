@@ -27,8 +27,8 @@ export interface NodeRegistrationFunctions {
   unregister?: (mod: ModuleInstance) => Promise<ModuleInstance>
 }
 
-export interface NodeInstance<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
-  extends NodeModule<TParams, TEventData>,
-  NodeQueryFunctions,
-  NodeRegistrationFunctions,
-  ModuleInstance<TParams, TEventData> {}
+export type NodeInstance<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData> =
+  NodeModule<TParams, TEventData> &
+  NodeQueryFunctions &
+  NodeRegistrationFunctions &
+  ModuleInstance<TParams, TEventData>

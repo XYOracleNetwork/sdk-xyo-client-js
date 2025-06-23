@@ -5,7 +5,7 @@ import type {
 import type { ArchivistConfig } from './Config.ts'
 import type { ArchivistModuleEventData } from './EventData.ts'
 
-export interface ArchivistModuleInstance<
+export type ArchivistModuleInstance<
   TParams extends ModuleParams<AnyConfigSchema<ArchivistConfig>> = ModuleParams<AnyConfigSchema<ArchivistConfig>>,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends Module<TParams, TEventData> {}
+> = Module<TParams, TEventData>

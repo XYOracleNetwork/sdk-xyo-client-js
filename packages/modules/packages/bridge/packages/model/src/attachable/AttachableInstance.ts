@@ -7,12 +7,12 @@ import type { BridgeInstance } from '../Instance.ts'
 import type { BridgeModule } from '../Module.ts'
 import type { BridgeParams } from '../Params.ts'
 
-export interface AttachableBridgeInstance<
+export type AttachableBridgeInstance<
   TParams extends BridgeParams = BridgeParams,
   TEventData extends BridgeModuleEventData = BridgeModuleEventData,
-> extends BridgeModule<TParams, TEventData>,
-  AttachableModuleInstance<TParams, TEventData>,
-  BridgeInstance<TParams, TEventData> {}
+> = BridgeModule<TParams, TEventData> &
+  AttachableModuleInstance<TParams, TEventData> &
+  BridgeInstance<TParams, TEventData>
 
 export type AttachableBridgeInstanceTypeCheck<T extends AttachableBridgeInstance = AttachableBridgeInstance> = TypeCheck<T>
 

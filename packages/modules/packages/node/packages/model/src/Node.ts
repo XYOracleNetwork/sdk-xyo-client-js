@@ -12,5 +12,5 @@ export interface NodeModuleEventData
   ModuleUnregisteredEventData,
   ModuleEventData {}
 
-export interface NodeModule<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
-  extends Module<TParams, TEventData> {}
+export type NodeModule<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData> =
+  Module<TParams, TEventData>

@@ -8,13 +8,13 @@ import type { ArchivistInstance } from '../Instance.ts'
 import type { ArchivistModuleInstance } from '../ModuleInstance.ts'
 import type { ArchivistParams } from '../Params.ts'
 
-export interface AttachableArchivistInstance<
+export type AttachableArchivistInstance<
   TParams extends ArchivistParams = ArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   TPayload extends Payload = Payload,
-> extends ArchivistModuleInstance<TParams, TEventData>,
-  AttachableModuleInstance<TParams, TEventData>,
-  ArchivistInstance<TParams, TEventData, TPayload> {}
+> = ArchivistModuleInstance<TParams, TEventData> &
+  AttachableModuleInstance<TParams, TEventData> &
+  ArchivistInstance<TParams, TEventData, TPayload>
 
 export type AttachableArchivistInstanceTypeCheck<T extends AttachableArchivistInstance = AttachableArchivistInstance> = TypeCheck<T>
 

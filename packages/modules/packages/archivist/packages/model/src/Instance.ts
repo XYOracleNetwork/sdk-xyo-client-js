@@ -7,11 +7,11 @@ import type { ArchivistModuleInstance } from './ModuleInstance.ts'
 import type { ArchivistParams } from './Params.ts'
 import type { ArchivistRawQueryFunctions } from './RawQueryFunctions.ts'
 
-export interface ArchivistInstance<
+export type ArchivistInstance<
   TParams extends ArchivistParams = ArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   TPayload extends Payload = Payload,
-> extends ArchivistModuleInstance<TParams, TEventData>,
-  ArchivistModule<TPayload, TPayload>,
-  ModuleInstance<TParams, TEventData>,
-  ArchivistRawQueryFunctions {}
+> = ArchivistModuleInstance<TParams, TEventData> &
+  ArchivistModule<TPayload, TPayload> &
+  ModuleInstance<TParams, TEventData> &
+  ArchivistRawQueryFunctions

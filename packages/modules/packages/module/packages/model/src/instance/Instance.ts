@@ -1,3 +1,4 @@
+import type { CreatableInstance } from '@xylabs/creatable'
 import type { Address } from '@xylabs/hex'
 import type { TypeCheck } from '@xylabs/object'
 import { IsObjectFactory, toJsonString } from '@xylabs/object'
@@ -12,8 +13,6 @@ import type { Direction } from './ObjectFilter.ts'
 import type { ObjectResolver } from './ObjectResolver.ts'
 
 export type ModulePipeLine = Lowercase<'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many'>
-
-export type ModuleStatus = 'started' | 'starting' | 'stopped' | 'stopping' | 'dead' | 'wrapped' | 'proxy'
 
 export class DeadModuleError extends Error {
   constructor(
@@ -45,16 +44,13 @@ export interface ModuleFamilyFunctions {
   siblings: () => Promisable<ModuleInstance[]>
 }
 
-export interface ModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
-  extends Module<TParams, TEventData>,
-  ObjectResolver<ModuleInstance>,
-  ModuleQueryFunctions,
-  ModuleFamilyFunctions {
-  readonly pipeline?: ModulePipeLine
-
-  // if the module has become non-functional, such as a broken bridge connection, this will be 'dead'
-  readonly status: ModuleStatus
-}
+export type ModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
+  = Module<TParams, TEventData> &
+    ObjectResolver<ModuleInstance> &
+    ModuleQueryFunctions &
+    ModuleFamilyFunctions & {
+      readonly pipeline?: ModulePipeLine
+    }
 
 export type InstanceTypeCheck<T extends ModuleInstance = ModuleInstance> = TypeCheck<T>
 

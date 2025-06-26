@@ -10,13 +10,13 @@ import type { WitnessModule } from '@xyo-network/witness-model'
 export type PayloadSetPluginFunc = () => PayloadSetPlugin<any>
 
 export type PayloadSetDivinerField<TDiviner extends DivinerModule = DivinerModule> = {
-  diviner: (params: TDiviner['params']) => Promisable<TDiviner>
-  params?: TDiviner['params']
+  diviner: (params?: Partial<TDiviner['params']>) => Promisable<TDiviner>
+  params?: Partial<TDiviner['params']>
 }
 
 export type PayloadSetWitnessField<TWitness extends WitnessModule = WitnessModule> = {
-  params?: TWitness['params']
-  witness: (params: TWitness['params']) => Promisable<TWitness>
+  params?: Partial<TWitness['params']>
+  witness: (params?: Partial<TWitness['params']>) => Promisable<TWitness>
 }
 
 export type PayloadSetPluginShared = {

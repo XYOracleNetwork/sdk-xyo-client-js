@@ -57,9 +57,10 @@ export class ModuleFactory<TModule extends AttachableModuleInstance> implements 
     assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
-  create<T extends AttachableModuleInstance>(this: CreatableModuleFactory<T>, params: TModule['params']): Promise<T> {
+  create<T extends AttachableModuleInstance>(this: CreatableModuleFactory<T>, params: T['params']): Promise<T> {
     const factory = this as ModuleFactory<T>
     const schema = factory.creatableModule.defaultConfigSchema
+    const x = params.config
     const mergedParams: TModule['params'] = {
       ...factory.defaultParams,
       ...params,

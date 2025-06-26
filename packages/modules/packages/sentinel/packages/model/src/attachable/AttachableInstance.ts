@@ -7,12 +7,12 @@ import type { SentinelInstance } from '../Instance.ts'
 import type { SentinelModule } from '../Module.ts'
 import type { SentinelParams } from '../Params.ts'
 
-export interface AttachableSentinelInstance<
+export type AttachableSentinelInstance<
   TParams extends SentinelParams = SentinelParams,
   TEventData extends SentinelModuleEventData = SentinelModuleEventData,
-> extends SentinelModule<TParams, TEventData>,
-  AttachableModuleInstance<TParams, TEventData>,
-  SentinelInstance<TParams, TEventData> {}
+> = SentinelModule<TParams, TEventData> &
+  AttachableModuleInstance<TParams, TEventData> &
+  SentinelInstance<TParams, TEventData>
 
 export type AttachableSentinelInstanceTypeCheck<T extends AttachableSentinelInstance = AttachableSentinelInstance> = TypeCheck<T>
 

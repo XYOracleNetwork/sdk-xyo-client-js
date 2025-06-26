@@ -105,14 +105,13 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected _lastError?: ModuleDetailsError
 
-  protected _startPromise: Promisable<boolean> | undefined = undefined
-  protected _started: Promisable<boolean> | undefined = undefined
   protected readonly moduleConfigQueryValidator: Queryable
   protected readonly supportedQueryValidator: Queryable
 
   private _busyCount = 0
   private _logger: Logger | undefined = undefined
   private _status: ModuleStatus = 'stopped'
+  private _started: Promise<boolean> | undefined = undefined
 
   constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
@@ -234,9 +233,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
-  static async create<TModule extends AttachableModuleInstance>(
+  static override async create<TModule extends AttachableModuleInstance>(
     this: CreatableModule<TModule>,
-    params: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
+    params: Partial<TModule['params']>,
   ) {
     this._noOverride('create')
     if (this.configSchemas.length === 0) {
@@ -415,27 +414,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return true
   }
 
-  async start(timeout?: number): Promise<boolean> {
-    this._noOverride('start')
-    this.status = 'starting'
-    let startingTime = 0
-    const startingStatus = setInterval(() => {
-      startingTime += 1000
-      this.statusReporter?.reportStatus(`${this.constructor.name}:${this.id}`, 'starting', startingTime)
-    }, 1000)
-    // using promise as mutex
-    this._startPromise = this._startPromise ?? await this.startHandler(timeout)
-    const result = await this._startPromise
-    this.status = result ? 'started' : 'dead'
-    clearInterval(startingStatus)
-    return result
-  }
-
   async started(notStartedAction: 'error' | 'throw' | 'warn' | 'log' | 'none' = 'log', tryStart = true): Promise<boolean> {
-    if (isDefined(this._started) && (await this._started) === true) {
+    if (this.status === 'started') {
       return true
     }
-    if (isUndefined(this._started)) {
+    if (this.status === 'created') {
       // using promise as mutex
       this._started = (async () => {
         if (tryStart) {
@@ -479,32 +462,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return await this._started
   }
 
-  async stop(_timeout?: number): Promise<boolean> {
-    this._noOverride('stop')
-    return await spanAsync('start', async () => {
-      return await this.busy(async () => {
-        const result = await this.stopHandler()
-        this._started = undefined
-        this._startPromise = undefined
-        this.status = result ? 'stopped' : 'dead'
-        return result
-      })
-    }, this.tracer)
-  }
-
   protected _checkDead() {
     if (this.dead) {
       throw new DeadModuleError(this.id, this._lastError)
     }
-  }
-
-  // eslint-disable-next-line sonarjs/no-identical-functions
-  protected _noOverride(functionName: string) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const thisFunc = (this as any)[functionName]
-
-    const rootFunc = this._getRootFunction(functionName)
-    assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
   protected async archivistInstance(): Promise<ArchivistInstance | undefined>
@@ -690,20 +651,17 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
   }
 
-  protected async startHandler(_timeout?: number): Promise<boolean> {
+  protected override async startHandler(): Promise<void> {
     this.validateConfig()
-    await Promise.resolve()
-    this._started = true
-    return true
+    super.startHandler()
   }
 
   protected async stateHandler(): Promise<Payload[]> {
     return [await this.manifestHandler(), ...(await this.generateConfigAndAddress()), await this.generateDescribe()]
   }
 
-  protected stopHandler(_timeout?: number): Promisable<boolean> {
+  protected override stopHandler(): Promisable<void> {
     this._started = undefined
-    return true
   }
 
   protected subscribeHandler() {

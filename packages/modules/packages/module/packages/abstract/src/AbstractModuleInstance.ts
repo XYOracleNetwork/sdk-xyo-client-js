@@ -13,7 +13,9 @@ import { ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import type {
   AddressPayload,
   AddressPreviousHashPayload,
+  AddressToWeakInstanceCache,
   AttachableModuleInstance,
+  Direction,
   ModuleEventData,
   ModuleFilterOptions,
   ModuleIdentifier,
@@ -58,7 +60,7 @@ function filterIdentity<T extends TypedValue>(mod?: ModuleInstance | ModuleInsta
 
 export abstract class AbstractModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModule<TParams, TEventData>
-  implements AttachableModuleInstance<TParams, TEventData>, ModuleNameResolver {
+  implements ModuleNameResolver, AttachableModuleInstance<TParams, TEventData> {
   static override readonly uniqueName = globallyUnique('AbstractModuleInstance', AbstractModuleInstance, 'xyo')
 
   // switches between old and new resolution system
@@ -80,6 +82,8 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       this.downResolver.add(this)
     }
   }
+  addressCache?: ((direction: Direction, includePrivate: boolean) => AddressToWeakInstanceCache | undefined) | undefined
+  pipeline?: 'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many' | undefined
 
   get downResolver() {
     this._downResolver

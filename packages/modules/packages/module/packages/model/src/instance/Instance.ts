@@ -1,4 +1,4 @@
-import type { CreatableInstance } from '@xylabs/creatable'
+import type { CreatableStatus } from '@xylabs/creatable'
 import type { Address } from '@xylabs/hex'
 import type { TypeCheck } from '@xylabs/object'
 import { IsObjectFactory, toJsonString } from '@xylabs/object'
@@ -6,7 +6,7 @@ import type { Promisable } from '@xylabs/promise'
 import type { AccountInstance } from '@xyo-network/account-model'
 
 import type { ModuleEventData } from '../EventsModels/index.ts'
-import type { Module, ModuleQueryFunctions } from '../module/index.ts'
+import type { Module, ModuleQueryFunctions, ModuleStatus } from '../module/index.ts'
 import type { ModuleIdentifier, ModuleName } from '../ModuleIdentifier.ts'
 import type { ModuleParams } from '../ModuleParams.ts'
 import type { Direction } from './ObjectFilter.ts'
@@ -50,6 +50,7 @@ export type ModuleInstance<TParams extends ModuleParams = ModuleParams, TEventDa
     ModuleQueryFunctions &
     ModuleFamilyFunctions & {
       readonly pipeline?: ModulePipeLine
+      status?: ModuleStatus
     }
 
 export type InstanceTypeCheck<T extends ModuleInstance = ModuleInstance> = TypeCheck<T>

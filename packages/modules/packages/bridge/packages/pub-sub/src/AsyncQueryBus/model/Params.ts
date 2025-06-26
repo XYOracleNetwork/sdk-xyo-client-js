@@ -1,4 +1,4 @@
-import type { BaseParams } from '@xylabs/base'
+import type { CreatableParams } from '@xylabs/creatable'
 import type { QueryFulfillFinishedEventArgs, QueryFulfillStartedEventArgs } from '@xyo-network/bridge-model'
 import type { ModuleInstance } from '@xyo-network/module-model'
 
@@ -6,7 +6,7 @@ import type { AsyncQueryBusBaseConfig } from './BaseConfig.ts'
 import type { AsyncQueryBusClientConfig } from './ClientConfig.ts'
 import type { AsyncQueryBusHostConfig } from './HostConfig.ts'
 
-export type AsyncQueryBusParams<TConfig extends AsyncQueryBusBaseConfig = AsyncQueryBusBaseConfig> = BaseParams<{
+export type AsyncQueryBusParams<TConfig extends AsyncQueryBusBaseConfig = AsyncQueryBusBaseConfig> = CreatableParams<{
   config?: TConfig
   rootModule: ModuleInstance
 }>

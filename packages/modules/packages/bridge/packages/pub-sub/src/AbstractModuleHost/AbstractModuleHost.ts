@@ -1,9 +1,9 @@
-import type { BaseParams } from '@xylabs/base'
 import { Base } from '@xylabs/base'
+import type { CreatableParams } from '@xylabs/creatable'
 import type { Promisable } from '@xylabs/promise'
 import type { ModuleInstance } from '@xyo-network/module-model'
 
-export type ModuleHostParams<THostedInstance extends ModuleInstance = ModuleInstance> = BaseParams<{
+export type ModuleHostParams<THostedInstance extends ModuleInstance = ModuleInstance> = CreatableParams<{
   mod: THostedInstance
 }>
 

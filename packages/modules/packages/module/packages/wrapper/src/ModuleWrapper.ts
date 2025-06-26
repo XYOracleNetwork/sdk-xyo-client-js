@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Base } from '@xylabs/base'
-import { EventAnyListener, EventListener } from '@xylabs/events'
+import { BaseEmitter, EventAnyListener, EventData, EventListener, EventsParams } from '@xylabs/events'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { Logger } from '@xylabs/logger'
@@ -15,7 +14,6 @@ import {
   AddressPreviousHashSchema,
   asAttachableModuleInstance,
   asModuleInstance,
-  AttachableModuleInstance,
   duplicateModules,
   InstanceTypeCheck,
   isModule,
@@ -36,19 +34,21 @@ import {
   ModuleTypeCheck,
   ObjectResolverPriority,
 } from '@xyo-network/module-model'
+import type {AttachableModuleInstance} from '@xyo-network/module-model'
 import {
   ModuleError, ModuleErrorSchema, Payload, Query,
 } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 import type { ModuleWrapperParams } from './models.ts'
+import { isDefined } from '@xylabs/typeof'
 
 export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   defaultLogger?: Logger
   instanceIdentityCheck: InstanceTypeCheck
   moduleIdentityCheck: ModuleTypeCheck
   requiredQueries: string[]
-  new (params: ModuleWrapperParams<TWrapper['mod']>): TWrapper
+  new (params: ModuleWrapperParams): TWrapper
 
   canWrap(mod: Module | undefined): boolean
 
@@ -81,30 +81,25 @@ export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
 }
 
 @constructableModuleWrapper()
-export class ModuleWrapper<TWrappedModule extends Module = Module>
-  extends Base<Exclude<Omit<TWrappedModule['params'], 'config'> & { config: Exclude<TWrappedModule['params']['config'], undefined> }, undefined>>
-  implements AttachableModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']> {
+export class ModuleWrapper<TModule extends AttachableModuleInstance = AttachableModuleInstance, TEventData extends EventData = EventsParams>
+  extends BaseEmitter<TModule['params'], TEventData>
+  implements AttachableModuleInstance {
   static readonly instanceIdentityCheck: InstanceTypeCheck = isModuleInstance
   static readonly moduleIdentityCheck: ModuleTypeCheck = isModule
   static readonly requiredQueries: string[] = [ModuleStateQuerySchema]
-
-  eventData = {} as TWrappedModule['eventData']
 
   protected readonly cachedCalls = new LRUCache<string, Payload[]>({
     max: 1000, ttl: 1000 * 60, ttlAutopurge: true,
   })
 
-  protected readonly wrapperParams: ModuleWrapperParams<TWrappedModule>
+  protected readonly wrapperParams: ModuleWrapperParams<TModule>
 
   private _parents: ModuleInstance[] = []
   private _status: ModuleStatus = 'wrapped'
 
-  constructor(params: ModuleWrapperParams<TWrappedModule>) {
-    const mutatedWrapperParams = { ...params } as ModuleWrapperParams<TWrappedModule>
-    const mutatedParams = { ...params.mod.params, config: { ...params.mod.params.config } } as Exclude<
-      Omit<TWrappedModule['params'], 'config'> & { config: Exclude<TWrappedModule['params']['config'], undefined> },
-      undefined
-    >
+  constructor(params: ModuleWrapperParams<TModule>) {
+    const mutatedWrapperParams = { ...params } as ModuleWrapperParams<TModule>
+    const mutatedParams: TModule['params']= { ...params.mod.params }
 
     // set the root params to the wrapped mod params
     super(mutatedParams)
@@ -124,7 +119,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   get config() {
-    return this.mod.config as Exclude<TWrappedModule['params']['config'], undefined>
+    return this.mod.config
   }
 
   get downResolver(): ModuleResolverInstance {
@@ -146,6 +141,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   get modName() {
     return this.mod.modName
+  }
+
+  get name() {
+    return this.id
   }
 
   get priority() {
@@ -211,16 +210,19 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   static tryWrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    mod: Module | undefined,
+    mod: AttachableModuleInstance<TModuleWrapper['mod']['params']> | undefined,
     account: AccountInstance,
     checkIdentity = true,
   ): TModuleWrapper | undefined {
-    if (!checkIdentity || this.canWrap(mod)) {
-      if (!account) {
-        this.defaultLogger?.info('Anonymous Module Wrapper Created')
+    if (isDefined(mod)) {
+      if (!checkIdentity || this.canWrap(mod)) {
+        if (!account) {
+          this.defaultLogger?.info('Anonymous Module Wrapper Created')
+        }
+        return new this({ account, mod })
       }
-      return new this({ account, mod: mod as TModuleWrapper['mod'] })
     }
+    return undefined
   }
 
   static with<TModuleWrapper extends ModuleWrapper, R extends Promisable<void> = void>(
@@ -258,22 +260,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     )
   }
 
-  clearListeners(eventNames: Parameters<TWrappedModule['clearListeners']>[0]) {
-    return this.mod.clearListeners(eventNames)
-  }
-
-  emit(eventName: Parameters<TWrappedModule['emit']>[0], eventArgs: Parameters<TWrappedModule['emit']>[1]) {
-    return this.mod.emit(eventName, eventArgs)
-  }
-
-  emitSerial(eventName: Parameters<TWrappedModule['emitSerial']>[0], eventArgs: Parameters<TWrappedModule['emitSerial']>[1]) {
-    return this.mod.emitSerial(eventName, eventArgs)
-  }
-
-  listenerCount(eventNames: Parameters<TWrappedModule['listenerCount']>[0]) {
-    return this.mod.listenerCount(eventNames)
-  }
-
   async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
     const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
     return (await this.sendQuery(queryPayload))[0] as ModuleManifestPayload
@@ -287,32 +273,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return (await this.sendQuery(queryPayload)) as AddressPreviousHashPayload[]
-  }
-
-  off<TEventName extends keyof TWrappedModule['eventData']>(
-    eventNames: TEventName,
-    listener: EventListener<TWrappedModule['eventData'][TEventName]>,
-  ) {
-    return this.mod.off(eventNames, listener)
-  }
-
-  offAny(listener: EventAnyListener) {
-    return this.mod.offAny(listener)
-  }
-
-  on<TEventName extends keyof TWrappedModule['eventData']>(eventNames: TEventName, listener: EventListener<TWrappedModule['eventData'][TEventName]>) {
-    return this.mod.on(eventNames, listener)
-  }
-
-  onAny(listener: EventAnyListener) {
-    return this.mod.onAny(listener)
-  }
-
-  once<TEventName extends keyof TWrappedModule['eventData']>(
-    eventName: TEventName,
-    listener: EventListener<TWrappedModule['eventData'][TEventName]>,
-  ) {
-    return this.mod.once(eventName, listener)
   }
 
   parents(): Promisable<ModuleInstance[]> {

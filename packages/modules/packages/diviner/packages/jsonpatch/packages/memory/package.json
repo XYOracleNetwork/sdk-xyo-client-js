@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.12.10",
-    "@xylabs/exists": "^4.12.10",
+    "@xylabs/assert": "^4.12.14",
+    "@xylabs/exists": "^4.12.14",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-jsonpatch-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
@@ -38,9 +38,9 @@
     "fast-json-patch": "^3.1.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.8",
-    "@xylabs/tsconfig": "^6.5.8",
-    "@xylabs/vitest-extended": "^4.12.10",
+    "@xylabs/ts-scripts-yarn3": "^6.5.9",
+    "@xylabs/tsconfig": "^6.5.9",
+    "@xylabs/vitest-extended": "^4.12.14",
     "@xyo-network/wallet": "workspace:^",
     "@xyo-network/wallet-model": "workspace:^",
     "typescript": "^5.8.3",

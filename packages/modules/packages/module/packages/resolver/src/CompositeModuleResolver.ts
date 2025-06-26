@@ -5,6 +5,7 @@ import type { Address } from '@xylabs/hex'
 import type { Promisable } from '@xylabs/promise'
 import { isDefined, isString } from '@xylabs/typeof'
 import type {
+  AttachableModuleInstance,
   CacheConfig,
   ModuleFilterOptions,
   ModuleIdentifier,
@@ -74,9 +75,9 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
     return this.params.moduleIdentifierTransformers ?? ResolveHelper.transformers
   }
 
-  add(mod: ModuleInstance): this
-  add(mod: ModuleInstance[]): this
-  add(mod: ModuleInstance | ModuleInstance[]): this {
+  add(mod: AttachableModuleInstance): this
+  add(mod: AttachableModuleInstance[]): this
+  add(mod: AttachableModuleInstance | AttachableModuleInstance[]): this {
     if (Array.isArray(mod)) {
       for (const modItem of mod) this.addSingleModule(modItem)
     } else {

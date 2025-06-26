@@ -12,6 +12,6 @@ export type ForecastingDivinerConfig = DivinerConfig<
   {
     boundWitnessDiviner?: ModuleIdentifier
     schema: ForecastingDivinerConfigSchema
-  } & ForecastingSettings &
-  TransformerSettings
+  } & ForecastingSettings
+  & TransformerSettings
 >

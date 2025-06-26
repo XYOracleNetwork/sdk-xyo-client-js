@@ -42,14 +42,14 @@ export const ReservedModuleIdentifierCharacters = new Set<ReservedModuleIdentifi
 // using Exclude to make this type not allowed to take a naked string
 export type ModuleName = Exclude<string, 'reserved-module-name-56487634'>
 
-export type ModuleIdentifier =
-  | ColonPair<ModuleIdentifierPart>
-  | ColonPair<ColonPair<ModuleIdentifierPart>>
-  | ColonPair<ColonPair<ColonPair<ModuleIdentifierPart>>>
-  | ColonPair<ColonPair<ColonPair<ColonPair<ModuleIdentifierPart>>>>
-  | ColonPair<ColonPair<ColonPair<ColonPair<ColonPair<ModuleIdentifierPart>>>>>
-  | ColonPair<ColonPair<ColonPair<ColonPair<ColonPair<ColonPair<ModuleIdentifierPart>>>>>>
-  | ColonPair<ColonPair<ColonPair<ColonPair<ColonPair<ColonPair<ColonPair<ModuleIdentifierPart>>>>>>>
+export type ModuleIdentifier
+  = | ColonPair<ModuleIdentifierPart>
+    | ColonPair<ColonPair<ModuleIdentifierPart>>
+    | ColonPair<ColonPair<ColonPair<ModuleIdentifierPart>>>
+    | ColonPair<ColonPair<ColonPair<ColonPair<ModuleIdentifierPart>>>>
+    | ColonPair<ColonPair<ColonPair<ColonPair<ColonPair<ModuleIdentifierPart>>>>>
+    | ColonPair<ColonPair<ColonPair<ColonPair<ColonPair<ColonPair<ModuleIdentifierPart>>>>>>
+    | ColonPair<ColonPair<ColonPair<ColonPair<ColonPair<ColonPair<ColonPair<ModuleIdentifierPart>>>>>>>
 
 export type ColonPair<T extends string> = `${T}:${T}` | T
 

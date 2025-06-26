@@ -138,7 +138,7 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         expect(accountB.path).not.toBeNull()
         snapshotWalletInstances(accountA, accountB)
       })
-      // eslint-disable-next-line sonarjs/assertions-in-tests
+
       it('works when paths provided incrementally', async () => {
         const parentRelativePath = "44'/60'/0'"
         const childRelativePath = '0/1'

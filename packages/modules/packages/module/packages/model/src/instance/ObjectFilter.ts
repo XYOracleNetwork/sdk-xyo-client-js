@@ -41,8 +41,8 @@ export interface QueryObjectFilter<T extends EmptyObject = AnyObject> extends Ob
 export const isQueryObjectFilter = <T extends EmptyObject = AnyObject>(value: unknown): value is QueryObjectFilter<T> =>
   (value as QueryObjectFilter<T>).query !== undefined
 
-export type AnyObjectFilter<T extends EmptyObject = AnyObject> = Partial<AddressObjectFilter<T>> &
-  Partial<NameObjectFilter<T>> &
-  Partial<QueryObjectFilter<T>>
+export type AnyObjectFilter<T extends EmptyObject = AnyObject> = Partial<AddressObjectFilter<T>>
+  & Partial<NameObjectFilter<T>>
+  & Partial<QueryObjectFilter<T>>
 
 export type ObjectFilter<T extends EmptyObject> = ObjectFilterOptions<T> | AddressObjectFilter<T> | NameObjectFilter<T> | QueryObjectFilter<T>

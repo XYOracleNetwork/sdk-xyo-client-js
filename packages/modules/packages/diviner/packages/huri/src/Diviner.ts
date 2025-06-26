@@ -14,8 +14,8 @@ import { HuriPayloadDivinerConfigSchema } from './Config.ts'
 import type { HuriPayload } from './HuriPayload.ts'
 import { HuriSchema } from './HuriPayload.ts'
 
-export type HuriPayloadDivinerParams<TConfig extends AnyConfigSchema<HuriPayloadDivinerConfig> = AnyConfigSchema<HuriPayloadDivinerConfig>> =
-  DivinerParams<TConfig>
+export type HuriPayloadDivinerParams<TConfig extends AnyConfigSchema<HuriPayloadDivinerConfig> = AnyConfigSchema<HuriPayloadDivinerConfig>>
+  = DivinerParams<TConfig>
 
 export class HuriPayloadDiviner<
   TParams extends HuriPayloadDivinerParams = HuriPayloadDivinerParams,

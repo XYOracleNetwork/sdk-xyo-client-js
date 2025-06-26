@@ -15,8 +15,8 @@ export type ModuleConfig<TConfig extends EmptyObject | Payload | void = void, TS
       : ModuleConfigSchema
 >
 
-export type AnyConfigSchema<TConfig extends Omit<ModuleConfig, 'schema'> & { schema: string } = Omit<ModuleConfig, 'schema'> & { schema: string }> =
-  ModuleConfig<TConfig, string>
+export type AnyConfigSchema<TConfig extends Omit<ModuleConfig, 'schema'> & { schema: string } = Omit<ModuleConfig, 'schema'> & { schema: string }>
+  = ModuleConfig<TConfig, string>
 
 export type OptionalConfigSchema<TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = Omit<TConfig, 'schema'> & {
   schema?: TConfig['schema']

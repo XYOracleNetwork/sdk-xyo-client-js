@@ -34,8 +34,8 @@ export type PayloadSetDualPlugin<
   TDiviner extends DivinerModule = DivinerModule,
 > = PayloadSetWitnessPlugin<TWitness> & PayloadSetDivinerPlugin<TDiviner>
 
-export type PayloadSetPlugin<TModule extends WitnessModule | DivinerModule = WitnessModule | DivinerModule> =
-  TModule extends WitnessModule ? PayloadSetWitnessPlugin<TModule>
+export type PayloadSetPlugin<TModule extends WitnessModule | DivinerModule = WitnessModule | DivinerModule>
+  = TModule extends WitnessModule ? PayloadSetWitnessPlugin<TModule>
     : TModule extends DivinerModule ? PayloadSetDivinerPlugin<TModule>
       : never
 

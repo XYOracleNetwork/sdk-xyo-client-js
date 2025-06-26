@@ -10,6 +10,6 @@ export type BoundWitnessDivinerPredicateFields = {
 
 // TODO: Should we just accept "schema"/"schemas" here and infer that they mean "payload_schemas"?
 export type BoundWitnessDivinerPredicate = WithoutSchemas<
-  PayloadDivinerPredicate &
-  Partial<BoundWitness & BoundWitnessDivinerPredicateFields>
+  PayloadDivinerPredicate
+  & Partial<BoundWitness & BoundWitnessDivinerPredicateFields>
 >

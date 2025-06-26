@@ -6,23 +6,23 @@ import type { ModuleIdentifier } from '@xyo-network/module-model'
 /**
  * The diviners for each stage of an indexing diviner
  */
-export type IndexingDivinerStage =
+export type IndexingDivinerStage
   /**
    * Transforms a diviner query into an index query
    */
-  | 'divinerQueryToIndexQueryDiviner'
+  = | 'divinerQueryToIndexQueryDiviner'
   /**
    * Transforms the index candidates into indexes
    */
-  | 'indexCandidateToIndexDiviner'
+    | 'indexCandidateToIndexDiviner'
   /**
    * Transforms an index query response into a diviner divine query response
    */
-  | 'indexQueryResponseToDivinerQueryResponseDiviner'
+    | 'indexQueryResponseToDivinerQueryResponseDiviner'
   /**
    * Uses the current state to determine the next batch of index candidates
    */
-  | 'stateToIndexCandidateDiviner'
+    | 'stateToIndexCandidateDiviner'
 
 /**
  * Config section for declaring each indexing diviner stage

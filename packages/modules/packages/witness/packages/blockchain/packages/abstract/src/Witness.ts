@@ -17,9 +17,9 @@ export type BlockchainWitnessConfigSchema = typeof BlockchainWitnessConfigSchema
 /** @deprecated use EvmWitnessConfig version instead */
 export type BlockchainWitnessConfig<TAdditional extends EmptyObject | Payload | void = void, TSchema extends string | void = void> = WitnessConfig<
   TAdditional,
-  TSchema extends void ?
-    TAdditional extends Payload ?
-      TAdditional['schema']
+  TSchema extends void
+    ? TAdditional extends Payload
+      ? TAdditional['schema']
       : BlockchainWitnessConfigSchema
     : TSchema
 >

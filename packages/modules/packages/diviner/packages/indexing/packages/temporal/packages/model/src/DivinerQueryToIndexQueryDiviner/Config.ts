@@ -4,8 +4,8 @@ import type { Schema } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema } from './Schema.ts'
 
-export type TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema =
-  `${TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema}.config`
+export type TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema
+  = `${TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema}.config`
 export const TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema: TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema
 = `${TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema}.config`
 

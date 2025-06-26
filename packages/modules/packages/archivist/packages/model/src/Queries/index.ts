@@ -18,14 +18,14 @@ import type { ArchivistInsertQuery } from './Insert.ts'
 import type { ArchivistNextQuery } from './Next.ts'
 import type { ArchivistSnapshotQuery } from './Snapshot.ts'
 
-export type ArchivistQueries =
-  | ArchivistAllQuery
-  | ArchivistClearQuery
-  | ArchivistCommitQuery
-  | ArchivistDeleteQuery
-  | ArchivistGetQuery
-  | ArchivistInsertQuery
-  | ArchivistNextQuery
-  | ArchivistSnapshotQuery
+export type ArchivistQueries
+  = | ArchivistAllQuery
+    | ArchivistClearQuery
+    | ArchivistCommitQuery
+    | ArchivistDeleteQuery
+    | ArchivistGetQuery
+    | ArchivistInsertQuery
+    | ArchivistNextQuery
+    | ArchivistSnapshotQuery
 
 export type ArchivistModuleQueries = ModuleQueries | ArchivistQueries

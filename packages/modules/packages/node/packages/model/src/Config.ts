@@ -12,9 +12,9 @@ export type NodeConfig<TConfig extends EmptyObject | Payload | void = void, TSch
     },
     TConfig
   >,
-  TSchema extends void ?
-    TConfig extends Payload ?
-      TConfig['schema']
+  TSchema extends void
+    ? TConfig extends Payload
+      ? TConfig['schema']
       : NodeConfigSchema
     : TSchema
 >

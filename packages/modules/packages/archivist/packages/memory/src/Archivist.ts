@@ -37,8 +37,8 @@ import { LRUCache } from 'lru-cache'
 
 import { MemoryArchivistConfig, MemoryArchivistConfigSchema } from './Config.ts'
 
-export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivistConfig> = AnyConfigSchema<MemoryArchivistConfig>> =
-  ArchivistParams<TConfig>
+export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivistConfig> = AnyConfigSchema<MemoryArchivistConfig>>
+  = ArchivistParams<TConfig>
 @creatableModule()
 export class MemoryArchivist<
   TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,

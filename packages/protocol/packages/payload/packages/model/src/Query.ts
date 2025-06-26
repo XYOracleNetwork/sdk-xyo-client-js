@@ -20,8 +20,8 @@ export interface QueryFields {
 
 export type Query<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = Payload<
   T extends void ? QueryFields : T & QueryFields,
-  S extends void ?
-    T extends WithSchema ? T['schema']
+  S extends void
+    ? T extends WithSchema ? T['schema']
       : T extends void ? Schema
         : void
     : S

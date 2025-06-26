@@ -29,12 +29,12 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/base": "^4.12.10",
-    "@xylabs/events": "^4.12.10"
+    "@xylabs/base": "^4.12.14",
+    "@xylabs/events": "^4.12.14"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.8",
-    "@xylabs/tsconfig": "^6.5.8",
+    "@xylabs/ts-scripts-yarn3": "^6.5.9",
+    "@xylabs/tsconfig": "^6.5.9",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

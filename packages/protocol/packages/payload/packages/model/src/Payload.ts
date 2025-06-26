@@ -17,23 +17,22 @@ export interface SourcesMetaField { $sources: Hash[] }
 
 export interface PayloadMetaFields extends SourcesMetaField {}
 
-export type WithPayload<T extends EmptyObject | void = void> =
-  DeepRestrictToStringKeys<WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>>
+export type WithPayload<T extends EmptyObject | void = void>
+  = DeepRestrictToStringKeys<WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>>
 
 /** Base Type for Payloads */
-export type Payload<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> =
-  (T extends WithSchema ?
-    S extends Schema ?
+export type Payload<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void>
+  = (T extends WithSchema
+    ? S extends Schema
       /* T (w/Schema) & S provided */
-      WithPayload<Omit<T, 'schema'> & { schema: S }>
+      ? WithPayload<Omit<T, 'schema'> & { schema: S }>
       : /* Only T (w/Schema) provided */ WithPayload<T>
-    : T extends object ?
-      S extends Schema ?
+    : T extends object
+      ? S extends Schema
       /* T (w/o Schema) & S provided */
-        WithPayload<T & { schema: S }>
+        ? WithPayload<T & { schema: S }>
         : /* Only T (w/o Schema) provided */ WithPayload<T & PayloadFields>
-      : /* Either just S or neither S or T provided */
-      WithPayload<{
+      : /* Either just S or neither S or T provided */ WithPayload<{
         schema: S extends Schema ? S : Schema
       }>) & Partial<PayloadMetaFields>
 

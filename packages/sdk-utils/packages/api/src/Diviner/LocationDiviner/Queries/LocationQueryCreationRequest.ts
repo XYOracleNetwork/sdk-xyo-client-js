@@ -22,7 +22,7 @@ export type LocationHeatmapQueryCreationRequest = LocationQueryCreationRequest<L
 
 export type LocationQuadkeyHeatmapQueryCreationRequest = LocationQueryCreationRequest<LocationQuadkeyHeatmapQuerySchema, LocationQuadkeyHeatmapQuery>
 
-export type SupportedLocationQueryCreationRequest =
-  | LocationTimeRangeQueryCreationRequest
-  | LocationHeatmapQueryCreationRequest
-  | LocationQuadkeyHeatmapQueryCreationRequest
+export type SupportedLocationQueryCreationRequest
+  = | LocationTimeRangeQueryCreationRequest
+    | LocationHeatmapQueryCreationRequest
+    | LocationQuadkeyHeatmapQueryCreationRequest

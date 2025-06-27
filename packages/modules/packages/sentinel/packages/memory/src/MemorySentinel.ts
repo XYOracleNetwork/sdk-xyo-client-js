@@ -1,7 +1,9 @@
 import type { Address } from '@xylabs/hex'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import type { AnyConfigSchema, ModuleIdentifier } from '@xyo-network/module-model'
+import {
+  type AnyConfigSchema, creatableModule, type ModuleIdentifier,
+} from '@xyo-network/module-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 import { AbstractSentinel } from '@xyo-network/sentinel-abstract'
 import type {
@@ -47,25 +49,22 @@ export class MemorySentinel<
     return result
   }
 
-  override async startHandler(timeout?: number): Promise<boolean> {
-    if (await super.startHandler(timeout)) {
-      if ((this.config.automations?.length ?? 0) > 0) {
-        this.runner = new SentinelRunner({
-          sentinel: this, automations: this.config.automations, traceProvider: this.params.traceProvider,
-        })
-        this.runner.start()
-      }
-      return true
+  override async startHandler() {
+    await super.startHandler()
+    if ((this.config.automations?.length ?? 0) > 0) {
+      this.runner = new SentinelRunner({
+        sentinel: this, automations: this.config.automations, traceProvider: this.params.traceProvider,
+      })
+      this.runner.start()
     }
-    return false
   }
 
-  override async stopHandler(timeout?: number | undefined): Promise<boolean> {
+  override async stopHandler() {
     if (this.runner) {
       this.runner.stop()
       this.runner = undefined
     }
-    return await super.stopHandler(timeout)
+    await super.stopHandler()
   }
 
   private async inputAddresses(input: ModuleIdentifier | ModuleIdentifier[]): Promise<Address[]> {

@@ -145,7 +145,7 @@ export abstract class AbstractDiviner<
     return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
   }
 
-  protected override async startHandler(timeout?: number) {
+  protected override async startHandler() {
     const { eventSubscriptions = [] } = this.config
 
     for (const subscription of eventSubscriptions) {
@@ -193,16 +193,16 @@ export abstract class AbstractDiviner<
       }
     }
 
-    return await super.startHandler(timeout)
+    return await super.startHandler()
   }
 
-  protected override async stopHandler(timeout?: number) {
+  protected override async stopHandler() {
     for (const unsubscribe of this._eventUnsubscribeFunctions) {
       unsubscribe()
     }
     this._eventUnsubscribeFunctions = []
     this._eventUnsubscribeFunctions = []
-    return await super.stopHandler(timeout)
+    return await super.stopHandler()
   }
 
   /** @function divineHandler Implement or override to add custom functionality to a diviner */

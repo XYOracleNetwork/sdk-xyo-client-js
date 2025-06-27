@@ -47,6 +47,7 @@ export class WebsocketBridgeModuleResolver<
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
     const params: WebsocketModuleProxyParams = {
+      name: 'WebsocketBridgeModuleResolver',
       account: await Account.random(),
       config: { schema: ModuleConfigSchema },
       host: this,

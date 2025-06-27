@@ -73,6 +73,7 @@ export class HttpBridgeModuleResolver<
       }
       const account = await Account.random()
       const finalParams: HttpModuleProxyParams = {
+        name: 'HttpBridgeModuleResolver',
         account,
         archiving: this.params.archiving,
         config: { schema: ModuleConfigSchema },

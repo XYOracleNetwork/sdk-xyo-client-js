@@ -1,15 +1,14 @@
 import type { Schema } from '@xyo-network/payload-model'
 
-import type { AttachableModuleInstance } from '../instance/index.ts'
 import type { Labels } from '../Labels/index.ts'
-import type { CreatableModuleFactory } from './CreatableModule.ts'
+import type { CreatableModuleFactory, CreatableModuleInstance } from './CreatableModule.ts'
 import type { LabeledCreatableModuleFactory } from './LabeledCreatableModuleFactory.ts'
 
 export interface CreatableModuleRegistry {
   [key: Schema]: (CreatableModuleFactory | LabeledCreatableModuleFactory)[] | undefined
 }
 
-const buildModuleFactory = <TModule extends AttachableModuleInstance>(
+const buildModuleFactory = <TModule extends CreatableModuleInstance>(
   mod: CreatableModuleFactory<TModule>,
   labels?: Labels,
 ): LabeledCreatableModuleFactory<TModule> => {
@@ -28,7 +27,7 @@ const buildModuleFactory = <TModule extends AttachableModuleInstance>(
   return factory
 }
 
-export const registerCreatableModuleFactory = <TModule extends AttachableModuleInstance>(
+export const registerCreatableModuleFactory = <TModule extends CreatableModuleInstance>(
   registry: CreatableModuleRegistry,
   factory: CreatableModuleFactory<TModule> | LabeledCreatableModuleFactory<TModule>,
   labels?: Labels,

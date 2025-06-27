@@ -206,9 +206,9 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     }
   }
 
-  override async startHandler(): Promise<boolean> {
+  override async startHandler() {
     this.busHost()?.start()
-    return await super.startHandler()
+    await super.startHandler()
   }
 
   async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
@@ -279,8 +279,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     }
   }
 
-  protected override stopHandler(_timeout?: number | undefined) {
+  protected override async stopHandler() {
+    await super.stopHandler()
     this.busHost()?.stop()
-    return true
   }
 }

@@ -49,6 +49,7 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
       }
       const account = await Account.random()
       const finalParams: AsyncQueryBusModuleProxyParams = {
+        name: 'PubSubBridgeModuleResolver',
         account,
         archiving: this.params.archiving,
         busClient: this.params.busClient,
@@ -60,14 +61,12 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
       }
       const proxy = new AsyncQueryBusModuleProxy<T, AsyncQueryBusModuleProxyParams>(finalParams)
       const state = await proxy.state()
-      if (state) {
-        const configSchema = (state.find(payload => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
-        const config = assertEx(
-          state.find(payload => payload.schema === configSchema),
-          () => 'Unable to locate config',
-        ) as ModuleConfig
-        proxy.setConfig(config)
-      }
+      const configSchema = (state.find(payload => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
+      const config = assertEx(
+        state.find(payload => payload.schema === configSchema),
+        () => 'Unable to locate config',
+      ) as ModuleConfig
+      proxy.setConfig(config)
       await proxy.start?.()
       const wrapped = wrapModuleWithType(proxy, account) as unknown as T
       assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)

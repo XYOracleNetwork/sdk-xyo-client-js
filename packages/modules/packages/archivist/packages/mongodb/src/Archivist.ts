@@ -171,6 +171,5 @@ export class MongoDBArchivist extends MongoDBArchivistBase {
   protected override async startHandler() {
     await super.startHandler()
     await this.ensureIndexes()
-    return true
   }
 }

@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import type { Address } from '@xylabs/hex'
-import { asAddress } from '@xylabs/hex'
+import { asAddress, isAddress } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
@@ -80,7 +80,7 @@ export abstract class AbstractModuleProxy<
 
   constructor(params: TParams) {
     params.addToResolvers = false
-    super(AbstractModuleProxy.privateConstructorKey, params, params.account)
+    super(params)
   }
 
   override get address() {
@@ -144,7 +144,7 @@ export abstract class AbstractModuleProxy<
       for (const child of children) {
         if (typeof child === 'object') {
           const address = child.status?.address
-          if (address) {
+          if (isAddress(address)) {
             result[address] = child.config.name ?? null
           }
         }
@@ -240,7 +240,7 @@ export abstract class AbstractModuleProxy<
     this._state = state
   }
 
-  override async startHandler(): Promise<boolean> {
+  override async startHandler() {
     let manifest: ModuleManifestPayload | NodeManifestPayload | undefined = this.params.manifest
     if (!manifest) {
       const state = await this.state()

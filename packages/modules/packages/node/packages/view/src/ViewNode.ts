@@ -127,10 +127,9 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
     return address
   }
 
-  protected override async startHandler(): Promise<boolean> {
+  protected override async startHandler() {
     await super.startHandler()
     await this.build()
-    return true
   }
 
   private async build() {

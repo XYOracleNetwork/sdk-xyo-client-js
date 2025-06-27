@@ -235,7 +235,7 @@ export abstract class AbstractLevelDbArchivist<
     return result
   }
 
-  protected override async startHandler(): Promise<boolean> {
+  protected override async startHandler() {
     await super.startHandler()
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
@@ -243,7 +243,6 @@ export abstract class AbstractLevelDbArchivist<
     if (this.config.clearStoreOnStart) {
       await this.clearHandler()
     }
-    return true
   }
 
   protected withDataHashIndex<T>(func: (index: AbstractIndexSubLevel<string>) => Promisable<T>): Promisable<T> {
@@ -281,12 +280,12 @@ export class LevelDbArchivist extends AbstractLevelDbArchivist {
   private _db: Level<Hash, WithStorageMeta<Payload>> | undefined
   private _dbMutex = new Mutex()
 
-  protected override async stopHandler(timeout?: number): Promise<boolean> {
+  protected override async stopHandler() {
     await this._dbMutex.runExclusive(async () => {
       await this._db?.close()
       this._db = undefined
     })
-    return await super.stopHandler(timeout)
+    await super.stopHandler()
   }
 
   protected override async withDb<T>(func: (db: AbstractPayloadLevel) => Promisable<T>): Promise<T> {

@@ -1,6 +1,8 @@
 /* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
-import { Base, globallyUnique } from '@xylabs/base'
+import { globallyUnique } from '@xylabs/base'
+import type { CreatableInstance } from '@xylabs/creatable'
+import { AbstractCreatable } from '@xylabs/creatable'
 import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
@@ -8,16 +10,17 @@ import type { Address, Hash } from '@xylabs/hex'
 import type { Logger } from '@xylabs/logger'
 import {
   ConsoleLogger, IdLogger,
+  LevelLogger,
   LogLevel,
 } from '@xylabs/logger'
 import type { Promisable } from '@xylabs/promise'
 import { PromiseEx } from '@xylabs/promise'
 import { spanAsync } from '@xylabs/telemetry'
 import {
-  isDefined, isString, isUndefined,
+  isDefined, isObject, isString, isUndefined,
 } from '@xylabs/typeof'
 import { Account } from '@xyo-network/account'
-import type { AccountInstance } from '@xyo-network/account-model'
+import { type AccountInstance, isAccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -27,14 +30,13 @@ import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type { ConfigPayload } from '@xyo-network/config-payload-plugin'
 import { ConfigSchema } from '@xyo-network/config-payload-plugin'
 import type { ModuleManifestPayload } from '@xyo-network/manifest-model'
-import { ModuleBaseEmitter } from '@xyo-network/module-event-emitter'
 import type {
   AddressPayload,
   AddressPreviousHashPayload,
   ArchivingModuleConfig,
-  AttachableModuleInstance,
   CreatableModule,
   CreatableModuleFactory,
+  CreatableModuleInstance,
   Labels,
   Module,
   ModuleBusyEventArgs,
@@ -53,6 +55,7 @@ import type {
 import {
   AddressPreviousHashSchema,
   AddressSchema,
+  creatableModule,
   DeadModuleError,
   isModuleName,
   isSerializable,
@@ -80,8 +83,10 @@ import type { Queryable } from './QueryValidator/index.ts'
 import { ModuleConfigQueryValidator, SupportedQueryValidator } from './QueryValidator/index.ts'
 
 const MODULE_NOT_STARTED = 'Module not Started' as const
+
+creatableModule()
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
-  extends ModuleBaseEmitter<TParams, TEventData>
+  extends AbstractCreatable<TParams, TEventData>
   implements Module<TParams, TEventData> {
   static readonly allowRandomAccount: boolean = true
   static readonly configSchemas: Schema[] = [ModuleConfigSchema]
@@ -95,35 +100,22 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected static privateConstructorKey = Date.now().toString()
 
-  protected _account: AccountInstance
+  protected _account: AccountInstance | undefined
 
   // cache manifest based on maxDepth
   protected _cachedManifests = new LRUCache<number, ModuleManifestPayload>({ max: 10, ttl: 1000 * 60 * 5 })
 
-  protected _globalReentrancyMutex: Mutex | undefined = undefined
+  protected _globalReentrancyMutex: Mutex | undefined
 
   protected _lastError?: ModuleDetailsError
 
-  protected _startPromise: Promisable<boolean> | undefined = undefined
-  protected _started: Promisable<boolean> | undefined = undefined
-  protected readonly moduleConfigQueryValidator: Queryable
-  protected readonly supportedQueryValidator: Queryable
+  protected _moduleConfigQueryValidator: Queryable | undefined
+  protected _startPromise: Promisable<boolean> | undefined
+  protected _supportedQueryValidator: Queryable | undefined
 
   private _busyCount = 0
-  private _logger: Logger | undefined = undefined
+  private _logger: Logger | undefined | null = undefined
   private _status: ModuleStatus = 'stopped'
-
-  constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
-    assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
-    // Clone params to prevent mutation of the incoming object
-    const mutatedParams = { ...params } as TParams
-    super(mutatedParams)
-
-    this._account = account
-
-    this.supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
-    this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable
-  }
 
   get account() {
     return assertEx(this._account, () => 'Missing account')
@@ -134,7 +126,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get address() {
-    return this._account?.address
+    return this.account.address
   }
 
   get allowAnonymous() {
@@ -158,7 +150,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get dead() {
-    return this.status === 'dead'
+    return this.status === 'error'
   }
 
   get ephemeralQueryAccountEnabled(): boolean {
@@ -175,10 +167,13 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   override get logger() {
-    const logLevel = this.config.logLevel
-    this._logger
-      = this._logger ?? this.params?.logger ?? (isDefined(logLevel) ? new ConsoleLogger(logLevel) : Base.defaultLogger)
-    return this._logger
+    // we use null to prevent a second round of not creating a logger
+    if (isUndefined(this._logger)) {
+      const logLevel = this.config.logLevel
+      const newLogger = this._logger ?? (this.params?.logger ? new IdLogger(this.params.logger, () => `${this.constructor.name}[${this.id}]`) : null)
+      this._logger = (isObject(newLogger) && isDefined(logLevel)) ? new LevelLogger(newLogger, logLevel) : newLogger
+    }
+    return this._logger ?? undefined
   }
 
   get modName() {
@@ -201,7 +196,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this._status
   }
 
-  get statusReporter() {
+  override get statusReporter() {
     return this.params.statusReporter
   }
 
@@ -209,11 +204,17 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this.config.timestamp ?? false
   }
 
+  protected get moduleConfigQueryValidator(): Queryable {
+    return assertEx(this._moduleConfigQueryValidator, () => 'ModuleConfigQueryValidator not initialized')
+  }
+
   protected set status(value: ModuleStatus) {
-    if (this._status !== 'dead') {
-      this._status = value
-    }
+    this._status = value
     this.statusReporter?.reportStatus(`${this.constructor.name}:${this.id}`, value)
+  }
+
+  protected get supportedQueryValidator(): Queryable {
+    return assertEx(this._supportedQueryValidator, () => 'SupportedQueryValidator not initialized')
   }
 
   abstract get downResolver(): ModuleResolverInstance
@@ -237,38 +238,24 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
-  static async create<TModule extends AttachableModuleInstance>(
-    this: CreatableModule<TModule>,
-    params: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
+  static override async createHandler<T extends CreatableInstance>(
+    inInstance: T,
   ) {
-    this._noOverride('create')
-    if (this.configSchemas.length === 0) {
-      throw new Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
+    const instance = (await super.createHandler(inInstance))
+    if (instance instanceof AbstractModule) {
+      if (this.configSchemas.length === 0) {
+        throw new Error(`No allowed config schemas for [${this.name}]`)
+      }
+
+      const schema: Schema = instance.config.schema ?? this.defaultConfigSchema
+      const allowedSchemas: Schema[] = this.configSchemas
+
+      assertEx(allowedSchemas.includes(schema), () => `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`)
+    } else {
+      throw new TypeError(`Invalid instance type [${instance.constructor.name}] for [${this.name}]`)
     }
 
-    assertEx(params?.config?.name === undefined || isModuleName(params.config.name), () => `Invalid module name: ${params?.config?.name}`)
-
-    const { account } = params ?? {}
-
-    const schema: Schema = params?.config?.schema ?? this.defaultConfigSchema
-    const allowedSchemas: Schema[] = this.configSchemas
-
-    assertEx(allowedSchemas.includes(schema), () => `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`)
-    const mutatedConfig: TModule['params']['config'] = { ...params?.config, schema } as TModule['params']['config']
-    params?.logger?.debug(`config: ${JSON.stringify(mutatedConfig, null, 2)}`)
-    const mutatedParams: TModule['params'] = { ...params, config: mutatedConfig } as TModule['params']
-
-    const activeLogger = params?.logger ?? AbstractModule.defaultLogger
-    const generatedAccount = await AbstractModule.determineAccount({ account })
-    const address = generatedAccount.address
-    mutatedParams.logger = new IdLogger(activeLogger, () => `0x${address}`)
-
-    const newModule = new this(AbstractModule.privateConstructorKey, mutatedParams, generatedAccount, address)
-
-    if (!AbstractModule.enableLazyLoad) {
-      await newModule.start?.()
-    }
-    return newModule
+    return instance
   }
 
   static async determineAccount(params: {
@@ -279,11 +266,20 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return await determineAccount(params, this.allowRandomAccount)
   }
 
-  static factory<TModule extends AttachableModuleInstance>(
+  static factory<TModule extends CreatableModuleInstance>(
     this: CreatableModule<TModule>,
-    params: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
+    params: Partial<TModule['params']>,
   ): CreatableModuleFactory<TModule> {
     return ModuleFactory.withParams(this, params)
+  }
+
+  static override async paramsHandler<T extends CreatableInstance<Module<ModuleParams, ModuleEventData>>>(
+    inParams: Partial<T['params']> = {},
+  ) {
+    const params = {
+      account: await this.determineAccount(inParams), config: { schema: this.defaultConfigSchema }, logger: inParams.logger ?? this.defaultLogger,
+    } as Partial<T['params']>
+    return params
   }
 
   // eslint-disable-next-line sonarjs/no-identical-functions
@@ -312,6 +308,20 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         const args: ModuleBusyEventArgs = { busy: false, mod: this }
         await this.emit('moduleBusy', args)
       }
+    }
+  }
+
+  override async createHandler() {
+    await super.createHandler()
+    assertEx(this.name === undefined || isModuleName(this.name), () => `Invalid module name: ${this.name}`)
+
+    assertEx(isAccountInstance(this._account), () => `Invalid account instance: ${this._account}`)
+
+    this._supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
+    this._moduleConfigQueryValidator = new ModuleConfigQueryValidator(this.config).queryable
+
+    if (!AbstractModule.enableLazyLoad) {
+      await this.start?.()
     }
   }
 
@@ -418,29 +428,13 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return true
   }
 
-  async start(timeout?: number): Promise<boolean> {
-    this._noOverride('start')
-    this.status = 'starting'
-    let startingTime = 0
-    const startingStatus = setInterval(() => {
-      startingTime += 1000
-      this.statusReporter?.reportStatus(`${this.constructor.name}:${this.id}`, 'starting', startingTime)
-    }, 1000)
-    // using promise as mutex
-    this._startPromise = this._startPromise ?? await this.startHandler(timeout)
-    const result = await this._startPromise
-    this.status = result ? 'started' : 'dead'
-    clearInterval(startingStatus)
-    return result
-  }
-
   async started(notStartedAction: 'error' | 'throw' | 'warn' | 'log' | 'none' = 'log', tryStart = true): Promise<boolean> {
-    if (isDefined(this._started) && (await this._started) === true) {
+    if (isString(this.status) && this.status === 'started') {
       return true
     }
-    if (isUndefined(this._started)) {
+    if (this.status === 'created' || this.status === 'stopped') {
       // using promise as mutex
-      this._started = (async () => {
+      this._startPromise = (async () => {
         if (tryStart) {
           try {
             await this.start()
@@ -448,7 +442,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           } catch (ex) {
             handleError(ex, (error) => {
               this.logger?.warn(`Autostart of Module Failed: ${error.message})`)
-              this._started = undefined
+              this._startPromise = undefined
             })
           }
         }
@@ -476,38 +470,16 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       })()
     }
 
-    if (isUndefined(this._started)) {
+    if (isUndefined(this._startPromise)) {
       throw 'Failed to create start promise'
     }
-    return await this._started
-  }
-
-  async stop(_timeout?: number): Promise<boolean> {
-    this._noOverride('stop')
-    return await spanAsync('start', async () => {
-      return await this.busy(async () => {
-        const result = await this.stopHandler()
-        this._started = undefined
-        this._startPromise = undefined
-        this.status = result ? 'stopped' : 'dead'
-        return result
-      })
-    }, this.tracer)
+    return await this._startPromise
   }
 
   protected _checkDead() {
     if (this.dead) {
       throw new DeadModuleError(this.id, this._lastError)
     }
-  }
-
-  // eslint-disable-next-line sonarjs/no-identical-functions
-  protected _noOverride(functionName: string) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const thisFunc = (this as any)[functionName]
-
-    const rootFunc = this._getRootFunction(functionName)
-    assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
   protected async archivistInstance(): Promise<ArchivistInstance | undefined>
@@ -693,20 +665,18 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
   }
 
-  protected async startHandler(_timeout?: number): Promise<boolean> {
+  protected override async startHandler(): Promise<void> {
     this.validateConfig()
-    await Promise.resolve()
-    this._started = true
-    return true
+    await super.startHandler()
   }
 
   protected async stateHandler(): Promise<Payload[]> {
     return [await this.manifestHandler(), ...(await this.generateConfigAndAddress()), await this.generateDescribe()]
   }
 
-  protected stopHandler(_timeout?: number): Promisable<boolean> {
-    this._started = undefined
-    return true
+  protected override async stopHandler(): Promise<void> {
+    await super.stopHandler()
+    this._startPromise = undefined
   }
 
   protected subscribeHandler() {

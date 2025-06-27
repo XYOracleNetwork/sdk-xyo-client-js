@@ -1,4 +1,4 @@
-import type { BaseParams } from '@xylabs/base'
+import type { CreatableParams } from '@xylabs/creatable'
 import type { EmptyObject, WithAdditional } from '@xylabs/object'
 import type { AccountInstance } from '@xyo-network/account-model'
 
@@ -16,7 +16,7 @@ export type ModuleParams<
   TConfig extends AnyConfigSchema<ModuleConfig> | void = void,
   TAdditionalParams extends EmptyObject | void = void,
 > = WithAdditional<
-  BaseParams<{
+  CreatableParams<{
     account?: AccountInstance | 'random'
     addToResolvers?: boolean
     additionalSigners?: AccountInstance[]

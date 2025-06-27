@@ -1,3 +1,4 @@
+import type { CreatableStatus } from '@xylabs/creatable'
 import type { Address } from '@xylabs/hex'
 import type { TypeCheck } from '@xylabs/object'
 import { IsObjectFactory, toJsonString } from '@xylabs/object'
@@ -13,7 +14,7 @@ import type { ObjectResolver } from './ObjectResolver.ts'
 
 export type ModulePipeLine = Lowercase<'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many'>
 
-export type ModuleStatus = 'started' | 'starting' | 'stopped' | 'stopping' | 'dead' | 'wrapped' | 'proxy'
+export type ModuleStatus = CreatableStatus | 'wrapped' | 'proxy'
 
 export class DeadModuleError extends Error {
   constructor(

@@ -119,13 +119,12 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     }
   }
 
-  override async startHandler(): Promise<boolean> {
+  override async startHandler() {
     if (this.discoverRoots === 'lazy') {
       forget(this.getRoots())
     } else if (this.discoverRoots === 'start') {
       await this.getRoots()
     }
-    return true
   }
 
   async unexpose(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<Address[]> {

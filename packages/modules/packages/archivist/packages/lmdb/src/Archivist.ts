@@ -80,7 +80,7 @@ export class LmdbArchivist<
     return assertEx(this.config.storeName, () => 'No storeName specified')
   }
 
-  override async startHandler(): Promise<boolean> {
+  override async startHandler() {
     await super.startHandler()
 
     // Open LMDB database
@@ -97,7 +97,6 @@ export class LmdbArchivist<
     if (this.config.clearStoreOnStart) {
       await this.clearHandler()
     }
-    return true
   }
 
   protected override allHandler(): WithStorageMeta<Payload>[] {

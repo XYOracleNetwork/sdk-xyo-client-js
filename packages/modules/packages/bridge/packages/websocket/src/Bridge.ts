@@ -42,18 +42,18 @@ export class WebsocketBridge<
     throw new Error('Unsupported')
   }
 
-  override async startHandler(): Promise<boolean> {
+  override async startHandler() {
     if (this.host) {
       this.startServer()
     }
-    return await super.startHandler()
+    await super.startHandler()
   }
 
-  override async stopHandler(): Promise<boolean> {
+  override async stopHandler() {
     if (this.host) {
       await this.stopServer()
     }
-    return await super.stopHandler()
+    await super.stopHandler()
   }
 
   private startServer() {

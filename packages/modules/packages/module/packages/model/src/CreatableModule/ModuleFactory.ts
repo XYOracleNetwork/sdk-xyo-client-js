@@ -2,12 +2,13 @@ import { assertEx } from '@xylabs/assert'
 import type { Logger } from '@xylabs/logger'
 import type { Schema } from '@xyo-network/payload-model'
 
-import type { AttachableModuleInstance } from '../instance/index.ts'
 import type { Labels, WithOptionalLabels } from '../Labels/index.ts'
-import type { CreatableModule, CreatableModuleFactory } from './CreatableModule.ts'
+import type {
+  CreatableModule, CreatableModuleFactory, CreatableModuleInstance,
+} from './CreatableModule.ts'
 
-export class ModuleFactory<TModule extends AttachableModuleInstance> implements CreatableModuleFactory<TModule> {
-  configSchemas: CreatableModuleFactory<TModule>['configSchemas']
+export class ModuleFactory<TModule extends CreatableModuleInstance> implements CreatableModuleFactory<TModule> {
+  configSchemas: CreatableModule<TModule>['configSchemas']
 
   creatableModule: CreatableModule<TModule>
 
@@ -15,13 +16,13 @@ export class ModuleFactory<TModule extends AttachableModuleInstance> implements 
 
   defaultLogger?: Logger
 
-  defaultParams?: Omit<TModule['params'], 'config'> & { config?: Partial<TModule['params']['config']> }
+  defaultParams?: Partial<TModule['params']>
 
   labels?: Labels
 
   constructor(
     creatableModule: CreatableModule<TModule>,
-    params?: Omit<TModule['params'], 'config'> & { config?: Partial<TModule['params']['config']> },
+    params?: Partial<TModule['params']>,
     labels: Labels = {},
   ) {
     this.creatableModule = creatableModule
@@ -32,33 +33,16 @@ export class ModuleFactory<TModule extends AttachableModuleInstance> implements 
     this.labels = Object.assign({}, (creatableModule as WithOptionalLabels).labels ?? {}, labels ?? {})
   }
 
-  static withParams<T extends AttachableModuleInstance>(
+  static withParams<T extends CreatableModuleInstance>(
     creatableModule: CreatableModule<T>,
-    params?: Omit<T['params'], 'config'> & { config?: T['params']['config'] },
+    params?: Partial<T['params']>,
     labels: Labels = {},
   ) {
     return new ModuleFactory(creatableModule, params, labels)
   }
 
-  _getRootFunction(funcName: string) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let anyThis = this as any
-    while (anyThis.__proto__[funcName]) {
-      anyThis = anyThis.__proto__
-    }
-    return anyThis[funcName]
-  }
-
-  _noOverride(functionName: string) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const thisFunc = (this as any)[functionName]
-
-    const rootFunc = this._getRootFunction(functionName)
-    assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
-  }
-
-  create<T extends AttachableModuleInstance>(this: CreatableModuleFactory<T>, params: TModule['params']): Promise<T> {
-    const factory = this as ModuleFactory<T>
+  create<T extends CreatableModuleInstance>(this: CreatableModuleFactory<T>, params: Partial<TModule['params']>): Promise<T> {
+    const factory = this as CreatableModuleFactory<T>
     const schema = factory.creatableModule.defaultConfigSchema
     const mergedParams: TModule['params'] = {
       ...factory.defaultParams,
@@ -70,7 +54,7 @@ export class ModuleFactory<TModule extends AttachableModuleInstance> implements 
     return factory.creatableModule.create<T>(mergedParams)
   }
 
-  factory<T extends AttachableModuleInstance>(this: CreatableModule<T>, _params?: T['params'] | undefined): CreatableModuleFactory<T> {
+  factory<T extends CreatableModuleInstance>(this: CreatableModuleFactory<T>, _params?: Partial<T['params']> | undefined): CreatableModuleFactory<T> {
     throw new Error('Method not implemented.')
   }
 }

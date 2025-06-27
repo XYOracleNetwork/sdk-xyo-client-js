@@ -5,18 +5,19 @@ import type { Address } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
 import type { Promisable } from '@xylabs/promise'
 import { isDefined } from '@xylabs/typeof'
-import type {
-  AnyConfigSchema,
-  AttachableModuleInstance,
-  Module,
-  ModuleIdentifier,
-  ModuleInstance,
-  ModuleResolverInstance,
+import {
+  type AnyConfigSchema,
+  type AttachableModuleInstance,
+  creatableModule,
+  type Module,
+  type ModuleIdentifier,
+  type ModuleInstance,
+  type ModuleResolverInstance,
 } from '@xyo-network/module-model'
 import type { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AbstractNode } from '@xyo-network/node-abstract'
 import type {
-  AttachableNodeInstance, ChildCertificationFields,
+  ChildCertificationFields,
   NodeConfig, NodeModuleEventData, NodeParams,
 } from '@xyo-network/node-model'
 import { isNodeModule } from '@xyo-network/node-model'
@@ -24,9 +25,9 @@ import { Mutex } from 'async-mutex'
 
 export type MemoryNodeParams = NodeParams<AnyConfigSchema<NodeConfig>>
 
+@creatableModule()
 export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
-  extends AbstractNode<TParams, TEventData>
-  implements AttachableNodeInstance<TParams, TEventData> {
+  extends AbstractNode<TParams, TEventData> {
   protected registeredModuleMap: Partial<Record<Address, AttachableModuleInstance>> = {}
 
   private _attachMutex = new Mutex()

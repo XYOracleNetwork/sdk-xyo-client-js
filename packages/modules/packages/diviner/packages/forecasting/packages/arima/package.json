@@ -21,9 +21,9 @@
     "arima": "^0.2.5"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.9",
-    "@xylabs/tsconfig": "^6.5.9",
-    "@xylabs/vitest-extended": "^4.12.14",
+    "@xylabs/ts-scripts-yarn3": "^6.5.12",
+    "@xylabs/tsconfig": "^6.5.12",
+    "@xylabs/vitest-extended": "^4.12.22",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },

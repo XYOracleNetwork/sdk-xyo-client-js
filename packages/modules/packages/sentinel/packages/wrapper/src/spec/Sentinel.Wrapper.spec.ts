@@ -117,6 +117,7 @@ describe('Sentinel', () => {
           }),
         )
         const params: MemorySentinelParams<SentinelConfig> = {
+          name: 'Test Sentinel',
           account: 'random',
           config: {
             archiving: { archivists: [archivistA.address, archivistB.address] },

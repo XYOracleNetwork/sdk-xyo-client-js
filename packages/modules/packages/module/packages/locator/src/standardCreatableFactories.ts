@@ -5,7 +5,7 @@ import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-mem
 import { IdentityDiviner } from '@xyo-network/diviner-identity'
 import { GenericPayloadDiviner } from '@xyo-network/diviner-payload-generic'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
-import type { CreatableModuleFactory, LabeledCreatableModuleFactory } from '@xyo-network/module-model'
+import type { CreatableModule, LabeledCreatableModule } from '@xyo-network/module-model'
 import { registerCreatableModuleFactories } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { ViewNode } from '@xyo-network/node-view'
@@ -13,7 +13,7 @@ import { MemorySentinel } from '@xyo-network/sentinel-memory'
 import { AdhocWitness } from '@xyo-network/witness-adhoc'
 
 // order matters in this array.  later items will register themselves as primary for schemas shared with earlier items
-export const standardCreatableFactoriesList: (CreatableModuleFactory | LabeledCreatableModuleFactory)[] = [
+export const standardCreatableFactoriesList: (CreatableModule | LabeledCreatableModule)[] = [
   HttpBridge,
   ViewArchivist,
   ViewNode,

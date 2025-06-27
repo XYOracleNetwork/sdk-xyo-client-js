@@ -153,12 +153,12 @@ export class GenericPayloadDiviner<
     forget(this.updateIndex())
   }
 
-  protected override async stopHandler(_timeout?: number | undefined): Promise<boolean> {
+  protected override async stopHandler(_timeout?: number | undefined) {
+    await super.stopHandler()
     const archivist = await this.archivistInstance(true)
     archivist.off('inserted', this.onArchivistInserted)
     archivist.off('deleted', this.onArchivistDeleted)
     archivist.off('cleared', this.onArchivistCleared)
-    return await super.stopHandler()
   }
 
   // index any new payloads

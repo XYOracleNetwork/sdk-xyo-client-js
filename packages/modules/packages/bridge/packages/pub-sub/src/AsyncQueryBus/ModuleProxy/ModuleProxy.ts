@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { isAddress } from '@xylabs/hex'
+import { isString } from '@xylabs/typeof'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import type { ModuleProxyParams } from '@xyo-network/bridge-abstract'
 import { AbstractModuleProxy } from '@xyo-network/bridge-abstract'
@@ -98,17 +99,13 @@ export class AsyncQueryBusModuleProxy<
         const first = assertEx(parts.shift(), () => 'Missing first')
         const remainingPath = parts.join(':')
         const address = isAddress(first) ? first : this.childAddressByName(first)
-        if (!address) return undefined
+        if (!isAddress(address)) return undefined
         const firstInstance = (await this.params.host.resolve(address)) as ModuleInstance | undefined
-        return (remainingPath ? await firstInstance?.resolve(remainingPath) : firstInstance) as T | undefined
+        return (isString(remainingPath) ? await firstInstance?.resolve(remainingPath) : firstInstance) as T | undefined
       }
       default: {
         return (await ResolveHelper.resolve(config, id, options)).filter(mod => mod.address !== this.address)
       }
     }
-  }
-
-  override async startHandler(): Promise<boolean> {
-    return await super.startHandler()
   }
 }

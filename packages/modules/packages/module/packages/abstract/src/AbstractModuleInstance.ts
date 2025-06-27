@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
+import type { CreatableInstance } from '@xylabs/creatable'
 import { exists } from '@xylabs/exists'
 import type { Address } from '@xylabs/hex'
 import type { TypeCheck } from '@xylabs/object'
@@ -14,6 +15,7 @@ import type {
   AddressPayload,
   AddressPreviousHashPayload,
   AttachableModuleInstance,
+  Module,
   ModuleEventData,
   ModuleFilterOptions,
   ModuleIdentifier,
@@ -68,18 +70,6 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   private _parents: NodeInstance[] = []
   private _privateResolver?: CompositeModuleResolver
   private _upResolver?: CompositeModuleResolver
-
-  constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
-    assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
-    // Clone params to prevent mutation of the incoming object
-    const mutatedParams = { ...params } as TParams
-    const addToResolvers = mutatedParams.addToResolvers ?? true
-    super(privateConstructorKey, mutatedParams, account)
-    if (addToResolvers) {
-      this.upResolver.add(this)
-      this.downResolver.add(this)
-    }
-  }
 
   get downResolver() {
     this._downResolver
@@ -143,6 +133,16 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
         }),
       )
     ).flat()
+  }
+
+  override createHandler() {
+    const params = super.createHandler()
+    const addToResolvers = this.params?.addToResolvers ?? true
+    if (addToResolvers) {
+      this.upResolver.add(this)
+      this.downResolver.add(this)
+    }
+    return params
   }
 
   manifest(maxDepth?: number): Promise<ModuleManifestPayload> {

@@ -52,8 +52,7 @@ describe('GenericArchivist [full]', () => {
   describe('config', () => {
     describe('dbName', () => {
       it('supplied via config uses config value', async () => {
-        const driver = new MemoryDriver()
-        await driver.initialize({ max: 1000 })
+        const driver = await MemoryDriver.create({ config: { max: 1000 } })
         const archivist = await GenericArchivist.create({
           account,
           config: { schema: GenericArchivistConfigSchema },
@@ -67,8 +66,7 @@ describe('GenericArchivist [full]', () => {
     let sources: Payload[] = []
     let archivistModule: ArchivistInstance
     beforeAll(async () => {
-      const driver = new MemoryDriver()
-      await driver.initialize({ max: 1000 })
+      const driver = await MemoryDriver.create({ config: { max: 1000 } })
       archivistModule = await GenericArchivist.create({
         account,
         config: { schema: GenericArchivistConfigSchema },
@@ -88,8 +86,7 @@ describe('GenericArchivist [full]', () => {
     let sources: Payload[] = []
     let archivistModule: ArchivistInstance
     beforeAll(async () => {
-      const driver = new MemoryDriver()
-      await driver.initialize({ max: 1000 })
+      const driver = await MemoryDriver.create({ config: { max: 1000 } })
       archivistModule = await GenericArchivist.create({
         account,
         config: { schema: GenericArchivistConfigSchema },
@@ -111,8 +108,7 @@ describe('GenericArchivist [full]', () => {
     let sources: TestPayload[] = []
     let archivistModule: ArchivistInstance
     beforeAll(async () => {
-      const driver = new MemoryDriver()
-      await driver.initialize({ max: 1000 })
+      const driver = await MemoryDriver.create({ config: { max: 1000 } })
       archivistModule = await GenericArchivist.create({
         account,
         config: { schema: GenericArchivistConfigSchema },
@@ -217,8 +213,7 @@ describe('GenericArchivist [full]', () => {
       let sources: Payload[] = []
       let archivistModule: ArchivistInstance
       beforeAll(async () => {
-        const driver = new MemoryDriver()
-        await driver.initialize({ max: 1000 })
+        const driver = await MemoryDriver.create({ config: { max: 1000 } })
         archivistModule = await GenericArchivist.create({
           account,
           config: { schema: GenericArchivistConfigSchema },
@@ -258,8 +253,7 @@ describe('GenericArchivist [full]', () => {
     describe('with duplicate data', () => {
       let archivistModule: ArchivistInstance
       beforeAll(async () => {
-        const driver = new MemoryDriver()
-        await driver.initialize({ max: 1000 })
+        const driver = await MemoryDriver.create({ config: { max: 1000 } })
         archivistModule = await GenericArchivist.create({
           account,
           config: { schema: GenericArchivistConfigSchema },
@@ -290,8 +284,7 @@ describe('GenericArchivist [full]', () => {
 
   describe('next', () => {
     it('next', async () => {
-      const driver = new MemoryDriver()
-      await driver.initialize({ max: 1000 })
+      const driver = await MemoryDriver.create({ config: { max: 1000 } })
       const archivist = await GenericArchivist.create({
         account: 'random',
         config: { schema: GenericArchivistConfigSchema },
@@ -363,8 +356,7 @@ describe('GenericArchivist [full]', () => {
     })
   })
   generateArchivistNextTests(async () => {
-    const driver = new MemoryDriver()
-    await driver.initialize({ max: 1000 })
+    const driver = await MemoryDriver.create({ config: { max: 1000 } })
     return await GenericArchivist.create({ account: 'random', driver })
   })
 })

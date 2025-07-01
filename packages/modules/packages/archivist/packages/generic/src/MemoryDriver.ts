@@ -1,4 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import {
+  AbstractCreatable, creatable, CreatableParams,
+} from '@xylabs/creatable'
 import { exists } from '@xylabs/exists'
 import type { Hash, Hex } from '@xylabs/hex'
 import type { Promisable } from '@xylabs/promise'
@@ -14,8 +17,13 @@ export interface MemoryDriverConfig {
   max?: number
 }
 
-export class MemoryDriver
-implements ArchivistDriver<Hash, Payload, WithStorageMeta<Payload>, MemoryDriverConfig> {
+export interface MemoryDriverParams extends CreatableParams {
+  config: MemoryDriverConfig
+}
+
+@creatable()
+export class MemoryDriver extends AbstractCreatable<MemoryDriverParams>
+  implements ArchivistDriver<Hash, Payload, WithStorageMeta<Payload>, MemoryDriverConfig> {
   private _cache?: LRUCache<Hash, WithStorageMeta<Payload>>
   private _config?: MemoryDriverConfig
   private _dataHashIndex?: LRUCache<Hash, Hash>
@@ -59,6 +67,10 @@ implements ArchivistDriver<Hash, Payload, WithStorageMeta<Payload>, MemoryDriver
 
   count() {
     return this.cache.size
+  }
+
+  override createHandler(): Promisable<void> {
+    this._config = this.params.config ?? {}
   }
 
   async delete(hashes: Hash[]): Promise<WithStorageMeta[]> {

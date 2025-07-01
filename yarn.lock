@@ -2911,6 +2911,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/creatable@npm:^4.12.29":
+  version: 4.12.29
+  resolution: "@xylabs/creatable@npm:4.12.29"
+  dependencies:
+    "@xylabs/assert": "npm:^4.12.29"
+    "@xylabs/base": "npm:^4.12.29"
+    "@xylabs/events": "npm:^4.12.29"
+    "@xylabs/logger": "npm:^4.12.29"
+    "@xylabs/object": "npm:^4.12.29"
+    "@xylabs/promise": "npm:^4.12.29"
+    "@xylabs/typeof": "npm:^4.12.29"
+  checksum: 10/cf25d60488e19a275e23c70303dcd8d253bdaa004d9d8a05b6226ed5e46c9e38f87d37e735d145c46892a7cb898a5103d01f40a2ac3515680210e58f5126590d
+  languageName: node
+  linkType: hard
+
 "@xylabs/delay@npm:^4.12.29":
   version: 4.12.29
   resolution: "@xylabs/delay@npm:4.12.29"
@@ -3476,6 +3491,7 @@ __metadata:
   resolution: "@xyo-network/archivist-generic@workspace:packages/modules/packages/archivist/packages/generic"
   dependencies:
     "@xylabs/assert": "npm:^4.12.29"
+    "@xylabs/creatable": "npm:^4.12.29"
     "@xylabs/delay": "npm:^4.12.29"
     "@xylabs/exists": "npm:^4.12.29"
     "@xylabs/hex": "npm:^4.12.29"

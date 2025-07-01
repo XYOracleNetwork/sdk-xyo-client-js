@@ -24,8 +24,7 @@ import { MemoryDriver } from '../MemoryDriver.ts'
  */
 describe('GenericArchivist', () => {
   it('should listen to cleared events', async () => {
-    const driver = new MemoryDriver()
-    await driver.initialize({ max: 1000 })
+    const driver = await MemoryDriver.create({ config: { max: 1000 } })
     const archivist = await GenericArchivist.create({ account: 'random', driver })
 
     expect(isArchivistInstance(archivist)).toBe(true)
@@ -39,8 +38,7 @@ describe('GenericArchivist', () => {
   })
 
   it('should return items inserted in the order they were provided in', async () => {
-    const driver = new MemoryDriver()
-    await driver.initialize({ max: 1000 })
+    const driver = await MemoryDriver.create({ config: { max: 1000 } })
     const archivist = await GenericArchivist.create({ account: 'random', driver })
     const payloads: Id[] = Array.from({ length: 100 }, (_, i) => new PayloadBuilder<Id>({ schema: IdSchema }).fields({ salt: `${i}` }).build())
     // Ensure payload was create in order provided
@@ -83,8 +81,7 @@ describe('GenericArchivist', () => {
   })
 
   it('next', async () => {
-    const driver = new MemoryDriver()
-    await driver.initialize({ max: 1000 })
+    const driver = await MemoryDriver.create({ config: { max: 1000 } })
     const archivist = await GenericArchivist.create({ account: await HDWallet.random(), driver })
     const account = await HDWallet.random()
 

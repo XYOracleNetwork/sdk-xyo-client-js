@@ -34,8 +34,8 @@
     "@xyo-network/previous-hash-store-storage": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.9",
-    "@xylabs/tsconfig": "^6.5.9",
+    "@xylabs/ts-scripts-yarn3": "^6.5.12",
+    "@xylabs/tsconfig": "^6.5.12",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

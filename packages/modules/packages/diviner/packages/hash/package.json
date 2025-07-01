@@ -29,15 +29,15 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/object": "^4.12.14",
+    "@xylabs/object": "^4.12.29",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.9",
-    "@xylabs/tsconfig": "^6.5.9",
+    "@xylabs/ts-scripts-yarn3": "^6.5.12",
+    "@xylabs/tsconfig": "^6.5.12",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

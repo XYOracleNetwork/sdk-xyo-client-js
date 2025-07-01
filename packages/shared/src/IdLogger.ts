@@ -31,6 +31,10 @@ export class IdLogger implements Logger {
     this._logger?.log(this.generate(message, getFunctionName(3)))
   }
 
+  trace(message?: unknown): void {
+    this._logger?.trace(this.generate(message, getFunctionName(3)))
+  }
+
   warn(message?: unknown): void {
     this._logger?.warn(this.generate(message, getFunctionName(3)))
   }

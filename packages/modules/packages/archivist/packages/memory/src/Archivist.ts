@@ -80,18 +80,18 @@ export class MemoryArchivist<
     return this.config?.max ?? 10_000
   }
 
+  static async from(payloads: Payload[], account?: AccountInstance): Promise<MemoryArchivist> {
+    const archivist = await MemoryArchivist.create({ account: account ?? await Account.random() })
+    await archivist.insert(payloads)
+    return archivist
+  }
+
   private static findIndexFromCursor(payloads: WithStorageMeta[], cursor: Hex) {
     const index = payloads.findIndex(({ _sequence }) => _sequence === cursor)
     if (index === -1) {
       return Infinity // move to the end
     }
     return index
-  }
-
-  async from(payloads: Payload[], account?: AccountInstance): Promise<MemoryArchivist> {
-    const archivist = await MemoryArchivist.create({ account: account ?? await Account.random() })
-    await archivist.insert(payloads)
-    return archivist
   }
 
   protected override allHandler(): Promisable<WithStorageMeta<Payload>[]> {

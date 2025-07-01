@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.12.14",
+    "@xylabs/hex": "^4.12.29",
     "@xyo-network/diviner-boundwitness-model": "workspace:^",
     "@xyo-network/diviner-indexing-model": "workspace:^",
     "@xyo-network/diviner-jsonpath-model": "workspace:^",
@@ -38,8 +38,8 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.9",
-    "@xylabs/tsconfig": "^6.5.9",
+    "@xylabs/ts-scripts-yarn3": "^6.5.12",
+    "@xylabs/tsconfig": "^6.5.12",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

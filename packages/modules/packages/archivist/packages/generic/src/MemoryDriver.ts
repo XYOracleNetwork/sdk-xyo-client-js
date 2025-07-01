@@ -100,10 +100,6 @@ export class MemoryDriver extends AbstractCreatable<MemoryDriverParams>
     }).filter(exists)
   }
 
-  initialize(config: MemoryDriverConfig): Promisable<void> {
-    this._config = config
-  }
-
   insert(payloads: WithStorageMeta<Payload>[]): WithStorageMeta<Payload>[] {
     const payloadsWithMeta = payloads.toSorted(PayloadBuilder.compareStorageMeta)
     this._sequenceIndex.push(...payloadsWithMeta)

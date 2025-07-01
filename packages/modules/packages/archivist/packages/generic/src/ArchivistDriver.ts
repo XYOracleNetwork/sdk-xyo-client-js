@@ -8,7 +8,6 @@ export interface ArchivistDriver<TId, TIn, TOut extends TIn, TConfig extends Emp
   count(): number
   delete(hashes: TId[]): Promise<TOut[]>
   get(hashes: TId[]): Promisable<TOut[]>
-  initialize(config: TConfig): Promisable<void>
   insert(payloads: TIn[]): TOut[]
   next(options?: NextOptions): Promisable<TOut[]>
 }

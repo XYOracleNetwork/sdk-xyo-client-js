@@ -1,5 +1,6 @@
 import type { Promisable } from '@xylabs/promise'
-import type { NextOptions } from '@xyo-network/archivist-model'
+
+import type { NextOptions } from './NextOptions.ts'
 
 export interface ArchivistDriver<TId, TIn, TOut extends TIn> {
   all(): Promisable<TOut[]>

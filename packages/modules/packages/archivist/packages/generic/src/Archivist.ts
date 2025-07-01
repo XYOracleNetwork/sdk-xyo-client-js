@@ -10,6 +10,7 @@ import {
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
   ArchivistDeleteQuerySchema,
+  ArchivistDriver,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
   ArchivistModuleEventData,
@@ -27,7 +28,6 @@ import {
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
 
-import { ArchivistDriver } from './ArchivistDriver.ts'
 import { GenericArchivistConfig, GenericArchivistConfigSchema } from './Config.ts'
 
 export type GenericArchivistParams<TConfig extends AnyConfigSchema<GenericArchivistConfig> = AnyConfigSchema<GenericArchivistConfig>>

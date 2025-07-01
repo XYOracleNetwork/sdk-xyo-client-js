@@ -6,12 +6,10 @@ import { exists } from '@xylabs/exists'
 import type { Hash, Hex } from '@xylabs/hex'
 import type { Promisable } from '@xylabs/promise'
 import { isDefined } from '@xylabs/typeof'
-import type { ArchivistNextOptions } from '@xyo-network/archivist-model'
+import type { ArchivistDriver, ArchivistNextOptions } from '@xyo-network/archivist-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
-
-import type { ArchivistDriver } from './ArchivistDriver.ts'
 
 export interface MemoryDriverConfig {
   max?: number

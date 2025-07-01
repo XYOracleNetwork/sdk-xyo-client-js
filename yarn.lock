@@ -3486,7 +3486,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist-generic@workspace:packages/modules/packages/archivist/packages/generic":
+"@xyo-network/archivist-generic@workspace:^, @xyo-network/archivist-generic@workspace:packages/modules/packages/archivist/packages/generic":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-generic@workspace:packages/modules/packages/archivist/packages/generic"
   dependencies:
@@ -3623,6 +3623,7 @@ __metadata:
   resolution: "@xyo-network/archivist-memory@workspace:packages/modules/packages/archivist/packages/memory"
   dependencies:
     "@xylabs/assert": "npm:^4.12.29"
+    "@xylabs/creatable": "npm:^4.12.29"
     "@xylabs/delay": "npm:^4.12.29"
     "@xylabs/exists": "npm:^4.12.29"
     "@xylabs/hex": "npm:^4.12.29"
@@ -3636,6 +3637,7 @@ __metadata:
     "@xyo-network/account-model": "workspace:^"
     "@xyo-network/archivist-abstract": "workspace:^"
     "@xyo-network/archivist-acceptance-tests": "workspace:^"
+    "@xyo-network/archivist-generic": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/id-payload-plugin": "workspace:^"

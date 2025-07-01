@@ -32,7 +32,7 @@ import { GenericArchivistConfig, GenericArchivistConfigSchema } from './Config.t
 
 export type GenericArchivistParams<TConfig extends AnyConfigSchema<GenericArchivistConfig> = AnyConfigSchema<GenericArchivistConfig>>
   = ArchivistParams<TConfig, {
-    driver?: ArchivistDriver<Hash, Payload, WithStorageMeta<Payload>, TConfig>
+    driver?: ArchivistDriver<Hash, Payload, WithStorageMeta<Payload>>
   }>
 
 @creatableModule()

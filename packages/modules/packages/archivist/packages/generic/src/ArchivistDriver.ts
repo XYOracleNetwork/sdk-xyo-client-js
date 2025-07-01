@@ -1,8 +1,7 @@
-import type { EmptyObject } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import type { NextOptions } from '@xyo-network/archivist-model'
 
-export interface ArchivistDriver<TId, TIn, TOut extends TIn, TConfig extends EmptyObject = EmptyObject> {
+export interface ArchivistDriver<TId, TIn, TOut extends TIn> {
   all(): Promisable<TOut[]>
   clear(): Promisable<void>
   count(): number

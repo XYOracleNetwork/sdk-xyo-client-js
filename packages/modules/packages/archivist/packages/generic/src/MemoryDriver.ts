@@ -23,7 +23,7 @@ export interface MemoryDriverParams extends CreatableParams {
 
 @creatable()
 export class MemoryDriver extends AbstractCreatable<MemoryDriverParams>
-  implements ArchivistDriver<Hash, Payload, WithStorageMeta<Payload>, MemoryDriverConfig> {
+  implements ArchivistDriver<Hash, Payload, WithStorageMeta<Payload>> {
   private _cache?: LRUCache<Hash, WithStorageMeta<Payload>>
   private _config?: MemoryDriverConfig
   private _dataHashIndex?: LRUCache<Hash, Hash>

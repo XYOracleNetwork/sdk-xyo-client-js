@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
-import type { CreatableInstance } from '@xylabs/creatable'
+import type { CreatableInstance, CreatableStatus } from '@xylabs/creatable'
 import { AbstractCreatable } from '@xylabs/creatable'
 import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
@@ -34,6 +34,7 @@ import type {
   AddressPayload,
   AddressPreviousHashPayload,
   ArchivingModuleConfig,
+  AttachableModuleInstance,
   CreatableModule,
   CreatableModuleFactory,
   CreatableModuleInstance,
@@ -50,7 +51,6 @@ import type {
   ModuleQueryHandlerResult,
   ModuleQueryResult,
   ModuleResolverInstance,
-  ModuleStatus,
 } from '@xyo-network/module-model'
 import {
   AddressPreviousHashSchema,
@@ -115,7 +115,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   private _busyCount = 0
   private _logger: Logger | undefined | null = undefined
-  private _status: ModuleStatus = 'stopped'
+  private _status: CreatableStatus = 'creating'
 
   get account() {
     return assertEx(this._account, () => 'Missing account')
@@ -145,8 +145,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this.config.archivist
   }
 
-  get config(): TParams['config'] {
-    return this.params.config
+  get config(): TParams['config'] & { schema: Schema } {
+    return { ...this.params.config, schema: this.params.config.schema ?? ModuleConfigSchema }
   }
 
   get dead() {
@@ -208,9 +208,13 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return assertEx(this._moduleConfigQueryValidator, () => 'ModuleConfigQueryValidator not initialized')
   }
 
-  protected set status(value: ModuleStatus) {
+  protected set status(value: CreatableStatus) {
     this._status = value
-    this.statusReporter?.reportStatus(`${this.constructor.name}:${this.id}`, value)
+    if (value === 'error') {
+      this.statusReporter?.report(`${this.constructor.name}:${this.id}`, value, new Error('Module status changed to error'))
+    } else {
+      this.statusReporter?.report(`${this.constructor.name}:${this.id}`, value, 100)
+    }
   }
 
   protected get supportedQueryValidator(): Queryable {
@@ -268,17 +272,20 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   static factory<TModule extends CreatableModuleInstance>(
     this: CreatableModule<TModule>,
-    params: Partial<TModule['params']>,
+    params?: Partial<TModule['params']>,
   ): CreatableModuleFactory<TModule> {
     return ModuleFactory.withParams(this, params)
   }
 
-  static override async paramsHandler<T extends CreatableInstance<Module<ModuleParams, ModuleEventData>>>(
+  static override async paramsHandler<T extends AttachableModuleInstance<ModuleParams, ModuleEventData>>(
     inParams: Partial<T['params']> = {},
   ) {
     const params = {
-      account: await this.determineAccount(inParams), config: { schema: this.defaultConfigSchema }, logger: inParams.logger ?? this.defaultLogger,
-    } as Partial<T['params']>
+      ...inParams,
+      account: await this.determineAccount(inParams),
+      config: { schema: this.defaultConfigSchema, ...inParams.config },
+      logger: inParams.logger ?? this.defaultLogger,
+    } as T['params']
     return params
   }
 
@@ -314,6 +321,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   override async createHandler() {
     await super.createHandler()
     assertEx(this.name === undefined || isModuleName(this.name), () => `Invalid module name: ${this.name}`)
+
+    if (this.params.account === 'random') {
+      this._account = await Account.random()
+    } else if (isAccountInstance(this.params.account)) {
+      this._account = this.params.account
+    }
 
     assertEx(isAccountInstance(this._account), () => `Invalid account instance: ${this._account}`)
 
@@ -471,7 +484,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
 
     if (isUndefined(this._startPromise)) {
-      throw 'Failed to create start promise'
+      throw new Error(`Failed to create start promise: ${this.status}`)
     }
     return await this._startPromise
   }

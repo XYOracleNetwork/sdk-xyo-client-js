@@ -110,6 +110,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
     // set the root params to the wrapped mod params
     super(mutatedParams)
+
     this.wrapperParams = mutatedWrapperParams
   }
 
@@ -148,6 +149,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   get modName() {
     return this.mod.modName
+  }
+
+  get name() {
+    return 'ModuleWrapper'
   }
 
   get priority() {

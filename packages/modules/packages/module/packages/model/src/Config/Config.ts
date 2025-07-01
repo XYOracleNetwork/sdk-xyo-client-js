@@ -1,4 +1,4 @@
-import type { EmptyObject, WithAdditional } from '@xylabs/object'
+import type { EmptyObject } from '@xylabs/object'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 
 import type { ArchivingModuleConfig } from './Archiving.ts'
@@ -8,14 +8,16 @@ import type { ArchivingReentrancyConfig } from './Reentrancy.ts'
 export const ModuleConfigSchema = 'network.xyo.module.config' as const
 export type ModuleConfigSchema = typeof ModuleConfigSchema
 
-export type ModuleConfig<TConfig extends EmptyObject | Payload | void = void, TSchema extends Schema | void = void> = Payload<
+export type WithAdditional<T extends EmptyObject = EmptyObject, TAdditional extends EmptyObject = EmptyObject>
+  = T & TAdditional
+
+export type ModuleConfig<TConfig extends EmptyObject | Payload = EmptyObject, TSchema extends Schema | void = void> = Payload<
   WithAdditional<ArchivingModuleConfig & ModuleConfigFields & ArchivingReentrancyConfig, TConfig>,
-  TSchema extends Schema ? TSchema
-    : TConfig extends Payload ? TConfig['schema']
-      : ModuleConfigSchema
+  TSchema extends void ? TConfig extends Payload ? TConfig['schema']
+    : Schema : TSchema
 >
 
-export type AnyConfigSchema<TConfig extends Omit<ModuleConfig, 'schema'> & { schema: string } = Omit<ModuleConfig, 'schema'> & { schema: string }>
+export type AnyConfigSchema<TConfig extends Omit<ModuleConfig, 'schema'> & { schema: Schema } = Omit<ModuleConfig, 'schema'> & { schema: Schema }>
   = ModuleConfig<TConfig, string>
 
 export type OptionalConfigSchema<TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = Omit<TConfig, 'schema'> & {

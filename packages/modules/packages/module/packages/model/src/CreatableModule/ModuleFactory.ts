@@ -41,17 +41,17 @@ export class ModuleFactory<TModule extends CreatableModuleInstance> implements C
     return new ModuleFactory(creatableModule, params, labels)
   }
 
-  create<T extends CreatableModuleInstance>(this: CreatableModuleFactory<T>, params: Partial<TModule['params']>): Promise<T> {
-    const factory = this as CreatableModuleFactory<T>
-    const schema = factory.creatableModule.defaultConfigSchema
+  create(this: CreatableModuleFactory<TModule>, params?: Partial<TModule['params']>): Promise<TModule> {
     const mergedParams: TModule['params'] = {
-      ...factory.defaultParams,
+      ...this.defaultParams,
       ...params,
       config: {
-        ...factory.defaultParams?.config, ...params.config, schema,
+        schema: this.creatableModule.defaultConfigSchema,
+        ...this.defaultParams?.config,
+        ...params?.config,
       },
     } as TModule['params']
-    return factory.creatableModule.create<T>(mergedParams)
+    return this.creatableModule.create<TModule>(mergedParams)
   }
 
   factory<T extends CreatableModuleInstance>(this: CreatableModuleFactory<T>, _params?: Partial<T['params']> | undefined): CreatableModuleFactory<T> {

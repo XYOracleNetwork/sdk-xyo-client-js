@@ -4,6 +4,6 @@ import type { AnyConfigSchema } from '@xyo-network/module-model'
 
 import type { FirebaseArchivistConfig } from './Config.ts'
 
-export type FirebaseArchivistParams = ArchivistParams<AnyConfigSchema<FirebaseArchivistConfig>, {
+export interface FirebaseArchivistParams extends ArchivistParams<AnyConfigSchema<FirebaseArchivistConfig>> {
   firebaseApp?: FirebaseApp
-}>
+}

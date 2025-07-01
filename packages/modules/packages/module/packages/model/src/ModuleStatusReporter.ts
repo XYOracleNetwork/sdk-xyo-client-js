@@ -1,5 +1,5 @@
+import type { CreatableStatusReporter } from '@xylabs/creatable'
+
 import type { ModuleStatus } from './instance/index.ts'
 
-export interface ModuleStatusReporter {
-  reportStatus: (name: string, status: ModuleStatus, progress?: number) => void
-}
+export interface ModuleStatusReporter extends CreatableStatusReporter {}

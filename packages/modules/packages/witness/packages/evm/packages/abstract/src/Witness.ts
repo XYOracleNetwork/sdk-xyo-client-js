@@ -1,4 +1,4 @@
-import type { EmptyObject, WithAdditional } from '@xylabs/object'
+import type { EmptyObject } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
@@ -25,18 +25,12 @@ export type AdditionalEvmWitnessParams = {
   providers: Provider[]
 }
 
-export type EvmWitnessParams<
+export interface EvmWitnessParams<
   TConfig extends AnyConfigSchema<EvmWitnessConfig> = EvmWitnessConfig,
-  TAdditionalParams extends EmptyObject | void = void,
-> = WitnessParams<
-  TConfig,
-  WithAdditional<
-    {
-      providers: () => Promisable<Provider[]>
-    },
-    TAdditionalParams
-  >
->
+> extends WitnessParams<TConfig>
+{
+  providers: () => Promisable<Provider[]>
+}
 
 creatableModule()
 export abstract class AbstractEvmWitness<

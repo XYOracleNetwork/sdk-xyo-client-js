@@ -1,6 +1,4 @@
-import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
-import type { CreatableInstance } from '@xylabs/creatable'
 import { exists } from '@xylabs/exists'
 import type { Address } from '@xylabs/hex'
 import type { TypeCheck } from '@xylabs/object'
@@ -15,7 +13,6 @@ import type {
   AddressPayload,
   AddressPreviousHashPayload,
   AttachableModuleInstance,
-  Module,
   ModuleEventData,
   ModuleFilterOptions,
   ModuleIdentifier,
@@ -135,14 +132,15 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     ).flat()
   }
 
-  override createHandler() {
-    const params = super.createHandler()
-    const addToResolvers = this.params?.addToResolvers ?? true
+  override async createHandler() {
+    this.status = 'creating'
+    await super.createHandler()
+    const addToResolvers = this.params.addToResolvers ?? true
     if (addToResolvers) {
       this.upResolver.add(this)
       this.downResolver.add(this)
     }
-    return params
+    this.status = 'created'
   }
 
   manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
@@ -249,13 +247,6 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     return (await Promise.all((await this.parents()).map(parent => parent.publicChildren()))).flat().filter(duplicateModules)
   }
 
-  /* override start(_timeout?: number): Promisable<boolean> {
-    if (this.parents.length === 0) {
-      this.logger.warn(`Module is being started without being attached to a parent: ${this.id} [${this.address}]`)
-    }
-    return super.start()
-  } */
-
   state() {
     this._checkDead()
     return this.busy(async () => {
@@ -331,6 +322,18 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
 
     // Send them off
     return (await this.query(query[0], query[1])) as ModuleQueryResult<R>
+  }
+
+  protected override startHandler() {
+    this._checkDead()
+    return this.busy(async () => {
+      if (this.status === 'started' || this.status === 'creating') {
+        return
+      }
+      this.status = 'starting'
+      await super.startHandler()
+      this.status = 'started'
+    })
   }
 
   protected async storeToArchivists(payloads: Payload[]): Promise<Payload[]> {

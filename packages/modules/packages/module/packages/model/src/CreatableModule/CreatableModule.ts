@@ -2,11 +2,14 @@ import type { Creatable, CreatableInstance } from '@xylabs/creatable'
 import type { Logger } from '@xylabs/logger'
 import type { Schema } from '@xyo-network/payload-model'
 
+import type { ModuleEventData } from '../EventsModels/index.ts'
 import type { AttachableModuleInstance } from '../instance/index.ts'
 import type { WithOptionalLabels } from '../Labels/index.ts'
+import type { ModuleParams } from '../ModuleParams.ts'
 import type { LabeledCreatableModuleFactory } from './LabeledCreatableModuleFactory.ts'
 
-export interface CreatableModuleInstance extends CreatableInstance<AttachableModuleInstance> {}
+export interface CreatableModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
+  extends CreatableInstance<TParams, TEventData>, AttachableModuleInstance<TParams, TEventData> {}
 
 export interface CreatableModuleFactory<T extends CreatableModuleInstance = CreatableModuleInstance>
   extends Omit<CreatableModule<T>, 'create' | 'createHandler' | 'paramsHandler'> {
@@ -26,6 +29,7 @@ export interface CreatableModule<T extends CreatableModuleInstance = CreatableMo
   configSchemas: Schema[]
   defaultConfigSchema: Schema
   defaultLogger?: Logger
+  new(params: Partial<T['params']>): T
   factory(params?: Partial<T['params']>): CreatableModuleFactory<T>
 }
 

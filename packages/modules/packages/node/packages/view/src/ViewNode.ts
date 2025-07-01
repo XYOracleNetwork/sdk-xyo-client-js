@@ -7,7 +7,7 @@ import type {
   ModuleIdentifier,
   ModuleInstance,
 } from '@xyo-network/module-model'
-import { ModuleLimitationViewLabel } from '@xyo-network/module-model'
+import { creatableModule, ModuleLimitationViewLabel } from '@xyo-network/module-model'
 import { SimpleModuleResolver } from '@xyo-network/module-resolver'
 import { MemoryNode, MemoryNodeHelper } from '@xyo-network/node-memory'
 import type {
@@ -39,9 +39,10 @@ export type ViewNodeConfig = NodeConfig<
 
 export type ViewNodeParams = NodeParams<AnyConfigSchema<ViewNodeConfig>>
 
+@creatableModule()
 export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends MemoryNode<TParams, TEventData>
-  implements AttachableNodeInstance {
+  implements AttachableNodeInstance<TParams, TEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, ViewNodeConfigSchema]
   static override readonly defaultConfigSchema: Schema = ViewNodeConfigSchema
   static override readonly labels = { ...ModuleLimitationViewLabel }
@@ -135,12 +136,12 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
   private async build() {
     return await this._buildMutex.runExclusive(async () => {
       if (!this._built) {
-        const source = asNodeInstance(await super.resolve(this.source))
+        const source = this.source === undefined ? undefined : asNodeInstance(await super.resolve(this.source))
         if (source) {
           await Promise.all(
-            this.ids.map(async (id) => {
+            this.ids?.map(async (id) => {
               await MemoryNodeHelper.attachToExistingNode(source, id, this)
-            }),
+            }) ?? [],
           )
           this._built = true
         }

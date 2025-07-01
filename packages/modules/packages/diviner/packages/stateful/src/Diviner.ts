@@ -67,7 +67,7 @@ export abstract class StatefulDiviner<
    * @returns The archivist for the specified store
    */
   protected async getArchivistForStateStore() {
-    const name = assertEx(this.config?.stateStore.archivist, () => `${moduleName}: Config for stateStore.archivist not specified`)
+    const name = assertEx(this.config?.stateStore?.archivist, () => `${moduleName}: Config for stateStore.archivist not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve stateStore.archivist`)
     return ArchivistWrapper.wrap(mod, this.account)
   }
@@ -78,7 +78,7 @@ export abstract class StatefulDiviner<
    * @returns The BoundWitness Diviner for the specified store
    */
   protected async getBoundWitnessDivinerForStateStore() {
-    const name = assertEx(this.config?.stateStore.boundWitnessDiviner, () => `${moduleName}: Config for stateStore.boundWitnessDiviner not specified`)
+    const name = assertEx(this.config?.stateStore?.boundWitnessDiviner, () => `${moduleName}: Config for stateStore.boundWitnessDiviner not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve stateStore.boundWitnessDiviner`)
     return DivinerWrapper.wrap(mod, this.account)
   }

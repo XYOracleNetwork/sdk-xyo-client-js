@@ -15,5 +15,5 @@ export type PayloadDivinerConfig<TAdditional extends EmptyObject | void = void, 
     },
     TAdditional
   >,
-  TSchema extends void ? PayloadDivinerConfigSchema : TSchema
+  TSchema extends void ? Schema : TSchema
 >

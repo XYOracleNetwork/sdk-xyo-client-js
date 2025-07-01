@@ -43,7 +43,7 @@ export class IndexingDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override readonly allowRandomAccount = false
+  static override readonly allowRandomAccount = true
   static override readonly configSchemas: Schema[] = [...super.configSchemas, IndexingDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = IndexingDivinerConfigSchema
 

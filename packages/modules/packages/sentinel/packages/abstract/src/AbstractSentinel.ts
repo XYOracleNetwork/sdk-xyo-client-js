@@ -115,7 +115,7 @@ export abstract class AbstractSentinel<
   protected async generateJob() {
     const job: SentinelJob = { tasks: [] }
     let tasks: ResolvedTask[] = await Promise.all(
-      this.config.tasks.map(async task => ({
+      (this.config.tasks ?? []).map(async task => ({
         input: task.input ?? false,
         mod: assertEx(await this.resolve(task.mod), () => `Unable to resolve task module [${task.mod}]`),
       })),

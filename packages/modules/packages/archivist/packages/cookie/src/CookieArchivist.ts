@@ -18,7 +18,7 @@ import {
   ArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-model'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import type { AnyConfigSchema } from '@xyo-network/module-model'
+import { type AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   Payload, Schema, WithStorageMeta,
@@ -38,8 +38,9 @@ export type CookieArchivistConfig = ArchivistConfig<{
 
 export type CookieArchivistParams = ArchivistParams<AnyConfigSchema<CookieArchivistConfig>>
 
+@creatableModule()
 export class CookieArchivist<
-  TParams extends CookieArchivistParams,
+  TParams extends CookieArchivistParams = CookieArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, CookieArchivistConfigSchema]

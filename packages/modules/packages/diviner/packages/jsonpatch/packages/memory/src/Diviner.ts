@@ -4,12 +4,14 @@ import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type { JsonPatchDivinerParams } from '@xyo-network/diviner-jsonpatch-model'
 import { JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { creatableModule } from '@xyo-network/module-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 import type { applyPatch, Operation } from 'fast-json-patch'
 import fastJsonPatch from 'fast-json-patch'
 
 const FJP = fastJsonPatch as { applyPatch: typeof applyPatch }
 
+@creatableModule()
 export class JsonPatchDiviner<
   TParams extends JsonPatchDivinerParams = JsonPatchDivinerParams,
   TIn extends Payload = Payload,

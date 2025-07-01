@@ -54,7 +54,9 @@ describe.skip('HttpBridge with PubSubBridge', () => {
     const config: PubSubBridgeConfig = {
       client: { intersect }, host: { intersect }, name: 'PubSubBridgeArie', schema: PubSubBridgeConfigSchema,
     }
-    const psParams: PubSubBridgeParams = { account: 'random', config }
+    const psParams: PubSubBridgeParams = {
+      account: 'random', config, name: 'PubSubBridge',
+    }
     const psBridge = await PubSubBridge.create(psParams)
     await memNode.register(psBridge)
     await memNode.attach(psBridge?.address, true)

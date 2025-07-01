@@ -17,7 +17,6 @@ import type {
   ArchivingModuleConfig,
   Module,
   ModuleAddressQuery,
-  ModuleConfigSchema,
   ModuleInstance,
   ModuleManifestQuery,
   ModuleName,
@@ -30,12 +29,15 @@ import {
   AddressPreviousHashSchema,
   DeadModuleError,
   ModuleAddressQuerySchema,
+  ModuleConfigSchema,
   ModuleManifestQuerySchema,
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { ModuleError, Payload } from '@xyo-network/payload-model'
+import type {
+  ModuleError, Payload, Schema,
+} from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType, ModuleErrorSchema } from '@xyo-network/payload-model'
 import type { QueryPayload } from '@xyo-network/query-payload-plugin'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
@@ -43,21 +45,20 @@ import { LRUCache } from 'lru-cache'
 
 import { ModuleProxyResolver } from './ModuleProxyResolver.ts'
 
-export type ModuleProxyParams = ModuleParams<
+export interface ModuleProxyParams extends ModuleParams<
   {
     schema: ModuleConfigSchema
-  },
-  {
-    account: AccountInstance
-    archiving?: ArchivingModuleConfig['archiving'] & { resolveArchivists: () => Promise<ArchivistInstance[]> }
-    host: ModuleResolver
-    manifest?: ModuleManifestPayload
-    moduleAddress: Address
-    onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'mod'>) => void
-    onQuerySendStarted?: (args: Omit<QuerySendStartedEventArgs, 'mod'>) => void
-    state?: Payload[]
-  }
->
+  }>
+{
+  account: AccountInstance
+  archiving?: ArchivingModuleConfig['archiving'] & { resolveArchivists: () => Promise<ArchivistInstance[]> }
+  host: ModuleResolver
+  manifest?: ModuleManifestPayload
+  moduleAddress: Address
+  onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'mod'>) => void
+  onQuerySendStarted?: (args: Omit<QuerySendStartedEventArgs, 'mod'>) => void
+  state?: Payload[]
+}
 
 export abstract class AbstractModuleProxy<
   TWrappedModule extends ModuleInstance = ModuleInstance,
@@ -91,8 +92,8 @@ export abstract class AbstractModuleProxy<
     return this.params?.archiving
   }
 
-  override get config() {
-    return assertEx(this._config, () => 'Config not set')
+  override get config(): TWrappedModule['config'] & { schema: Schema } {
+    return { ...assertEx(this._config, () => 'Config not set'), schema: (this.params.config.schema ?? ModuleConfigSchema) }
   }
 
   override get queries(): string[] {

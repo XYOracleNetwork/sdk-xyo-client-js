@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { creatable, CreatableInstance } from '@xylabs/creatable'
+import { CreatableInstance } from '@xylabs/creatable'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { isAddress } from '@xylabs/hex'
@@ -15,7 +15,7 @@ import type {
   ModuleQueryResult,
   ResolveHelperConfig,
 } from '@xyo-network/module-model'
-import { ResolveHelper } from '@xyo-network/module-model'
+import { creatableModule, ResolveHelper } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 
 import type { AsyncQueryBusClient } from '../AsyncQueryBusClient.ts'
@@ -24,13 +24,11 @@ export interface AsyncQueryBusModuleProxyParams extends ModuleProxyParams {
   busClient: AsyncQueryBusClient
 }
 
-@creatable()
+@creatableModule()
 export class AsyncQueryBusModuleProxy<
   TWrappedModule extends ModuleInstance = ModuleInstance,
 >
   extends AbstractModuleProxy<TWrappedModule, AsyncQueryBusModuleProxyParams & TWrappedModule['params']> {
-  protected static createCount = 0
-
   override get id(): ModuleIdentifier {
     return this.address
   }
@@ -44,14 +42,6 @@ export class AsyncQueryBusModuleProxy<
   ) {
     const instance = (await super.createHandler(inInstance))
     return instance
-  }
-
-  override async createHandler() {
-    AsyncQueryBusModuleProxy.createCount = AsyncQueryBusModuleProxy.createCount + 1
-    if (Math.floor(AsyncQueryBusModuleProxy.createCount / 10) === AsyncQueryBusModuleProxy.createCount / 10) {
-      console.log(`AsyncQueryBusModuleProxy.createCount: ${AsyncQueryBusModuleProxy.createCount}`)
-    }
-    await super.createHandler()
   }
 
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {

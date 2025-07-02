@@ -42,7 +42,9 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   ModuleError, Payload, Schema,
 } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType, ModuleErrorSchema } from '@xyo-network/payload-model'
+import {
+  isPayloadOfSchemaType, isSchema, ModuleErrorSchema,
+} from '@xyo-network/payload-model'
 import type { QueryPayload } from '@xyo-network/query-payload-plugin'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
@@ -69,7 +71,7 @@ export abstract class AbstractModuleProxy<
   implements ModuleInstance<TParams, TWrappedModule['eventData']> {
   static readonly requiredQueries: string[] = [ModuleStateQuerySchema]
 
-  protected _config?: ModuleInstance['config']
+  protected _config?: TWrappedModule['config']
   protected _publicChildren?: ModuleInstance[]
   protected _state: Payload[] | undefined = undefined
   protected _stateInProcess = false
@@ -87,7 +89,7 @@ export abstract class AbstractModuleProxy<
   }
 
   override get config(): TWrappedModule['config'] & { schema: Schema } {
-    return { ...assertEx(this._config, () => 'Config not set'), schema: (this.params.config.schema ?? ModuleConfigSchema) }
+    return { ...this._config, schema: (this._config?.schema ?? ModuleConfigSchema) }
   }
 
   override get queries(): string[] {
@@ -99,30 +101,34 @@ export abstract class AbstractModuleProxy<
   static override async createHandler<T extends CreatableInstance>(
     inInstance: T,
   ) {
-    const classInstance = inInstance as unknown as AbstractModuleProxy
-    let manifest: ModuleManifestPayload | NodeManifestPayload | undefined = classInstance.params.manifest
+    const instance = await super.createHandler(inInstance) as AbstractModuleProxy & T
+    let manifest: ModuleManifestPayload | NodeManifestPayload | undefined = instance.params.manifest
     if (!manifest) {
-      const state = await classInstance.state()
+      const state = await instance.state()
       const manifestPayload = state.find(
         payload => isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema)(payload)
           || isPayloadOfSchemaType<ModuleManifestPayload>(ModuleManifestPayloadSchema)(payload),
       )
       manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
     }
-    classInstance.setConfig({ ...manifest.config })
-    classInstance.downResolver.addResolver(
+    instance.setConfig({ ...manifest.config })
+    instance.downResolver.addResolver(
       new ModuleProxyResolver({
-        childAddressMap: await classInstance.childAddressMap(),
-        host: classInstance.params.host,
-        mod: classInstance,
-        moduleIdentifierTransformers: classInstance.params.moduleIdentifierTransformers,
+        childAddressMap: await instance.childAddressMap(),
+        host: instance.params.host,
+        mod: instance,
+        moduleIdentifierTransformers: instance.params.moduleIdentifierTransformers,
       }),
     )
-    return await super.createHandler(inInstance)
+    return instance
   }
 
   static hasRequiredQueries(mod: Module) {
     return this.missingRequiredQueries(mod).length === 0
+  }
+
+  static override isAllowedSchema(schema: Schema): boolean {
+    return isSchema(schema)
   }
 
   static missingRequiredQueries(mod: Module): string[] {
@@ -140,7 +146,7 @@ export abstract class AbstractModuleProxy<
     const superParams = await super.paramsHandler(inParams)
     return {
       ...superParams,
-      account: superParams.account === 'random' ? await Account.random() : superParams.account,
+      account: (superParams.account === 'random') ? await Account.random() : superParams.account,
       addToResolvers: superParams.addToResolvers ?? true,
     }
   }
@@ -182,6 +188,10 @@ export abstract class AbstractModuleProxy<
       }
     }
     return result
+  }
+
+  override async createHandler(): Promise<void> {
+    return await super.startHandler()
   }
 
   override async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
@@ -286,6 +296,10 @@ export abstract class AbstractModuleProxy<
   protected filterErrors(result: ModuleQueryResult): ModuleError[] {
     const wrapper = BoundWitnessWrapper.wrap(result[0], result[1])
     return wrapper.payloadsBySchema<ModuleError>(ModuleErrorSchema)
+  }
+
+  protected override async startHandler(): Promise<void> {
+    return await super.startHandler()
   }
 
   // this checks and warns if we are getting spammed by the same query

@@ -3,6 +3,7 @@ import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import type { Address } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
+import { isString } from '@xylabs/typeof'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import type { ModuleProxyParams } from '@xyo-network/bridge-abstract'
 import { AbstractModuleProxy } from '@xyo-network/bridge-abstract'
@@ -14,7 +15,7 @@ import type {
   ModuleQueryResult,
   ResolveHelperConfig,
 } from '@xyo-network/module-model'
-import { ResolveHelper } from '@xyo-network/module-model'
+import { creatableModule, ResolveHelper } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 
 export interface BridgeQuerySender {
@@ -29,6 +30,7 @@ export type HttpModuleProxyParams = ModuleProxyParams & {
   querySender: BridgeQuerySender
 }
 
+@creatableModule()
 export class HttpModuleProxy<
   TWrappedModule extends ModuleInstance = ModuleInstance,
   TParams extends Omit<HttpModuleProxyParams, 'config'> & { config: TWrappedModule['config'] } = Omit<HttpModuleProxyParams, 'config'> & {
@@ -37,16 +39,6 @@ export class HttpModuleProxy<
 >
   extends AbstractModuleProxy<TWrappedModule, TParams>
   implements AttachableModuleInstance<TParams, TWrappedModule['eventData']> {
-  protected static createCount = 0
-
-  constructor(params: TParams) {
-    HttpModuleProxy.createCount = HttpModuleProxy.createCount + 1
-    super(params)
-    if (Math.floor(HttpModuleProxy.createCount / 10) === HttpModuleProxy.createCount / 10) {
-      console.log(`HttpModuleProxy.createCount: ${HttpModuleProxy.createCount}`)
-    }
-  }
-
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {
     if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
       forget(this.storeToArchivists([query, ...(payloads ?? [])]))
@@ -91,17 +83,20 @@ export class HttpModuleProxy<
     switch (typeof id) {
       case 'string': {
         const parts = id.split(':')
-        const first = assertEx(parts.shift(), () => 'Missing first')
-        const remainingPath = parts.join(':')
-        const address
+        const first = parts.shift()
+        if (isString(first)) {
+          const remainingPath = parts.length > 0 ? parts.join(':') : undefined
+          const address
           = isAddress(first)
             ? first
             : this.id === first
               ? this.address
               : this.childAddressByName(first)
-        if (!address) return undefined
-        const firstInstance = (await this.params.host.resolve(address)) as ModuleInstance | undefined
-        return (remainingPath ? await firstInstance?.resolve(remainingPath) : firstInstance) as T | undefined
+          if (!isAddress(address)) return undefined
+          const firstInstance = (await this.params.host.resolve(address)) as ModuleInstance | undefined
+          return (isString(remainingPath) ? await firstInstance?.resolve(remainingPath) : firstInstance) as T | undefined
+        }
+        return undefined
       }
       default: {
         return (await ResolveHelper.resolve(config, id, options)).filter(mod => mod.address !== this.address)

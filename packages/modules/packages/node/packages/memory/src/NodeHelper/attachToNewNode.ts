@@ -6,7 +6,7 @@ import type { MemoryNodeParams } from '../MemoryNode.ts'
 import { MemoryNode } from '../MemoryNode.ts'
 import { attachToExistingNode } from './attachToExistingNode.ts'
 
-const DEFAULT_NODE_PARAMS = { config: { schema: NodeConfigSchema }, name: 'Node <unknown>' }
+const DEFAULT_NODE_PARAMS = { config: { schema: NodeConfigSchema }, name: 'MemoryNode' }
 
 export const attachToNewNode = async (
   source: NodeInstance,

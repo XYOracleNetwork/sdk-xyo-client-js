@@ -29,15 +29,15 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.12.29",
-    "@xylabs/geo": "^4.12.29",
-    "@xylabs/hex": "^4.12.29",
+    "@xylabs/assert": "^4.12.30",
+    "@xylabs/geo": "^4.12.30",
+    "@xylabs/hex": "^4.12.30",
     "mapbox-gl": "^3.13.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.5.12",
     "@xylabs/tsconfig": "^6.5.12",
-    "@xylabs/vitest-extended": "^4.12.29",
+    "@xylabs/vitest-extended": "^4.12.30",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },

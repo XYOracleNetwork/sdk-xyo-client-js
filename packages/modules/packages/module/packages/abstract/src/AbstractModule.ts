@@ -254,7 +254,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       const schema: Schema = instance.config.schema ?? this.defaultConfigSchema
       const allowedSchemas: Schema[] = this.configSchemas
 
-      assertEx(allowedSchemas.includes(schema), () => `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`)
+      assertEx(this.isAllowedSchema(schema), () => `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`)
     } else {
       throw new TypeError(`Invalid instance type [${instance.constructor.name}] for [${this.name}]`)
     }
@@ -277,14 +277,19 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return ModuleFactory.withParams(this, params)
   }
 
+  static isAllowedSchema(schema: Schema): boolean {
+    return this.configSchemas.includes(schema)
+  }
+
   static override async paramsHandler<T extends AttachableModuleInstance<ModuleParams, ModuleEventData>>(
     inParams: Partial<T['params']> = {},
   ) {
+    const superParams = await super.paramsHandler(inParams)
     const params = {
-      ...inParams,
-      account: await this.determineAccount(inParams),
-      config: { schema: this.defaultConfigSchema, ...inParams.config },
-      logger: inParams.logger ?? this.defaultLogger,
+      ...superParams,
+      account: await this.determineAccount(superParams),
+      config: { schema: this.defaultConfigSchema, ...superParams.config },
+      logger: superParams.logger ?? this.defaultLogger,
     } as T['params']
     return params
   }

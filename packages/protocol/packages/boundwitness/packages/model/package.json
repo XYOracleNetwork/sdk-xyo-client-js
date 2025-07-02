@@ -29,12 +29,12 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.12.29",
-    "@xylabs/object": "^4.12.29",
+    "@xylabs/hex": "^4.12.30",
+    "@xylabs/object": "^4.12.30",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@types/node": "^24.0.8",
+    "@types/node": "^24.0.10",
     "@xylabs/ts-scripts-yarn3": "^6.5.12",
     "@xylabs/tsconfig": "^6.5.12",
     "typescript": "^5.8.3"

@@ -57,7 +57,7 @@ export class WebsocketBridgeModuleResolver<
 
     this.logger?.debug(`creating HttpProxy [${moduleAddress}] ${id}`)
 
-    const proxy = new WebsocketModuleProxy<T, WebsocketModuleProxyParams>(params)
+    const proxy = await WebsocketModuleProxy.create(params)
     // calling state here to get the config
     if (proxy) {
       const state = await proxy.state()

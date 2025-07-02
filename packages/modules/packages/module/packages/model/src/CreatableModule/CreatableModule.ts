@@ -29,7 +29,7 @@ export interface CreatableModule<T extends CreatableModuleInstance = CreatableMo
   configSchemas: Schema[]
   defaultConfigSchema: Schema
   defaultLogger?: Logger
-  new(params: Partial<T['params']>): T
+  new(key: unknown, params: Partial<T['params']>): T
   factory(params?: Partial<T['params']>): CreatableModuleFactory<T>
 }
 

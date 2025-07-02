@@ -17,7 +17,7 @@ import type { Promisable } from '@xylabs/promise'
 import { PromiseEx } from '@xylabs/promise'
 import { spanAsync } from '@xylabs/telemetry'
 import {
-  isDefined, isObject, isString, isUndefined,
+  isDefined, isObject, isPromise, isString, isUndefined,
 } from '@xylabs/typeof'
 import { Account } from '@xyo-network/account'
 import { type AccountInstance, isAccountInstance } from '@xyo-network/account-model'
@@ -452,21 +452,23 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
     if (this.status === 'created' || this.status === 'stopped') {
       // using promise as mutex
-      this._startPromise = (async () => {
+      this._startPromise = this._startPromise ?? (async () => {
         if (tryStart) {
           try {
             await this.start()
             return true
           } catch (ex) {
             handleError(ex, (error) => {
-              this.logger?.warn(`Autostart of Module Failed: ${error.message})`)
-              this._startPromise = undefined
+              this.status = 'error'
+              this.logger?.warn(`Autostart of Module Failed: ${error.message}`)
             })
+          } finally {
+            this._startPromise = undefined
           }
         }
         switch (notStartedAction) {
           case 'throw': {
-            throw new Error(`${MODULE_NOT_STARTED} [${this.address}]`)
+            throw new Error(`${MODULE_NOT_STARTED} [${this.address}] current state: ${this.status}`)
           }
           case 'warn': {
             this.logger?.warn(MODULE_NOT_STARTED)

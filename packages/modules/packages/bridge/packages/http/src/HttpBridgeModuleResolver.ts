@@ -1,12 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import type { Address } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
+import { isDefined } from '@xylabs/typeof'
 import { Account } from '@xyo-network/account'
 import type { BridgeModuleResolverParams } from '@xyo-network/bridge-abstract'
 import { AbstractBridgeModuleResolver, wrapModuleWithType } from '@xyo-network/bridge-abstract'
 import type { ConfigPayload } from '@xyo-network/config-payload-plugin'
 import { ConfigSchema } from '@xyo-network/config-payload-plugin'
 import type {
+  AttachableModuleInstance,
   ModuleConfig,
   ModuleFilterOptions,
   ModuleIdentifier,
@@ -87,37 +89,40 @@ export class HttpBridgeModuleResolver<
 
       this.logger?.debug(`creating HttpProxy [${firstPart}] ${id}`)
 
-      const proxy = await HttpModuleProxy.create(finalParams)
+      let proxy: HttpModuleProxy | undefined
 
       let state: Payload[] | undefined
 
       try {
+        proxy = await HttpModuleProxy.create(finalParams)
         state = await proxy.state()
       } catch (ex) {
         const error = ex as Error
-        this.logger?.log(error.message)
+        this.logger?.error(error.message)
       }
 
-      if (!state) {
+      if (isDefined(proxy)) {
+        if (!state) {
         // cache the fact that it was not found
-        this._resolvedCache.set(firstPart as Address, NotFoundModule)
-        return
+          this._resolvedCache.set(firstPart as Address, NotFoundModule)
+          return
+        }
+
+        const configSchema = (state.find(payload => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
+        const config = assertEx(
+          state.find(payload => payload.schema === configSchema),
+          () => 'Unable to locate config',
+        ) as ModuleConfig
+        proxy.setConfig(config)
+
+        this.logger?.log(`created HttpProxy [${firstPart}] ${proxy.id}`)
+
+        await proxy.start?.()
+        const wrapped = wrapModuleWithType(proxy, account) as unknown as T
+        assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
+        this._resolvedCache.set(wrapped.address, wrapped)
+        return wrapped as ModuleInstance as T
       }
-
-      const configSchema = (state.find(payload => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
-      const config = assertEx(
-        state.find(payload => payload.schema === configSchema),
-        () => 'Unable to locate config',
-      ) as ModuleConfig
-      proxy.setConfig(config)
-
-      this.logger?.log(`created HttpProxy [${firstPart}] ${proxy.id}`)
-
-      await proxy.start?.()
-      const wrapped = wrapModuleWithType(proxy, account) as unknown as T
-      assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
-      this._resolvedCache.set(wrapped.address, wrapped)
-      return wrapped as ModuleInstance as T
     })
     const result = remainderParts.length > 0 ? await instance?.resolve(remainderParts, options) : instance
     return result ? [result] : []

@@ -32,6 +32,7 @@
     "@xylabs/array": "^4.12.29",
     "@xylabs/assert": "^4.12.29",
     "@xylabs/base": "^4.12.29",
+    "@xylabs/creatable": "^4.12.29",
     "@xylabs/delay": "^4.12.29",
     "@xylabs/exists": "^4.12.29",
     "@xylabs/forget": "^4.12.29",

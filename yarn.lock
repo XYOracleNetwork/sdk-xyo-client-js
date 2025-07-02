@@ -3940,6 +3940,7 @@ __metadata:
   dependencies:
     "@xylabs/assert": "npm:^4.12.29"
     "@xylabs/base": "npm:^4.12.29"
+    "@xylabs/creatable": "npm:^4.12.29"
     "@xylabs/exists": "npm:^4.12.29"
     "@xylabs/forget": "npm:^4.12.29"
     "@xylabs/hex": "npm:^4.12.29"
@@ -4088,6 +4089,7 @@ __metadata:
     "@xylabs/array": "npm:^4.12.29"
     "@xylabs/assert": "npm:^4.12.29"
     "@xylabs/base": "npm:^4.12.29"
+    "@xylabs/creatable": "npm:^4.12.29"
     "@xylabs/delay": "npm:^4.12.29"
     "@xylabs/exists": "npm:^4.12.29"
     "@xylabs/forget": "npm:^4.12.29"

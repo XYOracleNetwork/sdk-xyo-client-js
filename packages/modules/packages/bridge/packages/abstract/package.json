@@ -31,6 +31,7 @@
   "dependencies": {
     "@xylabs/assert": "^4.12.29",
     "@xylabs/base": "^4.12.29",
+    "@xylabs/creatable": "^4.12.29",
     "@xylabs/exists": "^4.12.29",
     "@xylabs/forget": "^4.12.29",
     "@xylabs/hex": "^4.12.29",

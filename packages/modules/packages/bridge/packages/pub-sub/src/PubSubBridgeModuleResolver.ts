@@ -59,7 +59,7 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
         onQuerySendFinished: this.params.onQuerySendFinished,
         onQuerySendStarted: this.params.onQuerySendStarted,
       }
-      const proxy = new AsyncQueryBusModuleProxy<T, AsyncQueryBusModuleProxyParams>(finalParams)
+      const proxy = await AsyncQueryBusModuleProxy.create(finalParams)
       const state = await proxy.state()
       const configSchema = (state.find(payload => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
       const config = assertEx(

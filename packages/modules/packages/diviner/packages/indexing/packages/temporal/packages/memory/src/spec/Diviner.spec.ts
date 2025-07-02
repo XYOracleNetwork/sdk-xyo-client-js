@@ -63,7 +63,7 @@ describe('TemporalIndexingDiviner', () => {
 
   const thumbnailHttpFail: ImageThumbnail = {
     http: {
-      // eslint-disable-next-line sonarjs/no-hardcoded-ip
+
       ipAddress: '104.17.96.13',
       status: 429,
     },
@@ -78,7 +78,7 @@ describe('TemporalIndexingDiviner', () => {
   }
 
   const thumbnailWitnessFail: ImageThumbnail = {
-    // eslint-disable-next-line sonarjs/no-hardcoded-ip
+
     http: { ipAddress: '104.17.96.13' },
     schema: 'network.xyo.image.thumbnail',
     sourceUrl,
@@ -92,11 +92,11 @@ describe('TemporalIndexingDiviner', () => {
     const labels: Labels = { 'network.xyo.image.thumbnail': 'diviner' }
     const wallet = await HDWallet.random()
     const locator = new ModuleFactoryLocator()
-    locator.register(TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner, labels)
-    locator.register(TemporalIndexingDivinerIndexCandidateToIndexDiviner, labels)
-    locator.register(TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner, labels)
-    locator.register(TemporalIndexingDivinerStateToIndexCandidateDiviner, labels)
-    locator.register(TemporalIndexingDiviner, labels)
+    locator.register(TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.factory(), labels)
+    locator.register(TemporalIndexingDivinerIndexCandidateToIndexDiviner.factory(), labels)
+    locator.register(TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.factory(), labels)
+    locator.register(TemporalIndexingDivinerStateToIndexCandidateDiviner.factory(), labels)
+    locator.register(TemporalIndexingDiviner.factory(), labels)
     const manifest = imageThumbnailDivinerManifest as PackageManifestPayload
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)

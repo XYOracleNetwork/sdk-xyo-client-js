@@ -11,7 +11,7 @@
         "--inspect-brk",
         "--no-file-parallelism",
         "--testTimeout=120000",
-        "packages/modules/packages/archivist/packages/mongodb/src/spec/ArchivistV2.spec.ts"
+        "packages/manifest/packages/wrapper/src/spec/Manifest.View.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

@@ -1,3 +1,4 @@
+export * from './ArchivistDriver.ts'
 export * from './ArchivistFunctions.ts'
 export * from './ArchivistSnapshot.ts'
 export * from './ArchivistStats.ts'

@@ -4,10 +4,9 @@ import type { JobQueue } from '@xyo-network/shared'
 
 import type { MongoDBModuleConfigV2 } from './ConfigV2.ts'
 
-export type MongoDBModuleParamsV2 = ModuleParams<
-  AnyConfigSchema<MongoDBModuleConfigV2>,
-  {
-    jobQueue?: JobQueue
-    payloadSdkConfig?: (BaseMongoSdkPrivateConfig & Partial<BaseMongoSdkPublicConfig>)
-  }
->
+export interface MongoDBModuleParamsV2<TConfig extends AnyConfigSchema<MongoDBModuleConfigV2> = AnyConfigSchema<MongoDBModuleConfigV2>>
+  extends ModuleParams<TConfig>
+{
+  jobQueue?: JobQueue
+  payloadSdkConfig?: (BaseMongoSdkPrivateConfig & Partial<BaseMongoSdkPublicConfig>)
+}

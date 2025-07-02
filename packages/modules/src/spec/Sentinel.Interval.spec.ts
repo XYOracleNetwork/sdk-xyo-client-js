@@ -33,9 +33,9 @@ describe('Sentinel.Interval', () => {
   beforeAll(async () => {
     const wallet = await HDWallet.random()
     const locator = new ModuleFactoryLocator()
-    locator.register(JsonPatchDiviner)
-    locator.register(JsonPathDiviner)
-    locator.register(JsonPathAggregateDiviner)
+    locator.register(JsonPatchDiviner.factory())
+    locator.register(JsonPathDiviner.factory())
+    locator.register(JsonPathAggregateDiviner.factory())
     const manifest = SentinelManifest as PackageManifestPayload
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)

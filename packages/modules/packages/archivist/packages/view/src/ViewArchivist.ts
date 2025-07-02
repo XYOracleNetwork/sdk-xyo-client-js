@@ -14,7 +14,7 @@ import {
 } from '@xyo-network/archivist-model'
 import {
   AnyConfigSchema,
-  labeledCreatableModuleFactory,
+  labeledCreatableModule,
   ModuleIdentifier,
   ModuleInstance,
   ModuleLimitationViewLabel,
@@ -35,7 +35,7 @@ export type ViewArchivistConfig = ArchivistConfig<
 
 export type ViewArchivistParams<TConfig extends AnyConfigSchema<ViewArchivistConfig> = AnyConfigSchema<ViewArchivistConfig>> = ArchivistParams<TConfig>
 
-@labeledCreatableModuleFactory()
+@labeledCreatableModule()
 export class ViewArchivist<
   TParams extends ViewArchivistParams<AnyConfigSchema<ViewArchivistConfig>> = ViewArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,

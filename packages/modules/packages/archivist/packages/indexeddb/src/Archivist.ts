@@ -358,7 +358,6 @@ export class IndexedDbArchivist<
     this._payloadCount = await this.useDb(async (db) => {
       return await db.count(this.storeName)
     })
-    return true
   }
 
   /**

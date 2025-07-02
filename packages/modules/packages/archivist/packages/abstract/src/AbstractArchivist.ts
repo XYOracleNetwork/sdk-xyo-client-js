@@ -48,7 +48,7 @@ import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import type {
   ModuleConfig, ModuleIdentifier, ModuleQueryHandlerResult, ModuleQueryResult,
 } from '@xyo-network/module-model'
-import { duplicateModules } from '@xyo-network/module-model'
+import { creatableModule, duplicateModules } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   Payload, Schema, WithStorageMeta,
@@ -73,6 +73,7 @@ interface ArchivistParentInstanceMap {
   write?: Partial<Record<ModuleIdentifier, ArchivistInstance>>
 }
 
+creatableModule()
 export abstract class AbstractArchivist<
   TParams extends ArchivistParams = ArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,

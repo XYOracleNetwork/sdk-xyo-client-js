@@ -47,6 +47,7 @@ export class WebsocketBridgeModuleResolver<
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
     const params: WebsocketModuleProxyParams = {
+      name: 'WebsocketBridgeModuleResolver',
       account: await Account.random(),
       config: { schema: ModuleConfigSchema },
       host: this,
@@ -56,7 +57,7 @@ export class WebsocketBridgeModuleResolver<
 
     this.logger?.debug(`creating HttpProxy [${moduleAddress}] ${id}`)
 
-    const proxy = new WebsocketModuleProxy<T, WebsocketModuleProxyParams>(params)
+    const proxy = await WebsocketModuleProxy.create(params)
     // calling state here to get the config
     if (proxy) {
       const state = await proxy.state()

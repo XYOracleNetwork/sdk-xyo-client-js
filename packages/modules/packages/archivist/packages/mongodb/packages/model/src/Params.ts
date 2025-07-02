@@ -4,10 +4,8 @@ import type { AnyConfigSchema } from '@xyo-network/module-model'
 
 import type { MongoDBArchivistConfig } from './Config.js'
 
-export type MongoDBArchivistParams = ArchivistParams<
-  AnyConfigSchema<MongoDBArchivistConfig>,
-  {
-    boundWitnessSdkConfig: BaseMongoSdkPrivateConfig & Partial<BaseMongoSdkPublicConfig>
-    payloadSdkConfig: BaseMongoSdkPrivateConfig & Partial<BaseMongoSdkPublicConfig>
-  }
->
+export interface MongoDBArchivistParams extends ArchivistParams<
+  AnyConfigSchema<MongoDBArchivistConfig>> {
+  boundWitnessSdkConfig: BaseMongoSdkPrivateConfig & Partial<BaseMongoSdkPublicConfig>
+  payloadSdkConfig: BaseMongoSdkPrivateConfig & Partial<BaseMongoSdkPublicConfig>
+}

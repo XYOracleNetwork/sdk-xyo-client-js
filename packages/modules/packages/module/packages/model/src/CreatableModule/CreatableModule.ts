@@ -1,25 +1,36 @@
-import type { Address } from '@xylabs/hex'
+import type { Creatable, CreatableInstance } from '@xylabs/creatable'
 import type { Logger } from '@xylabs/logger'
-import type { AccountInstance } from '@xyo-network/account-model'
 import type { Schema } from '@xyo-network/payload-model'
 
+import type { ModuleEventData } from '../EventsModels/index.ts'
 import type { AttachableModuleInstance } from '../instance/index.ts'
+import type { WithOptionalLabels } from '../Labels/index.ts'
+import type { ModuleParams } from '../ModuleParams.ts'
+import type { LabeledCreatableModuleFactory } from './LabeledCreatableModuleFactory.ts'
 
-export type CreatableModuleFactory<T extends AttachableModuleInstance | void = void> = Omit<
-  CreatableModule<T extends AttachableModuleInstance ? T : AttachableModuleInstance>,
-  'new' | 'create'
-> & {
-  create<T extends AttachableModuleInstance>(this: CreatableModuleFactory<T>, params: T['params']): Promise<T>
+export interface CreatableModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
+  extends CreatableInstance<TParams, TEventData>, AttachableModuleInstance<TParams, TEventData> {}
+
+export interface CreatableModuleFactory<T extends CreatableModuleInstance = CreatableModuleInstance>
+  extends Omit<CreatableModule<T>, 'create' | 'createHandler' | 'paramsHandler'> {
+  creatableModule: CreatableModule<T>
+  defaultParams?: Partial<T['params']>
+
+  create(
+    this: CreatableModuleFactory<T>,
+    params?: Partial<T['params']>): Promise<T>
 }
 
-export interface CreatableModule<T extends AttachableModuleInstance = AttachableModuleInstance> {
+export interface LabeledCreatableModule<T extends CreatableModuleInstance = CreatableModuleInstance> extends CreatableModule<T>, WithOptionalLabels {
+  factory(params?: Partial<T['params']>): LabeledCreatableModuleFactory<T>
+}
+
+export interface CreatableModule<T extends CreatableModuleInstance = CreatableModuleInstance> extends Creatable<T> {
   configSchemas: Schema[]
   defaultConfigSchema: Schema
   defaultLogger?: Logger
-  new (privateConstructorKey: string, params: T['params'], account: AccountInstance, address: Address): T
-  _noOverride(functionName: string): void
-  create<T extends AttachableModuleInstance>(this: CreatableModule<T>, params: T['params']): Promise<T>
-  factory<T extends AttachableModuleInstance>(this: CreatableModule<T>, params: T['params']): CreatableModuleFactory<T>
+  new(key: unknown, params: Partial<T['params']>): T
+  factory(params?: Partial<T['params']>): CreatableModuleFactory<T>
 }
 
 /**
@@ -28,7 +39,7 @@ export interface CreatableModule<T extends AttachableModuleInstance = Attachable
  * @returns The decorated Module requiring it implement the members
  * of the CreatableModule as statics properties/methods
  */
-export function creatableModule<TModule extends AttachableModuleInstance = AttachableModuleInstance>() {
+export function creatableModule<TModule extends CreatableModuleInstance = CreatableModuleInstance>() {
   return <U extends CreatableModule<TModule>>(constructor: U) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     constructor
@@ -37,12 +48,12 @@ export function creatableModule<TModule extends AttachableModuleInstance = Attac
 
 /**
  * Class annotation to be used to decorate Modules which support
- * an asynchronous creation factory pattern
+ * an asynchronous creation pattern
  * @returns The decorated Module requiring it implement the members
  * of the CreatableModule as statics properties/methods
  */
-export function creatableModuleFactory<TModule extends AttachableModuleInstance = AttachableModuleInstance>() {
-  return <U extends CreatableModuleFactory<TModule>>(constructor: U) => {
+export function labeledCreatableModule<TModule extends CreatableModuleInstance = CreatableModuleInstance>() {
+  return <U extends LabeledCreatableModule<TModule>>(constructor: U) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     constructor
   }

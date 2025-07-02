@@ -93,16 +93,8 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
   protected override async startHandler() {
     await super.startHandler()
     this._memoryArchivist = await MemoryArchivist.create({ account: await HDWallet.random() })
-    try {
-      const data = FilesystemArchivist.dataFromRawJson(await this.rawJsonFromFile())
-      await this._memoryArchivist.insert(data.payloads)
-    } catch (ex) {
-      handleError(ex, (error) => {
-        this.logger?.error(error.message)
-      })
-      return false
-    }
-    return true
+    const data = FilesystemArchivist.dataFromRawJson(await this.rawJsonFromFile())
+    await this._memoryArchivist.insert(data.payloads)
   }
 
   private async rawJsonFromFile() {

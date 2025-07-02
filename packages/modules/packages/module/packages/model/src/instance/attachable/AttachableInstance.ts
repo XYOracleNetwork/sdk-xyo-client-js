@@ -1,3 +1,4 @@
+import type { CreatableInstance } from '@xylabs/creatable'
 import type { TypeCheck } from '@xylabs/object'
 import { IsObjectFactory } from '@xylabs/object'
 
@@ -7,7 +8,8 @@ import type { ModuleInstance } from '../Instance.ts'
 import type { ModuleResolverInstance } from '../ModuleResolver.ts'
 
 export interface AttachableModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
-  extends ModuleInstance<TParams, TEventData> {
+  extends ModuleInstance<TParams, TEventData>, CreatableInstance<TParams, TEventData> {
+  config: TParams['config']
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module */
   readonly downResolver: ModuleResolverInstance
 

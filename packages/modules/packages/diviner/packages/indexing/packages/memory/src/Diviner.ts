@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
+import { isString } from '@xylabs/typeof'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
@@ -42,7 +43,7 @@ export class IndexingDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override readonly allowRandomAccount = false
+  static override readonly allowRandomAccount = true
   static override readonly configSchemas: Schema[] = [...super.configSchemas, IndexingDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = IndexingDivinerConfigSchema
 
@@ -213,18 +214,17 @@ export class IndexingDiviner<
     return undefined
   }
 
-  protected override async startHandler(): Promise<boolean> {
+  protected override async startHandler() {
     await super.startHandler()
     this.poll()
-    return true
   }
 
-  protected override async stopHandler(_timeout?: number | undefined): Promise<boolean> {
-    if (this._pollId) {
+  protected override async stopHandler(_timeout?: number | undefined) {
+    if (isString(this._pollId)) {
       clearTimeout(this._pollId)
       this._pollId = undefined
     }
-    return await super.stopHandler()
+    await super.stopHandler()
   }
 
   /**

@@ -98,12 +98,14 @@ export class HttpBridgeExpress<TParams extends HttpBridgeExpressParams> extends 
     return this._exposedModules.map(ref => ref.deref()?.address).filter(exists)
   }
 
-  override async startHandler(): Promise<boolean> {
-    return (await super.startHandler()) && (await this.startHttpServer())
+  override async startHandler() {
+    await super.startHandler()
+    await this.startHttpServer()
   }
 
-  override async stopHandler(_timeout?: number | undefined): Promise<boolean> {
-    return (await super.stopHandler()) && (await this.stopHttpServer())
+  override async stopHandler(_timeout?: number | undefined) {
+    await super.stopHandler()
+    await this.stopHttpServer()
   }
 
   override async unexposeHandler(address: Address, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {

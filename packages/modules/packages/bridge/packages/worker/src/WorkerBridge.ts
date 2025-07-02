@@ -22,12 +22,11 @@ import { LRUCache } from 'lru-cache'
 import { defaultPackageManifest } from './defaultNodeManifest.ts'
 import { WorkerBridgeConfig, WorkerBridgeConfigSchema } from './WorkerBridgeConfig.ts'
 
-export type WorkerBridgeParams<TConfig extends AnyConfigSchema<WorkerBridgeConfig> = AnyConfigSchema<WorkerBridgeConfig>> = ModuleParams<
-  TConfig,
-  {
-    worker?: Worker
-  }
->
+export interface WorkerBridgeParams<TConfig extends AnyConfigSchema<WorkerBridgeConfig> = AnyConfigSchema<WorkerBridgeConfig>> extends ModuleParams<
+  TConfig
+> {
+  worker?: Worker
+}
 
 export interface Message<T extends string = string> {
   type: T

@@ -1,7 +1,9 @@
 import { assertEx } from '@xylabs/assert'
+import { CreatableInstance } from '@xylabs/creatable'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { isAddress } from '@xylabs/hex'
+import { isString } from '@xylabs/typeof'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import type { ModuleProxyParams } from '@xyo-network/bridge-abstract'
 import { AbstractModuleProxy } from '@xyo-network/bridge-abstract'
@@ -13,42 +15,33 @@ import type {
   ModuleQueryResult,
   ResolveHelperConfig,
 } from '@xyo-network/module-model'
-import { ResolveHelper } from '@xyo-network/module-model'
+import { creatableModule, ResolveHelper } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 
 import type { AsyncQueryBusClient } from '../AsyncQueryBusClient.ts'
 
-export type AsyncQueryBusModuleProxyParams = ModuleProxyParams & {
+export interface AsyncQueryBusModuleProxyParams extends ModuleProxyParams {
   busClient: AsyncQueryBusClient
 }
 
+@creatableModule()
 export class AsyncQueryBusModuleProxy<
   TWrappedModule extends ModuleInstance = ModuleInstance,
-  TParams extends Omit<AsyncQueryBusModuleProxyParams, 'config'> & { config: TWrappedModule['config'] } = Omit<
-    AsyncQueryBusModuleProxyParams,
-    'config'
-  > & {
-    config: TWrappedModule['config']
-  },
 >
-  extends AbstractModuleProxy<TWrappedModule, TParams>
-  implements ModuleInstance<TParams, TWrappedModule['eventData']> {
-  protected static createCount = 0
-
-  constructor(params: TParams) {
-    AsyncQueryBusModuleProxy.createCount = AsyncQueryBusModuleProxy.createCount + 1
-    if (Math.floor(AsyncQueryBusModuleProxy.createCount / 10) === AsyncQueryBusModuleProxy.createCount / 10) {
-      console.log(`AsyncQueryBusModuleProxy.createCount: ${AsyncQueryBusModuleProxy.createCount}`)
-    }
-    super(params)
-  }
-
+  extends AbstractModuleProxy<TWrappedModule, AsyncQueryBusModuleProxyParams & TWrappedModule['params']> {
   override get id(): ModuleIdentifier {
     return this.address
   }
 
   override get modName(): ModuleName | undefined {
     return undefined
+  }
+
+  static override async createHandler<T extends CreatableInstance>(
+    inInstance: T,
+  ) {
+    const instance = (await super.createHandler(inInstance))
+    return instance
   }
 
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
@@ -96,19 +89,15 @@ export class AsyncQueryBusModuleProxy<
       case 'string': {
         const parts = id.split(':')
         const first = assertEx(parts.shift(), () => 'Missing first')
-        const remainingPath = parts.join(':')
+        const remainingPath = parts.length > 0 ? parts.join(':') : undefined
         const address = isAddress(first) ? first : this.childAddressByName(first)
-        if (!address) return undefined
+        if (!isAddress(address)) return undefined
         const firstInstance = (await this.params.host.resolve(address)) as ModuleInstance | undefined
-        return (remainingPath ? await firstInstance?.resolve(remainingPath) : firstInstance) as T | undefined
+        return (isString(remainingPath) ? await firstInstance?.resolve(remainingPath) : firstInstance) as T | undefined
       }
       default: {
         return (await ResolveHelper.resolve(config, id, options)).filter(mod => mod.address !== this.address)
       }
     }
-  }
-
-  override async startHandler(): Promise<boolean> {
-    return await super.startHandler()
   }
 }

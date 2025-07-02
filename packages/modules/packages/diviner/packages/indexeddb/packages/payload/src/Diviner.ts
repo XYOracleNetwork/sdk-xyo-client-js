@@ -140,11 +140,6 @@ export class IndexedDbPayloadDiviner<
     return result ?? []
   }
 
-  protected override async startHandler() {
-    await super.startHandler()
-    return true
-  }
-
   /**
    * Checks that the desired DB/objectStore exists and is initialized to the correct version
    * @returns The initialized DB or undefined if it does not exist in the desired state

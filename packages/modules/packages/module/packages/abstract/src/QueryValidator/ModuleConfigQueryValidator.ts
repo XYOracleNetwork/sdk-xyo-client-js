@@ -7,7 +7,6 @@ import type { Schema } from '@xyo-network/payload-model'
 
 import type { Queryable, QueryValidator } from './QueryValidator.ts'
 
-// eslint-disable-next-line sonarjs/redundant-type-aliases
 export type SortedPipedAddressesString = string
 
 const delimiter = ''

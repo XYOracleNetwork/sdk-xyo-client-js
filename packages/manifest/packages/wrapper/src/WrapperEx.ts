@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { isArray } from '@xylabs/typeof'
 import type {
   ModuleManifest, NodeManifest, PackageManifestPayload,
 } from '@xyo-network/manifest-model'
@@ -143,10 +144,11 @@ export class ManifestWrapperEx<
     const path = manifest.config.accountPath
     const account = path ? await wallet.derivePath(path) : 'random'
     const params: ModuleParams = {
+      name: manifest.config.name,
       account,
       config: assertEx(manifest.config, () => 'Missing config'),
     }
-    if (this.moduleIdentifierTransformers) {
+    if (isArray(this.moduleIdentifierTransformers)) {
       params.moduleIdentifierTransformers = this.moduleIdentifierTransformers
     }
     const mod = await creatableModule.create(params)

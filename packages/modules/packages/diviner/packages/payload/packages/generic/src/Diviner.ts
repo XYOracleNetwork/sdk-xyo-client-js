@@ -13,6 +13,7 @@ import type {
   PayloadDivinerQueryPayload,
 } from '@xyo-network/diviner-payload-model'
 import { asPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
+import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   Payload, Schema,
@@ -33,6 +34,7 @@ export type GenericPayloadDivinerConfig = PayloadDivinerConfig<
   GenericPayloadDivinerConfigSchema
 >
 
+@creatableModule()
 export class GenericPayloadDiviner<
   TParams extends PayloadDivinerParams<GenericPayloadDivinerConfig> = PayloadDivinerParams<GenericPayloadDivinerConfig>,
   TIn extends PayloadDivinerQueryPayload = PayloadDivinerQueryPayload,
@@ -153,12 +155,12 @@ export class GenericPayloadDiviner<
     forget(this.updateIndex())
   }
 
-  protected override async stopHandler(_timeout?: number | undefined): Promise<boolean> {
+  protected override async stopHandler(_timeout?: number | undefined) {
+    await super.stopHandler()
     const archivist = await this.archivistInstance(true)
     archivist.off('inserted', this.onArchivistInserted)
     archivist.off('deleted', this.onArchivistDeleted)
     archivist.off('cleared', this.onArchivistCleared)
-    return await super.stopHandler()
   }
 
   // index any new payloads

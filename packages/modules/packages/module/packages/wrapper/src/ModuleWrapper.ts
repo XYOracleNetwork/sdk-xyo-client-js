@@ -13,9 +13,11 @@ import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
+  AddressToWeakInstanceCache,
   asAttachableModuleInstance,
   asModuleInstance,
   AttachableModuleInstance,
+  Direction,
   duplicateModules,
   InstanceTypeCheck,
   isModule,
@@ -108,6 +110,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
     // set the root params to the wrapped mod params
     super(mutatedParams)
+
     this.wrapperParams = mutatedWrapperParams
   }
 
@@ -148,6 +151,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.mod.modName
   }
 
+  get name() {
+    return 'ModuleWrapper'
+  }
+
   get priority() {
     return ObjectResolverPriority.Low
   }
@@ -179,18 +186,14 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   protected set status(value: ModuleStatus) {
-    if (this._status !== 'dead') {
-      this._status = value
-    }
+    this._status = value
   }
 
   static canWrap(mod?: Module) {
     return !!mod && this.moduleIdentityCheck(mod)
   }
 
-  static hasRequiredQueries(mod: Module) {
-    return this.missingRequiredQueries(mod).length === 0
-  }
+  static hasRequiredQueries(mod: Module) {}
 
   static is<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,

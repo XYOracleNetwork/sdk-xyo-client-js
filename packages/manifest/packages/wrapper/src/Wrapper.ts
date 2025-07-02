@@ -129,6 +129,7 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
     const path = manifest.config.accountPath
     const account = isString(path) ? await wallet.derivePath(path) : 'random'
     const params: ModuleParams = {
+      name: manifest.config.name,
       account,
       config: assertEx(manifest.config, () => 'Missing config'),
     }

@@ -17,8 +17,7 @@ export class TemporalIndexingDiviner<
   static override readonly configSchemas: Schema[] = [...super.configSchemas, TemporalIndexingDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = TemporalIndexingDivinerConfigSchema
 
-  protected override async startHandler(): Promise<boolean> {
+  protected override async startHandler() {
     await super.startHandler()
-    return true
   }
 }

@@ -195,6 +195,5 @@ export class StorageArchivist<
 
   protected override async startHandler() {
     await super.startHandler()
-    return true
   }
 }

@@ -1,9 +1,11 @@
 import { assertEx } from '@xylabs/assert'
+import type { CreatableInstance } from '@xylabs/creatable'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import type { Address } from '@xylabs/hex'
-import { asAddress } from '@xylabs/hex'
+import { asAddress, isAddress } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
+import { Account } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -15,9 +17,10 @@ import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import type {
   AddressPreviousHashPayload,
   ArchivingModuleConfig,
+  AttachableModuleInstance,
   Module,
   ModuleAddressQuery,
-  ModuleConfigSchema,
+  ModuleEventData,
   ModuleInstance,
   ModuleManifestQuery,
   ModuleName,
@@ -30,46 +33,45 @@ import {
   AddressPreviousHashSchema,
   DeadModuleError,
   ModuleAddressQuerySchema,
+  ModuleConfigSchema,
   ModuleManifestQuerySchema,
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { ModuleError, Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType, ModuleErrorSchema } from '@xyo-network/payload-model'
+import type {
+  ModuleError, Payload, Schema,
+} from '@xyo-network/payload-model'
+import {
+  isPayloadOfSchemaType, isSchema, ModuleErrorSchema,
+} from '@xyo-network/payload-model'
 import type { QueryPayload } from '@xyo-network/query-payload-plugin'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 
 import { ModuleProxyResolver } from './ModuleProxyResolver.ts'
 
-export type ModuleProxyParams = ModuleParams<
-  {
-    schema: ModuleConfigSchema
-  },
-  {
-    account: AccountInstance
-    archiving?: ArchivingModuleConfig['archiving'] & { resolveArchivists: () => Promise<ArchivistInstance[]> }
-    host: ModuleResolver
-    manifest?: ModuleManifestPayload
-    moduleAddress: Address
-    onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'mod'>) => void
-    onQuerySendStarted?: (args: Omit<QuerySendStartedEventArgs, 'mod'>) => void
-    state?: Payload[]
-  }
->
+export interface ModuleProxyParams extends ModuleParams
+{
+  account: AccountInstance
+  archiving?: ArchivingModuleConfig['archiving'] & { resolveArchivists: () => Promise<ArchivistInstance[]> }
+  host: ModuleResolver
+  manifest?: ModuleManifestPayload
+  moduleAddress: Address
+  onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'mod'>) => void
+  onQuerySendStarted?: (args: Omit<QuerySendStartedEventArgs, 'mod'>) => void
+  state?: Payload[]
+}
 
 export abstract class AbstractModuleProxy<
   TWrappedModule extends ModuleInstance = ModuleInstance,
-  TParams extends Omit<ModuleProxyParams, 'config'> & { config: TWrappedModule['config'] } = Omit<ModuleProxyParams, 'config'> & {
-    config: TWrappedModule['config']
-  },
+  TParams extends ModuleProxyParams = ModuleProxyParams,
 >
   extends AbstractModuleInstance<TParams, TWrappedModule['eventData']>
   implements ModuleInstance<TParams, TWrappedModule['eventData']> {
   static readonly requiredQueries: string[] = [ModuleStateQuerySchema]
 
-  protected _config?: ModuleInstance['config']
+  protected _config?: TWrappedModule['config']
   protected _publicChildren?: ModuleInstance[]
   protected _state: Payload[] | undefined = undefined
   protected _stateInProcess = false
@@ -77,11 +79,6 @@ export abstract class AbstractModuleProxy<
   private _spamTrap = new LRUCache<string, number>({
     max: 1000, ttl: 1000 * 60, ttlAutopurge: true,
   })
-
-  constructor(params: TParams) {
-    params.addToResolvers = false
-    super(AbstractModuleProxy.privateConstructorKey, params, params.account)
-  }
 
   override get address() {
     return this.params.moduleAddress
@@ -91,8 +88,8 @@ export abstract class AbstractModuleProxy<
     return this.params?.archiving
   }
 
-  override get config() {
-    return assertEx(this._config, () => 'Config not set')
+  override get config(): TWrappedModule['config'] & { schema: Schema } {
+    return { ...this._config, schema: (this._config?.schema ?? ModuleConfigSchema) }
   }
 
   override get queries(): string[] {
@@ -105,6 +102,10 @@ export abstract class AbstractModuleProxy<
     return this.missingRequiredQueries(mod).length === 0
   }
 
+  static override isAllowedSchema(schema: Schema): boolean {
+    return isSchema(schema)
+  }
+
   static missingRequiredQueries(mod: Module): string[] {
     const moduleQueries = mod.queries
     return (
@@ -112,6 +113,17 @@ export abstract class AbstractModuleProxy<
         return moduleQueries.includes(query) ? null : query
       })
     ).filter(exists)
+  }
+
+  static override async paramsHandler<T extends AttachableModuleInstance<ModuleParams, ModuleEventData>>(
+    inParams?: Partial<T['params']>,
+  ): Promise<T['params']> {
+    const superParams = await super.paramsHandler(inParams)
+    return {
+      ...superParams,
+      account: (superParams.account === 'random') ? await Account.random() : superParams.account,
+      addToResolvers: superParams.addToResolvers ?? true,
+    }
   }
 
   async addressPreviousHash(): Promise<AddressPreviousHashPayload> {
@@ -144,13 +156,35 @@ export abstract class AbstractModuleProxy<
       for (const child of children) {
         if (typeof child === 'object') {
           const address = child.status?.address
-          if (address) {
+          if (isAddress(address)) {
             result[address] = child.config.name ?? null
           }
         }
       }
     }
     return result
+  }
+
+  override async createHandler(): Promise<void> {
+    await super.createHandler()
+    let manifest: ModuleManifestPayload | NodeManifestPayload | undefined = this.params.manifest
+    if (!manifest) {
+      const state = await this.state()
+      const manifestPayload = state.find(
+        payload => isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema)(payload)
+          || isPayloadOfSchemaType<ModuleManifestPayload>(ModuleManifestPayloadSchema)(payload),
+      )
+      manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
+    }
+    this.setConfig({ ...manifest.config })
+    this.downResolver.addResolver(
+      new ModuleProxyResolver({
+        childAddressMap: await this.childAddressMap(),
+        host: this.params.host,
+        mod: this,
+        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
+      }),
+    )
   }
 
   override async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
@@ -240,35 +274,13 @@ export abstract class AbstractModuleProxy<
     this._state = state
   }
 
-  override async startHandler(): Promise<boolean> {
-    let manifest: ModuleManifestPayload | NodeManifestPayload | undefined = this.params.manifest
-    if (!manifest) {
-      const state = await this.state()
-      const manifestPayload = state.find(
-        payload => isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema)(payload)
-          || isPayloadOfSchemaType<ModuleManifestPayload>(ModuleManifestPayloadSchema)(payload),
-      )
-      manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
-    }
-    this.setConfig({ ...manifest.config })
-    this.downResolver.addResolver(
-      new ModuleProxyResolver({
-        childAddressMap: await this.childAddressMap(),
-        host: this.params.host,
-        mod: this,
-        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
-      }),
-    )
-    return await super.startHandler()
-  }
-
   override async state(): Promise<Payload[]> {
     if (this._state === undefined) {
       // temporarily add ModuleStateQuerySchema to the schema list so we can wrap it and get the real query list
       const stateQueryPayload: QueryPayload = { query: ModuleStateQuerySchema, schema: QuerySchema }
       const manifestQueryPayload: QueryPayload = { query: ModuleManifestQuerySchema, schema: QuerySchema }
       this._state = [stateQueryPayload, manifestQueryPayload]
-      const wrapper = ModuleWrapper.wrap(this, this.account)
+      const wrapper = ModuleWrapper.wrap(this, await Account.random())
       this._state = await wrapper.state()
     }
     return this._state
@@ -277,6 +289,10 @@ export abstract class AbstractModuleProxy<
   protected filterErrors(result: ModuleQueryResult): ModuleError[] {
     const wrapper = BoundWitnessWrapper.wrap(result[0], result[1])
     return wrapper.payloadsBySchema<ModuleError>(ModuleErrorSchema)
+  }
+
+  protected override async startHandler(): Promise<void> {
+    return await super.startHandler()
   }
 
   // this checks and warns if we are getting spammed by the same query
@@ -289,5 +305,5 @@ export abstract class AbstractModuleProxy<
     this._spamTrap.set(hash, previousCount + 1)
   }
 
-  abstract proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult>
+  abstract proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(_query: T, _payloads?: Payload[]): Promise<ModuleQueryResult>
 }

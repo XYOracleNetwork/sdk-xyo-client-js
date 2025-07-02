@@ -164,7 +164,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
         }
         const cachedResult = this._cache.get(resolvedId)
         if (cachedResult) {
-          if (cachedResult.status === 'dead') {
+          if (cachedResult.status === 'error') {
             this._cache.delete(id)
           } else {
             return [cachedResult] as T[]

@@ -4,11 +4,13 @@ import { assertEx } from '@xylabs/assert'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
+import { GenericPayloadDiviner } from '@xyo-network/diviner-payload-generic'
 import type { PackageManifestPayload } from '@xyo-network/manifest'
 import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
-import type { ModuleState } from '@xyo-network/module-model'
+import {
+  creatableModule, CreatableModuleInstance, type ModuleState,
+} from '@xyo-network/module-model'
 import type { MemoryNode } from '@xyo-network/node-memory'
 import type { Payload } from '@xyo-network/payload-model'
 import { HDWallet } from '@xyo-network/wallet'
@@ -18,8 +20,10 @@ import {
 } from 'vitest'
 
 import { StatefulDiviner } from '../Diviner.ts'
+import { StatefulDivinerParams } from '../Params.ts'
 import TestManifest from './TestManifest.json' with {type: 'json'}
 
+@creatableModule<CreatableModuleInstance<StatefulDivinerParams>>()
 class TestStatefulDiviner extends StatefulDiviner {
   callCommitState(state: ModuleState) {
     return this.commitState(state)
@@ -44,10 +48,10 @@ describe('TestStatefulDiviner', () => {
   beforeAll(async () => {
     const wallet = await HDWallet.random()
     const locator = new ModuleFactoryLocator()
-    locator.register(MemoryArchivist)
-    locator.register(MemoryBoundWitnessDiviner)
-    locator.register(MemoryPayloadDiviner)
-    locator.register(TestStatefulDiviner)
+    locator.register(MemoryArchivist.factory())
+    locator.register(MemoryBoundWitnessDiviner.factory())
+    locator.register(GenericPayloadDiviner.factory())
+    locator.register(TestStatefulDiviner.factory())
     const manifest = TestManifest as PackageManifestPayload
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)

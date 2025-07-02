@@ -10,6 +10,7 @@ import {
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
   ArchivistDeleteQuerySchema,
+  ArchivistDriver,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
   ArchivistModuleEventData,
@@ -27,13 +28,12 @@ import {
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
 
-import { ArchivistDriver } from './ArchivistDriver.ts'
 import { GenericArchivistConfig, GenericArchivistConfigSchema } from './Config.ts'
 
-export type GenericArchivistParams<TConfig extends AnyConfigSchema<GenericArchivistConfig> = AnyConfigSchema<GenericArchivistConfig>>
-  = ArchivistParams<TConfig, {
-    driver?: ArchivistDriver<Hash, Payload, WithStorageMeta<Payload>>
-  }>
+export interface GenericArchivistParams<TConfig extends AnyConfigSchema<GenericArchivistConfig> = AnyConfigSchema<GenericArchivistConfig>>
+  extends ArchivistParams<TConfig> {
+  driver?: ArchivistDriver<Hash, Payload, WithStorageMeta<Payload>>
+}
 
 @creatableModule()
 export class GenericArchivist<

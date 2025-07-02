@@ -139,6 +139,5 @@ export class MongoDBArchivistV2 extends MongoDBArchivistBaseV2 {
   protected override async startHandler() {
     await super.startHandler()
     await this.ensureCollection()
-    return true
   }
 }

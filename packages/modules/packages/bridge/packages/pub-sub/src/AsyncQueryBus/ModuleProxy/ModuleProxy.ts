@@ -89,7 +89,7 @@ export class AsyncQueryBusModuleProxy<
       case 'string': {
         const parts = id.split(':')
         const first = assertEx(parts.shift(), () => 'Missing first')
-        const remainingPath = parts.join(':')
+        const remainingPath = parts.length > 0 ? parts.join(':') : undefined
         const address = isAddress(first) ? first : this.childAddressByName(first)
         if (!isAddress(address)) return undefined
         const firstInstance = (await this.params.host.resolve(address)) as ModuleInstance | undefined

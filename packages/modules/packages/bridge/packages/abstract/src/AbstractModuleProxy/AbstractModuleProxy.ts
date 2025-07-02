@@ -98,31 +98,6 @@ export abstract class AbstractModuleProxy<
     return queryPayloads.map(payload => payload.query)
   }
 
-  static override async createHandler<T extends CreatableInstance>(
-    inInstance: T,
-  ) {
-    const instance = await super.createHandler(inInstance) as AbstractModuleProxy & T
-    let manifest: ModuleManifestPayload | NodeManifestPayload | undefined = instance.params.manifest
-    if (!manifest) {
-      const state = await instance.state()
-      const manifestPayload = state.find(
-        payload => isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema)(payload)
-          || isPayloadOfSchemaType<ModuleManifestPayload>(ModuleManifestPayloadSchema)(payload),
-      )
-      manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
-    }
-    instance.setConfig({ ...manifest.config })
-    instance.downResolver.addResolver(
-      new ModuleProxyResolver({
-        childAddressMap: await instance.childAddressMap(),
-        host: instance.params.host,
-        mod: instance,
-        moduleIdentifierTransformers: instance.params.moduleIdentifierTransformers,
-      }),
-    )
-    return instance
-  }
-
   static hasRequiredQueries(mod: Module) {
     return this.missingRequiredQueries(mod).length === 0
   }
@@ -191,7 +166,25 @@ export abstract class AbstractModuleProxy<
   }
 
   override async createHandler(): Promise<void> {
-    return await super.startHandler()
+    await super.createHandler()
+    let manifest: ModuleManifestPayload | NodeManifestPayload | undefined = this.params.manifest
+    if (!manifest) {
+      const state = await this.state()
+      const manifestPayload = state.find(
+        payload => isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema)(payload)
+          || isPayloadOfSchemaType<ModuleManifestPayload>(ModuleManifestPayloadSchema)(payload),
+      )
+      manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
+    }
+    this.setConfig({ ...manifest.config })
+    this.downResolver.addResolver(
+      new ModuleProxyResolver({
+        childAddressMap: await this.childAddressMap(),
+        host: this.params.host,
+        mod: this,
+        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
+      }),
+    )
   }
 
   override async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {

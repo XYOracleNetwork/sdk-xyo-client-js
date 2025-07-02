@@ -274,7 +274,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     this: CreatableModule<TModule>,
     params?: Partial<TModule['params']>,
   ): CreatableModuleFactory<TModule> {
-    return ModuleFactory.withParams(this, params)
+    return ModuleFactory.withParams<TModule>(this, params)
   }
 
   static isAllowedSchema(schema: Schema): boolean {

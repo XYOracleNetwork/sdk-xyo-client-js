@@ -38,7 +38,7 @@ export class ModuleFactory<TModule extends CreatableModuleInstance> implements C
     params?: Partial<T['params']>,
     labels: Labels = {},
   ) {
-    return new ModuleFactory(creatableModule, params, labels)
+    return new ModuleFactory<T>(creatableModule, params, labels)
   }
 
   create(this: CreatableModuleFactory<TModule>, params?: Partial<TModule['params']>): Promise<TModule> {
@@ -54,7 +54,7 @@ export class ModuleFactory<TModule extends CreatableModuleInstance> implements C
     return this.creatableModule.create<TModule>(mergedParams)
   }
 
-  factory<T extends CreatableModuleInstance>(this: CreatableModuleFactory<T>, _params?: Partial<T['params']> | undefined): CreatableModuleFactory<T> {
-    throw new Error('Method not implemented.')
+  factory<T extends CreatableModuleInstance>(this: CreatableModuleFactory<T>, params?: Partial<T['params']>, labels: Labels = {}): CreatableModuleFactory<T> {
+    return new ModuleFactory<T>(this.creatableModule, params, labels)
   }
 }

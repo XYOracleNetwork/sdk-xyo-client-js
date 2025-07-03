@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/base": "^4.12.30",
-    "@xylabs/events": "^4.12.30"
+    "@xylabs/base": "^4.12.33",
+    "@xylabs/events": "^4.12.33"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^6.5.12",

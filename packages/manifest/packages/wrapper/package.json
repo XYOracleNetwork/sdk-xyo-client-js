@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.12.30",
-    "@xylabs/typeof": "^4.12.30",
+    "@xylabs/assert": "^4.12.33",
+    "@xylabs/typeof": "^4.12.33",
     "@xyo-network/manifest-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
@@ -40,11 +40,11 @@
     "@xyo-network/wallet-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.12.30",
-    "@xylabs/object": "^4.12.30",
+    "@xylabs/delay": "^4.12.33",
+    "@xylabs/object": "^4.12.33",
     "@xylabs/ts-scripts-yarn3": "^6.5.12",
     "@xylabs/tsconfig": "^6.5.12",
-    "@xylabs/vitest-extended": "^4.12.30",
+    "@xylabs/vitest-extended": "^4.12.33",
     "@xyo-network/module-abstract": "workspace:^",
     "@xyo-network/module-factory-locator": "workspace:^",
     "@xyo-network/node-model": "workspace:^",

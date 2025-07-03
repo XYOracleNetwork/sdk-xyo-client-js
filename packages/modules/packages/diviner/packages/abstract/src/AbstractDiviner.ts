@@ -107,6 +107,9 @@ export abstract class AbstractDiviner<
           await this.emit('divineEnd', {
             errors, inPayloads: payloads, mod: this, outPayloads,
           })
+          if (errors.length > 0) {
+            throw new Error(`Divine failed with ${errors.length} errors: ${errors.map(e => e.message).join(', ')}`)
+          }
           return PayloadBuilder.omitPrivateStorageMeta(outPayloads)
         })
       } finally {

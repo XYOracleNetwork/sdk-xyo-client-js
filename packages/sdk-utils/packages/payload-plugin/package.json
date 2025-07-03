@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.12.33",
-    "@xylabs/object": "^4.12.33",
+    "@xylabs/assert": "^4.12.40",
+    "@xylabs/object": "^4.12.40",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-validator": "workspace:^",

@@ -23,7 +23,9 @@
     "**/bower_components": true,
     "**/*.code-search": true,
     "**/.yarn": true,
-    "**/yarn.lock": true
+    "**/yarn.lock": true,
+    "**/build": true,
+    "**/dist": true,
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",

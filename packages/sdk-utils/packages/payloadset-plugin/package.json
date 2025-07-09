@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/forget": "^4.12.40",
-    "@xylabs/object": "^4.12.40",
-    "@xylabs/promise": "^4.12.40",
+    "@xylabs/forget": "^4.12.44",
+    "@xylabs/object": "^4.12.44",
+    "@xylabs/promise": "^4.12.44",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
@@ -40,8 +40,8 @@
     "@xyo-network/witness-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.12",
-    "@xylabs/tsconfig": "^6.5.12",
+    "@xylabs/ts-scripts-yarn3": "^6.5.13",
+    "@xylabs/tsconfig": "^6.5.13",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

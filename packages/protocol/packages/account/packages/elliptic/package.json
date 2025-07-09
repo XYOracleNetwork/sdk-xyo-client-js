@@ -30,16 +30,16 @@
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@bitauth/libauth": "^3.0.0",
-    "@xylabs/arraybuffer": "^4.12.40",
-    "@xylabs/assert": "^4.12.40",
-    "@xylabs/hex": "^4.12.40",
+    "@xylabs/arraybuffer": "^4.12.44",
+    "@xylabs/assert": "^4.12.44",
+    "@xylabs/hex": "^4.12.44",
     "@xyo-network/data": "workspace:^",
     "@xyo-network/wasm": "workspace:^",
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.12",
-    "@xylabs/tsconfig": "^6.5.12",
+    "@xylabs/ts-scripts-yarn3": "^6.5.13",
+    "@xylabs/tsconfig": "^6.5.13",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

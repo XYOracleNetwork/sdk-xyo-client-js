@@ -37,18 +37,18 @@
   "module": "dist/node/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.12.40",
-    "@xylabs/exists": "^4.12.40",
-    "@xylabs/mongo": "^4.12.40",
-    "@xylabs/static-implements": "^4.12.40",
+    "@xylabs/assert": "^4.12.44",
+    "@xylabs/exists": "^4.12.44",
+    "@xylabs/mongo": "^4.12.44",
+    "@xylabs/static-implements": "^4.12.44",
     "@xyo-network/module-model": "^4.0.2",
     "@xyo-network/module-model-mongodb": "workspace:^",
     "@xyo-network/payload-mongodb": "workspace:^",
     "mongodb": "~6.17.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.12",
-    "@xylabs/tsconfig": "^6.5.12",
+    "@xylabs/ts-scripts-yarn3": "^6.5.13",
+    "@xylabs/tsconfig": "^6.5.13",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3"
   },

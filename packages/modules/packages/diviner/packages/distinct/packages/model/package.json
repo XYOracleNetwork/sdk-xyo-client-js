@@ -29,12 +29,12 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/object": "^4.12.40",
+    "@xylabs/object": "^4.12.44",
     "@xyo-network/diviner-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.12",
-    "@xylabs/tsconfig": "^6.5.12",
+    "@xylabs/ts-scripts-yarn3": "^6.5.13",
+    "@xylabs/tsconfig": "^6.5.13",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

@@ -32,9 +32,9 @@
     "@xyo-network/data": "workspace:^"
   },
   "devDependencies": {
-    "@types/node": "^24.0.10",
-    "@xylabs/ts-scripts-yarn3": "^6.5.12",
-    "@xylabs/tsconfig": "^6.5.12",
+    "@types/node": "^24.0.11",
+    "@xylabs/ts-scripts-yarn3": "^6.5.13",
+    "@xylabs/tsconfig": "^6.5.13",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

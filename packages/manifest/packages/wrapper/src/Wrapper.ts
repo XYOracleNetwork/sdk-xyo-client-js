@@ -19,15 +19,26 @@ import type { WalletInstance } from '@xyo-network/wallet-model'
 export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayload> | void = void> extends PayloadWrapper<
   TManifest extends WithAnySchema<PackageManifestPayload> ? TManifest : WithAnySchema<PackageManifestPayload>
 > {
+  protected readonly locator: ModuleFactoryLocatorInstance
+  protected readonly moduleIdentifierTransformers?: ModuleIdentifierTransformer[]
+  protected readonly privateChildren: ModuleManifest[]
+  protected readonly publicChildren: ModuleManifest[]
+  protected readonly wallet: WalletInstance
+
   constructor(
     payload: TManifest extends WithAnySchema<PackageManifestPayload> ? TManifest : WithAnySchema<PackageManifestPayload>,
-    protected readonly wallet: WalletInstance,
-    protected readonly locator: ModuleFactoryLocatorInstance,
-    protected readonly publicChildren: ModuleManifest[] = [],
-    protected readonly privateChildren: ModuleManifest[] = [],
-    protected readonly moduleIdentifierTransformers?: ModuleIdentifierTransformer[],
+    wallet: WalletInstance,
+    locator: ModuleFactoryLocatorInstance,
+    publicChildren: ModuleManifest[] = [],
+    privateChildren: ModuleManifest[] = [],
+    moduleIdentifierTransformers?: ModuleIdentifierTransformer[],
   ) {
     super(payload)
+    this.wallet = wallet
+    this.locator = locator
+    this.publicChildren = publicChildren
+    this.privateChildren = privateChildren
+    this.moduleIdentifierTransformers = moduleIdentifierTransformers
   }
 
   async loadModule(wallet: WalletInstance, node: MemoryNode, manifest: ModuleManifest, external = true): Promise<void> {

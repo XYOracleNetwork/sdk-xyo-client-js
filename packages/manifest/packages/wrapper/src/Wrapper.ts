@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import type { Logger } from '@xylabs/logger'
 import { isDefined, isString } from '@xylabs/typeof'
 import type {
   ModuleManifest, NodeManifest, PackageManifestPayload,
@@ -20,7 +21,8 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
   TManifest extends WithAnySchema<PackageManifestPayload> ? TManifest : WithAnySchema<PackageManifestPayload>
 > {
   protected readonly locator: ModuleFactoryLocatorInstance
-  protected readonly moduleIdentifierTransformers?: ModuleIdentifierTransformer[]
+  protected readonly logger: Logger | undefined
+  protected readonly moduleIdentifierTransformers: ModuleIdentifierTransformer[] | undefined
   protected readonly privateChildren: ModuleManifest[]
   protected readonly publicChildren: ModuleManifest[]
   protected readonly wallet: WalletInstance
@@ -32,6 +34,7 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
     publicChildren: ModuleManifest[] = [],
     privateChildren: ModuleManifest[] = [],
     moduleIdentifierTransformers?: ModuleIdentifierTransformer[],
+    logger?: Logger,
   ) {
     super(payload)
     this.wallet = wallet
@@ -39,10 +42,11 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
     this.publicChildren = publicChildren
     this.privateChildren = privateChildren
     this.moduleIdentifierTransformers = moduleIdentifierTransformers
+    this.logger = logger
   }
 
   async loadModule(wallet: WalletInstance, node: MemoryNode, manifest: ModuleManifest, external = true): Promise<void> {
-    console.log('loadModule', manifest.config.name)
+    this.logger?.log('loadModule', manifest.config.name)
     const collision = async (node: NodeInstance, name: string, external: boolean) => {
       const externalConflict = external ? (await node.resolve(name, { direction: external ? 'all' : 'down' })) !== undefined : false
       return externalConflict || (await node.resolve(name, { direction: 'down' })) !== undefined
@@ -77,7 +81,7 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
   }
 
   async loadNodeFromManifest(wallet: WalletInstance, manifest: NodeManifest, path?: string, loadConfigChildren = false): Promise<MemoryNode> {
-    console.log('loadNodeFromManifest', manifest.config.name)
+    this.logger?.log('loadNodeFromManifest', manifest.config.name)
     const derivedWallet = isString(path) ? await wallet.derivePath(path) : await HDWallet.random()
     const node = await MemoryNode.create({ account: derivedWallet, config: manifest.config })
     // Load Private Modules

@@ -5906,6 +5906,7 @@ __metadata:
   dependencies:
     "@xylabs/assert": "npm:^4.12.44"
     "@xylabs/delay": "npm:^4.12.44"
+    "@xylabs/logger": "npm:^4.12.44"
     "@xylabs/object": "npm:^4.12.44"
     "@xylabs/ts-scripts-yarn3": "npm:^6.5.13"
     "@xylabs/tsconfig": "npm:^6.5.13"

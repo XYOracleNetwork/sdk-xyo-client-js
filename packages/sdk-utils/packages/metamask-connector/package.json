@@ -29,7 +29,7 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/forget": "^4.13.4",
+    "@xylabs/forget": "^4.13.5",
     "ethers": "^6.15.0"
   },
   "devDependencies": {

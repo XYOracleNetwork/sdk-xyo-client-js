@@ -29,11 +29,11 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/hex": "^4.12.44"
+    "@xylabs/hex": "^4.13.4"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.13",
-    "@xylabs/tsconfig": "^6.5.13",
+    "@xylabs/ts-scripts-yarn3": "^6.5.18",
+    "@xylabs/tsconfig": "^6.5.18",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

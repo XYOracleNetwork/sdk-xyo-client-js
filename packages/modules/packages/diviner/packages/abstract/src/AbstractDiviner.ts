@@ -12,7 +12,7 @@ import {
   isDefined, isNull, isUndefined,
 } from '@xylabs/typeof'
 import type { AccountInstance } from '@xyo-network/account-model'
-import { isArchivistInstance } from '@xyo-network/archivist-model'
+import { asArchivistInstance, isArchivistInstance } from '@xyo-network/archivist-model'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type {
@@ -161,6 +161,7 @@ export abstract class AbstractDiviner<
             this.logger?.error(`Failed to resolve ${sourceModule} for ${this.modName}`)
           } else {
             if (isArchivistInstance(sourceModuleInstance)) {
+              const x = asArchivistInstance(sourceModuleInstance)
               if (sourceEvent === 'inserted') {
                 this._eventUnsubscribeFunctions.push(
                   sourceModuleInstance.on(sourceEvent, async ({ outPayloads, payloads }) => {

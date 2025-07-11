@@ -29,18 +29,18 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/exists": "^4.12.44",
-    "@xylabs/hex": "^4.12.44",
-    "@xylabs/set": "^4.12.44",
+    "@xylabs/exists": "^4.13.4",
+    "@xylabs/hex": "^4.13.4",
+    "@xylabs/set": "^4.13.4",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/hash": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.13",
-    "@xylabs/tsconfig": "^6.5.13",
-    "@xylabs/vitest-extended": "^4.12.44",
+    "@xylabs/ts-scripts-yarn3": "^6.5.18",
+    "@xylabs/tsconfig": "^6.5.18",
+    "@xylabs/vitest-extended": "^4.13.4",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"

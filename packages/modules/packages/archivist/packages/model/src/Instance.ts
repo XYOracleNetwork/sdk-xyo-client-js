@@ -1,3 +1,4 @@
+import type { EventEmitter } from '@xylabs/events'
 import type { ModuleInstance } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 
@@ -14,4 +15,4 @@ export interface ArchivistInstance<
 > extends ArchivistModuleInstance<TParams, TEventData>,
   ArchivistModule<TPayload, TPayload>,
   ModuleInstance<TParams, TEventData>,
-  ArchivistRawQueryFunctions {}
+  ArchivistRawQueryFunctions, EventEmitter<TEventData> {}

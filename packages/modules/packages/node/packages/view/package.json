@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/types/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.12.44",
-    "@xylabs/creatable": "^4.12.44",
-    "@xylabs/hex": "^4.12.44",
+    "@xylabs/assert": "^4.13.4",
+    "@xylabs/creatable": "^4.13.4",
+    "@xylabs/hex": "^4.13.4",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/module-resolver": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
@@ -40,9 +40,9 @@
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {
-    "@xylabs/events": "^4.12.44",
-    "@xylabs/ts-scripts-yarn3": "^6.5.13",
-    "@xylabs/tsconfig": "^6.5.13",
+    "@xylabs/events": "^4.13.4",
+    "@xylabs/ts-scripts-yarn3": "^6.5.18",
+    "@xylabs/tsconfig": "^6.5.18",
     "@xyo-network/module-events": "workspace:^",
     "typescript": "^5.8.3"
   },

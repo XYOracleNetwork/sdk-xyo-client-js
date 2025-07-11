@@ -33,9 +33,9 @@
     "@xyo-network/payload-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.13",
-    "@xylabs/tsconfig": "^6.5.13",
-    "@xylabs/vitest-extended": "^4.12.44",
+    "@xylabs/ts-scripts-yarn3": "^6.5.18",
+    "@xylabs/tsconfig": "^6.5.18",
+    "@xylabs/vitest-extended": "^4.13.4",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },

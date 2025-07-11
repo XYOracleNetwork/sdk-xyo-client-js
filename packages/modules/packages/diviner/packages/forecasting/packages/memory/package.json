@@ -43,8 +43,8 @@
   },
   "devDependencies": {
     "@types/jsonpath": "^0.2.4",
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.9",
-    "@xylabs/tsconfig": "^7.0.0-rc.9",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.10",
+    "@xylabs/tsconfig": "^7.0.0-rc.10",
     "@xyo-network/boundwitness-model": "workspace:^",
     "typescript": "^5.8.3"
   },

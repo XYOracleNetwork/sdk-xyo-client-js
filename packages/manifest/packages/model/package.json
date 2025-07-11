@@ -43,8 +43,8 @@
   },
   "devDependencies": {
     "@types/node": "^24.0.13",
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.9",
-    "@xylabs/tsconfig": "^7.0.0-rc.9",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.10",
+    "@xylabs/tsconfig": "^7.0.0-rc.10",
     "typescript": "^5.8.3",
     "typescript-json-schema": "^0.65.1"
   },

@@ -1,5 +1,10 @@
 /* eslint-disable sonarjs/public-static-readonly */
-/* eslint-disable sonarjs/no-nested-assignment */
+declare global {
+  var xyo: {
+    hashing?: ObjectHasher
+  }
+}
+
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
 import { asHash, hexFromArrayBuffer } from '@xylabs/hex'

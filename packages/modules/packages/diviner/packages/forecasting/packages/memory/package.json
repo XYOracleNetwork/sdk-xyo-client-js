@@ -21,16 +21,16 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/neutral/index.d.ts",
       "default": "./dist/neutral/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.13.5",
-    "@xylabs/exists": "^4.13.5",
+    "@xylabs/assert": "^4.13.9",
+    "@xylabs/exists": "^4.13.9",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/diviner-boundwitness-model": "workspace:^",
     "@xyo-network/diviner-forecasting-abstract": "workspace:^",
@@ -43,8 +43,8 @@
   },
   "devDependencies": {
     "@types/jsonpath": "^0.2.4",
-    "@xylabs/ts-scripts-yarn3": "^6.5.18",
-    "@xylabs/tsconfig": "^6.5.18",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.9",
+    "@xylabs/tsconfig": "^7.0.0-rc.9",
     "@xyo-network/boundwitness-model": "workspace:^",
     "typescript": "^5.8.3"
   },

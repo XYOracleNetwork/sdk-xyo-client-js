@@ -21,31 +21,29 @@
   "type": "module",
   "exports": {
     ".": {
-      "browser": {
-        "types": "./dist/types/index.d.ts",
-        "default": "./dist/browser/index.mjs"
-      },
+      "browser": {},
       "node": {
-        "types": "./dist/types/index.d.ts",
+        "types": "./dist/node/index.d.ts",
         "default": "./dist/node/index.mjs"
-      },
-      "types": "./dist/types/index.d.ts",
-      "default": "./dist/node/index.mjs"
+      }
     },
     "./package.json": "./package.json"
   },
   "module": "dist/node/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/node/index.d.ts",
   "dependencies": {
-    "@xylabs/mongo": "^4.13.5",
-    "@xyo-network/module-model": "^4.0.3",
+    "@xylabs/mongo": "^4.13.9",
+    "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-mongodb": "workspace:^",
     "@xyo-network/shared": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.18",
-    "@xylabs/tsconfig": "^6.5.18",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.9",
+    "@xylabs/tsconfig": "^7.0.0-rc.9",
     "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=16"
   },
   "publishConfig": {
     "access": "public"

@@ -32,6 +32,7 @@ export type AnyModule<TParams extends StatefulModuleParams = StatefulModuleParam
 const moduleName = 'StatefulModuleMixin'
 
 /**
+ * @internal
  * @ignore Inherit from StatefulDiviner instead
  * @param ModuleBase
  * @returns

@@ -21,15 +21,15 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/neutral/index.d.ts",
       "default": "./dist/neutral/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/retry": "^4.13.5",
+    "@xylabs/retry": "^4.13.9",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -37,9 +37,9 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.18",
-    "@xylabs/tsconfig": "^6.5.18",
-    "@xylabs/vitest-extended": "^4.13.5",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.9",
+    "@xylabs/tsconfig": "^7.0.0-rc.9",
+    "@xylabs/vitest-extended": "^4.13.9",
     "@xyo-network/diviner-identity": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "typescript": "^5.8.3",

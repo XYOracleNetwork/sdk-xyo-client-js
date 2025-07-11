@@ -21,18 +21,18 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/neutral/index.d.ts",
       "default": "./dist/neutral/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.13.5",
-    "@xylabs/base": "^4.13.5",
-    "@xylabs/forget": "^4.13.5",
-    "@xylabs/telemetry": "^4.13.5",
+    "@xylabs/assert": "^4.13.9",
+    "@xylabs/base": "^4.13.9",
+    "@xylabs/forget": "^4.13.9",
+    "@xylabs/telemetry": "^4.13.9",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -41,12 +41,11 @@
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/sentinel-model": "workspace:^",
-    "async-mutex": "^0.5.0"
+    "@xyo-network/sentinel-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.18",
-    "@xylabs/tsconfig": "^6.5.18",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.9",
+    "@xylabs/tsconfig": "^7.0.0-rc.9",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

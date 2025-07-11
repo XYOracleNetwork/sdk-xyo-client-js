@@ -21,18 +21,18 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/node/index.d.ts",
+      "browser": {},
       "module": "./dist/node/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/node/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/node/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.13.5",
-    "@xylabs/error": "^4.13.5",
-    "@xylabs/hex": "^4.13.5",
-    "@xylabs/promise": "^4.13.5",
+    "@xylabs/assert": "^4.13.9",
+    "@xylabs/hex": "^4.13.9",
+    "@xylabs/promise": "^4.13.9",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
@@ -42,9 +42,10 @@
     "@xyo-network/wallet": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.18",
-    "@xylabs/tsconfig": "^6.5.18",
-    "@xylabs/vitest-extended": "^4.13.5",
+    "@xylabs/error": "^4.13.9",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.9",
+    "@xylabs/tsconfig": "^7.0.0-rc.9",
+    "@xylabs/vitest-extended": "^4.13.9",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },

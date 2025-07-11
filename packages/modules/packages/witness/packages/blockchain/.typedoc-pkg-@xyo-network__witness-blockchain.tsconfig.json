@@ -7,6 +7,6 @@
     "skipLibCheck": true
   },
   "include": [
-    "/Users/arietrouw/Github/XYOracleNetwork/sdk-xyo-client-js/packages/modules/packages/witness/packages/blockchain/dist/types/index.d.ts"
+    "/Users/arietrouw/Github/XYOracleNetwork/sdk-xyo-client-js/packages/modules/packages/witness/packages/blockchain/dist/neutral/index.d.ts"
   ]
 }

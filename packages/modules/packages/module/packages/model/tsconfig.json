@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "typeRoots": [],
+    "types": [],
   },
   "exclude": ["dist", "docs", "node_modules"],
   "extends": "@xylabs/tsconfig"

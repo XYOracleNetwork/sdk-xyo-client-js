@@ -7,6 +7,7 @@ import { isString } from '@xylabs/typeof'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import type { ModuleProxyParams } from '@xyo-network/bridge-abstract'
 import { AbstractModuleProxy } from '@xyo-network/bridge-abstract'
+import { AbstractModule } from '@xyo-network/module-abstract'
 import type {
   ModuleFilterOptions,
   ModuleIdentifier,
@@ -40,7 +41,7 @@ export class AsyncQueryBusModuleProxy<
   static override async createHandler<T extends CreatableInstance>(
     inInstance: T,
   ) {
-    const instance = (await super.createHandler(inInstance))
+    const instance: T & AbstractModule = (await super.createHandler(inInstance))
     return instance
   }
 

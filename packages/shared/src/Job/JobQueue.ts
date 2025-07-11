@@ -1,4 +1,4 @@
-import type { EventEmitter } from 'node:stream'
+import type { EventData, EventEmitter } from '@xylabs/events'
 
 import type { Job } from './Job.ts'
 
@@ -8,7 +8,7 @@ export interface DefineOptions {
 }
 
 /** @internal */
-export interface JobQueue extends EventEmitter {
+export interface JobQueue extends EventEmitter<EventData> {
   define: (name: string, options: DefineOptions, processor: Job['task']) => void
   every: (
     interval: string,

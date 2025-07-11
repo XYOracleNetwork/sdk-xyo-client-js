@@ -15,9 +15,9 @@ import {
 import type { PayloadBuilderOptions } from '@xyo-network/payload-builder'
 import { omitSchema, PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
-  AnyPayload,
   ModuleError, Payload, Schema,
   WithoutClientMeta,
+  WithoutMeta,
   WithoutSchema,
   WithoutStorageMeta,
 } from '@xyo-network/payload-model'
@@ -145,7 +145,7 @@ export class BoundWitnessBuilder<
     return hash
   }
 
-  override async dataHashableFields() {
+  override async dataHashableFields(): Promise<WithoutMeta<TBoundWitness>> {
     const generatedFields: Pick<TBoundWitness, GeneratedBoundWitnessFields> = await this.generatedFields()
     BoundWitnessBuilder.validateGeneratedFields(generatedFields)
     const fields: WithoutSchema<TBoundWitness> = {

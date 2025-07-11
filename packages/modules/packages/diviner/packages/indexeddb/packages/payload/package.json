@@ -21,18 +21,18 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/browser/index.d.ts",
       "default": "./dist/browser/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/browser/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/browser/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.13.5",
-    "@xylabs/assert": "^4.13.5",
-    "@xylabs/exists": "^4.13.5",
-    "@xylabs/object": "^4.13.5",
+    "@xylabs/array": "^4.13.9",
+    "@xylabs/assert": "^4.13.9",
+    "@xylabs/exists": "^4.13.9",
+    "@xylabs/object": "^4.13.9",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
@@ -43,9 +43,9 @@
     "idb": "^8.0.3"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.18",
-    "@xylabs/tsconfig": "^6.5.18",
-    "@xylabs/vitest-extended": "^4.13.5",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.9",
+    "@xylabs/tsconfig": "^7.0.0-rc.9",
+    "@xylabs/vitest-extended": "^4.13.9",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",

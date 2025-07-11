@@ -126,7 +126,7 @@ export class IndexingDiviner<
    * @param store The store to retrieve the archivist for
    * @returns The archivist for the specified store
    */
-  protected async getArchivistForStore(store: ConfigStore) {
+  protected async getArchivistForStore(store: ConfigStore): Promise<ArchivistWrapper> {
     const name = assertEx(this.config?.[store]?.archivist, () => `${moduleName}: Config for ${store}.archivist not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.archivist [${name}]`)
     return ArchivistWrapper.wrap(mod, this.account)

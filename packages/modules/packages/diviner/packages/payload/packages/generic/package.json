@@ -21,19 +21,19 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/neutral/index.d.ts",
       "default": "./dist/neutral/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.13.5",
-    "@xylabs/assert": "^4.13.5",
-    "@xylabs/events": "^4.13.5",
-    "@xylabs/forget": "^4.13.5",
-    "@xylabs/hex": "^4.13.5",
+    "@xylabs/array": "^4.13.9",
+    "@xylabs/assert": "^4.13.9",
+    "@xylabs/events": "^4.13.9",
+    "@xylabs/forget": "^4.13.9",
+    "@xylabs/hex": "^4.13.9",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-payload-abstract": "workspace:^",
@@ -44,10 +44,10 @@
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.13.5",
-    "@xylabs/ts-scripts-yarn3": "^6.5.18",
-    "@xylabs/tsconfig": "^6.5.18",
-    "@xylabs/vitest-extended": "^4.13.5",
+    "@xylabs/delay": "^4.13.9",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.9",
+    "@xylabs/tsconfig": "^7.0.0-rc.9",
+    "@xylabs/vitest-extended": "^4.13.9",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

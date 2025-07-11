@@ -25,6 +25,7 @@ const standardIndexes: IndexDescription[] = [
   },
 ]
 
+/** @internal */
 export const MongoDBModuleMixin = <
   TParams extends MongoDBModuleParams = MongoDBModuleParams,
   TModule extends AnyAbstractModule<TParams> = AnyAbstractModule<TParams>,

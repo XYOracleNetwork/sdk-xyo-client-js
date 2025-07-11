@@ -21,21 +21,21 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/browser/index.d.ts",
       "default": "./dist/browser/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/browser/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/browser/index.d.ts",
   "dependencies": {
-    "@xylabs/forget": "^4.13.5",
+    "@xylabs/forget": "^4.13.9",
     "ethers": "^6.15.0"
   },
   "devDependencies": {
     "@metamask/providers": "^22.1.0",
-    "@xylabs/ts-scripts-yarn3": "^6.5.18",
-    "@xylabs/tsconfig-dom": "^6.5.18",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.9",
+    "@xylabs/tsconfig-dom": "^7.0.0-rc.9",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

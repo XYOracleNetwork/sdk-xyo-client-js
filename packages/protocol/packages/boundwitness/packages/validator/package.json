@@ -21,18 +21,18 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/neutral/index.d.ts",
       "default": "./dist/neutral/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.13.5",
-    "@xylabs/arraybuffer": "^4.13.5",
-    "@xylabs/hex": "^4.13.5",
-    "@xylabs/typeof": "^4.13.5",
+    "@xylabs/array": "^4.13.9",
+    "@xylabs/arraybuffer": "^4.13.9",
+    "@xylabs/hex": "^4.13.9",
+    "@xylabs/typeof": "^4.13.9",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/elliptic": "workspace:^",
     "@xyo-network/payload": "workspace:^",
@@ -40,9 +40,9 @@
     "@xyo-network/payload-validator": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^6.5.18",
-    "@xylabs/tsconfig": "^6.5.18",
-    "@xylabs/vitest-extended": "^4.13.5",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.9",
+    "@xylabs/tsconfig": "^7.0.0-rc.9",
+    "@xylabs/vitest-extended": "^4.13.9",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/schema-name-validator": "workspace:^",
     "@xyo-network/wallet": "workspace:^",

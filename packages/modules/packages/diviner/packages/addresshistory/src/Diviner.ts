@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import type { Address } from '@xylabs/hex'
-import { asArchivistInstance } from '@xyo-network/archivist-model'
+import type { Address, Hash } from '@xylabs/hex'
+import { isArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
@@ -24,7 +24,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
   }
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
-    assertEx(!payloads?.length, () => 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
+    assertEx((payloads?.length ?? 0), () => 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
 
     const allBoundWitnesses = await this.allBoundWitnesses()
     const bwRecords = await PayloadBuilder.toDataHashMap(allBoundWitnesses)
@@ -36,8 +36,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
 
   private async allBoundWitnesses() {
     const archivists
-      = ((await Promise.all(await this.resolve('*'))).map(mod =>
-        asArchivistInstance(mod)) ?? []).filter(exists)
+      = (await Promise.all(await this.resolve('*'))).filter(isArchivistInstance)
     assertEx(archivists.length > 0, () => 'Did not find any archivists')
     return (
       await Promise.all(
@@ -51,7 +50,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
       .filter(exists)
   }
 
-  private buildAddressChains(address: Address, bwRecords: Record<string, BoundWitness>): Record<string, BoundWitness[]> {
+  private buildAddressChains(address: Address, bwRecords: Record<Hash, BoundWitness>): Record<string, BoundWitness[]> {
     // eslint-disable-next-line unicorn/no-array-reduce
     const arrayedResult = Object.entries(bwRecords).reduce<Record<string, BoundWitness[]>>((prev, [key, value]) => {
       prev[key] = [value]

@@ -1,3 +1,4 @@
+import type { TypeCheck } from '@xylabs/object'
 import { AsObjectFactory } from '@xylabs/object'
 import {
   IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory,
@@ -7,8 +8,8 @@ import type { DivinerInstance } from './Instance.ts'
 import type { DivinerModule } from './Module.ts'
 import { DivinerDivineQuerySchema } from './Queries/index.ts'
 
-export const isDivinerInstance = new IsInstanceFactory<DivinerInstance>().create({ divine: 'function' }, [isModuleInstance])
-export const isDivinerModule = new IsModuleFactory<DivinerModule>().create([DivinerDivineQuerySchema])
+export const isDivinerInstance: TypeCheck<DivinerInstance> = new IsInstanceFactory<DivinerInstance>().create({ divine: 'function' }, [isModuleInstance])
+export const isDivinerModule: TypeCheck<DivinerModule> = new IsModuleFactory<DivinerModule>().create([DivinerDivineQuerySchema])
 
 export const asDivinerModule = AsObjectFactory.create(isDivinerModule)
 export const asDivinerInstance = AsObjectFactory.create(isDivinerInstance)

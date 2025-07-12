@@ -1,3 +1,4 @@
+import type { TypeCheck } from '@xylabs/object'
 import { IsObjectFactory } from '@xylabs/object'
 import type { ObjectTypeShape } from '@xylabs/typeof'
 
@@ -11,4 +12,4 @@ export const requiredModuleShape: ObjectTypeShape = {
 
 const factory = new IsObjectFactory<Module>()
 
-export const isModuleObject = factory.create(requiredModuleShape)
+export const isModuleObject: TypeCheck<Module> = factory.create(requiredModuleShape)

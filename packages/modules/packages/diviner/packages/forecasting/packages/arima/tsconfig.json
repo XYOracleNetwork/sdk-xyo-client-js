@@ -1,4 +1,8 @@
 {
+  "compilerOptions": {
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["arima"]
+  },
   "exclude": ["dist", "node_modules", "build", "packages"],
   "extends": "@xylabs/tsconfig"
 }

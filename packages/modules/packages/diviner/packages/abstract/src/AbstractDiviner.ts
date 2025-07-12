@@ -4,6 +4,7 @@ import { delay } from '@xylabs/delay'
 import type { EventUnsubscribeFunction } from '@xylabs/events'
 import { forget } from '@xylabs/forget'
 import type { Logger } from '@xylabs/logger'
+import type { AsTypeFunction } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import type { RetryConfig, RetryConfigWithComplete } from '@xylabs/retry'
 import { retry } from '@xylabs/retry'
@@ -25,11 +26,13 @@ import type {
   DivinerQueries,
 } from '@xyo-network/diviner-model'
 import {
+  asDivinerInstance,
   DivinerConfigSchema, DivinerDivineQuerySchema, isDivinerInstance,
 } from '@xyo-network/diviner-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import type {
-  ModuleConfig, ModuleIdentifier, ModuleInstance, ModuleQueryHandlerResult, ModuleQueryResult,
+import {
+  asModuleInstance,
+  type ModuleConfig, type ModuleIdentifier, type ModuleInstance, type ModuleQueryHandlerResult, type ModuleQueryResult,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
@@ -37,17 +40,18 @@ import type {
 } from '@xyo-network/payload-model'
 import { isWitnessInstance } from '@xyo-network/witness-model'
 
-const delayedResolve = async (
+const delayedResolve = async <T extends ModuleInstance>(
   parent: ModuleInstance,
   id: ModuleIdentifier,
-  closure: (mod: ModuleInstance | null) => void,
+  closure: (mod: T | null) => void,
+  as: AsTypeFunction<T> = asModuleInstance,
   timeout = 30_000,
   logger?: Logger,
 ) => {
   const start = Date.now()
-  let result: ModuleInstance | undefined
+  let result: T | undefined
   while (isUndefined(result)) {
-    result = await parent.resolve(id)
+    result = as(await parent.resolve(id))
     if (isDefined(result)) {
       closure(result)
       break
@@ -161,7 +165,6 @@ export abstract class AbstractDiviner<
             this.logger?.error(`Failed to resolve ${sourceModule} for ${this.modName}`)
           } else {
             if (isArchivistInstance(sourceModuleInstance)) {
-              const x = asArchivistInstance(sourceModuleInstance)
               if (sourceEvent === 'inserted') {
                 this._eventUnsubscribeFunctions.push(
                   sourceModuleInstance.on(sourceEvent, async ({ outPayloads, payloads }) => {
@@ -193,7 +196,7 @@ export abstract class AbstractDiviner<
               }
             }
           }
-        }, undefined, this.logger))
+        }, asModuleInstance, undefined, this.logger))
       }
     }
 

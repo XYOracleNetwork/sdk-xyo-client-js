@@ -29,8 +29,8 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.13.9",
-    "@xylabs/object": "^4.13.9",
+    "@xylabs/assert": "^4.13.13",
+    "@xylabs/object": "^4.13.13",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-validator": "workspace:^",
@@ -38,8 +38,8 @@
     "ajv": "^8.17.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.10",
-    "@xylabs/tsconfig": "^7.0.0-rc.10",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.12",
+    "@xylabs/tsconfig": "^7.0.0-rc.12",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

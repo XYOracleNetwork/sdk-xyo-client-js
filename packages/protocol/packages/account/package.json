@@ -34,10 +34,10 @@
     "@xyo-network/wallet-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.10",
-    "@xylabs/tsconfig": "^7.0.0-rc.10",
-    "@xylabs/vitest-extended": "^4.13.9",
-    "@xylabs/vitest-matchers": "^4.13.9",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.12",
+    "@xylabs/tsconfig": "^7.0.0-rc.12",
+    "@xylabs/vitest-extended": "^4.13.13",
+    "@xylabs/vitest-matchers": "^4.13.13",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },

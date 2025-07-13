@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "devDependencies": {
-    "@xylabs/hex": "^4.13.13",
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.12",
-    "@xylabs/tsconfig": "^7.0.0-rc.12",
+    "@xylabs/hex": "^4.13.15",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.20",
+    "@xylabs/tsconfig": "^7.0.0-rc.20",
     "@xyo-network/archivist-leveldb": "workspace:^",
     "@xyo-network/archivist-lmdb": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",

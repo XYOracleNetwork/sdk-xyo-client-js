@@ -29,14 +29,14 @@
   "module": "dist/browser/index.mjs",
   "types": "dist/browser/index.d.ts",
   "dependencies": {
-    "@xylabs/forget": "^4.13.13",
-    "@xylabs/typeof": "^4.13.13",
+    "@xylabs/forget": "^4.13.15",
+    "@xylabs/typeof": "^4.13.15",
     "ethers": "^6.15.0"
   },
   "devDependencies": {
     "@metamask/providers": "^22.1.0",
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.12",
-    "@xylabs/tsconfig-dom": "^7.0.0-rc.12",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.20",
+    "@xylabs/tsconfig-dom": "^7.0.0-rc.20",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

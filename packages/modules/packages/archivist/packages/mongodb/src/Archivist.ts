@@ -20,12 +20,12 @@ export class MongoDBArchivist extends MongoDBArchivistBase {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, MongoDBArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = MongoDBArchivistConfigSchema
 
+  override queries = [ArchivistInsertQuerySchema, ArchivistNextQuerySchema, ...super.queries]
+
   /**
    * The amount of time to allow the aggregate query to execute
    */
   protected readonly aggregateTimeoutMs = 10_000
-
-  override get queries() { return [ArchivistInsertQuerySchema, ArchivistNextQuerySchema, ...super.queries] }
 
   protected async findOneByHash(hash: Hash) {
     const dataPayload = (await this.payloads.findOne({ _$hash: hash }))

@@ -8,7 +8,16 @@ import {
 } from '@xylabs/eslint-config-flat'
 
 export default [
-  { ignores: ['dist', '**/packages/*/dist', '.yarn', 'node_modules', '**/packages/*/node_modules', 'docs', '.dependency-cruiser.mjs'] },
+  {
+    ignores: ['dist',
+      '**/packages/*/dist',
+      'build',
+      '**/packages/*/build',, '.yarn',
+      'node_modules',
+      '**/packages/*/node_modules',
+      'docs',
+      '.dependency-cruiser.mjs'],
+  },
   unicornConfig,
   workspacesConfig,
   rulesConfig,

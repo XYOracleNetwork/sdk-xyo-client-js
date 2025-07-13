@@ -1,3 +1,4 @@
+import { isTruthy } from '@xylabs/typeof'
 import type { Schema } from '@xyo-network/payload-model'
 
 import type { Labels } from '../Labels/index.ts'
@@ -35,7 +36,7 @@ export const registerCreatableModuleFactory = <TModule extends CreatableModuleIn
   primary: boolean | Schema | Schema[] = false,
 ) => {
   const primarySchemas
-    = primary !== true && primary
+    = primary !== true && isTruthy(primary)
       ? Array.isArray(primary)
         ? primary
         : [primary]

@@ -32,8 +32,8 @@
     "@xyo-network/diviner-coin-user-locations": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.9",
-    "@xylabs/tsconfig": "^7.0.0-rc.9",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.20",
+    "@xylabs/tsconfig": "^7.0.0-rc.20",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

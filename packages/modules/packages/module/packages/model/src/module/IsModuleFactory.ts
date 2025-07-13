@@ -1,5 +1,6 @@
 import type {
   AnyObject, EmptyObject, TypeCheck,
+  TypeCheckConfig,
 } from '@xylabs/object'
 import type { AnyNonPromise } from '@xylabs/promise'
 
@@ -11,7 +12,7 @@ export type ModuleTypeCheck<T extends Module = Module> = TypeCheck<T>
 
 export class IsModuleFactory<T extends Module = Module> {
   create(expectedQueries?: string[], additionalChecks?: TypeCheck<AnyObject | EmptyObject>[]): ModuleTypeCheck<T> {
-    return (obj: AnyNonPromise, config): obj is T => {
+    const result = (obj: AnyNonPromise, config?: TypeCheckConfig | number): obj is T => {
       const mod = asModuleObject(obj)
       return (
         isModuleObject(mod, config)
@@ -20,5 +21,6 @@ export class IsModuleFactory<T extends Module = Module> {
         && (additionalChecks?.reduce((prev, check) => prev && check(obj, config), true) ?? true)
       )
     }
+    return result
   }
 }

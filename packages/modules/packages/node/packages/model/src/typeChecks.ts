@@ -1,3 +1,4 @@
+import type { TypeCheck } from '@xylabs/object'
 import { AsObjectFactory } from '@xylabs/object'
 import {
   IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory,
@@ -9,7 +10,7 @@ import { NodeAttachedQuerySchema } from './Queries/index.ts'
 
 const instanceFactory = new IsInstanceFactory<NodeInstance>()
 
-export const isNodeInstance = instanceFactory.create(
+export const isNodeInstance: TypeCheck<NodeInstance> = instanceFactory.create(
   {
     attach: 'function',
     attached: 'function',
@@ -20,9 +21,7 @@ export const isNodeInstance = instanceFactory.create(
   [isModuleInstance],
 )
 
-const moduleFactory = new IsModuleFactory<NodeModule>()
-
-export const isNodeModule = moduleFactory.create([NodeAttachedQuerySchema])
+export const isNodeModule: TypeCheck<NodeModule> = new IsModuleFactory<NodeModule>().create([NodeAttachedQuerySchema])
 
 export const asNodeModule = AsObjectFactory.create(isNodeModule)
 export const asNodeInstance = AsObjectFactory.create(isNodeInstance)

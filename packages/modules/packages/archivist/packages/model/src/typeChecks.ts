@@ -1,3 +1,4 @@
+import type { TypeCheck } from '@xylabs/object'
 import { AsObjectFactory } from '@xylabs/object'
 import {
   IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory,
@@ -7,8 +8,8 @@ import type { ArchivistInstance } from './Instance.ts'
 import type { ArchivistModuleInstance } from './ModuleInstance.ts'
 import { ArchivistGetQuerySchema } from './Queries/index.ts'
 
-export const isArchivistInstance = new IsInstanceFactory<ArchivistInstance>().create({ get: 'function' }, [isModuleInstance])
-export const isArchivistModule = new IsModuleFactory<ArchivistModuleInstance>().create([ArchivistGetQuerySchema])
+export const isArchivistInstance: TypeCheck<ArchivistInstance> = new IsInstanceFactory<ArchivistInstance>().create({ get: 'function' }, [isModuleInstance])
+export const isArchivistModule: TypeCheck<ArchivistModuleInstance> = new IsModuleFactory<ArchivistModuleInstance>().create([ArchivistGetQuerySchema])
 
 export const asArchivistModule = AsObjectFactory.create(isArchivistModule)
 export const asArchivistInstance = AsObjectFactory.create(isArchivistInstance)

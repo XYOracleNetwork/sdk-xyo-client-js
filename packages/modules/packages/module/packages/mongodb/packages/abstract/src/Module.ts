@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xylabs/mongo'
 import { staticImplements } from '@xylabs/static-implements'
 import {
-  MongoDBModule, MongoDBModuleParams, MongoDBModuleStatic, MongoDBStorageClassLabels,
+  MongoDBModule, MongoDBModuleParams, MongoDBStorageClassLabels,
 } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMongoMeta, PayloadWithMongoMeta } from '@xyo-network/payload-mongodb'
 import { MongoServerError } from 'mongodb'
@@ -25,14 +25,13 @@ const standardIndexes: IndexDescription[] = [
   },
 ]
 
-/** @internal */
 export const MongoDBModuleMixin = <
   TParams extends MongoDBModuleParams = MongoDBModuleParams,
   TModule extends AnyAbstractModule<TParams> = AnyAbstractModule<TParams>,
 >(
   ModuleBase: TModule,
 ) => {
-  @staticImplements<MongoDBModuleStatic>()
+  @staticImplements<TModule>()
   abstract class MongoModuleBase extends ModuleBase implements MongoDBModule {
     static readonly labels = MongoDBStorageClassLabels
     _boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMongoMeta> | undefined

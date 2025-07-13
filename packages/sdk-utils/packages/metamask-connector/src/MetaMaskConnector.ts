@@ -1,11 +1,16 @@
 import type { MetaMaskInpageProvider } from '@metamask/providers'
 import { forget } from '@xylabs/forget'
+import { isString } from '@xylabs/typeof'
 import type { Listener } from 'ethers'
 import { BrowserProvider } from 'ethers'
 
+declare global {
+  var ethereum: MetaMaskInpageProvider | undefined
+}
+
 export class MetaMaskConnector {
   private account = ''
-  private ethereum = globalThis.ethereum as MetaMaskInpageProvider
+  private ethereum = globalThis.ethereum
 
   private listeners: Listener[] = []
   private provider: BrowserProvider | undefined
@@ -15,7 +20,7 @@ export class MetaMaskConnector {
     if (provider) {
       this.provider = provider
     } else if (this.ethereum) {
-      this.provider = new BrowserProvider(globalThis.ethereum)
+      this.provider = new BrowserProvider(this.ethereum)
     }
   }
 
@@ -48,7 +53,7 @@ export class MetaMaskConnector {
   }
 
   isWalletIsConnected = () => {
-    if (this.currentAccount) {
+    if (isString(this.currentAccount)) {
       console.log('Found an authorized account:', this.ethereum?.selectedAddress)
       return true
     }

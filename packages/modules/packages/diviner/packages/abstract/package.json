@@ -52,8 +52,8 @@
   "devDependencies": {
     "@xylabs/events": "^4.13.15",
     "@xylabs/logger": "^4.13.15",
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.20",
-    "@xylabs/tsconfig": "^7.0.0-rc.20",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.23",
+    "@xylabs/tsconfig": "^7.0.0-rc.23",
     "@xyo-network/module-events": "workspace:^",
     "typescript": "^5.8.3"
   },

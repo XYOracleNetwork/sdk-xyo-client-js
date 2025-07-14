@@ -35,8 +35,8 @@
   },
   "devDependencies": {
     "@metamask/providers": "^22.1.0",
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.20",
-    "@xylabs/tsconfig-dom": "^7.0.0-rc.20",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.23",
+    "@xylabs/tsconfig-dom": "^7.0.0-rc.23",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

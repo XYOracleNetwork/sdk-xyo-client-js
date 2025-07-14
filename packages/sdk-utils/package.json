@@ -40,8 +40,8 @@
     "@xyo-network/witnesses": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.20",
-    "@xylabs/tsconfig": "^7.0.0-rc.20",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.23",
+    "@xylabs/tsconfig": "^7.0.0-rc.23",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

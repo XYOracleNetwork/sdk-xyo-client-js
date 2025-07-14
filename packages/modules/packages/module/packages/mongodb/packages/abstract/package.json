@@ -40,8 +40,8 @@
     "mongodb": "~6.17.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.20",
-    "@xylabs/tsconfig": "^7.0.0-rc.20",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.23",
+    "@xylabs/tsconfig": "^7.0.0-rc.23",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-mongodb": "workspace:^",
     "tslib": "^2.8.1",

@@ -135,7 +135,8 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
 
   private async build() {
     if (this._buildMutex.isLocked()) {
-      throw new Error('ViewNode is already building, please wait for it to finish before calling build again')
+      // throw new Error('ViewNode is already building, please wait for it to finish before calling build again')
+      return
     }
     return await this._buildMutex.runExclusive(async () => {
       if (!this._built) {

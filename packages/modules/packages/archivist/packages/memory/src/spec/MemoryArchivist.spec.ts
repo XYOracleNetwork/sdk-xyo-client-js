@@ -22,17 +22,18 @@ import { MemoryArchivist } from '../Archivist.ts'
  * @group archivist
  */
 describe('MemoryArchivist', () => {
-  it('should listen to cleared events', async () => {
+  it('should emit cleared events', async () => {
     const archivist = await MemoryArchivist.create({ account: 'random' })
 
     expect(isArchivistInstance(archivist)).toBe(true)
     expect(isArchivistModule(archivist)).toBe(true)
 
-    archivist.on('cleared', () => {
-      console.log('cleared')
-      expect(true).toBe(true)
+    const clearedEventEmitted = new Promise<void>((resolve) => {
+      archivist.on('cleared', () => resolve())
     })
+
     await archivist.clear()
+    return clearedEventEmitted
   })
 
   it('should return items inserted in the order they were provided in', async () => {

@@ -57,10 +57,10 @@ export class MemoryDriver extends AbstractCreatable<MemoryDriverParams>
     return [...this.cache.values()].filter(exists).toSorted(PayloadBuilder.compareStorageMeta)
   }
 
-  clear(): void | Promise<void> {
+  async clear(): Promise<void> {
     this.cache.clear()
     this.rebuildDataHashIndex()
-    this.rebuildDataHashIndex()
+    await this.rebuildSequenceIndex()
   }
 
   count() {

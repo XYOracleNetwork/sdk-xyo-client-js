@@ -57,10 +57,10 @@ export class MemoryDriver extends AbstractCreatable<MemoryDriverParams>
     return [...this.cache.values()].filter(exists).toSorted(PayloadBuilder.compareStorageMeta)
   }
 
-  async clear(): Promise<void> {
+  clear() {
     this.cache.clear()
-    this.rebuildDataHashIndex()
-    await this.rebuildSequenceIndex()
+    this._dataHashIndex = new LRUCache<Hash, Hash>({ max: this.max })
+    this._sequenceIndex = []
   }
 
   count() {

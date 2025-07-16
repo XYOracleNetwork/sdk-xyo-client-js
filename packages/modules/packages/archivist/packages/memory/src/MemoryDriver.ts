@@ -25,7 +25,6 @@ export class MemoryDriver extends AbstractCreatable<MemoryDriverParams>
   private _cache?: LRUCache<Hash, WithStorageMeta<Payload>>
   private _config?: MemoryDriverConfig
   private _dataHashIndex?: LRUCache<Hash, Hash>
-  private _sequenceIndex: WithStorageMeta<Payload>[] = []
 
   protected get cache() {
     this._cache = this._cache ?? new LRUCache<Hash, WithStorageMeta<Payload>>({ max: this.max })
@@ -60,7 +59,6 @@ export class MemoryDriver extends AbstractCreatable<MemoryDriverParams>
   clear() {
     this.cache.clear()
     this._dataHashIndex = new LRUCache<Hash, Hash>({ max: this.max })
-    this._sequenceIndex = []
   }
 
   count() {
@@ -83,7 +81,6 @@ export class MemoryDriver extends AbstractCreatable<MemoryDriverParams>
       })))
       .filter(exists)
     this.rebuildDataHashIndex()
-    await this.rebuildSequenceIndex()
     return deletedPayloads
   }
 
@@ -100,7 +97,6 @@ export class MemoryDriver extends AbstractCreatable<MemoryDriverParams>
 
   insert(payloads: WithStorageMeta<Payload>[]): WithStorageMeta<Payload>[] {
     const payloadsWithMeta = payloads.toSorted(PayloadBuilder.compareStorageMeta)
-    this._sequenceIndex.push(...payloadsWithMeta)
     return payloadsWithMeta.map((payload) => {
       return this.insertPayloadIntoCache(payload)
     })
@@ -110,7 +106,7 @@ export class MemoryDriver extends AbstractCreatable<MemoryDriverParams>
     const {
       limit = 100, cursor, order, open = true,
     } = options ?? {}
-    let all = this._sequenceIndex.toSorted(PayloadBuilder.compareStorageMeta)
+    let all = [...this.cache.values() ?? []].toSorted(PayloadBuilder.compareStorageMeta)
     if (order === 'desc') {
       all = all.toReversed()
     }
@@ -132,9 +128,5 @@ export class MemoryDriver extends AbstractCreatable<MemoryDriverParams>
     for (const payload of payloads) {
       this.dataHashIndex.set(payload._dataHash, payload._hash)
     }
-  }
-
-  private async rebuildSequenceIndex() {
-    this._sequenceIndex = (await this.all()).toSorted(PayloadBuilder.compareStorageMeta)
   }
 }

@@ -165,6 +165,7 @@ export abstract class AbstractArchivist<
           await this.started('throw')
           await this.clearHandler()
           this.reportPayloadCount()
+          await this.emit('cleared', { mod: this })
         })
       } finally {
         this.globalReentrancyMutex?.release()

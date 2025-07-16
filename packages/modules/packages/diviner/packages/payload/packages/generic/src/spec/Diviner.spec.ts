@@ -243,9 +243,6 @@ describe('GenericPayloadDiviner', () => {
         .build()
       // divine the payload
       const results = await sut.divine([query])
-      // logs show previous payloads inserted after archivist creation
-      // but should only show the single one inserted
-      console.log('results', results)
       // should be one but has two because of some payload inserted before cleared the archivist
       // but not the diviner cache
       expect(results).toBeArrayOfSize(1)

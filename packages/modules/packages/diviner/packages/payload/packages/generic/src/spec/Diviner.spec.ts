@@ -230,4 +230,22 @@ describe('GenericPayloadDiviner', () => {
       })
     })
   })
+  describe('on events', () => {
+    it ('should listen to clear event', async () => {
+      // clear the memory archivist before we test
+      await archivist.clear()
+      // insert a single payload
+      const payload: Payload = { schema: 'network.xyo.test' }
+      await archivist.insert([payload])
+      // build query for a single schema
+      const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
+        .fields({ schemas: ['network.xyo.test'] })
+        .build()
+      // divine the payload
+      const results = await sut.divine([query])
+      // should be one but has two because of some payload inserted before cleared the archivist
+      // but not the diviner cache
+      expect(results).toBeArrayOfSize(1)
+    })
+  })
 })

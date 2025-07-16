@@ -22,17 +22,18 @@ import { MemoryArchivist } from '../Archivist.ts'
  * @group archivist
  */
 describe('MemoryArchivist', () => {
-  it('should listen to cleared events', async () => {
+  it('should emit cleared events', async () => {
     const archivist = await MemoryArchivist.create({ account: 'random' })
 
     expect(isArchivistInstance(archivist)).toBe(true)
     expect(isArchivistModule(archivist)).toBe(true)
 
-    archivist.on('cleared', () => {
-      console.log('cleared')
-      expect(true).toBe(true)
+    const clearedEventEmitted = new Promise<void>((resolve) => {
+      archivist.on('cleared', () => resolve())
     })
+
     await archivist.clear()
+    return clearedEventEmitted
   })
 
   it('should return items inserted in the order they were provided in', async () => {
@@ -102,7 +103,6 @@ describe('MemoryArchivist', () => {
     expect(insertedPayloads1[0]._dataHash).toBe(await PayloadBuilder.dataHash(payloads1[0]))
     expect(insertedPayloads1[0]._sequence).toBeDefined()
     await delay(1)
-    console.log(toJsonString(payloads1, 10))
     const [bw, payloads, errors] = await archivist.insertQuery(payloads2, account)
     expect(bw).toBeDefined()
     expect(payloads).toBeDefined()
@@ -111,8 +111,6 @@ describe('MemoryArchivist', () => {
     await archivist.insert(payloads3)
     await delay(1)
     await archivist.insert(payloads4)
-
-    console.log(toJsonString([bw, payloads, errors], 10))
 
     const batch1 = await archivist.next?.({ limit: 2 })
     expect(batch1).toBeArrayOfSize(2)

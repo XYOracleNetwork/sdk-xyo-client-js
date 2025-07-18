@@ -33,7 +33,7 @@ export class SentinelRunner extends Base {
     super(params)
     this.sentinel = params.sentinel
     this.onTriggerResult = params.onTriggerResult
-    // eslint-disable-next-line sonarjs/no-async-constructor
+
     if (params.automations) for (const automation of params.automations) forget(this.add(automation))
   }
 

@@ -17,7 +17,7 @@ import type { Promisable } from '@xylabs/promise'
 import { PromiseEx } from '@xylabs/promise'
 import { spanAsync } from '@xylabs/telemetry'
 import {
-  isDefined, isObject, isPromise, isString, isUndefined,
+  isDefined, isObject, isString, isUndefined,
 } from '@xylabs/typeof'
 import { Account } from '@xyo-network/account'
 import { type AccountInstance, isAccountInstance } from '@xyo-network/account-model'

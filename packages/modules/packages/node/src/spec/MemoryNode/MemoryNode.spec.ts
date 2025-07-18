@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/assertions-in-tests */
 import { delay } from '@xylabs/delay'
 import { matchers } from '@xylabs/vitest-matchers'
 import type { AccountInstance } from '@xyo-network/account-model'

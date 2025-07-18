@@ -4,7 +4,7 @@ import { AsTypeFactory } from '@xylabs/object'
 export const SchemaRegEx = '^(?:[a-z0-9]+\.)*[a-z0-9]+$' as const
 
 /** Schema type in Javascript is a string */
-// eslint-disable-next-line sonarjs/redundant-type-aliases
+
 export type Schema = string
 
 export const PayloadSchema = 'network.xyo.payload' as const

@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/slow-regex */
 const word = String.raw`[a-fA-F\d:]`
 
 export interface Options {

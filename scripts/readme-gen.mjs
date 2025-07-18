@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-/* eslint-disable sonarjs/slow-regex */
 // generate-readmes.mjs
 import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'

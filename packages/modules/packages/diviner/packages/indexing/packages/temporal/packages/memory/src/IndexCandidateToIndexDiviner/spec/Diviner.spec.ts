@@ -45,7 +45,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
     const timestampC = 1_234_567_892
     const timestampPayloadC: TimeStamp = { schema: TimestampSchema, timestamp: timestampC }
     const imageThumbnailPayloadC: ImageThumbnail = {
-      // eslint-disable-next-line sonarjs/no-hardcoded-ip
+
       http: { ipAddress: '192.169.1.1' },
       schema: 'network.xyo.image.thumbnail',
       sourceUrl: 'https://www.google.com',

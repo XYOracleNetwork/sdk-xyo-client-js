@@ -15,6 +15,6 @@ export class LoggerModuleStatusReporter implements ModuleStatusReporter {
     this.statusMap[name] = status
     const starting = (Object.entries(this.statusMap).map(([, value]): number => value === 'starting' ? 1 : 0)).reduce((a, b) => a + b, 0)
     const started = (Object.entries(this.statusMap).map(([, value]): number => value === 'started' ? 1 : 0)).reduce((a, b) => a + b, 0)
-    this.logger.info(`${started}/${starting + started} ${name} status: ${status}`, { progress })
+    this.logger.log(`${started}/${starting + started} ${name} status: ${status}`, { progress })
   }
 }

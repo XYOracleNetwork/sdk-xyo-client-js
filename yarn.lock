@@ -6069,6 +6069,7 @@ __metadata:
     "@xylabs/static-implements": "npm:^4.13.16"
     "@xylabs/ts-scripts-yarn3": "npm:^7.0.0-rc.27"
     "@xylabs/tsconfig": "npm:^7.0.0-rc.27"
+    "@xylabs/typeof": "npm:^4.13.16"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/module-model-mongodb": "workspace:^"
     "@xyo-network/payload-mongodb": "workspace:^"

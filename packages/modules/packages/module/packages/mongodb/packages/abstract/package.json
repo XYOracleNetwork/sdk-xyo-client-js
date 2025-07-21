@@ -36,6 +36,7 @@
     "@xylabs/exists": "^4.13.16",
     "@xylabs/mongo": "^4.13.16",
     "@xylabs/static-implements": "^4.13.16",
+    "@xylabs/typeof": "^4.13.16",
     "@xyo-network/module-model-mongodb": "workspace:^",
     "mongodb": "~6.17.0"
   },

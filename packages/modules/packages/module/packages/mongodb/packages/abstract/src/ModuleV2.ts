@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xylabs/mongo'
 import { staticImplements } from '@xylabs/static-implements'
+import { isDefined } from '@xylabs/typeof'
 import {
   MongoDBModuleParamsV2, MongoDBModuleStatic, MongoDBModuleV2, MongoDBStorageClassLabels,
 } from '@xyo-network/module-model-mongodb'
@@ -41,13 +42,27 @@ export const MongoDBModuleMixinV2 = <
     }
 
     get payloadSdkConfig(): BaseMongoSdkConfig {
-      const config = { collection: COLLECTIONS.Payloads, ...getBaseMongoSdkPrivateConfig() }
-      return merge(
-        config,
-        this.params.payloadSdkConfig,
-        this.config.payloadSdkConfig,
-        { collection: this.config.payloadSdkConfig?.collection ?? this.params.payloadSdkConfig?.collection ?? COLLECTIONS.Payloads },
-      )
+      const defaultConfig = { collection: COLLECTIONS.Payloads }
+      // If the params of config have payloadSdkConfig, merge it with the default config
+      const paramsPayloadSdkConfig = this.params.payloadSdkConfig
+      const configPayloadSdkConfig = this.config.payloadSdkConfig
+      if (isDefined(paramsPayloadSdkConfig) || isDefined(configPayloadSdkConfig)) {
+        return merge(
+          defaultConfig,
+          configPayloadSdkConfig ?? {},
+          paramsPayloadSdkConfig ?? {},
+        )
+      } else {
+        // Otherwise, attempt to get the config from the environment
+        // TODO: Deprecate this in favor of params/config injection
+        // This is a temporary solution to maintain backward compatibility
+        // and should be removed in the future.
+        const envConfig = getBaseMongoSdkPrivateConfig()
+        return merge(
+          defaultConfig,
+          envConfig,
+        )
+      }
     }
 
     get payloads() {
@@ -65,7 +80,7 @@ export const MongoDBModuleMixinV2 = <
 
       const payloadStandardIndexes = standardIndexes.map(ix => ({ ...ix, name: `${payloadCollectionName}.${ix.name}` }))
 
-      if (max) {
+      if (isDefined(max)) {
         // Create capped collection if it doesn't exist or convert it if it does
         await ensureCappedCollection(this.payloads, max)
         // Recreate indexes after creating/converting a capped collection as

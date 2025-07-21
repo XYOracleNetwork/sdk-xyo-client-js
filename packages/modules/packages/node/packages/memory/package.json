@@ -29,20 +29,20 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.13.16",
-    "@xylabs/exists": "^4.13.16",
-    "@xylabs/hex": "^4.13.16",
-    "@xylabs/promise": "^4.13.16",
-    "@xylabs/typeof": "^4.13.16",
+    "@xylabs/assert": "^4.13.23",
+    "@xylabs/exists": "^4.13.23",
+    "@xylabs/hex": "^4.13.23",
+    "@xylabs/promise": "^4.13.23",
+    "@xylabs/typeof": "^4.13.23",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/node-abstract": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {
-    "@xylabs/events": "^4.13.16",
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.27",
-    "@xylabs/tsconfig": "^7.0.0-rc.27",
+    "@xylabs/events": "^4.13.23",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0",
+    "@xylabs/tsconfig": "^7.0.0",
     "@xyo-network/module-events": "workspace:^",
     "@xyo-network/module-resolver": "workspace:^",
     "typescript": "^5.8.3"

@@ -21,7 +21,7 @@ import {
 
 import { StatefulDiviner } from '../Diviner.ts'
 import { StatefulDivinerParams } from '../Params.ts'
-import TestManifest from './TestManifest.json' with {type: 'json'}
+import TestManifest from './TestManifest.json' with { type: 'json' }
 
 @creatableModule<CreatableModuleInstance<StatefulDivinerParams>>()
 class TestStatefulDiviner extends StatefulDiviner {

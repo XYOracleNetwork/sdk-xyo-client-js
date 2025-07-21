@@ -37,10 +37,10 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/object": "^4.13.16",
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.27",
-    "@xylabs/tsconfig": "^7.0.0-rc.27",
-    "@xylabs/vitest-extended": "^4.13.16",
+    "@xylabs/object": "^4.13.23",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0",
+    "@xylabs/tsconfig": "^7.0.0",
+    "@xylabs/vitest-extended": "^4.13.23",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },

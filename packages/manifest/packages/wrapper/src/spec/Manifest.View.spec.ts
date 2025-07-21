@@ -11,7 +11,7 @@ import {
 } from 'vitest'
 
 import { ManifestWrapper } from '../Wrapper.ts'
-import simpleNodeViewManifest from './simple-node-view-manifest.json' with {type: 'json'}
+import simpleNodeViewManifest from './simple-node-view-manifest.json' with { type: 'json' }
 
 describe('Manifest', () => {
   describe('Create Node from Manifest', () => {

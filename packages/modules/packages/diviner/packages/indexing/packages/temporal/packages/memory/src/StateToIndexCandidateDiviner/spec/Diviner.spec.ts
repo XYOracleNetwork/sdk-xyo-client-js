@@ -25,7 +25,7 @@ import {
 } from 'vitest'
 
 import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../Diviner.ts'
-import TemporalStateToIndexCandidateDivinerManifest from './TemporalStateToIndexCandidateDiviner.json' with {type: 'json'}
+import TemporalStateToIndexCandidateDivinerManifest from './TemporalStateToIndexCandidateDiviner.json' with { type: 'json' }
 
 /**
  * @group slow

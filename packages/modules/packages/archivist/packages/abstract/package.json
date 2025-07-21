@@ -30,14 +30,14 @@
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
     "@opentelemetry/api": "^1.9.0",
-    "@xylabs/assert": "^4.13.16",
-    "@xylabs/base": "^4.13.16",
-    "@xylabs/exists": "^4.13.16",
-    "@xylabs/hex": "^4.13.16",
-    "@xylabs/promise": "^4.13.16",
-    "@xylabs/set": "^4.13.16",
-    "@xylabs/telemetry": "^4.13.16",
-    "@xylabs/typeof": "^4.13.16",
+    "@xylabs/assert": "^4.13.23",
+    "@xylabs/base": "^4.13.23",
+    "@xylabs/exists": "^4.13.23",
+    "@xylabs/hex": "^4.13.23",
+    "@xylabs/promise": "^4.13.23",
+    "@xylabs/set": "^4.13.23",
+    "@xylabs/telemetry": "^4.13.23",
+    "@xylabs/typeof": "^4.13.23",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -49,8 +49,8 @@
     "lru-cache": "^11.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0-rc.27",
-    "@xylabs/tsconfig": "^7.0.0-rc.27",
+    "@xylabs/ts-scripts-yarn3": "^7.0.0",
+    "@xylabs/tsconfig": "^7.0.0",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

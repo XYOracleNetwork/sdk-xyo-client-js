@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/api",
-  "version": "4.1.6",
+  "version": "4.1.7",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -38,7 +38,7 @@
     "axios": "^1.10.0"
   },
   "devDependencies": {
-    "@types/node": "^24.0.15",
+    "@types/node": "^24.1.0",
     "@types/uuid": "^10.0.0",
     "@xylabs/object": "^4.13.23",
     "@xylabs/ts-scripts-yarn3": "^7.0.0",

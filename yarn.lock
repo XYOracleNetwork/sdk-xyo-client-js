@@ -2105,9 +2105,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stylistic/eslint-plugin@npm:^5.2.0, @stylistic/eslint-plugin@npm:^5.2.1":
-  version: 5.2.1
-  resolution: "@stylistic/eslint-plugin@npm:5.2.1"
+"@stylistic/eslint-plugin@npm:^5.2.0, @stylistic/eslint-plugin@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "@stylistic/eslint-plugin@npm:5.2.2"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.7.0"
     "@typescript-eslint/types": "npm:^8.37.0"
@@ -2117,7 +2117,7 @@ __metadata:
     picomatch: "npm:^4.0.3"
   peerDependencies:
     eslint: ">=9.0.0"
-  checksum: 10/cb867acabe337ecba472e4fbec62ed447ddff0f82217fc262cc10167fe79a3f43e6d6e6edf04f1ffdfd2f1295a2c70d61d6f959678c1071fcd66792b6cdab0db
+  checksum: 10/a72d05c7a1ba0f56e6ca82181e4fc0aa6c848dee389ec268e7d4ff1f54c7063cc2fb14e50fd3ed74d3b7e60a5c5ac5003d1736c503715038a5b7c5da7b02d415
   languageName: node
   linkType: hard
 
@@ -2481,12 +2481,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0, @types/node@npm:^24.0.15":
-  version: 24.0.15
-  resolution: "@types/node@npm:24.0.15"
+"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0, @types/node@npm:^24.1.0":
+  version: 24.1.0
+  resolution: "@types/node@npm:24.1.0"
   dependencies:
     undici-types: "npm:~7.8.0"
-  checksum: 10/0c55b7f4b0cd4f47e43e587e54545c4f188521678328411033595a6f49f81ed54ec3729ce5025936c51250e31504a32a7f20b520ed9dd71f3ab1530f809975e9
+  checksum: 10/02c3d91e1407a93a2363f97a245475fa0f6209d3f3e6ba9fdaabe65389e3e078f648da81b8738125dec6b6bf98c50fb928f36f4e72b8b015817bc21479a868c2
   languageName: node
   linkType: hard
 
@@ -3513,7 +3513,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/api@workspace:packages/sdk-utils/packages/api"
   dependencies:
-    "@types/node": "npm:^24.0.15"
+    "@types/node": "npm:^24.1.0"
     "@types/uuid": "npm:^10.0.0"
     "@xylabs/axios": "npm:^4.13.23"
     "@xylabs/object": "npm:^4.13.23"
@@ -4021,7 +4021,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-model@workspace:packages/protocol/packages/boundwitness/packages/model"
   dependencies:
-    "@types/node": "npm:^24.0.15"
+    "@types/node": "npm:^24.1.0"
     "@xylabs/hex": "npm:^4.13.23"
     "@xylabs/object": "npm:^4.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^7.0.0"
@@ -4141,7 +4141,7 @@ __metadata:
   resolution: "@xyo-network/bridge-http-express@workspace:packages/modules/packages/bridge/packages/http-express"
   dependencies:
     "@types/express": "npm:^5.0.3"
-    "@types/node": "npm:^24.0.15"
+    "@types/node": "npm:^24.1.0"
     "@xylabs/assert": "npm:^4.13.23"
     "@xylabs/exists": "npm:^4.13.23"
     "@xylabs/express": "npm:^4.13.23"
@@ -4178,7 +4178,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-http@workspace:packages/modules/packages/bridge/packages/http"
   dependencies:
-    "@types/node": "npm:^24.0.15"
+    "@types/node": "npm:^24.1.0"
     "@xylabs/assert": "npm:^4.13.23"
     "@xylabs/axios": "npm:^4.13.23"
     "@xylabs/exists": "npm:^4.13.23"
@@ -4413,7 +4413,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/core@workspace:packages/protocol/packages/core"
   dependencies:
-    "@types/node": "npm:^24.0.15"
+    "@types/node": "npm:^24.1.0"
     "@xylabs/ts-scripts-yarn3": "npm:^7.0.0"
     "@xylabs/tsconfig": "npm:^7.0.0"
     "@xyo-network/data": "workspace:^"
@@ -6033,7 +6033,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/key-model@workspace:packages/protocol/packages/account/packages/keypair-model"
   dependencies:
-    "@types/node": "npm:^24.0.15"
+    "@types/node": "npm:^24.1.0"
     "@xylabs/ts-scripts-yarn3": "npm:^7.0.0"
     "@xylabs/tsconfig": "npm:^7.0.0"
     "@xyo-network/data": "workspace:^"
@@ -6045,7 +6045,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest-model@workspace:packages/manifest/packages/model"
   dependencies:
-    "@types/node": "npm:^24.0.15"
+    "@types/node": "npm:^24.1.0"
     "@xylabs/hex": "npm:^4.13.23"
     "@xylabs/object": "npm:^4.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^7.0.0"
@@ -6685,7 +6685,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/indexeddb"
   dependencies:
-    "@types/node": "npm:^24.0.15"
+    "@types/node": "npm:^24.1.0"
     "@types/uuid": "npm:10.0.0"
     "@xylabs/hex": "npm:^4.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^7.0.0"
@@ -6714,7 +6714,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/storage"
   dependencies:
-    "@types/node": "npm:^24.0.15"
+    "@types/node": "npm:^24.1.0"
     "@types/uuid": "npm:^10.0.0"
     "@xylabs/hex": "npm:^4.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^7.0.0"
@@ -6840,7 +6840,7 @@ __metadata:
   dependencies:
     "@firebase/app": "npm:^0.14.0"
     "@firebase/app-compat": "npm:^0.5.0"
-    "@stylistic/eslint-plugin": "npm:^5.2.1"
+    "@stylistic/eslint-plugin": "npm:^5.2.2"
     "@types/supertest": "npm:^6.0.3"
     "@typescript-eslint/eslint-plugin": "npm:^8.38.0"
     "@typescript-eslint/parser": "npm:^8.38.0"
@@ -7026,7 +7026,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/typeof@workspace:packages/shared/packages/typeof"
   dependencies:
-    "@types/node": "npm:^24.0.15"
+    "@types/node": "npm:^24.1.0"
     "@xylabs/ts-scripts-yarn3": "npm:^7.0.0"
     "@xylabs/tsconfig": "npm:^7.0.0"
     typescript: "npm:^5.8.3"

@@ -175,7 +175,7 @@ export class IndexingDiviner<
   protected async retrieveState(): Promise<ModuleState<IndexingDivinerState> | undefined> {
     const accountAddress = this.account.address
     if (this._lastState) return this._lastState
-    let hash: Hash = ''
+    let hash = '' as Hash
     const diviner = await this.getBoundWitnessDivinerForStore('stateStore')
     const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
       .fields({

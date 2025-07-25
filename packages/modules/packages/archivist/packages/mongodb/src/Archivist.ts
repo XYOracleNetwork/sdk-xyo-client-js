@@ -4,6 +4,7 @@ import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import type { ArchivistNextOptions } from '@xyo-network/archivist-model'
 import { ArchivistInsertQuerySchema, ArchivistNextQuerySchema } from '@xyo-network/archivist-model'
 import { MongoDBArchivistConfigSchema } from '@xyo-network/archivist-model-mongodb'
+import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { MongoDBModuleMixin } from '@xyo-network/module-abstract-mongodb'
 import type {
   Payload, Schema, Sequence, WithStorageMeta,
@@ -60,19 +61,22 @@ export class MongoDBArchivist extends MongoDBArchivistBase {
   protected override async getHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     let remainingHashes = [...hashes]
 
-    const dataPayloads = (await Promise.all(remainingHashes.map(_dataHash => this.payloads.findOne({ _dataHash })))).filter(exists)
+    const dataPayloads: WithStorageMeta<Payload>[] = (await Promise.all(remainingHashes.map(_dataHash => this.payloads.findOne({ _dataHash })))).filter(exists)
     const dataPayloadsHashes = new Set(dataPayloads.map(payload => payload._dataHash))
     remainingHashes = remainingHashes.filter(hash => !dataPayloadsHashes.has(hash))
 
-    const dataBws = (await Promise.all(remainingHashes.map(_dataHash => this.boundWitnesses.findOne({ _dataHash })))).filter(exists)
+    const dataBws: WithStorageMeta<BoundWitness>[] = (await Promise.all(remainingHashes.map(
+      _dataHash => this.boundWitnesses.findOne({ _dataHash }),
+    ))).filter(exists)
+
     const dataBwsHashes = new Set(dataBws.map(payload => payload._dataHash))
     remainingHashes = remainingHashes.filter(hash => !dataBwsHashes.has(hash))
 
-    const payloads = (await Promise.all(remainingHashes.map(_hash => this.payloads.findOne({ _hash })))).filter(exists)
+    const payloads: WithStorageMeta<Payload>[] = (await Promise.all(remainingHashes.map(_hash => this.payloads.findOne({ _hash })))).filter(exists)
     const payloadsHashes = new Set(payloads.map(payload => payload._hash))
     remainingHashes = remainingHashes.filter(hash => !payloadsHashes.has(hash))
 
-    const bws = (await Promise.all(remainingHashes.map(_hash => this.boundWitnesses.findOne({ _hash })))).filter(exists)
+    const bws: WithStorageMeta<BoundWitness>[] = (await Promise.all(remainingHashes.map(_hash => this.boundWitnesses.findOne({ _hash })))).filter(exists)
     const bwsHashes = new Set(bws.map(payload => payload._hash))
     // eslint-disable-next-line sonarjs/no-dead-store
     remainingHashes = remainingHashes.filter(hash => !bwsHashes.has(hash))

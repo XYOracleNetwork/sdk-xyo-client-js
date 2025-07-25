@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import type { Address, Hex } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 import { Account } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -41,8 +41,8 @@ describe('ModuleConfigQueryValidator', () => {
       allowed1.address.toUpperCase(),
       allowed2.address,
       [allowedCosigner1.address, allowedCosigner2.address],
-    ] as Hex[]
-    disallowed[ModuleStateQuerySchema] = [disallowed1.address.toUpperCase() as Hex, disallowed2.address]
+    ] as Address[]
+    disallowed[ModuleStateQuerySchema] = [disallowed1.address.toUpperCase() as Address, disallowed2.address]
   })
   describe('queryable', () => {
     describe('allowed', () => {

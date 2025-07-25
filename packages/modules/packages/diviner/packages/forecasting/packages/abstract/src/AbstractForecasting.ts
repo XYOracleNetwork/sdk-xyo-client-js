@@ -18,9 +18,7 @@ import type {
 } from '@xyo-network/diviner-model'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  Payload, Schema, WithSources,
-} from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 
 export type ForecastingDivinerParams = DivinerParams<AnyConfigSchema<ForecastingDivinerConfig>>
 
@@ -49,10 +47,10 @@ export abstract class AbstractForecastingDiviner<
     const data = await this.getPayloadsInWindow(startTimestamp, stopTimestamp)
     const sources = await PayloadBuilder.dataHashes(data)
     const values = await this.forecastingMethod(data, this.transformer)
-    const response = {
+    const response: ForecastPayload = {
       schema: ForecastPayloadSchema, sources, values,
-    } as WithSources<TOut>
-    return [response]
+    }
+    return [response as TOut]
   }
 
   protected abstract getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promisable<Payload[]>

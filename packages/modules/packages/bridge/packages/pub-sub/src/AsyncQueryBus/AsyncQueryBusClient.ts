@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
-import type { Address } from '@xylabs/hex'
+import type { Address, Hash } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
@@ -19,7 +19,7 @@ import type { AsyncQueryBusClientParams } from './model/index.ts'
 import { Pending } from './model/index.ts'
 
 export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = AsyncQueryBusClientParams> extends AsyncQueryBusBase<TParams> {
-  protected _queryCache?: LRUCache<Address, Pending | ModuleQueryResult>
+  protected _queryCache?: LRUCache<Hash, Pending | ModuleQueryResult>
   private _pollCount = 0
   private _pollId?: string
 
@@ -27,7 +27,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
     super(params)
   }
 
-  get queryCacheConfig(): LRUCache.Options<Address, Pending | ModuleQueryResult, unknown> {
+  get queryCacheConfig(): LRUCache.Options<Hash, Pending | ModuleQueryResult, unknown> {
     const queryCacheConfig: CacheConfig | undefined = this.config?.queryCache === true ? {} : this.config?.queryCache
     return {
       max: 100, ttl: 1000 * 60, ...queryCacheConfig,
@@ -41,10 +41,10 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
   /**
    * A cache of queries that have been issued
    */
-  protected get queryCache(): LRUCache<Address, Pending | ModuleQueryResult> {
+  protected get queryCache(): LRUCache<Hash, Pending | ModuleQueryResult> {
     const config = this.queryCacheConfig
     const requiredConfig = { noUpdateTTL: false, ttlAutopurge: true }
-    this._queryCache = this._queryCache ?? new LRUCache<Address, Pending | ModuleQueryResult>({ ...config, ...requiredConfig })
+    this._queryCache = this._queryCache ?? new LRUCache<Hash, Pending | ModuleQueryResult>({ ...config, ...requiredConfig })
     return this._queryCache
   }
 

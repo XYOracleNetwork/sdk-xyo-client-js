@@ -100,7 +100,7 @@ export abstract class StatefulDiviner<
    */
   protected async retrieveState(): Promise<ModuleState<TState> | undefined> {
     if (this._lastState) return this._lastState
-    let hash: Hash = ''
+    let hash = '' as Hash
     const diviner = await this.getBoundWitnessDivinerForStateStore()
     const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
       .fields({

@@ -1,7 +1,11 @@
 import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
-import type { Address, Hash } from '@xylabs/hex'
-import { hexFromArrayBuffer } from '@xylabs/hex'
+import type {
+  Address, Hash, Hex,
+} from '@xylabs/hex'
+import {
+  asAddress, asHash, hexFromArrayBuffer,
+} from '@xylabs/hex'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type {
   BoundWitness,
@@ -91,14 +95,14 @@ export class BoundWitnessBuilder<
   }
 
   static previousHash<T extends BoundWitness>(boundWitness: T, address: Address) {
-    return boundWitness.previous_hashes[this.addressIndex(boundWitness, address)]?.toLowerCase()
+    return asHash(boundWitness.previous_hashes[this.addressIndex(boundWitness, address)])?.toLowerCase()
   }
 
   protected static async linkingFields<T extends BoundWitness>(
     accounts: AccountInstance[],
     payloads?: Payload[],
   ): Promise<Pick<T, GeneratedBoundWitnessFields>> {
-    const addresses = accounts.map(account => hexFromArrayBuffer(account.addressBytes, { prefix: false }))
+    const addresses = accounts.map(account => asAddress(hexFromArrayBuffer(account.addressBytes, { prefix: false }), true))
     const previous_hashes = accounts.map(account => account.previousHash ?? null)
     const payload_hashes = payloads ? await BoundWitnessBuilder.hashes(payloads) : []
     const payload_schemas = payloads?.map(({ schema }) => schema) ?? []
@@ -174,7 +178,7 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  override fields(fields: WithoutStorageMeta<WithoutClientMeta<WithoutSchema<Omit<TBoundWitness, GeneratedBoundWitnessFields>>>>): this {
+  override fields(fields: WithoutSchema<WithoutStorageMeta<WithoutClientMeta<TBoundWitness>>>): this {
     // clean it up just incase
     const clone = structuredClone(fields) as unknown as Partial<TBoundWitness>
     for (const field of GeneratedBoundWitnessFields) {
@@ -247,7 +251,7 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  protected async sign(): Promise<string[]> {
+  protected async sign(): Promise<Hex[]> {
     uniqueAccounts(this._accounts, true)
     const hashBytes = toArrayBuffer(await this.dataHash())
     return await Promise.all(this._accounts.map(async account => hexFromArrayBuffer((await account.sign(hashBytes))[0])))

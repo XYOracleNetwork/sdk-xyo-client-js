@@ -59,7 +59,7 @@ export abstract class AbstractWitness<
   }
 
   /** @function observe The main entry point for a witness.  Do not override this function.  Implement/override observeHandler for custom functionality */
-  async observe(inPayloads?: TIn[]): Promise<WithoutPrivateStorageMeta<TOut>[]> {
+  async observe(inPayloads?: TIn[]): Promise<(WithoutPrivateStorageMeta<TOut>)[]> {
     this._noOverride('observe')
     this.isSupportedQuery(WitnessObserveQuerySchema, 'observe')
     return await spanAsync('observe', async () => {
@@ -85,7 +85,7 @@ export abstract class AbstractWitness<
             inPayloads, mod: this, outPayloads,
           } as TEventData['observeEnd'])
 
-          return PayloadBuilder.omitPrivateStorageMeta(outPayloads)
+          return PayloadBuilder.omitPrivateStorageMeta<TOut>(outPayloads)
         })
       } finally {
         this.globalReentrancyMutex?.release()
@@ -121,7 +121,7 @@ export abstract class AbstractWitness<
         return super.queryHandler(query, payloads)
       }
     }
-    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
+    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads) as ModuleQueryHandlerResult
   }
 
   /** @function observeHandler Implement or override to add custom functionality to a witness */

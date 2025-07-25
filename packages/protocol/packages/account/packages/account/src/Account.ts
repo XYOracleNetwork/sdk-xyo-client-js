@@ -3,6 +3,8 @@ import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
 import {
   Address,
+  asAddress,
+  asHash,
   Hash,
   isHash,
   toHex,
@@ -62,7 +64,7 @@ export class Account extends EllipticKey implements AccountInstance {
   }
 
   get address() {
-    return this.public.address.hex
+    return asAddress(this.public.address.hex, true)
   }
 
   get addressBytes() {
@@ -159,7 +161,7 @@ export class Account extends EllipticKey implements AccountInstance {
       const newPreviousHash = toUint8Array(hash, 32).buffer
       this._previousHash = newPreviousHash
       if (Account.previousHashStore) {
-        await Account.previousHashStore.setItem(this.address, toHex(newPreviousHash, { prefix: false }))
+        await Account.previousHashStore.setItem(this.address, asHash(toHex(newPreviousHash, { prefix: false }), true))
       }
       return [signature, currentPreviousHash]
     })

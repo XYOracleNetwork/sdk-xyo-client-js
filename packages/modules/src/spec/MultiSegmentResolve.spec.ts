@@ -1,3 +1,4 @@
+import type { Address } from '@xylabs/hex'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistConfigSchema } from '@xyo-network/archivist-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -49,9 +50,9 @@ describe('SimpleModuleResolverDeep', () => {
     expect(rootNodeResolve?.address).toBe(rootNode.address)
 
     const resolvedModuleA = await rootNode.resolve(moduleAName)
-    expect([moduleA.address, moduleB.address].includes(resolvedModuleA?.address ?? '')).toBe(true)
+    expect([moduleA.address, moduleB.address].includes(resolvedModuleA?.address ?? '' as Address)).toBe(true)
     const resolvedModuleB = await rootNode.resolve(moduleBName)
-    expect([moduleA.address, moduleB.address].includes(resolvedModuleB?.address ?? '')).toBe(true)
+    expect([moduleA.address, moduleB.address].includes(resolvedModuleB?.address ?? '' as Address)).toBe(true)
 
     const resolvedModuleAMulti = await rootNode.resolve(`${nodeAName}:${moduleAName}`)
     expect(resolvedModuleAMulti?.address).toBe(moduleA.address)

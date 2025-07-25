@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { asHash } from '@xylabs/hex'
 import type { Promisable } from '@xylabs/promise'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { isQueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -53,14 +54,14 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
     this._payloadsWithoutQuery
       = this._payloadsWithoutQuery
         ?? (await Promise.all(
-          (await PayloadBuilder.filterExclude(this.payloads, this.payload.query)).map(payload => PayloadWrapper.wrap(payload)).filter(exists),
+          (await PayloadBuilder.filterExclude(this.payloads, asHash(this.payload.query, true))).map(payload => PayloadWrapper.wrap(payload)).filter(exists),
         ))
     return this._payloadsWithoutQuery
   }
 
   async getQuery(): Promise<T> {
     const payloadMap = await this.payloadsDataHashMap()
-    this._query = this._query ?? (payloadMap[this.boundwitness.query] as T | undefined)
+    this._query = this._query ?? (payloadMap[asHash(this.boundwitness.query, true)] as T | undefined)
     return assertEx(this._query, () => `Missing Query [${JSON.stringify(this.boundwitness)}]`)
   }
 }

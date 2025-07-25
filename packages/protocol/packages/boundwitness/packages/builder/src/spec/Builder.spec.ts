@@ -1,6 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { toArrayBuffer } from '@xylabs/arraybuffer'
+import type { Address } from '@xylabs/hex'
 import {
   Account,
   AddressValue,
@@ -60,7 +61,7 @@ describe('BoundWitnessBuilder', () => {
         expect(actual.addresses).toBeArrayOfSize(1)
         expect(actual).toBeDefined()
         if (actual.$signatures) {
-          const addr = new AddressValue(toArrayBuffer(actual.addresses[0]))
+          const addr = new AddressValue(toArrayBuffer(actual.addresses[0] as Address))
           expect(addr.hex).toBe(actual.addresses[0])
           const hashToVerify = await PayloadBuilder.dataHash(actual)
           console.log('verifying hash:', hashToVerify)

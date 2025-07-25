@@ -211,7 +211,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
         upResolver: this.upResolver,
       }
       if (id === '*') {
-        return filterIdentity<T>(await ResolveHelper.resolve(config, id, options) ?? [], options.identity)
+        return filterIdentity<T>(await ResolveHelper.resolve(config, '*', options) ?? [], options.identity)
       }
       return filterIdentity<T>(await ResolveHelper.resolve(config, id, options), options.identity)
     }

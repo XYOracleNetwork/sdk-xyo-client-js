@@ -127,15 +127,15 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
   async loadNodes(node?: MemoryNode): Promise<MemoryNode[]> {
     return await Promise.all(
       this.payload.nodes?.map(async (nodeManifest, index) => {
-        const subNode = await this.loadNodeFromManifest(this.wallet, nodeManifest, nodeManifest.config.accountPath ?? `${index}'`, index === 0)
+        const subNode = await this.loadNodeFromManifest(this.wallet, nodeManifest as NodeManifest, nodeManifest.config.accountPath ?? `${index}'`, index === 0)
         await node?.register(subNode)
         return subNode
       }),
     )
   }
 
-  nodeManifest(index: number) {
-    return this.payload.nodes?.[index]
+  nodeManifest(index: number): NodeManifest | undefined {
+    return this.payload.nodes?.[index] as NodeManifest | undefined
   }
 
   /** Register a module on a node based on a manifest */

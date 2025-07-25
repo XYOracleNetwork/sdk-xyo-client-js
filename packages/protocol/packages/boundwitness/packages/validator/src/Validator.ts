@@ -1,5 +1,6 @@
 import { uniq } from '@xylabs/array'
 import { toArrayBuffer } from '@xylabs/arraybuffer'
+import { asAddress } from '@xylabs/hex'
 import { validateType } from '@xylabs/typeof'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
@@ -79,7 +80,7 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
           this.obj.addresses?.map<Promise<Error[]>>(async (address, index) =>
             BoundWitnessValidator.validateSignature(
               toArrayBuffer(await PayloadBuilder.dataHash(this.payload)),
-              toArrayBuffer(address),
+              toArrayBuffer(asAddress(address, true)),
               toArrayBuffer(this.obj.$signatures?.[index]),
             )) ?? [],
         )

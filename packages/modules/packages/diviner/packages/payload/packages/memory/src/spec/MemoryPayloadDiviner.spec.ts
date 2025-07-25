@@ -11,7 +11,6 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   Payload,
-  WithSequenceStorageMeta,
   WithStorageMeta,
 } from '@xyo-network/payload-model'
 import {
@@ -106,7 +105,7 @@ describe('MemoryPayloadDiviner', () => {
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
             expect(results.every(isSequenceStorageMeta)).toBeTruthy()
-            expect((results.filter(isSequenceStorageMeta) as WithSequenceStorageMeta[]).every(result => result._sequence > cursor)).toBe(true)
+            expect((results.filter(isSequenceStorageMeta)).every(result => result._sequence > cursor)).toBe(true)
           })
           it.skip('returns payloads equal to the supplied sequence (not a thing with _sequence)', async () => {
             // eslint-disable-next-line sonarjs/no-alphabetical-sort
@@ -117,7 +116,7 @@ describe('MemoryPayloadDiviner', () => {
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
             expect(results.every(isSequenceStorageMeta)).toBeTruthy()
-            expect((results.filter(isSequenceStorageMeta) as WithSequenceStorageMeta[]).every(result => result._sequence !== cursor)).toBe(true)
+            expect((results.filter(isSequenceStorageMeta)).every(result => result._sequence !== cursor)).toBe(true)
           })
         })
         describe('desc', () => {
@@ -130,7 +129,7 @@ describe('MemoryPayloadDiviner', () => {
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
             expect(results.every(isSequenceStorageMeta)).toBeTruthy()
-            expect((results.filter(isSequenceStorageMeta) as WithSequenceStorageMeta[]).every(result => result._sequence < cursor)).toBe(true)
+            expect((results.filter(isSequenceStorageMeta)).every(result => result._sequence < cursor)).toBe(true)
           })
           it.skip('returns payloads equal to the supplied sequence (not a thing with _sequence)', async () => {
             // eslint-disable-next-line sonarjs/no-alphabetical-sort
@@ -141,7 +140,7 @@ describe('MemoryPayloadDiviner', () => {
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
             expect(results.every(isSequenceStorageMeta)).toBe(true)
-            expect((results.filter(isSequenceStorageMeta) as WithSequenceStorageMeta[]).every(result => result._sequence !== cursor)).toBe(true)
+            expect((results.filter(isSequenceStorageMeta)).every(result => result._sequence !== cursor)).toBe(true)
           })
         })
       })
@@ -153,7 +152,7 @@ describe('MemoryPayloadDiviner', () => {
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
             expect(results.every(isSequenceStorageMeta)).toBe(true)
-            expect((results.filter(isSequenceStorageMeta) as WithSequenceStorageMeta[]).every(result => result._sequence !== cursor)).toBe(true)
+            expect((results.filter(isSequenceStorageMeta)).every(result => result._sequence !== cursor)).toBe(true)
           }
         })
       })

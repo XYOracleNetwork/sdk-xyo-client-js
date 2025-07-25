@@ -112,7 +112,7 @@ export const StatefulModuleMixin = <
      */
     async retrieveState(): Promise<ModuleState<TState> | undefined> {
       if (this._lastState) return this._lastState
-      let hash: Hash = ''
+      let hash = '' as Hash
       const diviner = await this.getBoundWitnessDivinerForStore()
       const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
         .fields({

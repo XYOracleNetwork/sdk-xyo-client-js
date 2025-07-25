@@ -4,7 +4,7 @@ import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
 import {
-  Address, Hex, hexFromHexString,
+  Address, asAddress, Hex, hexFromHexString,
 } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
 import { Account, PrivateKey } from '@xyo-network/account'
@@ -34,7 +34,7 @@ export class HDWallet extends Account implements WalletInstance {
   }
 
   override get address(): Address {
-    return hexFromHexString(this.node.address, { prefix: false })
+    return asAddress(hexFromHexString(this.node.address, { prefix: false }), true)
   }
 
   override get addressBytes(): ArrayBufferLike {
@@ -130,7 +130,7 @@ export class HDWallet extends Account implements WalletInstance {
 
   protected static async createFromNodeInternal(node: HDNodeWallet, previousHash?: string): Promise<WalletInstance> {
     const privateKey = toUint8Array(node.privateKey.replace('0x', ''))
-    assertEx(!privateKey || privateKey?.length === 32, () => `Private key must be 32 bytes [${privateKey?.length}]`)
+    assertEx(privateKey.length === 32, () => `Private key must be 32 bytes [${privateKey?.length}]`)
     const newWallet = await new HDWallet(Account._protectedConstructorKey, node, await PrivateKey.create(privateKey.buffer)).loadPreviousHash(previousHash)
     return HDWallet._addressMap[newWallet.address]?.deref() ?? newWallet
   }

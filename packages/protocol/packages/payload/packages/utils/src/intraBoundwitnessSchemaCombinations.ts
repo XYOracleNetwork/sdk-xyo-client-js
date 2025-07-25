@@ -1,4 +1,4 @@
-import type { Hash } from '@xylabs/hex'
+import { asHash, type Hash } from '@xylabs/hex'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import type { Schema } from '@xyo-network/payload-model'
 
@@ -50,7 +50,7 @@ export const intraBoundwitnessSchemaCombinations = (boundwitness: BoundWitness, 
 
   return uniqueCombinations.map((indexes) => {
     return indexes.map((index) => {
-      return boundwitness.payload_hashes[index]
+      return asHash(boundwitness.payload_hashes[index], true)
     })
   })
 }

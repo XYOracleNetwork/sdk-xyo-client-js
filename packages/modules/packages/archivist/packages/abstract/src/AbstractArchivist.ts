@@ -137,7 +137,7 @@ export abstract class AbstractArchivist<
         await this.globalReentrancyMutex?.acquire()
         return await this.busy(async () => {
           await this.started('throw')
-          return PayloadBuilder.omitPrivateStorageMeta(await this.allHandler())
+          return PayloadBuilder.omitPrivateStorageMeta(await this.allHandler()) as WithStorageMeta<Payload>[]
         })
       } finally {
         this.globalReentrancyMutex?.release()
@@ -265,7 +265,7 @@ export abstract class AbstractArchivist<
         await this.globalReentrancyMutex?.acquire()
         return await this.busy(async () => {
           await this.started('throw')
-          return await this.insertWithConfig(PayloadBuilder.omitStorageMeta(payloads))
+          return await this.insertWithConfig(PayloadBuilder.omitStorageMeta(payloads) as WithStorageMeta<Payload>[])
         })
       } finally {
         this.globalReentrancyMutex?.release()
@@ -468,7 +468,10 @@ export abstract class AbstractArchivist<
     }
     const result = this.omitClientMetaForDataHashes(
       hashes,
-      PayloadBuilder.omitPrivateStorageMeta([...foundPayloads, ...parentFoundPayloads]).toSorted(PayloadBuilder.compareStorageMeta),
+      (PayloadBuilder.omitPrivateStorageMeta([
+        ...foundPayloads,
+        ...parentFoundPayloads,
+      ]) as WithStorageMeta<Payload>[]).toSorted(PayloadBuilder.compareStorageMeta),
     )
 
     // write to cache if we are caching
@@ -525,7 +528,7 @@ export abstract class AbstractArchivist<
       })
     }
     this.reportPayloadCount()
-    return PayloadBuilder.omitPrivateStorageMeta(insertedPayloads)
+    return PayloadBuilder.omitPrivateStorageMeta(insertedPayloads) as WithStorageMeta<Payload>[]
   }
 
   protected nextHandler(_options?: ArchivistNextOptions): Promisable<WithStorageMeta<Payload>[]> {
@@ -534,7 +537,7 @@ export abstract class AbstractArchivist<
 
   protected async nextWithConfig(options?: ArchivistNextOptions, _config?: InsertConfig): Promise<WithStorageMeta<Payload>[]> {
     const foundPayloads = await this.nextHandler(options)
-    return PayloadBuilder.omitPrivateStorageMeta(foundPayloads)
+    return PayloadBuilder.omitPrivateStorageMeta(foundPayloads) as WithStorageMeta<Payload>[]
   }
 
   protected async parentArchivists() {
@@ -557,8 +560,8 @@ export abstract class AbstractArchivist<
     payloads: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const sanitizedQuery = PayloadBuilder.omitStorageMeta(query)
-    const sanitizedPayloads = PayloadBuilder.omitStorageMeta(payloads)
+    const sanitizedQuery = PayloadBuilder.omitStorageMeta(query) as T
+    const sanitizedPayloads = PayloadBuilder.omitStorageMeta(payloads) as Payload[]
     const wrappedQuery = QueryBoundWitnessWrapper.parseQuery<ArchivistQueries>(sanitizedQuery, sanitizedPayloads)
     const queryPayload = await wrappedQuery.getQuery()
     assertEx(await this.queryable(sanitizedQuery, sanitizedPayloads, queryConfig))
@@ -602,13 +605,13 @@ export abstract class AbstractArchivist<
         if (this.config.storeQueries) {
           await this.insertWithConfig([sanitizedQuery])
         }
-        return PayloadBuilder.omitPrivateStorageMeta(result)
+        return PayloadBuilder.omitPrivateStorageMeta(result) as ModuleQueryHandlerResult
       }
     }
     if (this.config.storeQueries) {
       await this.insertWithConfig([sanitizedQuery])
     }
-    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
+    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads) as ModuleQueryHandlerResult
   }
 
   protected reportPayloadCount() {
@@ -642,7 +645,7 @@ export abstract class AbstractArchivist<
   }
 
   protected async writeToParent(parent: ArchivistInstance, payloads: Payload[]): Promise<Payload[]> {
-    return await parent.insert(PayloadBuilder.omitStorageMeta(payloads))
+    return await parent.insert(PayloadBuilder.omitStorageMeta(payloads) as Payload[])
   }
 
   protected async writeToParents(payloads: Payload[]): Promise<Payload[]> {

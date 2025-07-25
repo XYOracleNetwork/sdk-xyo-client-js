@@ -1,14 +1,14 @@
 import type { Hash } from '@xylabs/hex'
 import type { JsonValue } from '@xylabs/object'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { ModuleError } from '@xyo-network/payload-model'
+import type { ModuleError, Schema } from '@xyo-network/payload-model'
 import { ModuleErrorSchema } from '@xyo-network/payload-model'
 
 export class ModuleErrorBuilder extends PayloadBuilder<ModuleError> {
   _details?: JsonValue
   _message?: string
   _name?: string
-  _query?: Hash
+  _query?: Hash | Schema
   constructor() {
     super({ schema: ModuleErrorSchema })
   }
@@ -38,7 +38,7 @@ export class ModuleErrorBuilder extends PayloadBuilder<ModuleError> {
     return this
   }
 
-  query(query: Hash) {
+  query(query: Hash | Schema) {
     this._query = query
     return this
   }

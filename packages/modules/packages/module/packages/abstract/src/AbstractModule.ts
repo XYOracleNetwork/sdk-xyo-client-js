@@ -572,11 +572,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const builder = new BoundWitnessBuilder().payloads(payloads).errors(errors).sourceQuery(queryDataHash)
     const witnesses = [this.account, ...additionalWitnesses].filter(exists)
     builder.signers(witnesses)
-    const result: ModuleQueryResult = [
+    const result = [
       PayloadBuilder.omitPrivateStorageMeta((await builder.build())[0]),
       PayloadBuilder.omitPrivateStorageMeta(payloads),
       PayloadBuilder.omitPrivateStorageMeta(errors ?? []),
-    ]
+    ] as ModuleQueryResult
     if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
       forget(this.storeToArchivists(result.flat()))
     }
@@ -682,7 +682,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         throw new Error(`Unsupported Query [${(queryPayload as Payload).schema}]`)
       }
     }
-    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
+    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads) as ModuleQueryHandlerResult
   }
 
   protected override async startHandler(): Promise<void> {

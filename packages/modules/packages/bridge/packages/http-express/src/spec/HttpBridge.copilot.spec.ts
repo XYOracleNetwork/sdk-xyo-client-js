@@ -1,5 +1,6 @@
 import '@xylabs/vitest-extended'
 
+import type { Address } from '@xylabs/hex'
 import {
   beforeEach,
   describe, expect, it,
@@ -37,13 +38,13 @@ describe('HttpBridgeExpress', () => {
   })
 
   it('should return correct moduleUrl', () => {
-    const address = '0x1234'
+    const address = '0x1234' as Address
     expect(httpBridge.moduleUrl(address).toString()).toBe('http://localhost:8080/0x1234')
   })
 
   it('should throw error on call to exposeHandler', async () => {
     try {
-      await httpBridge.exposeHandler('test')
+      await httpBridge.exposeHandler('test' as Address)
       expect('').toBe('exposeHandler should have thrown an error')
     } catch (error) {
       expect(error).toBeInstanceOf(Error)
@@ -52,7 +53,7 @@ describe('HttpBridgeExpress', () => {
 
   it('should throw error on call to unexposeHandler', async () => {
     try {
-      await httpBridge.unexposeHandler('test')
+      await httpBridge.unexposeHandler('test' as Address)
       expect('').toBe('unexposeHandler should have thrown an error')
     } catch (error) {
       expect(error).toBeInstanceOf(Error)

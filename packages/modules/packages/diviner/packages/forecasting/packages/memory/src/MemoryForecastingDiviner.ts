@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import type { Hash } from '@xylabs/hex'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import type { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
@@ -113,7 +114,7 @@ export class MemoryForecastingDiviner<
       more = boundWitnesses.length === limit
 
       // Get the corresponding payload hashes from the BWs
-      const hashes = boundWitnesses.map(bw => bw.payload_hashes[bw.payload_schemas.indexOf(witnessSchema)]).filter(exists)
+      const hashes = (boundWitnesses.map(bw => bw.payload_hashes[bw.payload_schemas.indexOf(witnessSchema)]) as Hash[]).filter(exists)
 
       // Get the payloads corresponding to the BW hashes from the archivist
       if (hashes.length > 0) {

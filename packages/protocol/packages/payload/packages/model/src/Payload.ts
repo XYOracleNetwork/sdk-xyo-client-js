@@ -1,6 +1,6 @@
 import type { Hash } from '@xylabs/hex'
 import type {
-  DeepOmitStartsWith, DeepPickStartsWith, DeepRestrictToStringKeys, EmptyObject,
+  DeepOmitStartsWith, DeepPickStartsWith, EmptyObject,
   JsonObject,
 } from '@xylabs/object'
 
@@ -18,7 +18,7 @@ export interface SourcesMetaField { $sources: Hash[] }
 export interface PayloadMetaFields extends SourcesMetaField {}
 
 export type WithPayload<T extends EmptyObject | void = void>
-  = DeepRestrictToStringKeys<WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>>
+  = WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>
 
 /** Base Type for Payloads */
 export type Payload<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void>
@@ -50,14 +50,14 @@ export type PayloadWithOptionalSources<T extends void | EmptyObject | WithSchema
 
 export type WithAnySchema<T extends Payload> = OverridablePayload<T>
 
-export type WithoutClientMeta<T extends EmptyObject> = DeepOmitStartsWith<T, '$'>
-export type WithoutStorageMeta<T extends EmptyObject> = DeepOmitStartsWith<T, '_'>
-export type WithoutPrivateStorageMeta<T extends EmptyObject> = DeepOmitStartsWith<T, '__'>
-export type WithoutMeta<T extends EmptyObject> = WithoutClientMeta<WithoutStorageMeta<T>>
+export type WithoutClientMeta<T extends Payload | EmptyObject> = DeepOmitStartsWith<T, '$'> & (T extends Payload ? Payload : EmptyObject)
+export type WithoutStorageMeta<T extends Payload | EmptyObject> = DeepOmitStartsWith<T, '_'> & (T extends Payload ? Payload : EmptyObject)
+export type WithoutPrivateStorageMeta<T extends Payload | EmptyObject> = DeepOmitStartsWith<T, '__'> & (T extends Payload ? Payload : EmptyObject)
+export type WithoutMeta<T extends Payload | EmptyObject> = WithoutClientMeta<WithoutStorageMeta<T>> & (T extends Payload ? Payload : EmptyObject)
 
 export type WithoutSchema<T extends WithOptionalSchema<Payload>> = Omit<T, 'schema'>
-export type WithOptionalSchema<T extends EmptyObject = EmptyObject> = WithoutSchema<T> & Partial<T & SchemaField>
+export type WithOptionalSchema<T extends Payload = Payload> = WithoutSchema<T> & Partial<T & SchemaField>
 
-export type WithOnlyClientMeta<T extends EmptyObject> = DeepPickStartsWith<T, '$'>
+export type WithOnlyClientMeta<T extends Payload> = DeepPickStartsWith<T, '$'>
 
 export type AnyPayload = Payload<JsonObject, Schema>

@@ -33,8 +33,8 @@
     "@xyo-network/diviner-payload-indexeddb": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0",
-    "@xylabs/tsconfig": "^7.0.0",
+    "@xylabs/ts-scripts-yarn3": "^7.0.1",
+    "@xylabs/tsconfig": "^7.0.1",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

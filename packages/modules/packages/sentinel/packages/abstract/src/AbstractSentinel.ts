@@ -60,7 +60,7 @@ export abstract class AbstractSentinel<
     return this.config.throwErrors ?? true
   }
 
-  async report(inPayloads?: Payload[]): Promise<WithoutPrivateStorageMeta<Payload>[]> {
+  async report(inPayloads?: Payload[]): Promise<Payload[]> {
     this._noOverride('report')
     this.isSupportedQuery(SentinelReportQuerySchema, 'report')
     return await spanAsync('report', async () => {
@@ -178,7 +178,7 @@ export abstract class AbstractSentinel<
         return super.queryHandler(query, payloads)
       }
     }
-    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
+    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads) as ModuleQueryHandlerResult
   }
 
   abstract reportHandler(payloads?: Payload[]): Promise<Payload[]>

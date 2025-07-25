@@ -1,5 +1,7 @@
 import { assertEx } from '@xylabs/assert'
-import type { Address, Hash } from '@xylabs/hex'
+import {
+  type Address, asHash, type Hash,
+} from '@xylabs/hex'
 import { isObject } from '@xylabs/object'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
@@ -140,7 +142,7 @@ export class BoundWitnessWrapper<
 
     const innerBoundwitnessIndex: number = this.payloadSchemas.indexOf(BoundWitnessSchema)
     if (innerBoundwitnessIndex !== -1) {
-      const innerBoundwitnessHash: Hash = this.payloadHashes[innerBoundwitnessIndex]
+      const innerBoundwitnessHash = asHash(this.payloadHashes[innerBoundwitnessIndex], true)
       const innerBoundwitnessPayload = asBoundWitness<TBoundWitness>(
         (await PayloadBuilder.toAllHashMap(this.payloads))[innerBoundwitnessHash],
       )
@@ -158,7 +160,7 @@ export class BoundWitnessWrapper<
 
   async getMissingPayloads() {
     const payloadMap = await this.payloadsDataHashMap()
-    return this.payloadHashes.filter(hash => !payloadMap[hash])
+    return this.payloadHashes.filter(hash => !payloadMap[asHash(hash, true)])
   }
 
   async getWrappedPayloads(): Promise<PayloadWrapper<TPayload>[]> {
@@ -169,7 +171,7 @@ export class BoundWitnessWrapper<
     const result: string[] = []
     for (const [index, payloadSchema] of this.payloadSchemas.entries()) {
       if (payloadSchema === schema) {
-        result.push(this.payloadHashes[index])
+        result.push(asHash(this.payloadHashes[index], true))
       }
     }
     return result
@@ -189,12 +191,12 @@ export class BoundWitnessWrapper<
     return this.payloads.filter(payload => payload?.schema === schema) as T[]
   }
 
-  async payloadsDataHashMap(): Promise<Record<Hash, TPayload>> {
+  async payloadsDataHashMap(): Promise<Partial<Record<Hash, TPayload>>> {
     this._payloadDataMap = this._payloadDataMap ?? (await PayloadBuilder.toDataHashMap<TPayload>(this.payloads))
     return this._payloadDataMap
   }
 
-  async payloadsHashMap(): Promise<Record<Hash, TPayload>> {
+  async payloadsHashMap(): Promise<Partial<Record<Hash, TPayload>>> {
     this._payloadMap = this._payloadMap ?? (await PayloadBuilder.toHashMap<TPayload>(this.payloads))
     return this._payloadMap
   }

@@ -11,8 +11,8 @@ import { v4 } from 'uuid'
 import { bench, describe } from 'vitest'
 
 describe('LMDB vs LevelDB', () => {
-  const missingHash: Hash = 'a2069e044136fdf5decb4580b81d2b8ae5c26101d621ec8e2d1c0bbf2f4fbb90'
-  const missingHashes: Hash[] = [
+  const missingHash = 'a2069e044136fdf5decb4580b81d2b8ae5c26101d621ec8e2d1c0bbf2f4fbb90' as Hash
+  const missingHashes = [
     'a2069e044136fdf5decb4580b81d2b8ae5c26101d621ec8e2d1c0bbf2f4fbb90',
     '66f07db88d4dbaef3c49559ad10604593cabd54431255f8c3a7163f562570b9d',
     '5482f54dca13a1ecfb0c36bd8cf0471045dbaef38f05021a2ea6f13545a7c062',
@@ -20,7 +20,7 @@ describe('LMDB vs LevelDB', () => {
     '1876f2127ac778881fac7fb5354a2c114478fd467e3917835b3281432df1cbf6',
     '655ed3ef5b03601f5ede740607c10281aa982671700d094e50c31b38798931a9',
     '7b1a7ce000163cf0bebe74596b338a1086438f64bbf8f03cb1e9902fd804fa45',
-  ]
+  ] as Hash[]
   const totalTestPayloads = 100
   let levelDbArchivist: LevelDbArchivist
   const levelDBArchivistSetup = async () => {

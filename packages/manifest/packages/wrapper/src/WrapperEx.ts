@@ -79,7 +79,7 @@ export class ManifestWrapperEx<
 
   // These are top level, so they can use this.wallet as their
   async loadNodeFromIndex(index: number): Promise<MemoryNode> {
-    const manifest = assertEx(this.nodeManifest(index), () => 'Failed to find Node Manifest')
+    const manifest = assertEx(this.nodeManifest(index), () => 'Failed to find Node Manifest') as NodeManifest
     return await this.loadNodeFromManifest(this.wallet, manifest, manifest.config.accountPath ?? `${index}'`)
   }
 
@@ -127,15 +127,15 @@ export class ManifestWrapperEx<
   async loadNodes(node?: MemoryNode): Promise<MemoryNode[]> {
     return await Promise.all(
       this.payload.nodes?.map(async (nodeManifest, index) => {
-        const subNode = await this.loadNodeFromManifest(this.wallet, nodeManifest, nodeManifest.config.accountPath ?? `${index}'`)
+        const subNode = await this.loadNodeFromManifest(this.wallet, nodeManifest as NodeManifest, nodeManifest.config.accountPath ?? `${index}'`)
         await node?.register(subNode)
         return subNode
       }),
     )
   }
 
-  nodeManifest(index: number) {
-    return this.payload.nodes?.[index]
+  nodeManifest(index: number): NodeManifest | undefined {
+    return this.payload.nodes?.[index] as NodeManifest | undefined
   }
 
   /** Register a module on a node based on a manifest */

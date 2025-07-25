@@ -41,7 +41,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   static override readonly configSchemas: Schema[] = [...super.configSchemas, PubSubBridgeConfigSchema]
   static override readonly defaultConfigSchema: Schema = PubSubBridgeConfigSchema
 
-  protected _configRootAddress: Address = ''
+  protected _configRootAddress: Address = '' as Address
   protected _configStateStoreArchivist: string = ''
   protected _configStateStoreBoundWitnessDiviner: string = ''
   protected _exposedAddresses: Address[] = []

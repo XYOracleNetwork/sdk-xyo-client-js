@@ -50,11 +50,11 @@ export class MongoDBArchivistV2 extends MongoDBArchivistBaseV2 {
   protected override async getHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     let remainingHashes = [...hashes]
 
-    const dataPayloads = (await Promise.all(remainingHashes.map(_dataHash => this.payloads.findOne({ _dataHash })))).filter(exists)
+    const dataPayloads: WithStorageMeta<Payload>[] = (await Promise.all(remainingHashes.map(_dataHash => this.payloads.findOne({ _dataHash })))).filter(exists)
     const dataPayloadsHashes = new Set(dataPayloads.map(payload => payload._dataHash))
     remainingHashes = remainingHashes.filter(hash => !dataPayloadsHashes.has(hash))
 
-    const payloads = (await Promise.all(remainingHashes.map(_hash => this.payloads.findOne({ _hash })))).filter(exists)
+    const payloads: WithStorageMeta<Payload>[] = (await Promise.all(remainingHashes.map(_hash => this.payloads.findOne({ _hash })))).filter(exists)
     const payloadsHashes = new Set(payloads.map(payload => payload._hash))
     // eslint-disable-next-line sonarjs/no-dead-store
     remainingHashes = remainingHashes.filter(hash => !payloadsHashes.has(hash))

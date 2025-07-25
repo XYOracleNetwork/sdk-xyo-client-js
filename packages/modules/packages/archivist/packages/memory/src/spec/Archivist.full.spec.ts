@@ -128,7 +128,7 @@ describe('MemoryArchivist [full]', () => {
       expect(resultSalts).toEqual(salts)
     })
     it('returns nothing for non-existing hashes', async () => {
-      const hashThatDoesNotExist = '0000000000000000000000000000000000000000000000000000000000000000'
+      const hashThatDoesNotExist = '0000000000000000000000000000000000000000000000000000000000000000' as Hash
       const getResult = await archivistModule.get([hashThatDoesNotExist])
       expect(getResult).toBeDefined()
       expect(getResult.length).toBe(0)

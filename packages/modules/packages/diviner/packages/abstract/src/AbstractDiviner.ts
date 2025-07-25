@@ -13,7 +13,7 @@ import {
   isDefined, isNull, isUndefined,
 } from '@xylabs/typeof'
 import type { AccountInstance } from '@xyo-network/account-model'
-import { asArchivistInstance, isArchivistInstance } from '@xyo-network/archivist-model'
+import { isArchivistInstance } from '@xyo-network/archivist-model'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type {
@@ -26,7 +26,6 @@ import type {
   DivinerQueries,
 } from '@xyo-network/diviner-model'
 import {
-  asDivinerInstance,
   DivinerConfigSchema, DivinerDivineQuerySchema, isDivinerInstance,
 } from '@xyo-network/diviner-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
@@ -114,7 +113,7 @@ export abstract class AbstractDiviner<
           if (errors.length > 0) {
             throw new Error(`Divine failed with ${errors.length} errors: ${errors.map(e => e.message).join(', ')}`)
           }
-          return PayloadBuilder.omitPrivateStorageMeta(outPayloads)
+          return PayloadBuilder.omitPrivateStorageMeta<TOut>(outPayloads)
         })
       } finally {
         this.globalReentrancyMutex?.release()
@@ -149,7 +148,7 @@ export abstract class AbstractDiviner<
         return super.queryHandler(query, payloads)
       }
     }
-    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads)
+    return PayloadBuilder.omitPrivateStorageMeta(resultPayloads) as ModuleQueryHandlerResult
   }
 
   protected override async startHandler() {

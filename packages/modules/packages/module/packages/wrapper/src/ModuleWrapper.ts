@@ -440,8 +440,8 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return await (account ? builder.signers(accounts) : builder).build()
   }
 
-  protected filterErrors(result: ModuleQueryResult): ModuleError[] {
-    const wrapper = BoundWitnessWrapper.wrap(result[0], result[1])
+  protected filterErrors([bw, payloads]: ModuleQueryResult): ModuleError[] {
+    const wrapper = BoundWitnessWrapper.wrap(bw, payloads)
     return wrapper.payloadsBySchema<ModuleError>(ModuleErrorSchema)
   }
 

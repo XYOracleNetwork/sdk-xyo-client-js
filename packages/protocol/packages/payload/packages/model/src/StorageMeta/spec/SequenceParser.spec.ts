@@ -1,7 +1,9 @@
 import '@xylabs/vitest-extended'
 
 import type { Address, Hash } from '@xylabs/hex'
-import { toHex } from '@xylabs/hex'
+import {
+  asAddress, asHash, toHex,
+} from '@xylabs/hex'
 import {
   describe, expect, it,
 } from 'vitest'
@@ -9,8 +11,8 @@ import {
 import { SequenceConstants, SequenceParser } from '../sequence/index.ts'
 
 describe('SequenceParser', () => {
-  const hash: Hash = toHex('1269b95d3ebf1b1258a82ccca0b365fabf4b8c99bf8fc852e5045e30ad20fbb1')
-  const address: Address = 'b36d327210f67ad98be881ddf6ad1f1b3e2c5137'
+  const hash: Hash = asHash('1269b95d3ebf1b1258a82ccca0b365fabf4b8c99bf8fc852e5045e30ad20fbb1', true)
+  const address = asAddress('b36d327210f67ad98be881ddf6ad1f1b3e2c5137', true)
   const timestamp = 1_234_567_890_123
   const parsed: SequenceParser = SequenceParser.from(timestamp, hash, address)
   const parsedWithIndex: SequenceParser = SequenceParser.from(timestamp, hash, 5, address)

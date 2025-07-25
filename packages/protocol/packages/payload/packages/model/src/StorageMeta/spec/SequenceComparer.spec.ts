@@ -15,11 +15,11 @@ import {
 
 describe('SequenceComparer', () => {
   describe('local', () => {
-    const epochA: Epoch = '0000000000000001'
-    const epochB: Epoch = '0000000000000002'
+    const epochA = '0000000000000001' as Epoch
+    const epochB = '0000000000000002' as Epoch
 
-    const nonceX: Nonce = '000000000000000a'
-    const nonceY: Nonce = '000000000000000b'
+    const nonceX = '000000000000000a' as Nonce
+    const nonceY = '000000000000000b' as Nonce
 
     const seqAX: Sequence = SequenceParser.from(epochA, nonceX).localSequence // local sequence #1
     const seqAY: Sequence = SequenceParser.from(epochA, nonceY).localSequence // local sequence #2
@@ -52,14 +52,14 @@ describe('SequenceComparer', () => {
   })
 
   describe('qualified', () => {
-    const epochC: Epoch = '0000000000000010'
-    const epochD: Epoch = '0000000000000011'
+    const epochC = '0000000000000010' as Epoch
+    const epochD = '0000000000000011' as Epoch
 
-    const nonceM: Nonce = '000000000000000f'
-    const nonceN: Nonce = '000000000000001f'
+    const nonceM = '000000000000000f' as Nonce
+    const nonceN = '000000000000001f' as Nonce
 
-    const address1: Address = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-    const address2: Address = '0000000000000000000000000000000000000000'
+    const address1 = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' as Address
+    const address2 = '0000000000000000000000000000000000000000' as Address
 
     const seqCMA: Sequence = SequenceParser.from(epochC, nonceM, address1).qualifiedSequence // qualified seq #1
     const seqCNA: Sequence = SequenceParser.from(epochC, nonceN, address1).qualifiedSequence // qualified seq #2

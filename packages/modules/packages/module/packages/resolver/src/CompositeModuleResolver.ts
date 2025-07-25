@@ -115,8 +115,6 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
 
     // resolve all
     if (id === '*') {
-      const all = id
-
       // wen't too far?
       if (mutatedOptions.maxDepth < 0) {
         return []
@@ -124,19 +122,19 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
 
       // identity resolve?
       if (mutatedOptions.maxDepth === 0) {
-        return (await this._localResolver.resolve(all, mutatedOptions)) ?? []
+        return (await this._localResolver.resolve('*', mutatedOptions)) ?? []
       }
 
       const childOptions = { ...mutatedOptions, maxDepth: mutatedOptions?.maxDepth - 1 }
 
       const result = await Promise.all(
         this.resolvers.map(async (resolver) => {
-          const result: T[] = await resolver.resolve<T>(all, childOptions)
+          const result: T[] = await resolver.resolve<T>('*', childOptions)
           return result
         }),
       )
       const flatResult: T[] = result.flat().filter(exists)
-      return flatResult.filter(duplicateModules)
+      return flatResult.filter((v, i, a) => duplicateModules(v, i, a))
     }
 
     if (typeof id === 'string') {
@@ -195,7 +193,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
             )
           ).filter(exists)
 
-          const result: T | undefined = results.filter(exists).findLast(duplicateModules)
+          const result: T | undefined = results.filter(exists).findLast((v, i, a) => duplicateModules(v, i, a))
           if (result) {
             this._cache.set(resolvedId, result)
             return result

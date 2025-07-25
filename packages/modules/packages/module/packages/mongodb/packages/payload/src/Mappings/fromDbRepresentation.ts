@@ -2,7 +2,10 @@ import type { JsonObject } from '@xylabs/object'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import {
+  asAnyPayload,
+  type Payload, type WithStorageMeta,
+} from '@xyo-network/payload-model'
 
 import type { BoundWitnessWithMongoMeta } from '../BoundWitness/index.ts'
 import type { PayloadWithMongoMeta } from '../Payload/index.js'
@@ -19,7 +22,7 @@ export const payloadFromDbRepresentation = <T extends Payload = Payload>(value: 
       metaNormalized[key] = clone[key]
     }
   }
-  return PayloadBuilder.omitPrivateStorageMeta(metaNormalized as Payload) as WithStorageMeta<T>
+  return PayloadBuilder.omitPrivateStorageMeta(asAnyPayload(metaNormalized, { required: true })) as WithStorageMeta<T>
 }
 
 export const boundWitnessFromDbRepresentation = <T extends BoundWitness = BoundWitness>(value: BoundWitnessWithMongoMeta<T>): WithStorageMeta<T> => {

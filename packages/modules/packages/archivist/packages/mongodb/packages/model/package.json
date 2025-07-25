@@ -32,13 +32,13 @@
   "module": "dist/node/index.mjs",
   "types": "dist/node/index.d.ts",
   "dependencies": {
-    "@xylabs/mongo": "^4.13.23",
+    "@xylabs/mongo": "^4.14.1",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0",
-    "@xylabs/tsconfig": "^7.0.0",
+    "@xylabs/ts-scripts-yarn3": "^7.0.1",
+    "@xylabs/tsconfig": "^7.0.1",
     "typescript": "^5.8.3"
   },
   "engines": {

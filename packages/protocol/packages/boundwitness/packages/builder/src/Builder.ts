@@ -178,7 +178,8 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  override fields(fields: WithoutSchema<WithoutStorageMeta<WithoutClientMeta<TBoundWitness>>>): this {
+  override fields(fields: WithoutSchema<Omit<WithoutStorageMeta<WithoutClientMeta<TBoundWitness>>,
+    'addresses' | 'payload_hashes' | 'payload_schemas' | 'previous_hashes'>>): this {
     // clean it up just incase
     const clone = structuredClone(fields) as unknown as Partial<TBoundWitness>
     for (const field of GeneratedBoundWitnessFields) {

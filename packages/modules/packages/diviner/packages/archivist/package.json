@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-archivist",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

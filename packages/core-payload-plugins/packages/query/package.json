@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/query-payload-plugin",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {

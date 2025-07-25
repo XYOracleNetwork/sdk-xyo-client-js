@@ -114,7 +114,7 @@ export class SchemaNameValidator {
   private domainLevel(level: number): string | undefined {
     return this.parts
       ?.slice(0, level + 1)
-      .reverse()
+      .toReversed()
       .join('.')
   }
 }

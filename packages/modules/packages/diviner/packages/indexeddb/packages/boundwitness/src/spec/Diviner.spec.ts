@@ -169,7 +169,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
           .fields({ order: 'desc' })
           .build()
         const results = await sut.divine([query])
-        expect(results).toEqual([...boundWitnesses].reverse())
+        expect(results).toEqual([...boundWitnesses].toReversed())
       })
     })
   })
@@ -193,7 +193,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     })
     describe('when descending order', () => {
       it('returns payloads from the end', async () => {
-        const descendingBoundWitnesses = [...boundWitnesses].reverse()
+        const descendingBoundWitnesses = [...boundWitnesses].toReversed()
         const iterator = [...descendingBoundWitnesses.entries()][Symbol.iterator]()
         iterator.next()
         for (const [i, boundWitness] of iterator) {

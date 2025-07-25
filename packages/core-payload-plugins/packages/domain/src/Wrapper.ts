@@ -26,7 +26,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
   static async discover(reverseDomainName: string, proxy?: string) {
     const parts = reverseDomainName.split('.')
     for (let i = 2; i <= parts.length; i++) {
-      const domainToCheck = parts.filter((_, index) => index < i).reverse().join('.')
+      const domainToCheck = parts.filter((_, index) => index < i).toReversed().join('.')
       const result = (await this.discoverDNSEntry(domainToCheck)) ?? (await this.discoverRootFile(domainToCheck, proxy))
       if (result) {
         return result
@@ -64,7 +64,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
 
   static async discoverRootFileWithProxy(domain: string, proxy = 'https://api.archivist.xyo.network/domain') {
     try {
-      const requestUrl = `${proxy}/${domain.split('.').reverse().join('.')}`
+      const requestUrl = `${proxy}/${domain.split('.').toReversed().join('.')}`
       const config = (await axios.get<ApiEnvelope<DomainPayload>>(requestUrl)).data.data
       return new DomainPayloadWrapper(config)
     } catch (ex) {

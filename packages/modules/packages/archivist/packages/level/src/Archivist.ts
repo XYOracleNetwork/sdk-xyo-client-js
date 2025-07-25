@@ -226,7 +226,7 @@ export abstract class AbstractLevelDbArchivist<
     } = options ?? {}
     let all = await this.allHandler()
     if (order === 'desc') {
-      all = all.reverse()
+      all = all.toReversed()
     }
     const startIndex = isDefined(cursor)
       ? AbstractLevelDbArchivist.findIndexFromCursor(all, cursor) + (open ? 1 : 0)

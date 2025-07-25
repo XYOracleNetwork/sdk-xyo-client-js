@@ -1,3 +1,4 @@
+import { asAddress } from '@xylabs/hex'
 import type { ModuleInstance } from '@xyo-network/module-model'
 import { ModuleConfigSchema, ModuleStateQuerySchema } from '@xyo-network/module-model'
 import type { MockedObject } from 'vitest'
@@ -28,7 +29,7 @@ describe('CompositeModuleResolver', () => {
     let sut: CompositeModuleResolver
     beforeEach(() => {
       moduleA = vi.mocked<Partial<ModuleInstance>>({
-        address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a',
+        address: asAddress('b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a', true),
         config: { name: moduleAName, schema: ModuleConfigSchema },
         modName: moduleAName,
         manifest: vi.fn(),
@@ -37,7 +38,7 @@ describe('CompositeModuleResolver', () => {
         query: vi.fn(),
       }, true) as MockedObject<ModuleInstance>
       moduleB = vi.mocked<Partial<ModuleInstance>>({
-        address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b',
+        address: asAddress('b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b', true),
         config: { name: moduleBName, schema: ModuleConfigSchema },
         modName: moduleBName,
         manifest: vi.fn(),
@@ -46,7 +47,7 @@ describe('CompositeModuleResolver', () => {
         query: vi.fn(),
       }, true) as MockedObject<ModuleInstance>
       moduleC = vi.mocked<Partial<ModuleInstance>>({
-        address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381c',
+        address: asAddress('b0e75b722e6cb03bbae3f488ed1e5a82bd7c381c', true),
         config: { name: moduleCName, schema: ModuleConfigSchema },
         modName: moduleCName,
         manifest: vi.fn(),
@@ -65,7 +66,7 @@ describe('CompositeModuleResolver', () => {
     })
     describe('add', () => {
       it('adds module to resolvers', async () => {
-        const address = 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381d'
+        const address = asAddress('b0e75b722e6cb03bbae3f488ed1e5a82bd7c381d', true)
         const name = 'mod'
         const mod = vi.mocked<Partial<ModuleInstance>>({
           address,

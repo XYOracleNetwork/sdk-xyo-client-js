@@ -29,13 +29,13 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xyo-network/diviner-transform-abstract": "workspace:^",
-    "@xyo-network/diviner-transform-memory": "workspace:^",
-    "@xyo-network/diviner-transform-model": "workspace:^"
+    "@xyo-network/diviner-transform-abstract": "workspace:~",
+    "@xyo-network/diviner-transform-memory": "workspace:~",
+    "@xyo-network/diviner-transform-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0",
-    "@xylabs/tsconfig": "^7.0.0",
+    "@xylabs/ts-scripts-yarn3": "^7.0.1",
+    "@xylabs/tsconfig": "^7.0.1",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

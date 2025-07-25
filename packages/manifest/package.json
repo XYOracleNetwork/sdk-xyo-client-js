@@ -32,13 +32,13 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xyo-network/manifest-model": "workspace:^",
-    "@xyo-network/manifest-wrapper": "workspace:^"
+    "@xyo-network/manifest-model": "workspace:~",
+    "@xyo-network/manifest-wrapper": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0",
-    "@xylabs/tsconfig": "^7.0.0",
-    "@xylabs/vitest-extended": "^4.13.23",
+    "@xylabs/ts-scripts-yarn3": "^7.0.1",
+    "@xylabs/tsconfig": "^7.0.1",
+    "@xylabs/vitest-extended": "^4.14.1",
     "ajv": "^8.17.1",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"

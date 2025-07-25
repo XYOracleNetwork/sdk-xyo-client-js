@@ -1,7 +1,9 @@
 import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
-import type { Address, Hash } from '@xylabs/hex'
-import { hexFromArrayBuffer } from '@xylabs/hex'
+import type {
+  Address, Hash, Hex,
+} from '@xylabs/hex'
+import { asAddress, hexFromArrayBuffer } from '@xylabs/hex'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type {
   BoundWitness,
@@ -98,7 +100,7 @@ export class BoundWitnessBuilder<
     accounts: AccountInstance[],
     payloads?: Payload[],
   ): Promise<Pick<T, GeneratedBoundWitnessFields>> {
-    const addresses = accounts.map(account => hexFromArrayBuffer(account.addressBytes, { prefix: false }))
+    const addresses = accounts.map(account => asAddress(hexFromArrayBuffer(account.addressBytes, { prefix: false }), true))
     const previous_hashes = accounts.map(account => account.previousHash ?? null)
     const payload_hashes = payloads ? await BoundWitnessBuilder.hashes(payloads) : []
     const payload_schemas = payloads?.map(({ schema }) => schema) ?? []
@@ -247,7 +249,7 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  protected async sign(): Promise<string[]> {
+  protected async sign(): Promise<Hex[]> {
     uniqueAccounts(this._accounts, true)
     const hashBytes = toArrayBuffer(await this.dataHash())
     return await Promise.all(this._accounts.map(async account => hexFromArrayBuffer((await account.sign(hashBytes))[0])))

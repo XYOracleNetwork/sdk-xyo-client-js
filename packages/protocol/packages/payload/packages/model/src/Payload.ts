@@ -1,6 +1,6 @@
 import type { Hash } from '@xylabs/hex'
 import type {
-  DeepOmitStartsWith, DeepPickStartsWith, DeepRestrictToStringKeys, EmptyObject,
+  DeepOmitStartsWith, DeepPickStartsWith, EmptyObject,
   JsonObject,
 } from '@xylabs/object'
 
@@ -18,7 +18,7 @@ export interface SourcesMetaField { $sources: Hash[] }
 export interface PayloadMetaFields extends SourcesMetaField {}
 
 export type WithPayload<T extends EmptyObject | void = void>
-  = DeepRestrictToStringKeys<WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>>
+  = WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>
 
 /** Base Type for Payloads */
 export type Payload<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void>

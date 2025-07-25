@@ -1,4 +1,4 @@
-import type { Address } from '@xylabs/hex'
+import { type Address, asHash } from '@xylabs/hex'
 import { v4 as uuid } from 'uuid'
 import {
   describe, expect, it,
@@ -8,7 +8,7 @@ import type { Storage } from '../StoragePreviousHashStore.ts'
 import { StoragePreviousHashStore } from '../StoragePreviousHashStore.ts'
 
 describe('StoragePreviousHashStore', () => {
-  const previousHash = '2e8de18ece40481f132e6d2f05617e05cd896a9098d28ed65afdf0d72203b490'
+  const previousHash = asHash('2e8de18ece40481f132e6d2f05617e05cd896a9098d28ed65afdf0d72203b490', true)
   const storageTypesRecord: Record<Storage, boolean> = {
     local: true,
     page: true,

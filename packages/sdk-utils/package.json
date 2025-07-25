@@ -29,19 +29,19 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xyo-network/api-models": "workspace:^",
-    "@xyo-network/dns": "workspace:^",
-    "@xyo-network/metamask-connector": "workspace:^",
-    "@xyo-network/network": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/schema-cache": "workspace:^",
-    "@xyo-network/schema-name-validator": "workspace:^",
-    "@xyo-network/witnesses": "workspace:^"
+    "@xyo-network/api-models": "workspace:~",
+    "@xyo-network/dns": "workspace:~",
+    "@xyo-network/metamask-connector": "workspace:~",
+    "@xyo-network/network": "workspace:~",
+    "@xyo-network/payload-plugin": "workspace:~",
+    "@xyo-network/payloadset-plugin": "workspace:~",
+    "@xyo-network/schema-cache": "workspace:~",
+    "@xyo-network/schema-name-validator": "workspace:~",
+    "@xyo-network/witnesses": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0",
-    "@xylabs/tsconfig": "^7.0.0",
+    "@xylabs/ts-scripts-yarn3": "^7.0.1",
+    "@xylabs/tsconfig": "^7.0.1",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

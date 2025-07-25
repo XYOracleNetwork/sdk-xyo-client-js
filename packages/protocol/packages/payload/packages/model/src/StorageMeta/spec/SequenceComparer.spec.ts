@@ -1,6 +1,6 @@
 // SequenceComparer.spec.ts
 
-import type { Address } from '@xylabs/hex'
+import { asAddress } from '@xylabs/hex'
 import {
   describe, expect, it,
 } from 'vitest'
@@ -15,11 +15,11 @@ import {
 
 describe('SequenceComparer', () => {
   describe('local', () => {
-    const epochA: Epoch = '0000000000000001'
-    const epochB: Epoch = '0000000000000002'
+    const epochA: Epoch = '0000000000000001' as Epoch
+    const epochB: Epoch = '0000000000000002' as Epoch
 
-    const nonceX: Nonce = '000000000000000a'
-    const nonceY: Nonce = '000000000000000b'
+    const nonceX: Nonce = '000000000000000a' as Epoch
+    const nonceY: Nonce = '000000000000000b' as Epoch
 
     const seqAX: Sequence = SequenceParser.from(epochA, nonceX).localSequence // local sequence #1
     const seqAY: Sequence = SequenceParser.from(epochA, nonceY).localSequence // local sequence #2
@@ -52,14 +52,14 @@ describe('SequenceComparer', () => {
   })
 
   describe('qualified', () => {
-    const epochC: Epoch = '0000000000000010'
-    const epochD: Epoch = '0000000000000011'
+    const epochC: Epoch = '0000000000000010' as Epoch
+    const epochD: Epoch = '0000000000000011' as Epoch
 
-    const nonceM: Nonce = '000000000000000f'
-    const nonceN: Nonce = '000000000000001f'
+    const nonceM: Nonce = '000000000000000f' as Epoch
+    const nonceN: Nonce = '000000000000001f' as Epoch
 
-    const address1: Address = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-    const address2: Address = '0000000000000000000000000000000000000000'
+    const address1 = asAddress('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', true)
+    const address2 = asAddress('0000000000000000000000000000000000000000', true)
 
     const seqCMA: Sequence = SequenceParser.from(epochC, nonceM, address1).qualifiedSequence // qualified seq #1
     const seqCNA: Sequence = SequenceParser.from(epochC, nonceN, address1).qualifiedSequence // qualified seq #2

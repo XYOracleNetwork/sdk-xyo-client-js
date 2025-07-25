@@ -98,7 +98,7 @@ describe.skip('Huri', () => {
         const oldFetch = Huri.fetch
         Huri.fetch = async <T extends Payload = Payload>(huri: Huri): Promise<T | undefined> => {
           await delay(0)
-          const payload: T = { schema: huri.hash } as T
+          const payload: T = { schema: huri.hash } as unknown as T
           return payload
         }
         const huri = new Huri('http://localhost:8080/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057')

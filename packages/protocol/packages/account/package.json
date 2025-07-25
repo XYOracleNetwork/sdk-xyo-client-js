@@ -29,15 +29,15 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xyo-network/account-model": "workspace:^",
-    "@xyo-network/key-model": "workspace:^",
-    "@xyo-network/wallet-model": "workspace:^"
+    "@xyo-network/account-model": "workspace:~",
+    "@xyo-network/key-model": "workspace:~",
+    "@xyo-network/wallet-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0",
-    "@xylabs/tsconfig": "^7.0.0",
-    "@xylabs/vitest-extended": "^4.13.23",
-    "@xylabs/vitest-matchers": "^4.13.23",
+    "@xylabs/ts-scripts-yarn3": "^7.0.1",
+    "@xylabs/tsconfig": "^7.0.1",
+    "@xylabs/vitest-extended": "^4.14.1",
+    "@xylabs/vitest-matchers": "^4.14.1",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },

@@ -8,9 +8,9 @@ export interface AllArchivistFunctions<TReadResponse, TSnapshotResponse> {
   snapshot(): PromisableArray<TSnapshotResponse>
 }
 
-export interface ReadArchivistFunctions<TReadResponse, TId = string> {
+export interface ReadArchivistFunctions<TReadResponse, TId = string, TSequence = TId> {
   get(ids: TId[]): PromisableArray<TReadResponse>
-  next(options?: NextOptions<TId>): PromisableArray<TReadResponse>
+  next(options?: NextOptions<TSequence>): PromisableArray<TReadResponse>
 }
 
 export interface WriteArchivistFunctions<TReadResponse, TWriteResponse = TReadResponse, TWrite = TReadResponse, TId = string> {

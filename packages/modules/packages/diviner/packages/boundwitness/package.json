@@ -29,13 +29,13 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xyo-network/diviner-boundwitness-abstract": "workspace:^",
-    "@xyo-network/diviner-boundwitness-memory": "workspace:^",
-    "@xyo-network/diviner-boundwitness-model": "workspace:^"
+    "@xyo-network/diviner-boundwitness-abstract": "workspace:~",
+    "@xyo-network/diviner-boundwitness-memory": "workspace:~",
+    "@xyo-network/diviner-boundwitness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0",
-    "@xylabs/tsconfig": "^7.0.0",
+    "@xylabs/ts-scripts-yarn3": "^7.0.1",
+    "@xylabs/tsconfig": "^7.0.1",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

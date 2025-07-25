@@ -5,7 +5,9 @@ import type {
   Hash, Hex,
 } from '@xylabs/hex'
 import {
+  asHex,
   isAddress,
+  toAddress,
   toHex,
 } from '@xylabs/hex'
 
@@ -37,19 +39,19 @@ export class SequenceParser {
   get address(): Address {
     const start = SequenceConstants.localSequenceBytes
     const end = SequenceConstants.qualifiedSequenceBytes
-    return toHex(this.data.slice(start, end).buffer, { prefix: false })
+    return toAddress(this.data.slice(start, end).buffer, { prefix: false })
   }
 
   get epoch(): Epoch {
     const start = 0
     const end = SequenceConstants.epochBytes
-    return toHex(this.data.slice(start, end).buffer, { prefix: false })
+    return toHex(this.data.slice(start, end).buffer, { prefix: false }) as Epoch
   }
 
   get localSequence(): LocalSequence {
     const start = 0
     const end = SequenceConstants.localSequenceBytes
-    return toHex(this.data.slice(start, end).buffer, { prefix: false })
+    return toHex(this.data.slice(start, end).buffer, { prefix: false }) as LocalSequence
   }
 
   get nonce(): Nonce {
@@ -61,7 +63,7 @@ export class SequenceParser {
   get qualifiedSequence(): QualifiedSequence {
     const start = 0
     const end = SequenceConstants.qualifiedSequenceBytes
-    return toHex(this.data.slice(start, end).buffer, { prefix: false })
+    return toHex(this.data.slice(start, end).buffer, { prefix: false }) as QualifiedSequence
   }
 
   static from(sequence: Sequence, address?: Address): SequenceParser
@@ -78,9 +80,9 @@ export class SequenceParser {
   static from(timestamp: number, hash: Hex, index?: number, address?: Address): SequenceParser
   static from(timestamp: number, nonce: Nonce, index?: number, address?: Address): SequenceParser
   static from(
-    timestampOrSequence: Sequence | Hex | number,
-    nonceOrAddress: Hash | Nonce,
-    addressOrIndex?: Address | number,
+    timestampOrSequence: Hex | number,
+    nonceOrAddress?: Hex,
+    addressOrIndex?: Hex | number,
     addressOnly?: Address,
   ): SequenceParser {
     const address = typeof addressOrIndex === 'number' ? addressOnly : addressOrIndex
@@ -94,7 +96,7 @@ export class SequenceParser {
       return new this(SequenceParser.privateConstructorKey, timestampOrSequence)
     }
     const epoch = SequenceParser.toEpoch(timestampOrSequence)
-    const nonce = SequenceParser.toNonce(nonceOrAddress, index)
+    const nonce = SequenceParser.toNonce(asHex(nonceOrAddress ?? '00', true), index)
     const addressHex: Hex = address ? toHex(address, { bitLength: SequenceConstants.addressBytes * 8 }) : SequenceConstants.minAddress
     const hexString = (epoch + nonce + addressHex) as Hex
     assertEx(isSequence(hexString), () => `Invalid sequence [${hexString}] [${epoch}, ${nonce}, ${addressHex}]`)

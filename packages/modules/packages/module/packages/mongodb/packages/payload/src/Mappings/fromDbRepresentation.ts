@@ -19,7 +19,7 @@ export const payloadFromDbRepresentation = <T extends Payload = Payload>(value: 
       metaNormalized[key] = clone[key]
     }
   }
-  return PayloadBuilder.omitPrivateStorageMeta(metaNormalized as Payload) as WithStorageMeta<T>
+  return PayloadBuilder.omitPrivateStorageMeta(metaNormalized as unknown as Payload) as WithStorageMeta<T>
 }
 
 export const boundWitnessFromDbRepresentation = <T extends BoundWitness = BoundWitness>(value: BoundWitnessWithMongoMeta<T>): WithStorageMeta<T> => {

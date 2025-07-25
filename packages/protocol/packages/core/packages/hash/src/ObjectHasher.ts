@@ -119,7 +119,7 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
     if (ObjectHasher.allowSubtle) {
       try {
         const hashArray = await this.subtleHash(data)
-        return hexFromArrayBuffer(hashArray, { bitLength: 256 })
+        return hexFromArrayBuffer(hashArray, { bitLength: 256 }) as Hash
       } catch {
         ObjectHasher.allowSubtle = false
       }
@@ -140,7 +140,7 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
     const bytesArray = new Uint8Array(bytes)
     if (ObjectHasher.allowSubtle) {
       const hashArray = await this.subtleHash(bytesArray)
-      return hexFromArrayBuffer(hashArray, { bitLength: 256 })
+      return hexFromArrayBuffer(hashArray, { bitLength: 256 }) as Hash
     } else {
       await this.wasmInitialized
       if (this.wasmSupport.canUseWasm) {

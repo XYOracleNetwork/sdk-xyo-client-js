@@ -29,19 +29,19 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xyo-network/address-payload-plugin": "workspace:^",
-    "@xyo-network/config-payload-plugin": "workspace:^",
-    "@xyo-network/domain-payload-plugin": "workspace:^",
-    "@xyo-network/id-payload-plugin": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/query-payload-plugin": "workspace:^",
-    "@xyo-network/schema-payload-plugin": "workspace:^",
-    "@xyo-network/value-payload-plugin": "workspace:^"
+    "@xyo-network/address-payload-plugin": "workspace:~",
+    "@xyo-network/config-payload-plugin": "workspace:~",
+    "@xyo-network/domain-payload-plugin": "workspace:~",
+    "@xyo-network/id-payload-plugin": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-plugin": "workspace:~",
+    "@xyo-network/query-payload-plugin": "workspace:~",
+    "@xyo-network/schema-payload-plugin": "workspace:~",
+    "@xyo-network/value-payload-plugin": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.0",
-    "@xylabs/tsconfig": "^7.0.0",
+    "@xylabs/ts-scripts-yarn3": "^7.0.1",
+    "@xylabs/tsconfig": "^7.0.1",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

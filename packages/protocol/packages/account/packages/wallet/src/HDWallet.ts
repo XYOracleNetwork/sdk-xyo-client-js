@@ -5,6 +5,7 @@ import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/base'
 import {
   Address, Hex, hexFromHexString,
+  toAddress,
 } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
 import { Account, PrivateKey } from '@xyo-network/account'
@@ -34,7 +35,7 @@ export class HDWallet extends Account implements WalletInstance {
   }
 
   override get address(): Address {
-    return hexFromHexString(this.node.address, { prefix: false })
+    return toAddress(this.node.address, { prefix: false })
   }
 
   override get addressBytes(): ArrayBufferLike {

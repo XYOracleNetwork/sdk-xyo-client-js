@@ -115,8 +115,6 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
 
     // resolve all
     if (id === '*') {
-      const all = id
-
       // wen't too far?
       if (mutatedOptions.maxDepth < 0) {
         return []
@@ -124,14 +122,14 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
 
       // identity resolve?
       if (mutatedOptions.maxDepth === 0) {
-        return (await this._localResolver.resolve(all, mutatedOptions)) ?? []
+        return (await this._localResolver.resolve('*', mutatedOptions)) ?? []
       }
 
       const childOptions = { ...mutatedOptions, maxDepth: mutatedOptions?.maxDepth - 1 }
 
       const result = await Promise.all(
         this.resolvers.map(async (resolver) => {
-          const result: T[] = await resolver.resolve<T>(all, childOptions)
+          const result: T[] = await resolver.resolve<T>('*', childOptions)
           return result
         }),
       )

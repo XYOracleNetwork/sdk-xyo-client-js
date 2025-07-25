@@ -2,11 +2,11 @@ import type { Address, Hex } from '@xylabs/hex'
 import { isHex } from '@xylabs/hex'
 
 // we use Exclude to intentionally make the type not equal to string
-export type LocalSequence = Hex & Exclude<string, 'reserved-local-sequence-value'>
-export type QualifiedSequence = Hex & Exclude<string, 'reserved-qualified-sequence-value'>
+export type LocalSequence = Hex & { readonly __localSequence: unique symbol }
+export type QualifiedSequence = Hex & { readonly __qualifiedSequence: unique symbol }
 export type Sequence = LocalSequence | QualifiedSequence
 
-export type Epoch = Hex & Exclude<string, 'reserved-epoch-sequence-value'>
+export type Epoch = Hex & { readonly __epoch: unique symbol }
 
 export const isEpoch = (value: unknown): value is Epoch => {
   return isHex(value) && (value as string).length === SequenceConstants.epochBytes * 2

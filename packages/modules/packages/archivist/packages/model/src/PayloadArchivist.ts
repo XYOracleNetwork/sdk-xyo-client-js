@@ -1,6 +1,6 @@
 import type { Hash } from '@xylabs/hex'
 import type {
-  Payload, PayloadHashMap, WithStorageMeta,
+  Payload, PayloadHashMap, Sequence, WithStorageMeta,
 } from '@xyo-network/payload-model'
 
 import type {
@@ -15,7 +15,8 @@ export interface AllArchivist<
 export interface ReadArchivist<
   TReadResponse extends Payload = Payload,
   TId extends string = Hash,
-> extends ReadArchivistFunctions<WithStorageMeta<TReadResponse>, TId> {}
+  TSequence extends string = Sequence,
+> extends ReadArchivistFunctions<WithStorageMeta<TReadResponse>, TId, TSequence> {}
 
 export interface WriteArchivist<
   TReadResponse extends Payload = Payload,
@@ -47,7 +48,8 @@ export interface Archivist<
   TWriteResponse extends Payload = Payload,
   TWrite extends Payload = TReadResponse & Payload,
   TId extends string = Hash,
-> extends ReadArchivist<WithStorageMeta<TReadResponse>, TId>,
+  TSequence extends string = Sequence,
+> extends ReadArchivist<WithStorageMeta<TReadResponse>, TId, TSequence>,
   AllArchivist<WithStorageMeta<TReadResponse>, TId>,
   WriteArchivist<WithStorageMeta<TReadResponse>, WithStorageMeta<TWriteResponse>, TWrite, TId>,
   StashArchivistFunctions<TWriteResponse> {}

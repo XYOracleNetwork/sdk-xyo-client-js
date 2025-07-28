@@ -1,7 +1,7 @@
 import type { CreatableStatus } from '@xylabs/creatable'
 import type { Address } from '@xylabs/hex'
 import type { TypeCheck } from '@xylabs/object'
-import { IsObjectFactory, toJsonString } from '@xylabs/object'
+import { IsObjectFactory, toSafeJsonString } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import type { AccountInstance } from '@xyo-network/account-model'
 
@@ -22,7 +22,7 @@ export class DeadModuleError extends Error {
     public error: Error | undefined,
     msg = 'Dead Module Error',
   ) {
-    super(`${msg} [${id}]: ${error?.message ?? toJsonString(error)}`)
+    super(`${msg} [${id}]: ${error?.message ?? toSafeJsonString(error)}`)
 
     // Set the prototype explicitly.
     Object.setPrototypeOf(this, DeadModuleError.prototype)

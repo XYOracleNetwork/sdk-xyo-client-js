@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.14.5",
+    "@xylabs/assert": "^4.15.0",
     "ethers": "^6.15.0"
   },
   "devDependencies": {

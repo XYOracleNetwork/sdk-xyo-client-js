@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import { toJsonString } from '@xylabs/object'
+import { toSafeJsonString } from '@xylabs/object'
 import type { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import { AddressSchema } from '@xyo-network/module-model'
@@ -27,7 +27,7 @@ describe('Manifest', () => {
       // expect((await node.resolve()).length).toBeGreaterThan(4)
 
       const roundTrip = (await node.manifest()) as NodeManifest
-      console.log(`manifest: ${toJsonString(roundTrip, 20)}`)
+      console.log(`manifest: ${toSafeJsonString(roundTrip, 20)}`)
       // expect(roundTrip.modules?.private).toBeArrayOfSize(1)
       expect(roundTrip.modules?.public).toBeArrayOfSize(3)
     })

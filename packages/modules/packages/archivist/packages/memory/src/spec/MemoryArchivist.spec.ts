@@ -2,7 +2,6 @@
 import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
-import { toJsonString } from '@xylabs/object'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import type { Id } from '@xyo-network/id-payload-plugin'
 import {

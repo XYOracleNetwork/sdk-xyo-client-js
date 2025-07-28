@@ -1,10 +1,9 @@
 import { assertEx } from '@xylabs/assert'
-import type { CreatableInstance } from '@xylabs/creatable'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import type { Address } from '@xylabs/hex'
 import { asAddress, isAddress } from '@xylabs/hex'
-import { toJsonString } from '@xylabs/object'
+import { toSafeJsonString } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
@@ -300,7 +299,7 @@ export abstract class AbstractModuleProxy<
     const hash = await PayloadBuilder.hash(query)
     const previousCount = this._spamTrap.get(hash) ?? 0
     if (previousCount > 0) {
-      this.logger?.warn(`Spam trap triggered for query: ${hash} from ${toJsonString(query.addresses)}`)
+      this.logger?.warn(`Spam trap triggered for query: ${hash} from ${toSafeJsonString(query.addresses)}`)
     }
     this._spamTrap.set(hash, previousCount + 1)
   }

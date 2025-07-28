@@ -156,7 +156,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
 
   protected override async generateConfigAndAddress(maxDepth = 10): Promise<Payload[]> {
     const childMods = await this.attachedPublicModules(maxDepth)
-    // console.log(`childMods: ${toJsonString(childMods)}`)
+    // console.log(`childMods: ${toSafeJsonString(childMods)}`)
     const childModAddresses = childMods.map(mod => new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address }).build())
 
     return [...(await super.generateConfigAndAddress(maxDepth)), ...childModAddresses]

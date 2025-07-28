@@ -12,7 +12,7 @@ import {
   useRequestCounters,
 } from '@xylabs/express'
 import { Address } from '@xylabs/hex'
-import { toJsonString } from '@xylabs/object'
+import { toSafeJsonString } from '@xylabs/object'
 import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { HttpBridge, HttpBridgeConfig } from '@xyo-network/bridge-http'
 import {
@@ -71,7 +71,7 @@ export class HttpBridgeExpress<TParams extends HttpBridgeExpressParams> extends 
     assertEx(this.config.host, () => 'Not configured as a host')
     this._exposedModules.push(new WeakRef(mod))
     const children = maxDepth > 0 ? ((await mod.publicChildren?.()) ?? []) : []
-    this.logger?.log(`childrenToExpose [${mod.id}][${mod.address}]: ${toJsonString(children.map(child => child.id))}`)
+    this.logger?.log(`childrenToExpose [${mod.id}][${mod.address}]: ${toSafeJsonString(children.map(child => child.id))}`)
     const exposedChildren = (await Promise.all(children.map(child => this.exposeChild(child, { maxDepth: maxDepth - 1, required: false }))))
       .flat()
       .filter(exists)

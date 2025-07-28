@@ -5,7 +5,7 @@ import type {
   AnyObject, Compare, EmptyObject,
 } from '@xylabs/object'
 import {
-  isJsonObject, omitByPrefix, pickByPrefix, toJson,
+  isJsonObject, omitByPrefix, pickByPrefix, toSafeJson,
 } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import { ObjectHasher, removeEmptyFields } from '@xyo-network/hash'
@@ -92,7 +92,7 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
     const cleanFields = removeEmptyFields({ ...payload, schema })
     assertEx(
       cleanFields == undefined || isJsonObject(cleanFields),
-      () => `Fields must be JsonObject: ${JSON.stringify(toJson(cleanFields), null, 2)}`,
+      () => `Fields must be JsonObject: ${JSON.stringify(toSafeJson(cleanFields), null, 2)}`,
     )
     return this.omitMeta(cleanFields) as WithoutMeta<T>
   }

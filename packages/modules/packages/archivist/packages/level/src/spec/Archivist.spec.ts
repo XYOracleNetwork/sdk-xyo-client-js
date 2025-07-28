@@ -4,7 +4,7 @@ import '@xylabs/vitest-extended'
 import { tmpdir } from 'node:os'
 
 import { delay } from '@xylabs/delay'
-import { toJsonString } from '@xylabs/object'
+import { toSafeJsonString } from '@xylabs/object'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import type { Id } from '@xyo-network/id-payload-plugin'
 import {
@@ -125,7 +125,7 @@ describe('LevelArchivist', () => {
     expect(insertedPayloads1[0]._dataHash).toBe(await PayloadBuilder.dataHash(payloads1[0]))
     expect(insertedPayloads1[0]._sequence).toBeDefined()
     await delay(1)
-    console.log(toJsonString(payloads1, 10))
+    console.log(toSafeJsonString(payloads1, 10))
     const [bw, payloads, errors] = await archivist.insertQuery(payloads2, account)
     expect(bw).toBeDefined()
     expect(payloads).toBeDefined()
@@ -135,7 +135,7 @@ describe('LevelArchivist', () => {
     await delay(1)
     await archivist.insert(payloads4)
 
-    console.log('bw', toJsonString([bw, payloads, errors], 10))
+    console.log('bw', toSafeJsonString([bw, payloads, errors], 10))
 
     const batch1 = await archivist.next?.({ limit: 2 })
     expect(batch1).toBeArrayOfSize(2)

@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import type { BaseParams } from '@xylabs/base'
 import { Base } from '@xylabs/base'
 import type { Address } from '@xylabs/hex'
-import { toJsonString } from '@xylabs/object'
+import { toSafeJsonString } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
 import type {
   ModuleFilterOptions,
@@ -49,7 +49,7 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
       return values.map(value =>
         asModuleInstance<T>(value, () => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          return `resolveHandler returned invalid result (*) [${(value as any)?.constructor?.name}][${toJsonString(value)}]`
+          return `resolveHandler returned invalid result (*) [${(value as any)?.constructor?.name}][${toSafeJsonString(value)}]`
         }, { required: true }))
     }
     switch (typeof id) {
@@ -59,7 +59,7 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
           value,
           () =>
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            `resolveHandler returned invalid result (string) [${(value as any)?.constructor?.name}][${toJsonString(value)}]`,
+            `resolveHandler returned invalid result (string) [${(value as any)?.constructor?.name}][${toSafeJsonString(value)}]`,
         )
       }
       default: {

@@ -20,12 +20,10 @@ describe('Manifest', () => {
       const [node] = await manifest.loadNodes()
       expect(node).toBeDefined()
       const discover = await node.state()
-      // console.log(`discover: ${toJsonString(discover)}`)
       const discoveredAddresses = discover.filter(item => item.schema === AddressSchema)
       expect(discoveredAddresses.length).toBe(4)
       // expect((await node.resolve()).length).toBeGreaterThan(10)
       const roundTrip = (await node.manifest()) as NodeManifest
-      // console.log(`roundTrip: ${toJsonString(roundTrip)}`)
       // expect(roundTrip.modules?.private).toBeArrayOfSize(1)
       expect(roundTrip.modules?.public?.length).toBe(3)
     })

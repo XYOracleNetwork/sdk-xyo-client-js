@@ -6,7 +6,7 @@ import type { Address } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
 import type { Logger } from '@xylabs/logger'
 import { IdLogger } from '@xylabs/logger'
-import { toJsonString } from '@xylabs/object'
+import { toSafeJsonString } from '@xylabs/object'
 import {
   isDefined, isString, isTruthy,
 } from '@xylabs/typeof'
@@ -123,7 +123,7 @@ export class ResolveHelper extends ResolveHelperStatic {
 
       if (modules.length > 0) {
         log?.log('modules [count]', modules.length)
-        log?.debug('modules', toJsonString(modules, 4))
+        log?.debug('modules', toSafeJsonString(modules, 4))
       }
 
       if (maxDepth === 0) {

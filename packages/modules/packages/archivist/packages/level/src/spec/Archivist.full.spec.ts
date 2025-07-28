@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os'
 import { delay } from '@xylabs/delay'
 import type { Hash } from '@xylabs/hex'
 import type { AnyObject } from '@xylabs/object'
-import { toJsonString } from '@xylabs/object'
+import { toSafeJsonString } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { generateArchivistNextTests } from '@xyo-network/archivist-acceptance-tests'
@@ -366,7 +366,7 @@ describe('LevelDbArchivist [full]', () => {
 
       await archivist.insert(payloads1)
       await delay(1)
-      console.log(toJsonString(payloads1, 10))
+      console.log(toSafeJsonString(payloads1, 10))
       const [bw, payloads, errors] = await archivist.insertQuery(payloads2, account)
       await delay(1)
       await archivist.insert(payloads3)

@@ -3,7 +3,7 @@ import { AxiosJson } from '@xylabs/axios'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
-import { toJsonString } from '@xylabs/object'
+import { toSafeJsonString } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -66,7 +66,6 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
   }
 
   get clientUrl() {
-    // eslint-disable-next-line sonarjs/deprecation
     return assertEx(this.config.client?.url ?? this.config.nodeUrl, () => 'No Url Set')
   }
 
@@ -172,7 +171,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
       return result.data?.data
     } catch (ex) {
       const error = ex as AxiosError
-      this.logger?.error(`Error: ${toJsonString(error)}`)
+      this.logger?.error(`Error: ${toSafeJsonString(error)}`)
       throw error
     } finally {
       this.querySemaphore.release()

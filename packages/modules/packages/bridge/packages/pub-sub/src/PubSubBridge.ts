@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { Address, isAddress } from '@xylabs/hex'
-import { toJsonString } from '@xylabs/object'
+import { toSafeJsonString } from '@xylabs/object'
 import { AbstractBridge } from '@xyo-network/bridge-abstract'
 import {
   BridgeExposeOptions,
@@ -104,7 +104,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const host = assertEx(this.busHost(), () => 'Not configured as a host')
     host.expose(mod)
     const children = maxDepth > 0 ? ((await mod.publicChildren?.()) ?? []) : []
-    this.logger?.log(`childrenToExpose [${mod.id}][${mod.address}]: ${toJsonString(children.map(child => child.id))}`)
+    this.logger?.log(`childrenToExpose [${mod.id}][${mod.address}]: ${toSafeJsonString(children.map(child => child.id))}`)
     const exposedChildren = (await Promise.all(children.map(child => this.exposeChild(child, { maxDepth: maxDepth - 1, required: false }))))
       .flat()
       .filter(exists)

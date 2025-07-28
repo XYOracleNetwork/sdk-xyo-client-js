@@ -29,9 +29,9 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/forget": "^4.14.5",
-    "@xylabs/object": "^4.14.5",
-    "@xylabs/promise": "^4.14.5",
+    "@xylabs/forget": "^4.15.0",
+    "@xylabs/object": "^4.15.0",
+    "@xylabs/promise": "^4.15.0",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",

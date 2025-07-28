@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { delay } from '@xylabs/delay'
-import { toJsonString } from '@xylabs/object'
+import { toSafeJsonString } from '@xylabs/object'
 import type { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 // import { AbstractModule } from '@xyo-network/module-abstract'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
@@ -41,7 +41,7 @@ describe('Manifest (Inline Nodes)', () => {
       node2SimpleDiviner?.on('divineEnd', () => {
         divineEndCount++
       })
-      console.log(`manifest: ${toJsonString(roundTrip, 20)}`)
+      console.log(`manifest: ${toSafeJsonString(roundTrip, 20)}`)
       await delay(5000)
       expect(divineStartCount).toBeGreaterThan(0)
       expect(divineEndCount).toBeGreaterThan(0)

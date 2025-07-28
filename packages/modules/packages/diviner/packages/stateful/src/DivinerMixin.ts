@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
-import { toJson } from '@xylabs/object'
+import { toSafeJson } from '@xylabs/object'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
@@ -56,7 +56,7 @@ export const StatefulModuleMixin = <
      */
     async commitState(nextState: ModuleState<TState>) {
       // Don't commit state if no state has changed
-      if (toJson(nextState.state) === toJson(this._lastState?.state)) return
+      if (toSafeJson(nextState.state) === toSafeJson(this._lastState?.state)) return
       this._lastState = nextState
       const archivist = await this.getArchivistForStore()
       // const [bw] = await new BoundWitnessBuilder().payload(nextState).signer(this.account).build()

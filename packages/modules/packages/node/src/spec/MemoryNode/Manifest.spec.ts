@@ -50,7 +50,7 @@ describe('MemoryNode', () => {
     expect(allModules).toBeArrayOfSize(8) */
 
     const manifest = (await memoryNode.manifest()) as NodeManifestPayload
-    // console.log(`manifest: ${toJsonString(manifest, 10)}`)
+    // console.log(`manifest: ${toSafeJsonString(manifest, 10)}`)
     expect(manifest.modules?.public ?? []).toBeArrayOfSize(4)
     // expect(manifest.modules?.private).toBeArrayOfSize(3)
   })

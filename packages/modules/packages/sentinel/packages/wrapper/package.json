@@ -38,10 +38,10 @@
     "@xyo-network/witness-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.14.5",
+    "@xylabs/delay": "^4.15.0",
     "@xylabs/ts-scripts-yarn3": "^7.0.1",
     "@xylabs/tsconfig": "^7.0.1",
-    "@xylabs/vitest-extended": "^4.14.5",
+    "@xylabs/vitest-extended": "^4.15.0",
     "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",

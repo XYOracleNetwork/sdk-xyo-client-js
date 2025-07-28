@@ -29,7 +29,7 @@ describe('next', () => {
       { schema: 'network.xyo.test', value: 2 },
     ]
 
-    // console.log('Payloads1:', toJsonString(await PayloadBuilder.hashPairs(payloads1), 10))
+    // console.log('Payloads1:', toSafeJsonString(await PayloadBuilder.hashPairs(payloads1), 10))
 
     await delay(1)
 
@@ -38,10 +38,10 @@ describe('next', () => {
       { schema: 'network.xyo.test', value: 4 },
     ]
 
-    // console.log('Payloads2:', toJsonString(await PayloadBuilder.hashPairs(payloads2), 10))
+    // console.log('Payloads2:', toSafeJsonString(await PayloadBuilder.hashPairs(payloads2), 10))
 
     const insertedPayloads1 = await archivist.insert(payloads1)
-    // console.log(toJsonString(payloads1, 10))
+    // console.log(toSafeJsonString(payloads1, 10))
     const [bw, insertedPayloads2, errors] = await archivist.insertQuery(payloads2, account)
     expect(bw).toBeDefined()
     expect(insertedPayloads2).toBeDefined()
@@ -50,7 +50,7 @@ describe('next', () => {
     const sortedInsertedPayloads1 = insertedPayloads1.toSorted(PayloadBuilder.compareStorageMeta)
     const sortedInsertedPayloads2 = (insertedPayloads2 as WithStorageMeta<Payload>[]).sort((PayloadBuilder.compareStorageMeta))
 
-    // console.log(toJsonString([bw, payloads, errors], 10))
+    // console.log(toSafeJsonString([bw, payloads, errors], 10))
 
     const batch1 = await archivist.next?.({ limit: 2 })
     expect(batch1.length).toBe(2)

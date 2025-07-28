@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.14.2",
+    "@xylabs/array": "^4.14.5",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",

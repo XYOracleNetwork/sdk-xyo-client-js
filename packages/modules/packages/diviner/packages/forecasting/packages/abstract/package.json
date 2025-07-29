@@ -29,7 +29,7 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/promise": "^4.15.0",
+    "@xylabs/promise": "^4.15.1",
     "@xyo-network/diviner-abstract": "workspace:^",
     "@xyo-network/diviner-forecasting-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",

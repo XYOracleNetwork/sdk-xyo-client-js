@@ -29,10 +29,10 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/array": "^4.15.0",
-    "@xylabs/arraybuffer": "^4.15.0",
-    "@xylabs/hex": "^4.15.0",
-    "@xylabs/typeof": "^4.15.0",
+    "@xylabs/array": "^4.15.1",
+    "@xylabs/arraybuffer": "^4.15.1",
+    "@xylabs/hex": "^4.15.1",
+    "@xylabs/typeof": "^4.15.1",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/elliptic": "workspace:^",
     "@xyo-network/payload": "workspace:^",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^7.0.1",
     "@xylabs/tsconfig": "^7.0.1",
-    "@xylabs/vitest-extended": "^4.15.0",
+    "@xylabs/vitest-extended": "^4.15.1",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/schema-name-validator": "workspace:^",
     "@xyo-network/wallet": "workspace:^",

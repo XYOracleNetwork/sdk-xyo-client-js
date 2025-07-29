@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { isArray } from '@xylabs/typeof'
+import { isArray, isString } from '@xylabs/typeof'
 import type {
   ModuleManifest, NodeManifest, PackageManifestPayload,
 } from '@xyo-network/manifest-model'
@@ -66,7 +66,7 @@ export class ManifestWrapperEx<
 
     if (!(await collision(node, manifest.config.name, external))) {
       // is it already registered?
-      if (node.registeredModules().some(mod => mod.config.name && mod.config.name === manifest.config.name)) {
+      if (node.registeredModules().some(mod => isString(mod.config.name) && mod.config.name === manifest.config.name)) {
         assertEx(await node.attach(manifest.config.name, external), () => `Failed to attach module [${manifest.config.name}]`)
       } else {
         assertEx(
@@ -84,7 +84,7 @@ export class ManifestWrapperEx<
   }
 
   async loadNodeFromManifest(wallet: WalletInstance, manifest: NodeManifest, path?: string): Promise<MemoryNode> {
-    const derivedWallet = path ? await wallet.derivePath(path) : await HDWallet.random()
+    const derivedWallet = isString(path) ? await wallet.derivePath(path) : await HDWallet.random()
     const node = await MemoryNode.create({ account: derivedWallet, config: manifest.config })
     // Load Private Modules
     const privateModules
@@ -142,7 +142,7 @@ export class ManifestWrapperEx<
   private async registerModule(wallet: WalletInstance, node: MemoryNode, manifest: ModuleManifest): Promise<ModuleInstance> {
     const creatableModule = this.locator.locate(manifest.config.schema, manifest.config.labels)
     const path = manifest.config.accountPath
-    const account = path ? await wallet.derivePath(path) : 'random'
+    const account = isString(path) ? await wallet.derivePath(path) : 'random'
     const params: ModuleParams = {
       name: manifest.config.name,
       account,

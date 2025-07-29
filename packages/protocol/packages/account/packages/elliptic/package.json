@@ -30,9 +30,9 @@
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
     "@bitauth/libauth": "^3.0.0",
-    "@xylabs/arraybuffer": "^4.15.0",
-    "@xylabs/assert": "^4.15.0",
-    "@xylabs/hex": "^4.15.0",
+    "@xylabs/arraybuffer": "^4.15.1",
+    "@xylabs/assert": "^4.15.1",
+    "@xylabs/hex": "^4.15.1",
     "@xyo-network/data": "workspace:^",
     "@xyo-network/wasm": "workspace:^",
     "async-mutex": "^0.5.0"

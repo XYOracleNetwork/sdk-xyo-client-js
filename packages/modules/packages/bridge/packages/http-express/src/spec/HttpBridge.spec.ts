@@ -4,6 +4,7 @@
 import '@xylabs/vitest-extended'
 
 import { assertEx } from '@xylabs/assert'
+import { isString } from '@xylabs/typeof'
 import type { ApiConfig } from '@xyo-network/api-models'
 import type { AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import {
@@ -35,7 +36,7 @@ const schema = HttpBridgeExpressConfigSchema
 const security = { allowAnonymous: true }
 
 export const getApiConfig = (): ApiConfig => {
-  return { apiDomain: process.env.ARCHIVIST_API_DOMAIN || 'https://beta.api.archivist.xyo.network' }
+  return { apiDomain: process.env.ARCHIVIST_API_DOMAIN ?? 'https://beta.api.archivist.xyo.network' }
 }
 
 export const getArchivist = async (config: ApiConfig = getApiConfig()): Promise<AttachableArchivistInstance> => {
@@ -43,7 +44,7 @@ export const getArchivist = async (config: ApiConfig = getApiConfig()): Promise<
 }
 
 export const tryGetArchivist = async (config: ApiConfig = getApiConfig()): Promise<AttachableArchivistInstance | undefined> => {
-  const url = config.root ? `${config.apiDomain}/${config.root}` : config.apiDomain
+  const url = isString(config.root) ? `${config.apiDomain}/${config.root}` : config.apiDomain
   const account = await HDWallet.random()
   const bridge = await HttpBridgeExpress.create({
     account,

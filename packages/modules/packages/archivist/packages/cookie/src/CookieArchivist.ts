@@ -3,6 +3,7 @@ import { exists } from '@xylabs/exists'
 import type { Hash } from '@xylabs/hex'
 import type { Promisable, PromisableArray } from '@xylabs/promise'
 import { fulfilled } from '@xylabs/promise'
+import { isString } from '@xylabs/typeof'
 import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import type {
   ArchivistConfig,
@@ -138,7 +139,7 @@ export class CookieArchivist<
     return (
       hashes.map((hash) => {
         const cookieString = Cookies.get(this.keyFromHash(hash))
-        return cookieString ? JSON.parse(cookieString) : undefined
+        return isString(cookieString) ? JSON.parse(cookieString) : undefined
       })
     ).filter(exists)
   }

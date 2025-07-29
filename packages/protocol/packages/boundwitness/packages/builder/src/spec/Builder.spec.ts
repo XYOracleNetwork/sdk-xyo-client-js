@@ -13,7 +13,7 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import { BoundWitnessBuilder } from '../Builder.ts'
+import { BoundWitnessBuilder } from '../BoundWitnessBuilder.ts'
 
 const schema = 'network.xyo.temp'
 const payload1 = {

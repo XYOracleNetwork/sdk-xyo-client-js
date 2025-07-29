@@ -9,7 +9,7 @@ import {
   vi,
 } from 'vitest'
 
-import { BoundWitnessBuilder } from '../Builder.ts'
+import { BoundWitnessBuilder } from '../BoundWitnessBuilder.ts'
 
 const payloadSequences = [
   {

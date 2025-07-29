@@ -27,22 +27,8 @@ import type {
 } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
-export const GeneratedBoundWitnessFields = ['addresses', 'payload_hashes', 'payload_schemas', 'previous_hashes'] as const
-export type GeneratedBoundWitnessFields = typeof GeneratedBoundWitnessFields[number]
-
-const uniqueAccounts = (accounts: AccountInstance[], throwOnFalse = false) => {
-  const addresses = new Set<Address>()
-  for (const account of accounts) {
-    if (addresses.has(account.address)) {
-      if (throwOnFalse) {
-        throw new Error('Duplicate address')
-      }
-      return false
-    }
-    addresses.add(account.address)
-  }
-  return true
-}
+import { GeneratedBoundWitnessFields } from './GeneratedBoundWitnessFields.ts'
+import { uniqueAccounts } from './uniqueAccounts.ts'
 
 export class BoundWitnessBuilder<
   TBoundWitness extends UnsignedBoundWitness = UnsignedBoundWitness,
@@ -123,8 +109,8 @@ export class BoundWitnessBuilder<
 
   private static validateGeneratedFields(fields: Pick<BoundWitness, GeneratedBoundWitnessFields>) {
     assertEx(fields.payload_hashes?.length === fields.payload_schemas?.length, () => 'Payload hash/schema mismatch')
-    assertEx(!fields.payload_hashes.some(hash => !hash), () => 'nulls found in hashes')
-    assertEx(!fields.payload_schemas.some(schema => !schema), () => 'nulls found in schemas')
+    assertEx(!(fields.payload_hashes as (Hash | null)[]).includes(null), () => 'nulls found in hashes')
+    assertEx(!(fields.payload_schemas as (Schema | null)[]).includes(null), () => 'nulls found in schemas')
   }
 
   override async build(): Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]> {

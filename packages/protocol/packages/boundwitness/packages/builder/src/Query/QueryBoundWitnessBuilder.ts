@@ -3,7 +3,7 @@ import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'
 import type { Query, WithoutMeta } from '@xyo-network/payload-model'
 
-import { BoundWitnessBuilder } from '../Builder.ts'
+import { BoundWitnessBuilder } from '../BoundWitnessBuilder.ts'
 
 export class QueryBoundWitnessBuilder<
   TBoundWitness extends QueryBoundWitness = QueryBoundWitness,

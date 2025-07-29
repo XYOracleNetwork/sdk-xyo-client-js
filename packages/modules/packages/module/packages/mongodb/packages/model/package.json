@@ -32,14 +32,14 @@
   "module": "dist/node/index.mjs",
   "types": "dist/node/index.d.ts",
   "dependencies": {
-    "@xylabs/mongo": "^4.15.1",
+    "@xylabs/mongo": "^4.15.3",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-mongodb": "workspace:^",
     "@xyo-network/shared": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.1",
-    "@xylabs/tsconfig": "^7.0.1",
+    "@xylabs/ts-scripts-yarn3": "^7.0.2",
+    "@xylabs/tsconfig": "^7.0.2",
     "typescript": "^5.8.3"
   },
   "engines": {

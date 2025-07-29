@@ -29,16 +29,16 @@
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
   "dependencies": {
-    "@xylabs/assert": "^4.15.1",
-    "@xylabs/hex": "^4.15.1",
+    "@xylabs/assert": "^4.15.3",
+    "@xylabs/hex": "^4.15.3",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.1",
-    "@xylabs/tsconfig": "^7.0.1",
+    "@xylabs/ts-scripts-yarn3": "^7.0.2",
+    "@xylabs/tsconfig": "^7.0.2",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",

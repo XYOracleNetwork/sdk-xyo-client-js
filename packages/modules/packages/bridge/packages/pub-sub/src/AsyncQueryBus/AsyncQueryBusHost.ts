@@ -1,6 +1,8 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
-import type { Address } from '@xylabs/hex'
+import {
+  type Address, hexFromBigInt, hexToBigInt,
+} from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { isQueryBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
@@ -18,7 +20,9 @@ import {
   ResolveHelper,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Schema, WithStorageMeta } from '@xyo-network/payload-model'
+import type {
+  Schema, Sequence, WithStorageMeta,
+} from '@xyo-network/payload-model'
 import { SequenceConstants } from '@xyo-network/payload-model'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase.ts'
@@ -36,6 +40,12 @@ const IDLE_POLLING_FREQUENCY_RATIO_DEFAULT = 16 as const
 const IDLE_THRESHOLD_RATIO_MIN = 4 as const
 const IDLE_THRESHOLD_RATIO_MAX = 64 as const
 const IDLE_THRESHOLD_RATIO_DEFAULT = 16 as const
+
+function bigintMax(...args: bigint[]): bigint {
+  if (args.length === 0) throw new Error('No values provided to bigintMax')
+  // eslint-disable-next-line unicorn/prefer-math-min-max, unicorn/no-array-reduce
+  return args.reduce((max, val) => (val > max ? val : max))
+}
 
 export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQueryBusHostParams> extends AsyncQueryBusBase<TParams> {
   protected _exposedAddresses = new Set<Address>()
@@ -222,8 +232,11 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       }
       const result = await queriesBoundWitnessDiviner.divine([divinerQuery])
       const queries = result.filter(isQueryBoundWitnessWithStorageMeta)
-      // eslint-disable-next-line unicorn/no-array-reduce, unicorn/prefer-math-min-max
-      const highestQuerySequence = queries.reduce((acc, query) => (query._sequence > acc ? query._sequence : acc), SequenceConstants.minLocalSequence)
+      // eslint-disable-next-line unicorn/no-array-reduce
+      const highestQuerySequence = queries.reduce(
+        (acc, query) => (hexFromBigInt(bigintMax(hexToBigInt(query._sequence), hexToBigInt(acc)))) as Sequence,
+        SequenceConstants.minLocalSequence as Sequence,
+      )
       const nextState = queries.length > 0 ? highestQuerySequence : SequenceConstants.minLocalSequence
       // TODO: This needs to be thought through as we can't use a distributed timestamp
       // because of collisions. We need to use the timestamp of the store so there's no

@@ -48,7 +48,7 @@ export interface Archivist<
   TWriteResponse extends Payload = Payload,
   TWrite extends Payload = TReadResponse & Payload,
   TId extends string = Hash,
-  TCursor extends string = TId,
+  TCursor extends string = Sequence,
 > extends ReadArchivist<WithStorageMeta<TReadResponse>, TId, TCursor>,
   AllArchivist<WithStorageMeta<TReadResponse>, TId>,
   WriteArchivist<WithStorageMeta<TReadResponse>, WithStorageMeta<TWriteResponse>, TWrite, TId>,

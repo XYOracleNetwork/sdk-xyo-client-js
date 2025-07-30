@@ -17,6 +17,7 @@ import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
   Payload, Schema,
+  Sequence,
   WithStorageMeta,
 } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
@@ -52,7 +53,7 @@ export class GenericPayloadDiviner<
   protected payloadsWithMeta: WithStorageMeta<TOut>[] = []
 
   private _archivistInstance?: ArchivistInstance
-  private _cursor?: Hex
+  private _cursor?: Sequence
   private _updatePayloadPairsMutex = new Mutex()
 
   protected get indexBatchSize() {

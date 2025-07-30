@@ -12,6 +12,7 @@ import type {
   ModuleConfig, ModuleIdentifier, ModuleInstance,
 } from '@xyo-network/module-model'
 import { ResolveHelper } from '@xyo-network/module-model'
+import type { Sequence } from '@xyo-network/payload-model'
 import { SequenceConstants } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
@@ -23,7 +24,7 @@ const POLLING_FREQUENCY_MAX = 60_000 as const
 const POLLING_FREQUENCY_DEFAULT = 1000 as const
 
 export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryBusParams> extends Base<TParams> {
-  protected _lastState?: LRUCache<Address, Hex>
+  protected _lastState?: LRUCache<Address, Sequence>
   protected _targetConfigs: Record<Address, ModuleConfig> = {}
   protected _targetQueries: Record<Address, string[]> = {}
 
@@ -58,9 +59,9 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
   /**
    * A cache of the last offset of the Diviner process per address
    */
-  protected get lastState(): LRUCache<Address, Hex> {
+  protected get lastState(): LRUCache<Address, Sequence> {
     const requiredConfig = { max: 1000, ttl: 0 }
-    this._lastState = this._lastState ?? new LRUCache<Address, Hex>(requiredConfig)
+    this._lastState = this._lastState ?? new LRUCache<Address, Sequence>(requiredConfig)
     return this._lastState
   }
 
@@ -120,7 +121,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
    * @param address The module address to commit the state for
    * @param nextState The state to commit
    */
-  protected async commitState(address: Address, nextState: Hex) {
+  protected async commitState(address: Address, nextState: Sequence) {
     await Promise.resolve()
     // TODO: Offload to Archivist/Diviner instead of in-memory
     const lastState = this.lastState.get(address)
@@ -132,7 +133,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
    * Retrieves the last state of the process. Used to recover state after
    * preemptions, reboots, etc.
    */
-  protected async retrieveState(address: Address): Promise<Hex> {
+  protected async retrieveState(address: Address): Promise<Sequence> {
     await Promise.resolve()
     const state = this.lastState.get(address)
     if (state === undefined) {

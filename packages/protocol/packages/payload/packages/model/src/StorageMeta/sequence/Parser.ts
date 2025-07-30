@@ -44,25 +44,25 @@ export class SequenceParser {
   get epoch(): Epoch {
     const start = 0
     const end = SequenceConstants.epochBytes
-    return toHex(this.data.slice(start, end).buffer, { prefix: false })
+    return toHex(this.data.slice(start, end).buffer, { prefix: false }) as Epoch
   }
 
   get localSequence(): LocalSequence {
     const start = 0
     const end = SequenceConstants.localSequenceBytes
-    return toHex(this.data.slice(start, end).buffer, { prefix: false })
+    return toHex(this.data.slice(start, end).buffer, { prefix: false }) as LocalSequence
   }
 
   get nonce(): Nonce {
     const start = SequenceConstants.epochBytes
     const end = SequenceConstants.localSequenceBytes
-    return toHex(this.data.slice(start, end).buffer, { prefix: false })
+    return toHex(this.data.slice(start, end).buffer, { prefix: false }) as Nonce
   }
 
   get qualifiedSequence(): QualifiedSequence {
     const start = 0
     const end = SequenceConstants.qualifiedSequenceBytes
-    return toHex(this.data.slice(start, end).buffer, { prefix: false })
+    return toHex(this.data.slice(start, end).buffer, { prefix: false }) as QualifiedSequence
   }
 
   static from(sequence: Sequence, address?: Address): SequenceParser
@@ -79,8 +79,8 @@ export class SequenceParser {
   static from(timestamp: number, hash: Hex, index?: number, address?: Address): SequenceParser
   static from(timestamp: number, nonce: Nonce, index?: number, address?: Address): SequenceParser
   static from(
-    timestampOrSequence: Sequence | Hex | number,
-    nonceOrAddress?: Address | Nonce,
+    timestampOrSequence: Hex | number,
+    nonceOrAddress?: Hex,
     addressOrIndex?: Address | number,
     addressOnly?: Address,
   ): SequenceParser {

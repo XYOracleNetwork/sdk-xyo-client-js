@@ -1,28 +1,30 @@
-import type { Address, Hex } from '@xylabs/hex'
+import type {
+  Address, Brand, Hex,
+} from '@xylabs/hex'
 import { isHex } from '@xylabs/hex'
 
 // we use Exclude to intentionally make the type not equal to string
-export type LocalSequence = Hex & Exclude<string, 'reserved-local-sequence-value'>
-export type QualifiedSequence = Hex & Exclude<string, 'reserved-qualified-sequence-value'>
+export type LocalSequence = Brand<Hex, { __localSequence: true }>
+export type QualifiedSequence = Brand<Hex, { __qualifiedSequence: true }>
 export type Sequence = LocalSequence | QualifiedSequence
 
-export type Epoch = Hex & Exclude<string, 'reserved-epoch-sequence-value'>
+export type Epoch = Brand<Hex, { __epoch: true }>
 
 export const isEpoch = (value: unknown): value is Epoch => {
   return isHex(value) && (value as string).length === SequenceConstants.epochBytes * 2
 }
 
-export type Nonce = Hex & Exclude<string, 'reserved-nonce-sequence-value'>
+export type Nonce = Brand<Hex, { __nonce: true }>
 
-export const isNonce = (value: unknown): value is Epoch => {
+export const isNonce = (value: unknown): value is Nonce => {
   return isHex(value) && (value as string).length === SequenceConstants.nonceBytes * 2
 }
 
-export const isLocalSequence = (value: unknown): value is Sequence => {
+export const isLocalSequence = (value: unknown): value is LocalSequence => {
   return isHex(value) && (value as string).length === SequenceConstants.localSequenceBytes * 2
 }
 
-export const isQualifiedSequence = (value: unknown): value is Sequence => {
+export const isQualifiedSequence = (value: unknown): value is QualifiedSequence => {
   return isHex(value) && (value as string).length === SequenceConstants.qualifiedSequenceBytes * 2
 }
 

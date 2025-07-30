@@ -1,7 +1,7 @@
-import type { Address } from '@xylabs/hex'
+import type { Address, Brand } from '@xylabs/hex'
 import { isObject } from '@xylabs/object'
 
-export type ModuleAlias = Exclude<string, 'reserved-alias-value-8346534876'>
+export type ModuleAlias = Brand<string, { __moduleAlias: true }>
 
 export interface Manifest {
   description?: string

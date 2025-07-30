@@ -1,4 +1,4 @@
-import type { Address } from '@xylabs/hex'
+import type { Address, Brand } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
 
 export const MODULE_PATH_SEPARATOR = ':' as const
@@ -39,8 +39,9 @@ export const ReservedModuleIdentifierCharacters = new Set<ReservedModuleIdentifi
   Object.keys(DisallowedModuleIdentifierCharacters) as ReservedModuleIdentifierCharacter[],
 )
 
-// using Exclude to make this type not allowed to take a naked string
-export type ModuleName = Exclude<string, 'reserved-module-name-56487634'>
+// TODO: Use Brand, but avoid too complex error
+// export type ModuleName = Brand<string, { __moduleName: true }>
+export type ModuleName = string
 
 export type ModuleIdentifier
   = | ColonPair<ModuleIdentifierPart>

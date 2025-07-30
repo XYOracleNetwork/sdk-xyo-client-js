@@ -31,13 +31,17 @@
   },
   "module": "dist/node/index.mjs",
   "types": "dist/node/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/object": "^4.15.3",
+    "@xylabs/object": "^5.0.0",
     "@xylabs/ts-scripts-yarn3": "^7.0.2",
     "@xylabs/tsconfig": "^7.0.2",
     "typescript": "^5.8.3"

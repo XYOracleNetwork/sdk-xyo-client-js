@@ -28,11 +28,15 @@
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
-    "@xylabs/array": "^4.15.3",
-    "@xylabs/arraybuffer": "^4.15.3",
-    "@xylabs/hex": "^4.15.3",
-    "@xylabs/typeof": "^4.15.3",
+    "@xylabs/array": "^5.0.0",
+    "@xylabs/arraybuffer": "^5.0.0",
+    "@xylabs/hex": "^5.0.0",
+    "@xylabs/typeof": "^5.0.0",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/elliptic": "workspace:^",
     "@xyo-network/payload": "workspace:^",
@@ -42,7 +46,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^7.0.2",
     "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^4.15.3",
+    "@xylabs/vitest-extended": "^5.0.0",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/schema-name-validator": "workspace:^",
     "@xyo-network/wallet": "workspace:^",

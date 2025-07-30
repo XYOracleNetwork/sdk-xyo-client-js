@@ -28,8 +28,12 @@
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
-    "@xylabs/retry": "^4.15.3",
+    "@xylabs/retry": "^5.0.0",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -39,7 +43,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^7.0.2",
     "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^4.15.3",
+    "@xylabs/vitest-extended": "^5.0.0",
     "@xyo-network/diviner-identity": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "typescript": "^5.8.3",

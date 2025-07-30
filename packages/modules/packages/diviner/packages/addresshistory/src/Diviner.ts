@@ -23,8 +23,8 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
     return assertEx(this.config.address, () => 'Missing address')
   }
 
-  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
-    assertEx((payloads?.length ?? 0), () => 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
+  protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
+    assertEx(payloads.length === 0, () => 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
 
     const allBoundWitnesses = await this.allBoundWitnesses()
     const bwRecords = await PayloadBuilder.toDataHashMap(allBoundWitnesses)

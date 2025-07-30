@@ -28,9 +28,13 @@
   },
   "module": "dist/browser/index.mjs",
   "types": "dist/browser/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
-    "@xylabs/forget": "^4.15.3",
-    "@xylabs/typeof": "^4.15.3",
+    "@xylabs/forget": "^5.0.0",
+    "@xylabs/typeof": "^5.0.0",
     "ethers": "^6.15.0"
   },
   "devDependencies": {

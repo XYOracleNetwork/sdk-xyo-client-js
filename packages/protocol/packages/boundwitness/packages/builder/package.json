@@ -28,10 +28,14 @@
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
-    "@xylabs/arraybuffer": "^4.15.3",
-    "@xylabs/assert": "^4.15.3",
-    "@xylabs/hex": "^4.15.3",
+    "@xylabs/arraybuffer": "^5.0.0",
+    "@xylabs/assert": "^5.0.0",
+    "@xylabs/hex": "^5.0.0",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/hash": "workspace:^",
@@ -43,7 +47,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^7.0.2",
     "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^4.15.3",
+    "@xylabs/vitest-extended": "^5.0.0",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/elliptic": "workspace:^",
     "@xyo-network/wallet": "workspace:^",

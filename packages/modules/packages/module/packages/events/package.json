@@ -28,6 +28,10 @@
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^7.0.2",
     "@xylabs/tsconfig": "^7.0.2",

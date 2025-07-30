@@ -28,8 +28,12 @@
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "devDependencies": {
-    "@xylabs/hex": "^4.15.3",
+    "@xylabs/hex": "^5.0.0",
     "@xylabs/ts-scripts-yarn3": "^7.0.2",
     "@xylabs/tsconfig": "^7.0.2",
     "@xyo-network/archivist-leveldb": "workspace:^",

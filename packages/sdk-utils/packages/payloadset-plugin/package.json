@@ -28,10 +28,14 @@
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
-    "@xylabs/forget": "^4.15.3",
-    "@xylabs/object": "^4.15.3",
-    "@xylabs/promise": "^4.15.3",
+    "@xylabs/forget": "^5.0.0",
+    "@xylabs/object": "^5.0.0",
+    "@xylabs/promise": "^5.0.0",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",

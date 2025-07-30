@@ -28,8 +28,12 @@
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
-    "@xylabs/events": "^4.15.3"
+    "@xylabs/events": "^5.0.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^7.0.2",

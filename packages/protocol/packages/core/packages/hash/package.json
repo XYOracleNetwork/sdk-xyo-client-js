@@ -42,6 +42,10 @@
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "bundle": "yarn subtleHashBundle && yarn wasmHashBundle",
     "package-build": "echo build && package-build-only && yarn bundle && yarn publint",
@@ -50,20 +54,20 @@
     "wasmHashBundle": "esbuild src/worker/wasmHash.ts --bundle --outfile=dist/browser/worker/wasmHash-bundle.mjs --target=chrome120,firefox120,safari14,edge120"
   },
   "dependencies": {
-    "@xylabs/assert": "^4.15.3",
-    "@xylabs/hex": "^4.15.3",
-    "@xylabs/object": "^4.15.3",
-    "@xylabs/platform": "^4.15.3",
-    "@xylabs/threads": "^4.15.3",
-    "@xylabs/typeof": "^4.15.3",
+    "@xylabs/assert": "^5.0.0",
+    "@xylabs/hex": "^5.0.0",
+    "@xylabs/object": "^5.0.0",
+    "@xylabs/platform": "^5.0.0",
+    "@xylabs/threads": "^5.0.0",
+    "@xylabs/typeof": "^5.0.0",
     "@xyo-network/wasm": "workspace:^",
     "hash-wasm": "^4.12.0"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.15.3",
+    "@xylabs/delay": "^5.0.0",
     "@xylabs/ts-scripts-yarn3": "^7.0.2",
     "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^4.15.3",
+    "@xylabs/vitest-extended": "^5.0.0",
     "esbuild": "^0.25.8",
     "publint": "^0.3.12",
     "typescript": "^5.8.3",

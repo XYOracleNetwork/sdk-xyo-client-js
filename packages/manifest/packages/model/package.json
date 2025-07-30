@@ -24,29 +24,24 @@
       "types": "./dist/neutral/index.d.ts",
       "default": "./dist/neutral/index.mjs"
     },
-    "./schema/package": {
-      "default": "./dist/PackageManifest.schema.json"
-    },
     "./package.json": "./package.json"
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
-  "scripts": {
-    "gen-schema": "yarn typescript-json-schema src/Manifest.ts PackageManifest --required --out dist/PackageManifest.schema.json",
-    "package-build": "yarn gen-schema && yarn package-build-only",
-    "package-compile": "yarn gen-schema && yarn package-compile-only"
-  },
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
-    "@xylabs/hex": "^4.15.3",
-    "@xylabs/object": "^4.15.3",
+    "@xylabs/hex": "^5.0.0",
+    "@xylabs/object": "^5.0.0",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
     "@types/node": "^24.1.0",
     "@xylabs/ts-scripts-yarn3": "^7.0.2",
     "@xylabs/tsconfig": "^7.0.2",
-    "typescript": "^5.8.3",
-    "typescript-json-schema": "^0.65.1"
+    "typescript": "^5.8.3"
   },
   "publishConfig": {
     "access": "public"

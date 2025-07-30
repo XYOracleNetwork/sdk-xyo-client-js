@@ -5,6 +5,7 @@
   "description": "XYO Archivist",
   "license": "LGPL-3.0-only",
   "author": "Arie Trouw",
+  "sideEffects": false,
   "type": "module",
   "exports": {
     ".": {
@@ -15,6 +16,10 @@
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
     "@xyo-network/diviner-forecasting-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
@@ -23,7 +28,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^7.0.2",
     "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^4.15.3",
+    "@xylabs/vitest-extended": "^5.0.0",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },

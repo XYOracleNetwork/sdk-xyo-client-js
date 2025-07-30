@@ -28,6 +28,10 @@
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
     "@xyo-network/diviner-transform-abstract": "workspace:^",
     "@xyo-network/diviner-transform-model": "workspace:^",
@@ -39,7 +43,7 @@
     "@types/jsonpath": "^0.2.4",
     "@xylabs/ts-scripts-yarn3": "^7.0.2",
     "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^4.15.3",
+    "@xylabs/vitest-extended": "^5.0.0",
     "@xyo-network/account": "workspace:^",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"

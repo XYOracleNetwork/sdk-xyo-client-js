@@ -28,13 +28,17 @@
   },
   "module": "dist/browser/index.mjs",
   "types": "dist/browser/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
-    "@xylabs/array": "^4.15.3",
-    "@xylabs/assert": "^4.15.3",
-    "@xylabs/exists": "^4.15.3",
-    "@xylabs/hex": "^4.15.3",
-    "@xylabs/indexed-db": "^4.15.3",
-    "@xylabs/typeof": "^4.15.3",
+    "@xylabs/array": "^5.0.0",
+    "@xylabs/assert": "^5.0.0",
+    "@xylabs/exists": "^5.0.0",
+    "@xylabs/hex": "^5.0.0",
+    "@xylabs/indexed-db": "^5.0.0",
+    "@xylabs/typeof": "^5.0.0",
     "@xyo-network/archivist-abstract": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -43,8 +47,8 @@
     "idb": "^8.0.3"
   },
   "devDependencies": {
-    "@xylabs/delay": "^4.15.3",
-    "@xylabs/object": "^4.15.3",
+    "@xylabs/delay": "^5.0.0",
+    "@xylabs/object": "^5.0.0",
     "@xylabs/ts-scripts-yarn3": "^7.0.2",
     "@xylabs/tsconfig": "^7.0.2",
     "@xyo-network/account": "workspace:^",

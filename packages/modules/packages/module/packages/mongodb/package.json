@@ -31,6 +31,10 @@
   },
   "module": "dist/node/index.mjs",
   "types": "dist/node/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
     "@xyo-network/module-abstract-mongodb": "workspace:^",
     "@xyo-network/module-model-mongodb": "workspace:^",

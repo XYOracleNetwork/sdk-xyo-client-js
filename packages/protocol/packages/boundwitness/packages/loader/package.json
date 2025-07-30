@@ -28,10 +28,14 @@
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
-    "@xylabs/base": "^4.15.3",
-    "@xylabs/exists": "^4.15.3",
-    "@xylabs/hex": "^4.15.3",
+    "@xylabs/base": "^5.0.0",
+    "@xylabs/exists": "^5.0.0",
+    "@xylabs/hex": "^5.0.0",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",

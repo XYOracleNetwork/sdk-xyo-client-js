@@ -26,6 +26,8 @@
     "**/yarn.lock": true,
     "**/build": true,
     "**/dist": true,
+    "**/docs": true,
+    "**/docker": true,
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",

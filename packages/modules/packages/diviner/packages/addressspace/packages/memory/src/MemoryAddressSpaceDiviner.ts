@@ -21,8 +21,8 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
   static override readonly configSchemas: Schema[] = [...super.configSchemas, AddressSpaceDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = AddressSpaceDivinerConfigSchema
 
-  protected override async divineHandler(payloads?: Payload[]) {
-    assertEx(!payloads?.length, () => 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')
+  protected override async divineHandler(payloads: Payload[] = []) {
+    assertEx(payloads.length === 0, () => 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')
     const archivistMod = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod, this.account)
     const all = await archivist.all?.()

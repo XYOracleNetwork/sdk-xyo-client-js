@@ -28,8 +28,12 @@
   },
   "module": "dist/neutral/index.mjs",
   "types": "dist/neutral/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
-    "@xylabs/hex": "^4.15.3",
+    "@xylabs/hex": "^5.0.0",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },

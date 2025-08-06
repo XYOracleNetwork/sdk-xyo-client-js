@@ -36,14 +36,14 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/mongo": "^5.0.0",
-    "@xyo-network/archivist-model": "workspace:^",
-    "@xyo-network/module-model": "workspace:^"
+    "@xylabs/mongo": "~5.0.3",
+    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/module-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "typescript": "^5.8.3"
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "typescript": "~5.9.2"
   },
   "engines": {
     "node": ">=16"

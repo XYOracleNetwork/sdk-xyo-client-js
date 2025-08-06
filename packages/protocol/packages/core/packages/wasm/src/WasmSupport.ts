@@ -40,6 +40,8 @@ import { isTruthy } from '@xylabs/typeof'
 export type WasmFeature = keyof typeof WasmFeatureDetectors
 
 export class WasmSupport {
+  protected desiredFeatures: WasmFeature[]
+
   private _allowWasm = true
   private _featureSupport: Partial<Record<WasmFeature, boolean>> = {}
   private _forceWasm = false
@@ -54,7 +56,9 @@ export class WasmSupport {
    * be done here
    * @param desiredFeatures The desired feature set
    */
-  constructor(protected desiredFeatures: WasmFeature[]) {}
+  constructor(desiredFeatures: WasmFeature[]) {
+    this.desiredFeatures = desiredFeatures
+  }
 
   /**
    * Is Wasm allowed

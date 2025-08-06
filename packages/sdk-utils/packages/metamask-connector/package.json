@@ -33,15 +33,15 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/forget": "^5.0.0",
-    "@xylabs/typeof": "^5.0.0",
-    "ethers": "^6.15.0"
+    "@xylabs/forget": "~5.0.3",
+    "@xylabs/typeof": "~5.0.3",
+    "ethers": "~6.15.0"
   },
   "devDependencies": {
-    "@metamask/providers": "^22.1.0",
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig-dom": "^7.0.2",
-    "typescript": "^5.8.3"
+    "@metamask/providers": "~22.1.0",
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig-dom": "~7.1.0",
+    "typescript": "~5.9.2"
   },
   "publishConfig": {
     "access": "public"

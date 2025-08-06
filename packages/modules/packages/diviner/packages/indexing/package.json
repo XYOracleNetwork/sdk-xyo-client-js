@@ -33,14 +33,14 @@
     "src"
   ],
   "dependencies": {
-    "@xyo-network/diviner-indexing-memory": "workspace:^",
-    "@xyo-network/diviner-indexing-model": "workspace:^",
-    "@xyo-network/diviner-temporal-indexing": "workspace:^"
+    "@xyo-network/diviner-indexing-memory": "workspace:~",
+    "@xyo-network/diviner-indexing-model": "workspace:~",
+    "@xyo-network/diviner-temporal-indexing": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "typescript": "^5.8.3"
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "typescript": "~5.9.2"
   },
   "publishConfig": {
     "access": "public"

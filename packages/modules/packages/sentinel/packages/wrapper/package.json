@@ -33,30 +33,31 @@
     "src"
   ],
   "dependencies": {
-    "@xyo-network/account-model": "workspace:^",
-    "@xyo-network/archivist-model": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/module-wrapper": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/sentinel-model": "workspace:^",
-    "@xyo-network/witness-model": "workspace:^"
+    "@xyo-network/account-model": "workspace:~",
+    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/module-wrapper": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/sentinel-model": "workspace:~",
+    "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/delay": "^5.0.0",
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^5.0.0",
-    "@xyo-network/abstract-witness": "workspace:^",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/archivist-memory": "workspace:^",
-    "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/node-memory": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
-    "@xyo-network/sentinel-memory": "workspace:^",
-    "@xyo-network/witness-adhoc": "workspace:^",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "@xylabs/creatable": "~5.0.3",
+    "@xylabs/delay": "~5.0.3",
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/vitest-extended": "~5.0.3",
+    "@xyo-network/abstract-witness": "workspace:~",
+    "@xyo-network/account": "workspace:~",
+    "@xyo-network/archivist-memory": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/node-memory": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/sentinel-memory": "workspace:~",
+    "@xyo-network/witness-adhoc": "workspace:~",
+    "typescript": "~5.9.2",
+    "vitest": "~3.2.4"
   },
   "publishConfig": {
     "access": "public"

@@ -25,12 +25,15 @@ export class HDWallet extends Account implements WalletInstance {
   static override readonly uniqueName = globallyUnique('HDWallet', HDWallet, 'xyo')
   protected static override _addressMap: Record<Address, WeakRef<WalletInstance>> = {}
 
+  protected readonly node: HDNodeWallet
+
   constructor(
-    key: unknown,
-    protected readonly node: HDNodeWallet,
+    key: symbol,
+    node: HDNodeWallet,
     privateKey: PrivateKeyInstance,
   ) {
-    super(Account._protectedConstructorKey, privateKey)
+    super(key, privateKey)
+    this.node = node
   }
 
   override get address(): Address {

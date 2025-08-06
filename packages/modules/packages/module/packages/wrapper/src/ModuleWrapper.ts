@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Base } from '@xylabs/base'
+import { CreatableName } from '@xylabs/creatable'
 import { EventAnyListener, EventListener } from '@xylabs/events'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
@@ -152,7 +153,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   get name() {
-    return 'ModuleWrapper'
+    return 'ModuleWrapper' as CreatableName
   }
 
   get priority() {

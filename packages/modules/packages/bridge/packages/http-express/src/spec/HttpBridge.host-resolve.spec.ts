@@ -1,5 +1,6 @@
 import '@xylabs/vitest-extended'
 
+import type { CreatableName } from '@xylabs/creatable'
 import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/bridge-http'
 import type {
   AsyncQueryBusIntersectConfig,
@@ -22,7 +23,7 @@ import {
  */
 
 describe.skip('HttpBridge with PubSubBridge', () => {
-  const httpBaseUrl = process.env.XNS_API_DOMAIN ?? 'https://beta.xns.xyo.network' ?? 'http://localhost:80'
+  const httpBaseUrl = process.env.XNS_API_DOMAIN ?? 'https://beta.xns.xyo.network' // ?? 'http://localhost:80'
 
   console.log(`HttpBridge:baseUrl ${httpBaseUrl}`)
   const cases = [
@@ -55,7 +56,7 @@ describe.skip('HttpBridge with PubSubBridge', () => {
       client: { intersect }, host: { intersect }, name: 'PubSubBridgeArie', schema: PubSubBridgeConfigSchema,
     }
     const psParams: PubSubBridgeParams = {
-      account: 'random', config, name: 'PubSubBridge',
+      account: 'random', config, name: 'PubSubBridge' as CreatableName,
     }
     const psBridge = await PubSubBridge.create(psParams)
     await memNode.register(psBridge)

@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import type { CreatableName } from '@xylabs/creatable'
 import type { Address } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
 import { Account } from '@xyo-network/account'
@@ -47,7 +48,7 @@ export class WebsocketBridgeModuleResolver<
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
     const params: WebsocketModuleProxyParams = {
-      name: 'WebsocketBridgeModuleResolver',
+      name: 'WebsocketBridgeModuleResolver' as CreatableName,
       account: await Account.random(),
       config: { schema: ModuleConfigSchema },
       host: this,

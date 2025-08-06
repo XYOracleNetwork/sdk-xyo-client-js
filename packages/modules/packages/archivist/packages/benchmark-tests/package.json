@@ -33,17 +33,17 @@
     "src"
   ],
   "devDependencies": {
-    "@xylabs/hex": "^5.0.0",
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xyo-network/archivist-leveldb": "workspace:^",
-    "@xyo-network/archivist-lmdb": "workspace:^",
-    "@xyo-network/id-payload-plugin": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "typescript": "^5.8.3",
-    "uuid": "^11.1.0",
-    "vitest": "^3.2.4"
+    "@xylabs/hex": "~5.0.3",
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xyo-network/archivist-leveldb": "workspace:~",
+    "@xyo-network/archivist-lmdb": "workspace:~",
+    "@xyo-network/id-payload-plugin": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "typescript": "~5.9.2",
+    "uuid": "~11.1.0",
+    "vitest": "~3.2.4"
   },
   "publishConfig": {
     "access": "public"

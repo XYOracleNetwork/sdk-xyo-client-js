@@ -33,15 +33,15 @@
     "src"
   ],
   "dependencies": {
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-plugin": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^5.0.0",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/vitest-extended": "~5.0.3",
+    "typescript": "~5.9.2",
+    "vitest": "~3.2.4"
   },
   "publishConfig": {
     "access": "public"

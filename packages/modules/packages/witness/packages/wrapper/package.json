@@ -33,21 +33,21 @@
     "src"
   ],
   "dependencies": {
-    "@xyo-network/account-model": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/module-wrapper": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/witness-model": "workspace:^"
+    "@xyo-network/account-model": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/module-wrapper": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/promise": "^5.0.0",
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^5.0.0",
-    "@xyo-network/abstract-witness": "workspace:^",
-    "@xyo-network/account": "workspace:^",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "@xylabs/promise": "~5.0.3",
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/vitest-extended": "~5.0.3",
+    "@xyo-network/abstract-witness": "workspace:~",
+    "@xyo-network/account": "workspace:~",
+    "typescript": "~5.9.2",
+    "vitest": "~3.2.4"
   },
   "publishConfig": {
     "access": "public"

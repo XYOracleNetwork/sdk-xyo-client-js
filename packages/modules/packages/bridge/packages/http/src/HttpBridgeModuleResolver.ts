@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import type { CreatableName } from '@xylabs/creatable'
 import type { Address } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
 import { isDefined } from '@xylabs/typeof'
@@ -75,7 +76,7 @@ export class HttpBridgeModuleResolver<
       }
       const account = await Account.random()
       const finalParams: HttpModuleProxyParams = {
-        name: 'HttpBridgeModuleResolver',
+        name: 'HttpBridgeModuleResolver' as CreatableName,
         account,
         archiving: this.params.archiving,
         config: { schema: ModuleConfigSchema },

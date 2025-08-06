@@ -7,10 +7,16 @@ import { LRUCache } from 'lru-cache'
 export class NameRegistrarTransformer implements ModuleIdentifierTransformer {
   private _cache: LRUCache<ModuleIdentifier, ModuleIdentifier> = new LRUCache<ModuleIdentifier, ModuleIdentifier>({ max: 1000, ttl: 1000 * 5 })
 
+  private registrarDiviner: DivinerInstance
+  private root: string
+
   constructor(
-    private registrarDiviner: DivinerInstance,
-    private root: string,
-  ) {}
+    registrarDiviner: DivinerInstance,
+    root: string,
+  ) {
+    this.registrarDiviner = registrarDiviner
+    this.root = root
+  }
 
   async transform(identifier: ModuleIdentifier): Promise<ModuleIdentifier> {
     const parts = identifier.split(':')

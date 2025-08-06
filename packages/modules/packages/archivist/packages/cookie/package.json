@@ -33,28 +33,28 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "^5.0.0",
-    "@xylabs/exists": "^5.0.0",
-    "@xylabs/hex": "^5.0.0",
-    "@xylabs/promise": "^5.0.0",
-    "@xylabs/typeof": "^5.0.0",
-    "@xyo-network/archivist-abstract": "workspace:^",
-    "@xyo-network/archivist-model": "workspace:^",
-    "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "js-cookie": "^3.0.5"
+    "@xylabs/assert": "~5.0.3",
+    "@xylabs/exists": "~5.0.3",
+    "@xylabs/hex": "~5.0.3",
+    "@xylabs/promise": "~5.0.3",
+    "@xylabs/typeof": "~5.0.3",
+    "@xyo-network/archivist-abstract": "workspace:~",
+    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "js-cookie": "~3.0.5"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.6",
-    "@xylabs/delay": "^5.0.0",
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xyo-network/id-payload-plugin": "workspace:^",
-    "@xyo-network/payload-wrapper": "workspace:^",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "@types/js-cookie": "~3.0.6",
+    "@xylabs/delay": "~5.0.3",
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xyo-network/id-payload-plugin": "workspace:~",
+    "@xyo-network/payload-wrapper": "workspace:~",
+    "typescript": "~5.9.2",
+    "vitest": "~3.2.4"
   },
   "publishConfig": {
     "access": "public"

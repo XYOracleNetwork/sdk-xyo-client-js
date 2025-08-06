@@ -33,29 +33,29 @@
     "src"
   ],
   "dependencies": {
-    "@opentelemetry/api": "^1.9.0",
-    "@xylabs/assert": "^5.0.0",
-    "@xylabs/base": "^5.0.0",
-    "@xylabs/exists": "^5.0.0",
-    "@xylabs/hex": "^5.0.0",
-    "@xylabs/promise": "^5.0.0",
-    "@xylabs/set": "^5.0.0",
-    "@xylabs/telemetry": "^5.0.0",
-    "@xylabs/typeof": "^5.0.0",
-    "@xyo-network/account-model": "workspace:^",
-    "@xyo-network/archivist-model": "workspace:^",
-    "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/boundwitness-wrapper": "workspace:^",
-    "@xyo-network/module-abstract": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "lru-cache": "^11.1.0"
+    "@opentelemetry/api": "~1.9.0",
+    "@xylabs/assert": "~5.0.3",
+    "@xylabs/base": "~5.0.3",
+    "@xylabs/exists": "~5.0.3",
+    "@xylabs/hex": "~5.0.3",
+    "@xylabs/promise": "~5.0.3",
+    "@xylabs/set": "~5.0.3",
+    "@xylabs/telemetry": "~5.0.3",
+    "@xylabs/typeof": "~5.0.3",
+    "@xyo-network/account-model": "workspace:~",
+    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/boundwitness-wrapper": "workspace:~",
+    "@xyo-network/module-abstract": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "lru-cache": "~11.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "typescript": "^5.8.3"
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "typescript": "~5.9.2"
   },
   "publishConfig": {
     "access": "public"

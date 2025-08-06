@@ -17,12 +17,16 @@ export type ModulePipeLine = Lowercase<'one-to-one' | 'one-to-many' | 'many-to-o
 export type ModuleStatus = CreatableStatus | 'wrapped' | 'proxy'
 
 export class DeadModuleError extends Error {
+  id: ModuleIdentifier
+  error: Error | undefined
   constructor(
-    public id: ModuleIdentifier,
-    public error: Error | undefined,
+    id: ModuleIdentifier,
+    error: Error | undefined,
     msg = 'Dead Module Error',
   ) {
     super(`${msg} [${id}]: ${error?.message ?? toSafeJsonString(error)}`)
+    this.id = id
+    this.error = error
 
     // Set the prototype explicitly.
     Object.setPrototypeOf(this, DeadModuleError.prototype)

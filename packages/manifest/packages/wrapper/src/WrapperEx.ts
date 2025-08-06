@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import type { CreatableName } from '@xylabs/creatable'
 import { isArray, isString } from '@xylabs/typeof'
 import type {
   ModuleManifest, NodeManifest, PackageManifestPayload,
@@ -28,11 +29,13 @@ export class ManifestWrapperEx<
   TManifest extends WithAnySchema<PackageManifestPayload> | void,
   TParams extends ManifestWrapperExParams = ManifestWrapperExParams,
 > extends PayloadWrapper<TManifest extends WithAnySchema<PackageManifestPayload> ? TManifest : WithAnySchema<PackageManifestPayload>> {
+  protected params: TParams
   constructor(
     payload: TManifest extends WithAnySchema<PackageManifestPayload> ? TManifest : WithAnySchema<PackageManifestPayload>,
-    protected params: TParams,
+    params: TParams,
   ) {
     super(payload)
+    this.params = params
   }
 
   get locator() {
@@ -144,7 +147,7 @@ export class ManifestWrapperEx<
     const path = manifest.config.accountPath
     const account = isString(path) ? await wallet.derivePath(path) : 'random'
     const params: ModuleParams = {
-      name: manifest.config.name,
+      name: manifest.config.name as CreatableName,
       account,
       config: assertEx(manifest.config, () => 'Missing config'),
     }

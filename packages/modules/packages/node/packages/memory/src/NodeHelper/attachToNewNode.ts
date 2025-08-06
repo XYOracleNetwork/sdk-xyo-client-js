@@ -1,3 +1,4 @@
+import type { CreatableName } from '@xylabs/creatable'
 import type { ModuleIdentifier } from '@xyo-network/module-model'
 import type { NodeInstance } from '@xyo-network/node-model'
 import { NodeConfigSchema } from '@xyo-network/node-model'
@@ -6,7 +7,7 @@ import type { MemoryNodeParams } from '../MemoryNode.ts'
 import { MemoryNode } from '../MemoryNode.ts'
 import { attachToExistingNode } from './attachToExistingNode.ts'
 
-const DEFAULT_NODE_PARAMS = { config: { schema: NodeConfigSchema }, name: 'MemoryNode' }
+const DEFAULT_NODE_PARAMS = { config: { schema: NodeConfigSchema }, name: 'MemoryNode' as CreatableName }
 
 export const attachToNewNode = async (
   source: NodeInstance,

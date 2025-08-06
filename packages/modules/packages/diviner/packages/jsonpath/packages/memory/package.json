@@ -33,23 +33,23 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "^5.0.0",
-    "@xyo-network/diviner-abstract": "workspace:^",
-    "@xyo-network/diviner-jsonpath-model": "workspace:^",
-    "@xyo-network/diviner-model": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "jsonpath": "^1.1.1"
+    "@xylabs/assert": "~5.0.3",
+    "@xyo-network/diviner-abstract": "workspace:~",
+    "@xyo-network/diviner-jsonpath-model": "workspace:~",
+    "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "jsonpath": "~1.1.1"
   },
   "devDependencies": {
-    "@types/jsonpath": "^0.2.4",
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^5.0.0",
-    "@xyo-network/wallet": "workspace:^",
-    "@xyo-network/wallet-model": "workspace:^",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "@types/jsonpath": "~0.2.4",
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/vitest-extended": "~5.0.3",
+    "@xyo-network/wallet": "workspace:~",
+    "@xyo-network/wallet-model": "workspace:~",
+    "typescript": "~5.9.2",
+    "vitest": "~3.2.4"
   },
   "publishConfig": {
     "access": "public"

@@ -33,27 +33,27 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "^5.0.0",
-    "@xylabs/exists": "^5.0.0",
-    "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/diviner-abstract": "workspace:^",
-    "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:^",
-    "@xyo-network/diviner-jsonpath-memory": "workspace:^",
-    "@xyo-network/diviner-model": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payload-utils": "workspace:^"
+    "@xylabs/assert": "~5.0.3",
+    "@xylabs/exists": "~5.0.3",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/diviner-abstract": "workspace:~",
+    "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:~",
+    "@xyo-network/diviner-jsonpath-memory": "workspace:~",
+    "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-utils": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^5.0.0",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/account-model": "workspace:^",
-    "@xyo-network/boundwitness-builder": "workspace:^",
-    "@xyo-network/diviner-jsonpath-model": "workspace:^",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/vitest-extended": "~5.0.3",
+    "@xyo-network/account": "workspace:~",
+    "@xyo-network/account-model": "workspace:~",
+    "@xyo-network/boundwitness-builder": "workspace:~",
+    "@xyo-network/diviner-jsonpath-model": "workspace:~",
+    "typescript": "~5.9.2",
+    "vitest": "~3.2.4"
   },
   "publishConfig": {
     "access": "public"

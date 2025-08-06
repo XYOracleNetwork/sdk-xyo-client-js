@@ -33,19 +33,19 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "^5.0.0",
-    "@xyo-network/account-model": "workspace:^",
-    "@xyo-network/manifest-model": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/module-wrapper": "workspace:^",
-    "@xyo-network/node-model": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "async-mutex": "^0.5.0"
+    "@xylabs/hex": "~5.0.3",
+    "@xyo-network/account-model": "workspace:~",
+    "@xyo-network/manifest-model": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/module-wrapper": "workspace:~",
+    "@xyo-network/node-model": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "async-mutex": "~0.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "typescript": "^5.8.3"
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "typescript": "~5.9.2"
   },
   "publishConfig": {
     "access": "public"

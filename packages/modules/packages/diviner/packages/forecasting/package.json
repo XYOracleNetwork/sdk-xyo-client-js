@@ -33,14 +33,14 @@
     "src"
   ],
   "dependencies": {
-    "@xyo-network/diviner-forecasting-abstract": "workspace:^",
-    "@xyo-network/diviner-forecasting-memory": "workspace:^",
-    "@xyo-network/diviner-forecasting-model": "workspace:^"
+    "@xyo-network/diviner-forecasting-abstract": "workspace:~",
+    "@xyo-network/diviner-forecasting-memory": "workspace:~",
+    "@xyo-network/diviner-forecasting-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "typescript": "^5.8.3"
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "typescript": "~5.9.2"
   },
   "publishConfig": {
     "access": "public"

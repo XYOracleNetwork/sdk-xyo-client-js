@@ -33,17 +33,17 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "^5.0.0",
-    "@xylabs/geo": "^5.0.0",
-    "@xylabs/hex": "^5.0.0",
-    "mapbox-gl": "^3.14.0"
+    "@xylabs/assert": "~5.0.3",
+    "@xylabs/geo": "~5.0.3",
+    "@xylabs/hex": "~5.0.3",
+    "mapbox-gl": "~3.14.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^5.0.0",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/vitest-extended": "~5.0.3",
+    "typescript": "~5.9.2",
+    "vitest": "~3.2.4"
   },
   "publishConfig": {
     "access": "public"

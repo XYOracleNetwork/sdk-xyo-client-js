@@ -33,30 +33,30 @@
     "src"
   ],
   "dependencies": {
-    "@xyo-network/node-model": "workspace:^",
-    "@xyo-network/node-wrapper": "workspace:^"
+    "@xyo-network/node-model": "workspace:~",
+    "@xyo-network/node-wrapper": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/delay": "^5.0.0",
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^5.0.0",
-    "@xylabs/vitest-matchers": "^5.0.0",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/account-model": "workspace:^",
-    "@xyo-network/archivist-memory": "workspace:^",
-    "@xyo-network/archivist-model": "workspace:^",
-    "@xyo-network/diviner-archivist": "workspace:^",
-    "@xyo-network/diviner-huri": "workspace:^",
-    "@xyo-network/diviner-model": "workspace:^",
-    "@xyo-network/manifest-model": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/node-memory": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
-    "@xyo-network/wallet": "workspace:^",
-    "@xyo-network/witness-adhoc": "workspace:^",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "@xylabs/delay": "~5.0.3",
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/vitest-extended": "~5.0.3",
+    "@xylabs/vitest-matchers": "~5.0.3",
+    "@xyo-network/account": "workspace:~",
+    "@xyo-network/account-model": "workspace:~",
+    "@xyo-network/archivist-memory": "workspace:~",
+    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/diviner-archivist": "workspace:~",
+    "@xyo-network/diviner-huri": "workspace:~",
+    "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/manifest-model": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/node-memory": "workspace:~",
+    "@xyo-network/payload": "workspace:~",
+    "@xyo-network/wallet": "workspace:~",
+    "@xyo-network/witness-adhoc": "workspace:~",
+    "typescript": "~5.9.2",
+    "vitest": "~3.2.4"
   },
   "publishConfig": {
     "access": "public"

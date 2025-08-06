@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import type { CreatableName } from '@xylabs/creatable'
 import type { Logger } from '@xylabs/logger'
 import { isDefined, isString } from '@xylabs/typeof'
 import type {
@@ -144,7 +145,7 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
     const path = manifest.config.accountPath
     const account = isString(path) ? await wallet.derivePath(path) : 'random'
     const params: ModuleParams = {
-      name: manifest.config.name,
+      name: manifest.config.name as CreatableName,
       account,
       config: assertEx(manifest.config, () => 'Missing config'),
     }

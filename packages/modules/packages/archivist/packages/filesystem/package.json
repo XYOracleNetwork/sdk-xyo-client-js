@@ -34,24 +34,24 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "^5.0.0",
-    "@xylabs/hex": "^5.0.0",
-    "@xylabs/promise": "^5.0.0",
-    "@xyo-network/archivist-abstract": "workspace:^",
-    "@xyo-network/archivist-memory": "workspace:^",
-    "@xyo-network/archivist-model": "workspace:^",
-    "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/wallet": "workspace:^"
+    "@xylabs/assert": "~5.0.3",
+    "@xylabs/hex": "~5.0.3",
+    "@xylabs/promise": "~5.0.3",
+    "@xyo-network/archivist-abstract": "workspace:~",
+    "@xyo-network/archivist-memory": "workspace:~",
+    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/wallet": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/error": "^5.0.0",
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^5.0.0",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "@xylabs/error": "~5.0.3",
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/vitest-extended": "~5.0.3",
+    "typescript": "~5.9.2",
+    "vitest": "~3.2.4"
   },
   "publishConfig": {
     "access": "public"

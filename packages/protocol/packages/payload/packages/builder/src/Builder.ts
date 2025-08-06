@@ -36,11 +36,14 @@ export const omitSchema = <T extends WithOptionalSchema>(payload: T): WithoutSch
 }
 
 export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
+  readonly options: PayloadBuilderOptions
+
   protected _fields?: WithoutStorageMeta<WithoutClientMeta<WithoutSchema<T>>>
   protected _meta?: WithOnlyClientMeta<T>
   protected _schema: Schema
 
-  constructor(readonly options: PayloadBuilderOptions) {
+  constructor(options: PayloadBuilderOptions) {
+    this.options = options
     const { schema } = options
     this._schema = schema
   }

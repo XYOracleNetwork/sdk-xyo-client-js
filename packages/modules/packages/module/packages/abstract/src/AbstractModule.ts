@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
+import type { BaseClassName } from '@xylabs/base'
 import { globallyUnique } from '@xylabs/base'
 import type { CreatableInstance, CreatableStatus } from '@xylabs/creatable'
 import { AbstractCreatable } from '@xylabs/creatable'
@@ -96,7 +97,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   // eslint-disable-next-line sonarjs/public-static-readonly
   static enableLazyLoad = false
   static readonly labels: Labels = {}
-  static override readonly uniqueName = globallyUnique('AbstractModule', AbstractModule, 'xyo')
+  static readonly uniqueName = globallyUnique('AbstractModule', AbstractModule, 'xyo')
 
   protected static privateConstructorKey = Date.now().toString()
 
@@ -211,9 +212,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected set status(value: CreatableStatus) {
     this._status = value
     if (value === 'error') {
-      this.statusReporter?.report(`${this.constructor.name}:${this.id}`, value, new Error('Module status changed to error'))
+      this.statusReporter?.report(`${this.constructor.name}:${this.id}` as BaseClassName, value, new Error('Module status changed to error'))
     } else {
-      this.statusReporter?.report(`${this.constructor.name}:${this.id}`, value, 100)
+      this.statusReporter?.report(`${this.constructor.name}:${this.id}` as BaseClassName, value, 100)
     }
   }
 

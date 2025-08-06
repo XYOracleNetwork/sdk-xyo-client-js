@@ -33,13 +33,13 @@
     "src"
   ],
   "dependencies": {
-    "@xyo-network/bridge-model": "workspace:^",
-    "@xyo-network/bridge-wrapper": "workspace:^"
+    "@xyo-network/bridge-model": "workspace:~",
+    "@xyo-network/bridge-wrapper": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "typescript": "^5.8.3"
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "typescript": "~5.9.2"
   },
   "publishConfig": {
     "access": "public"

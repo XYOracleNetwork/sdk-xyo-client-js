@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import type { CreatableName } from '@xylabs/creatable'
 import type { Address } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
 import { Account } from '@xyo-network/account'
@@ -49,7 +50,7 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
       }
       const account = await Account.random()
       const finalParams: AsyncQueryBusModuleProxyParams = {
-        name: 'PubSubBridgeModuleResolver',
+        name: 'PubSubBridgeModuleResolver' as CreatableName,
         account,
         archiving: this.params.archiving,
         busClient: this.params.busClient,

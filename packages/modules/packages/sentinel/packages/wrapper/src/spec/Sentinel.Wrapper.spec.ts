@@ -1,5 +1,6 @@
 import '@xylabs/vitest-extended'
 
+import type { CreatableName } from '@xylabs/creatable'
 import { delay } from '@xylabs/delay'
 import type { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Account } from '@xyo-network/account'
@@ -117,7 +118,7 @@ describe('Sentinel', () => {
           }),
         )
         const params: MemorySentinelParams<SentinelConfig> = {
-          name: 'TestSentinel',
+          name: 'TestSentinel' as CreatableName,
           account: 'random',
           config: {
             archiving: { archivists: [archivistA.address, archivistB.address] },

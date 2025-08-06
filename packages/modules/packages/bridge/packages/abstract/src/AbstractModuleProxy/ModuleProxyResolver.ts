@@ -30,8 +30,10 @@ export interface ModuleProxyResolverOptions {
 
 export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModuleProxyResolverOptions> implements ModuleResolverInstance {
   private downResolver: CompositeModuleResolver
+  private options: T
 
-  constructor(private options: T) {
+  constructor(options: T) {
+    this.options = options
     this.downResolver = new CompositeModuleResolver({ moduleIdentifierTransformers: options.moduleIdentifierTransformers, root: this.root })
   }
 

@@ -21,7 +21,11 @@ import { standardCreatableFactories } from './standardCreatableFactories.ts'
 export class ModuleFactoryLocator implements ModuleFactoryLocatorInstance {
   private _frozen = false
 
-  constructor(protected readonly _registry: CreatableModuleRegistry = standardCreatableFactories()) {}
+  protected readonly _registry: CreatableModuleRegistry
+
+  constructor(_registry: CreatableModuleRegistry = standardCreatableFactories()) {
+    this._registry = _registry
+  }
 
   /**
    * The current registry for the module factory

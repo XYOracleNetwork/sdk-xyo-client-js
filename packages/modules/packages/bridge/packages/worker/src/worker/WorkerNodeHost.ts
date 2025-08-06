@@ -27,10 +27,16 @@ export interface NodeCreatedMessage extends Message<'nodeCreated'> {
 }
 
 export class WorkerNodeHost {
+  protected node: NodeInstance
+  protected logger?: Logger
+
   constructor(
-    protected node: NodeInstance,
-    protected logger?: Logger,
-  ) {}
+    node: NodeInstance,
+    logger?: Logger,
+  ) {
+    this.node = node
+    this.logger = logger
+  }
 
   static async create(config: PackageManifestPayload, locator: ModuleFactoryLocatorInstance) {
     const mnemonic = generateMnemonic(wordlist, 256)

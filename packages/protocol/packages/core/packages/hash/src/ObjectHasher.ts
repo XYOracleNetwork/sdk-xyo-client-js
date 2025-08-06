@@ -1,9 +1,4 @@
 /* eslint-disable sonarjs/public-static-readonly */
-declare global {
-  var xyo: {
-    hashing?: ObjectHasher
-  }
-}
 
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'

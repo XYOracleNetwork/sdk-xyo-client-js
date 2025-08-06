@@ -33,20 +33,20 @@
     "src"
   ],
   "dependencies": {
-    "@xyo-network/diviner-transform-abstract": "workspace:^",
-    "@xyo-network/diviner-transform-model": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/value-payload-plugin": "workspace:^",
-    "jsonpath": "^1.1.1"
+    "@xyo-network/diviner-transform-abstract": "workspace:~",
+    "@xyo-network/diviner-transform-model": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/value-payload-plugin": "workspace:~",
+    "jsonpath": "~1.1.1"
   },
   "devDependencies": {
-    "@types/jsonpath": "^0.2.4",
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^5.0.0",
-    "@xyo-network/account": "workspace:^",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "@types/jsonpath": "~0.2.4",
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/vitest-extended": "~5.0.3",
+    "@xyo-network/account": "workspace:~",
+    "typescript": "~5.9.2",
+    "vitest": "~3.2.4"
   },
   "publishConfig": {
     "access": "public"

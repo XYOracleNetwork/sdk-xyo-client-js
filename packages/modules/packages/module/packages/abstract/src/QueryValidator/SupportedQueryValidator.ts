@@ -16,7 +16,11 @@ export const isQuerySupportedByModule = async <T extends QueryBoundWitness = Que
 }
 
 export class SupportedQueryValidator implements QueryValidator {
-  constructor(protected readonly mod: Module) {}
+  protected readonly mod: Module
+  constructor(mod: Module) {
+    this.mod = mod
+  }
+
   queryable: Queryable = (query, payloads) => {
     return isQuerySupportedByModule(this.mod, query, payloads)
   }

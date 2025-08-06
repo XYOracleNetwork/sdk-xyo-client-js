@@ -10,14 +10,25 @@
     "strings": "on",
     "other": "on"
   },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.fixAll.eslint": "explicit"
+  },
   "editor.tabSize": 2,
   "editor.suggestSelection": "recentlyUsed",
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
-  },
-  "eslint.alwaysShowStatus": true,
+  "eslint.enable": true,
   "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
+  "eslint.useFlatConfig": true,
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
+  },
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
   "search.exclude": {
     "**/node_modules": true,
     "**/bower_components": true,
@@ -49,8 +60,6 @@
   "[markdown]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
     "Autobuild",
     "autocrlf",

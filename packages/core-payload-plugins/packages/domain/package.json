@@ -33,27 +33,27 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/axios": "^5.0.0",
-    "@xylabs/base": "^5.0.0",
-    "@xylabs/hex": "^5.0.0",
-    "@xylabs/platform": "^5.0.0",
-    "@xylabs/typeof": "^5.0.0",
-    "@xyo-network/dns": "workspace:^",
-    "@xyo-network/huri": "workspace:^",
-    "@xyo-network/network": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/payload-wrapper": "workspace:^"
+    "@xylabs/axios": "~5.0.3",
+    "@xylabs/base": "~5.0.3",
+    "@xylabs/hex": "~5.0.3",
+    "@xylabs/platform": "~5.0.3",
+    "@xylabs/typeof": "~5.0.3",
+    "@xyo-network/dns": "workspace:~",
+    "@xyo-network/huri": "workspace:~",
+    "@xyo-network/network": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-plugin": "workspace:~",
+    "@xyo-network/payload-wrapper": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^5.0.0",
-    "@xyo-network/api-models": "workspace:^",
-    "axios": "^1.11.0",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/vitest-extended": "~5.0.3",
+    "@xyo-network/api-models": "workspace:~",
+    "axios": "~1.11.0",
+    "typescript": "~5.9.2",
+    "vitest": "~3.2.4"
   },
   "publishConfig": {
     "access": "public"

@@ -37,12 +37,15 @@ export class Quadkey {
   static readonly root = new Quadkey()
   static readonly type = 'Quadkey'
 
+  key: bigint
+
   type = Quadkey.type
 
   private _geoJson?: GeoJson
 
-  constructor(public key = 0n) {
+  constructor(key = 0n) {
     assertMaxBitUint(key)
+    this.key = key
     this.guessZoom()
   }
 

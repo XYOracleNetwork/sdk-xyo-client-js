@@ -33,21 +33,21 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/exists": "^5.0.0",
-    "@xylabs/hex": "^5.0.0",
-    "@xylabs/set": "^5.0.0",
-    "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/hash": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^"
+    "@xylabs/exists": "~5.0.3",
+    "@xylabs/hex": "~5.0.3",
+    "@xylabs/set": "~5.0.3",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/hash": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xylabs/vitest-extended": "^5.0.0",
-    "@xyo-network/boundwitness-builder": "workspace:^",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/vitest-extended": "~5.0.3",
+    "@xyo-network/boundwitness-builder": "workspace:~",
+    "typescript": "~5.9.2",
+    "vitest": "~3.2.4"
   },
   "publishConfig": {
     "access": "public"

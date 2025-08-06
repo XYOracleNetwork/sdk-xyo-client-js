@@ -36,21 +36,21 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "^5.0.0",
-    "@xylabs/exists": "^5.0.0",
-    "@xylabs/mongo": "^5.0.0",
-    "@xylabs/static-implements": "^5.0.0",
-    "@xylabs/typeof": "^5.0.0",
-    "@xyo-network/module-model-mongodb": "workspace:^",
+    "@xylabs/assert": "~5.0.3",
+    "@xylabs/exists": "~5.0.3",
+    "@xylabs/mongo": "~5.0.3",
+    "@xylabs/static-implements": "~5.0.3",
+    "@xylabs/typeof": "~5.0.3",
+    "@xyo-network/module-model-mongodb": "workspace:~",
     "mongodb": "~6.18.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^7.0.2",
-    "@xylabs/tsconfig": "^7.0.2",
-    "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/payload-mongodb": "workspace:^",
-    "tslib": "^2.8.1",
-    "typescript": "^5.8.3"
+    "@xylabs/ts-scripts-yarn3": "~7.1.0",
+    "@xylabs/tsconfig": "~7.1.0",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/payload-mongodb": "workspace:~",
+    "tslib": "~2.8.1",
+    "typescript": "~5.9.2"
   },
   "engines": {
     "node": ">=16"

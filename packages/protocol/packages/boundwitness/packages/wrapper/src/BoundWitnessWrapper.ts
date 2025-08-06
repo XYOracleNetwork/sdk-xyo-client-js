@@ -3,6 +3,7 @@ import {
   type Address, asHash, type Hash,
 } from '@xylabs/hex'
 import { isObject } from '@xylabs/object'
+import { isNumber } from '@xylabs/typeof'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   asBoundWitness,
@@ -28,15 +29,22 @@ export class BoundWitnessWrapper<
   TBoundWitness extends BoundWitness<{ schema: string }> = BoundWitness,
   TPayload extends Payload = Payload,
 > extends PayloadWrapperBase<TBoundWitness> {
+  boundwitness: TBoundWitness
+  moduleErrors?: Payload[]
+  payloads: TPayload[] = []
+
   private _payloadDataMap: Record<Hash, TPayload> | undefined
   private _payloadMap: Record<Hash, TPayload> | undefined
 
   protected constructor(
-    public boundwitness: TBoundWitness,
-    public payloads: TPayload[] = [],
-    public moduleErrors?: Payload[],
+    boundwitness: TBoundWitness,
+    payloads: TPayload[] = [],
+    moduleErrors?: Payload[],
   ) {
     super(boundwitness)
+    this.boundwitness = boundwitness
+    this.payloads = payloads
+    this.moduleErrors = moduleErrors
   }
 
   get addresses() {
@@ -151,10 +159,10 @@ export class BoundWitnessWrapper<
           ? new BoundWitnessWrapper<TBoundWitness>(innerBoundwitnessPayload, await PayloadBuilder.filterExclude(this.payloads, innerBoundwitnessHash))
           : undefined
       if (innerBoundwitness) {
-        return innerBoundwitness.dig(depth ? depth - 1 : undefined)
+        return innerBoundwitness.dig(isNumber(depth) ? depth - 1 : undefined)
       }
     }
-    assertEx(!depth, () => `Dig failed [Remaining Depth: ${depth}]`)
+    assertEx(depth === 0, () => `Dig failed [Remaining Depth: ${depth}]`)
     return this
   }
 

@@ -1,0 +1,5 @@
+releases:
+  "@xyo-network/sdk-js": patch
+
+undecided:
+  - "@xyo-network/boundwitness-model"

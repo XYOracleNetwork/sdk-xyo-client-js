@@ -5,7 +5,7 @@ import {
 } from '@xyo-network/payload-model'
 
 import type {
-  BoundWitness, Signed, UnsignedBoundWitness,
+  BoundWitness, Signed, Unsigned,
 } from './BoundWitness/index.ts'
 import { BoundWitnessSchema } from './BoundWitness/index.ts'
 
@@ -25,10 +25,18 @@ export const isBoundWitnessWithStorageMeta = (value: unknown): value is WithStor
 export const asBoundWitnessWithStorageMeta = AsObjectFactory.createOptional<WithStorageMeta<BoundWitness>>(isBoundWitnessWithStorageMeta)
 export const asOptionalBoundWitnessWithStorageMeta = AsObjectFactory.createOptional<WithStorageMeta<BoundWitness>>(isBoundWitnessWithStorageMeta)
 
-export const isSigned = (value: unknown): value is Signed =>
-  isBoundWitness(value)
-  && value.$signatures.length === value.addresses.length
-  && value.addresses.length > 0
+export function isSigned(value: unknown): value is Signed
+export function isSigned<T extends Unsigned>(value: T): value is Signed<T>
+export function isSigned(value: unknown): value is Signed {
+  return isBoundWitness(value)
+    && value.$signatures.length === value.addresses.length
+    && value.addresses.length > 0
+}
 
-export const isUnsigned = (value: unknown): value is UnsignedBoundWitness =>
-  isBoundWitness(value) && !isSigned(value)
+export function isUnsigned(value: unknown): value is Unsigned
+export function isUnsigned<T extends BoundWitness>(value: T): value is Unsigned<T>
+export function isUnsigned(value: unknown): value is Unsigned {
+  return isBoundWitness(value)
+    && value.$signatures.length === value.addresses.length
+    && value.addresses.length === 0
+}

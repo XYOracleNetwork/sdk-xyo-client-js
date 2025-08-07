@@ -46,6 +46,10 @@ export type UnsignedBoundWitness<T extends EmptyObject | void = void> = Payload<
   BoundWitnessSchema
 > & BoundWitnessMeta
 
+export type Unsigned<T extends UnsignedBoundWitness = UnsignedBoundWitness> = T & {
+  $signatures: Hex[]
+}
+
 export type Signed<T extends UnsignedBoundWitness = UnsignedBoundWitness> = T & {
   $signatures: Hex[]
 }

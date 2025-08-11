@@ -1,5 +1,6 @@
-import type { Address, Brand } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 import { isObject } from '@xylabs/object'
+import type { Brand } from '@xylabs/typeof'
 
 export type ModuleAlias = Brand<string, { __moduleAlias: true }>
 

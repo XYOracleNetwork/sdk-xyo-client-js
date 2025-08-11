@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.3",
+    "@xylabs/hex": "~5.0.6",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
@@ -43,7 +43,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.0",
     "@xylabs/tsconfig": "~7.1.0",
-    "@xylabs/vitest-extended": "~5.0.3",
+    "@xylabs/vitest-extended": "~5.0.6",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",

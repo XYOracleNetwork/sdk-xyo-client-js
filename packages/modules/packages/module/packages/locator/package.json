@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.3",
+    "@xylabs/assert": "~5.0.6",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-view": "workspace:~",
     "@xyo-network/bridge-http": "workspace:~",

@@ -33,9 +33,9 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/base": "~5.0.3",
-    "@xylabs/exists": "~5.0.3",
-    "@xylabs/hex": "~5.0.3",
+    "@xylabs/base": "~5.0.6",
+    "@xylabs/exists": "~5.0.6",
+    "@xylabs/hex": "~5.0.6",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",

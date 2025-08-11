@@ -33,10 +33,10 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.3",
-    "@xylabs/exists": "~5.0.3",
-    "@xylabs/hex": "~5.0.3",
-    "@xylabs/promise": "~5.0.3",
+    "@xylabs/assert": "~5.0.6",
+    "@xylabs/exists": "~5.0.6",
+    "@xylabs/hex": "~5.0.6",
+    "@xylabs/promise": "~5.0.6",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -46,11 +46,11 @@
     "lmdb": "~3.4.2"
   },
   "devDependencies": {
-    "@xylabs/delay": "~5.0.3",
-    "@xylabs/object": "~5.0.3",
+    "@xylabs/delay": "~5.0.6",
+    "@xylabs/object": "~5.0.6",
     "@xylabs/ts-scripts-yarn3": "~7.1.0",
     "@xylabs/tsconfig": "~7.1.0",
-    "@xylabs/vitest-extended": "~5.0.3",
+    "@xylabs/vitest-extended": "~5.0.6",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist-acceptance-tests": "workspace:~",

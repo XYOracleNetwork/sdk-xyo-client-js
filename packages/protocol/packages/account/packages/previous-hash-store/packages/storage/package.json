@@ -33,12 +33,12 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.3",
+    "@xylabs/hex": "~5.0.6",
     "@xyo-network/previous-hash-store-model": "workspace:~",
     "store2": "~2.14.4"
   },
   "devDependencies": {
-    "@types/node": "~24.2.0",
+    "@types/node": "~24.2.1",
     "@types/uuid": "~10.0.0",
     "@xylabs/ts-scripts-yarn3": "~7.1.0",
     "@xylabs/tsconfig": "~7.1.0",

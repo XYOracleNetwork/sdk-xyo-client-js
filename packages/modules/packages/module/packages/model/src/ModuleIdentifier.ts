@@ -1,4 +1,4 @@
-import type { Address, Brand } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 import { isAddress } from '@xylabs/hex'
 
 export const MODULE_PATH_SEPARATOR = ':' as const

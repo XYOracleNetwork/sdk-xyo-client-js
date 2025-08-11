@@ -17,8 +17,8 @@ export type ModulePipeLine = Lowercase<'one-to-one' | 'one-to-many' | 'many-to-o
 export type ModuleStatus = CreatableStatus | 'wrapped' | 'proxy'
 
 export class DeadModuleError extends Error {
-  id: ModuleIdentifier
   error: Error | undefined
+  id: ModuleIdentifier
   constructor(
     id: ModuleIdentifier,
     error: Error | undefined,

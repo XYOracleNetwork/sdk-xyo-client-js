@@ -1,7 +1,6 @@
 import '@xylabs/vitest-extended'
 
 import { Account } from '@xyo-network/account'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isValuePayload } from '@xyo-network/value-payload-plugin'
 import {
   beforeAll,

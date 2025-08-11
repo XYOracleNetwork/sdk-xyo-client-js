@@ -19,9 +19,9 @@ import { standardCreatableFactories } from './standardCreatableFactories.ts'
  * A class which encapsulates the Service Locator Pattern for Module Factories
  */
 export class ModuleFactoryLocator implements ModuleFactoryLocatorInstance {
-  private _frozen = false
-
   protected readonly _registry: CreatableModuleRegistry
+
+  private _frozen = false
 
   constructor(_registry: CreatableModuleRegistry = standardCreatableFactories()) {
     this._registry = _registry

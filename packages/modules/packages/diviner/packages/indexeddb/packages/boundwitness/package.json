@@ -33,9 +33,9 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/array": "~5.0.6",
-    "@xylabs/assert": "~5.0.6",
-    "@xylabs/exists": "~5.0.6",
+    "@xylabs/array": "~5.0.7",
+    "@xylabs/assert": "~5.0.7",
+    "@xylabs/exists": "~5.0.7",
     "@xyo-network/archivist-indexeddb": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -47,10 +47,10 @@
     "idb": "~8.0.3"
   },
   "devDependencies": {
-    "@xylabs/delay": "~5.0.6",
+    "@xylabs/delay": "~5.0.7",
     "@xylabs/ts-scripts-yarn3": "~7.1.0",
     "@xylabs/tsconfig": "~7.1.0",
-    "@xylabs/vitest-extended": "~5.0.6",
+    "@xylabs/vitest-extended": "~5.0.7",
     "@xyo-network/archivist-indexeddb": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",

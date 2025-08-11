@@ -33,10 +33,10 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/array": "~5.0.6",
-    "@xylabs/arraybuffer": "~5.0.6",
-    "@xylabs/hex": "~5.0.6",
-    "@xylabs/typeof": "~5.0.6",
+    "@xylabs/array": "~5.0.7",
+    "@xylabs/arraybuffer": "~5.0.7",
+    "@xylabs/hex": "~5.0.7",
+    "@xylabs/typeof": "~5.0.7",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/elliptic": "workspace:~",
     "@xyo-network/payload": "workspace:~",
@@ -46,7 +46,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.0",
     "@xylabs/tsconfig": "~7.1.0",
-    "@xylabs/vitest-extended": "~5.0.6",
+    "@xylabs/vitest-extended": "~5.0.7",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/schema-name-validator": "workspace:~",
     "@xyo-network/wallet": "workspace:~",

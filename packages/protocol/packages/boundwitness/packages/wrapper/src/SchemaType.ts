@@ -1,8 +1,9 @@
+import {
+  AddressRegEx, HashRegEx, HexRegExMinMax,
+} from '@xylabs/hex'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { SchemaRegEx } from '@xyo-network/payload-model'
-import {
-  AddressRegEx, HashRegEx, HexRegExMinMax, payloadJsonSchema,
-} from '@xyo-network/payload-wrapper'
+import { payloadJsonSchema } from '@xyo-network/payload-wrapper'
 import type { JSONSchemaType } from 'ajv'
 
 export const SignatureRegEx = HexRegExMinMax(64, 64)

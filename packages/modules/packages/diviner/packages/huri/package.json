@@ -33,9 +33,9 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.6",
-    "@xylabs/exists": "~5.0.6",
-    "@xylabs/promise": "~5.0.6",
+    "@xylabs/assert": "~5.0.7",
+    "@xylabs/exists": "~5.0.7",
+    "@xylabs/promise": "~5.0.7",
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/huri": "workspace:~",

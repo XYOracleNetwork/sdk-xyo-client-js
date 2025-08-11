@@ -36,11 +36,11 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.6",
-    "@xylabs/exists": "~5.0.6",
-    "@xylabs/mongo": "~5.0.6",
-    "@xylabs/static-implements": "~5.0.6",
-    "@xylabs/typeof": "~5.0.6",
+    "@xylabs/assert": "~5.0.7",
+    "@xylabs/exists": "~5.0.7",
+    "@xylabs/mongo": "~5.0.7",
+    "@xylabs/static-implements": "~5.0.7",
+    "@xylabs/typeof": "~5.0.7",
     "@xyo-network/module-model-mongodb": "workspace:~",
     "mongodb": "~6.18.0"
   },

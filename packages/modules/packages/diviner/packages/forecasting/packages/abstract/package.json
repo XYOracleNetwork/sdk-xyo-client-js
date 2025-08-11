@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/promise": "~5.0.6",
+    "@xylabs/promise": "~5.0.7",
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-forecasting-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",

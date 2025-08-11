@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.6",
+    "@xylabs/hex": "~5.0.7",
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-range-model": "workspace:~",
@@ -43,7 +43,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.0",
     "@xylabs/tsconfig": "~7.1.0",
-    "@xylabs/vitest-extended": "~5.0.6",
+    "@xylabs/vitest-extended": "~5.0.7",
     "typescript": "~5.9.2",
     "vitest": "~3.2.4"
   },

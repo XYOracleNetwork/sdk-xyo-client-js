@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/events": "~5.0.6"
+    "@xylabs/events": "~5.0.7"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.0",

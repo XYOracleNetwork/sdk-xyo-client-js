@@ -8,9 +8,9 @@ export const Uint256RegEx = HexRegExMinMax(0, 32)
 export const payloadPropertiesJsonSchema: JSONSchemaType<Payload>['properties'] = {
   $sources: {
     type: 'array',
-    items: { type: 'string', pattern: HashRegEx },
+    items: { type: 'string', pattern: HashRegEx.source },
   },
-  schema: { pattern: SchemaRegEx, type: 'string' },
+  schema: { pattern: SchemaRegEx.source, type: 'string' },
 }
 
 export const payloadJsonSchema: JSONSchemaType<Payload> = {

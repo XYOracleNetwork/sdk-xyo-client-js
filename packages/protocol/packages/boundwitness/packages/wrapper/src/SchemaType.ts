@@ -10,20 +10,20 @@ export const SignatureRegEx = HexRegExMinMax(64, 64)
 
 export const boundWitnessProperties: JSONSchemaType<BoundWitness>['properties'] = {
   ...payloadJsonSchema.properties,
-  addresses: { items: { type: 'string', pattern: AddressRegEx }, type: 'array' },
-  payload_hashes: { items: { type: 'string', pattern: HashRegEx }, type: 'array' },
-  payload_schemas: { items: { type: 'string', pattern: SchemaRegEx }, type: 'array' },
+  addresses: { items: { type: 'string', pattern: AddressRegEx.source }, type: 'array' },
+  payload_hashes: { items: { type: 'string', pattern: HashRegEx.source }, type: 'array' },
+  payload_schemas: { items: { type: 'string', pattern: SchemaRegEx.source }, type: 'array' },
   previous_hashes: {
     items: {
-      type: 'string', pattern: HashRegEx, nullable: true,
+      type: 'string', pattern: HashRegEx.source, nullable: true,
     },
     type: 'array',
   },
-  root: { type: 'string', pattern: HashRegEx },
-  $destination: { items: { type: 'string', pattern: HashRegEx }, type: 'array' },
-  $sourceQuery: { type: 'string', pattern: HashRegEx },
-  $sources: { items: { type: 'string', pattern: HashRegEx }, type: 'array' },
-  $signatures: { items: { type: 'string', pattern: SignatureRegEx }, type: 'array' },
+  root: { type: 'string', pattern: HashRegEx.source },
+  $destination: { items: { type: 'string', pattern: HashRegEx.source }, type: 'array' },
+  $sourceQuery: { type: 'string', pattern: HashRegEx.source },
+  $sources: { items: { type: 'string', pattern: HashRegEx.source }, type: 'array' },
+  $signatures: { items: { type: 'string', pattern: SignatureRegEx.source }, type: 'array' },
 }
 
 export const boundWitnessJsonSchema: JSONSchemaType<BoundWitness> = {

@@ -33,14 +33,14 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/forget": "~5.0.7",
-    "@xylabs/typeof": "~5.0.7",
+    "@xylabs/forget": "~5.0.8",
+    "@xylabs/typeof": "~5.0.8",
     "ethers": "~6.15.0"
   },
   "devDependencies": {
     "@metamask/providers": "~22.1.0",
-    "@xylabs/ts-scripts-yarn3": "~7.1.0",
-    "@xylabs/tsconfig-dom": "~7.1.0",
+    "@xylabs/ts-scripts-yarn3": "~7.1.1",
+    "@xylabs/tsconfig-dom": "~7.1.1",
     "typescript": "~5.9.2"
   },
   "publishConfig": {

@@ -33,13 +33,13 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/typeof": "~5.0.7",
+    "@xylabs/typeof": "~5.0.8",
     "wasm-feature-detect": "~1.8.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.1.0",
-    "@xylabs/tsconfig": "~7.1.0",
-    "@xylabs/vitest-extended": "~5.0.7",
+    "@xylabs/ts-scripts-yarn3": "~7.1.1",
+    "@xylabs/tsconfig": "~7.1.1",
+    "@xylabs/vitest-extended": "~5.0.8",
     "typescript": "~5.9.2",
     "vitest": "~3.2.4"
   },

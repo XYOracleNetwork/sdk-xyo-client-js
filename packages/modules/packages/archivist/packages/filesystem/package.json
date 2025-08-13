@@ -34,9 +34,9 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.7",
-    "@xylabs/hex": "~5.0.7",
-    "@xylabs/promise": "~5.0.7",
+    "@xylabs/assert": "~5.0.8",
+    "@xylabs/hex": "~5.0.8",
+    "@xylabs/promise": "~5.0.8",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -46,10 +46,10 @@
     "@xyo-network/wallet": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/error": "~5.0.7",
-    "@xylabs/ts-scripts-yarn3": "~7.1.0",
-    "@xylabs/tsconfig": "~7.1.0",
-    "@xylabs/vitest-extended": "~5.0.7",
+    "@xylabs/error": "~5.0.8",
+    "@xylabs/ts-scripts-yarn3": "~7.1.1",
+    "@xylabs/tsconfig": "~7.1.1",
+    "@xylabs/vitest-extended": "~5.0.8",
     "typescript": "~5.9.2",
     "vitest": "~3.2.4"
   },

@@ -33,12 +33,12 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.7",
+    "@xylabs/hex": "~5.0.8",
     "@xyo-network/account-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.1.0",
-    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/ts-scripts-yarn3": "~7.1.1",
+    "@xylabs/tsconfig": "~7.1.1",
     "typescript": "~5.9.2"
   },
   "publishConfig": {

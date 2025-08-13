@@ -33,16 +33,16 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/arraybuffer": "~5.0.7",
-    "@xylabs/assert": "~5.0.7",
-    "@xylabs/hex": "~5.0.7",
-    "@xylabs/object": "~5.0.7",
+    "@xylabs/arraybuffer": "~5.0.8",
+    "@xylabs/assert": "~5.0.8",
+    "@xylabs/hex": "~5.0.8",
+    "@xylabs/object": "~5.0.8",
     "zod": "~4.0.17"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.1.0",
-    "@xylabs/tsconfig": "~7.1.0",
-    "@xylabs/vitest-extended": "~5.0.7",
+    "@xylabs/ts-scripts-yarn3": "~7.1.1",
+    "@xylabs/tsconfig": "~7.1.1",
+    "@xylabs/vitest-extended": "~5.0.8",
     "typescript": "~5.9.2",
     "vitest": "~3.2.4"
   },

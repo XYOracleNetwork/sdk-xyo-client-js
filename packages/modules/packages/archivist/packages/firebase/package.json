@@ -35,9 +35,9 @@
   "dependencies": {
     "@firebase/app": "~0.14.1",
     "@firebase/firestore": "~4.9.0",
-    "@xylabs/assert": "~5.0.7",
-    "@xylabs/exists": "~5.0.7",
-    "@xylabs/hex": "~5.0.7",
+    "@xylabs/assert": "~5.0.8",
+    "@xylabs/exists": "~5.0.8",
+    "@xylabs/hex": "~5.0.8",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
@@ -45,8 +45,8 @@
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "~5.0.0",
-    "@xylabs/ts-scripts-yarn3": "~7.1.0",
-    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/ts-scripts-yarn3": "~7.1.1",
+    "@xylabs/tsconfig": "~7.1.1",
     "firebase": "~12.1.0",
     "typescript": "~5.9.2",
     "vitest": "~3.2.4"

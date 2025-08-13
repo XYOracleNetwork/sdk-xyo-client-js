@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.7",
+    "@xylabs/assert": "~5.0.8",
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-huri": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
@@ -42,8 +42,8 @@
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.1.0",
-    "@xylabs/tsconfig": "~7.1.0",
+    "@xylabs/ts-scripts-yarn3": "~7.1.1",
+    "@xylabs/tsconfig": "~7.1.1",
     "typescript": "~5.9.2"
   },
   "publishConfig": {

@@ -3173,7 +3173,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/typeof@npm:^5.0.7, @xylabs/typeof@npm:~5.0.7":
+"@xylabs/typeof@npm:~5.0.7":
   version: 5.0.7
   resolution: "@xylabs/typeof@npm:5.0.7"
   checksum: 10/3d88194173f49dc66f105a92d880d473b4e7f80889a8b3e720c12426dd2116511282c6c32d86d45c2ca6f52d2aa9def838069f3d0d6ba6b152268708549b2849
@@ -5839,7 +5839,7 @@ __metadata:
     "@xylabs/object": "npm:~5.0.7"
     "@xylabs/ts-scripts-yarn3": "npm:~7.1.0"
     "@xylabs/tsconfig": "npm:~7.1.0"
-    "@xylabs/typeof": "npm:^5.0.7"
+    "@xylabs/typeof": "npm:~5.0.7"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:~5.9.2"
   languageName: unknown

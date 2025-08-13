@@ -2,7 +2,7 @@
 
 [![logo][]](https://xyo.network)
 
-Version: 3.14.16
+Version: 5.0.2
 
 Typescript/Javascript Plugins for XYO Platform
 

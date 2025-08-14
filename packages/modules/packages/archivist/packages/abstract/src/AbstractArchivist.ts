@@ -265,7 +265,7 @@ export abstract class AbstractArchivist<
         await this.globalReentrancyMutex?.acquire()
         return await this.busy(async () => {
           await this.started('throw')
-          return await this.insertWithConfig(PayloadBuilder.omitStorageMeta(payloads) as WithStorageMeta<Payload>[])
+          return await this.insertWithConfig(PayloadBuilder.omitStorageMeta(payloads))
         })
       } finally {
         this.globalReentrancyMutex?.release()

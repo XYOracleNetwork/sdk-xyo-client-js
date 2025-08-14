@@ -161,53 +161,53 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
 
   static async hashes(payloads: undefined): Promise<undefined>
   static async hashes<T extends Payload>(payloads: T[]): Promise<Hash[]>
-  static async hashes<T extends Payload>(payloads?: T[]): Promise<Hash[] | undefined> {
+  static async hashes<T extends Payload>(payloads?: T[]) {
     return await ObjectHasher.hashes(payloads)
   }
 
-  static omitClientMeta<T extends Payload>(payload: T, maxDepth?: number): WithoutClientMeta<T>
-  static omitClientMeta<T extends EmptyObject>(payload: T, maxDepth?: number): WithoutClientMeta<T>
   static omitClientMeta<T extends Payload>(payloads: T[], maxDepth?: number): WithoutClientMeta<T>[]
   static omitClientMeta<T extends EmptyObject>(payloads: T[], maxDepth?: number): WithoutClientMeta<T>[]
-  static omitClientMeta<T extends Payload>(payloads: T | T[], maxDepth = 1): WithoutClientMeta<T> | WithoutClientMeta<T>[] {
+  static omitClientMeta<T extends Payload>(payload: T, maxDepth?: number): WithoutClientMeta<T>
+  static omitClientMeta<T extends EmptyObject>(payload: T, maxDepth?: number): WithoutClientMeta<T>
+  static omitClientMeta<T extends Payload>(payloads: T | T[], maxDepth = 1) {
     return Array.isArray(payloads)
       ? payloads.map(payload => this.omitClientMeta(payload, maxDepth))
-      : omitByPrefix(payloads, '$', maxDepth) as WithoutClientMeta<T>
+      : omitByPrefix(payloads, '$', maxDepth)
   }
 
-  static omitMeta<T extends Payload>(payload: T, maxDepth?: number): WithoutMeta<T>
-  static omitMeta<T extends EmptyObject>(payload: T, maxDepth?: number): WithoutMeta<T>
   static omitMeta<T extends Payload>(payloads: T[], maxDepth?: number): WithoutMeta<T>[]
   static omitMeta<T extends EmptyObject>(payloads: T[], maxDepth?: number): WithoutMeta<T>[]
-  static omitMeta<T extends Payload>(payloads: T | T[], maxDepth = 1): WithoutMeta<T> | WithoutMeta<T>[] {
+  static omitMeta<T extends Payload>(payload: T, maxDepth?: number): WithoutMeta<T>
+  static omitMeta<T extends EmptyObject>(payload: T, maxDepth?: number): WithoutMeta<T>
+  static omitMeta<T extends Payload>(payloads: T | T[], maxDepth = 1) {
     return Array.isArray(payloads)
       ? payloads.map(payload => this.omitMeta(payload, maxDepth))
-      : this.omitStorageMeta(this.omitClientMeta(payloads, maxDepth), maxDepth) as unknown as WithoutMeta<T>
+      : this.omitStorageMeta(this.omitClientMeta(payloads, maxDepth), maxDepth)
   }
 
-  static omitPrivateStorageMeta<T extends Payload>(payload: T, maxDepth?: number): WithoutPrivateStorageMeta<T>
-  static omitPrivateStorageMeta<T extends EmptyObject>(payload: T, maxDepth?: number): WithoutPrivateStorageMeta<T>
   static omitPrivateStorageMeta<T extends Payload>(payloads: T[], maxDepth?: number): WithoutPrivateStorageMeta<T>[]
   static omitPrivateStorageMeta<T extends EmptyObject>(payloads: T[], maxDepth?: number): WithoutPrivateStorageMeta<T>[]
-  static omitPrivateStorageMeta<T extends Payload>(payloads: T | T[], maxDepth = 1): WithoutPrivateStorageMeta<T> | WithoutPrivateStorageMeta<T>[] {
+  static omitPrivateStorageMeta<T extends Payload>(payload: T, maxDepth?: number): WithoutPrivateStorageMeta<T>
+  static omitPrivateStorageMeta<T extends EmptyObject>(payload: T, maxDepth?: number): WithoutPrivateStorageMeta<T>
+  static omitPrivateStorageMeta<T extends Payload>(payloads: T | T[], maxDepth = 1) {
     return Array.isArray(payloads)
       ? payloads.map(payload => this.omitPrivateStorageMeta(payload, maxDepth))
-      : omitByPrefix(payloads, '__', maxDepth) as WithoutPrivateStorageMeta<T>
+      : omitByPrefix(payloads, '__', maxDepth)
   }
 
+  static omitStorageMeta<T extends EmptyObject[]>(payloads: T, maxDepth?: number): WithoutStorageMeta<T[number]>[]
+  static omitStorageMeta<T extends Payload[]>(payloads: T, maxDepth?: number): WithoutStorageMeta<T[number]>[]
   static omitStorageMeta<T extends EmptyObject>(payload: T, maxDepth?: number): WithoutStorageMeta<T>
   static omitStorageMeta<T extends Payload>(payload: T, maxDepth?: number): WithoutStorageMeta<T>
-  static omitStorageMeta<T extends EmptyObject>(payloads: T[], maxDepth?: number): WithoutStorageMeta<T>[]
-  static omitStorageMeta<T extends Payload>(payloads: T[], maxDepth?: number): WithoutStorageMeta<T>[]
-  static omitStorageMeta<T extends Payload | EmptyObject>(payloads: T | T[], maxDepth = 1): WithoutStorageMeta<T> | WithoutStorageMeta<T>[] {
+  static omitStorageMeta<T extends Payload | EmptyObject>(payloads: T | T[], maxDepth = 1) {
     return Array.isArray(payloads)
       ? payloads.map(payload => this.omitStorageMeta(payload, maxDepth))
-      : omitByPrefix(payloads, '_', maxDepth) as WithoutStorageMeta<T>
+      : omitByPrefix(payloads, '_', maxDepth)
   }
 
-  static pickClientMeta<T extends Payload>(payload: T, maxDepth?: number): WithOnlyClientMeta<T>
   static pickClientMeta<T extends Payload>(payloads: T[], maxDepth?: number): WithOnlyClientMeta<T>[]
-  static pickClientMeta<T extends Payload>(payloads: T | T[], maxDepth = 1): WithOnlyClientMeta<T> | WithOnlyClientMeta<T>[] {
+  static pickClientMeta<T extends Payload>(payload: T, maxDepth?: number): WithOnlyClientMeta<T>
+  static pickClientMeta<T extends Payload>(payloads: T | T[], maxDepth = 1) {
     return Array.isArray(payloads)
       ? payloads.map(payload => this.pickClientMeta(payload, maxDepth))
       : pickByPrefix(payloads, '$', maxDepth)

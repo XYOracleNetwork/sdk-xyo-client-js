@@ -1,5 +1,5 @@
 import { HexRegExMinMax, toHex } from '@xylabs/hex'
-import { z } from 'zod'
+import * as z from 'zod'
 
 import type { LocalSequence, QualifiedSequence } from './Sequence.ts'
 import { SequenceConstants } from './Sequence.ts'

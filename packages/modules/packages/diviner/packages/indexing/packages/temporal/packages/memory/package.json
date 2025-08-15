@@ -33,9 +33,9 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/array": "~5.0.8",
-    "@xylabs/assert": "~5.0.8",
-    "@xylabs/exists": "~5.0.8",
+    "@xylabs/array": "~5.0.10",
+    "@xylabs/assert": "~5.0.10",
+    "@xylabs/exists": "~5.0.10",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -58,13 +58,13 @@
     "@xyo-network/witness-timestamp": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/delay": "~5.0.8",
-    "@xylabs/hex": "~5.0.8",
-    "@xylabs/object": "~5.0.8",
-    "@xylabs/promise": "~5.0.8",
-    "@xylabs/ts-scripts-yarn3": "~7.1.1",
-    "@xylabs/tsconfig": "~7.1.1",
-    "@xylabs/vitest-extended": "~5.0.8",
+    "@xylabs/delay": "~5.0.10",
+    "@xylabs/hex": "~5.0.10",
+    "@xylabs/object": "~5.0.10",
+    "@xylabs/promise": "~5.0.10",
+    "@xylabs/ts-scripts-yarn3": "~7.1.3",
+    "@xylabs/tsconfig": "~7.1.3",
+    "@xylabs/vitest-extended": "~5.0.10",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/manifest": "workspace:~",

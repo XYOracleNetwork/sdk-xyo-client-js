@@ -1,5 +1,5 @@
 import { HashToJsonZod } from '@xylabs/hex'
-import { z } from 'zod'
+import * as z from 'zod'
 
 import { SchemaZod } from './Schema.ts'
 import { SequenceToStringZod } from './StorageMeta/index.ts'

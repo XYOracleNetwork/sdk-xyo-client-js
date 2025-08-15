@@ -33,14 +33,14 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.8",
-    "@xylabs/object": "~5.0.8",
+    "@xylabs/hex": "~5.0.10",
+    "@xylabs/object": "~5.0.10",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@types/node": "~24.2.1",
-    "@xylabs/ts-scripts-yarn3": "~7.1.1",
-    "@xylabs/tsconfig": "~7.1.1",
+    "@types/node": "~24.3.0",
+    "@xylabs/ts-scripts-yarn3": "~7.1.3",
+    "@xylabs/tsconfig": "~7.1.3",
     "typescript": "~5.9.2"
   },
   "publishConfig": {

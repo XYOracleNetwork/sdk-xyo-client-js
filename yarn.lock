@@ -2265,12 +2265,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0, @types/node@npm:~24.2.1":
-  version: 24.2.1
-  resolution: "@types/node@npm:24.2.1"
+"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0, @types/node@npm:~24.3.0":
+  version: 24.3.0
+  resolution: "@types/node@npm:24.3.0"
   dependencies:
     undici-types: "npm:~7.10.0"
-  checksum: 10/cdfa7b30b2f1de71c4cf0b66ee05c71c8f39819a817bb78b4ba10545d4ca1ea9988a3614885806e90401e92938aa08e08489b1b920ba5c1406a028295019734f
+  checksum: 10/1331c2d0e9a512ac27a016b4df3eff92317e4603dbbbab31731275dff14d3a04847a50c5776cbf94f99ff4dedac0ba5f721dce8cea020d8eea5e21711fd964b0
   languageName: node
   linkType: hard
 
@@ -2782,98 +2782,98 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/array@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/array@npm:5.0.8"
+"@xylabs/array@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/array@npm:5.0.10"
   dependencies:
-    "@xylabs/exists": "npm:~5.0.8"
-  checksum: 10/cad543e7f8b6146b37c5321f3565e60459bda43695dee32888cbcf0d7becce32e71ba71e26cd43b6a346c5b3d83e872f20bdb8cb6b2e04ab9fa27dd826fbf617
+    "@xylabs/exists": "npm:~5.0.10"
+  checksum: 10/309681f521770e513fe271135c34acf0c8e4784d95bece168b798999d69714879bd6969cba480988933981a71439d3818f7e878cd7e978ba4288f220d6d6e105
   languageName: node
   linkType: hard
 
-"@xylabs/arraybuffer@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/arraybuffer@npm:5.0.8"
+"@xylabs/arraybuffer@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/arraybuffer@npm:5.0.10"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/typeof": "npm:~5.0.8"
-  checksum: 10/94ba482641ecc59eff752cd196aad464c6fb03fbfa3a17e00e0982edcf960834c4cf702259f5ad35f1882c1e59c41b51189ed437d06ed15a2cbdff8db4c757d8
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/typeof": "npm:~5.0.10"
+  checksum: 10/9914b673c29ada03cacdf00a677f19448a18c1aa371ebc026d8486ab2f638458bb57cffc4fb20db085de774712ddf08073c35c9057a4595ee9735925e8a8e77b
   languageName: node
   linkType: hard
 
-"@xylabs/assert@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/assert@npm:5.0.8"
-  checksum: 10/dbc524d71e3feb12b4c4a4ac2579c06e296dc537e3be2bd43f92a6653a4f4c421b9f10aae094d8d8e1090b0399341e0d4db5e59596b8d8ae96b0db1b08bd7de8
+"@xylabs/assert@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/assert@npm:5.0.10"
+  checksum: 10/142b0a1cbdfec8dd1c3394544dd5e8c018725208a0957aeaae3a6a22e34d98dfb99dc937112a8c4ff6a7a3542f6bae612df15d01c099cd36df715eb86590d915
   languageName: node
   linkType: hard
 
-"@xylabs/axios@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/axios@npm:5.0.8"
+"@xylabs/axios@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/axios@npm:5.0.10"
   dependencies:
-    "@xylabs/logger": "npm:~5.0.8"
+    "@xylabs/logger": "npm:~5.0.10"
     axios: "npm:~1.11.0"
     pako: "npm:~2.1.0"
-  checksum: 10/1e0a8baf1733529b2ad88a0d0abd4e5e5a30550b5d43f1ee16d9bf325c5db9849969c3dead02900a8181cfd6371ba59312ecd126a700212130f04a6b8bda07ab
+  checksum: 10/a224c89c4bcecbaa61965d04bd548e964eff3d7b106b28b2fef06492ea5b6dd01d148273cf3a0dcb74eda857b03dcba4602c57e4c23647cc947867cff2f8091a
   languageName: node
   linkType: hard
 
-"@xylabs/base@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/base@npm:5.0.8"
+"@xylabs/base@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/base@npm:5.0.10"
   dependencies:
     "@opentelemetry/api": "npm:~1.9.0"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-  checksum: 10/b434f8398836c7a95d2d19b65f3a1803b70b04979608139827ed7dcf6fad8b325bab64c6e35d5d0d3434c40d5c2abf02f6f18bdddaab12bcac57d87c2e2c488f
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+  checksum: 10/8ecd58ca6dbb32cb08fb29e3f23bbefb45c749ee9014afb93f8b302d975febd7244deec2e1ed3ec241a99cb31924edfae7c332592f69854a8a650ec9cee3999c
   languageName: node
   linkType: hard
 
-"@xylabs/creatable@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/creatable@npm:5.0.8"
+"@xylabs/creatable@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/creatable@npm:5.0.10"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/typeof": "npm:~5.0.8"
-  checksum: 10/e6fd533c0111617f9339a583f4bcba8c5e8b5697e43227abbcea7a3bf5e0a1626e01b9170913fefd4efc6742dd5c14e66ec30d60911625a62279338aa7c93a5a
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/typeof": "npm:~5.0.10"
+  checksum: 10/58f47a15d77d4fcf4dd5c9a782d7a33338d4edc66e60dc29cd01d590d779c08524da3718a344928b8f482814daec4e3c96106a1a831d32e428252f9d4886519f
   languageName: node
   linkType: hard
 
-"@xylabs/delay@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/delay@npm:5.0.8"
+"@xylabs/delay@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/delay@npm:5.0.10"
   dependencies:
-    "@xylabs/timer": "npm:~5.0.8"
-  checksum: 10/0405bd59ac03eac85600243253898219a54e266334df77ffae2863902bdd16cd83715f634fd10d0a34a7231a54bfa720a04b7433bde7705e7b4864281841be4f
+    "@xylabs/timer": "npm:~5.0.10"
+  checksum: 10/af1d68294710c570a2a9a338593248abbf40aac1aa525f54ad61a59b83816029ad546db9ff04482218ed82582e194644e36b6fabeb0901618170b68648272b69
   languageName: node
   linkType: hard
 
-"@xylabs/enum@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/enum@npm:5.0.8"
-  checksum: 10/4bcf8662805f3fd56b988ee009dbb627018ad48c51b2eb3d3ebd1644f1a4707ca0564a6fc91835b405960d7296183dd84a967ed990dba7ced823e61d352a0f59
+"@xylabs/enum@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/enum@npm:5.0.10"
+  checksum: 10/e3c1307cd6bbfa0a2b08a9e456a1377cb285e7d92223fbe7abaf46ce21d5bfc57bfffb4e09448519848f1a1a30cde46dff271b9383e820cfd0891a83a567170e
   languageName: node
   linkType: hard
 
-"@xylabs/error@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/error@npm:5.0.8"
+"@xylabs/error@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/error@npm:5.0.10"
   dependencies:
-    "@xylabs/typeof": "npm:~5.0.8"
-  checksum: 10/0518640fde68dfa19e897b6913c132414551f1354413d54853fdff6939c442ee57517da2b82e4255a958215362ab1822c770aaa6141d93b5c858c671642ea2ca
+    "@xylabs/typeof": "npm:~5.0.10"
+  checksum: 10/c6e1b644ec846560c8d76ecf8d7ae90bdb7f8f43031bfe8b6fd8963930bd7e042dac0978be2800bd8b46dd35d10f9b12945ee66a37bde8813eb57bdb7775b74c
   languageName: node
   linkType: hard
 
-"@xylabs/eslint-config-flat@npm:~7.1.1":
-  version: 7.1.1
-  resolution: "@xylabs/eslint-config-flat@npm:7.1.1"
+"@xylabs/eslint-config-flat@npm:~7.1.3":
+  version: 7.1.3
+  resolution: "@xylabs/eslint-config-flat@npm:7.1.3"
   dependencies:
     "@eslint/json": "npm:~0.13.1"
     "@stylistic/eslint-plugin": "npm:~5.2.3"
@@ -2889,41 +2889,41 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ~8.32.1
     "@typescript-eslint/parser": ~8.32.1
     eslint: ~9
-  checksum: 10/4a67fd99ab796ff9120d1d1b1ce222524d6c19bff83b6d30713c743796122c8cbb9df61828d9f2372b5f8ab818563f31cf352326144ae85055d182d4ba6a4006
+  checksum: 10/d2183f1403b6618d661740743f02194c63ba5823c05d019d8901a6f8e3d98aa0465417eb6dfcd6c28990493b298b2bcddc7d60608aced28c5f6729a16d91b014
   languageName: node
   linkType: hard
 
-"@xylabs/events@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/events@npm:5.0.8"
+"@xylabs/events@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/events@npm:5.0.10"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/error": "npm:~5.0.8"
-    "@xylabs/forget": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/typeof": "npm:~5.0.8"
-  checksum: 10/13054e315918123d827ec602a6068193a9492f0b192aab011f03b63a6b7c388a2e78dae43d1257f10a87e7e7dff5a30d22f5c97a07dcdb8b6e0e3124233e25e7
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/error": "npm:~5.0.10"
+    "@xylabs/forget": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/typeof": "npm:~5.0.10"
+  checksum: 10/71d222e495f91ed37bcc1652cafa9fe9d8a5c8d6867eaa4504c5746bc154898516156fd064ce2bd6876ada8f792c02495b6cd7f48153b8ed8195483306293579
   languageName: node
   linkType: hard
 
-"@xylabs/exists@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/exists@npm:5.0.8"
-  checksum: 10/65ddf474f1d3c48efcdc1d2660b9dd09185c424716d008549673006448f4ac17d07ba5b8a6534efecbb698f32c55e44c0d2aebab5d0b63ce077c804c25c78d2a
+"@xylabs/exists@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/exists@npm:5.0.10"
+  checksum: 10/e5ba44537a8876fa5be364b1036ed2ec723a2e11eeb1a6db004a932b9bb1b99fd1f8dcde489845258a2702097005e1c988b64f6eee21eda80fbcfbcbd0932435
   languageName: node
   linkType: hard
 
-"@xylabs/express@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/express@npm:5.0.8"
+"@xylabs/express@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/express@npm:5.0.10"
   dependencies:
     "@types/connect": "npm:~3.4.38"
     "@types/express-serve-static-core": "npm:~5.0.7"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/typeof": "npm:~5.0.10"
     body-parser: "npm:~2.2.0"
     express-mung: "npm:~0.5.1"
     http-status-codes: "npm:~2.3.0"
@@ -2932,185 +2932,185 @@ __metadata:
     winston-transport: "npm:~4.9.0"
   peerDependencies:
     express: ~5
-  checksum: 10/453b8589465374f76b86104b7bede535f7d032b23d84d776e1ffd6106d115bc0349fc04f1b3df70abba47b5bc29061b84c807587b084fde793d07c6a6839ce79
+  checksum: 10/7aae4b8ec02720f05270440058dfdbea5423d25f25814c6c7cbd32453be8d198bcc85a3fafada4c3ca935ab15d1921d3063f28b6529720237a0c92c435b01ee8
   languageName: node
   linkType: hard
 
-"@xylabs/forget@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/forget@npm:5.0.8"
+"@xylabs/forget@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/forget@npm:5.0.10"
   dependencies:
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/typeof": "npm:~5.0.8"
-  checksum: 10/0b31e2dd7ab93fadc88284d31eafbbe17cd56ebdbb97f1368b1150ef0a0a197c907633d179a90ae087c8063c17b672250a4acd6861f5e4d569bbb0221067de8d
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/typeof": "npm:~5.0.10"
+  checksum: 10/b126fd27eea6ea1de3da54c001a49d9e3e1f684c1be8f0c7ded913cc8ff0c13aa98f447438fde019bad1cde4eba7023ea1091aab9255d811a3628a5acea54e7b
   languageName: node
   linkType: hard
 
-"@xylabs/geo@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/geo@npm:5.0.8"
+"@xylabs/geo@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/geo@npm:5.0.10"
   dependencies:
     "@types/geojson": "npm:~7946.0.16"
     mapbox-gl: "npm:~3.14.0"
-  checksum: 10/49e48f26b684f0f9bfbb82549eb049d2c06472fc5a29bf4d99c41035ca148c4af5b21dbd86da96161dd8c78156d5bb88663ad0a0c462720c69851095fb2a3390
+  checksum: 10/19d3ce8d8ee6e44dd343c5d4dc7f1f6e2b027316976967e8f3dcebbfee8c80e085c880e12b327b7cf4380b512cb9cc89e25d63fdd227026a02399d479f030972
   languageName: node
   linkType: hard
 
-"@xylabs/hex@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/hex@npm:5.0.8"
+"@xylabs/hex@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/hex@npm:5.0.10"
   dependencies:
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/typeof": "npm:~5.0.10"
     zod: "npm:~4.0.17"
-  checksum: 10/662732490d431ea50acefe92d143cbd44b838fac26e6720eca397ed0387ad4abc83eb00c9b6be7aedae524477b5ec68cb336b02a2997b8b9edb62a3babb094d7
+  checksum: 10/8c65595351074a9ab644680b207a3c159ee480e68d63c167e324ccec68ce772e350242440130983045413aebaddab7e5c906c711c48f937b44b9f729e36c8d07
   languageName: node
   linkType: hard
 
-"@xylabs/indexed-db@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/indexed-db@npm:5.0.8"
+"@xylabs/indexed-db@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/indexed-db@npm:5.0.10"
   dependencies:
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/storage": "npm:~5.0.8"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/storage": "npm:~5.0.10"
     async-mutex: "npm:~0.5.0"
     idb: "npm:~8.0.3"
-  checksum: 10/480db0a8223ab5ee7860e976a1a6bf201126d981e00ec9aa7d7a1a61973c166e3d476b18f854cb9d49b0c9492137f042df526e932218a1ec6ac5445675d2f08a
+  checksum: 10/e40573a9833c394d7c538648a1e58236e861d5a97d991aeef790847612bd72e63f34e47d36d8aceec75534166a3b6f1df78d9c62a7a84c0b7615623c5184c9ca
   languageName: node
   linkType: hard
 
-"@xylabs/logger@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/logger@npm:5.0.8"
+"@xylabs/logger@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/logger@npm:5.0.10"
   dependencies:
-    "@xylabs/enum": "npm:~5.0.8"
-    "@xylabs/error": "npm:~5.0.8"
-    "@xylabs/typeof": "npm:~5.0.8"
-  checksum: 10/68020aff6ed0b29e7e83dcb0dd7fb44bd067c36b11fd34f7546fd6e417ea1eb2d69ddc90fa10cbeeb8d98fe4359c9d256b2a0ccbbf44e55019b6007cde896014
+    "@xylabs/enum": "npm:~5.0.10"
+    "@xylabs/error": "npm:~5.0.10"
+    "@xylabs/typeof": "npm:~5.0.10"
+  checksum: 10/2a7aab49868c53b27291020db9fd2ec1b5a66739d1f835413f0893759d79aacae45652113cc5212eec1cbeb6b2ba375b29428bd77119f7de6014ca9a906f1102
   languageName: node
   linkType: hard
 
-"@xylabs/mongo@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/mongo@npm:5.0.8"
+"@xylabs/mongo@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/mongo@npm:5.0.10"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
   peerDependencies:
     mongodb: ~6
-  checksum: 10/939c191f012bed42a75936f268b95ff6fe07676d10cede95a661c5acc0cf9c81d2498df781ea55d58015953ad52ad58ffb5885d58b6e26b3820fe23538ea8d97
+  checksum: 10/d2ecb80be242457644a6c3b8d70410e25d8626100c5e4929c542210afe7d76dfa5ea90f37d94c85a06a2ed17e862816ed0abbc4bb29643b018aa369fca3f2290
   languageName: node
   linkType: hard
 
-"@xylabs/object-model@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/object-model@npm:5.0.8"
+"@xylabs/object-model@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/object-model@npm:5.0.10"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/typeof": "npm:~5.0.8"
-  checksum: 10/9fb7e0f99911c61402c148cea89dd8956299c18616866e2c5e9a44a46bdb581b5fab96ced372c64ba611a78cf6225d48838ad2edbd52f28e4685b2a16cc23960
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/typeof": "npm:~5.0.10"
+  checksum: 10/71763ffb4cdfcc4ace0a76570ff962d83b9ef02ba0b48d8ea4573fc19bc5310568943fb815a18c5d81509f4500d627a2c13d4a23bfcdcd99bdfcb78350430fcb
   languageName: node
   linkType: hard
 
-"@xylabs/object@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/object@npm:5.0.8"
+"@xylabs/object@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/object@npm:5.0.10"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/object-model": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/typeof": "npm:~5.0.8"
-  checksum: 10/a3aa9f5d1e3775fe5bbe69d8b8e9ecbe7237e35366521864ce488946d8fa5f0654066ba2c046a48c330905bec30a6856ee1a527366cca5603c52b5eeb72181d6
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/object-model": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/typeof": "npm:~5.0.10"
+  checksum: 10/103536aac5ee375d8479f87540a7b48fca21eacc9b86acfc979d50645e05fb905d316eeaeccb6c9e92bea73ff052b879f21439219de21f56f299c20607b0c5a6
   languageName: node
   linkType: hard
 
-"@xylabs/platform@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/platform@npm:5.0.8"
-  checksum: 10/3521ab8c09e093579c5bbbcd4d03de76ac34f07f3817cad0a779f969fba44b9bf786e0aef8490e76672ab0fbe0efdf6ea258d2a3977d604ddbb85219e53060c9
+"@xylabs/platform@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/platform@npm:5.0.10"
+  checksum: 10/6bdbf10e758cab0e17f6e6fe52ea95d8cf4581721f30135fbaba0307b4e7bce65b5e3c9ff556645d8213956985285c669656efd8618a374efe538a1b586dbfc9
   languageName: node
   linkType: hard
 
-"@xylabs/promise@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/promise@npm:5.0.8"
+"@xylabs/promise@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/promise@npm:5.0.10"
   dependencies:
-    "@xylabs/typeof": "npm:~5.0.8"
-  checksum: 10/d39d8665ec8381acb11da6460a177f7d04ac8463018760cd7fedcc986aec05207df6c0abccc191fca7648c23e359ecc16b972a9d5629966fe3c8cc3a44a1a84e
+    "@xylabs/typeof": "npm:~5.0.10"
+  checksum: 10/17a90b761817bbb6b97d7bb50839d334b05925b909d998630bb9d795ee81c3c1046524e83dfa59aaf27c8811a3f8aa441d97a8b761fb3ee4f94704d6effe2f6a
   languageName: node
   linkType: hard
 
-"@xylabs/retry@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/retry@npm:5.0.8"
+"@xylabs/retry@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/retry@npm:5.0.10"
   dependencies:
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-  checksum: 10/5fd10fd19725f6a6b35bb1ac5bf0c40d2f5a2c35ba6b0c6b090530046653ccf8004846c0f2d3989fd8338aa9994bf46056a903412f1a74925a10edd76ae0ef17
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+  checksum: 10/88e8fb9179d938e0f7dd8efaa4896c9673cb2ae71a370d78668bc553580bd429a5691d93485769826784570c336e7979a3cff5037894bee59cdd36eae715d1e2
   languageName: node
   linkType: hard
 
-"@xylabs/set@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/set@npm:5.0.8"
-  checksum: 10/edd01df50ead5812d82a4f58cb9f57fc404459a95e622d8fe12b54d260b7738c4293da5ba2c98545039a787cd860a3501d55a9e32740ce565623d57bd3e1f4bd
+"@xylabs/set@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/set@npm:5.0.10"
+  checksum: 10/4992f1017bad29a054dd1998f8221f284be522817cfc30bbb313fca88c3a013ff6c8753c02dfba2a66e4af972a11f725036844ca89ff42dc2aa717394243d322
   languageName: node
   linkType: hard
 
-"@xylabs/static-implements@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/static-implements@npm:5.0.8"
-  checksum: 10/74fd69060b278eb2c989ecd2f76a3683e363db5933dfbd724c9d202257d40de58c84d4e525f7f6a31b37a1cca9764177c075deb84c86ee00fd3f122ae77afdba
+"@xylabs/static-implements@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/static-implements@npm:5.0.10"
+  checksum: 10/87d907f8fa037c55bf86175720d12d85e0b83c3963ceec39a25d3d01f291078ceab3c2685d3b6d4c75bfcb0e3f77556627c77b3040afa683cadac8ebe8c4129c
   languageName: node
   linkType: hard
 
-"@xylabs/storage@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/storage@npm:5.0.8"
+"@xylabs/storage@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/storage@npm:5.0.10"
   dependencies:
-    "@xylabs/promise": "npm:~5.0.8"
-  checksum: 10/7aaeb2d308070416fe8dcb8fa1d27a2e612acb2ff1f0e7af066e4919b1f63cfe51cc4e88abda7df31267909807e55f20ce75bbbe06bbab2b565233d36381df5a
+    "@xylabs/promise": "npm:~5.0.10"
+  checksum: 10/94341abbd8939d980b9b289f06f98951bd465dadc7e2b6fd2704776d6ed458ff50a6dc38e0d25d8c4524791e9e49d62459f0656a03d40a68f73d34acc1049714
   languageName: node
   linkType: hard
 
-"@xylabs/telemetry@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/telemetry@npm:5.0.8"
+"@xylabs/telemetry@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/telemetry@npm:5.0.10"
   dependencies:
     "@opentelemetry/api": "npm:~1.9.0"
-    "@xylabs/typeof": "npm:~5.0.8"
-  checksum: 10/9b27e135b4da3eff5bc9909088dbbdf80edb96cb4b2a19a449675ea315707ac6007b3ca4418eb73eb3c1902d056b97d27f22f6d88a30d2a8ab2416e1c67e0f6f
+    "@xylabs/typeof": "npm:~5.0.10"
+  checksum: 10/972cb9b4cbbed256ef87b8b65d46aa86659cc8086a8f56d32581b2bbf9dd4e4f728255b8fc490795aed250cf3264e09bc69e268eb919c92fdb2176149afd4e11
   languageName: node
   linkType: hard
 
-"@xylabs/threads@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/threads@npm:5.0.8"
+"@xylabs/threads@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/threads@npm:5.0.10"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
     debug: "npm:~4.4.1"
     is-observable-2-1-0: "npm:is-observable@2.1.0"
     observable-fns: "npm:~0.6.1"
-  checksum: 10/5326f1ff2f0906a025837c1d12f67a7ccae185abc15347a93acc15226ed1bfaf3c3a5a99693c4f6cb8baf99a6102bd553b139aa666d287a7028f60fbcb7b4b4b
+  checksum: 10/1606c70eb72a2de311c4468a3f6299d4b3be356c8bf53f9a41cb3c5ab4fc10f1132413fe349f20e2847f167ae9998ea65ff57902475fab73be6f5a38b78bd107
   languageName: node
   linkType: hard
 
-"@xylabs/timer@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/timer@npm:5.0.8"
+"@xylabs/timer@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/timer@npm:5.0.10"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-  checksum: 10/2b592b9b3219c03dcff889c5b3d38091ff3b95ed5810991d5d196ef65f283c5a8b9dd503a3e23854ba96ed5992e5d2e9454a3b31d741b159fe538af1e37f554e
+    "@xylabs/assert": "npm:~5.0.10"
+  checksum: 10/838422ddf6527b88e136d58d3fd420eeacd1aadfd27d290178f81edf11599e9f99c980641a10465222afdfb3c6d1c15eba5f5ebcd4cdf18693b0fc7483cee6fe
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts-yarn3@npm:~7.1.1":
-  version: 7.1.1
-  resolution: "@xylabs/ts-scripts-yarn3@npm:7.1.1"
+"@xylabs/ts-scripts-yarn3@npm:~7.1.3":
+  version: 7.1.3
+  resolution: "@xylabs/ts-scripts-yarn3@npm:7.1.3"
   dependencies:
     async-mutex: "npm:~0.5.0"
     chalk: "npm:~5.5.0"
@@ -3153,50 +3153,50 @@ __metadata:
     package-recompile: dist/bin/package/recompile.mjs
     package-relint: dist/bin/package/relint.mjs
     xy: dist/bin/xy.mjs
-  checksum: 10/bd6de5f8285f64730f152ca95b1f64481d014988b99196e2192d69e5c5d307094e54b5c10328dc3a4a2c4f7098c0479af4e328a38df99a77c129c2589abd9ae3
+  checksum: 10/83edabaa41b0b958a1b7a64d8c418a6d8b53071b74c09437fa8d59c0a25e38714245192d2d70e37bea3c7c6b91c9dba6fa840b5ef2122bc45cfd8e9a4179bbd9
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig-dom@npm:~7.1.1":
-  version: 7.1.1
-  resolution: "@xylabs/tsconfig-dom@npm:7.1.1"
+"@xylabs/tsconfig-dom@npm:~7.1.3":
+  version: 7.1.3
+  resolution: "@xylabs/tsconfig-dom@npm:7.1.3"
   dependencies:
-    "@xylabs/tsconfig": "npm:^7.1.1"
-  checksum: 10/d01f9fc559c1e5664f1dce93dc1d928769c926d6c18356cb4631abb2460cae18c3d3446b8858741d67d0929ccb19d2a1d0b4d9e436cba331139da16a08536d5f
+    "@xylabs/tsconfig": "npm:^7.1.3"
+  checksum: 10/faca5a00fc3bf829623210424963ce183b0e4febbd5eadf07ed3b45f6f65d452696a8bfc5042abfabe9cf5dd3836f913e9c9aac8e9502e08b54c2ced6ee12fe5
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig@npm:^7.1.1, @xylabs/tsconfig@npm:~7.1.1":
-  version: 7.1.1
-  resolution: "@xylabs/tsconfig@npm:7.1.1"
-  checksum: 10/4c8694eb293c2fbca3a335d29758ca196020c00300aad00000659bf5b763d139de4c9bec635f2f83845e2c5e9f125e956cdf19acada6e4daf675cb376a523e0f
+"@xylabs/tsconfig@npm:^7.1.3, @xylabs/tsconfig@npm:~7.1.3":
+  version: 7.1.3
+  resolution: "@xylabs/tsconfig@npm:7.1.3"
+  checksum: 10/4be0b73a651123aa813154eb7e27d59e0df5921adb3bbceb44c7b430a929741a0e161143c1106b1a3465f85aca13ae0462e65dba7fcc7bd5eee014810bb02a4e
   languageName: node
   linkType: hard
 
-"@xylabs/typeof@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/typeof@npm:5.0.8"
-  checksum: 10/49eed6da720fcf4971a65738ea097ca0a3a8adf76395d4241621da9541227d59eeb9e45fdece5ab9dbc9c6988b8d5c6ff9bb3084d4e72819aab704fbd5de900b
+"@xylabs/typeof@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/typeof@npm:5.0.10"
+  checksum: 10/2c9924c1c2f2a819fafe5be12cb063a293be86483d4eee9274f41c824a4a32505d2ee4c30457453858c0ee90732c569e2b9c123dd84f1311af6db581d1fd57e1
   languageName: node
   linkType: hard
 
-"@xylabs/vitest-extended@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/vitest-extended@npm:5.0.8"
+"@xylabs/vitest-extended@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/vitest-extended@npm:5.0.10"
   dependencies:
-    "@xylabs/vitest-matchers": "npm:~5.0.8"
+    "@xylabs/vitest-matchers": "npm:~5.0.10"
   peerDependencies:
     vitest: ~3
-  checksum: 10/9e16348da33598cf7415807d87c9cd669d6e93b328fbb40c59ff153968d65c05bda5130bdc9b39d62c44a729858bc965c4ee1ee644186c41d1ff821ed3435a40
+  checksum: 10/da5974d1649b91318fa4c1d75e2e03195cf8ef9c481cba2f5cf05e38ec754674ea6e8afbc5172220c14926184dc7f90d8bc1231eceb9f39daa91a1ffd85d6497
   languageName: node
   linkType: hard
 
-"@xylabs/vitest-matchers@npm:~5.0.8":
-  version: 5.0.8
-  resolution: "@xylabs/vitest-matchers@npm:5.0.8"
+"@xylabs/vitest-matchers@npm:~5.0.10":
+  version: 5.0.10
+  resolution: "@xylabs/vitest-matchers@npm:5.0.10"
   peerDependencies:
     vitest: ~3
-  checksum: 10/17e1911cc19a25716df160e3ea3b8b5febcf0447f04affa930b2342fc6ab47f03cbb420576acc0589baa48216f2e5bfa97b6b5ae7aca4d7470e9a4d0d6fbc9c6
+  checksum: 10/33b2f508c643475279ae37cd80872dd27ee08e52e10d4221fbefe864e492f438a7c8479bbe03c40365805f2b3a5561445f687f3ebffbb80636bb7f8d41203764
   languageName: node
   linkType: hard
 
@@ -3204,14 +3204,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/abstract-witness@workspace:packages/modules/packages/witness/packages/abstract"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/telemetry": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/telemetry": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -3230,10 +3230,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/account-model@workspace:packages/protocol/packages/account/packages/account-model"
   dependencies:
-    "@xylabs/arraybuffer": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/arraybuffer": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/key-model": "workspace:~"
     "@xyo-network/previous-hash-store-model": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -3244,15 +3244,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/protocol/packages/account/packages/account"
   dependencies:
-    "@xylabs/arraybuffer": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/static-implements": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/arraybuffer": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/static-implements": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/data": "workspace:~"
     "@xyo-network/elliptic": "workspace:~"
@@ -3269,10 +3269,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/address-payload-plugin@workspace:packages/core-payload-plugins/packages/address"
   dependencies:
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -3284,8 +3284,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/api-models@workspace:packages/sdk-utils/packages/api-models"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     axios: "npm:~1.11.0"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -3295,15 +3295,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/api@workspace:packages/sdk-utils/packages/api"
   dependencies:
-    "@types/node": "npm:~24.2.1"
+    "@types/node": "npm:~24.3.0"
     "@types/uuid": "npm:~10.0.0"
-    "@xylabs/axios": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/axios": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/api-models": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -3323,16 +3323,16 @@ __metadata:
   resolution: "@xyo-network/archivist-abstract@workspace:packages/modules/packages/archivist/packages/abstract"
   dependencies:
     "@opentelemetry/api": "npm:~1.9.0"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/set": "npm:~5.0.8"
-    "@xylabs/telemetry": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/set": "npm:~5.0.10"
+    "@xylabs/telemetry": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -3350,9 +3350,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-acceptance-tests@workspace:packages/modules/packages/archivist/packages/acceptance-tests"
   dependencies:
-    "@xylabs/array": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/array": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/id-payload-plugin": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
@@ -3367,9 +3367,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-benchmark-tests@workspace:packages/modules/packages/archivist/packages/benchmark-tests"
   dependencies:
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/archivist-leveldb": "workspace:~"
     "@xyo-network/archivist-lmdb": "workspace:~"
     "@xyo-network/id-payload-plugin": "workspace:~"
@@ -3386,14 +3386,14 @@ __metadata:
   resolution: "@xyo-network/archivist-cookie@workspace:packages/modules/packages/archivist/packages/cookie"
   dependencies:
     "@types/js-cookie": "npm:~3.0.6"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -3415,11 +3415,11 @@ __metadata:
     "@firebase/app": "npm:~0.14.1"
     "@firebase/firestore": "npm:~4.9.0"
     "@firebase/rules-unit-testing": "npm:~5.0.0"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -3434,17 +3434,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-generic@workspace:packages/modules/packages/archivist/packages/generic"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
@@ -3467,16 +3467,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-indexeddb@workspace:packages/modules/packages/archivist/packages/indexeddb"
   dependencies:
-    "@xylabs/array": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/indexed-db": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/array": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/indexed-db": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
@@ -3499,16 +3499,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-leveldb@workspace:packages/modules/packages/archivist/packages/level"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
@@ -3534,15 +3534,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-lmdb@workspace:packages/modules/packages/archivist/packages/lmdb"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
@@ -3566,17 +3566,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-memory@workspace:packages/modules/packages/archivist/packages/memory"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
@@ -3600,9 +3600,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-model-mongodb@workspace:packages/modules/packages/archivist/packages/mongodb/packages/model"
   dependencies:
-    "@xylabs/mongo": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/mongo": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -3613,15 +3613,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-model@workspace:packages/modules/packages/archivist/packages/model"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -3634,13 +3634,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-mongodb@workspace:packages/modules/packages/archivist/packages/mongodb"
   dependencies:
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/mongo": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/mongo": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-acceptance-tests": "workspace:~"
@@ -3665,14 +3665,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-storage@workspace:packages/modules/packages/archivist/packages/storage"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-acceptance-tests": "workspace:~"
@@ -3697,10 +3697,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-view@workspace:packages/modules/packages/archivist/packages/view"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -3717,10 +3717,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper"
   dependencies:
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
@@ -3738,8 +3738,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist@workspace:packages/modules/packages/archivist"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -3750,8 +3750,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bip39@workspace:packages/protocol/packages/bip39"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -3760,12 +3760,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-builder@workspace:packages/protocol/packages/boundwitness/packages/builder"
   dependencies:
-    "@xylabs/arraybuffer": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/arraybuffer": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -3785,11 +3785,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-loader@workspace:packages/protocol/packages/boundwitness/packages/loader"
   dependencies:
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -3805,11 +3805,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-model@workspace:packages/protocol/packages/boundwitness/packages/model"
   dependencies:
-    "@types/node": "npm:~24.2.1"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@types/node": "npm:~24.3.0"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -3819,13 +3819,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-validator@workspace:packages/protocol/packages/boundwitness/packages/validator"
   dependencies:
-    "@xylabs/array": "npm:~5.0.8"
-    "@xylabs/arraybuffer": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/array": "npm:~5.0.10"
+    "@xylabs/arraybuffer": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/elliptic": "workspace:~"
@@ -3844,15 +3844,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-wrapper@workspace:packages/protocol/packages/boundwitness/packages/wrapper"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/boundwitness-validator": "workspace:~"
     "@xyo-network/payload": "workspace:~"
@@ -3869,8 +3869,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness@workspace:packages/protocol/packages/boundwitness"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/boundwitness-validator": "workspace:~"
@@ -3883,16 +3883,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-abstract@workspace:packages/modules/packages/bridge/packages/abstract"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/forget": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/forget": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -3926,17 +3926,17 @@ __metadata:
   resolution: "@xyo-network/bridge-http-express@workspace:packages/modules/packages/bridge/packages/http-express"
   dependencies:
     "@types/express": "npm:~5.0.3"
-    "@types/node": "npm:~24.2.1"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/express": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@types/node": "npm:~24.3.0"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/express": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/api-models": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -3965,19 +3965,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-http@workspace:packages/modules/packages/bridge/packages/http"
   dependencies:
-    "@types/node": "npm:~24.2.1"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/axios": "npm:~5.0.8"
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/forget": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@types/node": "npm:~24.3.0"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/axios": "npm:~5.0.10"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/forget": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/api-models": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -4007,13 +4007,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-model@workspace:packages/modules/packages/bridge/packages/model"
   dependencies:
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -4025,8 +4025,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-module-resolver@workspace:packages/modules/packages/bridge/packages/module-resolver"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -4035,22 +4035,22 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-pub-sub@workspace:packages/modules/packages/bridge/packages/pub-sub"
   dependencies:
-    "@xylabs/array": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/forget": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/timer": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/array": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/forget": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/timer": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -4079,14 +4079,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-websocket@workspace:packages/modules/packages/bridge/packages/websocket"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -4113,14 +4113,14 @@ __metadata:
   resolution: "@xyo-network/bridge-worker@workspace:packages/modules/packages/bridge/packages/worker"
   dependencies:
     "@scure/bip39": "npm:~1.6.0"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/forget": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/forget": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/bridge-abstract": "workspace:~"
@@ -4142,9 +4142,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-wrapper@workspace:packages/modules/packages/bridge/packages/wrapper"
   dependencies:
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"
@@ -4156,8 +4156,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge@workspace:packages/modules/packages/bridge"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/bridge-wrapper": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -4168,10 +4168,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/config-payload-plugin@workspace:packages/core-payload-plugins/packages/config"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -4183,8 +4183,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/core-payload-plugins@workspace:packages/core-payload-plugins"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/address-payload-plugin": "workspace:~"
     "@xyo-network/config-payload-plugin": "workspace:~"
     "@xyo-network/domain-payload-plugin": "workspace:~"
@@ -4202,9 +4202,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/core@workspace:packages/protocol/packages/core"
   dependencies:
-    "@types/node": "npm:~24.2.1"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@types/node": "npm:~24.3.0"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/data": "workspace:~"
     "@xyo-network/hash": "workspace:~"
     "@xyo-network/wasm": "workspace:~"
@@ -4216,10 +4216,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-model@workspace:packages/protocol/packages/account"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
-    "@xylabs/vitest-matchers": "npm:~5.0.8"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
+    "@xylabs/vitest-matchers": "npm:~5.0.10"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/key-model": "workspace:~"
     "@xyo-network/wallet-model": "workspace:~"
@@ -4233,12 +4233,12 @@ __metadata:
   resolution: "@xyo-network/data@workspace:packages/protocol/packages/core/packages/data"
   dependencies:
     "@scure/base": "npm:~1.2.6"
-    "@xylabs/arraybuffer": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/arraybuffer": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     ethers: "npm:~6.15.0"
     typescript: "npm:~5.9.2"
     vitest: "npm:~3.2.4"
@@ -4249,19 +4249,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-abstract@workspace:packages/modules/packages/diviner/packages/abstract"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/forget": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/retry": "npm:~5.0.8"
-    "@xylabs/telemetry": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/forget": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/retry": "npm:~5.0.10"
+    "@xylabs/telemetry": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -4281,8 +4281,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-chain-abstract@workspace:packages/modules/packages/diviner/packages/addresschain/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-address-chain-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -4295,13 +4295,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-chain-memory@workspace:packages/modules/packages/diviner/packages/addresschain/packages/memory"
   dependencies:
-    "@xylabs/array": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/array": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -4326,9 +4326,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-chain-model@workspace:packages/modules/packages/diviner/packages/addresschain/packages/model"
   dependencies:
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -4340,8 +4340,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-chain@workspace:packages/modules/packages/diviner/packages/addresschain"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-address-chain-abstract": "workspace:~"
     "@xyo-network/diviner-address-chain-memory": "workspace:~"
     "@xyo-network/diviner-address-chain-model": "workspace:~"
@@ -4353,9 +4353,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-history-model@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/model"
   dependencies:
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -4367,12 +4367,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-history@workspace:packages/modules/packages/diviner/packages/addresshistory"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
@@ -4395,8 +4395,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-space-abstract@workspace:packages/modules/packages/diviner/packages/addressspace/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-address-space-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -4409,11 +4409,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-space-memory@workspace:packages/modules/packages/diviner/packages/addressspace/packages/memory"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
@@ -4434,8 +4434,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-space-model@workspace:packages/modules/packages/diviner/packages/addressspace/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -4446,8 +4446,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-space@workspace:packages/modules/packages/diviner/packages/addressspace"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-address-space-abstract": "workspace:~"
     "@xyo-network/diviner-address-space-memory": "workspace:~"
     "@xyo-network/diviner-address-space-model": "workspace:~"
@@ -4459,9 +4459,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-archivist@workspace:packages/modules/packages/diviner/packages/archivist"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-huri": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -4476,8 +4476,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-abstract@workspace:packages/modules/packages/diviner/packages/boundwitness/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
@@ -4491,13 +4491,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb/packages/boundwitness"
   dependencies:
-    "@xylabs/array": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/array": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/archivist-indexeddb": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
@@ -4520,14 +4520,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-memory@workspace:packages/modules/packages/diviner/packages/boundwitness/packages/memory"
   dependencies:
-    "@xylabs/array": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/array": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
@@ -4546,8 +4546,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-model@workspace:packages/modules/packages/diviner/packages/boundwitness/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
@@ -4561,8 +4561,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-stats-abstract@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -4575,10 +4575,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-stats-memory@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/packages/memory"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:~"
@@ -4592,8 +4592,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-stats-model@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -4605,8 +4605,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-stats@workspace:packages/modules/packages/diviner/packages/boundwitnessstats"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-memory": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:~"
@@ -4618,8 +4618,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness@workspace:packages/modules/packages/diviner/packages/boundwitness"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-boundwitness-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-memory": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
@@ -4631,8 +4631,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-coin-user-locations-abstract@workspace:packages/modules/packages/diviner/packages/coin/packages/userlocations/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-coin-user-locations-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -4645,8 +4645,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-coin-user-locations-model@workspace:packages/modules/packages/diviner/packages/coin/packages/userlocations/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -4658,8 +4658,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-coin-user-locations@workspace:packages/modules/packages/diviner/packages/coin/packages/userlocations"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-coin-user-locations-abstract": "workspace:~"
     "@xyo-network/diviner-coin-user-locations-model": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -4670,8 +4670,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-coin@workspace:packages/modules/packages/diviner/packages/coin"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-coin-user-locations": "workspace:~"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -4681,9 +4681,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-distinct-model@workspace:packages/modules/packages/diviner/packages/distinct/packages/model"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -4693,10 +4693,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-distinct@workspace:packages/modules/packages/diviner/packages/distinct"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-distinct-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -4712,9 +4712,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting-abstract@workspace:packages/modules/packages/diviner/packages/forecasting/packages/abstract"
   dependencies:
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-forecasting-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -4730,11 +4730,11 @@ __metadata:
   resolution: "@xyo-network/diviner-forecasting-memory@workspace:packages/modules/packages/diviner/packages/forecasting/packages/memory"
   dependencies:
     "@types/jsonpath": "npm:~0.2.4"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
@@ -4753,9 +4753,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting-method-arima@workspace:packages/modules/packages/diviner/packages/forecasting/packages/arima"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/diviner-forecasting-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     arima: "npm:~0.2.5"
@@ -4768,10 +4768,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting-model@workspace:packages/modules/packages/diviner/packages/forecasting/packages/model"
   dependencies:
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -4783,8 +4783,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting@workspace:packages/modules/packages/diviner/packages/forecasting"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-forecasting-abstract": "workspace:~"
     "@xyo-network/diviner-forecasting-memory": "workspace:~"
     "@xyo-network/diviner-forecasting-model": "workspace:~"
@@ -4796,9 +4796,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-hash-lease@workspace:packages/modules/packages/diviner/packages/hash"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -4811,11 +4811,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-huri@workspace:packages/modules/packages/diviner/packages/huri"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/huri": "workspace:~"
@@ -4829,10 +4829,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-identity@workspace:packages/modules/packages/diviner/packages/identity"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -4845,8 +4845,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-boundwitness-indexeddb": "workspace:~"
     "@xyo-network/diviner-payload-indexeddb": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -4857,12 +4857,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-indexing-memory@workspace:packages/modules/packages/diviner/packages/indexing/packages/memory"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/timer": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/timer": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/archivist-wrapper": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -4882,9 +4882,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-indexing-model@workspace:packages/modules/packages/diviner/packages/indexing/packages/model"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -4896,8 +4896,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-indexing@workspace:packages/modules/packages/diviner/packages/indexing"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-indexing-memory": "workspace:~"
     "@xyo-network/diviner-indexing-model": "workspace:~"
     "@xyo-network/diviner-temporal-indexing": "workspace:~"
@@ -4909,11 +4909,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-jsonpatch-memory@workspace:packages/modules/packages/diviner/packages/jsonpatch/packages/memory"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-jsonpatch-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -4931,8 +4931,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-jsonpatch-model@workspace:packages/modules/packages/diviner/packages/jsonpatch/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     fast-json-patch: "npm:~3.1.1"
@@ -4944,8 +4944,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-jsonpatch@workspace:packages/modules/packages/diviner/packages/jsonpatch"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-jsonpatch-memory": "workspace:~"
     "@xyo-network/diviner-jsonpatch-model": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -4956,11 +4956,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-jsonpath-aggregate-memory@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate/packages/memory"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
@@ -4982,9 +4982,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-jsonpath-aggregate-model@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate/packages/model"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -4996,8 +4996,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-jsonpath-aggregate@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-jsonpath-aggregate-memory": "workspace:~"
     "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -5009,10 +5009,10 @@ __metadata:
   resolution: "@xyo-network/diviner-jsonpath-memory@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/memory"
   dependencies:
     "@types/jsonpath": "npm:~0.2.4"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-jsonpath-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -5030,9 +5030,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-jsonpath-model@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/model"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -5044,8 +5044,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-jsonpath@workspace:packages/modules/packages/diviner/packages/jsonpath"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-jsonpath-memory": "workspace:~"
     "@xyo-network/diviner-jsonpath-model": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -5056,13 +5056,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-model@workspace:packages/modules/packages/diviner/packages/model"
   dependencies:
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/retry": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/retry": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -5074,8 +5074,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-models@workspace:packages/modules/packages/diviner/packages/models"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-address-chain-model": "workspace:~"
     "@xyo-network/diviner-address-history-model": "workspace:~"
     "@xyo-network/diviner-address-space-model": "workspace:~"
@@ -5095,8 +5095,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-abstract@workspace:packages/modules/packages/diviner/packages/payload/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
@@ -5109,15 +5109,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-generic@workspace:packages/modules/packages/diviner/packages/payload/packages/generic"
   dependencies:
-    "@xylabs/array": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/forget": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/array": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/forget": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/archivist-indexeddb": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -5139,13 +5139,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb/packages/payload"
   dependencies:
-    "@xylabs/array": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/array": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/archivist-indexeddb": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -5166,10 +5166,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-memory@workspace:packages/modules/packages/diviner/packages/payload/packages/memory"
   dependencies:
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/diviner-payload-generic": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
@@ -5185,9 +5185,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-model@workspace:packages/modules/packages/diviner/packages/payload/packages/model"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -5200,13 +5200,13 @@ __metadata:
   resolution: "@xyo-network/diviner-payload-pointer-memory@workspace:packages/modules/packages/diviner/packages/payloadpointer/packages/memory"
   dependencies:
     "@types/uuid": "npm:~10.0.0"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
@@ -5241,10 +5241,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-pointer-model@workspace:packages/modules/packages/diviner/packages/payloadpointer/packages/model"
   dependencies:
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
@@ -5258,8 +5258,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-pointer@workspace:packages/modules/packages/diviner/packages/payloadpointer"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-payload-pointer-memory": "workspace:~"
     "@xyo-network/diviner-payload-pointer-model": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -5270,8 +5270,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-stats-abstract@workspace:packages/modules/packages/diviner/packages/payloadstats/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
@@ -5284,10 +5284,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-stats-memory@workspace:packages/modules/packages/diviner/packages/payloadstats/packages/memory"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-payload-stats-abstract": "workspace:~"
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
@@ -5301,8 +5301,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-stats-model@workspace:packages/modules/packages/diviner/packages/payloadstats/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -5314,8 +5314,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-stats@workspace:packages/modules/packages/diviner/packages/payloadstats"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-payload-stats-abstract": "workspace:~"
     "@xyo-network/diviner-payload-stats-memory": "workspace:~"
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
@@ -5327,8 +5327,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload@workspace:packages/modules/packages/diviner/packages/payload"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-payload-abstract": "workspace:~"
     "@xyo-network/diviner-payload-generic": "workspace:~"
     "@xyo-network/diviner-payload-memory": "workspace:~"
@@ -5341,9 +5341,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-range-model@workspace:packages/modules/packages/diviner/packages/range/packages/model"
   dependencies:
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -5354,10 +5354,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-range@workspace:packages/modules/packages/diviner/packages/range"
   dependencies:
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-range-model": "workspace:~"
@@ -5372,8 +5372,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-list-abstract@workspace:packages/modules/packages/diviner/packages/schemalist/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-schema-list-model": "workspace:~"
@@ -5386,11 +5386,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-list-memory@workspace:packages/modules/packages/diviner/packages/schemalist/packages/memory"
   dependencies:
-    "@xylabs/array": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/array": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-schema-list-abstract": "workspace:~"
     "@xyo-network/diviner-schema-list-model": "workspace:~"
@@ -5404,8 +5404,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-list-model@workspace:packages/modules/packages/diviner/packages/schemalist/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -5417,8 +5417,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-list@workspace:packages/modules/packages/diviner/packages/schemalist"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-schema-list-abstract": "workspace:~"
     "@xyo-network/diviner-schema-list-memory": "workspace:~"
     "@xyo-network/diviner-schema-list-model": "workspace:~"
@@ -5430,8 +5430,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-stats-abstract@workspace:packages/modules/packages/diviner/packages/schemastats/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
@@ -5444,10 +5444,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-stats-memory@workspace:packages/modules/packages/diviner/packages/schemastats/packages/memory"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-schema-stats-abstract": "workspace:~"
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
@@ -5461,8 +5461,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-stats-model@workspace:packages/modules/packages/diviner/packages/schemastats/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -5474,8 +5474,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-stats@workspace:packages/modules/packages/diviner/packages/schemastats"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-schema-stats-abstract": "workspace:~"
     "@xyo-network/diviner-schema-stats-memory": "workspace:~"
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
@@ -5487,12 +5487,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-stateful@workspace:packages/modules/packages/diviner/packages/stateful"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -5522,16 +5522,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-temporal-indexing-memory@workspace:packages/modules/packages/diviner/packages/indexing/packages/temporal/packages/memory"
   dependencies:
-    "@xylabs/array": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/array": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
@@ -5567,9 +5567,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-temporal-indexing-model@workspace:packages/modules/packages/diviner/packages/indexing/packages/temporal/packages/model"
   dependencies:
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
     "@xyo-network/diviner-indexing-model": "workspace:~"
     "@xyo-network/diviner-jsonpath-model": "workspace:~"
@@ -5584,8 +5584,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-temporal-indexing@workspace:packages/modules/packages/diviner/packages/indexing/packages/temporal"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-temporal-indexing-memory": "workspace:~"
     "@xyo-network/diviner-temporal-indexing-model": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -5596,8 +5596,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-transform-abstract@workspace:packages/modules/packages/diviner/packages/transform/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-transform-model": "workspace:~"
@@ -5612,9 +5612,9 @@ __metadata:
   resolution: "@xyo-network/diviner-transform-memory@workspace:packages/modules/packages/diviner/packages/transform/packages/memory"
   dependencies:
     "@types/jsonpath": "npm:~0.2.4"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/diviner-transform-abstract": "workspace:~"
     "@xyo-network/diviner-transform-model": "workspace:~"
@@ -5630,9 +5630,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-transform-model@workspace:packages/modules/packages/diviner/packages/transform/packages/model"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -5643,8 +5643,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-transform@workspace:packages/modules/packages/diviner/packages/transform"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-transform-abstract": "workspace:~"
     "@xyo-network/diviner-transform-memory": "workspace:~"
     "@xyo-network/diviner-transform-model": "workspace:~"
@@ -5656,10 +5656,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-wrapper@workspace:packages/modules/packages/diviner/packages/wrapper"
   dependencies:
-    "@xylabs/retry": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/retry": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/diviner-identity": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -5676,8 +5676,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner@workspace:packages/modules/packages/diviner"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-wrapper": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -5688,9 +5688,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/dns@workspace:packages/sdk-utils/packages/dns"
   dependencies:
-    "@xylabs/axios": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/axios": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -5699,14 +5699,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/core-payload-plugins/packages/domain"
   dependencies:
-    "@xylabs/axios": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/platform": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/axios": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/platform": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/api-models": "workspace:~"
     "@xyo-network/dns": "workspace:~"
     "@xyo-network/huri": "workspace:~"
@@ -5726,11 +5726,11 @@ __metadata:
   resolution: "@xyo-network/elliptic@workspace:packages/protocol/packages/account/packages/elliptic"
   dependencies:
     "@bitauth/libauth": "npm:~3.0.0"
-    "@xylabs/arraybuffer": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/arraybuffer": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/data": "workspace:~"
     "@xyo-network/wasm": "workspace:~"
     async-mutex: "npm:~0.5.0"
@@ -5742,13 +5742,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/filesystem-archivist@workspace:packages/modules/packages/archivist/packages/filesystem"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/error": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/error": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -5765,16 +5765,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/hash@workspace:packages/protocol/packages/core/packages/hash"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/platform": "npm:~5.0.8"
-    "@xylabs/threads": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/platform": "npm:~5.0.10"
+    "@xylabs/threads": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/wasm": "workspace:~"
     esbuild: "npm:~0.25.9"
     hash-wasm: "npm:~4.12.0"
@@ -5788,14 +5788,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/huri@workspace:packages/protocol/packages/payload/packages/huri"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/axios": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/axios": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -5807,10 +5807,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/id-payload-plugin@workspace:packages/core-payload-plugins/packages/id"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -5822,9 +5822,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/key-model@workspace:packages/protocol/packages/account/packages/keypair-model"
   dependencies:
-    "@types/node": "npm:~24.2.1"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@types/node": "npm:~24.3.0"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/data": "workspace:~"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -5834,12 +5834,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest-model@workspace:packages/manifest/packages/model"
   dependencies:
-    "@types/node": "npm:~24.2.1"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@types/node": "npm:~24.3.0"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -5849,15 +5849,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest-wrapper@workspace:packages/manifest/packages/wrapper"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-abstract": "workspace:~"
     "@xyo-network/module-factory-locator": "workspace:~"
@@ -5877,9 +5877,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest@workspace:packages/manifest"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/manifest-wrapper": "workspace:~"
     ajv: "npm:~8.17.1"
@@ -5893,10 +5893,10 @@ __metadata:
   resolution: "@xyo-network/metamask-connector@workspace:packages/sdk-utils/packages/metamask-connector"
   dependencies:
     "@metamask/providers": "npm:~22.1.0"
-    "@xylabs/forget": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig-dom": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/forget": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig-dom": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     ethers: "npm:~6.15.0"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -5906,13 +5906,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-abstract-mongodb@workspace:packages/modules/packages/module/packages/mongodb/packages/abstract"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/mongo": "npm:~5.0.8"
-    "@xylabs/static-implements": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/mongo": "npm:~5.0.10"
+    "@xylabs/static-implements": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-model-mongodb": "workspace:~"
     "@xyo-network/payload-mongodb": "workspace:~"
@@ -5926,21 +5926,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-abstract@workspace:packages/modules/packages/module/packages/abstract"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/error": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/forget": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/telemetry": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/error": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/forget": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/telemetry": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -5967,10 +5967,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-event-emitter@workspace:packages/modules/packages/module/packages/emitter"
   dependencies:
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -5979,8 +5979,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-events@workspace:packages/modules/packages/module/packages/events"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -5989,9 +5989,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-factory-locator@workspace:packages/modules/packages/module/packages/locator"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-view": "workspace:~"
     "@xyo-network/bridge-http": "workspace:~"
@@ -6013,9 +6013,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-model-mongodb@workspace:packages/modules/packages/module/packages/mongodb/packages/model"
   dependencies:
-    "@xylabs/mongo": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/mongo": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-mongodb": "workspace:~"
     "@xyo-network/shared": "workspace:~"
@@ -6027,19 +6027,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-model@workspace:packages/modules/packages/module/packages/model"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/retry": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/retry": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
@@ -6053,8 +6053,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-mongodb@workspace:packages/modules/packages/module/packages/mongodb"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/module-abstract-mongodb": "workspace:~"
     "@xyo-network/module-model-mongodb": "workspace:~"
     "@xyo-network/payload-mongodb": "workspace:~"
@@ -6066,16 +6066,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-resolver@workspace:packages/modules/packages/module/packages/resolver"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -6089,16 +6089,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-wrapper@workspace:packages/modules/packages/module/packages/wrapper"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -6115,8 +6115,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module@workspace:packages/modules/packages/module"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/module-event-emitter": "workspace:~"
     "@xyo-network/module-events": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -6130,11 +6130,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/modules@workspace:packages/modules"
   dependencies:
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -6167,10 +6167,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/network@workspace:packages/sdk-utils/packages/network"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
@@ -6182,12 +6182,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-abstract@workspace:packages/modules/packages/node/packages/abstract"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/boundwitness-wrapper": "workspace:~"
@@ -6205,15 +6205,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-memory@workspace:packages/modules/packages/node/packages/memory"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/module-events": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-resolver": "workspace:~"
@@ -6228,12 +6228,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-model@workspace:packages/modules/packages/node/packages/model"
   dependencies:
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -6245,11 +6245,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-view@workspace:packages/modules/packages/node/packages/view"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/module-events": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-resolver": "workspace:~"
@@ -6265,9 +6265,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-wrapper@workspace:packages/modules/packages/node/packages/wrapper"
   dependencies:
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -6283,11 +6283,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node@workspace:packages/modules/packages/node"
   dependencies:
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
-    "@xylabs/vitest-matchers": "npm:~5.0.8"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
+    "@xylabs/vitest-matchers": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
@@ -6312,9 +6312,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/object@workspace:packages/protocol/packages/core/packages/object"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -6323,15 +6323,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-builder@workspace:packages/protocol/packages/payload/packages/builder"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/logger": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/logger": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/hash": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -6343,13 +6343,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model"
   dependencies:
-    "@xylabs/arraybuffer": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/arraybuffer": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     typescript: "npm:~5.9.2"
     vitest: "npm:~3.2.4"
     zod: "npm:~4.0.17"
@@ -6360,9 +6360,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-mongodb@workspace:packages/modules/packages/module/packages/mongodb/packages/payload"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -6374,10 +6374,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-plugin@workspace:packages/sdk-utils/packages/payload-plugin"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-validator": "workspace:~"
@@ -6391,12 +6391,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-utils@workspace:packages/protocol/packages/payload/packages/utils"
   dependencies:
-    "@xylabs/exists": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/set": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/exists": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/set": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
@@ -6411,12 +6411,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-validator@workspace:packages/protocol/packages/payload/packages/validator"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/schema-name-validator": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -6428,11 +6428,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-wrapper@workspace:packages/protocol/packages/payload/packages/wrapper"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-validator": "workspace:~"
@@ -6445,8 +6445,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload@workspace:packages/protocol/packages/payload"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -6460,11 +6460,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payloadset-plugin@workspace:packages/sdk-utils/packages/payloadset-plugin"
   dependencies:
-    "@xylabs/forget": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/forget": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/boundwitness-wrapper": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -6479,11 +6479,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/indexeddb"
   dependencies:
-    "@types/node": "npm:~24.2.1"
+    "@types/node": "npm:~24.3.0"
     "@types/uuid": "npm:10.0.0"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/previous-hash-store-model": "workspace:~"
     fake-indexeddb: "npm:~6.1.0"
     idb: "npm:~8.0.3"
@@ -6497,9 +6497,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-model@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/model"
   dependencies:
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -6508,11 +6508,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/storage"
   dependencies:
-    "@types/node": "npm:~24.2.1"
+    "@types/node": "npm:~24.3.0"
     "@types/uuid": "npm:~10.0.0"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/previous-hash-store-model": "workspace:~"
     store2: "npm:~2.14.4"
     typescript: "npm:~5.9.2"
@@ -6525,8 +6525,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store@workspace:packages/protocol/packages/account/packages/previous-hash-store"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/previous-hash-store-indexeddb": "workspace:~"
     "@xyo-network/previous-hash-store-model": "workspace:~"
     "@xyo-network/previous-hash-store-storage": "workspace:~"
@@ -6538,8 +6538,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/protocol@workspace:packages/protocol"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/boundwitness": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -6552,12 +6552,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/quadkey@workspace:packages/sdk-utils/packages/quadkey"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/geo": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/geo": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     mapbox-gl: "npm:~3.14.0"
     typescript: "npm:~5.9.2"
     vitest: "npm:~3.2.4"
@@ -6568,9 +6568,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/query-payload-plugin@workspace:packages/core-payload-plugins/packages/query"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -6582,13 +6582,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-cache@workspace:packages/sdk-utils/packages/schema-cache"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/error": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig-dom": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/error": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig-dom": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/domain-payload-plugin": "workspace:~"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/network": "workspace:~"
@@ -6607,8 +6607,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-name-validator@workspace:packages/sdk-utils/packages/schema-name-validator"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/dns": "workspace:~"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -6618,9 +6618,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/core-payload-plugins/packages/schema"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -6640,12 +6640,12 @@ __metadata:
     "@typescript-eslint/parser": "npm:~8.39.1"
     "@typescript-eslint/types": "npm:~8.39.1"
     "@vitest/coverage-v8": "npm:~3.2.4"
-    "@xylabs/eslint-config-flat": "npm:~7.1.1"
-    "@xylabs/forget": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/tsconfig-dom": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/eslint-config-flat": "npm:~7.1.3"
+    "@xylabs/forget": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/tsconfig-dom": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/manifest": "workspace:~"
     "@xyo-network/modules": "workspace:~"
     "@xyo-network/protocol": "workspace:~"
@@ -6673,8 +6673,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sdk-utils@workspace:packages/sdk-utils"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/api-models": "workspace:~"
     "@xyo-network/dns": "workspace:~"
     "@xyo-network/metamask-connector": "workspace:~"
@@ -6692,12 +6692,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sentinel-abstract@workspace:packages/modules/packages/sentinel/packages/abstract"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/forget": "npm:~5.0.8"
-    "@xylabs/telemetry": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/forget": "npm:~5.0.10"
+    "@xylabs/telemetry": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -6715,18 +6715,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sentinel-memory@workspace:packages/modules/packages/sentinel/packages/memory"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/forget": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/telemetry": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/forget": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/telemetry": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -6749,13 +6749,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sentinel-model@workspace:packages/modules/packages/sentinel/packages/model"
   dependencies:
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -6771,11 +6771,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sentinel-wrapper@workspace:packages/modules/packages/sentinel/packages/wrapper"
   dependencies:
-    "@xylabs/creatable": "npm:~5.0.8"
-    "@xylabs/delay": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/creatable": "npm:~5.0.10"
+    "@xylabs/delay": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
@@ -6800,8 +6800,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sentinel@workspace:packages/modules/packages/sentinel"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/sentinel-model": "workspace:~"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -6811,9 +6811,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/shared@workspace:packages/shared"
   dependencies:
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -6822,9 +6822,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/typeof@workspace:packages/shared/packages/typeof"
   dependencies:
-    "@types/node": "npm:~24.2.1"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@types/node": "npm:~24.3.0"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -6833,10 +6833,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/value-payload-plugin@workspace:packages/core-payload-plugins/packages/value"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -6848,9 +6848,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/wallet-model@workspace:packages/protocol/packages/account/packages/wallet-model"
   dependencies:
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/account-model": "workspace:~"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -6861,14 +6861,14 @@ __metadata:
   resolution: "@xyo-network/wallet@workspace:packages/protocol/packages/account/packages/wallet"
   dependencies:
     "@scure/bip39": "npm:~1.6.0"
-    "@xylabs/arraybuffer": "npm:~5.0.8"
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/base": "npm:~5.0.8"
-    "@xylabs/hex": "npm:~5.0.8"
-    "@xylabs/static-implements": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-matchers": "npm:~5.0.8"
+    "@xylabs/arraybuffer": "npm:~5.0.10"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/base": "npm:~5.0.10"
+    "@xylabs/hex": "npm:~5.0.10"
+    "@xylabs/static-implements": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-matchers": "npm:~5.0.10"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/key-model": "workspace:~"
@@ -6883,10 +6883,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/wasm@workspace:packages/protocol/packages/core/packages/wasm"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     typescript: "npm:~5.9.2"
     vitest: "npm:~3.2.4"
     wasm-feature-detect: "npm:~1.8.0"
@@ -6897,10 +6897,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-adhoc@workspace:packages/modules/packages/witness/packages/adhoc"
   dependencies:
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -6917,9 +6917,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-blockchain-abstract@workspace:packages/modules/packages/witness/packages/blockchain/packages/abstract"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     ethers: "npm:~6.15.0"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -6929,8 +6929,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-blockchain@workspace:packages/modules/packages/witness/packages/blockchain"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/witness-blockchain-abstract": "workspace:~"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -6940,10 +6940,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-environment@workspace:packages/modules/packages/witness/packages/environment"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -6960,12 +6960,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-evm-abstract@workspace:packages/modules/packages/witness/packages/evm/packages/abstract"
   dependencies:
-    "@xylabs/assert": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/assert": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -6979,8 +6979,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-evm@workspace:packages/modules/packages/witness/packages/evm"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/witness-evm-abstract": "workspace:~"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -6990,12 +6990,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-model@workspace:packages/modules/packages/witness/packages/model"
   dependencies:
-    "@xylabs/events": "npm:~5.0.8"
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/typeof": "npm:~5.0.8"
+    "@xylabs/events": "npm:~5.0.10"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/typeof": "npm:~5.0.10"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7007,10 +7007,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-timestamp@workspace:packages/modules/packages/witness/packages/timestamp"
   dependencies:
-    "@xylabs/object": "npm:~5.0.8"
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/object": "npm:~5.0.10"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7023,10 +7023,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-wrapper@workspace:packages/modules/packages/witness/packages/wrapper"
   dependencies:
-    "@xylabs/promise": "npm:~5.0.8"
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
-    "@xylabs/vitest-extended": "npm:~5.0.8"
+    "@xylabs/promise": "npm:~5.0.10"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
+    "@xylabs/vitest-extended": "npm:~5.0.10"
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
@@ -7043,8 +7043,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness@workspace:packages/modules/packages/witness"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/witness-model": "workspace:~"
     "@xyo-network/witness-wrapper": "workspace:~"
     typescript: "npm:~5.9.2"
@@ -7055,8 +7055,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witnesses@workspace:packages/sdk-utils/packages/witnesses"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.1.1"
-    "@xylabs/tsconfig": "npm:~7.1.1"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.1.3"
+    "@xylabs/tsconfig": "npm:~7.1.3"
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"

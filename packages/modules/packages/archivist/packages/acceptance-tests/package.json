@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/array": "~5.0.8",
+    "@xylabs/array": "~5.0.10",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/id-payload-plugin": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
@@ -41,8 +41,8 @@
     "vitest": "~3.2.4"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.1.1",
-    "@xylabs/tsconfig": "~7.1.1",
+    "@xylabs/ts-scripts-yarn3": "~7.1.3",
+    "@xylabs/tsconfig": "~7.1.3",
     "@xyo-network/payload-model": "workspace:~",
     "typescript": "~5.9.2"
   },

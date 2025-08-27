@@ -6,6 +6,7 @@ import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { Logger } from '@xylabs/logger'
 import { Promisable, PromiseEx } from '@xylabs/promise'
+import { isDefined } from '@xylabs/typeof'
 import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -14,11 +15,9 @@ import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
-  AddressToWeakInstanceCache,
   asAttachableModuleInstance,
   asModuleInstance,
   AttachableModuleInstance,
-  Direction,
   duplicateModules,
   InstanceTypeCheck,
   isModule,
@@ -194,7 +193,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return !!mod && this.moduleIdentityCheck(mod)
   }
 
-  static hasRequiredQueries(mod: Module) {}
+  static hasRequiredQueries(mod: Module) {
+    return this.missingRequiredQueries(mod).length === 0
+  }
 
   static is<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
@@ -220,9 +221,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     checkIdentity = true,
   ): TModuleWrapper | undefined {
     if (!checkIdentity || this.canWrap(mod)) {
-      if (!account) {
-        this.defaultLogger?.info('Anonymous Module Wrapper Created')
-      }
       return new this({ account, mod: mod as TModuleWrapper['mod'] })
     }
   }
@@ -438,7 +436,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   ): Promise<[QueryBoundWitness, Payload[], ModuleError[]]> {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).query(query)
     const accounts = [account, ...additionalSigners].filter(exists)
-    return await (account ? builder.signers(accounts) : builder).build()
+    return await (accounts.length > 0 ? builder.signers(accounts) : builder).build()
   }
 
   protected filterErrors([bw, payloads]: ModuleQueryResult): ModuleError[] {
@@ -455,7 +453,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
     /* TODO: Figure out what to do with the returning BW.  Should we store them in a queue in case the caller wants to see them? */
 
-    if (errors && errors.length > 0) {
+    if (isDefined(errors) && errors.length > 0) {
       /* TODO: Figure out how to rollup multiple Errors */
       throw errors[0]
     }

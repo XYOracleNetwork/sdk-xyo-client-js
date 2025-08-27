@@ -1,13 +1,19 @@
 import { assertEx } from '@xylabs/assert'
+import {
+  isDefined, isString, isUndefined,
+} from '@xylabs/typeof'
 import { Account } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { WalletInstance } from '@xyo-network/wallet-model'
 
 export interface DetermineAccountFromAccountParams {
   account: AccountInstance | 'random'
+  accountPath?: never
+  wallet?: never
 }
 
 export interface DetermineAccountFromWalletParams {
+  account?: never
   accountPath?: string
   wallet: WalletInstance
 }
@@ -17,12 +23,12 @@ export interface DetermineRandomParams {}
 export type DetermineAccountParams = DetermineAccountFromAccountParams | DetermineAccountFromWalletParams | DetermineRandomParams
 
 const isDetermineAccountFromAccountParams = (params: DetermineAccountParams): params is DetermineAccountFromAccountParams => {
-  assertEx(!(params as DetermineAccountFromWalletParams).accountPath, () => 'accountPath may not be provided when account is provided')
-  return !!(params as DetermineAccountFromAccountParams).account
+  assertEx(isUndefined((params as DetermineAccountFromWalletParams).accountPath), () => 'accountPath may not be provided when account is provided')
+  return isDefined((params as DetermineAccountFromAccountParams).account)
 }
 
 const isDetermineAccountFromWalletParams = (params: DetermineAccountParams): params is DetermineAccountFromWalletParams => {
-  return !!(params as DetermineAccountFromWalletParams).wallet
+  return isDefined((params as DetermineAccountFromWalletParams).wallet)
 }
 
 export async function determineAccount(params: DetermineAccountParams, allowRandomAccount = true): Promise<AccountInstance> {
@@ -36,7 +42,7 @@ export async function determineAccount(params: DetermineAccountParams, allowRand
 
   if (isDetermineAccountFromWalletParams(params)) {
     return assertEx(
-      params.accountPath ? await params.wallet.derivePath(params.accountPath) : params.wallet,
+      isString(params.accountPath) ? await params.wallet.derivePath(params.accountPath) : params.wallet,
       () => 'Failed to derive account from path',
     )
   }

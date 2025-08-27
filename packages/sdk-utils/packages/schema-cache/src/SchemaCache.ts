@@ -1,4 +1,5 @@
 import { handleError } from '@xylabs/error'
+import { isDefined, isString } from '@xylabs/typeof'
 import { DomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
 import type { FetchedPayload } from '@xyo-network/huri'
 import type { SchemaPayload } from '@xyo-network/schema-payload-plugin'
@@ -12,7 +13,7 @@ import { Debounce } from './Debounce.ts'
 import type { SchemaNameToValidatorMap } from './SchemaNameToValidatorMap.ts'
 
 const getSchemaNameFromSchema = (schema: SchemaObject) => {
-  if (schema.$id) {
+  if (isString(schema.$id)) {
     return schema.$id
   }
 }
@@ -58,7 +59,7 @@ export class SchemaCache<T extends SchemaNameToValidatorMap = SchemaNameToValida
   }
 
   async get(schema?: string): Promise<SchemaCacheEntry | undefined | null> {
-    if (schema) {
+    if (isString(schema)) {
       await this.getDebounce.one(schema, async () => {
         // If we've never looked for it before, it will be undefined
         if (this._cache.get(schema) === undefined) {
@@ -73,12 +74,12 @@ export class SchemaCache<T extends SchemaNameToValidatorMap = SchemaNameToValida
 
   private cacheSchemaIfValid(entry: SchemaCacheEntry) {
     // only store them if they match the schema root
-    if (entry.payload.definition) {
+    if (isDefined(entry?.payload?.definition)) {
       const ajv = new Ajv({ strict: false })
       // check if it is a valid schema def
       const validator = ajv.compile(entry.payload.definition)
       const schemaName = getSchemaNameFromSchema(entry.payload.definition)
-      if (schemaName) {
+      if (isString(schemaName)) {
         this._cache.set(schemaName, entry)
         const key = schemaName as keyof T
         this._validators[key] = validator as unknown as T[keyof T]

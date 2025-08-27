@@ -187,7 +187,7 @@ export class Quadkey {
 
   childrenByZoom(zoom: number) {
     // if we are limiting by zoom, and we are already at that limit, just return this quadkey
-    if (zoom && zoom === this.zoom) {
+    if (zoom > 0 && zoom === this.zoom) {
       return [this]
     }
 

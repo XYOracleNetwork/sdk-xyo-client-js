@@ -12,9 +12,7 @@ import type {
   ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  Payload, Schema, WithoutPrivateStorageMeta,
-} from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 import type {
   AttachableSentinelInstance,
   CustomSentinelInstance,

@@ -50,9 +50,7 @@ export const cycleAll = async () => {
   console.log('Checking for circular dependencies in packages...')
 
   const result = await cruise(targets, cruiseOptions)
-  if (result.output) {
-    console.log(result.output)
-  }
+  console.log(result.output)
 
   if (result.exitCode === 0) {
     console.log(`${pkgName} ✅ No dependency violations`)

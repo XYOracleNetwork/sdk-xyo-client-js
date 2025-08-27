@@ -33,9 +33,9 @@
     "src"
   ],
   "devDependencies": {
-    "@xylabs/hex": "~5.0.10",
-    "@xylabs/ts-scripts-yarn3": "~7.1.3",
-    "@xylabs/tsconfig": "~7.1.3",
+    "@xylabs/hex": "~5.0.11",
+    "@xylabs/ts-scripts-yarn3": "~7.1.7",
+    "@xylabs/tsconfig": "~7.1.7",
     "@xyo-network/archivist-leveldb": "workspace:~",
     "@xyo-network/archivist-lmdb": "workspace:~",
     "@xyo-network/id-payload-plugin": "workspace:~",

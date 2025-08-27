@@ -1,5 +1,5 @@
 import { generateMnemonic } from '@scure/bip39'
-import { wordlist } from '@scure/bip39/wordlists/english'
+import { wordlist } from '@scure/bip39/wordlists/english.js'
 import { forget } from '@xylabs/forget'
 import type { Address } from '@xylabs/hex'
 import type { Logger } from '@xylabs/logger'

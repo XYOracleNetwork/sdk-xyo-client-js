@@ -1,7 +1,9 @@
+import { isString } from '@xylabs/typeof'
+
 export class RemoteDivinerError extends Error {
   isRemoteDivinerError = true
   constructor(action: string, error: Error['cause'], message?: string) {
-    const messageString = message ? ` (${message})` : ''
+    const messageString = isString(message) ? ` (${message})` : ''
     super(`Remote Diviner [${action}] failed${messageString}`, { cause: error })
   }
 

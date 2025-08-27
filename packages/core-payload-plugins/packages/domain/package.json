@@ -33,11 +33,11 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/axios": "~5.0.10",
-    "@xylabs/base": "~5.0.10",
-    "@xylabs/hex": "~5.0.10",
-    "@xylabs/platform": "~5.0.10",
-    "@xylabs/typeof": "~5.0.10",
+    "@xylabs/axios": "~5.0.11",
+    "@xylabs/base": "~5.0.11",
+    "@xylabs/hex": "~5.0.11",
+    "@xylabs/platform": "~5.0.11",
+    "@xylabs/typeof": "~5.0.11",
     "@xyo-network/dns": "workspace:~",
     "@xyo-network/huri": "workspace:~",
     "@xyo-network/network": "workspace:~",
@@ -47,9 +47,9 @@
     "@xyo-network/payload-wrapper": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.1.3",
-    "@xylabs/tsconfig": "~7.1.3",
-    "@xylabs/vitest-extended": "~5.0.10",
+    "@xylabs/ts-scripts-yarn3": "~7.1.7",
+    "@xylabs/tsconfig": "~7.1.7",
+    "@xylabs/vitest-extended": "~5.0.11",
     "@xyo-network/api-models": "workspace:~",
     "axios": "~1.11.0",
     "typescript": "~5.9.2",

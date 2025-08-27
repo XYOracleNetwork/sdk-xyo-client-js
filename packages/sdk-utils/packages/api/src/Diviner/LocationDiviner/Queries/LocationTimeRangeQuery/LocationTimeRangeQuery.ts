@@ -1,4 +1,6 @@
-import type { LocationWitnessSchema } from '../../Witnesses/index.ts'
+import { isPayload } from '@xyo-network/payload-model'
+
+import { LocationWitnessSchema } from '../../Witnesses/LocationWitness.ts'
 
 export const LocationTimeRangeQuerySchema = 'network.xyo.location.range.query' as const
 export type LocationTimeRangeQuerySchema = typeof LocationTimeRangeQuerySchema
@@ -14,6 +16,4 @@ export type LocationTimeRangeQuery = {
   // TODO: Bounding rectangle, etc.
 }
 
-export const isLocationTimeRangeQuery = (query: Record<string, unknown>): query is LocationTimeRangeQuery => {
-  return query && query?.schema === LocationTimeRangeAnswerSchema
-}
+export const isLocationTimeRangeQuery = isPayload([LocationWitnessSchema])

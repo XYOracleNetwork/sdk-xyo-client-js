@@ -1,4 +1,5 @@
 import { forget } from '@xylabs/forget'
+import { isString } from '@xylabs/typeof'
 import type { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { PayloadSetPayload } from '@xyo-network/payload-model'
@@ -62,7 +63,7 @@ export class PayloadSetPluginResolver {
         : set
           ? await PayloadBuilder.dataHash(set)
           : undefined
-    return setHash ? this._plugins[setHash] : undefined
+    return isString(setHash) ? this._plugins[setHash] : undefined
   }
 
   sets(): PayloadSetPayload[] {

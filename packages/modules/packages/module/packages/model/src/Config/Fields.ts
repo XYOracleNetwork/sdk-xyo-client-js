@@ -1,4 +1,4 @@
-import type { LogLevel } from '@xylabs/logger'
+import type { LogLevelValue } from '@xylabs/logger'
 import type { RetryConfig } from '@xylabs/retry'
 import type { Schema } from '@xyo-network/payload-model'
 
@@ -20,7 +20,7 @@ export interface ModuleConfigFields {
    */
   readonly labels?: Labels
 
-  readonly logLevel?: LogLevel
+  readonly logLevel?: LogLevelValue
 
   /** @field Friendly name of module (not collision resistant). Can be used to resolve module when registered/attached to Node. */
   readonly name?: ModuleName

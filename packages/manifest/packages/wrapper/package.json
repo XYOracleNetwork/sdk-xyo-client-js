@@ -33,9 +33,9 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.10",
-    "@xylabs/logger": "~5.0.10",
-    "@xylabs/typeof": "~5.0.10",
+    "@xylabs/assert": "~5.0.11",
+    "@xylabs/logger": "~5.0.11",
+    "@xylabs/typeof": "~5.0.11",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
@@ -45,12 +45,12 @@
     "@xyo-network/wallet-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/creatable": "~5.0.10",
-    "@xylabs/delay": "~5.0.10",
-    "@xylabs/object": "~5.0.10",
-    "@xylabs/ts-scripts-yarn3": "~7.1.3",
-    "@xylabs/tsconfig": "~7.1.3",
-    "@xylabs/vitest-extended": "~5.0.10",
+    "@xylabs/creatable": "~5.0.11",
+    "@xylabs/delay": "~5.0.11",
+    "@xylabs/object": "~5.0.11",
+    "@xylabs/ts-scripts-yarn3": "~7.1.7",
+    "@xylabs/tsconfig": "~7.1.7",
+    "@xylabs/vitest-extended": "~5.0.11",
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-factory-locator": "workspace:~",
     "@xyo-network/node-model": "workspace:~",

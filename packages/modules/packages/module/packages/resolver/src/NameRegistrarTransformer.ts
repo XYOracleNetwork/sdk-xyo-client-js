@@ -1,4 +1,5 @@
 import type { Address } from '@xylabs/hex'
+import { isDefined, isUndefined } from '@xylabs/typeof'
 import type { DivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import type { ModuleIdentifier, ModuleIdentifierTransformer } from '@xyo-network/module-model'
@@ -25,7 +26,7 @@ export class NameRegistrarTransformer implements ModuleIdentifierTransformer {
     if (nameParts?.length === 2 && nameParts[1] === this.root) {
       // check cache
       const cachedResult = this._cache.get(identifier)
-      if (cachedResult) return cachedResult
+      if (isDefined(cachedResult)) return cachedResult
 
       // not cached, so check registrar
       const query = {
@@ -33,11 +34,11 @@ export class NameRegistrarTransformer implements ModuleIdentifierTransformer {
       }
       const result = await this.registrarDiviner?.divine([query])
       const resultPayload = result?.shift()
-      if (!resultPayload) {
+      if (isUndefined(resultPayload)) {
         throw new Error(`Unable to resolve registrar name (failed) [${first}]`)
       }
       // TODO: Use proper types for this check
-      if (resultPayload) {
+      if (isDefined(resultPayload)) {
         const address = (resultPayload as unknown as { address: Address[] }).address?.shift()
         if (address) {
           this._cache.set(identifier, address)

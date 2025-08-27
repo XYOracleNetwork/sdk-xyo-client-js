@@ -1,4 +1,5 @@
 import type { Validator } from '@xylabs/object'
+import { isDefined } from '@xylabs/typeof'
 import type { Payload } from '@xyo-network/payload-model'
 import { PayloadSchema } from '@xyo-network/payload-model'
 import type { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -40,7 +41,7 @@ export class PayloadPluginResolver {
   resolve(schema?: string): PayloadPlugin
   resolve(payload: Payload): PayloadPlugin
   resolve(value: Payload | string | undefined): PayloadPlugin {
-    return value ? (this._plugins[typeof value === 'string' ? value : value.schema] ?? this.defaultPlugin) : this.defaultPlugin
+    return isDefined(value) ? (this._plugins[typeof value === 'string' ? value : value.schema] ?? this.defaultPlugin) : this.defaultPlugin
   }
 
   /** @description Create list of schema, optionally filtered by ability to witness/divine */

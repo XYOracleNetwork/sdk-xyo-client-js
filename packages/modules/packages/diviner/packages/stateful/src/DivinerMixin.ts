@@ -112,7 +112,7 @@ export const StatefulModuleMixin = <
      */
     async retrieveState(): Promise<ModuleState<TState> | undefined> {
       if (this._lastState) return this._lastState
-      let hash = '' as Hash
+      let hash: Hash | null = null
       const diviner = await this.getBoundWitnessDivinerForStore()
       const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
         .fields({
@@ -134,13 +134,13 @@ export const StatefulModuleMixin = <
             // eslint-disable-next-line unicorn/no-array-reduce
             .reduce(
               (prev, curr) => (boundWitness.payload_schemas?.[curr?.index] === ModuleStateSchema ? boundWitness.payload_hashes[curr?.index] : prev),
-              '' as Hash,
+              null as Hash | null,
             )
         }
       }
 
       // If we able to located the last state
-      if (hash) {
+      if (hash !== null) {
         // Get last state
         const archivist = await this.getArchivistForStore()
         const payload = (await archivist.get([hash])).find(isModuleState<TState>)

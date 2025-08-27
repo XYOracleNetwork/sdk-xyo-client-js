@@ -1,9 +1,7 @@
 import type { Address } from '@xylabs/hex'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import {
-  type AnyConfigSchema, creatableModule, type ModuleIdentifier,
-} from '@xyo-network/module-model'
+import { type AnyConfigSchema, type ModuleIdentifier } from '@xyo-network/module-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 import { AbstractSentinel } from '@xyo-network/sentinel-abstract'
 import type {

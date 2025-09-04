@@ -2302,12 +2302,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0, @types/node@npm:~24.3.0":
-  version: 24.3.0
-  resolution: "@types/node@npm:24.3.0"
+"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0, @types/node@npm:~24.3.1":
+  version: 24.3.1
+  resolution: "@types/node@npm:24.3.1"
   dependencies:
     undici-types: "npm:~7.10.0"
-  checksum: 10/1331c2d0e9a512ac27a016b4df3eff92317e4603dbbbab31731275dff14d3a04847a50c5776cbf94f99ff4dedac0ba5f721dce8cea020d8eea5e21711fd964b0
+  checksum: 10/b9a52ed8f2fb1fa764ce988828b8d579761f944f1bb0492adbdeaa676a161086bad1a807b590799681ad93b3d272468b5c5ddccf5678735d487d1b65e481bc07
   languageName: node
   linkType: hard
 
@@ -3470,7 +3470,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/api@workspace:packages/sdk-utils/packages/api"
   dependencies:
-    "@types/node": "npm:~24.3.0"
+    "@types/node": "npm:~24.3.1"
     "@types/uuid": "npm:~10.0.0"
     "@xylabs/axios": "npm:~5.0.11"
     "@xylabs/hex": "npm:~5.0.11"
@@ -3980,7 +3980,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-model@workspace:packages/protocol/packages/boundwitness/packages/model"
   dependencies:
-    "@types/node": "npm:~24.3.0"
+    "@types/node": "npm:~24.3.1"
     "@xylabs/hex": "npm:~5.0.11"
     "@xylabs/object": "npm:~5.0.11"
     "@xylabs/ts-scripts-yarn3": "npm:~7.1.7"
@@ -4101,7 +4101,7 @@ __metadata:
   resolution: "@xyo-network/bridge-http-express@workspace:packages/modules/packages/bridge/packages/http-express"
   dependencies:
     "@types/express": "npm:~5.0.3"
-    "@types/node": "npm:~24.3.0"
+    "@types/node": "npm:~24.3.1"
     "@xylabs/assert": "npm:~5.0.11"
     "@xylabs/creatable": "npm:~5.0.11"
     "@xylabs/exists": "npm:~5.0.11"
@@ -4140,7 +4140,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-http@workspace:packages/modules/packages/bridge/packages/http"
   dependencies:
-    "@types/node": "npm:~24.3.0"
+    "@types/node": "npm:~24.3.1"
     "@xylabs/assert": "npm:~5.0.11"
     "@xylabs/axios": "npm:~5.0.11"
     "@xylabs/creatable": "npm:~5.0.11"
@@ -4377,7 +4377,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/core@workspace:packages/protocol/packages/core"
   dependencies:
-    "@types/node": "npm:~24.3.0"
+    "@types/node": "npm:~24.3.1"
     "@xylabs/ts-scripts-yarn3": "npm:~7.1.7"
     "@xylabs/tsconfig": "npm:~7.1.7"
     "@xyo-network/data": "workspace:~"
@@ -5997,7 +5997,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/key-model@workspace:packages/protocol/packages/account/packages/keypair-model"
   dependencies:
-    "@types/node": "npm:~24.3.0"
+    "@types/node": "npm:~24.3.1"
     "@xylabs/ts-scripts-yarn3": "npm:~7.1.7"
     "@xylabs/tsconfig": "npm:~7.1.7"
     "@xyo-network/data": "workspace:~"
@@ -6009,7 +6009,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest-model@workspace:packages/manifest/packages/model"
   dependencies:
-    "@types/node": "npm:~24.3.0"
+    "@types/node": "npm:~24.3.1"
     "@xylabs/hex": "npm:~5.0.11"
     "@xylabs/object": "npm:~5.0.11"
     "@xylabs/ts-scripts-yarn3": "npm:~7.1.7"
@@ -6657,7 +6657,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/indexeddb"
   dependencies:
-    "@types/node": "npm:~24.3.0"
+    "@types/node": "npm:~24.3.1"
     "@types/uuid": "npm:10.0.0"
     "@xylabs/hex": "npm:~5.0.11"
     "@xylabs/ts-scripts-yarn3": "npm:~7.1.7"
@@ -6686,7 +6686,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/storage"
   dependencies:
-    "@types/node": "npm:~24.3.0"
+    "@types/node": "npm:~24.3.1"
     "@types/uuid": "npm:~10.0.0"
     "@xylabs/hex": "npm:~5.0.11"
     "@xylabs/ts-scripts-yarn3": "npm:~7.1.7"
@@ -7000,7 +7000,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/typeof@workspace:packages/shared/packages/typeof"
   dependencies:
-    "@types/node": "npm:~24.3.0"
+    "@types/node": "npm:~24.3.1"
     "@xylabs/ts-scripts-yarn3": "npm:~7.1.7"
     "@xylabs/tsconfig": "npm:~7.1.7"
     typescript: "npm:~5.9.2"

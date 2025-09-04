@@ -438,8 +438,13 @@ export abstract class AbstractArchivist<
     // correspond to the order when iterated and the symmetry will
     // be helpful for debugging
     for (const payload of gotten) {
+      // trusting the hashes from the cache and parent
+      const map: Record<Hash, WithStorageMeta<Payload>> = {
+        [payload._hash]: payload,
+        [payload._dataHash]: payload,
+      }
       // Compute the hashes for this payload
-      const map = await PayloadBuilder.toAllHashMap([payload])
+      // const map = await PayloadBuilder.toAllHashMap([payload])
       for (const [key, payload] of Object.entries(map)) {
         let requestedPayloadFound = false
         const hash = key as Hash // NOTE: Required cast as Object.entries always returns string keys
@@ -476,7 +481,7 @@ export abstract class AbstractArchivist<
 
     // write to cache if we are caching
     if (cache !== undefined) {
-      for (const payload of gotten) {
+      for (const payload of fromGet) {
         cache.set(payload._hash, payload)
         cache.set(payload._dataHash, payload)
       }

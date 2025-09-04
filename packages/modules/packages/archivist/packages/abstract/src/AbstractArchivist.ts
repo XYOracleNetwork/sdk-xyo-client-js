@@ -207,7 +207,7 @@ export abstract class AbstractArchivist<
   async delete(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('delete')
     this.isSupportedQuery(ArchivistDeleteQuerySchema, 'delete')
-    return await spanAsync(`${this.id}delete`, async () => {
+    return await spanAsync(`${this.id}|delete`, async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
       }
@@ -282,7 +282,7 @@ export abstract class AbstractArchivist<
   async next(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('next')
     this.isSupportedQuery(ArchivistNextQuerySchema, 'next')
-    return await spanAsync(`${this.id}next`, async () => {
+    return await spanAsync(`${this.id}|next`, async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
       }

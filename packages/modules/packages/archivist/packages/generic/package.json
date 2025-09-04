@@ -58,7 +58,7 @@
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/wallet": "workspace:~",
-    "lru-cache": "~11.1.0",
+    "lru-cache": "~11.2.1",
     "typescript": "~5.9.2",
     "vitest": "~3.2.4"
   },

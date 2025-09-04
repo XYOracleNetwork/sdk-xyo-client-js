@@ -33,8 +33,8 @@
     "src"
   ],
   "dependencies": {
-    "@firebase/app": "~0.14.1",
-    "@firebase/firestore": "~4.9.0",
+    "@firebase/app": "~0.14.2",
+    "@firebase/firestore": "~4.9.1",
     "@xylabs/assert": "~5.0.11",
     "@xylabs/exists": "~5.0.11",
     "@xylabs/hex": "~5.0.11",
@@ -47,7 +47,7 @@
     "@firebase/rules-unit-testing": "~5.0.0",
     "@xylabs/ts-scripts-yarn3": "~7.1.7",
     "@xylabs/tsconfig": "~7.1.7",
-    "firebase": "~12.1.0",
+    "firebase": "~12.2.1",
     "typescript": "~5.9.2",
     "vitest": "~3.2.4"
   },

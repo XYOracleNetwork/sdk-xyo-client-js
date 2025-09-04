@@ -61,7 +61,7 @@
     "@xyo-network/query-payload-plugin": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~",
     "async-mutex": "~0.5.0",
-    "lru-cache": "~11.1.0"
+    "lru-cache": "~11.2.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.7",

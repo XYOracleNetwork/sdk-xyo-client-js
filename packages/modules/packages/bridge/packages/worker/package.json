@@ -52,7 +52,7 @@
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/sentinel-model": "workspace:~",
     "@xyo-network/wallet": "workspace:~",
-    "lru-cache": "~11.1.0"
+    "lru-cache": "~11.2.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.7",

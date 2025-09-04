@@ -50,7 +50,7 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "lru-cache": "~11.1.0"
+    "lru-cache": "~11.2.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.7",

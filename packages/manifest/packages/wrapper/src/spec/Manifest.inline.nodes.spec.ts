@@ -24,6 +24,7 @@ describe('Manifest (Inline Nodes)', () => {
       const manifest = new ManifestWrapper(simpleNodeInlineNodesManifest as PackageManifestPayload, wallet, new ModuleFactoryLocator())
       const [node] = await manifest.loadNodes()
       expect(node).toBeDefined()
+      expect(node.name).toBe('SimpleMemoryDapp')
 
       const discover = await node.state()
       const discoveredAddresses = discover.filter(item => item.schema === AddressSchema)

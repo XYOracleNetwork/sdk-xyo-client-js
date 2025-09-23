@@ -84,7 +84,9 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
   async loadNodeFromManifest(wallet: WalletInstance, manifest: NodeManifest, path?: string, loadConfigChildren = false): Promise<MemoryNode> {
     this.logger?.log('loadNodeFromManifest', manifest.config.name)
     const derivedWallet = isString(path) ? await wallet.derivePath(path) : await HDWallet.random()
-    const node = await MemoryNode.create({ account: derivedWallet, config: manifest.config })
+    const node = await MemoryNode.create({
+      account: derivedWallet, config: manifest.config, name: manifest.config.name as CreatableName,
+    })
     // Load Private Modules
     const privateModules
       = manifest.modules?.private?.map(async (moduleManifest) => {

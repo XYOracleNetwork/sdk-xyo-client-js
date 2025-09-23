@@ -4,12 +4,12 @@
 import '@xylabs/vitest-extended'
 
 import { assertEx } from '@xylabs/assert'
-import { delay } from '@xylabs/delay'
 import type { ApiConfig } from '@xyo-network/api-models'
 import type { AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import {
   asArchivistInstance,
   asAttachableArchivistInstance,
+  isArchivistInstance,
   isAttachableArchivistInstance,
 } from '@xyo-network/archivist-model'
 import type { ModuleDescriptionPayload } from '@xyo-network/module-model'
@@ -74,7 +74,7 @@ describe('HttpBridge', () => {
   ]
 
   it.only.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
-    const node = await MemoryNode.create({ account: 'random' })
+    // Bridge to remote node
     const bridge = await HttpBridge.create({
       account: 'random',
       config: {
@@ -82,25 +82,52 @@ describe('HttpBridge', () => {
       },
     })
     await bridge.start()
-    const mod = await bridge.resolve(archivistName)
-    if (isAttachableArchivistInstance(mod)) {
-      await node.register(mod)
-      await node.attach(mod.address, true)
 
-      const config: SentinelConfig = {
-        archiving: { archivists: [mod.address] },
-        schema: SentinelConfigSchema,
-        synchronous: true,
-        tasks: [],
+    // Resolve the archivist from the bridge
+    const bridgedModule = await bridge.resolve(archivistName)
+    expect(bridgedModule).toBeDefined()
+
+    // Verify that the resolved module is an attachable archivist instance
+    expect(isAttachableArchivistInstance(bridgedModule)).toBeTrue()
+    const bridgedArchivist = asAttachableArchivistInstance(bridgedModule, 'Failed to cast bridged module to archivist', { required: true })
+
+    // Create a local node
+    const node = await MemoryNode.create({ account: 'random' })
+
+    // Register & attach the bridged module with the local node
+    await node.register(bridgedArchivist)
+    await node.attach(bridgedArchivist.address, true)
+
+    // Resolve the attached archivist from the local node
+    const nodeModule = await node.resolve(bridgedArchivist.address)
+    expect(nodeModule).toBeDefined()
+    // Verify that the resolved archivist is an archivist instance
+    expect(isArchivistInstance(nodeModule)).toBeTrue()
+    const nodeArchivist = asArchivistInstance(nodeModule, 'Failed to cast node module to archivist', { required: true })
+
+    // Create a sentinel that archives to the attached archivist
+    const config: SentinelConfig = {
+      archiving: { archivists: [nodeArchivist.address] },
+      schema: SentinelConfigSchema,
+      synchronous: true,
+      tasks: [],
+    }
+    const account = await HDWallet.random()
+    const sentinel = await MemorySentinel.create({ account, config })
+    await node.register(sentinel)
+    await node.attach(account.address, true)
+
+    // Generate a report from the sentinel
+    const report = await sentinel.report()
+    expect(report).toBeDefined()
+    const hash = await PayloadBuilder.hash(report[0])
+
+    // Verify sentinel can archive the report to bridged archivist
+    while (true) {
+      const fetched = await nodeArchivist.get([hash])
+      if (fetched.length > 0) {
+        break
       }
-      const account = await HDWallet.random()
-      const sentinel = await MemorySentinel.create({ account, config })
-      await node.register(sentinel)
-      await node.attach(account.address, true)
-      const report = await sentinel.report()
-      expect(report).toBeDefined()
-      // Wait for archival to complete
-      await delay(1_000_000)
     }
   })
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {

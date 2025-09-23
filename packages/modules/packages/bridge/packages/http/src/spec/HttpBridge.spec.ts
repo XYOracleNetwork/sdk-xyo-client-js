@@ -97,6 +97,9 @@ describe('HttpBridge', () => {
     // Register & attach the bridged module with the local node
     await node.register(bridgedArchivist)
     await node.attach(bridgedArchivist.address, true)
+    // NOTE: Works if attaching bridge instead
+    // await node.register(bridge)
+    // await node.attach(bridge.address, true)
 
     // Resolve the attached archivist from the local node
     const nodeModule = await node.resolve(bridgedArchivist.address)

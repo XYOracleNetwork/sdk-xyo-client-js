@@ -101,6 +101,9 @@ describe('HttpBridge', () => {
     // Resolve the attached archivist from the local node
     const nodeModule = await node.resolve(bridgedArchivist.address)
     expect(nodeModule).toBeDefined()
+    // Verify nodeModule identity is still bridgedArchivist via address
+    expect(bridgedArchivist.address).toEqual(nodeModule?.address)
+    // TODO: Module is no longer an AttachableArchivistInstance after register, attach, and resolve
     // Verify that the resolved archivist is an archivist instance
     expect(isArchivistInstance(nodeModule)).toBeTrue()
     const nodeArchivist = asArchivistInstance(nodeModule, 'Failed to cast node module to archivist', { required: true })

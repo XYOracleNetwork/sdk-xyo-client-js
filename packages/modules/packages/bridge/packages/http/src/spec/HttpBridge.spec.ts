@@ -73,12 +73,12 @@ describe('HttpBridge', () => {
     /* ['/node', `${baseUrl}/node`], */
   ]
 
-  it.only.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
+  it.only('HttpBridge: %s', async () => {
     // Bridge to remote node
     const bridge = await HttpBridge.create({
       account: 'random',
       config: {
-        discoverRoots: 'start', name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true },
+        discoverRoots: 'start', name: 'TestBridge', nodeUrl: baseUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true },
       },
     })
     await bridge.start()

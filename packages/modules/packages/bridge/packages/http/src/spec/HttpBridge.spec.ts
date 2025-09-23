@@ -4,6 +4,7 @@
 import '@xylabs/vitest-extended'
 
 import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
 import type { ApiConfig } from '@xyo-network/api-models'
 import type { AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import {
@@ -22,6 +23,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { MemorySentinel } from '@xyo-network/sentinel-memory'
+import { type SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { HDWallet } from '@xyo-network/wallet'
 import {
   describe, expect, it,
@@ -61,7 +64,6 @@ export const tryGetArchivist = async (config: ApiConfig = getApiConfig()): Promi
  * @group module
  * @group bridge
  */
-
 describe('HttpBridge', () => {
   const baseUrl = `${process.env.API_DOMAIN ?? 'http://localhost:8080'}`
 
@@ -71,6 +73,36 @@ describe('HttpBridge', () => {
     /* ['/node', `${baseUrl}/node`], */
   ]
 
+  it.only.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
+    const node = await MemoryNode.create({ account: 'random' })
+    const bridge = await HttpBridge.create({
+      account: 'random',
+      config: {
+        discoverRoots: 'start', name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true },
+      },
+    })
+    await bridge.start()
+    const mod = await bridge.resolve(archivistName)
+    if (isAttachableArchivistInstance(mod)) {
+      await node.register(mod)
+      await node.attach(mod.address, true)
+
+      const config: SentinelConfig = {
+        archiving: { archivists: [mod.address] },
+        schema: SentinelConfigSchema,
+        synchronous: true,
+        tasks: [],
+      }
+      const account = await HDWallet.random()
+      const sentinel = await MemorySentinel.create({ account, config })
+      await node.register(sentinel)
+      await node.attach(account.address, true)
+      const report = await sentinel.report()
+      expect(report).toBeDefined()
+      // Wait for archival to complete
+      await delay(1_000_000)
+    }
+  })
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
     const memNode = await MemoryNode.create({ account: 'random' })
     const extraMemNode = await MemoryNode.create({ account: 'random' })

@@ -26,6 +26,7 @@ export type ArchivistConfigSchema = typeof ArchivistConfigSchema
 export type ArchivistConfig<TConfig extends Payload | EmptyObject | void = void, TSchema extends string | void = void> = ModuleConfig<
   WithAdditional<
     {
+      /** @field caching configuration for get calls */
       getCache?: ArchivistGetCache
       /** @field address of one or more parent archivists to read from */
       parents?: ArchivistParents

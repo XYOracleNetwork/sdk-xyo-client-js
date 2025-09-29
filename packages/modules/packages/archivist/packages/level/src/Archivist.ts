@@ -106,7 +106,7 @@ export abstract class AbstractLevelDbArchivist<
   protected override async allHandler(): Promise<WithStorageMeta<Payload>[]> {
     return await this.withStore(async (db) => {
       const values = [...(await db.values().all())]
-      return values.filter(exists).sort(PayloadBuilder.compareStorageMeta)
+      return values.filter(exists).toSorted(PayloadBuilder.compareStorageMeta)
     })
   }
 
@@ -185,7 +185,7 @@ export abstract class AbstractLevelDbArchivist<
           return (await store.getMany(hashesFromDataHashes)).filter(exists)
         })
       : []
-    const result = [...foundByHash, ...foundByDataHash].sort(PayloadBuilder.compareStorageMeta)
+    const result = [...foundByHash, ...foundByDataHash].toSorted(PayloadBuilder.compareStorageMeta)
     return result
   }
 

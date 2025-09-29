@@ -129,7 +129,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
         expect(state).toBeDefined()
         const last = filterAs(results, asOptionalStorageMeta)
           .map(p => p as WithStorageMeta<Payload>)
-          .sort(PayloadBuilder.compareStorageMeta)
+          .toSorted(PayloadBuilder.compareStorageMeta)
           .at(-1)
         expect(last).toBeDefined()
         expect(state?.state.cursor).toBe(last?._sequence)
@@ -137,7 +137,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     })
     describe('with previous state', () => {
       it.each([1, 2, 3])('returns next state and batch results', async (batch) => {
-        const all = (await archivist.all()).sort(PayloadBuilder.compareStorageMeta)
+        const all = (await archivist.all()).toSorted(PayloadBuilder.compareStorageMeta)
         const batchOffset = all.at((3 * batch) - 1)
         expect(batchOffset).toBeDefined()
         // Test across all offsets

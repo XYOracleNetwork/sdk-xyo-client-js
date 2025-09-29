@@ -13,9 +13,10 @@ export const isPayloadWrapperBase = (value?: unknown): value is PayloadWrapperBa
 }
 
 export class PayloadWrapperBase<TPayload extends Payload = Payload> {
+  payload: TPayload
+
   private _errors?: Error[]
 
-  payload: TPayload
   protected constructor(payload: TPayload) {
     this.payload = payload
   }

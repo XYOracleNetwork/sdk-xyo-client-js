@@ -53,13 +53,13 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "async-mutex": "~0.5.0",
-    "lru-cache": "~11.2.1",
+    "lru-cache": "~11.2.2",
     "socket.io": "~4.8.1"
   },
   "devDependencies": {
     "@xylabs/creatable": "~5.0.11",
-    "@xylabs/ts-scripts-yarn3": "~7.1.7",
-    "@xylabs/tsconfig": "~7.1.7",
+    "@xylabs/ts-scripts-yarn3": "~7.1.8",
+    "@xylabs/tsconfig": "~7.1.8",
     "@xylabs/vitest-extended": "~5.0.11",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",

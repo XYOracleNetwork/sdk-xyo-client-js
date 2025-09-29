@@ -159,6 +159,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
   private resolveByQuery<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], query: string[][]): T[] {
     return (
       modules.filter(mod =>
+        // eslint-disable-next-line unicorn/no-array-reduce
         query?.reduce((supported, queryList) => {
           return (
             // eslint-disable-next-line unicorn/no-array-reduce

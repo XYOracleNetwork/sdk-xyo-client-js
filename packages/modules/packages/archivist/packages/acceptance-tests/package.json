@@ -37,12 +37,12 @@
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/id-payload-plugin": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
-    "uuid": "~11.1.0",
+    "uuid": "~13.0.0",
     "vitest": "~3.2.4"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.1.7",
-    "@xylabs/tsconfig": "~7.1.7",
+    "@xylabs/ts-scripts-yarn3": "~7.1.8",
+    "@xylabs/tsconfig": "~7.1.8",
     "@xyo-network/payload-model": "workspace:~",
     "typescript": "~5.9.2"
   },

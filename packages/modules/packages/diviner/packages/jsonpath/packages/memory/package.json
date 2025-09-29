@@ -43,8 +43,8 @@
   },
   "devDependencies": {
     "@types/jsonpath": "~0.2.4",
-    "@xylabs/ts-scripts-yarn3": "~7.1.7",
-    "@xylabs/tsconfig": "~7.1.7",
+    "@xylabs/ts-scripts-yarn3": "~7.1.8",
+    "@xylabs/tsconfig": "~7.1.8",
     "@xylabs/vitest-extended": "~5.0.11",
     "@xyo-network/wallet": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~",

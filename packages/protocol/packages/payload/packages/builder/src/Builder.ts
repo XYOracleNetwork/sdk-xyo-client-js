@@ -58,7 +58,7 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
             payload,
             timestamp,
             i,
-          )))).sort(this.compareStorageMeta)
+          )))).toSorted(this.compareStorageMeta)
         })()
       : this.addSequencedStorageMeta(
           payloads,
@@ -218,7 +218,7 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
     direction: -1 | 1 = 1,
     comparer: Compare<Sequence> = SequenceComparer.local,
   ) {
-    return payloads.sort((a, b) => direction * comparer(a._sequence, b._sequence))
+    return payloads.toSorted((a, b) => direction * comparer(a._sequence, b._sequence))
   }
 
   static async toAllHashMap<T extends Payload>(payloads: T[]): Promise<Record<Hash, T>> {

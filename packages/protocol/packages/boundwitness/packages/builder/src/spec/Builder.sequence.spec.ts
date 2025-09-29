@@ -41,12 +41,12 @@ const payloadSequences = [
 ]
 
 const wallet1Mnemonic
-    = 'report door cry include salad horn recipe luxury access pledge husband maple busy double olive'
+  = 'report door cry include salad horn recipe luxury access pledge husband maple busy double olive'
 const wallet1Path = "m/44'/60'/0'/0/0"
 const wallet1Address = '25524Ca99764D76CA27604Bb9727f6e2f27C4533'
 
 const wallet2Mnemonic
-    = 'turn you orphan sauce act patient village entire lava transfer height sense enroll quit idle'
+  = 'turn you orphan sauce act patient village entire lava transfer height sense enroll quit idle'
 const wallet2Path = "m/44'/60'/0'/0/0"
 const wallet2Address = 'FdCeD2c3549289049BeBf743fB721Df211633fBF'
 

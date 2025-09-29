@@ -38,8 +38,8 @@
     "@xyo-network/payload-plugin": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.1.7",
-    "@xylabs/tsconfig": "~7.1.7",
+    "@xylabs/ts-scripts-yarn3": "~7.1.8",
+    "@xylabs/tsconfig": "~7.1.8",
     "@xylabs/vitest-extended": "~5.0.11",
     "typescript": "~5.9.2",
     "vitest": "~3.2.4"

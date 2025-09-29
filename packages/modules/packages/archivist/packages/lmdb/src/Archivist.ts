@@ -100,7 +100,7 @@ export class LmdbArchivist<
   }
 
   protected override allHandler(): WithStorageMeta<Payload>[] {
-    return [...this.hashIndex.getRange({})].map(entry => entry.value).sort(PayloadBuilder.compareStorageMeta)
+    return [...this.hashIndex.getRange({})].map(entry => entry.value).toSorted(PayloadBuilder.compareStorageMeta)
   }
 
   protected override async clearHandler(): Promise<void> {

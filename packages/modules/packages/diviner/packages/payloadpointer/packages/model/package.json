@@ -35,6 +35,7 @@
   "dependencies": {
     "@xylabs/exists": "~5.0.11",
     "@xylabs/hex": "~5.0.11",
+    "@xylabs/typeof": "~5.0.11",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
@@ -42,8 +43,8 @@
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.1.7",
-    "@xylabs/tsconfig": "~7.1.7",
+    "@xylabs/ts-scripts-yarn3": "~7.1.8",
+    "@xylabs/tsconfig": "~7.1.8",
     "typescript": "~5.9.2"
   },
   "publishConfig": {

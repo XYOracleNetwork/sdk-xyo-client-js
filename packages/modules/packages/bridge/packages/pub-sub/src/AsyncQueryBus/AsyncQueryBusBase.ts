@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Base } from '@xylabs/base'
-import type { Address, Hex } from '@xylabs/hex'
+import type { Address } from '@xylabs/hex'
 import type { TypeCheck } from '@xylabs/object'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { isArchivistInstance } from '@xyo-network/archivist-model'

@@ -1,5 +1,6 @@
 import type { EmptyObject } from '@xylabs/object'
 import type { Promisable } from '@xylabs/promise'
+import { isTruthy } from '@xylabs/typeof'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { creatableModule } from '@xyo-network/module-model'
@@ -54,7 +55,7 @@ export abstract class AbstractEvmWitness<
   async getProvider(cache = false, error?: string | boolean): Promise<Provider | undefined> {
     const providers = await this.getProviders(cache)
     if (providers.length === 0) {
-      if (error) {
+      if (isTruthy(error)) {
         throw new Error(typeof error === 'string' ? error : 'No providers available')
       }
       return undefined

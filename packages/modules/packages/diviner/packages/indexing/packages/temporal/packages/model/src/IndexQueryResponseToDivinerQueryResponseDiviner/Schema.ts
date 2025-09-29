@@ -4,4 +4,4 @@ export type TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivin
   = `${TemporalIndexingDivinerSchema}.stage.indexQueryResponseToDivinerQueryResponseDiviner`
 // eslint-disable-next-line @stylistic/max-len
 export const TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema
-= `${TemporalIndexingDivinerSchema}.stage.indexQueryResponseToDivinerQueryResponseDiviner`
+  = `${TemporalIndexingDivinerSchema}.stage.indexQueryResponseToDivinerQueryResponseDiviner`

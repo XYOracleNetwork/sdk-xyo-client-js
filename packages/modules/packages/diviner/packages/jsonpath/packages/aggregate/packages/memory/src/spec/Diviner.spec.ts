@@ -69,7 +69,7 @@ describe('JsonPathAggregateDiviner', () => {
         expect(result.filter(isPayloadOfSchemaType<Payload>(destinationSchema))).toBeArrayOfSize(1)
         const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))
         // eslint-disable-next-line sonarjs/no-alphabetical-sort
-        expect(index?.sources.sort()).toEqual(Object.keys(payloadDictionary).toSorted())
+        expect(index?.sources.toSorted()).toEqual(Object.keys(payloadDictionary).toSorted())
         expect(index?.timestamp).toBe(timestamp.timestamp)
         expect(index?.url).toBe((payload as { sourceUrl?: string }).sourceUrl)
         expect(index?.status).toBe(thumbnail.http?.status)
@@ -150,7 +150,7 @@ describe('JsonPathAggregateDiviner', () => {
         expect(result.filter(isPayloadOfSchemaType<Payload>(destinationSchema))).toBeArrayOfSize(1)
         const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))
         // eslint-disable-next-line sonarjs/no-alphabetical-sort
-        expect(index?.sources.sort()).toEqual(Object.keys(payloadDictionary).toSorted())
+        expect(index?.sources.toSorted()).toEqual(Object.keys(payloadDictionary).toSorted())
         expect(index?.timestamp).toBe(timestamp.timestamp)
         expect(index?.url).toBe((payload as { sourceUrl?: string }).sourceUrl)
         expect(index?.status).toBe(thumbnail.http?.status)

@@ -45,11 +45,11 @@
     "@xyo-network/payload-wrapper": "workspace:~"
   },
   "devDependencies": {
-    "@types/uuid": "~10.0.0",
+    "@types/uuid": "~11.0.0",
     "@xylabs/delay": "~5.0.11",
     "@xylabs/hex": "~5.0.11",
-    "@xylabs/ts-scripts-yarn3": "~7.1.7",
-    "@xylabs/tsconfig": "~7.1.7",
+    "@xylabs/ts-scripts-yarn3": "~7.1.8",
+    "@xylabs/tsconfig": "~7.1.8",
     "@xylabs/vitest-extended": "~5.0.11",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
@@ -68,7 +68,7 @@
     "@xyo-network/wallet": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~",
     "typescript": "~5.9.2",
-    "uuid": "~11.1.0",
+    "uuid": "~13.0.0",
     "vitest": "~3.2.4"
   },
   "publishConfig": {

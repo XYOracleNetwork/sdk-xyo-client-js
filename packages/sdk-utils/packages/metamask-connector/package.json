@@ -38,9 +38,9 @@
     "ethers": "~6.15.0"
   },
   "devDependencies": {
-    "@metamask/providers": "~22.1.0",
-    "@xylabs/ts-scripts-yarn3": "~7.1.7",
-    "@xylabs/tsconfig-dom": "~7.1.7",
+    "@metamask/providers": "~22.1.1",
+    "@xylabs/ts-scripts-yarn3": "~7.1.8",
+    "@xylabs/tsconfig-dom": "~7.1.8",
     "typescript": "~5.9.2"
   },
   "publishConfig": {

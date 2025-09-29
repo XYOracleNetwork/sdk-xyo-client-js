@@ -92,7 +92,7 @@ export class IndexedDbBoundWitnessDiviner<
       // Iterate all records using the sequence index
       const sequenceIndex = assertEx(store.index(IndexedDbArchivist.sequenceIndexName), () => 'Failed to get sequence index')
       let dbCursor: IDBPCursorWithValue<BoundWitnessStore, [string], string, string, 'readonly'> | null
-      = await sequenceIndex.openCursor(null, direction)
+        = await sequenceIndex.openCursor(null, direction)
 
       // If a cursor was supplied
       if (parsedCursor !== undefined) {

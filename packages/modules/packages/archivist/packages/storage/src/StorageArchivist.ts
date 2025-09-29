@@ -109,7 +109,7 @@ export class StorageArchivist<
           return true
         }
       })
-      .sort(PayloadBuilder.compareStorageMeta)
+      .toSorted(PayloadBuilder.compareStorageMeta)
   }
 
   protected override clearHandler(): void | Promise<void> {
@@ -157,7 +157,7 @@ export class StorageArchivist<
     const all = Object.values(this.storage.getAll()) as WithStorageMeta[]
     const payloads: WithStorageMeta[] = all
       .map(value => value)
-      .sort((item1, item2) => {
+      .toSorted((item1, item2) => {
         return order === 'asc' ? PayloadBuilder.compareStorageMeta(item1, item2) : PayloadBuilder.compareStorageMeta(item2, item1)
       })
     const index = payloads.findIndex(payload => payload._sequence === cursor)

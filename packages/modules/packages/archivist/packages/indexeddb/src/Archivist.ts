@@ -199,10 +199,10 @@ export class IndexedDbArchivist<
   protected async getFromCursor(
     db: IDBPDatabase<ObjectStore>,
     storeName: string,
-      order: 'asc' | 'desc' = 'asc',
-      limit: number = 10,
-      cursor?: Hex,
-      open?: boolean,
+    order: 'asc' | 'desc' = 'asc',
+    limit: number = 10,
+    cursor?: Hex,
+    open?: boolean,
   ): Promise<WithStorageMeta[]> {
     // TODO: We have to handle the case where the cursor is not found, and then find the correct cursor to start with (thunked cursor)
 
@@ -292,7 +292,7 @@ export class IndexedDbArchivist<
         // Filter out not found
         .filter(exists)
         // Sort by primary key
-        .sort((a, b) => a![0] - b![0])
+        .toSorted((a, b) => a![0] - b![0])
         // Filter out duplicates by hash
         .filter(([_key, payload]) => {
           if (found.has(payload._hash)) {

@@ -9,7 +9,6 @@ import { AbstractBridgeModuleResolver, wrapModuleWithType } from '@xyo-network/b
 import type { ConfigPayload } from '@xyo-network/config-payload-plugin'
 import { ConfigSchema } from '@xyo-network/config-payload-plugin'
 import type {
-  AttachableModuleInstance,
   ModuleConfig,
   ModuleFilterOptions,
   ModuleIdentifier,

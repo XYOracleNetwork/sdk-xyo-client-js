@@ -200,6 +200,7 @@ const ensureExistingCollectionIsCapped = async (
       // Copy most recent documents
       const docs = await collection
         .find()
+        // eslint-disable-next-line unicorn/no-array-sort
         .sort({ $natural: -1 })
         .limit(max)
         .toArray()

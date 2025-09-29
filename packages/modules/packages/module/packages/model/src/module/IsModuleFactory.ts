@@ -16,8 +16,10 @@ export class IsModuleFactory<T extends Module = Module> {
       const mod = asModuleObject(obj)
       return (
         isModuleObject(mod, config)
+        // eslint-disable-next-line unicorn/no-array-reduce
         && (expectedQueries?.reduce((prev, query) => prev && mod.queries.includes(query), true) ?? true)
         // perform additional checks
+        // eslint-disable-next-line unicorn/no-array-reduce
         && (additionalChecks?.reduce((prev, check) => prev && check(obj, config), true) ?? true)
       )
     }

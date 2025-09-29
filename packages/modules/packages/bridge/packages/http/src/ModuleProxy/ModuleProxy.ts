@@ -87,11 +87,11 @@ export class HttpModuleProxy<
         if (isString(first)) {
           const remainingPath = parts.length > 0 ? parts.join(':') : undefined
           const address
-          = isAddress(first)
-            ? first
-            : this.id === first
-              ? this.address
-              : this.childAddressByName(first)
+            = isAddress(first)
+              ? first
+              : this.id === first
+                ? this.address
+                : this.childAddressByName(first)
           if (!isAddress(address)) return undefined
           const firstInstance = (await this.params.host.resolve(address)) as ModuleInstance | undefined
           return (isString(remainingPath) ? await firstInstance?.resolve(remainingPath) : firstInstance) as T | undefined

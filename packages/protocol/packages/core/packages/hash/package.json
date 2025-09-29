@@ -65,11 +65,11 @@
   },
   "devDependencies": {
     "@xylabs/delay": "~5.0.11",
-    "@xylabs/ts-scripts-yarn3": "~7.1.7",
-    "@xylabs/tsconfig": "~7.1.7",
+    "@xylabs/ts-scripts-yarn3": "~7.1.8",
+    "@xylabs/tsconfig": "~7.1.8",
     "@xylabs/vitest-extended": "~5.0.11",
-    "esbuild": "~0.25.9",
-    "publint": "~0.3.12",
+    "esbuild": "~0.25.10",
+    "publint": "~0.3.13",
     "typescript": "~5.9.2",
     "vitest": "~3.2.4"
   },

@@ -89,8 +89,8 @@ export class ResolveHelper extends ResolveHelperStatic {
     config: ResolveHelperConfig,
     id: ModuleIdentifier = '*',
     {
- maxDepth = 3, required = 'log', ...options
-}: ModuleFilterOptions<T> = {},
+      maxDepth = 3, required = 'log', ...options
+    }: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
     const {
       transformers, mod, logger = this.defaultLogger, dead = false, upResolver, downResolver, privateResolver,

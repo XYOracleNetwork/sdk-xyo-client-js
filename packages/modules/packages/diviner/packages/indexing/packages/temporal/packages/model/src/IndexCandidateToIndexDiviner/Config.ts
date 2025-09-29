@@ -5,7 +5,7 @@ import { TemporalIndexingDivinerIndexCandidateToIndexDivinerSchema } from './Sch
 
 export type TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema = `${TemporalIndexingDivinerIndexCandidateToIndexDivinerSchema}.config`
 export const TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema: TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema
-= `${TemporalIndexingDivinerIndexCandidateToIndexDivinerSchema}.config`
+  = `${TemporalIndexingDivinerIndexCandidateToIndexDivinerSchema}.config`
 
 /**
  * Diviner Config for a Diviner which transforms Index Candidates to Indexes

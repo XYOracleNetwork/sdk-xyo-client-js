@@ -11,7 +11,7 @@
         "--inspect-brk",
         "--no-file-parallelism",
         "--testTimeout=120000",
-        "packages/manifest/packages/wrapper/src/spec/Manifest.View.spec.ts"
+        "packages/modules/packages/bridge/packages/http/src/spec/HttpBridge.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

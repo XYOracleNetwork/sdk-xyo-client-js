@@ -4054,6 +4054,8 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
+    "@xyo-network/sentinel-memory": "workspace:~"
+    "@xyo-network/sentinel-model": "workspace:~"
     "@xyo-network/wallet": "workspace:~"
     async-mutex: "npm:~0.5.0"
     axios: "npm:~1.12.2"

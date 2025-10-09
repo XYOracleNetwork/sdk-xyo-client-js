@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/manifest-wrapper",
-  "version": "5.1.4",
+  "version": "5.1.5",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

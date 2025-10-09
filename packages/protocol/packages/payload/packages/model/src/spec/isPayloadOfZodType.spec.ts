@@ -18,15 +18,17 @@ const TestPayloadZod = z.object({ data: z.object({ foo: z.string() }) })
 /* These tests are just to see if casting works as expected */
 
 describe('isPayloadOfZodType', () => {
-  it('WithMeta', () => {
-    const payload: TestPayload = { data: { foo: 'bar' }, schema: 'com.test.schema' }
-    const payloadWithMeta: TestPayload = {
-      $hash: '123', $meta: { test: 'yo' }, data: { foo: 'bar' }, schema: 'com.test.schema',
-    } as TestPayload
-    const payloadFromWithMeta: TestPayload = payloadWithMeta
-    expect(payload).toBeDefined()
-    expect(payloadFromWithMeta).toBeDefined()
-    const identity = isPayloadOfZodType<TestPayload>(TestPayloadSchema, TestPayloadZod)
+  const payload: TestPayload = { data: { foo: 'bar' }, schema: 'com.test.schema' }
+  const payloadWithMeta: TestPayload = {
+    $hash: '123', $meta: { test: 'yo' }, data: { foo: 'bar' }, schema: 'com.test.schema',
+  } as TestPayload
+  it('with schema supplied', () => {
+    const identity = isPayloadOfZodType<TestPayload>(TestPayloadZod, TestPayloadSchema)
+    expect(identity(payload)).toBeTrue()
+    expect(identity(payloadWithMeta)).toBeTrue()
+  })
+  it('without schema supplied', () => {
+    const identity = isPayloadOfZodType<TestPayload>(TestPayloadZod)
     expect(identity(payload)).toBeTrue()
     expect(identity(payloadWithMeta)).toBeTrue()
   })

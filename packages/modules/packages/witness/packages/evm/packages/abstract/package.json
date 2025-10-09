@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/witness-evm-abstract",
-  "version": "5.1.3",
+  "version": "5.1.4",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

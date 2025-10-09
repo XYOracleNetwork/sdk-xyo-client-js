@@ -1,6 +1,7 @@
 export * from './Error.ts'
 export * from './isPayload.ts'
 export * from './isPayloadOfSchemaType.ts'
+export * from './isPayloadOfZodType.ts'
 export * from './Payload.ts'
 export * from './PayloadBundle.ts'
 export * from './PayloadFindFilter.ts'

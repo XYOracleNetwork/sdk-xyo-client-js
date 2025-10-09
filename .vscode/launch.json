@@ -11,7 +11,7 @@
         "--inspect-brk",
         "--no-file-parallelism",
         "--testTimeout=120000",
-        "packages/manifest/packages/wrapper/src/spec/Manifest.View.spec.ts"
+        "packages/protocol/packages/payload/packages/model/src/spec/isPayloadOfZodType.spec.ts"
       ],
       "sourceMaps": true,
       "resolveSourceMapLocations": [

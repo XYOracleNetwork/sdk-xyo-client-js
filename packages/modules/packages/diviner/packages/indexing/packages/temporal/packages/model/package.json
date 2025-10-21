@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.11",
+    "@xylabs/hex": "~5.0.13",
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
     "@xyo-network/diviner-indexing-model": "workspace:~",
     "@xyo-network/diviner-jsonpath-model": "workspace:~",
@@ -44,7 +44,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.3"
   },
   "publishConfig": {
     "access": "public"

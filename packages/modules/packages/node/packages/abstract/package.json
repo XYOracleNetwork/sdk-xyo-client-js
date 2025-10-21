@@ -33,10 +33,10 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.11",
-    "@xylabs/base": "~5.0.11",
-    "@xylabs/hex": "~5.0.11",
-    "@xylabs/promise": "~5.0.11",
+    "@xylabs/assert": "~5.0.13",
+    "@xylabs/base": "~5.0.13",
+    "@xylabs/hex": "~5.0.13",
+    "@xylabs/promise": "~5.0.13",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
@@ -50,7 +50,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.3"
   },
   "publishConfig": {
     "access": "public"

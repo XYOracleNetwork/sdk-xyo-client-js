@@ -33,12 +33,12 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.11",
-    "@xylabs/base": "~5.0.11",
-    "@xylabs/forget": "~5.0.11",
-    "@xylabs/promise": "~5.0.11",
-    "@xylabs/telemetry": "~5.0.11",
-    "@xylabs/typeof": "~5.0.11",
+    "@xylabs/assert": "~5.0.13",
+    "@xylabs/base": "~5.0.13",
+    "@xylabs/forget": "~5.0.13",
+    "@xylabs/promise": "~5.0.13",
+    "@xylabs/telemetry": "~5.0.13",
+    "@xylabs/typeof": "~5.0.13",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
@@ -49,18 +49,18 @@
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/creatable": "~5.0.11",
-    "@xylabs/delay": "~5.0.11",
-    "@xylabs/hex": "~5.0.11",
+    "@xylabs/creatable": "~5.0.13",
+    "@xylabs/delay": "~5.0.13",
+    "@xylabs/hex": "~5.0.13",
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "@xylabs/vitest-extended": "~5.0.11",
+    "@xylabs/vitest-extended": "~5.0.13",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/id-payload-plugin": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/witness-adhoc": "workspace:~",
-    "typescript": "~5.9.2",
+    "typescript": "~5.9.3",
     "vitest": "~3.2.4"
   },
   "publishConfig": {

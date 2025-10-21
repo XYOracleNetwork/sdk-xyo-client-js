@@ -36,16 +36,16 @@
     "@xyo-network/diviner-payload-generic": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/delay": "~5.0.11",
+    "@xylabs/delay": "~5.0.13",
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "@xylabs/vitest-extended": "~5.0.11",
+    "@xylabs/vitest-extended": "~5.0.13",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "typescript": "~5.9.2",
+    "typescript": "~5.9.3",
     "vitest": "~3.2.4"
   },
   "publishConfig": {

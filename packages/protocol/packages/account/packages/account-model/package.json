@@ -33,15 +33,15 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/arraybuffer": "~5.0.11",
-    "@xylabs/hex": "~5.0.11",
+    "@xylabs/arraybuffer": "~5.0.13",
+    "@xylabs/hex": "~5.0.13",
     "@xyo-network/key-model": "workspace:~",
     "@xyo-network/previous-hash-store-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.3"
   },
   "publishConfig": {
     "access": "public"

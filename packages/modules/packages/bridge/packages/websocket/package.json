@@ -41,10 +41,10 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.11",
-    "@xylabs/hex": "~5.0.11",
-    "@xylabs/object": "~5.0.11",
-    "@xylabs/promise": "~5.0.11",
+    "@xylabs/assert": "~5.0.13",
+    "@xylabs/hex": "~5.0.13",
+    "@xylabs/object": "~5.0.13",
+    "@xylabs/promise": "~5.0.13",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/bridge-abstract": "workspace:~",
@@ -57,10 +57,10 @@
     "socket.io": "~4.8.1"
   },
   "devDependencies": {
-    "@xylabs/creatable": "~5.0.11",
+    "@xylabs/creatable": "~5.0.13",
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "@xylabs/vitest-extended": "~5.0.11",
+    "@xylabs/vitest-extended": "~5.0.13",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
@@ -68,7 +68,7 @@
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "socket.io-client": "~4.8.1",
-    "typescript": "~5.9.2",
+    "typescript": "~5.9.3",
     "vitest": "~3.2.4"
   },
   "publishConfig": {

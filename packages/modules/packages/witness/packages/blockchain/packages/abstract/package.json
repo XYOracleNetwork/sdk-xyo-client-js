@@ -33,14 +33,14 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.11",
-    "@xylabs/typeof": "~5.0.11",
+    "@xylabs/assert": "~5.0.13",
+    "@xylabs/typeof": "~5.0.13",
     "ethers": "~6.15.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.3"
   },
   "publishConfig": {
     "access": "public"

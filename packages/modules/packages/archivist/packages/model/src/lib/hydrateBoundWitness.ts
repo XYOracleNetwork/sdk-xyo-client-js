@@ -1,6 +1,7 @@
 import { exists } from '@xylabs/exists'
 import type { Hash } from '@xylabs/hex'
 import { isHash } from '@xylabs/hex'
+import type { IdentityFunction } from '@xylabs/typeof'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
 import type { WithStorageMeta } from '@xyo-network/payload-model'
@@ -8,7 +9,6 @@ import type { WithStorageMeta } from '@xyo-network/payload-model'
 import type { ReadArchivist } from '../PayloadArchivist.ts'
 import { getTypedBoundWitness, tryGetTypedBoundWitness } from './getBoundWitness.ts'
 import type { HydratedBoundWitness } from './HydratedBoundWitness.ts'
-import type { IdentityFunction } from './IdentityFunction.ts'
 
 export const tryHydrateTypedBoundWitness = async <T extends BoundWitness>(archivist: ReadArchivist, hashOrBw: Hash | WithStorageMeta<T>,
   identity: IdentityFunction<WithStorageMeta<T>>): Promise<HydratedBoundWitness<T> | undefined> => {

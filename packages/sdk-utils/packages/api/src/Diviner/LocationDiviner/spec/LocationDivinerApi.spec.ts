@@ -19,11 +19,11 @@ import { LocationWitnessSchema } from '../Witnesses/index.ts'
 const describeIf = <T>(expr?: T | null) => (expr ? describe : describe.skip)
 
 const getLocationApiConfig = (): ApiConfig => {
-  return { apiDomain: process.env.LOCATION_API_DOMAIN || 'http://localhost:8082' }
+  return { apiDomain: process.env.LOCATION_API_DOMAIN ?? 'http://localhost:8082' }
 }
 
 const getArchiveConfig = (): ApiConfig => {
-  const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
+  const apiDomain = process.env.API_DOMAIN ?? 'http://localhost:8080'
   return { apiDomain }
 }
 

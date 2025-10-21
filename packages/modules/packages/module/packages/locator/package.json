@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.11",
+    "@xylabs/assert": "~5.0.13",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-view": "workspace:~",
     "@xyo-network/bridge-http": "workspace:~",
@@ -51,7 +51,7 @@
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
     "@xyo-network/diviner-payload-memory": "workspace:~",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.3"
   },
   "publishConfig": {
     "access": "public"

@@ -33,12 +33,12 @@
     "src"
   ],
   "dependencies": {
-    "@scure/bip39": "~2.0.0",
-    "@xylabs/arraybuffer": "~5.0.11",
-    "@xylabs/assert": "~5.0.11",
-    "@xylabs/base": "~5.0.11",
-    "@xylabs/hex": "~5.0.11",
-    "@xylabs/static-implements": "~5.0.11",
+    "@scure/bip39": "~2.0.1",
+    "@xylabs/arraybuffer": "~5.0.13",
+    "@xylabs/assert": "~5.0.13",
+    "@xylabs/base": "~5.0.13",
+    "@xylabs/hex": "~5.0.13",
+    "@xylabs/static-implements": "~5.0.13",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/key-model": "workspace:~",
@@ -48,8 +48,8 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "@xylabs/vitest-matchers": "~5.0.11",
-    "typescript": "~5.9.2",
+    "@xylabs/vitest-matchers": "~5.0.13",
+    "typescript": "~5.9.3",
     "vitest": "~3.2.4"
   },
   "publishConfig": {

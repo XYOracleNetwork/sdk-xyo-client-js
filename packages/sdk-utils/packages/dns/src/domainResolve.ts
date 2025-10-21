@@ -1,3 +1,5 @@
+import { isDefined } from '@xylabs/typeof'
+
 import { DnsRecordType } from './DnsRecordType.ts'
 import { googleDnsOverHttps } from './googleDnsOverHttps.ts'
 
@@ -7,7 +9,7 @@ import { googleDnsOverHttps } from './googleDnsOverHttps.ts'
  * @returns GoogleDnsResult
  */
 const domainResolve = async (domain?: string, type: DnsRecordType = DnsRecordType.A) => {
-  if (domain) {
+  if (isDefined(domain)) {
     return await googleDnsOverHttps(domain, type)
   }
 }

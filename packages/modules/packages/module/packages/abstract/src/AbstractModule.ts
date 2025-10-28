@@ -435,8 +435,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   async started(notStartedAction: 'error' | 'throw' | 'warn' | 'log' | 'none' = 'log', tryStart = true): Promise<boolean> {
     if (isString(this.status) && this.status === 'started') {
       return true
-    }
-    if (this.status === 'created' || this.status === 'stopped') {
+    } else if (this.status === 'created' || this.status === 'stopped' || this.status === 'starting') {
       // using promise as mutex
       this._startPromise = this._startPromise ?? (async () => {
         if (tryStart) {
@@ -468,6 +467,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         }
         return false
       })()
+    } else {
+      throw new Error(`${MODULE_NOT_STARTED} [${this.address}] current state: ${this.status}`)
     }
 
     if (isUndefined(this._startPromise)) {

@@ -323,10 +323,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
     this._supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
     this._moduleConfigQueryValidator = new ModuleConfigQueryValidator(this.config).queryable
-
-    if (!AbstractModule.enableLazyLoad) {
-      await this.start?.()
-    }
   }
 
   override emit<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(

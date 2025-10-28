@@ -36,7 +36,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/mongo": "~5.0.14",
+    "@xylabs/mongo": "~5.0.16",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~"
   },

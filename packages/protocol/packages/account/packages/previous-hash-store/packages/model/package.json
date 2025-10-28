@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.14"
+    "@xylabs/hex": "~5.0.16"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.8",

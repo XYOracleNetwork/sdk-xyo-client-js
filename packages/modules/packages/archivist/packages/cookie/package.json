@@ -33,11 +33,11 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.14",
-    "@xylabs/exists": "~5.0.14",
-    "@xylabs/hex": "~5.0.14",
-    "@xylabs/promise": "~5.0.14",
-    "@xylabs/typeof": "~5.0.14",
+    "@xylabs/assert": "~5.0.16",
+    "@xylabs/exists": "~5.0.16",
+    "@xylabs/hex": "~5.0.16",
+    "@xylabs/promise": "~5.0.16",
+    "@xylabs/typeof": "~5.0.16",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@types/js-cookie": "~3.0.6",
-    "@xylabs/delay": "~5.0.14",
+    "@xylabs/delay": "~5.0.16",
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
     "@xyo-network/id-payload-plugin": "workspace:~",

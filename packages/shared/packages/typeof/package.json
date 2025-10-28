@@ -33,7 +33,7 @@
     "src"
   ],
   "devDependencies": {
-    "@types/node": "~24.9.1",
+    "@types/node": "~24.9.2",
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
     "typescript": "~5.9.3"

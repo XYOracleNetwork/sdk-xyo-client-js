@@ -33,15 +33,15 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.14",
-    "@xylabs/geo": "~5.0.14",
-    "@xylabs/hex": "~5.0.14",
+    "@xylabs/assert": "~5.0.16",
+    "@xylabs/geo": "~5.0.16",
+    "@xylabs/hex": "~5.0.16",
     "mapbox-gl": "~3.16.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "@xylabs/vitest-extended": "~5.0.14",
+    "@xylabs/vitest-extended": "~5.0.16",
     "typescript": "~5.9.3",
     "vitest": "~3.2.4"
   },

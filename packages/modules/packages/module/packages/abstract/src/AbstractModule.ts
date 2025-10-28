@@ -1,10 +1,9 @@
 /* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
-import type { BaseClassName } from '@xylabs/base'
 import { globallyUnique } from '@xylabs/base'
-import type { CreatableInstance, CreatableStatus } from '@xylabs/creatable'
+import type { CreatableInstance } from '@xylabs/creatable'
 import { AbstractCreatable } from '@xylabs/creatable'
-import { handleError, handleErrorAsync } from '@xylabs/error'
+import { handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import type { Address, Hash } from '@xylabs/hex'
@@ -116,7 +115,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   private _busyCount = 0
   private _logger: Logger | undefined | null = undefined
-  private _status: CreatableStatus = 'creating'
 
   get account() {
     return assertEx(this._account, () => 'Missing account')
@@ -193,10 +191,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this.config.reentrancy
   }
 
-  get status() {
-    return this._status
-  }
-
   override get statusReporter() {
     return this.params.statusReporter
   }
@@ -207,15 +201,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected get moduleConfigQueryValidator(): Queryable {
     return assertEx(this._moduleConfigQueryValidator, () => 'ModuleConfigQueryValidator not initialized')
-  }
-
-  protected set status(value: CreatableStatus) {
-    this._status = value
-    if (value === 'error') {
-      this.statusReporter?.report(`${this.constructor.name}:${this.id}` as BaseClassName, value, new Error('Module status changed to error'))
-    } else {
-      this.statusReporter?.report(`${this.constructor.name}:${this.id}` as BaseClassName, value, 100)
-    }
   }
 
   protected get supportedQueryValidator(): Queryable {
@@ -456,13 +441,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       this._startPromise = this._startPromise ?? (async () => {
         if (tryStart) {
           try {
-            await this.start()
-            return true
-          } catch (ex) {
-            handleError(ex, (error) => {
-              this.status = 'error'
-              this.logger?.warn(`Autostart of Module Failed: ${error.message}`)
-            })
+            return await this.start()
           } finally {
             this._startPromise = undefined
           }

@@ -58,7 +58,7 @@ export interface ModuleInstance<TParams extends ModuleParams = ModuleParams, TEv
   readonly pipeline?: ModulePipeLine
 
   // if the module has become non-functional, such as a broken bridge connection, this will be 'dead'
-  readonly status: ModuleStatus
+  readonly status: ModuleStatus | null
 }
 
 export type InstanceTypeCheck<T extends ModuleInstance = ModuleInstance> = TypeCheck<T>

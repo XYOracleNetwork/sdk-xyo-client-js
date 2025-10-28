@@ -40,10 +40,10 @@
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/promise": "~5.0.14",
+    "@xylabs/promise": "~5.0.16",
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "@xylabs/vitest-extended": "~5.0.14",
+    "@xylabs/vitest-extended": "~5.0.16",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "typescript": "~5.9.3",

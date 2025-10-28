@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.14",
+    "@xylabs/assert": "~5.0.16",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
     "@xyo-network/diviner-address-chain-abstract": "workspace:~",
@@ -43,12 +43,12 @@
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/array": "~5.0.14",
-    "@xylabs/delay": "~5.0.14",
-    "@xylabs/hex": "~5.0.14",
+    "@xylabs/array": "~5.0.16",
+    "@xylabs/delay": "~5.0.16",
+    "@xylabs/hex": "~5.0.16",
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "@xylabs/vitest-extended": "~5.0.14",
+    "@xylabs/vitest-extended": "~5.0.16",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",

@@ -33,13 +33,13 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.14",
-    "@xylabs/object": "~5.0.14",
-    "@xylabs/typeof": "~5.0.14",
+    "@xylabs/hex": "~5.0.16",
+    "@xylabs/object": "~5.0.16",
+    "@xylabs/typeof": "~5.0.16",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@types/node": "~24.9.1",
+    "@types/node": "~24.9.2",
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
     "typescript": "~5.9.3"

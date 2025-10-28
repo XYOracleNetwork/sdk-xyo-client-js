@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.14",
+    "@xylabs/assert": "~5.0.16",
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-jsonpath-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
@@ -45,7 +45,7 @@
     "@types/jsonpath": "~0.2.4",
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "@xylabs/vitest-extended": "~5.0.14",
+    "@xylabs/vitest-extended": "~5.0.16",
     "@xyo-network/wallet": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~",
     "typescript": "~5.9.3",

@@ -133,14 +133,12 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   }
 
   override async createHandler() {
-    this.status = 'creating'
     await super.createHandler()
     const addToResolvers = this.params.addToResolvers ?? true
     if (addToResolvers) {
       this.upResolver.add(this)
       this.downResolver.add(this)
     }
-    this.status = 'created'
   }
 
   manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
@@ -330,9 +328,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       if (this.status === 'started' || this.status === 'creating') {
         return
       }
-      this.status = 'starting'
       await super.startHandler()
-      this.status = 'started'
     })
   }
 

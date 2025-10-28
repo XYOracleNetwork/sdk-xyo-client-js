@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.13",
+    "@xylabs/assert": "~5.0.14",
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-huri": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",

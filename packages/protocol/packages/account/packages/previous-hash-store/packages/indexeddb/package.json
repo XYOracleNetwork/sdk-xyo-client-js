@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.13",
+    "@xylabs/hex": "~5.0.14",
     "@xyo-network/previous-hash-store-model": "workspace:~",
     "idb": "~8.0.3"
   },

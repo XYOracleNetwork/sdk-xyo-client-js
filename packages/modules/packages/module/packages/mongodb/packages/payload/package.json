@@ -41,7 +41,7 @@
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/object": "~5.0.13",
+    "@xylabs/object": "~5.0.14",
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
     "typescript": "~5.9.3"

@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/retry": "~5.0.13",
+    "@xylabs/retry": "~5.0.14",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
@@ -43,7 +43,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "@xylabs/vitest-extended": "~5.0.13",
+    "@xylabs/vitest-extended": "~5.0.14",
     "@xyo-network/diviner-identity": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "typescript": "~5.9.3",

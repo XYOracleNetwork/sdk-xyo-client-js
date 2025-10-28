@@ -33,14 +33,14 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.13",
+    "@xylabs/hex": "~5.0.14",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-plugin": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "@xylabs/vitest-extended": "~5.0.13",
+    "@xylabs/vitest-extended": "~5.0.14",
     "typescript": "~5.9.3",
     "vitest": "~3.2.4"
   },

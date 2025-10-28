@@ -33,18 +33,18 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.13",
-    "@xylabs/axios": "~5.0.13",
-    "@xylabs/hex": "~5.0.13",
-    "@xylabs/typeof": "~5.0.13",
+    "@xylabs/assert": "~5.0.14",
+    "@xylabs/axios": "~5.0.14",
+    "@xylabs/hex": "~5.0.14",
+    "@xylabs/typeof": "~5.0.14",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/delay": "~5.0.13",
+    "@xylabs/delay": "~5.0.14",
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "@xylabs/vitest-extended": "~5.0.13",
+    "@xylabs/vitest-extended": "~5.0.14",
     "typescript": "~5.9.3",
     "vitest": "~3.2.4"
   },

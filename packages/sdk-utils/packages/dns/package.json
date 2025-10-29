@@ -41,6 +41,9 @@
     "@xylabs/tsconfig": "~7.1.8",
     "typescript": "~5.9.3"
   },
+  "peerDependencies": {
+    "axios": "^1.13.1"
+  },
   "publishConfig": {
     "access": "public"
   }

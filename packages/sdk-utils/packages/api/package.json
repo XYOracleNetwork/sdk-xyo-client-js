@@ -38,8 +38,7 @@
     "@xyo-network/api-models": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/huri": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "axios": "~1.13.1"
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@types/node": "~24.9.2",
@@ -55,6 +54,9 @@
     "typescript": "~5.9.3",
     "uuid": "~13.0.0",
     "vitest": "~3.2.4"
+  },
+  "peerDependencies": {
+    "axios": "^1.13.1"
   },
   "publishConfig": {
     "access": "public"

@@ -28,7 +28,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
-    "@xylabs/vitest-extended": "~5.0.16",
+    "@xylabs/vitest-extended": "~5.0.17",
     "typescript": "~5.9.3",
     "vitest": "~3.2.4"
   },

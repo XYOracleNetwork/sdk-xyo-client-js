@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/object": "~5.0.16"
+    "@xylabs/object": "~5.0.17"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.1.8",

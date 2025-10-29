@@ -33,7 +33,7 @@
     "src"
   ],
   "devDependencies": {
-    "@xylabs/hex": "~5.0.16",
+    "@xylabs/hex": "~5.0.17",
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
     "@xyo-network/archivist-leveldb": "workspace:~",

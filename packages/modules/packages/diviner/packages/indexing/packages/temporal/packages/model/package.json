@@ -33,7 +33,7 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.16",
+    "@xylabs/hex": "~5.0.17",
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
     "@xyo-network/diviner-indexing-model": "workspace:~",
     "@xyo-network/diviner-jsonpath-model": "workspace:~",

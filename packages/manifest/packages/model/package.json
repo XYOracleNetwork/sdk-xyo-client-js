@@ -33,9 +33,9 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.16",
-    "@xylabs/object": "~5.0.16",
-    "@xylabs/typeof": "~5.0.16",
+    "@xylabs/hex": "~5.0.17",
+    "@xylabs/object": "~5.0.17",
+    "@xylabs/typeof": "~5.0.17",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {

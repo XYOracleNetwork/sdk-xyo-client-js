@@ -33,9 +33,9 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/exists": "~5.0.16",
-    "@xylabs/hex": "~5.0.16",
-    "@xylabs/typeof": "~5.0.16",
+    "@xylabs/exists": "~5.0.17",
+    "@xylabs/hex": "~5.0.17",
+    "@xylabs/typeof": "~5.0.17",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",

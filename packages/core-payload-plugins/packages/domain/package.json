@@ -51,7 +51,7 @@
     "@xylabs/tsconfig": "~7.1.8",
     "@xylabs/vitest-extended": "~5.0.17",
     "@xyo-network/api-models": "workspace:~",
-    "axios": "~1.13.1",
+    "axios": "^1.13.1",
     "typescript": "~5.9.3",
     "vitest": "~3.2.4"
   },

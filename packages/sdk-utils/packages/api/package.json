@@ -51,6 +51,7 @@
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",
+    "axios": "^1.13.1",
     "typescript": "~5.9.3",
     "uuid": "~13.0.0",
     "vitest": "~3.2.4"

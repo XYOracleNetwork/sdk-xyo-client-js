@@ -57,7 +57,7 @@
     "lru-cache": "~11.2.2"
   },
   "devDependencies": {
-    "@types/node": "~24.9.2",
+    "@types/node": "~24.10.0",
     "@xylabs/creatable": "~5.0.17",
     "@xylabs/ts-scripts-yarn3": "~7.1.8",
     "@xylabs/tsconfig": "~7.1.8",
@@ -72,7 +72,7 @@
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/wallet": "workspace:~",
-    "axios": "^1.13.1",
+    "axios": "^1.13.2",
     "typescript": "~5.9.3",
     "vitest": "~3.2.4"
   },

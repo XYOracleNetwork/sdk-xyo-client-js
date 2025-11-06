@@ -4,16 +4,34 @@ import { AsObjectFactory } from '@xylabs/object'
 
 import type { Payload } from '../Payload.ts'
 
-export interface DataHashStorageMeta {
+export interface DataHashMeta {
   _dataHash: Hash
 }
 
-export type WithDataHashStorageMeta<T extends Payload = Payload> = T & DataHashStorageMeta
-export type WithPartialDataHashStorageMeta<T extends Payload = Payload> = Partial<WithDataHashStorageMeta<T>>
+export type WithDataHashMeta<T extends Payload = Payload> = T & DataHashMeta
+export type WithPartialDataHashMeta<T extends Payload = Payload> = Partial<WithDataHashMeta<T>>
 
-export const isDataHashStorageMeta = (value: unknown): value is DataHashStorageMeta => {
-  return isHash((value as WithDataHashStorageMeta)?._dataHash)
+export const isDataHashMeta = (value: unknown): value is DataHashMeta => {
+  return isHash((value as WithDataHashMeta)?._dataHash)
 }
 
-export const asDataHashStorageMeta = AsObjectFactory.create<DataHashStorageMeta>(isDataHashStorageMeta)
-export const asOptionalDataHashStorageMeta = AsObjectFactory.createOptional<DataHashStorageMeta>(isDataHashStorageMeta)
+export const asDataHashMeta = AsObjectFactory.create<DataHashMeta>(isDataHashMeta)
+export const asOptionalDataHashMeta = AsObjectFactory.createOptional<DataHashMeta>(isDataHashMeta)
+
+/** @deprecated use DataHashMeta instead */
+export interface DataHashStorageMeta extends DataHashMeta {}
+
+/** @deprecated use WithDataHashMeta instead */
+export type WithDataHashStorageMeta<T extends Payload = Payload> = WithDataHashMeta<T>
+
+/** @deprecated use WithPartialDataHashMeta instead */
+export type WithPartialDataHashStorageMeta<T extends Payload = Payload> = WithPartialDataHashMeta<T>
+
+/** @deprecated use isDataHashMeta instead */
+export const isDataHashStorageMeta = isDataHashMeta
+
+/** @deprecated use asDataHashMeta instead */
+export const asDataHashStorageMeta = asDataHashMeta
+
+/** @deprecated use asOptionalDataHashMeta instead */
+export const asOptionalDataHashStorageMeta = asOptionalDataHashMeta

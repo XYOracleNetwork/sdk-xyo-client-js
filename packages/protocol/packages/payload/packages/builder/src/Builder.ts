@@ -12,7 +12,7 @@ import { ObjectHasher, removeEmptyFields } from '@xyo-network/hash'
 import type {
   Payload, Schema,
   Sequence,
-  WithHashStorageMeta,
+  WithHashMeta,
   WithOnlyClientMeta,
   WithOptionalSchema,
   WithoutClientMeta,
@@ -46,6 +46,26 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
     this.options = options
     const { schema } = options
     this._schema = schema
+  }
+
+  static async addHashMeta<T extends Payload>(payload: T): Promise<WithHashMeta<T>>
+  static async addHashMeta<T extends Payload>(payloads: T[]): Promise<WithHashMeta<T>[]>
+  static async addHashMeta<T extends Payload>(payloads: T | T[]): Promise<WithHashMeta<T>[] | WithHashMeta<T>> {
+    if (Array.isArray(payloads)) {
+      return await Promise.all(
+        payloads.map(async (payload) => {
+          return await this.addHashMeta(payload)
+        }),
+      )
+    } else {
+      const _hash = await this.hash(payloads)
+      const _dataHash = await this.dataHash(payloads)
+      return {
+        ...payloads,
+        _dataHash,
+        _hash,
+      }
+    }
   }
 
   static async addStorageMeta<T extends Payload>(payload: T, index?: number): Promise<WithStorageMeta<T>>
@@ -250,26 +270,6 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>, R = T> {
       result[pair[1]] = pair[0]
     }
     return result
-  }
-
-  private static async addHashMeta<T extends Payload>(payload: T): Promise<WithHashStorageMeta<T>>
-  private static async addHashMeta<T extends Payload>(payloads: T[]): Promise<WithHashStorageMeta<T>[]>
-  private static async addHashMeta<T extends Payload>(payloads: T | T[]): Promise<WithHashStorageMeta<T>[] | WithHashStorageMeta<T>> {
-    if (Array.isArray(payloads)) {
-      return await Promise.all(
-        payloads.map(async (payload) => {
-          return await this.addHashMeta(payload)
-        }),
-      )
-    } else {
-      const _hash = await this.hash(payloads)
-      const _dataHash = await this.dataHash(payloads)
-      return {
-        ...payloads,
-        _dataHash,
-        _hash,
-      }
-    }
   }
 
   private static async addSequencedStorageMeta<T extends Payload = Payload>(payload: T, timestamp: number, index = 0): Promise<WithStorageMeta<T>> {

@@ -3,19 +3,37 @@ import { isHash } from '@xylabs/hex'
 import { AsObjectFactory } from '@xylabs/object'
 
 import type { Payload } from '../Payload.ts'
-import type { DataHashStorageMeta } from './DataHash.ts'
-import { isDataHashStorageMeta } from './DataHash.ts'
+import type { DataHashMeta } from './DataHash.ts'
+import { isDataHashMeta } from './DataHash.ts'
 
-export interface HashStorageMeta extends DataHashStorageMeta {
+export interface HashMeta extends DataHashMeta {
   _hash: Hash
 }
 
-export type WithHashStorageMeta<T extends Payload = Payload> = T & HashStorageMeta
-export type WithPartialHashStorageMeta<T extends Payload = Payload> = Partial<WithHashStorageMeta<T>>
+export type WithHashMeta<T extends Payload = Payload> = T & HashMeta
+export type WithPartialHashMeta<T extends Payload = Payload> = Partial<WithHashMeta<T>>
 
-export const isHashStorageMeta = (value: unknown): value is HashStorageMeta => {
-  return isDataHashStorageMeta(value) && isHash((value as WithHashStorageMeta)?._hash)
+export const isHashMeta = (value: unknown): value is HashMeta => {
+  return isDataHashMeta(value) && isHash((value as WithHashMeta)?._hash)
 }
 
-export const asHashStorageMeta = AsObjectFactory.create<HashStorageMeta>(isHashStorageMeta)
-export const asOptionalHashStorageMeta = AsObjectFactory.createOptional<HashStorageMeta>(isHashStorageMeta)
+export const asHashMeta = AsObjectFactory.create<HashMeta>(isHashMeta)
+export const asOptionalHashMeta = AsObjectFactory.createOptional<HashMeta>(isHashMeta)
+
+/** @deprecated use HashMeta instead */
+export interface HashStorageMeta extends HashMeta {}
+
+/** @deprecated use WithHashMeta instead */
+export type WithHashStorageMeta<T extends Payload = Payload> = WithHashMeta<T>
+
+/** @deprecated use WithPartialHashMeta instead */
+export type WithPartialHashStorageMeta<T extends Payload = Payload> = Partial<WithHashMeta<T>>
+
+/** @deprecated use isHashMeta instead */
+export const isHashStorageMeta = isHashMeta
+
+/** @deprecated use asHashMeta instead */
+export const asHashStorageMeta = asHashMeta
+
+/** @deprecated use asOptionalHashMeta instead */
+export const asOptionalHashStorageMeta = asOptionalHashMeta

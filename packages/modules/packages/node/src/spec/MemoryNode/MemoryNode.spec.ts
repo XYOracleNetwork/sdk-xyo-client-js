@@ -140,7 +140,7 @@ describe('MemoryNode', () => {
           .then(async () => {
             // wait for up to 5 seconds
             let waitFrames = 50
-            while (waitFrames) {
+            while (waitFrames > 0) {
               if (eventDone) {
                 resolve()
                 return
@@ -280,8 +280,7 @@ describe('MemoryNode', () => {
             await nestedNode.attach(mod.address, true)
           }),
         )
-        const rootModules: AttachableModuleInstance[] = [await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })]
-        rootModules.push(nestedNode)
+        const rootModules: AttachableModuleInstance[] = [await MemoryArchivist.create({ account: testAccount4, config: archivistConfig }), nestedNode]
         await Promise.all(
           rootModules.map(async (mod) => {
             await node.register(mod)
@@ -400,8 +399,7 @@ describe('MemoryNode', () => {
             await nestedNode.attach(mod.address, true)
           }),
         )
-        const rootModules: AttachableModuleInstance[] = [await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })]
-        rootModules.push(nestedNode)
+        const rootModules: AttachableModuleInstance[] = [await MemoryArchivist.create({ account: testAccount4, config: archivistConfig }), nestedNode]
         await Promise.all(
           rootModules.map(async (mod) => {
             await node.register(mod)

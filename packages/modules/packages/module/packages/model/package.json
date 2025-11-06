@@ -33,27 +33,27 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.17",
-    "@xylabs/creatable": "~5.0.17",
-    "@xylabs/events": "~5.0.17",
-    "@xylabs/exists": "~5.0.17",
-    "@xylabs/hex": "~5.0.17",
-    "@xylabs/logger": "~5.0.17",
-    "@xylabs/object": "~5.0.17",
-    "@xylabs/promise": "~5.0.17",
-    "@xylabs/retry": "~5.0.17",
-    "@xylabs/typeof": "~5.0.17",
+    "@xylabs/assert": "~5.0.18",
+    "@xylabs/creatable": "~5.0.18",
+    "@xylabs/events": "~5.0.18",
+    "@xylabs/exists": "~5.0.18",
+    "@xylabs/hex": "~5.0.18",
+    "@xylabs/logger": "~5.0.18",
+    "@xylabs/object": "~5.0.18",
+    "@xylabs/promise": "~5.0.18",
+    "@xylabs/retry": "~5.0.18",
+    "@xylabs/typeof": "~5.0.18",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.1.8",
-    "@xylabs/tsconfig": "~7.1.8",
-    "@xylabs/vitest-extended": "~5.0.17",
+    "@xylabs/ts-scripts-yarn3": "~7.2.3",
+    "@xylabs/tsconfig": "~7.2.3",
+    "@xylabs/vitest-extended": "~5.0.18",
     "typescript": "~5.9.3",
-    "vitest": "~3.2.4"
+    "vitest": "~4.0.7"
   },
   "publishConfig": {
     "access": "public"

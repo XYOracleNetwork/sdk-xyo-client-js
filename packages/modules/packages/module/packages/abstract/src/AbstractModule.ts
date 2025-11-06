@@ -580,11 +580,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected async generateDescribe(): Promise<ModuleDescriptionPayload> {
     const description: ModuleDescriptionPayload = {
       address: this.address,
+      name: this.modName ?? `Unnamed ${this.constructor.name}`,
       queries: this.queries,
       schema: ModuleDescriptionSchema,
     }
-
-    description.name = this.modName ?? `Unnamed ${this.constructor.name}`
 
     const discover = await this.generateConfigAndAddress()
 

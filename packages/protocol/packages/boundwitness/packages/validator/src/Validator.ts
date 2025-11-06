@@ -28,10 +28,9 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
   }
 
   addresses(): Error[] {
-    const errors: Error[] = []
+    const errors: Error[] = [...this.addressesUniqueness()]
     // const { addresses } = this.obj
     // if (!addresses?.length) errors.push(new Error('addresses missing [at least one address required]'))
-    errors.push(...this.addressesUniqueness())
     return errors
   }
 
@@ -101,14 +100,12 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
   }
 
   validateArrayLengths(): Error[] {
-    const errors: Error[] = []
-    errors.push(...this.validatePayloadHashesLength())
+    const errors: Error[] = [...this.validatePayloadHashesLength()]
     return errors
   }
 
   validatePayloadHashesLength(): Error[] {
-    const errors: Error[] = []
-    errors.push(...this.validateArrayLength('payload_hashes', 'payload_schemas'))
+    const errors: Error[] = [...this.validateArrayLength('payload_hashes', 'payload_schemas')]
     return errors
   }
 

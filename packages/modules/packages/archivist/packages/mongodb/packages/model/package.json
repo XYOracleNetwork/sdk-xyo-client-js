@@ -36,13 +36,13 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/mongo": "~5.0.17",
+    "@xylabs/mongo": "~5.0.18",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.1.8",
-    "@xylabs/tsconfig": "~7.1.8",
+    "@xylabs/ts-scripts-yarn3": "~7.2.3",
+    "@xylabs/tsconfig": "~7.2.3",
     "typescript": "~5.9.3"
   },
   "engines": {

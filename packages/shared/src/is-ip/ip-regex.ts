@@ -5,7 +5,7 @@ export interface Options {
   readonly includeBoundaries?: boolean
 }
 
-const boundary = (options: Options) => (options.includeBoundaries ? `(?:(?<=\\s|^)(?=${word})|(?<=${word})(?=\\s|$))` : '')
+const boundary = (options: Options) => (options.includeBoundaries ? String.raw`(?:(?<=\\s|^)(?=${word})|(?<=${word})(?=\\s|$))` : '')
 
 const v4 = String.raw`(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}`
 

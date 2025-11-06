@@ -33,19 +33,19 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.17",
+    "@xylabs/hex": "~5.0.18",
     "@xyo-network/previous-hash-store-model": "workspace:~",
     "idb": "~8.0.3"
   },
   "devDependencies": {
     "@types/node": "~24.10.0",
     "@types/uuid": "11.0.0",
-    "@xylabs/ts-scripts-yarn3": "~7.1.8",
-    "@xylabs/tsconfig": "~7.1.8",
+    "@xylabs/ts-scripts-yarn3": "~7.2.3",
+    "@xylabs/tsconfig": "~7.2.3",
     "fake-indexeddb": "~6.2.4",
     "typescript": "~5.9.3",
     "uuid": "~13.0.0",
-    "vitest": "~3.2.4"
+    "vitest": "~4.0.7"
   },
   "publishConfig": {
     "access": "public"

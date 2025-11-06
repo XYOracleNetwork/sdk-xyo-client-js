@@ -47,8 +47,7 @@ export class PayloadValidator<T extends Payload = Payload> extends ValidatorBase
   }
 
   validate(): Promisable<Error[]> {
-    const errors: Error[] = []
-    errors.push(...this.schemaName())
+    const errors: Error[] = [...this.schemaName()]
     return errors
   }
 }

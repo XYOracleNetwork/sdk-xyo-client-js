@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/payload-builder",
-  "version": "5.1.15",
+  "version": "5.1.16",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

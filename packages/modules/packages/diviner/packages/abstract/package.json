@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-abstract",
-  "version": "5.1.16",
+  "version": "5.1.17",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -56,8 +56,8 @@
     "@xylabs/events": "~5.0.18",
     "@xylabs/logger": "~5.0.18",
     "@xylabs/object": "~5.0.18",
-    "@xylabs/ts-scripts-yarn3": "~7.2.3",
-    "@xylabs/tsconfig": "~7.2.3",
+    "@xylabs/ts-scripts-yarn3": "~7.2.4",
+    "@xylabs/tsconfig": "~7.2.4",
     "@xyo-network/module-events": "workspace:~",
     "typescript": "~5.9.3"
   },

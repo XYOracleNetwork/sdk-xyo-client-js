@@ -33,7 +33,7 @@
     "src"
   ],
   "devDependencies": {
-    "@xylabs/hex": "~5.0.18",
+    "@xylabs/hex": "~5.0.19",
     "@xylabs/ts-scripts-yarn3": "~7.2.4",
     "@xylabs/tsconfig": "~7.2.4",
     "@xyo-network/archivist-leveldb": "workspace:~",
@@ -43,7 +43,7 @@
     "@xyo-network/payload-model": "workspace:~",
     "typescript": "~5.9.3",
     "uuid": "~13.0.0",
-    "vitest": "~4.0.7"
+    "vitest": "~4.0.8"
   },
   "publishConfig": {
     "access": "public"

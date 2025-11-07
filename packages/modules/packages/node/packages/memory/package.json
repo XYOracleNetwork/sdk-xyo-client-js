@@ -33,19 +33,19 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.18",
-    "@xylabs/exists": "~5.0.18",
-    "@xylabs/hex": "~5.0.18",
-    "@xylabs/promise": "~5.0.18",
-    "@xylabs/typeof": "~5.0.18",
+    "@xylabs/assert": "~5.0.19",
+    "@xylabs/exists": "~5.0.19",
+    "@xylabs/hex": "~5.0.19",
+    "@xylabs/promise": "~5.0.19",
+    "@xylabs/typeof": "~5.0.19",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node-abstract": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
-    "@xylabs/creatable": "~5.0.18",
-    "@xylabs/events": "~5.0.18",
+    "@xylabs/creatable": "~5.0.19",
+    "@xylabs/events": "~5.0.19",
     "@xylabs/ts-scripts-yarn3": "~7.2.4",
     "@xylabs/tsconfig": "~7.2.4",
     "@xyo-network/module-events": "workspace:~",

@@ -33,18 +33,18 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/object": "~5.0.18",
-    "@xylabs/promise": "~5.0.18",
-    "@xylabs/typeof": "~5.0.18",
+    "@xylabs/object": "~5.0.19",
+    "@xylabs/promise": "~5.0.19",
+    "@xylabs/typeof": "~5.0.19",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/schema-name-validator": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.4",
     "@xylabs/tsconfig": "~7.2.4",
-    "@xylabs/vitest-extended": "~5.0.18",
+    "@xylabs/vitest-extended": "~5.0.19",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.7"
+    "vitest": "~4.0.8"
   },
   "publishConfig": {
     "access": "public"

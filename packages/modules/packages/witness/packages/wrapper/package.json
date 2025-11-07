@@ -40,14 +40,14 @@
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/promise": "~5.0.18",
+    "@xylabs/promise": "~5.0.19",
     "@xylabs/ts-scripts-yarn3": "~7.2.4",
     "@xylabs/tsconfig": "~7.2.4",
-    "@xylabs/vitest-extended": "~5.0.18",
+    "@xylabs/vitest-extended": "~5.0.19",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.7"
+    "vitest": "~4.0.8"
   },
   "publishConfig": {
     "access": "public"

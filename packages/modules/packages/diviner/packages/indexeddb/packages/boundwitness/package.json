@@ -33,9 +33,9 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/array": "~5.0.18",
-    "@xylabs/assert": "~5.0.18",
-    "@xylabs/exists": "~5.0.18",
+    "@xylabs/array": "~5.0.19",
+    "@xylabs/assert": "~5.0.19",
+    "@xylabs/exists": "~5.0.19",
     "@xyo-network/archivist-indexeddb": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -47,17 +47,17 @@
     "idb": "~8.0.3"
   },
   "devDependencies": {
-    "@xylabs/delay": "~5.0.18",
+    "@xylabs/delay": "~5.0.19",
     "@xylabs/ts-scripts-yarn3": "~7.2.4",
     "@xylabs/tsconfig": "~7.2.4",
-    "@xylabs/vitest-extended": "~5.0.18",
+    "@xylabs/vitest-extended": "~5.0.19",
     "@xyo-network/archivist-indexeddb": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
-    "fake-indexeddb": "~6.2.4",
+    "fake-indexeddb": "~6.2.5",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.7"
+    "vitest": "~4.0.8"
   },
   "publishConfig": {
     "access": "public"

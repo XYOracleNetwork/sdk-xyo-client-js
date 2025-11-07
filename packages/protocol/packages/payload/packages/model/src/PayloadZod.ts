@@ -1,13 +1,20 @@
-import { HashToJsonZod } from '@xylabs/hex'
+import { HashZod } from '@xylabs/hex'
 import * as z from 'zod'
 
 import { SchemaZod } from './Schema.ts'
-import { SequenceToStringZod } from './StorageMeta/index.ts'
+import { SequenceFromStringZod } from './StorageMeta/index.ts'
+
+export const HashMetaZod = z.object({
+  _hash: HashZod,
+  _dataHash: HashZod,
+})
+
+export const SequenceMetaZod = z.object({ _sequence: SequenceFromStringZod })
 
 export const StorageMetaZod = z.object({
-  _hash: HashToJsonZod,
-  _dataHash: HashToJsonZod,
-  _sequence: SequenceToStringZod,
+  _hash: HashZod,
+  _dataHash: HashZod,
+  _sequence: SequenceFromStringZod,
 })
 
 export const PayloadZod = z.object({ schema: SchemaZod })

@@ -33,17 +33,17 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.19",
-    "@xylabs/hex": "~5.0.19",
-    "@xylabs/promise": "~5.0.19",
+    "@xylabs/assert": "~5.0.24",
+    "@xylabs/hex": "~5.0.24",
+    "@xylabs/promise": "~5.0.24",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-validator": "workspace:~",
     "ajv": "~8.17.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.2.4",
-    "@xylabs/tsconfig": "~7.2.4",
+    "@xylabs/ts-scripts-yarn3": "~7.2.8",
+    "@xylabs/tsconfig": "~7.2.8",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

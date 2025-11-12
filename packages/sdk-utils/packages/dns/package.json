@@ -33,12 +33,12 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/axios": "~5.0.19",
-    "@xylabs/typeof": "~5.0.19"
+    "@xylabs/axios": "~5.0.24",
+    "@xylabs/typeof": "~5.0.24"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.2.4",
-    "@xylabs/tsconfig": "~7.2.4",
+    "@xylabs/ts-scripts-yarn3": "~7.2.8",
+    "@xylabs/tsconfig": "~7.2.8",
     "axios": "^1.13.2",
     "typescript": "~5.9.3"
   },

@@ -33,9 +33,9 @@
     "src"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.19",
-    "@xylabs/timer": "~5.0.19",
-    "@xylabs/typeof": "~5.0.19",
+    "@xylabs/assert": "~5.0.24",
+    "@xylabs/timer": "~5.0.24",
+    "@xylabs/typeof": "~5.0.24",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -49,9 +49,9 @@
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/hex": "~5.0.19",
-    "@xylabs/ts-scripts-yarn3": "~7.2.4",
-    "@xylabs/tsconfig": "~7.2.4",
+    "@xylabs/hex": "~5.0.24",
+    "@xylabs/ts-scripts-yarn3": "~7.2.8",
+    "@xylabs/tsconfig": "~7.2.8",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

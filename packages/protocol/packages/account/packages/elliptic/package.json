@@ -34,16 +34,16 @@
   ],
   "dependencies": {
     "@bitauth/libauth": "~3.0.0",
-    "@xylabs/arraybuffer": "~5.0.19",
-    "@xylabs/assert": "~5.0.19",
-    "@xylabs/hex": "~5.0.19",
+    "@xylabs/arraybuffer": "~5.0.24",
+    "@xylabs/assert": "~5.0.24",
+    "@xylabs/hex": "~5.0.24",
     "@xyo-network/data": "workspace:~",
     "@xyo-network/wasm": "workspace:~",
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.2.4",
-    "@xylabs/tsconfig": "~7.2.4",
+    "@xylabs/ts-scripts-yarn3": "~7.2.8",
+    "@xylabs/tsconfig": "~7.2.8",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

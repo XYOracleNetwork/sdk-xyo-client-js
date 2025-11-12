@@ -1,6 +1,6 @@
 import type { EmptyObject } from '@xylabs/object'
 import { AsTypeFactory } from '@xylabs/object'
-import * as z from 'zod'
+import z from 'zod'
 
 export const SchemaRegEx = /^(?:[a-z0-9]+\.)*[a-z0-9]+$/
 

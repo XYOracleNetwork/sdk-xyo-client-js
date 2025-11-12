@@ -1,5 +1,5 @@
 import { HashZod } from '@xylabs/hex'
-import * as z from 'zod'
+import z from 'zod'
 
 import { SchemaZod } from './Schema.ts'
 import { SequenceFromStringZod } from './StorageMeta/index.ts'
@@ -18,18 +18,31 @@ export const StorageMetaZod = z.object({
 })
 
 export const PayloadZod = z.object({ schema: SchemaZod })
+
+/** @deprecated use WithStorageMetaZod */
 export const PayloadWithStorageMetaZod = PayloadZod.extend(StorageMetaZod.shape)
 
 export const AnyPayloadZod = PayloadZod.catchall(z.json())
+
+/** @deprecated use WithStorageMetaZod */
 export const AnyPayloadWithStorageMetaZod = AnyPayloadZod.extend(StorageMetaZod.shape)
 
+/** @deprecated use WithStorageMetaZod */
+// eslint-disable-next-line sonarjs/deprecation
 export type PayloadWithStorageMeta = z.infer<typeof PayloadWithStorageMetaZod>
 
 export type AnyPayload = z.infer<typeof AnyPayloadZod>
+
+/** @deprecated use WithStorageMetaZod */
+// eslint-disable-next-line sonarjs/deprecation
 export type AnyPayloadWithStorageMeta = z.infer<typeof AnyPayloadWithStorageMetaZod>
 
-export function WithStorageMetaZod<T extends typeof PayloadZod>(valueZod: T) {
-  return StorageMetaZod.extend(valueZod.shape)
+export function WithStorageMetaZod<T extends z.ZodRawShape>(valueZod: z.ZodObject<T>) {
+  return valueZod.extend(StorageMetaZod.shape)
+}
+
+export function WithHashMetaZod<T extends z.ZodRawShape>(valueZod: z.ZodObject<T>) {
+  return valueZod.extend(HashMetaZod.shape)
 }
 
 export const PayloadZodStrict = z.strictObject({ schema: SchemaZod })

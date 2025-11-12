@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/data",
-  "version": "5.1.20",
+  "version": "5.1.21",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

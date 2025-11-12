@@ -33,13 +33,6 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
   static createBrowserWorker?: (url?: URL) => Worker | undefined
   static createNodeWorker?: (func?: () => unknown) => Worker | undefined
 
-  static readonly initialized = (() => {
-    globalThis.xyo = globalThis.xyo ?? {}
-    if (globalThis.xyo.hashing) {
-      console.warn('Two static instances of PayloadHasher detected')
-    }
-  })()
-
   static readonly subtleHashWorkerUrl?: URL
 
   static warnIfUsingJsHash = true

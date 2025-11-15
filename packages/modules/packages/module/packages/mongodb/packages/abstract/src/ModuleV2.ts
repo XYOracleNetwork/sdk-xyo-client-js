@@ -120,7 +120,7 @@ const ensureIndexesExistOnCollection = async (
       } catch (error) {
         const mongoServerError = error as MongoServerError
         const { codeName } = mongoServerError
-        if (codeName === 'IndexKeySpecsConflict' || codeName === 'IndexOptionsConflict') {
+        if (codeName === 'IndexKeySpecsConflict' || codeName === 'IndexOptionsConflict' || codeName === 'Unauthorized') {
           // Index already exists which is fine OR index exists with another name which is fine
           // TODO: For the latter case (IndexOptionsConflict) we could get into this case
           // if we change the TTL an existing index.  We currently don't support TTLs so

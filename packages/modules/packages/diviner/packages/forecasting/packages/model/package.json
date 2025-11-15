@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.24",
-    "@xylabs/promise": "~5.0.24",
+    "@xylabs/hex": "~5.0.33",
+    "@xylabs/promise": "~5.0.33",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"

@@ -36,11 +36,11 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/array": "~5.0.24",
-    "@xylabs/assert": "~5.0.24",
-    "@xylabs/events": "~5.0.24",
-    "@xylabs/forget": "~5.0.24",
-    "@xylabs/hex": "~5.0.24",
+    "@xylabs/array": "~5.0.33",
+    "@xylabs/assert": "~5.0.33",
+    "@xylabs/events": "~5.0.33",
+    "@xylabs/forget": "~5.0.33",
+    "@xylabs/hex": "~5.0.33",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-abstract": "workspace:~",
@@ -51,17 +51,17 @@
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
-    "@xylabs/delay": "~5.0.24",
+    "@xylabs/delay": "~5.0.33",
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.24",
+    "@xylabs/vitest-extended": "~5.0.33",
     "@xyo-network/archivist-indexeddb": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "fake-indexeddb": "~6.2.5",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.8"
+    "vitest": "~4.0.9"
   },
   "publishConfig": {
     "access": "public"

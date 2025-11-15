@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.24",
-    "@xylabs/hex": "~5.0.24",
+    "@xylabs/assert": "~5.0.33",
+    "@xylabs/hex": "~5.0.33",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~"

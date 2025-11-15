@@ -36,16 +36,16 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.24",
+    "@xylabs/hex": "~5.0.33",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-plugin": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.24",
+    "@xylabs/vitest-extended": "~5.0.33",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.8"
+    "vitest": "~4.0.9"
   },
   "publishConfig": {
     "access": "public"

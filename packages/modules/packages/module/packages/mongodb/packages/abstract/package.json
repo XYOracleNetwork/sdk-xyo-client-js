@@ -39,11 +39,11 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.24",
-    "@xylabs/exists": "~5.0.24",
-    "@xylabs/mongo": "~5.0.24",
-    "@xylabs/static-implements": "~5.0.24",
-    "@xylabs/typeof": "~5.0.24",
+    "@xylabs/assert": "~5.0.33",
+    "@xylabs/exists": "~5.0.33",
+    "@xylabs/mongo": "~5.0.33",
+    "@xylabs/static-implements": "~5.0.33",
+    "@xylabs/typeof": "~5.0.33",
     "@xyo-network/module-model-mongodb": "workspace:~",
     "mongodb": "~6.20.0"
   },

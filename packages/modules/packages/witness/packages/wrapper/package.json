@@ -43,14 +43,14 @@
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/promise": "~5.0.24",
+    "@xylabs/promise": "~5.0.33",
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.24",
+    "@xylabs/vitest-extended": "~5.0.33",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.8"
+    "vitest": "~4.0.9"
   },
   "publishConfig": {
     "access": "public"

@@ -55,7 +55,7 @@
   "dependencies": {
     "@xyo-network/manifest": "workspace:~",
     "@xyo-network/modules": "workspace:~",
-    "@xyo-network/protocol": "workspace:~"
+    "@xyo-network/protocol": "2.41.4"
   },
   "devDependencies": {
     "@firebase/app": "~0.14.5",

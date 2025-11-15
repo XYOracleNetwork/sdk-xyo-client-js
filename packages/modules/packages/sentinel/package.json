@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sentinel",
-  "version": "5.1.22",
+  "version": "5.1.23",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

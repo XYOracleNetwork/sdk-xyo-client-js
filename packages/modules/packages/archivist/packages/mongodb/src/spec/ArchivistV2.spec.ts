@@ -31,6 +31,7 @@ describe.runIf(hasMongoDBConfig())('ArchivistV2', () => {
       config: { schema: MongoDBArchivistV2.defaultConfigSchema },
       payloadSdkConfig: payloadsConfig,
     })
+    await mod.start()
     archivist = new ArchivistWrapper({ mod: mod, account: await Account.random() })
     const payload1: Payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: Date.now() }).build()
     await delay(2)

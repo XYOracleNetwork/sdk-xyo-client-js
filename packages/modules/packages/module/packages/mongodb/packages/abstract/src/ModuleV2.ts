@@ -121,7 +121,12 @@ const ensureIndexesExistOnCollection = async (
         const mongoServerError = error as MongoServerError
         const { codeName } = mongoServerError
         if (codeName === 'IndexKeySpecsConflict' || codeName === 'IndexOptionsConflict' || codeName === 'Unauthorized') {
-          // Index already exists which is fine OR index exists with another name which is fine
+          // Allowed errors:
+          // - IndexKeySpecsConflict: Index already exists which is fine
+          // - IndexOptionsConflict: Index already exists with another name which is fine
+          // - Unauthorized: Index can't be created since we don't have permission to create indexes
+          //   which is fine so long as we're only viewing collection as readonly (determined by connection
+          //   string passed in so presumably the desired configuration)
           // TODO: For the latter case (IndexOptionsConflict) we could get into this case
           // if we change the TTL an existing index.  We currently don't support TTLs so
           // we'll need to revisit this assumption if we do.

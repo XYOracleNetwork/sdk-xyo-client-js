@@ -33,7 +33,10 @@
   "types": "dist/node/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "!**/*.bench.*",
+    "!**/*.spec.*",
+    "!**/*.test.*"
   ],
   "dependencies": {
     "@xyo-network/boundwitness-model": "workspace:~",

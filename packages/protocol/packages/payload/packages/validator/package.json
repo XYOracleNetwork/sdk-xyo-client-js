@@ -30,7 +30,10 @@
   "types": "dist/neutral/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "!**/*.bench.*",
+    "!**/*.spec.*",
+    "!**/*.test.*"
   ],
   "dependencies": {
     "@xylabs/object": "~5.0.24",

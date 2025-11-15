@@ -18,7 +18,10 @@
   "types": "dist/neutral/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "!**/*.bench.*",
+    "!**/*.spec.*",
+    "!**/*.test.*"
   ],
   "dependencies": {
     "@xyo-network/diviner-forecasting-model": "workspace:~",

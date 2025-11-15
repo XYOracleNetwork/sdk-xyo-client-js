@@ -44,7 +44,10 @@
   "types": "dist/neutral/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "!**/*.bench.*",
+    "!**/*.spec.*",
+    "!**/*.test.*"
   ],
   "scripts": {
     "bundle": "yarn subtleHashBundle && yarn wasmHashBundle",

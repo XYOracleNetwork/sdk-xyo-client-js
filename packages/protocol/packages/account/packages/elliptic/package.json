@@ -30,7 +30,10 @@
   "types": "dist/neutral/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "!**/*.bench.*",
+    "!**/*.spec.*",
+    "!**/*.test.*"
   ],
   "dependencies": {
     "@bitauth/libauth": "~3.0.0",

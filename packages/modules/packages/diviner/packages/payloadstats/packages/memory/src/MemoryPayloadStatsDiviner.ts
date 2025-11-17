@@ -21,8 +21,7 @@ export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams
 
   protected async divineAddress(address: Address): Promise<number> {
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
-    const all = assertEx(archivist.all, () => 'Archivist does not support "all"')
-    return (await all())
+    return (await archivist.next({ limit: 20_000 }))
       .filter(isBoundWitnessWithStorageMeta)
       .filter(bw => bw.addresses.includes(address))
       .map(bw => bw.payload_hashes.length)
@@ -31,8 +30,8 @@ export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams
 
   protected async divineAllAddresses(): Promise<number> {
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
-    const all = assertEx(archivist.all, () => 'Archivist does not support "all"')
-    return (await all()).length
+    const all = await archivist.next({ limit: 20_000 })
+    return all.length
   }
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {

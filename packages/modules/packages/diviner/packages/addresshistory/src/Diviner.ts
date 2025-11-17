@@ -41,7 +41,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
     return (
       await Promise.all(
         archivists.map(async (archivist) => {
-          const all = await archivist.all?.()
+          const all = await archivist.next({ limit: 10_000 })
           return all?.filter(isBoundWitnessWithStorageMeta)
         }),
       )

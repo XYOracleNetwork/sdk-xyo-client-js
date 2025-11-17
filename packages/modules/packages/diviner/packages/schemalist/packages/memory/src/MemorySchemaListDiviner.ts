@@ -22,8 +22,7 @@ export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = S
 
   protected async divineAddress(address: Address): Promise<string[]> {
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
-    const all = await assertEx(archivist.all, () => 'Archivist does not support "all"')()
-    const filtered = all
+    const filtered = (await archivist.next({ limit: 20_000 }))
       .filter(isBoundWitnessWithStorageMeta)
       .filter(bw => bw.addresses.includes(address))
     return filtered.flatMap(bw => bw.payload_schemas).filter(distinct)
@@ -31,7 +30,7 @@ export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = S
 
   protected async divineAllAddresses(): Promise<string[]> {
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
-    const all = await assertEx(archivist.all, () => 'Archivist does not support "all"')()
+    const all = await archivist.next({ limit: 20_000 })
     return all.map(payload => payload.schema).filter(distinct)
   }
 

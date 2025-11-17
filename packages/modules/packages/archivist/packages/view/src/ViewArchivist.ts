@@ -62,7 +62,9 @@ export class ViewArchivist<
     return this._originArchivistInstance
   }
 
+  /** @deprecated use next instead */
   protected override async allHandler(): Promise<WithStorageMeta<Payload>[]> {
+    // eslint-disable-next-line sonarjs/deprecation
     return (await (await this.originArchivistInstance()).all?.()) ?? []
   }
 

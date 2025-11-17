@@ -69,7 +69,7 @@ export class MemoryBoundWitnessDiviner<
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
-    let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitnessWithStorageMeta)
+    let bws = ((await archivist?.next({ limit: 10_000 })) ?? []).filter(isBoundWitnessWithStorageMeta)
     return applyBoundWitnessDivinerQueryPayload(filter, bws) as TOut[]
   }
 }

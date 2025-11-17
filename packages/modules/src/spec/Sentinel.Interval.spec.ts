@@ -67,7 +67,7 @@ describe('Sentinel.Interval', () => {
     expect(archivist).toBeDefined()
     while (payloads.length === 0) {
       await delay(500)
-      const all = await archivist?.all?.() ?? []
+      const all = await archivist?.next({ limit: 20_000 }) ?? []
       const filtered = all.filter(p => p.schema === NETWORK_XYO_TEST)
       if (filtered.length > 0) payloads.push(...filtered)
     }

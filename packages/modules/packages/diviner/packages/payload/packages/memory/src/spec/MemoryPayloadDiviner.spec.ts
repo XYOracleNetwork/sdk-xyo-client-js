@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/deprecation */
 /* eslint-disable max-nested-callbacks */
 
 import '@xylabs/vitest-extended'

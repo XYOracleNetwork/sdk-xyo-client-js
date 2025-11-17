@@ -1,8 +1,7 @@
 import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist-memory'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { BoundWitnessDivinerConfigSchema } from '@xyo-network/diviner-boundwitness-model'
-import { GenericPayloadDivinerConfigSchema } from '@xyo-network/diviner-payload-generic'
-import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
+import { GenericPayloadDiviner, GenericPayloadDivinerConfigSchema } from '@xyo-network/diviner-payload-generic'
 import type { PayloadPointerDivinerConfig } from '@xyo-network/diviner-payload-pointer-model'
 import { PayloadPointerDivinerConfigSchema } from '@xyo-network/diviner-payload-pointer-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -18,7 +17,7 @@ export const PayloadPointerDivinerName = 'PayloadPointerDiviner'
 export const getTestNode = async (): Promise<NodeInstance> => {
   const node = await MemoryNode.create({ account: 'random' })
   const archivist = await MemoryArchivist.create({ account: 'random', config: { schema: MemoryArchivistConfigSchema, name: ArchivistName } })
-  const payloadDiviner = await MemoryPayloadDiviner.create({
+  const payloadDiviner = await GenericPayloadDiviner.create({
     account: 'random',
     config: {
       schema: GenericPayloadDivinerConfigSchema, name: PayloadDivinerName, archivist: ArchivistName,

@@ -23,7 +23,7 @@ export class MemoryBoundWitnessStatsDiviner<
 
   protected async divineAddress(address: Address): Promise<number> {
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
-    const all = assertEx(await archivist.all?.(), () => 'Archivist does not support "all"')
+    const all = assertEx(await archivist.next({ limit: 10_000 }), () => 'Archivist does not support "all"')
     return all
       .filter(isBoundWitnessWithStorageMeta)
       .filter(bw => bw.addresses.includes(address)).length
@@ -31,7 +31,7 @@ export class MemoryBoundWitnessStatsDiviner<
 
   protected async divineAllAddresses(): Promise<number> {
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
-    const all = assertEx(await archivist.all?.(), () => 'Archivist does not support "all"')
+    const all = assertEx(await archivist.next({ limit: 10_000 }), () => 'Archivist does not support "all"')
     return all.filter(isBoundWitness).length
   }
 

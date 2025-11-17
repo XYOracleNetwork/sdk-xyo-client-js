@@ -125,7 +125,7 @@ export abstract class AbstractArchivist<
     return !!this.config?.storeParentReads
   }
 
-  /** deprecated use next or snapshot instead */
+  /** @deprecated use next or snapshot instead */
   async all(): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('all')
     this.isSupportedQuery(ArchivistAllQuerySchema, 'all')

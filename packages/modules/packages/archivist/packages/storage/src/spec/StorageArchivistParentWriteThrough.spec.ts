@@ -61,7 +61,7 @@ test('Archivist Parent Write Through', async () => {
   expect(fromMemory).toBeArrayOfSize(1)
 
   storage.on('cleared', async ({ mod }) => {
-    const all = await asArchivistInstance(mod)?.all?.()
+    const all = await asArchivistInstance(mod)?.next()
     expect(all).toBeEmpty()
     console.log('Cleared Storage Archivist')
   })

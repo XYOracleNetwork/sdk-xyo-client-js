@@ -61,7 +61,7 @@ describe('MemoryNode', () => {
 
     await foundArchivist?.insert([testPayload])
 
-    const payloads = await foundArchivist?.all?.()
+    const payloads = await foundArchivist?.next({ limit: 20_000 })
     expect(payloads?.length).toBe(1)
 
     if (payloads && payloads[0]) {

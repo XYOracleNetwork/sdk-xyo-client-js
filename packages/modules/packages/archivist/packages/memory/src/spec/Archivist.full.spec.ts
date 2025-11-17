@@ -70,6 +70,7 @@ describe('MemoryArchivist [full]', () => {
       sources = await fillDb(archivistModule)
     })
     it('returns all data', async () => {
+      // eslint-disable-next-line sonarjs/deprecation
       const getResult = await archivistModule.all?.()
       expect(getResult).toBeDefined()
       expect(getResult?.length).toBe(sources.length)
@@ -88,13 +89,13 @@ describe('MemoryArchivist [full]', () => {
       sources = await fillDb(archivistModule)
     })
     it('deletes data', async () => {
-      const getResult = (await archivistModule.all?.()) ?? []
+      const getResult = (await archivistModule.next({ limit: 200 })) ?? []
       expect(getResult).toBeDefined()
       expect(getResult?.length).toBe(sources.length)
       const dataHashes = (await PayloadBuilder.dataHashes(getResult)) ?? []
       const deleteResult = await archivistModule.delete?.(dataHashes)
       expect(deleteResult.length).toBe(dataHashes.length)
-      expect((await archivistModule.all?.()).length).toBe(0)
+      expect((await archivistModule.next({ limit: 200 })).length).toBe(0)
     })
   })
   describe('get', () => {
@@ -262,7 +263,7 @@ describe('MemoryArchivist [full]', () => {
         const resultHash = await PayloadBuilder.dataHash(getResult[0])
         expect(resultHash).toBe(sourceHash)
         // Ensure the DB has only one instance of the payload written to it
-        const allResult = await archivistModule.all?.()
+        const allResult = await archivistModule.next({ limit: 200 })
         expect(allResult).toBeDefined()
         expect(allResult.length).toBe(1)
       })

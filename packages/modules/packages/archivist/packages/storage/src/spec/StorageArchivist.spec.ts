@@ -68,6 +68,7 @@ describe('Various StorageArchivist types', () => {
       await archivist.insert([idPayload])
       await delay(10)
     }
+    // eslint-disable-next-line sonarjs/deprecation
     const getResult = await archivist.all?.()
     expect(getResult).toBeDefined()
     expect(getResult?.length).toBe(1)

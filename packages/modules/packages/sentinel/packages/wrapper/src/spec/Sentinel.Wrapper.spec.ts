@@ -74,7 +74,7 @@ describe('Sentinel', () => {
         // delay to wait for archiving to happen
         await delay(1000)
         for (const archivist of archivists) {
-          const archivistPayloads = await archivist.all?.()
+          const archivistPayloads = await archivist.next({ limit: 20_000 })
           expect(archivistPayloads).toBeArrayOfSize(payloads.length + 1)
           const panelPayloads = await Promise.all(
             payloads.map((payload) => {

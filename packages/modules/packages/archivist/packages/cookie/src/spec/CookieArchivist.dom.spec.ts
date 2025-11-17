@@ -49,7 +49,7 @@ const testArchivistAll = (archivistPromise: Promisable<ArchivistInstance>, name:
       await archivist.insert([idPayload])
       await delay(10)
     }
-    const getResult = await archivist.all?.()
+    const getResult = await archivist.next({ limit: 200 })
     expect(getResult).toBeDefined()
     // this is 11 here since we double store all these and every one has the same dataHash
     expect(getResult?.length).toBe(10)

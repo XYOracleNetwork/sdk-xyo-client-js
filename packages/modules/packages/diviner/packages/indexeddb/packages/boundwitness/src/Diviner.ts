@@ -138,7 +138,7 @@ export class IndexedDbBoundWitnessDiviner<
 
   protected override async startHandler() {
     await super.startHandler()
-    // NOTE: Do not eager initialize the DB here. It will cause the
+    // Do not eager initialize the DB here. It will cause the
     // DB to be created by this process and then the DB will be
     // in a bad state for other processes that need to create the DB.
   }

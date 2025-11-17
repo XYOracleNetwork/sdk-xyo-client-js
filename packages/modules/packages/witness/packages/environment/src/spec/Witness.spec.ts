@@ -32,7 +32,7 @@ describe('EnvironmentWitness', () => {
         const env = result.find(isValuePayload)
         expect(env).toBeDefined()
         expect(env?.value).toBeDefined()
-        // NOTE: Due to how we sanitize __ fields from payloads
+        // Due to how we sanitize __ fields from payloads
         // this test can fail on systems where __ fields are present
         // in the environment so we'll sanitize those when comparing
         const processEnv = process.env

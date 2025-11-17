@@ -3,7 +3,7 @@ import { isHex } from '@xylabs/hex'
 import type { Payload } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
-/* Note: We decorate these names with Payload since Range is a system type */
+/* We decorate these names with Payload since Range is a system type */
 
 export const RangeSchema = 'network.xyo.range' as const
 export type RangeSchema = typeof RangeSchema

@@ -1,4 +1,4 @@
-import { AxiosJson } from '@xylabs/axios'
+import { axiosJsonConfig } from '@xylabs/axios'
 import { isString } from '@xylabs/typeof'
 import type {
   ApiConfig,
@@ -11,14 +11,15 @@ import type {
   ApiResponseTupleOrBody,
   ApiResponseType,
 } from '@xyo-network/api-models'
+import { Axios } from 'axios'
 
 export class ApiBase<C extends ApiConfig = ApiConfig> implements ApiReportable {
   readonly config: C
-  protected axios: AxiosJson
+  protected axios: Axios
 
   constructor(config: C) {
     this.config = config
-    this.axios = new AxiosJson({ ...this.config, headers: this.headers })
+    this.axios = new Axios(axiosJsonConfig({ ...this.config, headers: this.headers }))
   }
 
   get authenticated() {

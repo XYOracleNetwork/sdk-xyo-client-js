@@ -78,7 +78,7 @@ describe('JsonPathDiviner', () => {
       [{ destinationField: 'c', sourcePathExpression: '$.a[(@.length-1)]' }],
       [{ c: 2, schema: 'network.xyo.test.destination' }],
     ],
-    // NOTE: Since this can return an array, it should stop passing when
+    // Since this can return an array, it should stop passing when
     // the arrayed transformer values are supported.
     [
       'transforms array (last position via slice)',

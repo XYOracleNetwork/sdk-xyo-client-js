@@ -72,7 +72,7 @@ export class MongoDBArchivistV2 extends MongoDBArchivistBaseV2 {
         if (!payloadsResult.acknowledged) throw new Error('MongoDBArchivist: Error inserting Payloads')
       } catch (error) {
         const mongoError = error as MongoError
-        // NOTE: Intentional coercive equality since Mongo error codes are
+        // Intentional coercive equality since Mongo error codes are
         // of type string | number
         if (mongoError?.code != MONGODB_DUPLICATE_KEY_ERROR) throw error
       }

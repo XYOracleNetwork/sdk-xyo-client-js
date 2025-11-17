@@ -47,8 +47,8 @@ Resolution rules
         i)  If it is a valid address, go to #5 above
         ii) If it is not a valid address, go to # 3 above
 
-    Note 1: If someone were to name a module with a valid address, that name will not be resolvable.
-    Note 2: If someone were to name a module with a string containing a ':', that name will not be resolvable.
+    1: If someone were to name a module with a valid address, that name will not be resolvable.
+    2: If someone were to name a module with a string containing a ':', that name will not be resolvable.
 
 8. Modules have two resolvers, up and down.
     a) Up Traversal

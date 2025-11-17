@@ -184,7 +184,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
             const [bw, payloads, errors] = result
             this.logger?.debug(`Replying to query ${queryHash} addressed to module: ${localModuleName}`)
             const insertResult = await responsesArchivist.insert([bw, ...payloads, ...errors])
-            // NOTE: If all archivists support the contract that numPayloads inserted === numPayloads returned we can
+            // If all archivists support the contract that numPayloads inserted === numPayloads returned we can
             // do some deeper assertions here like lenIn === lenOut, but for now this should be good enough since BWs
             // should always be unique causing at least one insertion
             if (insertResult.length === 0) {

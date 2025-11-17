@@ -111,7 +111,7 @@ describe.runIf(hasMongoDBConfig())('Archivist', () => {
       }
     })
   })
-  // NOTE: Skipped because memory DB re-used by all tests
+  // Skipped because memory DB re-used by all tests
   // causing these tests to be non-deterministic and fail
   describe.skip('next', () => {
     const payloads: BoundWitnessWrapper | PayloadWrapper[] = []

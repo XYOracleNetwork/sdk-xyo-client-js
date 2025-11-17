@@ -105,7 +105,7 @@ const boundWitnessSequenceTestCases = [
 
 describe.sequential('BoundWitnessBuilder', () => {
   beforeAll(() => {
-    // NOTE: This is here and brittle because the BoundWitnessBuilder
+    // This is here and brittle because the BoundWitnessBuilder
     // uses Date.now() to generate timestamps and our test vectors were
     // generated without them. We need to find a better way to handle
     // this but for now this gives us parity with the vectors in other

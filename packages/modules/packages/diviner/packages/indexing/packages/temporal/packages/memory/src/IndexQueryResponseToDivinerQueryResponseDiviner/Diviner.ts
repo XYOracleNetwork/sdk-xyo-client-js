@@ -20,7 +20,7 @@ export class TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivi
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
-    // NOTE: We're not doing anything with the query payloads but some diviners
+    // We're not doing anything with the query payloads but some diviners
     // might want to use this to transform from the query to the response (for example
     // if we use a plaintext value in the query to generate a hash key in the index)
     // const queries = payloads.filter(isPayloadDivinerQueryPayload)

@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { axios } from '@xylabs/axios'
+import { axiosJson } from '@xylabs/axios'
 import type { Address, Hash } from '@xylabs/hex'
 import { isHash } from '@xylabs/hex'
 import { isDefined, isString } from '@xylabs/typeof'
@@ -90,7 +90,7 @@ export class Huri<T extends Payload = Payload> {
 
   static async fetch<T extends Payload = Payload>(huri: Huri): Promise<T | undefined> {
     const AuthHeader = isDefined(huri.token) ? { Authorization: `Bearer ${huri.token}` } : undefined
-    return (await axios.get<T>(huri.href, { headers: AuthHeader })).data
+    return (await axiosJson.get<T>(huri.href, { headers: AuthHeader })).data
   }
 
   static isHuri(value: unknown) {

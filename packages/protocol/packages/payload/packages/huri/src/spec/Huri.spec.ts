@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import { axios } from '@xylabs/axios'
+import { axiosJson } from '@xylabs/axios'
 import { delay } from '@xylabs/delay'
 import type { Payload } from '@xyo-network/payload-model'
 import {
@@ -77,7 +77,7 @@ describe.skip('Huri', () => {
         const token = 'abc123'
         const huri = new Huri('http://localhost:8080/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057', { token })
         expect(huri.token).toBe(token)
-        axios.interceptors.request.use((config) => {
+        axiosJson.interceptors.request.use((config) => {
           const tokenValue = config.headers.get('Authorization')
           expect(tokenValue).toBe(`Bearer ${token}`)
           resolve(true)

@@ -27,8 +27,8 @@ export interface NodeCreatedMessage extends Message<'nodeCreated'> {
 }
 
 export class WorkerNodeHost {
-  protected node: NodeInstance
   protected logger?: Logger
+  protected node: NodeInstance
 
   constructor(
     node: NodeInstance,

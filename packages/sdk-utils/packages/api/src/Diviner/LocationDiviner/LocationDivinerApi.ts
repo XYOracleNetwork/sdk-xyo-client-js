@@ -1,4 +1,4 @@
-import { axios } from '@xylabs/axios'
+import { axiosJson } from '@xylabs/axios'
 import type { ApiConfig } from '@xyo-network/api-models'
 import type { RawAxiosRequestConfig } from 'axios'
 
@@ -17,11 +17,11 @@ class LocationDivinerApi {
   }
 
   async getLocationQuery(hash: string) {
-    return (await axios.get<GetLocationQueryResponse>(`${this.config.apiDomain}/location/query/${hash}`, this.axiosRequestConfig)).data
+    return (await axiosJson.get<GetLocationQueryResponse>(`${this.config.apiDomain}/location/query/${hash}`, this.axiosRequestConfig)).data
   }
 
   async postLocationQuery(request: SupportedLocationQueryCreationRequest) {
-    return (await axios.post<LocationQueryCreationResponse>(`${this.config.apiDomain}/location/query`, { ...request }, this.axiosRequestConfig)).data
+    return (await axiosJson.post<LocationQueryCreationResponse>(`${this.config.apiDomain}/location/query`, { ...request }, this.axiosRequestConfig)).data
   }
 }
 

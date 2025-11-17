@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import type { Address } from '@xylabs/hex'

@@ -1,7 +1,6 @@
 import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
-import { handleError } from '@xylabs/error'
 import { Hash } from '@xylabs/hex'
 import { PromisableArray } from '@xylabs/promise'
 import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'

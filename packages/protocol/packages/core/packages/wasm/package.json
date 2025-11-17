@@ -36,15 +36,15 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/typeof": "~5.0.33",
+    "@xylabs/typeof": "~5.0.37",
     "wasm-feature-detect": "~1.8.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.33",
+    "@xylabs/vitest-extended": "~5.0.37",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.9"
+    "vitest": "~4.0.10"
   },
   "publishConfig": {
     "access": "public"

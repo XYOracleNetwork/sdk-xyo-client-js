@@ -32,7 +32,7 @@ import { Level } from 'level'
 import { LevelDbArchivistConfigSchema } from './Config.ts'
 import { LevelDbArchivistParams } from './Params.ts'
 
-/** Note: We have indexes as top level sublevels since making them a sublevel of a store, getting all the values of that store includes the sublevels  */
+/** We have indexes as top level sublevels since making them a sublevel of a store, getting all the values of that store includes the sublevels  */
 
 export interface PayloadStore {
   [s: string]: WithStorageMeta
@@ -200,7 +200,7 @@ export abstract class AbstractLevelDbArchivist<
     })
 
     // Insert the dataHash indexes
-    // Note: We use the dataHash|hash for the key to allow for multiple entries
+    // We use the dataHash|hash for the key to allow for multiple entries
     const batchDataHashIndexCommands: Array<AbstractBatchOperation<AbstractPayloadLevel, string, Hash>> = payloadsWithMeta.map(payload => ({
       type: 'put', key: payload._dataHash, value: payload._hash, keyEncoding: 'utf8', valueEncoding: 'utf8',
     }))
@@ -209,7 +209,7 @@ export abstract class AbstractLevelDbArchivist<
     })
 
     // Insert the sequence indexes
-    // Note: We use the dataHash|hash for the key to allow for multiple entries
+    // We use the dataHash|hash for the key to allow for multiple entries
     const batchSequenceIndexCommands: Array<AbstractBatchOperation<AbstractPayloadLevel, Hex, Hash>> = payloadsWithMeta.map(payload => ({
       type: 'put', key: payload._sequence, value: payload._hash, keyEncoding: 'utf8', valueEncoding: 'utf8',
     }))
@@ -237,7 +237,7 @@ export abstract class AbstractLevelDbArchivist<
 
   protected override async startHandler() {
     await super.startHandler()
-    // NOTE: We could defer this creation to first access but we
+    // We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
     await this.withStore(() => {})
     if (this.config.clearStoreOnStart) {

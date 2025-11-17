@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AxiosJson } from '@xylabs/axios'
+import { axiosJsonConfig } from '@xylabs/axios'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
@@ -33,7 +33,7 @@ import {
   isPayloadOfSchemaType, Payload, Schema,
 } from '@xyo-network/payload-model'
 import { Mutex, Semaphore } from 'async-mutex'
-import { AxiosError } from 'axios'
+import { Axios, AxiosError } from 'axios'
 import { LRUCache } from 'lru-cache'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig.ts'
@@ -41,12 +41,12 @@ import { HttpBridgeModuleResolver } from './HttpBridgeModuleResolver.ts'
 import { BridgeQuerySender } from './ModuleProxy/index.ts'
 
 export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {
-  axios?: AxiosJson
+  axios?: Axios
 }
 
 @creatableModule()
 export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams>, BridgeQuerySender {
-  static readonly axios = new AxiosJson()
+  static readonly axios = new Axios(axiosJsonConfig())
   static override readonly configSchemas: Schema[] = [...super.configSchemas, HttpBridgeConfigSchema]
   static override readonly defaultConfigSchema: Schema = HttpBridgeConfigSchema
   static readonly defaultFailureRetryTime = 1000 * 60
@@ -54,7 +54,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
   static readonly defaultMaxPayloadSizeWarning = 256 * 256
   static readonly maxFailureCacheSize = 1000
 
-  private _axios?: AxiosJson
+  private _axios?: Axios
   private _discoverRootsMutex = new Mutex()
   private _failureTimeCache = new LRUCache<Address, number>({ max: HttpBridge.maxFailureCacheSize })
   private _querySemaphore?: Semaphore

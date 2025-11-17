@@ -1,4 +1,4 @@
-import { axios } from '@xylabs/axios'
+import { axiosJson } from '@xylabs/axios'
 import { Base } from '@xylabs/base'
 import { type Hash, isHash } from '@xylabs/hex'
 import { isBrowser } from '@xylabs/platform'
@@ -55,7 +55,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
 
   static async discoverRootFileDirect(domain: string) {
     try {
-      const config = (await axios.get<DomainPayload>(`https://${domain}/xyo-config.json`)).data
+      const config = (await axiosJson.get<DomainPayload>(`https://${domain}/xyo-config.json`)).data
       return new DomainPayloadWrapper(config)
     } catch {
       console.log(`DomainConfig root file not found [${domain}]`)
@@ -65,7 +65,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
   static async discoverRootFileWithProxy(domain: string, proxy = 'https://api.archivist.xyo.network/domain') {
     try {
       const requestUrl = `${proxy}/${domain.split('.').toReversed().join('.')}`
-      const config = (await axios.get<ApiEnvelope<DomainPayload>>(requestUrl)).data.data
+      const config = (await axiosJson.get<ApiEnvelope<DomainPayload>>(requestUrl)).data.data
       return new DomainPayloadWrapper(config)
     } catch (ex) {
       const error = ex as AxiosError

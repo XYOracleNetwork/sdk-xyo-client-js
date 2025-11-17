@@ -261,7 +261,7 @@ export class IndexedDbArchivist<
         const cursor = await index.openCursor(key)
         if (cursor) {
           const singleValue = cursor.value
-          // NOTE: It's known to be a number because we are using IndexedDB supplied auto-incrementing keys
+          // It's known to be a number because we are using IndexedDB supplied auto-incrementing keys
           if (typeof cursor.primaryKey !== 'number') {
             throw new TypeError('primaryKey must be a number')
           }
@@ -352,7 +352,7 @@ export class IndexedDbArchivist<
 
   protected override async startHandler() {
     await super.startHandler()
-    // NOTE: We could defer this creation to first access but we
+    // We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
     // also, gets current payloadCount
     this._payloadCount = await this.useDb(async (db) => {

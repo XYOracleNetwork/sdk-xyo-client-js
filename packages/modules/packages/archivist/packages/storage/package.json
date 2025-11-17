@@ -36,10 +36,10 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.33",
-    "@xylabs/exists": "~5.0.33",
-    "@xylabs/hex": "~5.0.33",
-    "@xylabs/promise": "~5.0.33",
+    "@xylabs/assert": "~5.0.37",
+    "@xylabs/exists": "~5.0.37",
+    "@xylabs/hex": "~5.0.37",
+    "@xylabs/promise": "~5.0.37",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -49,10 +49,10 @@
     "store2": "~2.14.4"
   },
   "devDependencies": {
-    "@xylabs/delay": "~5.0.33",
+    "@xylabs/delay": "~5.0.37",
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.33",
+    "@xylabs/vitest-extended": "~5.0.37",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-acceptance-tests": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
@@ -62,7 +62,7 @@
     "@xyo-network/payload-wrapper": "workspace:~",
     "typescript": "~5.9.3",
     "uuid": "~13.0.0",
-    "vitest": "~4.0.9"
+    "vitest": "~4.0.10"
   },
   "publishConfig": {
     "access": "public"

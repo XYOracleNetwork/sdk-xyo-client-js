@@ -36,11 +36,11 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/axios": "~5.0.33",
-    "@xylabs/base": "~5.0.33",
-    "@xylabs/hex": "~5.0.33",
-    "@xylabs/platform": "~5.0.33",
-    "@xylabs/typeof": "~5.0.33",
+    "@xylabs/axios": "~5.0.37",
+    "@xylabs/base": "~5.0.37",
+    "@xylabs/hex": "~5.0.37",
+    "@xylabs/platform": "~5.0.37",
+    "@xylabs/typeof": "~5.0.37",
     "@xyo-network/dns": "workspace:~",
     "@xyo-network/huri": "workspace:~",
     "@xyo-network/network": "workspace:~",
@@ -52,11 +52,11 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.33",
+    "@xylabs/vitest-extended": "~5.0.37",
     "@xyo-network/api-models": "workspace:~",
     "axios": "^1.13.2",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.9"
+    "vitest": "~4.0.10"
   },
   "peerDependencies": {
     "axios": "^1.13.1"

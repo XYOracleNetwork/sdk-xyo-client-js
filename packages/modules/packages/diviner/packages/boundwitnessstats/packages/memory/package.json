@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.33",
-    "@xylabs/hex": "~5.0.33",
+    "@xylabs/assert": "~5.0.37",
+    "@xylabs/hex": "~5.0.37",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:~",
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:~",

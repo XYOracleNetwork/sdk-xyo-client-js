@@ -391,7 +391,7 @@ export abstract class AbstractArchivist<
     let parentIndex = 0
     let result: WithStorageMeta<Payload>[] = []
 
-    // NOTE: intentionally doing this serially
+    // Intentionally doing this serially
     while (parentIndex < parents.length && remainingHashes.length > 0) {
       const parent = parents[parentIndex]
       if (parent) {
@@ -432,7 +432,7 @@ export abstract class AbstractArchivist<
     const foundPayloads: WithStorageMeta<Payload>[] = []
     const foundHashes = new Set<Hash>()
 
-    // NOTE: We are iterating over the returned result from the archivist
+    //  We are iterating over the returned result from the archivist
     // (not the array of hashes passed in) to preserve the natural order of the
     // hashes as returned by the archivist as that should loosely
     // correspond to the order when iterated and the symmetry will
@@ -447,7 +447,7 @@ export abstract class AbstractArchivist<
       // const map = await PayloadBuilder.toAllHashMap([payload])
       for (const [key, payload] of Object.entries(map)) {
         let requestedPayloadFound = false
-        const hash = key as Hash // NOTE: Required cast as Object.entries always returns string keys
+        const hash = key as Hash // Required cast as Object.entries always returns string keys
         // If this hash was requested
         if (
           requestedHashes.has(hash) // Indicate that we found it (but do not insert it yet). Since

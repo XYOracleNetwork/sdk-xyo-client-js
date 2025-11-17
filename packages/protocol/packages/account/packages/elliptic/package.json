@@ -37,9 +37,9 @@
   ],
   "dependencies": {
     "@bitauth/libauth": "~3.0.0",
-    "@xylabs/arraybuffer": "~5.0.33",
-    "@xylabs/assert": "~5.0.33",
-    "@xylabs/hex": "~5.0.33",
+    "@xylabs/arraybuffer": "~5.0.37",
+    "@xylabs/assert": "~5.0.37",
+    "@xylabs/hex": "~5.0.37",
     "@xyo-network/data": "workspace:~",
     "@xyo-network/wasm": "workspace:~",
     "async-mutex": "~0.5.0"

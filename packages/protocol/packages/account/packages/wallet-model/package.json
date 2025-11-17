@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.33",
+    "@xylabs/hex": "~5.0.37",
     "@xyo-network/account-model": "workspace:~"
   },
   "devDependencies": {

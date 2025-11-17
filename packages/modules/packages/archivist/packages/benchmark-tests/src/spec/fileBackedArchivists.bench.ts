@@ -76,7 +76,7 @@ describe('LMDB vs LevelDB', () => {
     (_, i) => new PayloadBuilder<WithSources<Id>>({ schema: IdSchema }).fields({ salt: `${i}` }).meta({ $sources: [missingHash] }).build(),
   )
 
-  // NOTE: Pre-hashed  since bench does not support async beforeAll setup for local vars
+  // Pre-hashed  since bench does not support async beforeAll setup for local vars
   // const hash = await PayloadBuilder.hash({ schema: 'network.xyo.id', salt: '1' })
   // const hash = '3a3b8deca568ff820b0b7c8714fbdf82b40fb54f4b15aca8745e06b81291558e'
   // const dataHash = await PayloadBuilder.dataHash({ schema: 'network.xyo.id', salt: '1' })

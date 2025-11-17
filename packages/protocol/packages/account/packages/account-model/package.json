@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/arraybuffer": "~5.0.33",
-    "@xylabs/hex": "~5.0.33",
+    "@xylabs/arraybuffer": "~5.0.37",
+    "@xylabs/hex": "~5.0.37",
     "@xyo-network/key-model": "workspace:~",
     "@xyo-network/previous-hash-store-model": "workspace:~"
   },

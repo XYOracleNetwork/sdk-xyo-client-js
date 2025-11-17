@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/object": "~5.0.33",
+    "@xylabs/object": "~5.0.37",
     "@xyo-network/diviner-model": "workspace:~"
   },
   "devDependencies": {

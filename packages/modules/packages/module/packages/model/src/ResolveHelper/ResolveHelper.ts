@@ -122,7 +122,7 @@ export class ResolveHelper extends ResolveHelperStatic {
       ].filter(duplicateModules)
 
       if (modules.length > 0) {
-        log?.log('modules [count]', modules.length)
+        log?.debug('modules [count]', modules.length)
         log?.debug('modules', toSafeJsonString(modules, 4))
       }
 

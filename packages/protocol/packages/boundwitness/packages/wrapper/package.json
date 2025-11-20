@@ -36,12 +36,12 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.37",
-    "@xylabs/exists": "~5.0.37",
-    "@xylabs/hex": "~5.0.37",
-    "@xylabs/object": "~5.0.37",
-    "@xylabs/promise": "~5.0.37",
-    "@xylabs/typeof": "~5.0.37",
+    "@xylabs/assert": "~5.0.39",
+    "@xylabs/exists": "~5.0.39",
+    "@xylabs/hex": "~5.0.39",
+    "@xylabs/object": "~5.0.39",
+    "@xylabs/promise": "~5.0.39",
+    "@xylabs/typeof": "~5.0.39",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-validator": "workspace:~",
     "@xyo-network/payload": "workspace:~",
@@ -53,7 +53,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.37",
+    "@xylabs/vitest-extended": "~5.0.39",
     "typescript": "~5.9.3",
     "vitest": "~4.0.10"
   },

@@ -1,4 +1,4 @@
-import { AsObjectFactory } from '@xylabs/object'
+import { AsObjectFactory } from '@xylabs/sdk-js'
 import type { WithStorageMeta } from '@xyo-network/payload-model'
 import {
   isPayloadOfSchemaType, isStorageMeta, notPayloadOfSchemaType,
@@ -15,7 +15,7 @@ export const notBoundWitness = notPayloadOfSchemaType<BoundWitness>(BoundWitness
 
 // TODO: Use AsObjectFactory here to match standard pattern
 // TODO: Other as identity functions throw if not valid, this one returns undefined with is more of a asOptional behavior
-export const asBoundWitness = <T extends BoundWitness<{ schema: string }> = BoundWitness>(payload?: unknown) =>
+export const asBoundWitness = <T extends BoundWitness = BoundWitness>(payload?: unknown) =>
   isBoundWitness(payload) ? (payload as T) : undefined
 
 export const asOptionalBoundWitness = AsObjectFactory.createOptional<BoundWitness>(isBoundWitness)

@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.37",
-    "@xylabs/object": "~5.0.37",
-    "@xyo-network/payload-model": "workspace:~"
+    "@xylabs/sdk-js": "~5.0.39",
+    "@xyo-network/payload-model": "workspace:~",
+    "zod": "~4.1.12"
   },
   "devDependencies": {
     "@types/node": "~24.10.1",

@@ -36,11 +36,11 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/array": "~5.0.37",
-    "@xylabs/assert": "~5.0.37",
-    "@xylabs/events": "~5.0.37",
-    "@xylabs/forget": "~5.0.37",
-    "@xylabs/hex": "~5.0.37",
+    "@xylabs/array": "~5.0.39",
+    "@xylabs/assert": "~5.0.39",
+    "@xylabs/events": "~5.0.39",
+    "@xylabs/forget": "~5.0.39",
+    "@xylabs/hex": "~5.0.39",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-abstract": "workspace:~",
@@ -51,10 +51,10 @@
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
-    "@xylabs/delay": "~5.0.37",
+    "@xylabs/delay": "~5.0.39",
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.37",
+    "@xylabs/vitest-extended": "~5.0.39",
     "@xyo-network/archivist-indexeddb": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",

@@ -3,7 +3,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { hexFromHexString } from '@xylabs/hex'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { asBlock, asOptionalBoundWitness } from '@xyo-network/boundwitness-model'
+import { asOptionalBoundWitness } from '@xyo-network/boundwitness-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
@@ -16,7 +16,7 @@ import { SequenceConstants } from '@xyo-network/payload-model'
 export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivinerQueryPayload, payloads: WithStorageMeta<Payload>[] = []): BoundWitness[] => {
   if (!filter) return []
   const {
-    addresses, block, cursor, destination, limit, order = 'desc', payload_hashes, payload_schemas, sourceQuery,
+    addresses, cursor, destination, limit, order = 'desc', payload_hashes, payload_schemas, sourceQuery,
   } = filter
 
   const sortedPayloads = PayloadBuilder.sortByStorageMeta(payloads, order === 'desc' ? -1 : 1)
@@ -46,11 +46,6 @@ export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivine
       // Otherwise, filter it out
         : false
     })
-  }
-  if (block !== undefined) {
-    bws = (order === 'desc'
-      ? filterAs(bws, asBlock).filter(bw => bw.block <= block)
-      : filterAs(bws, asBlock).filter(bw => bw.block >= block)) as WithStorageMeta<BoundWitness>[]
   }
   const parsedLimit = limit ?? bws.length
   return bws.slice(0, parsedLimit)

@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/base": "~5.0.37",
-    "@xylabs/events": "~5.0.37"
+    "@xylabs/base": "~5.0.39",
+    "@xylabs/events": "~5.0.39"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",

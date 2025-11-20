@@ -26,7 +26,7 @@ export const isBoundWitnessWrapper = <T extends BoundWitness = BoundWitness, P e
 }
 
 export class BoundWitnessWrapper<
-  TBoundWitness extends BoundWitness<{ schema: string }> = BoundWitness,
+  TBoundWitness extends BoundWitness = BoundWitness,
   TPayload extends Payload = Payload,
 > extends PayloadWrapperBase<TBoundWitness> {
   boundwitness: TBoundWitness

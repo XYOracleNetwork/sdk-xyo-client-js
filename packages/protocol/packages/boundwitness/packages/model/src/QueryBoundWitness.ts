@@ -1,4 +1,4 @@
-import type { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/sdk-js'
 import type { WithStorageMeta } from '@xyo-network/payload-model'
 import { isStorageMeta } from '@xyo-network/payload-model'
 
@@ -10,7 +10,7 @@ export type QueryBoundWitnessFields = {
   query: Hash
 }
 
-export type UnsignedQueryBoundWitness = BoundWitness<QueryBoundWitnessFields>
+export type UnsignedQueryBoundWitness = BoundWitness & QueryBoundWitnessFields
 
 export type QueryBoundWitness = UnsignedQueryBoundWitness
 

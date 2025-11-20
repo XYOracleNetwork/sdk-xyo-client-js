@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.37",
+    "@xylabs/hex": "~5.0.39",
     "@xyo-network/previous-hash-store-model": "workspace:~",
     "idb": "~8.0.3"
   },

@@ -12,7 +12,7 @@ const validateArraysSameLength = (a: unknown[], b: unknown[], message = 'Array l
   return a.length == b.length ? [] : [new Error(`${message} []`)]
 }
 
-export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = BoundWitness> extends PayloadValidator<T> {
+export class BoundWitnessValidator<T extends BoundWitness = BoundWitness> extends PayloadValidator<T> {
   protected get expectedSchema(): string {
     return BoundWitnessSchema
   }
@@ -80,7 +80,7 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
             BoundWitnessValidator.validateSignature(
               toArrayBuffer(await PayloadBuilder.dataHash(this.payload)),
               toArrayBuffer(asAddress(address, true)),
-              toArrayBuffer(this.obj.$signatures?.[index]),
+              toArrayBuffer(this.obj.$signatures?.[index] ?? undefined),
             )) ?? [],
         )
       ).flat(),

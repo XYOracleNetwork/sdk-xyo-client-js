@@ -5,7 +5,7 @@ import { isPayloadOfSchemaType } from './isPayloadOfSchemaType.ts'
 import type { Payload } from './Payload.ts'
 import type { Schema } from './Schema.ts'
 
-export const ModuleErrorSchema = 'network.xyo.error.module' as const
+export const ModuleErrorSchema = 'network.xyo.error.module' as Schema
 export type ModuleErrorSchema = typeof ModuleErrorSchema
 
 export type ModuleError = Payload<{

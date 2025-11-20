@@ -9,7 +9,7 @@ import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-bound
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -134,7 +134,7 @@ describe('MemoryBoundWitnessDiviner', () => {
       })
       describe('multiple', () => {
         it('only returns bw that contains that schema', async () => {
-          const payload_schemas = ['network.xyo.test', 'network.xyo.debug']
+          const payload_schemas = ['network.xyo.test', 'network.xyo.debug'] as Schema[]
           const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
             .fields({ payload_schemas })
             .build()

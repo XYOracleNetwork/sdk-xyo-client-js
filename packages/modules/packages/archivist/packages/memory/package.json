@@ -36,11 +36,11 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.37",
-    "@xylabs/creatable": "~5.0.37",
-    "@xylabs/exists": "~5.0.37",
-    "@xylabs/object": "~5.0.37",
-    "@xylabs/typeof": "~5.0.37",
+    "@xylabs/assert": "~5.0.39",
+    "@xylabs/creatable": "~5.0.39",
+    "@xylabs/exists": "~5.0.39",
+    "@xylabs/object": "~5.0.39",
+    "@xylabs/typeof": "~5.0.39",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-generic": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -50,12 +50,12 @@
     "lru-cache": "~11.2.2"
   },
   "devDependencies": {
-    "@xylabs/delay": "~5.0.37",
-    "@xylabs/hex": "~5.0.37",
-    "@xylabs/promise": "~5.0.37",
+    "@xylabs/delay": "~5.0.39",
+    "@xylabs/hex": "~5.0.39",
+    "@xylabs/promise": "~5.0.39",
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.37",
+    "@xylabs/vitest-extended": "~5.0.39",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist-acceptance-tests": "workspace:~",

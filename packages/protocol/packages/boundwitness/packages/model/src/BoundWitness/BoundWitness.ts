@@ -1,66 +1,64 @@
-import type {
-  Address, Hash, Hex,
-} from '@xylabs/hex'
-import type { EmptyObject, JsonObject } from '@xylabs/object'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  AddressZod, HashZod, HexZod,
+} from '@xylabs/sdk-js'
+import {
+  PayloadZod, SchemaZod, StorageMetaZod,
+} from '@xyo-network/payload-model'
+import * as z from 'zod'
 
-import type { BoundWitnessSchema } from './BoundWitnessSchema.ts'
+import { BoundWitnessSchema } from './BoundWitnessSchema.ts'
 
-export interface BoundWitnessRequiredFields {
-  /** @field Array of signatures by the accounts that are listed in addresses */
-  addresses: Address[]
-  payload_hashes: Hash[]
-  payload_schemas: Schema[]
-  previous_hashes: (Hash | null)[]
-}
+const BoundWitnessRequiredFieldsZod = z.object({
+  addresses: z.array(AddressZod),
+  payload_hashes: z.array(HashZod),
+  payload_schemas: z.array(SchemaZod),
+  previous_hashes: z.array(HashZod.nullable()),
+})
 
-export interface BoundWitnessMeta {
-  /**
-   * @field The address to which the query is directed
-   */
-  $destination?: Address
-  /**
-   * @field The query that initiated the bound witness
-   */
-  $sourceQuery?: Hash
-}
+const BoundWitnessMetaZod = z.object({
+  $destination: AddressZod.optional(),
+  $sourceQuery: HashZod.optional(),
+  $signatures: z.array(z.union([HexZod, z.null()])),
+})
 
-export interface BoundWitnessBlockField {
-  /** @field sequential number (if this boundwitness is part of a multi-party chain) */
-  block: number
-}
+export const BoundWitnessZod = PayloadZod
+  .extend({ schema: z.literal(BoundWitnessSchema) })
+  .extend(BoundWitnessRequiredFieldsZod.shape)
+  .extend(BoundWitnessMetaZod.shape)
+  .refine(data => data.$signatures.length === data.addresses.length, { message: '$signatures length must equal addresses length' })
 
-export interface BoundWitnessChainField {
-  /** @field unique id of a multi-party chain (usually staking contract address) */
-  chain: Hex
-}
+export type BoundWitness = z.infer<typeof BoundWitnessZod>
 
-export interface BoundWitnessOptionalFields extends Partial<BoundWitnessBlockField>, Partial<BoundWitnessChainField> {
-  root: Hash
-}
+export const AnyBoundWitnessZod = BoundWitnessZod
+  .catchall(z.any())
 
-export interface BoundWitnessFields extends BoundWitnessRequiredFields, Partial<BoundWitnessOptionalFields> {}
+export type AnyBoundWitness = z.infer<typeof AnyBoundWitnessZod>
 
-export type UnsignedBoundWitness<T extends EmptyObject | void = void> = Payload<
-  T extends void ? BoundWitnessFields : BoundWitnessFields & T,
-  BoundWitnessSchema
-> & BoundWitnessMeta
+export const UnsignedBoundWitnessZod = BoundWitnessZod.refine(data => data.$signatures.includes(null), { message: 'all $signatures must be null' })
 
-export type Unsigned<T extends UnsignedBoundWitness = UnsignedBoundWitness> = T & {
-  $signatures: Hex[]
-}
+export type UnsignedBoundWitness = z.infer<typeof UnsignedBoundWitnessZod>
 
-export type Signed<T extends UnsignedBoundWitness = UnsignedBoundWitness> = T & {
-  $signatures: Hex[]
-}
+export const AnyUnsignedBoundWitnessZod = UnsignedBoundWitnessZod
+  .catchall(z.any())
 
-export type SignedBoundWitness = Signed<UnsignedBoundWitness>
+export type AnyUnsignedBoundWitness = z.infer<typeof AnyUnsignedBoundWitnessZod>
 
-export type WithBlock = BoundWitness & BoundWitnessBlockField
+export const UnsignedBoundWitnessWithStorageMetaZod = UnsignedBoundWitnessZod
+  .safeExtend(BoundWitnessRequiredFieldsZod.shape)
+  .safeExtend(BoundWitnessMetaZod.shape)
+  .safeExtend(StorageMetaZod.shape)
 
-export const hasBlock = (bw: BoundWitness): bw is WithBlock => bw.block !== undefined && typeof bw.block === 'string'
-export const asBlock = (bw: BoundWitness): WithBlock => bw as WithBlock
+export const SignedZod = z.object({ $signatures: z.array(HexZod) })
+export const UnsignedZod = z.object({ $signatures: z.array(z.null()) })
 
-export type BoundWitness<T extends Payload | EmptyObject | void = void> = Signed<UnsignedBoundWitness<T>>
+export const SignedBoundWitnessZod = BoundWitnessZod.refine(data => !data.$signatures.includes(null), { message: 'all $signatures must not be null' })
 
-export type AnyBoundWitness = BoundWitness<JsonObject>
+export const SignedBoundWitnessWithStorageMetaZod = UnsignedBoundWitnessWithStorageMetaZod
+
+export const AnySignedBoundWitnessZod = UnsignedBoundWitnessZod.catchall(z.any())
+
+export const AnySignedBoundWitnessWithStorageMetaZod = UnsignedBoundWitnessWithStorageMetaZod.catchall(z.any())
+
+export type Unsigned<T extends UnsignedBoundWitness = UnsignedBoundWitness> = T & z.infer<typeof UnsignedZod>
+
+export type Signed<T extends UnsignedBoundWitness = UnsignedBoundWitness> = T & z.infer<typeof SignedZod>

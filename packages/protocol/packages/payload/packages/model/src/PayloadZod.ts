@@ -22,7 +22,7 @@ export const PayloadZod = z.object({ schema: SchemaZod })
 /** @deprecated use WithStorageMetaZod */
 export const PayloadWithStorageMetaZod = PayloadZod.extend(StorageMetaZod.shape)
 
-export const AnyPayloadZod = PayloadZod.catchall(z.json())
+export const AnyPayloadZod = PayloadZod.loose()
 
 /** @deprecated use WithStorageMetaZod */
 export const AnyPayloadWithStorageMetaZod = AnyPayloadZod.extend(StorageMetaZod.shape)

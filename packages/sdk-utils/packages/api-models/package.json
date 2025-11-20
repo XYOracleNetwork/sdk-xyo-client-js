@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "axios": "~1.13.2"
+    "axios": "^1.13.2"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",

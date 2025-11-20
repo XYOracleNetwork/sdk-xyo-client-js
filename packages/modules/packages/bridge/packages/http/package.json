@@ -54,6 +54,7 @@
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "async-mutex": "~0.5.0",
+    "axios": "^1.13.2",
     "lru-cache": "~11.2.2"
   },
   "devDependencies": {
@@ -72,12 +73,8 @@
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/wallet": "workspace:~",
-    "axios": "^1.13.2",
     "typescript": "~5.9.3",
     "vitest": "~4.0.10"
-  },
-  "peerDependencies": {
-    "axios": "^1.13.1"
   },
   "publishConfig": {
     "access": "public"

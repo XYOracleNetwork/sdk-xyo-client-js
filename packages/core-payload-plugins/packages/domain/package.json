@@ -58,9 +58,6 @@
     "typescript": "~5.9.3",
     "vitest": "~4.0.10"
   },
-  "peerDependencies": {
-    "axios": "^1.13.1"
-  },
   "publishConfig": {
     "access": "public"
   }

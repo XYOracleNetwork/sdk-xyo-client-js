@@ -42,11 +42,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "axios": "^1.13.2",
     "typescript": "~5.9.3"
-  },
-  "peerDependencies": {
-    "axios": "^1.13.1"
   },
   "publishConfig": {
     "access": "public"

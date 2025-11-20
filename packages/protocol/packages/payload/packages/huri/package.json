@@ -48,12 +48,8 @@
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
     "@xylabs/vitest-extended": "~5.0.39",
-    "axios": "^1.13.2",
     "typescript": "~5.9.3",
     "vitest": "~4.0.10"
-  },
-  "peerDependencies": {
-    "axios": "^1.13.1"
   },
   "publishConfig": {
     "access": "public"

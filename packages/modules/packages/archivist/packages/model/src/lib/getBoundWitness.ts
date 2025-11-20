@@ -1,9 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
 import type { IdentityFunction } from '@xylabs/typeof'
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
-import type { WithStorageMeta } from '@xyo-network/payload-model'
+import { type BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
+import { isStorageMeta, type WithStorageMeta } from '@xyo-network/payload-model'
 
 import type { ReadArchivist } from '../PayloadArchivist.ts'
 
@@ -20,5 +19,5 @@ export const getTypedBoundWitness = async <T extends BoundWitness>(archivist: Re
 }
 
 export const getBoundWitness = (archivist: ReadArchivist, hash: Hash): Promise<WithStorageMeta<BoundWitness>> => {
-  return getTypedBoundWitness<BoundWitness>(archivist, hash, isBoundWitnessWithStorageMeta)
+  return getTypedBoundWitness<BoundWitness>(archivist, hash, x => isStorageMeta(isBoundWitness(x)))
 }

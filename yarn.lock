@@ -4377,6 +4377,7 @@ __metadata:
     "@xylabs/sdk-js": "npm:~5.0.39"
     "@xylabs/ts-scripts-yarn3": "npm:~7.2.8"
     "@xylabs/tsconfig": "npm:~7.2.8"
+    "@xylabs/zod": "npm:~5.0.39"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:~5.9.3"
     zod: "npm:~4.1.12"

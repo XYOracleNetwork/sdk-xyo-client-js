@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import type { Address } from '@xylabs/hex'
-import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadStatsDiviner } from '@xyo-network/diviner-payload-stats-abstract'
 import type {
   PayloadStatsDivinerParams,
@@ -13,7 +13,9 @@ import {
   PayloadStatsDivinerSchema,
 } from '@xyo-network/diviner-payload-stats-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  isStorageMeta, type Payload, type Schema,
+} from '@xyo-network/payload-model'
 
 export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams = PayloadStatsDivinerParams> extends PayloadStatsDiviner<TParams> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, PayloadStatsDivinerConfigSchema]
@@ -22,7 +24,7 @@ export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams
   protected async divineAddress(address: Address): Promise<number> {
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     return (await archivist.next({ limit: 20_000 }))
-      .filter(isBoundWitnessWithStorageMeta)
+      .filter(x => isBoundWitness(x) && isStorageMeta(x))
       .filter(bw => bw.addresses.includes(address))
       .map(bw => bw.payload_hashes.length)
       .reduce((total, count) => total + count, 0)

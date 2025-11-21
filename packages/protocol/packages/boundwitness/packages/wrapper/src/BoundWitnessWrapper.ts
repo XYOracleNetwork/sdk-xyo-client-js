@@ -151,9 +151,9 @@ export class BoundWitnessWrapper<
     const innerBoundwitnessIndex: number = this.payloadSchemas.indexOf(BoundWitnessSchema)
     if (innerBoundwitnessIndex !== -1) {
       const innerBoundwitnessHash = asHash(this.payloadHashes[innerBoundwitnessIndex], true)
-      const innerBoundwitnessPayload = asBoundWitness<TBoundWitness>(
+      const innerBoundwitnessPayload = asBoundWitness(
         (await PayloadBuilder.toAllHashMap(this.payloads))[innerBoundwitnessHash],
-      )
+      ) as TBoundWitness | undefined
       const innerBoundwitness: BoundWitnessWrapper<TBoundWitness> | undefined
         = innerBoundwitnessPayload
           ? new BoundWitnessWrapper<TBoundWitness>(innerBoundwitnessPayload, await PayloadBuilder.filterExclude(this.payloads, innerBoundwitnessHash))

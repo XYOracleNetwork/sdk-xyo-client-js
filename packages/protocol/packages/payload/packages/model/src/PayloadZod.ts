@@ -4,6 +4,7 @@ import {
 } from '@xylabs/zod'
 import z from 'zod'
 
+import type { Payload } from './Payload.ts'
 import type { Schema } from './Schema.ts'
 import { SchemaZod } from './Schema.ts'
 import { SequenceFromStringZod } from './StorageMeta/index.ts'
@@ -14,6 +15,8 @@ export const HashMetaZod = z.object({
 })
 
 export type HashMeta = z.infer<typeof HashMetaZod>
+
+export type WithHashMeta<T extends Payload> = T & HashMeta
 
 export const isHashMeta = zodIsFactory(HashMetaZod)
 export const asHashMeta = zodAsFactory(HashMetaZod, 'asHashMeta')
@@ -34,6 +37,8 @@ export const StorageMetaZod = z.object({
 })
 
 export type StorageMeta = z.infer<typeof StorageMetaZod>
+
+export type WithStorageMeta<T extends Payload = Payload> = T & StorageMeta
 
 export const isStorageMeta = zodIsFactory(StorageMetaZod)
 export const asStorageMeta = zodAsFactory(StorageMetaZod, 'asStorageMeta')

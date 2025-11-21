@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.39"
+    "@xylabs/hex": "~5.0.41"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",

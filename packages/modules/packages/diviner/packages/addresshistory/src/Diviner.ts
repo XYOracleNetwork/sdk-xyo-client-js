@@ -3,13 +3,14 @@ import { exists } from '@xylabs/exists'
 import type { Address, Hash } from '@xylabs/hex'
 import { isArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
+import { type BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type { AddressHistoryDivinerParams } from '@xyo-network/diviner-address-history-model'
 import { AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  isStorageMeta, type Payload, type Schema,
+} from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 // This diviner returns the most recent boundwitness signed by the address that can be found
@@ -42,7 +43,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
       await Promise.all(
         archivists.map(async (archivist) => {
           const all = await archivist.next({ limit: 10_000 })
-          return all?.filter(isBoundWitnessWithStorageMeta)
+          return all?.filter(x => isBoundWitness(x) && isStorageMeta(x))
         }),
       )
     )

@@ -1,15 +1,16 @@
 import { assertEx } from '@xylabs/assert'
 import type { Hash } from '@xylabs/hex'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
+import { type BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressChainDiviner } from '@xyo-network/diviner-address-chain-abstract'
 import type { AddressChainDivinerConfig } from '@xyo-network/diviner-address-chain-model'
 import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
 import type { DivinerParams } from '@xyo-network/diviner-model'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  isStorageMeta, type Payload, type Schema,
+} from '@xyo-network/payload-model'
 
 // This diviner returns the most recent boundwitness signed by the address that can be found
 // if multiple broken chains are found, all the heads are returned
@@ -55,7 +56,7 @@ export class MemoryAddressChainDiviner<
     // console.log('archivistFindHash')
     let index = 0
     if (archivists[index]) {
-      const result = (await archivists[index].get([hash])).findLast(isBoundWitnessWithStorageMeta)
+      const result = (await archivists[index].get([hash])).findLast(x => isBoundWitness(x) && isStorageMeta(x)) as BoundWitness | undefined
       if (result) {
         return result
       }

@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/exists": "~5.0.39",
-    "@xylabs/hex": "~5.0.39",
-    "@xylabs/typeof": "~5.0.39",
+    "@xylabs/exists": "~5.0.41",
+    "@xylabs/hex": "~5.0.41",
+    "@xylabs/typeof": "~5.0.41",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",

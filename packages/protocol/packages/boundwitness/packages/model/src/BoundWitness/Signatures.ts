@@ -11,5 +11,5 @@ export type SignaturesMeta = z.infer<typeof SignaturesMetaZod>
 export type UnsignedSignaturesMeta = z.infer<typeof UnsignedSignaturesMetaZod>
 export type SignedSignaturesMeta = z.infer<typeof SignedSignaturesMetaZod>
 
-export type Unsigned<T extends BoundWitness = BoundWitness> = T & z.infer<UnsignedSignaturesMeta>
-export type Signed<T extends BoundWitness = BoundWitness> = T & z.infer<SignedSignaturesMeta>
+export type Unsigned<T extends BoundWitness = BoundWitness> = T & UnsignedSignaturesMeta
+export type Signed<T extends BoundWitness = BoundWitness> = T & SignedSignaturesMeta

@@ -1,6 +1,5 @@
 import '@xylabs/vitest-extended'
 
-import { filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import type { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -15,8 +14,9 @@ import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { ModuleState } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
-import { asOptionalStorageMeta } from '@xyo-network/payload-model'
+import {
+  isStorageMeta, type Payload, type WithStorageMeta,
+} from '@xyo-network/payload-model'
 import { HDWallet } from '@xyo-network/wallet'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
 import { isTimestamp, TimestampSchema } from '@xyo-network/witness-timestamp'
@@ -127,7 +127,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
         expect(results.length).toBe(testCases.flat().length + 1)
         const state = results.find(isModuleState<IndexingDivinerState>)
         expect(state).toBeDefined()
-        const last = filterAs(results, asOptionalStorageMeta)
+        const last = results.filter(x => isStorageMeta(x))
           .map(p => p as WithStorageMeta<Payload>)
           .toSorted(PayloadBuilder.compareStorageMeta)
           .at(-1)

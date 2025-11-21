@@ -1,7 +1,7 @@
 import { distinct } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import type { Address } from '@xylabs/hex'
-import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { SchemaListDiviner } from '@xyo-network/diviner-schema-list-abstract'
 import type {
   SchemaListDivinerParams,
@@ -14,7 +14,9 @@ import {
   SchemaListDivinerSchema,
 } from '@xyo-network/diviner-schema-list-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  isStorageMeta, type Payload, type Schema,
+} from '@xyo-network/payload-model'
 
 export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = SchemaListDivinerParams> extends SchemaListDiviner<TParams> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, SchemaListDivinerConfigSchema]
@@ -23,7 +25,7 @@ export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = S
   protected async divineAddress(address: Address): Promise<string[]> {
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const filtered = (await archivist.next({ limit: 20_000 }))
-      .filter(isBoundWitnessWithStorageMeta)
+      .filter(x => isBoundWitness(x) && isStorageMeta(x))
       .filter(bw => bw.addresses.includes(address))
     return filtered.flatMap(bw => bw.payload_schemas).filter(distinct)
   }

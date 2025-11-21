@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/value-payload-plugin",
-  "version": "5.2.5",
+  "version": "5.2.6",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {

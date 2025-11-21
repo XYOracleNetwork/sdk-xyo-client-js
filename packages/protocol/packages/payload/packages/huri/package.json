@@ -36,18 +36,18 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.41",
-    "@xylabs/axios": "~5.0.41",
-    "@xylabs/hex": "~5.0.41",
-    "@xylabs/typeof": "~5.0.41",
+    "@xylabs/assert": "~5.0.42",
+    "@xylabs/axios": "~5.0.42",
+    "@xylabs/hex": "~5.0.42",
+    "@xylabs/typeof": "~5.0.42",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/delay": "~5.0.41",
+    "@xylabs/delay": "~5.0.42",
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.41",
+    "@xylabs/vitest-extended": "~5.0.42",
     "typescript": "~5.9.3",
     "vitest": "~4.0.12"
   },

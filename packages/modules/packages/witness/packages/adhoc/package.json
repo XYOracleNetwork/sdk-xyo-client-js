@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/promise": "~5.0.41",
+    "@xylabs/promise": "~5.0.42",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
@@ -45,7 +45,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.41",
+    "@xylabs/vitest-extended": "~5.0.42",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/module-wrapper": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",

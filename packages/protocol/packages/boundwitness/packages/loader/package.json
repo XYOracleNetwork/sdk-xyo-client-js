@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/base": "~5.0.41",
-    "@xylabs/exists": "~5.0.41",
-    "@xylabs/hex": "~5.0.41",
+    "@xylabs/base": "~5.0.42",
+    "@xylabs/exists": "~5.0.42",
+    "@xylabs/hex": "~5.0.42",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",

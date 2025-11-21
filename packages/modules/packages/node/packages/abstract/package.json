@@ -36,10 +36,10 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.41",
-    "@xylabs/base": "~5.0.41",
-    "@xylabs/hex": "~5.0.41",
-    "@xylabs/promise": "~5.0.41",
+    "@xylabs/assert": "~5.0.42",
+    "@xylabs/base": "~5.0.42",
+    "@xylabs/hex": "~5.0.42",
+    "@xylabs/promise": "~5.0.42",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",

@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.41",
+    "@xylabs/assert": "~5.0.42",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-view": "workspace:~",
     "@xyo-network/bridge-http": "workspace:~",

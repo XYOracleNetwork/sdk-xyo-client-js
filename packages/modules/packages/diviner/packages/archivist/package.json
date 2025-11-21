@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.41",
+    "@xylabs/assert": "~5.0.42",
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-huri": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",

@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.41",
-    "@xylabs/hex": "~5.0.41",
+    "@xylabs/assert": "~5.0.42",
+    "@xylabs/hex": "~5.0.42",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",

@@ -26,7 +26,7 @@ export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivine
   if (parsedOffset === -1) return []
   const payloadSubset = sortedPayloads.slice(parsedOffset)
 
-  let bws = payloadSubset.filter(x => isBoundWitness(x))
+  let bws = payloadSubset.filter(isBoundWitness)
   const allAddresses = addresses?.map(address => hexFromHexString(address)).filter(exists)
   if (allAddresses?.length) bws = bws.filter(bw => containsAll(bw.addresses, allAddresses))
   if (payload_hashes?.length) bws = bws.filter(bw => containsAll(bw.payload_hashes, payload_hashes))

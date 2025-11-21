@@ -9,7 +9,9 @@ import {
 import type { AccountInstance } from '@xyo-network/account-model'
 import type {
   BoundWitness,
+  PossiblySigned,
   Signed,
+  Unsigned,
 } from '@xyo-network/boundwitness-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import {
@@ -34,7 +36,7 @@ export class BoundWitnessBuilder<
   TPayload extends Payload = Payload>
   extends PayloadBuilder<
     TBoundWitness,
-    Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]>
+    Promise<[PossiblySigned<TBoundWitness>, TPayload[], ModuleError[]]>
   > {
   private static readonly _buildMutex = new Mutex()
 
@@ -112,10 +114,13 @@ export class BoundWitnessBuilder<
     assertEx(!(fields.payload_schemas as (Schema | null)[]).includes(null), () => 'nulls found in schemas')
   }
 
-  override async build(): Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]> {
+  override async build(): Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]>
+  override async build(sign: false): Promise<[Unsigned<TBoundWitness>, TPayload[], ModuleError[]]>
+  override async build(sign: true): Promise<[Signed<TBoundWitness>, TPayload[], ModuleError[]]>
+  override async build(sign: boolean = true): Promise<[PossiblySigned<TBoundWitness>, TPayload[], ModuleError[]]> {
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
       const dataHashableFields = await this.dataHashableFields()
-      const $signatures = await this.sign()
+      const $signatures = sign ? await this.sign() : this.addresses.map(() => null)
 
       const ret = {
         ...this._meta, ...dataHashableFields, ...this._fields, $signatures,

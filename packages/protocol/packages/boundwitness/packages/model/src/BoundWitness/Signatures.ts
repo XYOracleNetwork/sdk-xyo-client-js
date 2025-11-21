@@ -13,3 +13,4 @@ export type SignedSignaturesMeta = z.infer<typeof SignedSignaturesMetaZod>
 
 export type Unsigned<T extends BoundWitness = BoundWitness> = Omit<T, '$signatures'> & UnsignedSignaturesMeta
 export type Signed<T extends BoundWitness = BoundWitness> = Omit<T, '$signatures'> & SignedSignaturesMeta
+export type PossiblySigned<T extends BoundWitness = BoundWitness> = Unsigned<T> | Signed<T>

@@ -1,22 +1,26 @@
-import type { Hash } from '@xylabs/hex'
-import { AsObjectFactory } from '@xylabs/object'
+import { HashZod } from '@xylabs/hex'
+import {
+  zodAsFactory, zodIsFactory, zodToFactory,
+} from '@xylabs/zod'
+import z from 'zod'
 
-import { isPayloadOfSchemaType } from './isPayloadOfSchemaType.ts'
-import type { Payload } from './Payload.ts'
-import type { Schema } from './Schema.ts'
+import { PayloadZodLoose, PayloadZodOfSchema } from './PayloadZod.ts'
 
 // payload that wraps a complete boundwitness with its payloads for use in systems such as submission queues
-export const PayloadBundleSchema = 'network.xyo.payload.bundle' as Schema
+export const PayloadBundleSchema = 'network.xyo.payload.bundle' as const
 export type PayloadBundleSchema = typeof PayloadBundleSchema
 
-export interface PayloadBundleFields<T extends Payload = Payload> {
-  payloads: T[]
-  root: Hash
-}
+export const PayloadBundleFieldsZod = z.object({
+  payloads: PayloadZodLoose.array(),
+  root: HashZod,
+})
 
-export type PayloadBundle = Payload<PayloadBundleFields, PayloadBundleSchema>
+export type PayloadBundleFields = z.infer<typeof PayloadBundleFieldsZod>
 
-export const isPayloadBundle = isPayloadOfSchemaType<PayloadBundle>(PayloadBundleSchema)
+export const PayloadBundleZod = PayloadZodOfSchema(PayloadBundleSchema).extend(PayloadBundleFieldsZod.shape)
 
-export const asPayloadBundle = AsObjectFactory.create(isPayloadBundle)
-export const asOptionalPayloadBundle = AsObjectFactory.createOptional(isPayloadBundle)
+export type PayloadBundle = z.infer<typeof PayloadBundleZod>
+
+export const isPayloadBundle = zodIsFactory(PayloadBundleZod)
+export const asPayloadBundle = zodAsFactory(PayloadBundleZod, 'asPayloadBundle')
+export const asOptionalPayloadBundle = zodToFactory(PayloadBundleZod, 'asPayloadBundle')

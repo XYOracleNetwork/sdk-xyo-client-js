@@ -14,10 +14,7 @@ import type {
   Payload,
   WithStorageMeta,
 } from '@xyo-network/payload-model'
-import {
-  isSequenceStorageMeta,
-  SequenceConstants,
-} from '@xyo-network/payload-model'
+import { isSequenceStorageMeta, SequenceConstants } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,

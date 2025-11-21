@@ -2,8 +2,7 @@ import type { Hash } from '@xylabs/sdk-js'
 import type { WithStorageMeta } from '@xyo-network/payload-model'
 import { isStorageMeta } from '@xyo-network/payload-model'
 
-import type { BoundWitness } from './BoundWitness/index.ts'
-import { isBoundWitness } from './isBoundWitness.ts'
+import { type BoundWitness, isBoundWitness } from './BoundWitness/index.ts'
 
 export type QueryBoundWitnessFields = {
   error_hashes?: Hash[]

@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.39",
-    "@xylabs/object": "~5.0.39",
-    "@xylabs/typeof": "~5.0.39",
+    "@xylabs/hex": "~5.0.41",
+    "@xylabs/object": "~5.0.41",
+    "@xylabs/typeof": "~5.0.41",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {

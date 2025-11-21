@@ -1,9 +1,8 @@
-import { containsAll, filterAs } from '@xylabs/array'
+import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { hexFromHexString } from '@xylabs/hex'
-import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { asOptionalBoundWitness } from '@xyo-network/boundwitness-model'
+import { type BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type {
@@ -27,7 +26,7 @@ export const applyBoundWitnessDivinerQueryPayload = (filter?: BoundWitnessDivine
   if (parsedOffset === -1) return []
   const payloadSubset = sortedPayloads.slice(parsedOffset)
 
-  let bws = filterAs(payloadSubset, asOptionalBoundWitness)
+  let bws = payloadSubset.filter(x => isBoundWitness(x))
   const allAddresses = addresses?.map(address => hexFromHexString(address)).filter(exists)
   if (allAddresses?.length) bws = bws.filter(bw => containsAll(bw.addresses, allAddresses))
   if (payload_hashes?.length) bws = bws.filter(bw => containsAll(bw.payload_hashes, payload_hashes))

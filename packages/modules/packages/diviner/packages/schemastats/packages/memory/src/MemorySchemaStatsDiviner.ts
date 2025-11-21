@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import type { Address } from '@xylabs/hex'
-import { isBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { SchemaStatsDiviner } from '@xyo-network/diviner-schema-stats-abstract'
 import type {
   SchemaStatsDivinerParams,
@@ -13,7 +13,9 @@ import {
   SchemaStatsDivinerSchema,
 } from '@xyo-network/diviner-schema-stats-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  isStorageMeta, type Payload, type Schema,
+} from '@xyo-network/payload-model'
 
 export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams = SchemaStatsDivinerParams> extends SchemaStatsDiviner<TParams> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, SchemaStatsDivinerConfigSchema]
@@ -23,7 +25,7 @@ export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams =
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const all = await archivist.next({ limit: 20_000 })
     const filtered = all
-      .filter(isBoundWitnessWithStorageMeta)
+      .filter(x => isBoundWitness(x) && isStorageMeta(x))
       .filter(bw => bw.addresses.includes(address))
     // eslint-disable-next-line unicorn/no-array-reduce
     const counts: Record<string, number> = filtered.reduce(

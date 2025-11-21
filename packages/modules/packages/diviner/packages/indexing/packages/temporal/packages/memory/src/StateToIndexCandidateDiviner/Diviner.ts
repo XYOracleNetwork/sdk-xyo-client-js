@@ -1,10 +1,9 @@
-import { filterAs } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import type { ArchivistInstance, ArchivistNextOptions } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
-import { asBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { payloadSchemasContainsAll } from '@xyo-network/boundwitness-validator'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
@@ -100,7 +99,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     const next = await sourceArchivist.next(nextOffset)
     if (next.length === 0) return [lastState]
 
-    const batch = filterAs(next, asBoundWitness)
+    const batch = next.filter(x => isBoundWitness(x))
       .filter(exists)
       .filter(bw => payloadSchemasContainsAll(bw, this.payload_schemas))
     // Get source data

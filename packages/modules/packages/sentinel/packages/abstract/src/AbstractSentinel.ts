@@ -5,7 +5,7 @@ import { spanAsync } from '@xylabs/telemetry'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { isBoundWitness, notBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import type {
@@ -103,7 +103,7 @@ export abstract class AbstractSentinel<
 
   protected async emitReportEnd(inPayloads?: Payload[], payloads?: Payload[]) {
     const boundwitnesses = payloads?.filter(isBoundWitness) ?? []
-    const outPayloads = payloads?.filter(notBoundWitness) ?? []
+    const outPayloads = payloads?.filter(payload => !isBoundWitness(payload)) ?? []
     const boundwitness = boundwitnesses.find(bw => bw.addresses.includes(this.address))
     await this.emit('reportEnd', {
       boundwitness, inPayloads, mod: this, outPayloads,

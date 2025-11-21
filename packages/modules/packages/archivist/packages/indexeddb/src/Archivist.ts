@@ -31,7 +31,7 @@ import { IndexedDbArchivistConfigSchema } from './Config.ts'
 import { IndexedDbArchivistParams } from './Params.ts'
 
 export interface PayloadStore {
-  [s: string]: WithStorageMeta
+  [s: string]: WithStorageMeta<Payload>
 }
 
 @creatableModule()

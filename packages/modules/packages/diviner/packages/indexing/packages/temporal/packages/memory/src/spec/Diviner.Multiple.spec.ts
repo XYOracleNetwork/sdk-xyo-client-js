@@ -7,7 +7,7 @@ import { AsObjectFactory } from '@xylabs/object'
 import type { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { asBoundWitness } from '@xyo-network/boundwitness-model'
+import { asBoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
@@ -125,7 +125,7 @@ describe('TemporalIndexingDiviner - Multiple', () => {
     })
     it('has expected bound witnesses', async () => {
       const payloads = await stateArchivist.all()
-      const stateBoundWitnesses = filterAs(payloads, asBoundWitness)
+      const stateBoundWitnesses = payloads.filter(x => isBoundWitness(x))
       expect(stateBoundWitnesses).toBeArrayOfSize(1)
       for (const stateBoundWitness of stateBoundWitnesses) {
         expect(stateBoundWitness).toBeObject()
@@ -158,7 +158,7 @@ describe('TemporalIndexingDiviner - Multiple', () => {
     // We're not signing indexes for performance reasons
     it.skip('has expected bound witnesses', async () => {
       const payloads = await indexArchivist.all()
-      const indexBoundWitnesses = filterAs(payloads, asBoundWitness)
+      const indexBoundWitnesses = payloads.filter(x => isBoundWitness(x))
       expect(indexBoundWitnesses).toBeArrayOfSize(1)
       const indexBoundWitness = indexBoundWitnesses[0]
       expect(indexBoundWitness).toBeObject()

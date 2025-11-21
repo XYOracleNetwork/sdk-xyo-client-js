@@ -36,12 +36,12 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/arraybuffer": "~5.0.39",
-    "@xylabs/assert": "~5.0.39",
-    "@xylabs/base": "~5.0.39",
-    "@xylabs/hex": "~5.0.39",
-    "@xylabs/static-implements": "~5.0.39",
-    "@xylabs/typeof": "~5.0.39",
+    "@xylabs/arraybuffer": "~5.0.41",
+    "@xylabs/assert": "~5.0.41",
+    "@xylabs/base": "~5.0.41",
+    "@xylabs/hex": "~5.0.41",
+    "@xylabs/static-implements": "~5.0.41",
+    "@xylabs/typeof": "~5.0.41",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/data": "workspace:~",
     "@xyo-network/elliptic": "workspace:~",
@@ -53,9 +53,9 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.39",
+    "@xylabs/vitest-extended": "~5.0.41",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.10"
+    "vitest": "~4.0.12"
   },
   "publishConfig": {
     "access": "public"

@@ -10,7 +10,6 @@ import type { AccountInstance } from '@xyo-network/account-model'
 import type {
   BoundWitness,
   Signed,
-  UnsignedBoundWitness,
 } from '@xyo-network/boundwitness-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import {
@@ -31,7 +30,7 @@ import { GeneratedBoundWitnessFields } from './GeneratedBoundWitnessFields.ts'
 import { uniqueAccounts } from './uniqueAccounts.ts'
 
 export class BoundWitnessBuilder<
-  TBoundWitness extends UnsignedBoundWitness = UnsignedBoundWitness,
+  TBoundWitness extends BoundWitness = BoundWitness,
   TPayload extends Payload = Payload>
   extends PayloadBuilder<
     TBoundWitness,

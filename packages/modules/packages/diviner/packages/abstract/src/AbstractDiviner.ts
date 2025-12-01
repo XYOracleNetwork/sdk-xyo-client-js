@@ -97,7 +97,7 @@ export abstract class AbstractDiviner<
         await this.globalReentrancyMutex?.acquire()
         return await this.busy(async () => {
           const retryConfig = retryConfigIn ?? this.config.retry
-          await this.started('throw')
+          this.started('throw')
           await this.emit('divineStart', { inPayloads: payloads, mod: this })
           let outPayloads: TOut[] = []
           let errors: Error[] = []

@@ -70,7 +70,7 @@ export abstract class AbstractWitness<
         return await this.busy(async () => {
           await this.globalReentrancyMutex?.acquire()
           this._noOverride('observe')
-          await this.started('throw')
+          this.started('throw')
           await this.emit('observeStart', { inPayloads, mod: this } as TEventData['observeStart'])
           const outPayloads = assertEx(await this.observeHandler(inPayloads), () => 'Trying to witness nothing')
           // assertEx(outPayloads.length > 0, 'Trying to witness empty list')

@@ -372,7 +372,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         const queryAccount = this.ephemeralQueryAccountEnabled ? await Account.random() : undefined
 
         try {
-          await this.started('throw')
+          this.started('throw')
           if (!this.allowAnonymous && query.addresses.length === 0) {
             throw new Error(`Anonymous Queries not allowed, but running anyway [${this.modName}], [${this.address}]`)
           }
@@ -418,7 +418,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     if (this.dead) {
       return false
     }
-    if (!(await this.started('warn'))) return false
+    if (!(this.started('warn'))) return false
     const configValidator
       = queryConfig ? new ModuleConfigQueryValidator(Object.assign({}, this.config, queryConfig)).queryable : this.moduleConfigQueryValidator
     const validators = [this.supportedQueryValidator, configValidator]
@@ -636,7 +636,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    await this.started('throw')
+    this.started('throw')
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQueries>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))

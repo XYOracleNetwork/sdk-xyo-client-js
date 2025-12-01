@@ -136,7 +136,7 @@ export abstract class AbstractArchivist<
       try {
         await this.globalReentrancyMutex?.acquire()
         return await this.busy(async () => {
-          await this.started('throw')
+          this.started('throw')
           return PayloadBuilder.omitPrivateStorageMeta(await this.allHandler()) as WithStorageMeta<Payload>[]
         })
       } finally {
@@ -162,7 +162,7 @@ export abstract class AbstractArchivist<
       try {
         await this.globalReentrancyMutex?.acquire()
         return await this.busy(async () => {
-          await this.started('throw')
+          this.started('throw')
           await this.clearHandler()
           this.reportPayloadCount()
           await this.emit('cleared', { mod: this })
@@ -189,7 +189,7 @@ export abstract class AbstractArchivist<
       try {
         await this.globalReentrancyMutex?.acquire()
         return await this.busy(async () => {
-          await this.started('throw')
+          this.started('throw')
           return await this.commitHandler()
         })
       } finally {
@@ -214,7 +214,7 @@ export abstract class AbstractArchivist<
       try {
         await this.globalReentrancyMutex?.acquire()
         return await this.busy(async () => {
-          await this.started('throw')
+          this.started('throw')
           return await this.deleteWithConfig(hashes)
         })
       } finally {
@@ -239,7 +239,7 @@ export abstract class AbstractArchivist<
       try {
         await this.globalReentrancyMutex?.acquire()
         return await this.busy(async () => {
-          await this.started('throw')
+          this.started('throw')
           return await this.getWithConfig(hashes)
         })
       } finally {
@@ -264,7 +264,7 @@ export abstract class AbstractArchivist<
       try {
         await this.globalReentrancyMutex?.acquire()
         return await this.busy(async () => {
-          await this.started('throw')
+          this.started('throw')
           return await this.insertWithConfig(PayloadBuilder.omitStorageMeta(payloads))
         })
       } finally {
@@ -289,7 +289,7 @@ export abstract class AbstractArchivist<
       try {
         await this.globalReentrancyMutex?.acquire()
         return await this.busy(async () => {
-          await this.started('throw')
+          this.started('throw')
           const { limit = AbstractArchivist.defaultNextLimit, ...otherOptions } = options ?? {}
           return await this.nextWithConfig({ limit, ...otherOptions })
         })
@@ -315,7 +315,7 @@ export abstract class AbstractArchivist<
       try {
         await this.globalReentrancyMutex?.acquire()
         return await this.busy(async () => {
-          await this.started('throw')
+          this.started('throw')
           return await this.snapshotHandler()
         })
       } finally {

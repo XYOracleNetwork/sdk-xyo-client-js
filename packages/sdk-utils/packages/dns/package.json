@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/axios": "~5.0.42",
-    "@xylabs/typeof": "~5.0.42"
+    "@xylabs/axios": "~5.0.47",
+    "@xylabs/typeof": "~5.0.47"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",

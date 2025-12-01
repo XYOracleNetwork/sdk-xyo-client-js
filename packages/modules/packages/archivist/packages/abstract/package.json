@@ -37,14 +37,14 @@
   ],
   "dependencies": {
     "@opentelemetry/api": "^1.9.0",
-    "@xylabs/assert": "~5.0.42",
-    "@xylabs/base": "~5.0.42",
-    "@xylabs/exists": "~5.0.42",
-    "@xylabs/hex": "~5.0.42",
-    "@xylabs/promise": "~5.0.42",
-    "@xylabs/set": "~5.0.42",
-    "@xylabs/telemetry": "~5.0.42",
-    "@xylabs/typeof": "~5.0.42",
+    "@xylabs/assert": "~5.0.47",
+    "@xylabs/base": "~5.0.47",
+    "@xylabs/exists": "~5.0.47",
+    "@xylabs/hex": "~5.0.47",
+    "@xylabs/promise": "~5.0.47",
+    "@xylabs/set": "~5.0.47",
+    "@xylabs/telemetry": "~5.0.47",
+    "@xylabs/typeof": "~5.0.47",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -53,7 +53,7 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "lru-cache": "~11.2.2"
+    "lru-cache": "~11.2.4"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",

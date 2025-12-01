@@ -432,7 +432,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return true
   }
 
-  async started(notStartedAction: 'error' | 'throw' | 'warn' | 'log' | 'none' = 'log', tryStart = true): Promise<boolean> {
+  async startedAsync(notStartedAction: 'error' | 'throw' | 'warn' | 'log' | 'none' = 'log', tryStart = true): Promise<boolean> {
     if (isString(this.status) && this.status === 'started') {
       return true
     } else if (this.status === 'created' || this.status === 'stopped' || this.status === 'starting') {

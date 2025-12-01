@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.42",
-    "@xylabs/hex": "~5.0.42",
-    "@xylabs/promise": "~5.0.42",
+    "@xylabs/assert": "~5.0.47",
+    "@xylabs/hex": "~5.0.47",
+    "@xylabs/promise": "~5.0.47",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-validator": "workspace:~",

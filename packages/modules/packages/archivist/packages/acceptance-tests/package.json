@@ -36,12 +36,12 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/array": "~5.0.42",
+    "@xylabs/array": "~5.0.47",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/id-payload-plugin": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "uuid": "~13.0.0",
-    "vitest": "~4.0.12"
+    "vitest": "~4.0.14"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",

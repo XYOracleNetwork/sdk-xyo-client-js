@@ -36,10 +36,10 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.42",
-    "@xylabs/zod": "~5.0.42",
+    "@xylabs/sdk-js": "~5.0.47",
+    "@xylabs/zod": "~5.0.47",
     "@xyo-network/payload-model": "workspace:~",
-    "zod": "~4.1.12"
+    "zod": "~4.1.13"
   },
   "devDependencies": {
     "@types/node": "~24.10.1",

@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.42",
-    "@xylabs/exists": "~5.0.42",
+    "@xylabs/assert": "~5.0.47",
+    "@xylabs/exists": "~5.0.47",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:~",
@@ -50,13 +50,13 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.42",
+    "@xylabs/vitest-extended": "~5.0.47",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/diviner-jsonpath-model": "workspace:~",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.12"
+    "vitest": "~4.0.14"
   },
   "publishConfig": {
     "access": "public"

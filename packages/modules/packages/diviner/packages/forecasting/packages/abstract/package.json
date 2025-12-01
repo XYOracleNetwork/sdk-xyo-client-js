@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/promise": "~5.0.42",
+    "@xylabs/promise": "~5.0.47",
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-forecasting-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",

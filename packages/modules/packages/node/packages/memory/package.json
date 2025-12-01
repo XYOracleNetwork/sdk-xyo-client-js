@@ -36,19 +36,19 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.42",
-    "@xylabs/exists": "~5.0.42",
-    "@xylabs/hex": "~5.0.42",
-    "@xylabs/promise": "~5.0.42",
-    "@xylabs/typeof": "~5.0.42",
+    "@xylabs/assert": "~5.0.47",
+    "@xylabs/exists": "~5.0.47",
+    "@xylabs/hex": "~5.0.47",
+    "@xylabs/promise": "~5.0.47",
+    "@xylabs/typeof": "~5.0.47",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node-abstract": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
-    "@xylabs/creatable": "~5.0.42",
-    "@xylabs/events": "~5.0.42",
+    "@xylabs/creatable": "~5.0.47",
+    "@xylabs/events": "~5.0.47",
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
     "@xyo-network/module-events": "workspace:~",

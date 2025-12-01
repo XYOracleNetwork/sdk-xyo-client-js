@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/forget": "~5.0.42",
-    "@xylabs/typeof": "~5.0.42",
+    "@xylabs/forget": "~5.0.47",
+    "@xylabs/typeof": "~5.0.47",
     "ethers": "~6.15.0"
   },
   "devDependencies": {

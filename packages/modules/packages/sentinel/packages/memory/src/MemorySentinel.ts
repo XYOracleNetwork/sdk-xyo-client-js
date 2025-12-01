@@ -31,7 +31,7 @@ export class MemorySentinel<
   private runner?: SentinelRunner
 
   async reportHandler(inPayloads: Payload[] = []): Promise<Payload[]> {
-    this.started('throw')
+    await this.startedAsync('throw')
     this.logger?.debug(`reportHandler:in: ${JSON.stringify(inPayloads)}`)
     const job = await this.jobPromise
 

@@ -92,7 +92,6 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   }
 
   async unregister(mod: ModuleInstance): Promise<ModuleInstance> {
-    await this.started('throw')
     // try to detach if it is attached
     try {
       await this.detach(mod.address)

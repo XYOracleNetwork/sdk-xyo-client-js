@@ -36,7 +36,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   private _attachedPublicModules = new Set<Address>()
 
   async attachHandler(id: ModuleIdentifier, external?: boolean) {
-    this.started('throw')
+    await this.startedAsync('warn', true)
     return assertEx(
       isAddress(id) ? await this.attachUsingAddress(id as Address, external) : await this.attachUsingName(id, external),
       () => `Unable to locate module [${id}]`,
@@ -52,7 +52,6 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   }
 
   async detachHandler(id: ModuleIdentifier) {
-    this.started('throw')
     return isAddress(id) ? await this.detachUsingAddress(id as Address) : await this.detachUsingName(id)
   }
 
@@ -65,7 +64,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   }
 
   async register(mod: AttachableModuleInstance) {
-    this.started('throw')
+    this.started('warn')
     if (this.registeredModuleMap[mod.address]) {
       if (this.registeredModuleMap[mod.address] === mod) {
         this.logger?.warn(`Module already registered at that address[${mod.address}]|${mod.id}|[${mod.config.schema}]`)
@@ -93,7 +92,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   }
 
   async unregister(mod: ModuleInstance): Promise<ModuleInstance> {
-    this.started('throw')
+    await this.started('throw')
     // try to detach if it is attached
     try {
       await this.detach(mod.address)

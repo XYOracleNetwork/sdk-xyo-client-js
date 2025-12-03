@@ -36,12 +36,12 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/array": "~5.0.48",
-    "@xylabs/assert": "~5.0.48",
-    "@xylabs/exists": "~5.0.48",
-    "@xylabs/hex": "~5.0.48",
-    "@xylabs/indexed-db": "~5.0.48",
-    "@xylabs/typeof": "~5.0.48",
+    "@xylabs/array": "~5.0.49",
+    "@xylabs/assert": "~5.0.49",
+    "@xylabs/exists": "~5.0.49",
+    "@xylabs/hex": "~5.0.49",
+    "@xylabs/indexed-db": "~5.0.49",
+    "@xylabs/typeof": "~5.0.49",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
@@ -50,8 +50,8 @@
     "idb": "~8.0.3"
   },
   "devDependencies": {
-    "@xylabs/delay": "~5.0.48",
-    "@xylabs/object": "~5.0.48",
+    "@xylabs/delay": "~5.0.49",
+    "@xylabs/object": "~5.0.49",
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
     "@xyo-network/account": "workspace:~",

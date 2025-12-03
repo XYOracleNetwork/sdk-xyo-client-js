@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.48",
-    "@xylabs/zod": "~5.0.48",
+    "@xylabs/sdk-js": "~5.0.49",
+    "@xylabs/zod": "~5.0.49",
     "@xyo-network/payload-model": "workspace:~",
     "zod": "~4.1.13"
   },

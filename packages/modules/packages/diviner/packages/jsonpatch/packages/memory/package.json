@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.48",
-    "@xylabs/exists": "~5.0.48",
+    "@xylabs/assert": "~5.0.49",
+    "@xylabs/exists": "~5.0.49",
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-jsonpatch-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
@@ -48,7 +48,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.48",
+    "@xylabs/vitest-extended": "~5.0.49",
     "@xyo-network/wallet": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~",
     "typescript": "~5.9.3",

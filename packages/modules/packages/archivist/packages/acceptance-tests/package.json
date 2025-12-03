@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/array": "~5.0.48",
+    "@xylabs/array": "~5.0.49",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/id-payload-plugin": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",

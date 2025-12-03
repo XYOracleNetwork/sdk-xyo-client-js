@@ -45,11 +45,11 @@
     "@xyo-network/witness": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/delay": "~5.0.48",
-    "@xylabs/hex": "~5.0.48",
+    "@xylabs/delay": "~5.0.49",
+    "@xylabs/hex": "~5.0.49",
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.48",
+    "@xylabs/vitest-extended": "~5.0.49",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/diviner-address-history": "workspace:~",

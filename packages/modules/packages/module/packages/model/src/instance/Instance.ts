@@ -1,4 +1,4 @@
-import type { CreatableInstance, CreatableStatus } from '@xylabs/creatable'
+import type { CreatableStatus } from '@xylabs/creatable'
 import type { Address } from '@xylabs/hex'
 import type { TypeCheck } from '@xylabs/object'
 import { IsObjectFactory, toSafeJsonString } from '@xylabs/object'

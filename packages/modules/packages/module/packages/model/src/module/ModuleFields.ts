@@ -32,7 +32,4 @@ export interface ModuleFields<TParams extends ModuleParams = ModuleParams> {
     payloads?: Payload[],
     queryConfig?: TConf,
   ) => Promisable<boolean>
-
-  start?: () => Promisable<boolean>
-  stop?: () => Promisable<boolean>
 }

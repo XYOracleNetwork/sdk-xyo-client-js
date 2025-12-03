@@ -15,9 +15,11 @@ import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
+  AddressToWeakInstanceCache,
   asAttachableModuleInstance,
   asModuleInstance,
   AttachableModuleInstance,
+  Direction,
   duplicateModules,
   InstanceTypeCheck,
   isModule,
@@ -113,6 +115,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
     this.wrapperParams = mutatedWrapperParams
   }
+
+  pipeline?: 'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many' | undefined
+  addressCache?: ((direction: Direction, includePrivate: boolean) => AddressToWeakInstanceCache | undefined) | undefined
 
   get account() {
     return this.wrapperParams.account
@@ -398,6 +403,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return (await Promise.all((await this.parents()).map(parent => parent.publicChildren()))).flat().filter(duplicateModules)
   }
 
+  start(): Promise<boolean> {
+    throw new Error('Cannot start a wrapped module')
+  }
+
   async state(): Promise<Payload[]> {
     const cachedResult = this.cachedCalls.get('state')
     if (cachedResult) {
@@ -412,6 +421,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   async stateQuery(_account: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
     return await this.sendQueryRaw(queryPayload)
+  }
+
+  stop(): Promise<boolean> {
+    throw new Error('Cannot stop a wrapped module')
   }
 
   protected bindQuery<T extends Query>(

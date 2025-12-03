@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-indexing-memory",
-  "version": "5.2.14",
+  "version": "5.2.15",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.49",
-    "@xylabs/timer": "~5.0.49",
-    "@xylabs/typeof": "~5.0.49",
+    "@xylabs/assert": "~5.0.50",
+    "@xylabs/timer": "~5.0.50",
+    "@xylabs/typeof": "~5.0.50",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -52,7 +52,7 @@
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/hex": "~5.0.49",
+    "@xylabs/hex": "~5.0.50",
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
     "typescript": "~5.9.3"

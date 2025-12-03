@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/quadkey",
-  "version": "5.2.14",
+  "version": "5.2.15",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,15 +36,15 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.49",
-    "@xylabs/geo": "~5.0.49",
-    "@xylabs/hex": "~5.0.49",
+    "@xylabs/assert": "~5.0.50",
+    "@xylabs/geo": "~5.0.50",
+    "@xylabs/hex": "~5.0.50",
     "mapbox-gl": "~3.17.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.49",
+    "@xylabs/vitest-extended": "~5.0.50",
     "typescript": "~5.9.3",
     "vitest": "~4.0.15"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-model-mongodb",
-  "version": "5.2.14",
+  "version": "5.2.15",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -39,7 +39,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/mongo": "~5.0.49",
+    "@xylabs/mongo": "~5.0.50",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~"
   },

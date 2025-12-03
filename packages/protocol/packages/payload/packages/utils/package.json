@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/payload-utils",
-  "version": "5.2.14",
+  "version": "5.2.15",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/exists": "~5.0.49",
-    "@xylabs/hex": "~5.0.49",
-    "@xylabs/set": "~5.0.49",
+    "@xylabs/exists": "~5.0.50",
+    "@xylabs/hex": "~5.0.50",
+    "@xylabs/set": "~5.0.50",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
@@ -47,7 +47,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.49",
+    "@xylabs/vitest-extended": "~5.0.50",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "typescript": "~5.9.3",
     "vitest": "~4.0.15"

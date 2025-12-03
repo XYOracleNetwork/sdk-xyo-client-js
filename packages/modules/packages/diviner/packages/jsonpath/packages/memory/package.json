@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-jsonpath-memory",
-  "version": "5.2.14",
+  "version": "5.2.15",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.49",
+    "@xylabs/assert": "~5.0.50",
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-jsonpath-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
@@ -48,7 +48,7 @@
     "@types/jsonpath": "~0.2.4",
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.49",
+    "@xylabs/vitest-extended": "~5.0.50",
     "@xyo-network/wallet": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~",
     "typescript": "~5.9.3",

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/node-abstract",
-  "version": "5.2.14",
+  "version": "5.2.15",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,10 +36,10 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.49",
-    "@xylabs/base": "~5.0.49",
-    "@xylabs/hex": "~5.0.49",
-    "@xylabs/promise": "~5.0.49",
+    "@xylabs/assert": "~5.0.50",
+    "@xylabs/base": "~5.0.50",
+    "@xylabs/hex": "~5.0.50",
+    "@xylabs/promise": "~5.0.50",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",

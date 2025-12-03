@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/bridge-websocket",
-  "version": "5.2.14",
+  "version": "5.2.15",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -44,10 +44,10 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.49",
-    "@xylabs/hex": "~5.0.49",
-    "@xylabs/object": "~5.0.49",
-    "@xylabs/promise": "~5.0.49",
+    "@xylabs/assert": "~5.0.50",
+    "@xylabs/hex": "~5.0.50",
+    "@xylabs/object": "~5.0.50",
+    "@xylabs/promise": "~5.0.50",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/bridge-abstract": "workspace:~",
@@ -60,10 +60,10 @@
     "socket.io": "~4.8.1"
   },
   "devDependencies": {
-    "@xylabs/creatable": "~5.0.49",
+    "@xylabs/creatable": "~5.0.50",
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.49",
+    "@xylabs/vitest-extended": "~5.0.50",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",

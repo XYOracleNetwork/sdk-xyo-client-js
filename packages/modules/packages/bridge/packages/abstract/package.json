@@ -36,13 +36,13 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.47",
-    "@xylabs/base": "~5.0.47",
-    "@xylabs/exists": "~5.0.47",
-    "@xylabs/forget": "~5.0.47",
-    "@xylabs/hex": "~5.0.47",
-    "@xylabs/object": "~5.0.47",
-    "@xylabs/promise": "~5.0.47",
+    "@xylabs/assert": "~5.0.48",
+    "@xylabs/base": "~5.0.48",
+    "@xylabs/exists": "~5.0.48",
+    "@xylabs/forget": "~5.0.48",
+    "@xylabs/hex": "~5.0.48",
+    "@xylabs/object": "~5.0.48",
+    "@xylabs/promise": "~5.0.48",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -69,7 +69,7 @@
     "lru-cache": "~11.2.4"
   },
   "devDependencies": {
-    "@xylabs/creatable": "~5.0.47",
+    "@xylabs/creatable": "~5.0.48",
     "@xylabs/ts-scripts-yarn3": "~7.2.8",
     "@xylabs/tsconfig": "~7.2.8",
     "typescript": "~5.9.3"

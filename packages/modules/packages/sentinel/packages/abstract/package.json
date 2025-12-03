@@ -36,10 +36,10 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.47",
-    "@xylabs/base": "~5.0.47",
-    "@xylabs/forget": "~5.0.47",
-    "@xylabs/telemetry": "~5.0.47",
+    "@xylabs/assert": "~5.0.48",
+    "@xylabs/base": "~5.0.48",
+    "@xylabs/forget": "~5.0.48",
+    "@xylabs/telemetry": "~5.0.48",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",

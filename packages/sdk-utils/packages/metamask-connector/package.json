@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/forget": "~5.0.47",
-    "@xylabs/typeof": "~5.0.47",
-    "ethers": "~6.15.0"
+    "@xylabs/forget": "~5.0.48",
+    "@xylabs/typeof": "~5.0.48",
+    "ethers": "^6.16.0"
   },
   "devDependencies": {
     "@metamask/providers": "~22.1.1",

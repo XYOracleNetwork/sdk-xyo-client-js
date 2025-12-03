@@ -36,10 +36,10 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/forget": "~5.0.47",
-    "@xylabs/object": "~5.0.47",
-    "@xylabs/promise": "~5.0.47",
-    "@xylabs/typeof": "~5.0.47",
+    "@xylabs/forget": "~5.0.48",
+    "@xylabs/object": "~5.0.48",
+    "@xylabs/promise": "~5.0.48",
+    "@xylabs/typeof": "~5.0.48",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",

@@ -39,7 +39,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/mongo": "~5.0.47",
+    "@xylabs/mongo": "~5.0.48",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~"
   },

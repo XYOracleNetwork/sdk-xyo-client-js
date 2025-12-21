@@ -45,7 +45,7 @@
     "@xyo-network/schema-payload-plugin": "workspace:~",
     "ajv": "~8.17.1",
     "axios": "^1.13.2",
-    "lru-cache": "~11.2.4"
+    "lru-cache": "^11.2.4"
   },
   "devDependencies": {
     "@xylabs/assert": "~5.0.50",

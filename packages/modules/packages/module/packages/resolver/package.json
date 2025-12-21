@@ -46,7 +46,7 @@
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
-    "lru-cache": "~11.2.4"
+    "lru-cache": "^11.2.4"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.8",

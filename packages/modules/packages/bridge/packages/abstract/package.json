@@ -66,7 +66,7 @@
     "@xyo-network/sentinel-wrapper": "workspace:~",
     "@xyo-network/witness-model": "workspace:~",
     "@xyo-network/witness-wrapper": "workspace:~",
-    "lru-cache": "~11.2.4"
+    "lru-cache": "^11.2.4"
   },
   "devDependencies": {
     "@xylabs/creatable": "~5.0.50",

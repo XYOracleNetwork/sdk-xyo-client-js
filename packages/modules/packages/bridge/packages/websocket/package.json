@@ -56,7 +56,7 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "async-mutex": "~0.5.0",
-    "lru-cache": "~11.2.4",
+    "lru-cache": "^11.2.4",
     "socket.io": "~4.8.1"
   },
   "devDependencies": {

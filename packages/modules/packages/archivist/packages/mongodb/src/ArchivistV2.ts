@@ -28,6 +28,13 @@ export class MongoDBArchivistV2 extends MongoDBArchivistBaseV2 {
    */
   protected readonly aggregateTimeoutMs = 10_000
 
+  protected override async deleteHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
+    const payloads = await this.getHandler(hashes)
+    const foundHashes = payloads.map(p => p._hash)
+    await this.payloads.deleteMany({ _hash: { $in: foundHashes } })
+    return payloads
+  }
+
   protected async findOneByHash(hash: Hash) {
     const dataPayload = (await this.payloads.findOne({ _$hash: hash }))
     if (dataPayload) {

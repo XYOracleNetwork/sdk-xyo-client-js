@@ -47,7 +47,7 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "lru-cache": "~11.2.4"
+    "lru-cache": "^11.2.4"
   },
   "devDependencies": {
     "@xylabs/delay": "~5.0.50",

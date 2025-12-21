@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-js",
-  "version": "5.2.17",
+  "version": "5.2.18",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -47,6 +47,7 @@
     "coverage": "vitest --coverage --watch false",
     "cycle": "node ./scripts/run-cycle.mjs",
     "deploy": "xy deploy",
+    "publish": "yarn workspaces foreach -A --no-private npm publish",
     "free-3033": "kill -9 $(lsof -t -i :3033)",
     "free-8080": "kill -9 $(lsof -t -i :8080)",
     "free-mongo": "kill -9 $(lsof -t -i :55391) && kill -9 $(lsof -t -i :55393)",

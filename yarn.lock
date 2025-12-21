@@ -3932,7 +3932,7 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    lru-cache: "npm:~11.2.4"
+    lru-cache: "npm:^11.2.4"
     typescript: "npm:~5.9.3"
   languageName: unknown
   linkType: soft
@@ -4048,7 +4048,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/wallet": "workspace:~"
-    lru-cache: "npm:~11.2.4"
+    lru-cache: "npm:^11.2.4"
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.15"
   languageName: unknown
@@ -4181,7 +4181,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/wallet": "workspace:~"
-    lru-cache: "npm:~11.2.4"
+    lru-cache: "npm:^11.2.4"
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.15"
   languageName: unknown
@@ -4508,7 +4508,7 @@ __metadata:
     "@xyo-network/sentinel-wrapper": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
     "@xyo-network/witness-wrapper": "workspace:~"
-    lru-cache: "npm:~11.2.4"
+    lru-cache: "npm:^11.2.4"
     typescript: "npm:~5.9.3"
   languageName: unknown
   linkType: soft
@@ -4589,7 +4589,7 @@ __metadata:
     "@xyo-network/wallet": "workspace:~"
     async-mutex: "npm:~0.5.0"
     axios: "npm:^1.13.2"
-    lru-cache: "npm:~11.2.4"
+    lru-cache: "npm:^11.2.4"
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.15"
   languageName: unknown
@@ -4661,7 +4661,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
     async-mutex: "npm:~0.5.0"
-    lru-cache: "npm:~11.2.4"
+    lru-cache: "npm:^11.2.4"
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.15"
   languageName: unknown
@@ -4692,7 +4692,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
     async-mutex: "npm:~0.5.0"
-    lru-cache: "npm:~11.2.4"
+    lru-cache: "npm:^11.2.4"
     socket.io: "npm:~4.8.1"
     socket.io-client: "npm:~4.8.1"
     typescript: "npm:~5.9.3"
@@ -4725,7 +4725,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/sentinel-model": "workspace:~"
     "@xyo-network/wallet": "workspace:~"
-    lru-cache: "npm:~11.2.4"
+    lru-cache: "npm:^11.2.4"
     typescript: "npm:~5.9.3"
   languageName: unknown
   linkType: soft
@@ -6551,7 +6551,7 @@ __metadata:
     "@xyo-network/query-payload-plugin": "workspace:~"
     "@xyo-network/wallet-model": "workspace:~"
     async-mutex: "npm:~0.5.0"
-    lru-cache: "npm:~11.2.4"
+    lru-cache: "npm:^11.2.4"
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.15"
   languageName: unknown
@@ -6673,7 +6673,7 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    lru-cache: "npm:~11.2.4"
+    lru-cache: "npm:^11.2.4"
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.15"
   languageName: unknown
@@ -6701,7 +6701,7 @@ __metadata:
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    lru-cache: "npm:~11.2.4"
+    lru-cache: "npm:^11.2.4"
     typescript: "npm:~5.9.3"
   languageName: unknown
   linkType: soft
@@ -7196,7 +7196,7 @@ __metadata:
     "@xyo-network/schema-payload-plugin": "workspace:~"
     ajv: "npm:~8.17.1"
     axios: "npm:^1.13.2"
-    lru-cache: "npm:~11.2.4"
+    lru-cache: "npm:^11.2.4"
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.15"
   languageName: unknown
@@ -11163,7 +11163,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^11.0.0, lru-cache@npm:^11.2.1, lru-cache@npm:^11.2.2, lru-cache@npm:~11.2.4":
+"lru-cache@npm:^11.0.0, lru-cache@npm:^11.2.1, lru-cache@npm:^11.2.2, lru-cache@npm:^11.2.4":
   version: 11.2.4
   resolution: "lru-cache@npm:11.2.4"
   checksum: 10/3b2da74c0b6653767f8164c38c4c4f4d7f0cc10c62bfa512663d94a830191ae6a5af742a8d88a8b30d5f9974652d3adae53931f32069139ad24fa2a18a199aca

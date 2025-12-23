@@ -1,4 +1,4 @@
-import type { Promisable } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/sdk-js'
 import type { ModuleIdentifier, ModuleQueryResult } from '@xyo-network/module-model'
 
 import type { BridgeExposeOptions, BridgeUnexposeOptions } from './Queries/index.ts'

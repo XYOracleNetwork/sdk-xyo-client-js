@@ -1,4 +1,4 @@
-import type { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/sdk-js'
 import type { Query } from '@xyo-network/payload-model'
 
 export const ArchivistGetQuerySchema = 'network.xyo.query.archivist.get' as const

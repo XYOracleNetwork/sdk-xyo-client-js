@@ -1,7 +1,7 @@
-import { assertEx } from '@xylabs/assert'
-import { Hash } from '@xylabs/hex'
+import {
+  assertEx, Hash, isString,
+} from '@xylabs/sdk-js'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
-import { isString } from '@xylabs/typeof'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'

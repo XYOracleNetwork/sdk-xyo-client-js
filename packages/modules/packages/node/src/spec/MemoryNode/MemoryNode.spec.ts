@@ -1,4 +1,4 @@
-import { delay } from '@xylabs/delay'
+import { delay } from '@xylabs/sdk-js'
 import { matchers } from '@xylabs/vitest-matchers'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'

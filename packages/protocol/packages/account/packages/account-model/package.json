@@ -36,14 +36,14 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/arraybuffer": "~5.0.50",
-    "@xylabs/hex": "~5.0.50",
+    "@xylabs/arraybuffer": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.61",
     "@xyo-network/key-model": "workspace:~",
     "@xyo-network/previous-hash-store-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.2.8",
-    "@xylabs/tsconfig": "~7.2.8",
+    "@xylabs/ts-scripts-yarn3": "~7.2.32",
+    "@xylabs/tsconfig": "~7.2.32",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

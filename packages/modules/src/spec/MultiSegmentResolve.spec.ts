@@ -1,4 +1,4 @@
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistConfigSchema } from '@xyo-network/archivist-model'
 import { MemoryNode } from '@xyo-network/node-memory'

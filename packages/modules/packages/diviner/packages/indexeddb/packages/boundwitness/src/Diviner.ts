@@ -1,8 +1,7 @@
 /// <reference lib="dom" />
 
 import { containsAll } from '@xylabs/array'
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
+import { assertEx, exists } from '@xylabs/sdk-js'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'

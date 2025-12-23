@@ -1,5 +1,4 @@
-import type { EventData } from '@xylabs/events'
-import type { Hash } from '@xylabs/hex'
+import type { EventData, Hash } from '@xylabs/sdk-js'
 import type { Module, ModuleEventArgs } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 

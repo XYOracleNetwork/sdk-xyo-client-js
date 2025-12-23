@@ -1,4 +1,4 @@
-import { asAddress } from '@xylabs/hex'
+import { asAddress } from '@xylabs/sdk-js'
 import type { ModuleInstance } from '@xyo-network/module-model'
 import { ModuleConfigSchema, ModuleStateQuerySchema } from '@xyo-network/module-model'
 import type { MockedObject } from 'vitest'

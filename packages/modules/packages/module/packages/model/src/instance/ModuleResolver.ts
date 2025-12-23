@@ -1,5 +1,4 @@
-import type { Address } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
+import type { Address, Promisable } from '@xylabs/sdk-js'
 
 import type { ModuleIdentifier } from '../ModuleIdentifier.ts'
 import type { ModuleInstance } from './Instance.ts'

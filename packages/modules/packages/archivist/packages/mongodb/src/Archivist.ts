@@ -1,5 +1,5 @@
-import { exists } from '@xylabs/exists'
-import type { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/sdk-js'
+import { exists } from '@xylabs/sdk-js'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import type { ArchivistNextOptions } from '@xyo-network/archivist-model'
 import { ArchivistInsertQuerySchema, ArchivistNextQuerySchema } from '@xyo-network/archivist-model'

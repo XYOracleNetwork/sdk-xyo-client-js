@@ -1,4 +1,4 @@
-import type { CreatableParams } from '@xylabs/creatable'
+import type { CreatableParams } from '@xylabs/sdk-js'
 import type { AccountInstance } from '@xyo-network/account-model'
 
 import type { AnyConfigSchema, ModuleConfig } from './Config/index.ts'

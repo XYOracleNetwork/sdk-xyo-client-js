@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import type { Promisable } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/sdk-js'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Account } from '@xyo-network/account'
 import type { Payload } from '@xyo-network/payload-model'

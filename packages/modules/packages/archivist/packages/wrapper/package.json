@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/hex": "~5.0.50",
+    "@xylabs/sdk-js": "~5.0.61",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
@@ -44,14 +44,14 @@
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.2.8",
-    "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.50",
+    "@xylabs/ts-scripts-yarn3": "~7.2.32",
+    "@xylabs/tsconfig": "~7.2.32",
+    "@xylabs/vitest-extended": "~5.0.61",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.15"
+    "vitest": "~4.0.16"
   },
   "publishConfig": {
     "access": "public"

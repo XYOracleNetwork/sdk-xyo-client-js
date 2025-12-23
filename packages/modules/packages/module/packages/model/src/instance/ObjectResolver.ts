@@ -1,5 +1,6 @@
-import type { AnyObject, EmptyObject } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
+import type {
+  AnyObject, EmptyObject, Promisable,
+} from '@xylabs/sdk-js'
 
 import type { ModuleIdentifier } from '../ModuleIdentifier.ts'
 import type { ObjectFilterOptions } from './ObjectFilter.ts'

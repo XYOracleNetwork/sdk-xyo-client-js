@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
 import { Account } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'

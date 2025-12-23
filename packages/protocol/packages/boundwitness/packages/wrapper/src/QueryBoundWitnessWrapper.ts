@@ -1,7 +1,7 @@
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import { asHash } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/sdk-js'
+import {
+  asHash, assertEx, exists,
+} from '@xylabs/sdk-js'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { isQueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'

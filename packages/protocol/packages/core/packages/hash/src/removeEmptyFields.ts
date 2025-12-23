@@ -1,5 +1,5 @@
-import type { AnyObject, EmptyObject } from '@xylabs/object'
-import { typeOf } from '@xylabs/typeof'
+import type { AnyObject, EmptyObject } from '@xylabs/sdk-js'
+import { typeOf } from '@xylabs/sdk-js'
 
 export const removeEmptyFields = <T extends EmptyObject>(obj: T): T => {
   if (obj == null) return obj

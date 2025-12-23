@@ -1,4 +1,4 @@
-import { HashZod } from '@xylabs/hex'
+import { HashZod } from '@xylabs/sdk-js'
 import {
   zodAsFactory, zodIsFactory, zodToFactory,
 } from '@xylabs/zod'

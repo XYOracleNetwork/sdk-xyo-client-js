@@ -1,5 +1,4 @@
-import { assertEx } from '@xylabs/assert'
-import { asAddress } from '@xylabs/hex'
+import { asAddress, assertEx } from '@xylabs/sdk-js'
 
 import type { ModuleInstance } from '../instance/index.ts'
 import { MODULE_PATH_SEPARATOR } from '../ModuleIdentifier.ts'

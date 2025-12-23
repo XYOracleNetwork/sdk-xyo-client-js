@@ -1,11 +1,11 @@
 /* eslint-disable sonarjs/public-static-readonly */
 
-import { assertEx } from '@xylabs/assert'
-import type { Hash } from '@xylabs/hex'
-import { asHash, hexFromArrayBuffer } from '@xylabs/hex'
-import type { EmptyObject } from '@xylabs/object'
-import { ObjectWrapper, omitBy } from '@xylabs/object'
 import { subtle } from '@xylabs/platform'
+import type { EmptyObject, Hash } from '@xylabs/sdk-js'
+import {
+  asHash, assertEx,
+  hexFromArrayBuffer, ObjectWrapper, omitBy,
+} from '@xylabs/sdk-js'
 import type { ModuleThread, Worker } from '@xylabs/threads/master'
 import { Pool, spawn } from '@xylabs/threads/master'
 import { WasmSupport } from '@xyo-network/wasm'
@@ -179,7 +179,7 @@ export class ObjectHasher<T extends EmptyObject = EmptyObject> extends ObjectWra
     return JSON.stringify(this.hashFields(obj))
   }
 
-  static async subtleHash(data: Uint8Array): Promise<ArrayBuffer> {
+  static async subtleHash(data: Uint8Array<ArrayBuffer>): Promise<ArrayBuffer> {
     const pool = this.subtleHashPool
     return pool === null ? await subtle.digest('SHA-256', data) : pool.queue(async thread => await thread.hash(data))
   }

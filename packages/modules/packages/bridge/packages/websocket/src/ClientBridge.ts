@@ -1,6 +1,6 @@
-import { assertEx } from '@xylabs/assert'
-import { Address } from '@xylabs/hex'
-import { Promisable } from '@xylabs/promise'
+import {
+  Address, assertEx, Promisable,
+} from '@xylabs/sdk-js'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractBridge } from '@xyo-network/bridge-abstract'
 import {

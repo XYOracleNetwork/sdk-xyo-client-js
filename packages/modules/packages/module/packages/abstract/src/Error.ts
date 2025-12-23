@@ -1,5 +1,4 @@
-import type { Hash } from '@xylabs/hex'
-import type { JsonValue } from '@xylabs/object'
+import type { Hash, JsonValue } from '@xylabs/sdk-js'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { ModuleError, Schema } from '@xyo-network/payload-model'
 import { ModuleErrorSchema } from '@xyo-network/payload-model'

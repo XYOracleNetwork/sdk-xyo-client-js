@@ -1,4 +1,4 @@
-import type { JsonValue } from '@xylabs/object'
+import type { JsonValue } from '@xylabs/sdk-js'
 import type { Payload } from '@xyo-network/payload-model'
 
 export type PayloadValueTransformer<TSource extends Payload = Payload> = (payload: TSource) => JsonValue

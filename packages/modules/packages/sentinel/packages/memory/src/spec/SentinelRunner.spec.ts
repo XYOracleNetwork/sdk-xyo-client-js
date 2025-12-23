@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import { delay } from '@xylabs/delay'
+import { delay } from '@xylabs/sdk-js'
 import type { AbstractWitness } from '@xyo-network/abstract-witness'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'

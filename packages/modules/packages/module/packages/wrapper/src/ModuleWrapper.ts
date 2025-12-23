@@ -1,12 +1,11 @@
-import { assertEx } from '@xylabs/assert'
-import { Base } from '@xylabs/base'
-import { CreatableName } from '@xylabs/creatable'
-import { EventAnyListener, EventListener } from '@xylabs/events'
-import { exists } from '@xylabs/exists'
-import { Address } from '@xylabs/hex'
 import { Logger } from '@xylabs/logger'
-import { Promisable, PromiseEx } from '@xylabs/promise'
-import { isDefined } from '@xylabs/typeof'
+import {
+  Address, assertEx,
+  Base,
+  CreatableName, EventAnyListener, EventListener,
+  exists,
+  isDefined, Promisable, PromiseEx,
+} from '@xylabs/sdk-js'
 import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'

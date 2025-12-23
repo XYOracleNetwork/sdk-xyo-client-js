@@ -1,4 +1,4 @@
-import { AsObjectFactory } from '@xylabs/object'
+import { AsObjectFactory } from '@xylabs/sdk-js'
 
 import type { Payload } from '../Payload.ts'
 import type { Sequence } from './sequence/index.ts'

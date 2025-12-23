@@ -1,6 +1,5 @@
 import type { MetaMaskInpageProvider } from '@metamask/providers'
-import { forget } from '@xylabs/forget'
-import { isString } from '@xylabs/typeof'
+import { forget, isString } from '@xylabs/sdk-js'
 import type { Listener } from 'ethers'
 import { BrowserProvider } from 'ethers'
 

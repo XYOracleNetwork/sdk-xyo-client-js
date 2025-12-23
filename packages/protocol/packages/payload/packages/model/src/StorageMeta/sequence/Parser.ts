@@ -1,14 +1,14 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
-import { assertEx } from '@xylabs/assert'
 import type {
   Address,
   Hash, Hex,
-} from '@xylabs/hex'
+} from '@xylabs/sdk-js'
 import {
+  assertEx,
   isAddress,
   toAddress,
   toHex,
-} from '@xylabs/hex'
+} from '@xylabs/sdk-js'
 
 import type {
   Epoch, LocalSequence, Nonce, QualifiedSequence,

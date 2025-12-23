@@ -1,4 +1,4 @@
-import type { Address, Hash } from '@xylabs/hex'
+import type { Address, Hash } from '@xylabs/sdk-js'
 import type { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import type { DBSchema, IDBPDatabase } from 'idb'
 import { openDB } from 'idb'

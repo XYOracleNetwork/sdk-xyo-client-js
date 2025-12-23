@@ -1,6 +1,5 @@
-import { assertEx } from '@xylabs/assert'
-import type { Hash } from '@xylabs/hex'
-import type { IdentityFunction } from '@xylabs/typeof'
+import type { Hash, IdentityFunction } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/sdk-js'
 import { type BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { isStorageMeta, type WithStorageMeta } from '@xyo-network/payload-model'
 

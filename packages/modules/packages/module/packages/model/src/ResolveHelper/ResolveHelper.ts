@@ -1,15 +1,14 @@
 /* eslint-disable max-statements */
 /* eslint-disable complexity */
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import type { Address } from '@xylabs/hex'
-import { isAddress } from '@xylabs/hex'
 import type { Logger } from '@xylabs/logger'
 import { IdLogger } from '@xylabs/logger'
-import { toSafeJsonString } from '@xylabs/object'
+import type { Address } from '@xylabs/sdk-js'
 import {
-  isDefined, isString, isTruthy,
-} from '@xylabs/typeof'
+  assertEx,
+  exists,
+  isAddress,
+  isDefined, isString, isTruthy, toSafeJsonString,
+} from '@xylabs/sdk-js'
 
 import type {
   ModuleFilterOptions, ModuleInstance, ModuleResolver,

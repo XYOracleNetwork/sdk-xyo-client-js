@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import { delay } from '@xylabs/delay'
+import { delay } from '@xylabs/sdk-js'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { JsonPatchDiviner } from '@xyo-network/diviner-jsonpatch-memory'
 import { JsonPathAggregateDiviner } from '@xyo-network/diviner-jsonpath-aggregate-memory'

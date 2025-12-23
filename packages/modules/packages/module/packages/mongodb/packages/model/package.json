@@ -39,14 +39,14 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/mongo": "~5.0.50",
+    "@xylabs/mongo": "~5.0.61",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-mongodb": "workspace:~",
     "@xyo-network/shared": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.2.8",
-    "@xylabs/tsconfig": "~7.2.8",
+    "@xylabs/ts-scripts-yarn3": "~7.2.32",
+    "@xylabs/tsconfig": "~7.2.32",
     "typescript": "~5.9.3"
   },
   "engines": {

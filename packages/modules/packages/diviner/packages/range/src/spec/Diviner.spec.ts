@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import { hexFrom } from '@xylabs/hex'
+import { hexFrom } from '@xylabs/sdk-js'
 import type { BigIntPayload } from '@xyo-network/diviner-range-model'
 import {
   BigIntSchema, NumberSchema, RangeSchema,

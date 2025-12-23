@@ -1,4 +1,4 @@
-import { asHash, type Hash } from '@xylabs/hex'
+import { asHash, type Hash } from '@xylabs/sdk-js'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import type { Schema } from '@xyo-network/payload-model'
 

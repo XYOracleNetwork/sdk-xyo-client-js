@@ -1,4 +1,4 @@
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type {
   AddressPayload, AttachableModuleInstance, ModuleIdentifier, ModuleInstance, ModuleQueryResult,

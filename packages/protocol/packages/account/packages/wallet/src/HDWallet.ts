@@ -1,11 +1,11 @@
 import { generateMnemonic } from '@scure/bip39'
 import { wordlist as englishWordlist } from '@scure/bip39/wordlists/english.js'
 import { toUint8Array } from '@xylabs/arraybuffer'
-import { assertEx } from '@xylabs/assert'
-import { globallyUnique } from '@xylabs/base'
 import {
-  Address, asAddress, Hex, hexFromHexString,
-} from '@xylabs/hex'
+  Address, asAddress, assertEx,
+  globallyUnique,
+  Hex, hexFromHexString,
+} from '@xylabs/sdk-js'
 import { staticImplements } from '@xylabs/static-implements'
 import { Account, PrivateKey } from '@xyo-network/account'
 import {

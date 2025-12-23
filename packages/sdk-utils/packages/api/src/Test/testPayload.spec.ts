@@ -1,4 +1,4 @@
-import type { StringKeyObject } from '@xylabs/object'
+import type { StringKeyObject } from '@xylabs/sdk-js'
 import type { Payload } from '@xyo-network/payload-model'
 import { expect, it } from 'vitest'
 

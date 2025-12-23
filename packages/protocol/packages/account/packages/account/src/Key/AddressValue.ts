@@ -1,5 +1,5 @@
+import { isDefined } from '@xylabs/sdk-js'
 import { staticImplements } from '@xylabs/static-implements'
-import { isDefined } from '@xylabs/typeof'
 import { Data } from '@xyo-network/data'
 import { Elliptic } from '@xyo-network/elliptic'
 import { AddressValueInstance, AddressValueStatic } from '@xyo-network/key-model'

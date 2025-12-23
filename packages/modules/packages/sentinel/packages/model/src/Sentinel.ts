@@ -1,4 +1,4 @@
-import type { Promisable } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/sdk-js'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ModuleQueryResult } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'

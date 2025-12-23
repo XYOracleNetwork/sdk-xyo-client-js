@@ -36,14 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.50",
-    "@xylabs/base": "~5.0.50",
-    "@xylabs/delay": "~5.0.50",
-    "@xylabs/forget": "~5.0.50",
-    "@xylabs/promise": "~5.0.50",
-    "@xylabs/retry": "~5.0.50",
-    "@xylabs/telemetry": "~5.0.50",
-    "@xylabs/typeof": "~5.0.50",
+    "@xylabs/retry": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/telemetry": "~5.0.61",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -56,11 +51,10 @@
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/events": "~5.0.50",
-    "@xylabs/logger": "~5.0.50",
-    "@xylabs/object": "~5.0.50",
-    "@xylabs/ts-scripts-yarn3": "~7.2.8",
-    "@xylabs/tsconfig": "~7.2.8",
+    "@xylabs/logger": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/ts-scripts-yarn3": "~7.2.32",
+    "@xylabs/tsconfig": "~7.2.32",
     "@xyo-network/module-events": "workspace:~",
     "typescript": "~5.9.3"
   },

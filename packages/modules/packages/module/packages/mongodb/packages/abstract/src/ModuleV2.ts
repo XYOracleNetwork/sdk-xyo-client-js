@@ -1,7 +1,6 @@
-import { assertEx } from '@xylabs/assert'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xylabs/mongo'
+import { assertEx, isDefined } from '@xylabs/sdk-js'
 import { staticImplements } from '@xylabs/static-implements'
-import { isDefined } from '@xylabs/typeof'
 import {
   MongoDBModuleParamsV2, MongoDBModuleStatic, MongoDBModuleV2, MongoDBStorageClassLabels,
 } from '@xyo-network/module-model-mongodb'

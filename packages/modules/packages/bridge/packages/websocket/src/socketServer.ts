@@ -1,6 +1,6 @@
 import { createServer as createHttpServer } from 'node:http'
 
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
 import type { Socket } from 'socket.io'
 import { Server } from 'socket.io'
 

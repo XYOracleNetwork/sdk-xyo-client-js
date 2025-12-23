@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/assert'
+import { assertEx } from '@xylabs/sdk-js'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'

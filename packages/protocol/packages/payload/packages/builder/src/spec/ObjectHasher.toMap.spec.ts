@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import type { AnyObject } from '@xylabs/object'
+import type { AnyObject } from '@xylabs/sdk-js'
 import { ObjectHasher } from '@xyo-network/hash'
 import type { Payload } from '@xyo-network/payload-model'
 import {

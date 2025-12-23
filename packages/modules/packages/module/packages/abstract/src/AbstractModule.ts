@@ -1,24 +1,23 @@
 /* eslint-disable max-lines */
-import { assertEx } from '@xylabs/assert'
-import { globallyUnique } from '@xylabs/base'
-import type { CreatableInstance } from '@xylabs/creatable'
-import { AbstractCreatable } from '@xylabs/creatable'
-import { handleErrorAsync } from '@xylabs/error'
-import { exists } from '@xylabs/exists'
-import { forget } from '@xylabs/forget'
-import type { Address, Hash } from '@xylabs/hex'
 import type { Logger } from '@xylabs/logger'
 import {
   ConsoleLogger, IdLogger,
   LevelLogger,
   LogLevel,
 } from '@xylabs/logger'
-import type { Promisable } from '@xylabs/promise'
-import { PromiseEx } from '@xylabs/promise'
-import { spanAsync } from '@xylabs/telemetry'
+import type {
+  Address, CreatableInstance, Hash, Promisable,
+} from '@xylabs/sdk-js'
 import {
-  isDefined, isObject, isString, isUndefined,
-} from '@xylabs/typeof'
+  AbstractCreatable,
+  assertEx,
+  exists,
+  forget,
+  globallyUnique,
+  handleErrorAsync,
+  isDefined, isObject, isString, isUndefined, PromiseEx,
+} from '@xylabs/sdk-js'
+import { spanAsync } from '@xylabs/telemetry'
 import { Account } from '@xyo-network/account'
 import { type AccountInstance, isAccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
@@ -82,8 +81,6 @@ import { ModuleErrorBuilder } from './Error.ts'
 import type { Queryable } from './QueryValidator/index.ts'
 import { ModuleConfigQueryValidator, SupportedQueryValidator } from './QueryValidator/index.ts'
 
-const MODULE_NOT_STARTED = 'Module not Started' as const
-
 creatableModule()
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractCreatable<TParams, TEventData>
@@ -110,7 +107,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected _lastError?: ModuleDetailsError
 
   protected _moduleConfigQueryValidator: Queryable | undefined
-  protected _startPromise: Promisable<boolean> | undefined
   protected _supportedQueryValidator: Queryable | undefined
 
   private _busyCount = 0
@@ -430,51 +426,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       }
     }
     return true
-  }
-
-  async startedAsync(notStartedAction: 'error' | 'throw' | 'warn' | 'log' | 'none' = 'log', tryStart = true): Promise<boolean> {
-    if (isString(this.status) && this.status === 'started') {
-      return true
-    } else if (this.status === 'created' || this.status === 'stopped' || this.status === 'starting') {
-      // using promise as mutex
-      this._startPromise = this._startPromise ?? (async () => {
-        if (tryStart) {
-          try {
-            return await this.start()
-          } finally {
-            this._startPromise = undefined
-          }
-        }
-        switch (notStartedAction) {
-          case 'throw': {
-            throw new Error(`${MODULE_NOT_STARTED} [${this.address}] current state: ${this.status}`)
-          }
-          case 'warn': {
-            this.logger?.warn(MODULE_NOT_STARTED)
-            break
-          }
-          case 'error': {
-            this.logger?.error(MODULE_NOT_STARTED)
-            break
-          }
-          case 'none': {
-            break
-          }
-          default: {
-            this.logger?.log(MODULE_NOT_STARTED)
-            break
-          }
-        }
-        return false
-      })()
-    } else {
-      throw new Error(`${MODULE_NOT_STARTED} [${this.address}] current state: ${this.status}`)
-    }
-
-    if (isUndefined(this._startPromise)) {
-      throw new Error(`Failed to create start promise: ${this.status}`)
-    }
-    return await this._startPromise
   }
 
   protected _checkDead() {

@@ -1,6 +1,5 @@
-import { assertEx } from '@xylabs/assert'
-import type { Hash } from '@xylabs/hex'
-import { toSafeJson } from '@xylabs/object'
+import type { Hash } from '@xylabs/sdk-js'
+import { assertEx, toSafeJson } from '@xylabs/sdk-js'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'

@@ -1,6 +1,5 @@
-import { assertEx } from '@xylabs/assert'
-import type { EventListener } from '@xylabs/events'
-import type { Address } from '@xylabs/hex'
+import type { Address, EventListener } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/sdk-js'
 import type {
   AnyConfigSchema,
   ModuleFilterOptions,

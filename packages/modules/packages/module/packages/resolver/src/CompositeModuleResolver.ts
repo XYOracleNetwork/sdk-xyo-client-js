@@ -1,9 +1,9 @@
 /* eslint-disable max-statements */
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import type { Address } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
-import { isDefined, isString } from '@xylabs/typeof'
+import type { Address, Promisable } from '@xylabs/sdk-js'
+import {
+  assertEx,
+  exists, isDefined, isString,
+} from '@xylabs/sdk-js'
 import type {
   CacheConfig,
   ModuleFilterOptions,

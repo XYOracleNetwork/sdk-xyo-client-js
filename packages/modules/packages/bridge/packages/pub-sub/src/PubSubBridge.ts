@@ -1,8 +1,9 @@
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import { forget } from '@xylabs/forget'
-import { Address, isAddress } from '@xylabs/hex'
-import { toSafeJsonString } from '@xylabs/object'
+import {
+  Address, assertEx,
+  exists,
+  forget,
+  isAddress, toSafeJsonString,
+} from '@xylabs/sdk-js'
 import { AbstractBridge } from '@xyo-network/bridge-abstract'
 import {
   BridgeExposeOptions,

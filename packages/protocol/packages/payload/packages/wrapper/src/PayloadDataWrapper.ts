@@ -1,5 +1,5 @@
-import { assertEx } from '@xylabs/assert'
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/sdk-js'
 import type { Payload } from '@xyo-network/payload-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 

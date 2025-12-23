@@ -1,4 +1,4 @@
-import type { EmptyObject } from '@xylabs/object'
+import type { EmptyObject } from '@xylabs/sdk-js'
 import type { BridgeConfig } from '@xyo-network/bridge-model'
 
 export const HttpBridgeConfigSchema = 'network.xyo.bridge.http.config' as const

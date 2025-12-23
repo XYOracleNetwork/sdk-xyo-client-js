@@ -1,9 +1,9 @@
-import { assertEx } from '@xylabs/assert'
+import {
+  assertEx, isNumber, isObject,
+} from '@xylabs/sdk-js'
 import {
   type Address, asHash, type Hash,
-} from '@xylabs/hex'
-import { isObject } from '@xylabs/object'
-import { isNumber } from '@xylabs/typeof'
+} from '@xylabs/sdk-js'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   asBoundWitness,

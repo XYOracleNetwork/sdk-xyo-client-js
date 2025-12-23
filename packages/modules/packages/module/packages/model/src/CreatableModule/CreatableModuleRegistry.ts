@@ -1,4 +1,4 @@
-import { isTruthy } from '@xylabs/typeof'
+import { isTruthy } from '@xylabs/sdk-js'
 import type { Schema } from '@xyo-network/payload-model'
 
 import type { Labels } from '../Labels/index.ts'

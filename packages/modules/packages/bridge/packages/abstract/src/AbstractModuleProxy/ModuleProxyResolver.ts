@@ -1,7 +1,5 @@
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import type { Address } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
+import type { Address, Promisable } from '@xylabs/sdk-js'
+import { assertEx, exists } from '@xylabs/sdk-js'
 import { Account } from '@xyo-network/account'
 import type { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import type {

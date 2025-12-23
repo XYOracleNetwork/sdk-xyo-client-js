@@ -1,4 +1,4 @@
-import { isString } from '@xylabs/typeof'
+import { isString } from '@xylabs/sdk-js'
 
 import type { PayloadRule } from '../PayloadRule.ts'
 import type { PayloadSchemaRule } from '../Rules/index.ts'

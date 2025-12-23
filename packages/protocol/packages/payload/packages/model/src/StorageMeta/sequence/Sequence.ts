@@ -1,6 +1,7 @@
-import type { Address, Hex } from '@xylabs/hex'
-import { isHex } from '@xylabs/hex'
-import type { Brand } from '@xylabs/typeof'
+import type {
+  Address, Brand, Hex,
+} from '@xylabs/sdk-js'
+import { isHex } from '@xylabs/sdk-js'
 
 // we use Exclude to intentionally make the type not equal to string
 export type LocalSequence = Brand<Hex, { __localSequence: true }>

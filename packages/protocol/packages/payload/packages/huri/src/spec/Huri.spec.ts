@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { axiosJson } from '@xylabs/axios'
-import { delay } from '@xylabs/delay'
+import { delay } from '@xylabs/sdk-js'
 import type { Payload } from '@xyo-network/payload-model'
 import {
   describe, expect, it, test,

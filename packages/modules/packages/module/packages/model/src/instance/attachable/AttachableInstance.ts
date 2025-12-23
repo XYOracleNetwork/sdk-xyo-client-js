@@ -1,6 +1,5 @@
-import type { CreatableInstance } from '@xylabs/creatable'
-import type { TypeCheck } from '@xylabs/object'
-import { IsObjectFactory } from '@xylabs/object'
+import type { CreatableInstance, TypeCheck } from '@xylabs/sdk-js'
+import { IsObjectFactory } from '@xylabs/sdk-js'
 
 import type { ModuleEventData } from '../../EventsModels/index.ts'
 import type { ModuleParams } from '../../ModuleParams.ts'

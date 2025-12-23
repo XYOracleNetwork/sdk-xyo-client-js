@@ -1,13 +1,15 @@
 /* eslint-disable max-lines */
 import type { Gauge, Meter } from '@opentelemetry/api'
-import { assertEx } from '@xylabs/assert'
-import { globallyUnique } from '@xylabs/base'
-import { exists } from '@xylabs/exists'
-import type { Address, Hash } from '@xylabs/hex'
-import type { Promisable, PromisableArray } from '@xylabs/promise'
+import type {
+  Address, Hash, Promisable, PromisableArray,
+} from '@xylabs/sdk-js'
+import {
+  assertEx,
+  exists, globallyUnique,
+  isNull, isUndefined,
+} from '@xylabs/sdk-js'
 import { difference } from '@xylabs/set'
 import { spanAsync } from '@xylabs/telemetry'
-import { isNull, isUndefined } from '@xylabs/typeof'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type {
   ArchivistAllQuery,

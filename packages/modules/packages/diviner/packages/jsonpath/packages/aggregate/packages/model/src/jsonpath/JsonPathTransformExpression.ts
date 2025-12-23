@@ -1,4 +1,4 @@
-import type { JsonValue } from '@xylabs/object'
+import type { JsonValue } from '@xylabs/sdk-js'
 
 /**
  * Describes the JSON-path transformation to retrieve a field on a source object

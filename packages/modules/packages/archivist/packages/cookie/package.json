@@ -36,11 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.50",
-    "@xylabs/exists": "~5.0.50",
-    "@xylabs/hex": "~5.0.50",
-    "@xylabs/promise": "~5.0.50",
-    "@xylabs/typeof": "~5.0.50",
+    "@xylabs/sdk-js": "~5.0.61",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -51,13 +47,13 @@
   },
   "devDependencies": {
     "@types/js-cookie": "~3.0.6",
-    "@xylabs/delay": "~5.0.50",
-    "@xylabs/ts-scripts-yarn3": "~7.2.8",
-    "@xylabs/tsconfig": "~7.2.8",
+    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/ts-scripts-yarn3": "~7.2.32",
+    "@xylabs/tsconfig": "~7.2.32",
     "@xyo-network/id-payload-plugin": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.15"
+    "vitest": "~4.0.16"
   },
   "publishConfig": {
     "access": "public"

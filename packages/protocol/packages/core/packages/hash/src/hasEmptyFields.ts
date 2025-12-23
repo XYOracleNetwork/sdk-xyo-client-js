@@ -1,5 +1,5 @@
-import type { EmptyObject } from '@xylabs/object'
-import { typeOf } from '@xylabs/typeof'
+import type { EmptyObject } from '@xylabs/sdk-js'
+import { typeOf } from '@xylabs/sdk-js'
 
 export const hasEmptyFields = <T extends EmptyObject>(obj: T): boolean => {
   if (obj == null || Array.isArray(obj)) return false

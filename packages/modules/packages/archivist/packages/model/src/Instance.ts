@@ -1,4 +1,4 @@
-import type { EventEmitter } from '@xylabs/events'
+import type { EventEmitter } from '@xylabs/sdk-js'
 import type { ModuleInstance } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 

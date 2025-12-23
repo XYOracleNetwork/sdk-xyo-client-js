@@ -1,4 +1,4 @@
-import type { Promisable, PromisableArray } from '@xylabs/promise'
+import type { Promisable, PromisableArray } from '@xylabs/sdk-js'
 
 import type { NextOptions } from './NextOptions.ts'
 

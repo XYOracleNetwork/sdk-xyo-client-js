@@ -1,4 +1,4 @@
-import type { BaseParams } from '@xylabs/base'
+import type { BaseParams } from '@xylabs/sdk-js'
 import type { QueryFulfillFinishedEventArgs, QueryFulfillStartedEventArgs } from '@xyo-network/bridge-model'
 import type { ModuleInstance } from '@xyo-network/module-model'
 

@@ -1,5 +1,5 @@
-import { assertEx } from '@xylabs/assert'
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/sdk-js'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadStatsDiviner } from '@xyo-network/diviner-payload-stats-abstract'
 import type {

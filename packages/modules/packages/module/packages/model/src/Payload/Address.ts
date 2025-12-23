@@ -1,5 +1,5 @@
-import type { Address } from '@xylabs/hex'
-import { AsObjectFactory } from '@xylabs/object'
+import type { Address } from '@xylabs/sdk-js'
+import { AsObjectFactory } from '@xylabs/sdk-js'
 import { isPayloadOfSchemaType, type Payload } from '@xyo-network/payload-model'
 
 export const AddressSchema = 'network.xyo.address' as const

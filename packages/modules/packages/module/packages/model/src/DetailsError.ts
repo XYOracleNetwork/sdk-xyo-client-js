@@ -1,4 +1,4 @@
-import type { JsonValue } from '@xylabs/object'
+import type { JsonValue } from '@xylabs/sdk-js'
 
 export class ModuleDetailsError extends Error {
   details?: JsonValue

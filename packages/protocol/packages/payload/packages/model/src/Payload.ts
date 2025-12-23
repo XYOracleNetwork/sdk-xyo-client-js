@@ -1,7 +1,6 @@
-import type { Hash } from '@xylabs/hex'
 import type {
-  DeepOmitStartsWith, DeepPickStartsWith, EmptyObject,
-} from '@xylabs/object'
+  DeepOmitStartsWith, DeepPickStartsWith, EmptyObject, Hash,
+} from '@xylabs/sdk-js'
 
 import type { Schema, WithSchema } from './Schema.ts'
 

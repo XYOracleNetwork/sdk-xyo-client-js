@@ -1,6 +1,5 @@
-import type { BaseParams } from '@xylabs/base'
-import { Base } from '@xylabs/base'
-import type { Promisable } from '@xylabs/promise'
+import type { BaseParams, Promisable } from '@xylabs/sdk-js'
+import { Base } from '@xylabs/sdk-js'
 import type { ModuleInstance } from '@xyo-network/module-model'
 
 export type ModuleHostParams<THostedInstance extends ModuleInstance = ModuleInstance> = BaseParams<{

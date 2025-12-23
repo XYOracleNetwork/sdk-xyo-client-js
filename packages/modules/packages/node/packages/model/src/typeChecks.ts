@@ -1,5 +1,5 @@
-import type { TypeCheck } from '@xylabs/object'
-import { AsObjectFactory } from '@xylabs/object'
+import type { TypeCheck } from '@xylabs/sdk-js'
+import { AsObjectFactory } from '@xylabs/sdk-js'
 import {
   IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory,
 } from '@xyo-network/module-model'

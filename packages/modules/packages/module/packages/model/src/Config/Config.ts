@@ -1,4 +1,4 @@
-import type { EmptyObject } from '@xylabs/object'
+import type { EmptyObject } from '@xylabs/sdk-js'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 
 import type { ArchivingModuleConfig } from './Archiving.ts'

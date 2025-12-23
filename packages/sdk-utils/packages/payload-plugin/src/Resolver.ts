@@ -1,5 +1,5 @@
-import type { Validator } from '@xylabs/object'
-import { isDefined } from '@xylabs/typeof'
+import type { Validator } from '@xylabs/sdk-js'
+import { isDefined } from '@xylabs/sdk-js'
 import type { Payload } from '@xyo-network/payload-model'
 import { PayloadSchema } from '@xyo-network/payload-model'
 import type { PayloadWrapper } from '@xyo-network/payload-wrapper'

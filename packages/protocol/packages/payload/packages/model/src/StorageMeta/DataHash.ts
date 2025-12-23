@@ -1,6 +1,5 @@
-import type { Hash } from '@xylabs/hex'
-import { isHash } from '@xylabs/hex'
-import { AsObjectFactory } from '@xylabs/object'
+import type { Hash } from '@xylabs/sdk-js'
+import { AsObjectFactory, isHash } from '@xylabs/sdk-js'
 
 import type { Payload } from '../Payload.ts'
 

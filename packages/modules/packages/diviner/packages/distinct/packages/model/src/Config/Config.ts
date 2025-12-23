@@ -1,4 +1,4 @@
-import type { EmptyObject } from '@xylabs/object'
+import type { EmptyObject } from '@xylabs/sdk-js'
 import type { DivinerConfig } from '@xyo-network/diviner-model'
 
 export const DistinctDivinerConfigSchema = 'network.xyo.diviner.distinct.config' as const

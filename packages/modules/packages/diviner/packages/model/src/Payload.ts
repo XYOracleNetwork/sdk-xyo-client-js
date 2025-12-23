@@ -1,5 +1,6 @@
-import type { Hash } from '@xylabs/hex'
-import type { EmptyObject, WithAdditional } from '@xylabs/object'
+import type {
+  EmptyObject, Hash, WithAdditional,
+} from '@xylabs/sdk-js'
 import type {
   Payload, Schema, WithSchema,
 } from '@xyo-network/payload-model'

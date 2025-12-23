@@ -1,5 +1,4 @@
-import type { Address } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
+import type { Address, Promisable } from '@xylabs/sdk-js'
 import type { ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 
 import type { BridgeExposeOptions, BridgeUnexposeOptions } from './Queries/index.ts'

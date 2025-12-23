@@ -1,7 +1,7 @@
-import type { Address } from '@xylabs/hex'
 import type {
+  Address,
   AnyObject, EmptyObject, TypeCheck,
-} from '@xylabs/object'
+} from '@xylabs/sdk-js'
 
 import type { ModuleName } from '../ModuleIdentifier.ts'
 

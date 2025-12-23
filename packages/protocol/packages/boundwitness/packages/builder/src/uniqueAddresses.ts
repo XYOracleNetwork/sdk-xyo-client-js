@@ -1,4 +1,4 @@
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
 
 export const uniqueAddresses = (addresses: Address[], throwOnFalse = false) => {
   const addressesSet = new Set<Address>()

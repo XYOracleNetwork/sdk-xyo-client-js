@@ -5,9 +5,9 @@ import {
   getFirestore,
   setDoc,
 } from '@firebase/firestore'
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import { Hash } from '@xylabs/hex'
+import {
+  assertEx, exists, Hash,
+} from '@xylabs/sdk-js'
 import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import { ArchivistInsertQuerySchema, ArchivistModuleEventData } from '@xyo-network/archivist-model'
 import { creatableModule } from '@xyo-network/module-model'

@@ -3,8 +3,7 @@ import '@xylabs/vitest-extended'
 
 import { tmpdir } from 'node:os'
 
-import { delay } from '@xylabs/delay'
-import { toSafeJsonString } from '@xylabs/object'
+import { delay, toSafeJsonString } from '@xylabs/sdk-js'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import type { Id } from '@xyo-network/id-payload-plugin'
 import {

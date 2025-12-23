@@ -1,4 +1,4 @@
-import type { Hex } from '@xylabs/hex'
+import type { Hex } from '@xylabs/sdk-js'
 import type {
   AccountConfig, AccountInstance, AccountStatic,
 } from '@xyo-network/account-model'

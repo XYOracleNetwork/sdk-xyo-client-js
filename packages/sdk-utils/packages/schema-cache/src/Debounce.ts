@@ -1,5 +1,4 @@
-import { delay } from '@xylabs/delay'
-import { isDefined } from '@xylabs/typeof'
+import { delay, isDefined } from '@xylabs/sdk-js'
 
 export class Debounce<TKey = string> {
   private map = new Map<TKey, number>()

@@ -1,5 +1,5 @@
-import type { Address } from '@xylabs/hex'
-import { isAddress } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
+import { isAddress } from '@xylabs/sdk-js'
 
 export const MODULE_PATH_SEPARATOR = ':' as const
 

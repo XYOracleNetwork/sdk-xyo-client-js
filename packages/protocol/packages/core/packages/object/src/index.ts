@@ -1,2 +1,2 @@
 /** @deprecated use @xylabs/object instead */
-export * from '@xylabs/object'
+export * from '@xylabs/sdk-js'

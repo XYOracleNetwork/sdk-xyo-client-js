@@ -1,5 +1,6 @@
-import { handleError } from '@xylabs/error'
-import { isDefined, isString } from '@xylabs/typeof'
+import {
+  handleError, isDefined, isString,
+} from '@xylabs/sdk-js'
 import { DomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
 import type { FetchedPayload } from '@xyo-network/huri'
 import type { SchemaPayload } from '@xyo-network/schema-payload-plugin'

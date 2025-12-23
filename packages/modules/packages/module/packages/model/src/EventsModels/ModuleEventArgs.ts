@@ -1,4 +1,4 @@
-import type { EventArgs } from '@xylabs/events'
+import type { EventArgs } from '@xylabs/sdk-js'
 
 export type ModuleEventArgs<TModule extends object = object, TArgs extends EventArgs | undefined = undefined>
   = TArgs extends EventArgs ? {

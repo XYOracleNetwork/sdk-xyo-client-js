@@ -1,4 +1,4 @@
-import { isDefined } from '@xylabs/typeof'
+import { isDefined } from '@xylabs/sdk-js'
 
 import { DnsRecordType } from './DnsRecordType.ts'
 import { googleDnsOverHttps } from './googleDnsOverHttps.ts'

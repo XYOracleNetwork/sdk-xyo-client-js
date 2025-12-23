@@ -1,4 +1,4 @@
-import type { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/sdk-js'
 
 import type { NetworkNodePayload } from './NetworkNodePayload.ts'
 import { NetworkNodePayloadWrapper } from './NetworkNodePayloadWrapper.ts'

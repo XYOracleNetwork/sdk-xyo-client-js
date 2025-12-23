@@ -1,5 +1,4 @@
-import type { Validator } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
+import type { Promisable, Validator } from '@xylabs/sdk-js'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import type { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type { DivinerModule } from '@xyo-network/diviner-model'

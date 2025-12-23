@@ -1,7 +1,7 @@
-import { assertEx } from '@xylabs/assert'
-import { globallyUnique } from '@xylabs/base'
-import { isAddress } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/sdk-js'
+import {
+  assertEx, globallyUnique, isAddress,
+} from '@xylabs/sdk-js'
 import { spanAsync } from '@xylabs/telemetry'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'

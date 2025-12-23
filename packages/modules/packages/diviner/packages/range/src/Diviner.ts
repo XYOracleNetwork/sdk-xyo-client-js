@@ -1,4 +1,4 @@
-import { hexFrom } from '@xylabs/hex'
+import { hexFrom } from '@xylabs/sdk-js'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type { DivinerParams } from '@xyo-network/diviner-model'
 import type {

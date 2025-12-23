@@ -1,6 +1,6 @@
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import { fulfilled } from '@xylabs/promise'
+import {
+  assertEx, exists, fulfilled,
+} from '@xylabs/sdk-js'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type {
   DivinerInstance, DivinerModuleEventData, DivinerParams,

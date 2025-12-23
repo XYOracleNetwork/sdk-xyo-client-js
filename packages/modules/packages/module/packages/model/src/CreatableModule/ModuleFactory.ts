@@ -1,5 +1,5 @@
-import { assertEx } from '@xylabs/assert'
 import type { Logger } from '@xylabs/logger'
+import { assertEx } from '@xylabs/sdk-js'
 import type { Schema } from '@xyo-network/payload-model'
 
 import type { Labels, WithOptionalLabels } from '../Labels/index.ts'

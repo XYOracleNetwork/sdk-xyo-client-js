@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { HDWallet } from '@xyo-network/wallet'
 import type { WalletInstance } from '@xyo-network/wallet-model'

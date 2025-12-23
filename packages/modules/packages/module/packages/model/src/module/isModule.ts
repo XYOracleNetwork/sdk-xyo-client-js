@@ -1,4 +1,4 @@
-import type { TypeCheck } from '@xylabs/object'
+import type { TypeCheck } from '@xylabs/sdk-js'
 import type { Schema } from '@xyo-network/payload-model'
 
 import { ModuleStateQuerySchema } from '../Queries/index.ts'

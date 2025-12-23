@@ -1,5 +1,5 @@
-import type { TypeCheck } from '@xylabs/object'
-import { IsObjectFactory } from '@xylabs/object'
+import type { TypeCheck } from '@xylabs/sdk-js'
+import { IsObjectFactory } from '@xylabs/sdk-js'
 import type { AttachableModuleInstance } from '@xyo-network/module-model'
 
 import type { BridgeModuleEventData } from '../EventData.ts'

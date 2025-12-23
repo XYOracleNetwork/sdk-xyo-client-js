@@ -1,4 +1,4 @@
-import type { EmptyObject, WithAdditional } from '@xylabs/object'
+import type { EmptyObject, WithAdditional } from '@xylabs/sdk-js'
 import type { DivinerConfig, SearchableStorage } from '@xyo-network/diviner-model'
 import type { Payload } from '@xyo-network/payload-model'
 

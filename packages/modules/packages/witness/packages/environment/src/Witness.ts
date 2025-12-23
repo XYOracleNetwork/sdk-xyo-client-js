@@ -1,4 +1,4 @@
-import type { JsonValue } from '@xylabs/object'
+import type { JsonValue } from '@xylabs/sdk-js'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 import type { Value } from '@xyo-network/value-payload-plugin'

@@ -1,6 +1,6 @@
 import {
   asAddress, asHash, asHex,
-} from '@xylabs/hex'
+} from '@xylabs/sdk-js'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { it } from 'vitest'

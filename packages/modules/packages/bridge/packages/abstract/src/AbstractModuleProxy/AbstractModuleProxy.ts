@@ -1,9 +1,10 @@
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import { forget } from '@xylabs/forget'
-import type { Address } from '@xylabs/hex'
-import { asAddress, isAddress } from '@xylabs/hex'
-import { toSafeJsonString } from '@xylabs/object'
+import type { Address } from '@xylabs/sdk-js'
+import {
+  asAddress, assertEx,
+  exists,
+  forget,
+  isAddress, toSafeJsonString,
+} from '@xylabs/sdk-js'
 import { Account } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'

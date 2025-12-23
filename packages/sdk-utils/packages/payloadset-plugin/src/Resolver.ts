@@ -1,5 +1,4 @@
-import { forget } from '@xylabs/forget'
-import { isString } from '@xylabs/typeof'
+import { forget, isString } from '@xylabs/sdk-js'
 import type { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { PayloadSetPayload } from '@xyo-network/payload-model'

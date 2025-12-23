@@ -1,4 +1,4 @@
-import { AsObjectFactory } from '@xylabs/object'
+import { AsObjectFactory } from '@xylabs/sdk-js'
 
 import { isAttachableArchivistInstance } from './isAttachableInstance.ts'
 

@@ -35,7 +35,7 @@ export const WasmFeatureDetectors = {
   threads: threads,
 } as const
 
-import { isTruthy } from '@xylabs/typeof'
+import { isTruthy } from '@xylabs/sdk-js'
 
 export type WasmFeature = keyof typeof WasmFeatureDetectors
 

@@ -1,4 +1,4 @@
-import type { JsonObject } from '@xylabs/object'
+import type { JsonObject } from '@xylabs/sdk-js'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'

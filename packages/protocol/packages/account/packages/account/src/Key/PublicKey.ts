@@ -1,5 +1,5 @@
 import { toArrayBuffer } from '@xylabs/arraybuffer'
-import { assertEx } from '@xylabs/assert'
+import { assertEx } from '@xylabs/sdk-js'
 import { staticImplements } from '@xylabs/static-implements'
 import { Elliptic } from '@xyo-network/elliptic'
 import {

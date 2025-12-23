@@ -1,7 +1,7 @@
 /* eslint-disable max-statements */
 import '@xylabs/vitest-extended'
 
-import { delay } from '@xylabs/delay'
+import { delay } from '@xylabs/sdk-js'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import type { Id } from '@xyo-network/id-payload-plugin'
 import {

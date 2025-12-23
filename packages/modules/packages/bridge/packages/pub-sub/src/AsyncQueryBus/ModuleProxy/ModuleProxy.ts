@@ -1,9 +1,9 @@
-import { assertEx } from '@xylabs/assert'
-import { CreatableInstance } from '@xylabs/creatable'
-import { exists } from '@xylabs/exists'
-import { forget } from '@xylabs/forget'
-import { isAddress } from '@xylabs/hex'
-import { isString } from '@xylabs/typeof'
+import {
+  assertEx,
+  CreatableInstance, exists,
+  forget,
+  isAddress, isString,
+} from '@xylabs/sdk-js'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import type { ModuleProxyParams } from '@xyo-network/bridge-abstract'
 import { AbstractModuleProxy } from '@xyo-network/bridge-abstract'

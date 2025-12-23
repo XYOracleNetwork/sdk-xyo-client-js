@@ -1,7 +1,7 @@
-import { assertEx } from '@xylabs/assert'
-import { delay } from '@xylabs/delay'
-import { forget } from '@xylabs/forget'
-import type { Address, Hash } from '@xylabs/hex'
+import type { Address, Hash } from '@xylabs/sdk-js'
+import {
+  assertEx, delay, forget,
+} from '@xylabs/sdk-js'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'

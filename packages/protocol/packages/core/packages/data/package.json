@@ -37,17 +37,16 @@
   ],
   "dependencies": {
     "@scure/base": "~2.0.0",
-    "@xylabs/arraybuffer": "~5.0.50",
-    "@xylabs/assert": "~5.0.50",
-    "@xylabs/hex": "~5.0.50",
+    "@xylabs/arraybuffer": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.61",
     "ethers": "^6.16.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.2.8",
-    "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.50",
+    "@xylabs/ts-scripts-yarn3": "~7.2.32",
+    "@xylabs/tsconfig": "~7.2.32",
+    "@xylabs/vitest-extended": "~5.0.61",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.15"
+    "vitest": "~4.0.16"
   },
   "publishConfig": {
     "access": "public"

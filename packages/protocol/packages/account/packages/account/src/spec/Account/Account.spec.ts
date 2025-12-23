@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { toArrayBuffer } from '@xylabs/arraybuffer'
-import { isHex } from '@xylabs/hex'
+import { isHex } from '@xylabs/sdk-js'
 import type { AccountInstance, AccountStatic } from '@xyo-network/account-model'
 import {
   beforeAll,

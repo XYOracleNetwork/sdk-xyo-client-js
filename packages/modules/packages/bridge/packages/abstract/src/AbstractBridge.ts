@@ -1,9 +1,8 @@
-import { assertEx } from '@xylabs/assert'
-import { globallyUnique } from '@xylabs/base'
-import { exists } from '@xylabs/exists'
-import { forget } from '@xylabs/forget'
-import type { Address } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
+import type { Address, Promisable } from '@xylabs/sdk-js'
+import {
+  assertEx, exists, forget,
+  globallyUnique,
+} from '@xylabs/sdk-js'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'

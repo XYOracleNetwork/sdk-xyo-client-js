@@ -1,4 +1,4 @@
-import type { EmptyObject } from '@xylabs/object'
+import type { EmptyObject } from '@xylabs/sdk-js'
 import { zodAsFactory, zodIsFactory } from '@xylabs/zod'
 import z from 'zod'
 

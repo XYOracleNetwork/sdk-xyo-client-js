@@ -1,4 +1,4 @@
-import type { WithAdditional } from '@xylabs/object'
+import type { WithAdditional } from '@xylabs/sdk-js'
 import type { Payload } from '@xyo-network/payload-model'
 import type { WitnessConfig } from '@xyo-network/witness-model'
 

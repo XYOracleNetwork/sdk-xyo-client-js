@@ -1,6 +1,5 @@
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
+import { assertEx, exists } from '@xylabs/sdk-js'
 import type { Order } from '@xyo-network/diviner-payload-model'
 import type {
   PayloadRule,

@@ -1,8 +1,8 @@
 import { createServer as createHttpServer, Server as HttpServer } from 'node:http'
 
-import { assertEx } from '@xylabs/assert'
-import { Address } from '@xylabs/hex'
-import { Promisable } from '@xylabs/promise'
+import {
+  Address, assertEx, Promisable,
+} from '@xylabs/sdk-js'
 import { BridgeExposeOptions, BridgeModule } from '@xyo-network/bridge-model'
 import {
   AnyConfigSchema, creatableModule, ModuleInstance,

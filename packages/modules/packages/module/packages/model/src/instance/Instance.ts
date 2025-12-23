@@ -1,8 +1,8 @@
-import type { CreatableStatus } from '@xylabs/creatable'
-import type { Address } from '@xylabs/hex'
-import type { TypeCheck } from '@xylabs/object'
-import { IsObjectFactory, toSafeJsonString } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
+import type {
+  Address, CreatableStatus, Promisable,
+  TypeCheck,
+} from '@xylabs/sdk-js'
+import { IsObjectFactory, toSafeJsonString } from '@xylabs/sdk-js'
 import type { AccountInstance } from '@xyo-network/account-model'
 
 import type { ModuleEventData } from '../EventsModels/index.ts'

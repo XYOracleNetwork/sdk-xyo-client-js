@@ -1,5 +1,4 @@
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
+import { assertEx, exists } from '@xylabs/sdk-js'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type { JsonPatchDivinerParams } from '@xyo-network/diviner-jsonpatch-model'
 import { JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'

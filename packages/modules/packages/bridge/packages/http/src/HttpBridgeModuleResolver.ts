@@ -1,8 +1,7 @@
-import { assertEx } from '@xylabs/assert'
-import type { CreatableName } from '@xylabs/creatable'
-import type { Address } from '@xylabs/hex'
-import { isAddress } from '@xylabs/hex'
-import { isDefined } from '@xylabs/typeof'
+import type { Address, CreatableName } from '@xylabs/sdk-js'
+import {
+  assertEx, isAddress, isDefined,
+} from '@xylabs/sdk-js'
 import { Account } from '@xyo-network/account'
 import type { BridgeModuleResolverParams } from '@xyo-network/bridge-abstract'
 import { AbstractBridgeModuleResolver, wrapModuleWithType } from '@xyo-network/bridge-abstract'

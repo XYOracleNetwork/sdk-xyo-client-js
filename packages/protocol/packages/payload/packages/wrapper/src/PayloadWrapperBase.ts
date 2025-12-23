@@ -1,6 +1,5 @@
-import { assertEx } from '@xylabs/assert'
-import type { Address } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
+import type { Address, Promisable } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/sdk-js'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import { isAnyPayload } from '@xyo-network/payload-model'

@@ -1,4 +1,4 @@
-import type { Validator } from '@xylabs/object'
+import type { Validator } from '@xylabs/sdk-js'
 import type { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import type { PayloadWrapper } from '@xyo-network/payload-wrapper'

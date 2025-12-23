@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import { toSafeJsonString } from '@xylabs/object'
+import { toSafeJsonString } from '@xylabs/sdk-js'
 import type { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import { AddressSchema } from '@xyo-network/module-model'

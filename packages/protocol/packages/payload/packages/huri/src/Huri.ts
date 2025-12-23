@@ -1,8 +1,9 @@
-import { assertEx } from '@xylabs/assert'
 import { axiosJson } from '@xylabs/axios'
-import type { Address, Hash } from '@xylabs/hex'
-import { isHash } from '@xylabs/hex'
-import { isDefined, isString } from '@xylabs/typeof'
+import type { Address, Hash } from '@xylabs/sdk-js'
+import {
+  assertEx,
+  isDefined, isHash, isString,
+} from '@xylabs/sdk-js'
 import { AddressValue } from '@xyo-network/account'
 import type { Payload } from '@xyo-network/payload-model'
 

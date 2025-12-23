@@ -1,8 +1,8 @@
 import { readFile } from 'node:fs/promises'
 
-import { assertEx } from '@xylabs/assert'
-import { Hash } from '@xylabs/hex'
-import { PromisableArray } from '@xylabs/promise'
+import {
+  assertEx, Hash, PromisableArray,
+} from '@xylabs/sdk-js'
 import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import {

@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/assert'
+import { assertEx } from '@xylabs/sdk-js'
 import type { ModuleIdentifier } from '@xyo-network/module-model'
 import type { NodeInstance } from '@xyo-network/node-model'
 import { asNodeInstance } from '@xyo-network/node-model'

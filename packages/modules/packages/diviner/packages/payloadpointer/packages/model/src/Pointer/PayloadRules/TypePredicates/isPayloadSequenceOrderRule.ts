@@ -1,4 +1,4 @@
-import { exists } from '@xylabs/exists'
+import { exists } from '@xylabs/sdk-js'
 import { isSequence } from '@xyo-network/payload-model'
 
 import type { PayloadRule } from '../PayloadRule.ts'

@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import type { CreatableName } from '@xylabs/creatable'
+import type { CreatableName } from '@xylabs/sdk-js'
 import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/bridge-http'
 import type {
   AsyncQueryBusIntersectConfig,

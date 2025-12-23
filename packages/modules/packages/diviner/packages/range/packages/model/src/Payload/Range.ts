@@ -1,5 +1,5 @@
-import type { Hex } from '@xylabs/hex'
-import { isHex } from '@xylabs/hex'
+import type { Hex } from '@xylabs/sdk-js'
+import { isHex } from '@xylabs/sdk-js'
 import type { Payload } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 

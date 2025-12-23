@@ -1,13 +1,11 @@
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import type { Hash } from '@xylabs/hex'
 import type {
-  AnyObject, Compare, EmptyObject,
-} from '@xylabs/object'
+  AnyObject, Compare, EmptyObject, Hash, Promisable,
+} from '@xylabs/sdk-js'
 import {
+  assertEx,
+  exists,
   isJsonObject, omitByPrefix, pickByPrefix, toSafeJson,
-} from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
+} from '@xylabs/sdk-js'
 import { ObjectHasher, removeEmptyFields } from '@xyo-network/hash'
 import type {
   Payload, Schema,

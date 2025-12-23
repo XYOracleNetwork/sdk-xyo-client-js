@@ -1,4 +1,4 @@
-import { type Address, asHash } from '@xylabs/hex'
+import { type Address, asHash } from '@xylabs/sdk-js'
 import { v4 as uuid } from 'uuid'
 import {
   describe, expect, it,

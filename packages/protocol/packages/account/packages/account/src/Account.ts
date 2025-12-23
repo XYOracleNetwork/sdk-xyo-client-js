@@ -1,16 +1,16 @@
 import { toArrayBuffer, toUint8Array } from '@xylabs/arraybuffer'
-import { assertEx } from '@xylabs/assert'
-import { globallyUnique } from '@xylabs/base'
 import {
   Address,
   asAddress,
   asHash,
+  assertEx,
+  globallyUnique,
   Hash,
-  isHash,
+  isDefined, isHash,
+  isString,
   toHex,
-} from '@xylabs/hex'
+} from '@xylabs/sdk-js'
 import { staticImplements } from '@xylabs/static-implements'
-import { isDefined, isString } from '@xylabs/typeof'
 import {
   AccountConfig,
   AccountInstance,

@@ -1,5 +1,4 @@
-import type { Hash } from '@xylabs/hex'
-import type { JsonValue } from '@xylabs/object'
+import type { Hash, JsonValue } from '@xylabs/sdk-js'
 
 import { isPayloadOfSchemaType } from './isPayloadOfSchemaType.ts'
 import type { Payload } from './Payload.ts'

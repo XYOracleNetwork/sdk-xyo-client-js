@@ -1,5 +1,5 @@
-import { assertEx } from '@xylabs/assert'
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/sdk-js'
 
 import type { ModuleResolver } from '../instance/index.ts'
 import { asModuleInstance } from '../instance/index.ts'

@@ -1,4 +1,4 @@
-import type { EventData } from '@xylabs/events'
+import type { EventData } from '@xylabs/sdk-js'
 import type {
   Module, ModuleEventArgs, ModuleInstance,
 } from '@xyo-network/module-model'

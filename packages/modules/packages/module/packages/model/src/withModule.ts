@@ -1,4 +1,4 @@
-import type { TypeCheck } from '@xylabs/object'
+import type { TypeCheck } from '@xylabs/sdk-js'
 
 import { isModuleInstance } from './instance/index.ts'
 import { isModule } from './module/index.ts'

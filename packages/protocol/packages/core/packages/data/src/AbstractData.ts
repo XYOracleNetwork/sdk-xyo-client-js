@@ -1,4 +1,4 @@
-import type { Hex } from '@xylabs/hex'
+import type { Hex } from '@xylabs/sdk-js'
 
 export interface DataInstance {
   base58: string

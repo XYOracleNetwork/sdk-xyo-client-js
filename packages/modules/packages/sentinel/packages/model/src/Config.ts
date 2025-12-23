@@ -1,4 +1,4 @@
-import type { WithAdditional } from '@xylabs/object'
+import type { WithAdditional } from '@xylabs/sdk-js'
 import type { ModuleConfig } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 

@@ -1,11 +1,11 @@
 import { toArrayBuffer } from '@xylabs/arraybuffer'
-import { assertEx } from '@xylabs/assert'
 import type {
   Address, Hash, Hex,
-} from '@xylabs/hex'
+} from '@xylabs/sdk-js'
 import {
-  asAddress, asHash, hexFromArrayBuffer,
-} from '@xylabs/hex'
+  asAddress, asHash, assertEx,
+  hexFromArrayBuffer,
+} from '@xylabs/sdk-js'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type {
   BoundWitness,

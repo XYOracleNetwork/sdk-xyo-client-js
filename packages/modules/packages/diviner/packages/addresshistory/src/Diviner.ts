@@ -1,6 +1,5 @@
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import type { Address, Hash } from '@xylabs/hex'
+import type { Address, Hash } from '@xylabs/sdk-js'
+import { assertEx, exists } from '@xylabs/sdk-js'
 import { isArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { type BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'

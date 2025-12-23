@@ -1,4 +1,4 @@
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import type { ModuleProxyParams } from '@xyo-network/bridge-abstract'
 import { AbstractModuleProxy } from '@xyo-network/bridge-abstract'

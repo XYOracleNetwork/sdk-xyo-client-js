@@ -1,5 +1,4 @@
-import { assertEx } from '@xylabs/assert'
-import { isString } from '@xylabs/typeof'
+import { assertEx, isString } from '@xylabs/sdk-js'
 import type { Provider } from 'ethers'
 import {
   InfuraProvider, InfuraWebSocketProvider, JsonRpcProvider,

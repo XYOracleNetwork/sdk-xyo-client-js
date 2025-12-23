@@ -1,9 +1,11 @@
-import { globallyUnique } from '@xylabs/base'
-import { exists } from '@xylabs/exists'
-import type { Address } from '@xylabs/hex'
-import type { TypeCheck } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
-import { isDefined, type TypedValue } from '@xylabs/typeof'
+import type {
+  Address, Promisable,
+  TypeCheck,
+  TypedValue,
+} from '@xylabs/sdk-js'
+import {
+  exists, globallyUnique, isDefined,
+} from '@xylabs/sdk-js'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { asArchivistInstance } from '@xyo-network/archivist-model'

@@ -1,9 +1,9 @@
-import { assertEx } from '@xylabs/assert'
-import type { BaseParams } from '@xylabs/base'
-import { Base } from '@xylabs/base'
-import type { Address } from '@xylabs/hex'
-import { toSafeJsonString } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
+import type {
+  Address, BaseParams, Promisable,
+} from '@xylabs/sdk-js'
+import {
+  assertEx, Base, toSafeJsonString,
+} from '@xylabs/sdk-js'
 import type {
   ModuleFilterOptions,
   ModuleIdentifier,

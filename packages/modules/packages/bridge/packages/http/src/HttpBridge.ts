@@ -1,10 +1,10 @@
-import { assertEx } from '@xylabs/assert'
 import { axiosJsonConfig } from '@xylabs/axios'
-import { exists } from '@xylabs/exists'
-import { forget } from '@xylabs/forget'
-import { Address } from '@xylabs/hex'
-import { toSafeJsonString } from '@xylabs/object'
-import { Promisable } from '@xylabs/promise'
+import {
+  Address, assertEx,
+  exists,
+  forget,
+  Promisable, toSafeJsonString,
+} from '@xylabs/sdk-js'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractBridge } from '@xyo-network/bridge-abstract'

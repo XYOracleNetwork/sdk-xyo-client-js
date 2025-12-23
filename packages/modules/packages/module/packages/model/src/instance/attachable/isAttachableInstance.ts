@@ -1,6 +1,5 @@
-import type { TypeCheck } from '@xylabs/object'
-import { IsObjectFactory } from '@xylabs/object'
-import type { ObjectTypeShape } from '@xylabs/typeof'
+import type { ObjectTypeShape, TypeCheck } from '@xylabs/sdk-js'
+import { IsObjectFactory } from '@xylabs/sdk-js'
 
 import { isModuleInstance } from '../isModuleInstance.ts'
 import type { AttachableModuleInstance } from './AttachableInstance.ts'

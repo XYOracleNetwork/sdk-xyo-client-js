@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import { assertEx } from '@xylabs/assert'
+import { assertEx } from '@xylabs/sdk-js'
 import type { DomainPayload } from '@xyo-network/domain-payload-plugin'
 import { DomainSchema } from '@xyo-network/domain-payload-plugin'
 import { NetworkNodeSchema, NetworkSchema } from '@xyo-network/network'

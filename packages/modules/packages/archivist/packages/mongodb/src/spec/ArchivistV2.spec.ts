@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
-import { delay } from '@xylabs/delay'
 import type { BaseMongoSdkConfig } from '@xylabs/mongo'
+import { delay } from '@xylabs/sdk-js'
 import { Account } from '@xyo-network/account'
 import { generateArchivistNextTests } from '@xyo-network/archivist-acceptance-tests'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'

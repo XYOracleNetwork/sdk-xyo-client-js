@@ -1,5 +1,4 @@
-import type { Address } from '@xylabs/hex'
-import type { Promisable } from '@xylabs/promise'
+import type { Address, Promisable } from '@xylabs/sdk-js'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import type { Payload } from '@xyo-network/payload-model'

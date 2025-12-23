@@ -1,4 +1,4 @@
-import type { CreatableName } from '@xylabs/creatable'
+import type { CreatableName } from '@xylabs/sdk-js'
 import type { ModuleIdentifier } from '@xyo-network/module-model'
 import type { NodeInstance } from '@xyo-network/node-model'
 import { NodeConfigSchema } from '@xyo-network/node-model'

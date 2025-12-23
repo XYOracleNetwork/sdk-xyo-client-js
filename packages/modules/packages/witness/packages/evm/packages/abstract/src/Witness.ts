@@ -1,6 +1,5 @@
-import type { EmptyObject } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
-import { isTruthy } from '@xylabs/typeof'
+import type { EmptyObject, Promisable } from '@xylabs/sdk-js'
+import { isTruthy } from '@xylabs/sdk-js'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { creatableModule } from '@xyo-network/module-model'

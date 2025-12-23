@@ -1,4 +1,4 @@
-import type { EmptyObject } from '@xylabs/object'
+import type { EmptyObject } from '@xylabs/sdk-js'
 
 import { createNodeWorker } from './createNodeWorker.ts'
 import { ObjectHasher } from './ObjectHasher.ts'

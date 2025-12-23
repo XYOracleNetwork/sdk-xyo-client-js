@@ -1,13 +1,14 @@
 import { uniq } from '@xylabs/array'
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import { Hash, Hex } from '@xylabs/hex'
 import {
   ObjectStore,
   withDb,
   withReadOnlyStore, withReadWriteStore,
 } from '@xylabs/indexed-db'
-import { isDefined, isUndefined } from '@xylabs/typeof'
+import {
+  assertEx,
+  exists,
+  Hash, Hex, isDefined, isUndefined,
+} from '@xylabs/sdk-js'
 import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,

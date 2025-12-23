@@ -1,5 +1,5 @@
-import type { EmptyObject } from '@xylabs/object'
-import { AsObjectFactory } from '@xylabs/object'
+import type { EmptyObject } from '@xylabs/sdk-js'
+import { AsObjectFactory } from '@xylabs/sdk-js'
 import type { Query } from '@xyo-network/payload-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 

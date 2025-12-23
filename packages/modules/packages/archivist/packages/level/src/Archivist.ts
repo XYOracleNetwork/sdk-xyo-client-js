@@ -1,8 +1,8 @@
-import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import { Hash, Hex } from '@xylabs/hex'
-import { fulfilled, Promisable } from '@xylabs/promise'
-import { isDefined } from '@xylabs/typeof'
+import {
+  assertEx,
+  exists,
+  fulfilled, Hash, Hex, isDefined, Promisable,
+} from '@xylabs/sdk-js'
 import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,

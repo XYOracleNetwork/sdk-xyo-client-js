@@ -1,9 +1,9 @@
-import { assertEx } from '@xylabs/assert'
-import type { BaseParams } from '@xylabs/base'
-import { Base } from '@xylabs/base'
-import { forget } from '@xylabs/forget'
+import type { BaseParams } from '@xylabs/sdk-js'
+import {
+  assertEx, Base, forget,
+  isDefined,
+} from '@xylabs/sdk-js'
 import { spanRootAsync } from '@xylabs/telemetry'
-import { isDefined } from '@xylabs/typeof'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import type {

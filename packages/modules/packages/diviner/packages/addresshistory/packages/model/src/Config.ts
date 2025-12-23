@@ -1,4 +1,4 @@
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
 import type { DivinerConfig } from '@xyo-network/diviner-model'
 
 import { AddressHistorySchema } from './Diviner.ts'

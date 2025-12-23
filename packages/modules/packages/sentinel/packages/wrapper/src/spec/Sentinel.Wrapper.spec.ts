@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
-import type { CreatableName } from '@xylabs/creatable'
-import { delay } from '@xylabs/delay'
+import type { CreatableName } from '@xylabs/sdk-js'
+import { delay } from '@xylabs/sdk-js'
 import type { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'

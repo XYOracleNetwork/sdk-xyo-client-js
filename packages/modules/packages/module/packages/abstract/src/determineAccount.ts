@@ -1,7 +1,7 @@
-import { assertEx } from '@xylabs/assert'
 import {
+  assertEx,
   isDefined, isString, isUndefined,
-} from '@xylabs/typeof'
+} from '@xylabs/sdk-js'
 import { Account } from '@xyo-network/account'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { WalletInstance } from '@xyo-network/wallet-model'

@@ -1,4 +1,4 @@
-import type { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/sdk-js'
 import type { Payload, PayloadHashMap } from '@xyo-network/payload-model'
 
 export const ArchivistSnapshotPayloadSchema = 'network.xyo.archivist.snapshot' as const

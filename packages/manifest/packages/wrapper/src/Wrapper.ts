@@ -1,7 +1,8 @@
-import { assertEx } from '@xylabs/assert'
-import type { CreatableName } from '@xylabs/creatable'
 import type { Logger } from '@xylabs/logger'
-import { isDefined, isString } from '@xylabs/typeof'
+import type { CreatableName } from '@xylabs/sdk-js'
+import {
+  assertEx, isDefined, isString,
+} from '@xylabs/sdk-js'
 import type {
   ModuleManifest, NodeManifest, PackageManifestPayload,
 } from '@xyo-network/manifest-model'

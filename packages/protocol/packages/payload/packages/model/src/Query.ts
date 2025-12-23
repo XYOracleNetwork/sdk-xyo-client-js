@@ -1,5 +1,4 @@
-import type { Address } from '@xylabs/hex'
-import type { EmptyObject } from '@xylabs/object'
+import type { Address, EmptyObject } from '@xylabs/sdk-js'
 
 import type { Payload } from './Payload.ts'
 import type { Schema, WithSchema } from './Schema.ts'

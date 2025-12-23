@@ -1,5 +1,5 @@
-import type { Address, Hex } from '@xylabs/hex'
-import { isAddress } from '@xylabs/hex'
+import type { Address, Hex } from '@xylabs/sdk-js'
+import { isAddress } from '@xylabs/sdk-js'
 import { matchers } from '@xylabs/vitest-matchers'
 import type { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import {

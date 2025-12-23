@@ -1,4 +1,4 @@
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
 
 import type { ModuleName } from './ModuleIdentifier.ts'
 export interface ModuleDescription {

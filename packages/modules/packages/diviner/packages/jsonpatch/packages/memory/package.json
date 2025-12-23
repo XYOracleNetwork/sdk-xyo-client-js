@@ -36,8 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/assert": "~5.0.50",
-    "@xylabs/exists": "~5.0.50",
+    "@xylabs/sdk-js": "~5.0.61",
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-jsonpatch-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
@@ -46,13 +45,13 @@
     "fast-json-patch": "~3.1.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.2.8",
-    "@xylabs/tsconfig": "~7.2.8",
-    "@xylabs/vitest-extended": "~5.0.50",
+    "@xylabs/ts-scripts-yarn3": "~7.2.32",
+    "@xylabs/tsconfig": "~7.2.32",
+    "@xylabs/vitest-extended": "~5.0.61",
     "@xyo-network/wallet": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.15"
+    "vitest": "~4.0.16"
   },
   "publishConfig": {
     "access": "public"

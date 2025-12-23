@@ -1,4 +1,4 @@
-import { HexRegExMinMax, toHex } from '@xylabs/hex'
+import { HexRegExMinMax, toHex } from '@xylabs/sdk-js'
 import z from 'zod'
 
 import type { LocalSequence, QualifiedSequence } from './Sequence.ts'

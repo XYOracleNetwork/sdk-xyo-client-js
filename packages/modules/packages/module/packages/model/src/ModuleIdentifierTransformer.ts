@@ -1,4 +1,4 @@
-import type { Promisable } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/sdk-js'
 
 import type { ModuleIdentifier } from './ModuleIdentifier.ts'
 

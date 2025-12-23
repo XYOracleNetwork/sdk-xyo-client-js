@@ -37,16 +37,15 @@
   ],
   "dependencies": {
     "@bitauth/libauth": "~3.0.0",
-    "@xylabs/arraybuffer": "~5.0.50",
-    "@xylabs/assert": "~5.0.50",
-    "@xylabs/hex": "~5.0.50",
+    "@xylabs/arraybuffer": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.61",
     "@xyo-network/data": "workspace:~",
     "@xyo-network/wasm": "workspace:~",
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.2.8",
-    "@xylabs/tsconfig": "~7.2.8",
+    "@xylabs/ts-scripts-yarn3": "~7.2.32",
+    "@xylabs/tsconfig": "~7.2.32",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

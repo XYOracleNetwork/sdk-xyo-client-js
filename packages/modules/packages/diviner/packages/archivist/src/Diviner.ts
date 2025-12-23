@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/assert'
+import { assertEx } from '@xylabs/sdk-js'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import type { HuriPayload } from '@xyo-network/diviner-huri'
 import { HuriSchema } from '@xyo-network/diviner-huri'

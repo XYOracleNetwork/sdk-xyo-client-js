@@ -1,4 +1,4 @@
-import { HashRegEx, HexRegExMinMax } from '@xylabs/hex'
+import { HashRegEx, HexRegExMinMax } from '@xylabs/sdk-js'
 import type { Payload } from '@xyo-network/payload-model'
 import { SchemaRegEx } from '@xyo-network/payload-model'
 import type { JSONSchemaType } from 'ajv'

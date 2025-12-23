@@ -1,4 +1,4 @@
-import type { Compare } from '@xylabs/object'
+import type { Compare } from '@xylabs/sdk-js'
 
 import { SequenceParser } from './Parser.ts'
 import type { Sequence } from './Sequence.ts'

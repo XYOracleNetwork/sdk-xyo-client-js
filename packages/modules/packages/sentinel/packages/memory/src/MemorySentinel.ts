@@ -1,5 +1,5 @@
-import type { Address } from '@xylabs/hex'
-import { fulfilled, rejected } from '@xylabs/promise'
+import type { Address } from '@xylabs/sdk-js'
+import { fulfilled, rejected } from '@xylabs/sdk-js'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { type AnyConfigSchema, type ModuleIdentifier } from '@xyo-network/module-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'

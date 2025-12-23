@@ -1,7 +1,6 @@
 import { uniq } from '@xylabs/array'
 import { toArrayBuffer } from '@xylabs/arraybuffer'
-import { asAddress } from '@xylabs/hex'
-import { validateType } from '@xylabs/typeof'
+import { asAddress, validateType } from '@xylabs/sdk-js'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { Elliptic } from '@xyo-network/elliptic'

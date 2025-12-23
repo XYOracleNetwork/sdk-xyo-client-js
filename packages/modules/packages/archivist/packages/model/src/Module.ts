@@ -1,4 +1,4 @@
-import type { Hash } from '@xylabs/hex'
+import type { Hash } from '@xylabs/sdk-js'
 import type { ModuleQueryFunctions } from '@xyo-network/module-model'
 import type { Payload, Sequence } from '@xyo-network/payload-model'
 

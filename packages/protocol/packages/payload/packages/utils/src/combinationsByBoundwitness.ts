@@ -1,5 +1,4 @@
-import { exists } from '@xylabs/exists'
-import { asHash } from '@xylabs/hex'
+import { asHash, exists } from '@xylabs/sdk-js'
 import { difference } from '@xylabs/set'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'

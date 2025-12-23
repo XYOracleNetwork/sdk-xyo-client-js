@@ -1,4 +1,4 @@
-import type { EventData } from '@xylabs/events'
+import type { EventData } from '@xylabs/sdk-js'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import type { Payload } from '@xyo-network/payload-model'
 

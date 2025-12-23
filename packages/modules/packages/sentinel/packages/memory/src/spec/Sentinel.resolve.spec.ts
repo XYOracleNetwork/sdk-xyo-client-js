@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import type { CreatableName } from '@xylabs/creatable'
+import type { CreatableName } from '@xylabs/sdk-js'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadSchema } from '@xyo-network/payload-model'

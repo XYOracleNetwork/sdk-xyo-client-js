@@ -1,8 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { filterAs } from '@xylabs/array'
-import { assertEx } from '@xylabs/assert'
-import { delay } from '@xylabs/delay'
+import { assertEx, delay } from '@xylabs/sdk-js'
 import type { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'

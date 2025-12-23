@@ -1,7 +1,5 @@
-import type { Validator } from '@xylabs/object'
-import { ValidatorBase } from '@xylabs/object'
-import type { Promisable } from '@xylabs/promise'
-import { isUndefined } from '@xylabs/typeof'
+import type { Promisable, Validator } from '@xylabs/sdk-js'
+import { isUndefined, ValidatorBase } from '@xylabs/sdk-js'
 import type { Payload } from '@xyo-network/payload-model'
 import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 

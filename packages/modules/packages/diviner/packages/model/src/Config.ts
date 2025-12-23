@@ -1,4 +1,4 @@
-import type { EmptyObject, WithAdditional } from '@xylabs/object'
+import type { EmptyObject, WithAdditional } from '@xylabs/sdk-js'
 import type { ModuleConfig, ModuleIdentifier } from '@xyo-network/module-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 

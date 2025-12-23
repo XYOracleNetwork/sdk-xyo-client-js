@@ -1,4 +1,4 @@
-import { asHash } from '@xylabs/hex'
+import { asHash } from '@xylabs/sdk-js'
 import { expose } from '@xylabs/threads/worker'
 import { sha256 } from 'hash-wasm'
 

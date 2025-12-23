@@ -1,6 +1,6 @@
 import {
   AddressRegEx, HashRegEx, HexRegExMinMax,
-} from '@xylabs/hex'
+} from '@xylabs/sdk-js'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { SchemaRegEx } from '@xyo-network/payload-model'
 import { payloadJsonSchema } from '@xyo-network/payload-wrapper'

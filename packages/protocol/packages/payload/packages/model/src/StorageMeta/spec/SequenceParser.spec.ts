@@ -1,9 +1,9 @@
 import '@xylabs/vitest-extended'
 
-import type { Address, Hash } from '@xylabs/hex'
+import type { Address, Hash } from '@xylabs/sdk-js'
 import {
   asAddress, asHash, toHex,
-} from '@xylabs/hex'
+} from '@xylabs/sdk-js'
 import {
   describe, expect, it,
 } from 'vitest'

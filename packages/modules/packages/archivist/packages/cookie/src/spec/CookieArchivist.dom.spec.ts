@@ -2,8 +2,8 @@
  * @vitest-environment jsdom
  */
 
-import { delay } from '@xylabs/delay'
-import type { Promisable } from '@xylabs/promise'
+import type { Promisable } from '@xylabs/sdk-js'
+import { delay } from '@xylabs/sdk-js'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import type { Payload } from '@xyo-network/payload-model'

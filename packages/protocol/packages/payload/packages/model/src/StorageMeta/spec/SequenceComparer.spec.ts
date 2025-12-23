@@ -1,6 +1,6 @@
 // SequenceComparer.spec.ts
 
-import type { Address } from '@xylabs/hex'
+import type { Address } from '@xylabs/sdk-js'
 import {
   describe, expect, it,
 } from 'vitest'

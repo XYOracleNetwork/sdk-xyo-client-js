@@ -1,5 +1,5 @@
-import type { Address } from '@xylabs/hex'
-import { isDefined, isUndefined } from '@xylabs/typeof'
+import type { Address } from '@xylabs/sdk-js'
+import { isDefined, isUndefined } from '@xylabs/sdk-js'
 import type { DivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import type { ModuleIdentifier, ModuleIdentifierTransformer } from '@xyo-network/module-model'

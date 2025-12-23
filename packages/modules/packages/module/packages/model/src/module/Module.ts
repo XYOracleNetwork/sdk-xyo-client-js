@@ -1,4 +1,4 @@
-import type { CreatableInstance } from '@xylabs/creatable'
+import type { CreatableInstance } from '@xylabs/sdk-js'
 
 import type { ModuleEventData } from '../EventsModels/index.ts'
 import type { ModuleParams } from '../ModuleParams.ts'

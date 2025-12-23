@@ -1,6 +1,6 @@
-import { assertEx } from '@xylabs/assert'
-import { globallyUnique } from '@xylabs/base'
-import { forget } from '@xylabs/forget'
+import {
+  assertEx, forget, globallyUnique,
+} from '@xylabs/sdk-js'
 import { spanAsync } from '@xylabs/telemetry'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'

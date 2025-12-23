@@ -18,6 +18,7 @@ build
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+!.yarn/constraints.pro
 
 docs
 

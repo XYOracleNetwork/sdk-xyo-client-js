@@ -1,8 +1,8 @@
 import type {
+  AnyNonPromise,
   AnyObject, EmptyObject, TypeCheck,
   TypeCheckConfig,
-} from '@xylabs/object'
-import type { AnyNonPromise } from '@xylabs/promise'
+} from '@xylabs/sdk-js'
 
 import { asModuleObject } from './asModuleObject.ts'
 import { isModuleObject } from './isModuleObject.ts'

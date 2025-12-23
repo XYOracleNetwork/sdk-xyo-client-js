@@ -1,7 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import { delay } from '@xylabs/delay'
-import { toSafeJsonString } from '@xylabs/object'
+import { delay, toSafeJsonString } from '@xylabs/sdk-js'
 import type { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 // import { AbstractModule } from '@xyo-network/module-abstract'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'

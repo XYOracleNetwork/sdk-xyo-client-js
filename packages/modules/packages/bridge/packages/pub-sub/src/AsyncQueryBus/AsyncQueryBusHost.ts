@@ -1,8 +1,8 @@
 import { containsAll } from '@xylabs/array'
-import { assertEx } from '@xylabs/assert'
+import { assertEx } from '@xylabs/sdk-js'
 import {
   type Address, hexFromBigInt, hexToBigInt,
-} from '@xylabs/hex'
+} from '@xylabs/sdk-js'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { isQueryBoundWitnessWithStorageMeta } from '@xyo-network/boundwitness-model'

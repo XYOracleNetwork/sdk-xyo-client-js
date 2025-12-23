@@ -1,4 +1,4 @@
-import type { EmptyObject, WithAdditional } from '@xylabs/object'
+import type { EmptyObject, WithAdditional } from '@xylabs/sdk-js'
 import type { ArchivistConfig } from '@xyo-network/archivist-model'
 import type { Payload, Schema } from '@xyo-network/payload-model'
 

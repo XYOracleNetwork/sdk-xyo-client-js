@@ -1,4 +1,4 @@
-import { isString } from '@xylabs/typeof'
+import { isString } from '@xylabs/sdk-js'
 
 export class RemoteDivinerError extends Error {
   isRemoteDivinerError = true

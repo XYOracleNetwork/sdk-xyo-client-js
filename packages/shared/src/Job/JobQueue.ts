@@ -1,4 +1,4 @@
-import type { EventData, EventEmitter } from '@xylabs/events'
+import type { EventData, EventEmitter } from '@xylabs/sdk-js'
 
 import type { Job } from './Job.ts'
 

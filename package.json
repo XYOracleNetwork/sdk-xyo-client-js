@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "@xyo-network/manifest": "workspace:~",
-    "@xyo-network/modules": "workspace:~",
+    "@xyo-network/modules": "2.29.0",
     "@xyo-network/protocol": "workspace:~"
   },
   "devDependencies": {

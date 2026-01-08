@@ -81,6 +81,9 @@ import { ModuleErrorBuilder } from './Error.ts'
 import type { Queryable } from './QueryValidator/index.ts'
 import { ModuleConfigQueryValidator, SupportedQueryValidator } from './QueryValidator/index.ts'
 
+
+export const DefaultAbstractModuleQueries = [ModuleAddressQuerySchema, ModuleSubscribeQuerySchema, ModuleManifestQuerySchema, ModuleStateQuerySchema] as const
+
 creatableModule()
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractCreatable<TParams, TEventData>
@@ -180,7 +183,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get queries(): Schema[] {
-    return [ModuleAddressQuerySchema, ModuleSubscribeQuerySchema, ModuleManifestQuerySchema, ModuleStateQuerySchema]
+    return [...DefaultAbstractModuleQueries]
   }
 
   get reentrancy() {

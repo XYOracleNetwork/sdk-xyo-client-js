@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/config-payload-plugin",
-  "version": "5.2.21",
+  "version": "5.2.22",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,8 +37,8 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/payload-model": "~5.2.21",
-    "@xyo-network/payload-plugin": "~5.2.21"
+    "@xyo-network/payload-model": "~5.2.22",
+    "@xyo-network/payload-plugin": "~5.2.22"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

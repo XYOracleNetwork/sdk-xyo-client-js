@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/node-view",
-  "version": "5.2.21",
+  "version": "5.2.22",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,18 +37,18 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/module-model": "~5.2.21",
-    "@xyo-network/module-resolver": "~5.2.21",
-    "@xyo-network/node-memory": "~5.2.21",
-    "@xyo-network/node-model": "~5.2.21",
-    "@xyo-network/payload-model": "~5.2.21",
+    "@xyo-network/module-model": "~5.2.22",
+    "@xyo-network/module-resolver": "~5.2.22",
+    "@xyo-network/node-memory": "~5.2.22",
+    "@xyo-network/node-model": "~5.2.22",
+    "@xyo-network/payload-model": "~5.2.22",
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "~5.0.61",
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
-    "@xyo-network/module-events": "~5.2.21",
+    "@xyo-network/module-events": "~5.2.22",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

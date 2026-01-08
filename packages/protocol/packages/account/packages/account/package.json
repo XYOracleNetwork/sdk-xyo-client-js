@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/account",
-  "version": "5.2.21",
+  "version": "5.2.22",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -39,11 +39,11 @@
     "@xylabs/arraybuffer": "~5.0.61",
     "@xylabs/sdk-js": "~5.0.61",
     "@xylabs/static-implements": "~5.0.61",
-    "@xyo-network/account-model": "~5.2.21",
-    "@xyo-network/data": "~5.2.21",
-    "@xyo-network/elliptic": "~5.2.21",
-    "@xyo-network/key-model": "~5.2.21",
-    "@xyo-network/previous-hash-store-model": "~5.2.21",
+    "@xyo-network/account-model": "~5.2.22",
+    "@xyo-network/data": "~5.2.22",
+    "@xyo-network/elliptic": "~5.2.22",
+    "@xyo-network/key-model": "~5.2.22",
+    "@xyo-network/previous-hash-store-model": "~5.2.22",
     "async-mutex": "~0.5.0",
     "ethers": "^6.16.0"
   },

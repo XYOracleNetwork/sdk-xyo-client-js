@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-payload-pointer",
-  "version": "5.2.21",
+  "version": "5.2.22",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-payload-pointer-memory": "~5.2.21",
-    "@xyo-network/diviner-payload-pointer-model": "~5.2.21"
+    "@xyo-network/diviner-payload-pointer-memory": "~5.2.22",
+    "@xyo-network/diviner-payload-pointer-model": "~5.2.22"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

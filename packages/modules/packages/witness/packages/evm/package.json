@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/witness-evm",
-  "version": "5.2.21",
+  "version": "5.2.22",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/witness-evm-abstract": "~5.2.21"
+    "@xyo-network/witness-evm-abstract": "~5.2.22"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-range",
-  "version": "5.2.21",
+  "version": "5.2.22",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,11 +37,11 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/diviner-abstract": "~5.2.21",
-    "@xyo-network/diviner-model": "~5.2.21",
-    "@xyo-network/diviner-range-model": "~5.2.21",
-    "@xyo-network/module-model": "~5.2.21",
-    "@xyo-network/payload-model": "~5.2.21"
+    "@xyo-network/diviner-abstract": "~5.2.22",
+    "@xyo-network/diviner-model": "~5.2.22",
+    "@xyo-network/diviner-range-model": "~5.2.22",
+    "@xyo-network/module-model": "~5.2.22",
+    "@xyo-network/payload-model": "~5.2.22"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

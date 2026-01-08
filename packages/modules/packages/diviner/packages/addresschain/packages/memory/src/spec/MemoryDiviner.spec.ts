@@ -1,6 +1,5 @@
 import '@xylabs/vitest-extended'
 
-import { filterAs } from '@xylabs/array'
 import { assertEx, delay } from '@xylabs/sdk-js'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'

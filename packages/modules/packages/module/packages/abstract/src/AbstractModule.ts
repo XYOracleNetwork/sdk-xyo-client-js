@@ -81,7 +81,6 @@ import { ModuleErrorBuilder } from './Error.ts'
 import type { Queryable } from './QueryValidator/index.ts'
 import { ModuleConfigQueryValidator, SupportedQueryValidator } from './QueryValidator/index.ts'
 
-
 export const DefaultModuleQueries = [ModuleAddressQuerySchema, ModuleSubscribeQuerySchema, ModuleManifestQuerySchema, ModuleStateQuerySchema] as const
 
 creatableModule()

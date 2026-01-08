@@ -37,7 +37,7 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/previous-hash-store-model": "workspace:~",
+    "@xyo-network/previous-hash-store-model": "~5.2.21",
     "idb": "~8.0.3"
   },
   "devDependencies": {

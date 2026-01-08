@@ -40,10 +40,10 @@
     "@xylabs/arraybuffer": "~5.0.61",
     "@xylabs/sdk-js": "~5.0.61",
     "@xylabs/static-implements": "~5.0.61",
-    "@xyo-network/account": "workspace:~",
-    "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/key-model": "workspace:~",
-    "@xyo-network/wallet-model": "workspace:~",
+    "@xyo-network/account": "~5.2.21",
+    "@xyo-network/account-model": "~5.2.21",
+    "@xyo-network/key-model": "~5.2.21",
+    "@xyo-network/wallet-model": "~5.2.21",
     "ethers": "^6.16.0"
   },
   "devDependencies": {

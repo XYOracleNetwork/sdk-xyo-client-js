@@ -37,7 +37,7 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

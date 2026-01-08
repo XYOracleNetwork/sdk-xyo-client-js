@@ -60,7 +60,7 @@
     "@xylabs/platform": "~5.0.61",
     "@xylabs/sdk-js": "~5.0.61",
     "@xylabs/threads": "~5.0.61",
-    "@xyo-network/wasm": "workspace:~",
+    "@xyo-network/wasm": "~5.2.21",
     "hash-wasm": "~4.12.0"
   },
   "devDependencies": {

@@ -36,10 +36,10 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/account": "workspace:~",
-    "@xyo-network/boundwitness": "workspace:~",
-    "@xyo-network/core": "workspace:~",
-    "@xyo-network/payload": "workspace:~"
+    "@xyo-network/account": "~5.2.21",
+    "@xyo-network/boundwitness": "~5.2.21",
+    "@xyo-network/core": "~5.2.21",
+    "@xyo-network/payload": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

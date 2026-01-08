@@ -36,10 +36,10 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-abstract": "workspace:~",
-    "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/diviner-payload-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/diviner-abstract": "~5.2.21",
+    "@xyo-network/diviner-model": "~5.2.21",
+    "@xyo-network/diviner-payload-model": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

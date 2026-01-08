@@ -37,17 +37,17 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/node-abstract": "workspace:~",
-    "@xyo-network/node-model": "workspace:~",
+    "@xyo-network/module-model": "~5.2.21",
+    "@xyo-network/node-abstract": "~5.2.21",
+    "@xyo-network/node-model": "~5.2.21",
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "~5.0.61",
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
-    "@xyo-network/module-events": "workspace:~",
-    "@xyo-network/module-resolver": "workspace:~",
+    "@xyo-network/module-events": "~5.2.21",
+    "@xyo-network/module-resolver": "~5.2.21",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

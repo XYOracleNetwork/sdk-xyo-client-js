@@ -39,10 +39,10 @@
     "@firebase/app": "~0.14.6",
     "@firebase/firestore": "~4.9.3",
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/archivist-abstract": "workspace:~",
-    "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/archivist-abstract": "~5.2.21",
+    "@xyo-network/archivist-model": "~5.2.21",
+    "@xyo-network/module-model": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "~5.0.0",

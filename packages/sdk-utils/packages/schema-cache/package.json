@@ -37,10 +37,10 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/domain-payload-plugin": "workspace:~",
-    "@xyo-network/huri": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/schema-payload-plugin": "workspace:~",
+    "@xyo-network/domain-payload-plugin": "~5.2.21",
+    "@xyo-network/huri": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21",
+    "@xyo-network/schema-payload-plugin": "~5.2.21",
     "ajv": "~8.17.1",
     "axios": "^1.13.2",
     "lru-cache": "^11.2.4"
@@ -49,8 +49,8 @@
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig-dom": "~7.2.32",
     "@xylabs/vitest-extended": "~5.0.61",
-    "@xyo-network/network": "workspace:~",
-    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/network": "~5.2.21",
+    "@xyo-network/payload-builder": "~5.2.21",
     "typescript": "~5.9.3",
     "vitest": "~4.0.16"
   },

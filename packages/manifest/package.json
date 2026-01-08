@@ -39,8 +39,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/manifest-model": "workspace:~",
-    "@xyo-network/manifest-wrapper": "workspace:~"
+    "@xyo-network/manifest-model": "~5.2.21",
+    "@xyo-network/manifest-wrapper": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

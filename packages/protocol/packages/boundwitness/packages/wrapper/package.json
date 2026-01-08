@@ -37,12 +37,12 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/boundwitness-validator": "workspace:~",
-    "@xyo-network/payload": "workspace:~",
-    "@xyo-network/payload-builder": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~",
+    "@xyo-network/boundwitness-model": "~5.2.21",
+    "@xyo-network/boundwitness-validator": "~5.2.21",
+    "@xyo-network/payload": "~5.2.21",
+    "@xyo-network/payload-builder": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21",
+    "@xyo-network/payload-wrapper": "~5.2.21",
     "ajv": "~8.17.1"
   },
   "devDependencies": {

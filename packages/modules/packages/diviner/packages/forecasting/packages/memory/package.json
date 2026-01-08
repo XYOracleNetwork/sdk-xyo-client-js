@@ -37,14 +37,14 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/diviner-boundwitness-model": "workspace:~",
-    "@xyo-network/diviner-forecasting-abstract": "workspace:~",
-    "@xyo-network/diviner-forecasting-method-arima": "workspace:~",
-    "@xyo-network/diviner-forecasting-model": "workspace:~",
-    "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/archivist-model": "~5.2.21",
+    "@xyo-network/diviner-boundwitness-model": "~5.2.21",
+    "@xyo-network/diviner-forecasting-abstract": "~5.2.21",
+    "@xyo-network/diviner-forecasting-method-arima": "~5.2.21",
+    "@xyo-network/diviner-forecasting-model": "~5.2.21",
+    "@xyo-network/diviner-model": "~5.2.21",
+    "@xyo-network/module-model": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21",
     "jsonpath": "~1.1.1"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "@xylabs/sdk-js": "~5.0.61",
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
-    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/boundwitness-model": "~5.2.21",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/bridge-model": "workspace:~",
-    "@xyo-network/bridge-wrapper": "workspace:~"
+    "@xyo-network/bridge-model": "~5.2.21",
+    "@xyo-network/bridge-wrapper": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

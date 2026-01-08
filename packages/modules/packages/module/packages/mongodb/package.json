@@ -39,9 +39,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/module-abstract-mongodb": "workspace:~",
-    "@xyo-network/module-model-mongodb": "workspace:~",
-    "@xyo-network/payload-mongodb": "workspace:~"
+    "@xyo-network/module-abstract-mongodb": "~5.2.21",
+    "@xyo-network/module-model-mongodb": "~5.2.21",
+    "@xyo-network/payload-mongodb": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

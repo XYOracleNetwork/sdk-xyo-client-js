@@ -37,13 +37,13 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/witness-model": "workspace:~"
+    "@xyo-network/account-model": "~5.2.21",
+    "@xyo-network/archivist-model": "~5.2.21",
+    "@xyo-network/boundwitness-model": "~5.2.21",
+    "@xyo-network/diviner-model": "~5.2.21",
+    "@xyo-network/module-model": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21",
+    "@xyo-network/witness-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

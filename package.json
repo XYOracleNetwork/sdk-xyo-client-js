@@ -57,9 +57,9 @@
     "test": "vitest --watch false"
   },
   "dependencies": {
-    "@xyo-network/manifest": "workspace:~",
-    "@xyo-network/modules": "workspace:~",
-    "@xyo-network/protocol": "workspace:~"
+    "@xyo-network/manifest": "~5.2.21",
+    "@xyo-network/modules": "~5.2.21",
+    "@xyo-network/protocol": "~5.2.21"
   },
   "devDependencies": {
     "@firebase/app": "~0.14.6",
@@ -76,7 +76,7 @@
     "@xylabs/tsconfig": "~7.2.32",
     "@xylabs/tsconfig-dom": "~7.2.32",
     "@xylabs/vitest-extended": "~5.0.61",
-    "@xyo-network/sdk-utils": "workspace:~",
+    "@xyo-network/sdk-utils": "~5.2.21",
     "chalk": "~5.6.2",
     "dependency-cruiser": "~17.3.5",
     "dotenv": "~17.2.3",

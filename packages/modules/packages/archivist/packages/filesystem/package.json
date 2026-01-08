@@ -38,13 +38,13 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/archivist-abstract": "workspace:~",
-    "@xyo-network/archivist-memory": "workspace:~",
-    "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/wallet": "workspace:~"
+    "@xyo-network/archivist-abstract": "~5.2.21",
+    "@xyo-network/archivist-memory": "~5.2.21",
+    "@xyo-network/archivist-model": "~5.2.21",
+    "@xyo-network/boundwitness-model": "~5.2.21",
+    "@xyo-network/module-model": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21",
+    "@xyo-network/wallet": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "~5.0.61",

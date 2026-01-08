@@ -38,17 +38,17 @@
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
     "@xylabs/timer": "~5.0.61",
-    "@xyo-network/archivist-wrapper": "workspace:~",
-    "@xyo-network/boundwitness-builder": "workspace:~",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/diviner-abstract": "workspace:~",
-    "@xyo-network/diviner-boundwitness-model": "workspace:~",
-    "@xyo-network/diviner-indexing-model": "workspace:~",
-    "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/diviner-wrapper": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/payload-builder": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/archivist-wrapper": "~5.2.21",
+    "@xyo-network/boundwitness-builder": "~5.2.21",
+    "@xyo-network/boundwitness-model": "~5.2.21",
+    "@xyo-network/diviner-abstract": "~5.2.21",
+    "@xyo-network/diviner-boundwitness-model": "~5.2.21",
+    "@xyo-network/diviner-indexing-model": "~5.2.21",
+    "@xyo-network/diviner-model": "~5.2.21",
+    "@xyo-network/diviner-wrapper": "~5.2.21",
+    "@xyo-network/module-model": "~5.2.21",
+    "@xyo-network/payload-builder": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "~5.0.61",

@@ -36,15 +36,15 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/api-models": "workspace:~",
-    "@xyo-network/dns": "workspace:~",
-    "@xyo-network/metamask-connector": "workspace:~",
-    "@xyo-network/network": "workspace:~",
-    "@xyo-network/payload-plugin": "workspace:~",
-    "@xyo-network/payloadset-plugin": "workspace:~",
-    "@xyo-network/schema-cache": "workspace:~",
-    "@xyo-network/schema-name-validator": "workspace:~",
-    "@xyo-network/witnesses": "workspace:~"
+    "@xyo-network/api-models": "~5.2.21",
+    "@xyo-network/dns": "~5.2.21",
+    "@xyo-network/metamask-connector": "~5.2.21",
+    "@xyo-network/network": "~5.2.21",
+    "@xyo-network/payload-plugin": "~5.2.21",
+    "@xyo-network/payloadset-plugin": "~5.2.21",
+    "@xyo-network/schema-cache": "~5.2.21",
+    "@xyo-network/schema-name-validator": "~5.2.21",
+    "@xyo-network/witnesses": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

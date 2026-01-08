@@ -38,8 +38,8 @@
   "dependencies": {
     "@xylabs/logger": "~5.0.61",
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/hash": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/hash": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

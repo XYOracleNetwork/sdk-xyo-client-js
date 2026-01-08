@@ -37,12 +37,12 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/archivist-abstract": "workspace:~",
-    "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/payload-builder": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/archivist-abstract": "~5.2.21",
+    "@xyo-network/archivist-model": "~5.2.21",
+    "@xyo-network/boundwitness-model": "~5.2.21",
+    "@xyo-network/module-model": "~5.2.21",
+    "@xyo-network/payload-builder": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21",
     "js-cookie": "~3.0.5"
   },
   "devDependencies": {
@@ -50,8 +50,8 @@
     "@xylabs/sdk-js": "~5.0.61",
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
-    "@xyo-network/id-payload-plugin": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~",
+    "@xyo-network/id-payload-plugin": "~5.2.21",
+    "@xyo-network/payload-wrapper": "~5.2.21",
     "typescript": "~5.9.3",
     "vitest": "~4.0.16"
   },

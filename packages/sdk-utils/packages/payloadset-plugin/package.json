@@ -37,12 +37,12 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/boundwitness-wrapper": "workspace:~",
-    "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/payload-builder": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/witness-model": "workspace:~"
+    "@xyo-network/boundwitness-model": "~5.2.21",
+    "@xyo-network/boundwitness-wrapper": "~5.2.21",
+    "@xyo-network/diviner-model": "~5.2.21",
+    "@xyo-network/payload-builder": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21",
+    "@xyo-network/witness-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

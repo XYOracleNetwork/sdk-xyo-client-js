@@ -24,8 +24,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-forecasting-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/diviner-forecasting-model": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21",
     "arima": "~0.2.5"
   },
   "devDependencies": {

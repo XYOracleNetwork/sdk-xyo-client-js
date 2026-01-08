@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-plugin": "workspace:~"
+    "@xyo-network/payload-model": "~5.2.21",
+    "@xyo-network/payload-plugin": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/key-model": "workspace:~",
-    "@xyo-network/wallet-model": "workspace:~"
+    "@xyo-network/account-model": "~5.2.21",
+    "@xyo-network/key-model": "~5.2.21",
+    "@xyo-network/wallet-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

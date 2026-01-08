@@ -37,12 +37,12 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/manifest-model": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/module-wrapper": "workspace:~",
-    "@xyo-network/node-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/account-model": "~5.2.21",
+    "@xyo-network/manifest-model": "~5.2.21",
+    "@xyo-network/module-model": "~5.2.21",
+    "@xyo-network/module-wrapper": "~5.2.21",
+    "@xyo-network/node-model": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21",
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {

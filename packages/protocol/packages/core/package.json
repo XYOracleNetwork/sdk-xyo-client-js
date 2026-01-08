@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/data": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
-    "@xyo-network/wasm": "workspace:~"
+    "@xyo-network/data": "~5.2.21",
+    "@xyo-network/hash": "~5.2.21",
+    "@xyo-network/wasm": "~5.2.21"
   },
   "devDependencies": {
     "@types/node": "~25.0.3",

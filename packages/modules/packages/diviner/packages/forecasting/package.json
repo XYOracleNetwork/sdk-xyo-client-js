@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-forecasting-abstract": "workspace:~",
-    "@xyo-network/diviner-forecasting-memory": "workspace:~",
-    "@xyo-network/diviner-forecasting-model": "workspace:~"
+    "@xyo-network/diviner-forecasting-abstract": "~5.2.21",
+    "@xyo-network/diviner-forecasting-memory": "~5.2.21",
+    "@xyo-network/diviner-forecasting-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

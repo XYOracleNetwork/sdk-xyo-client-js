@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-payload-pointer-memory": "workspace:~",
-    "@xyo-network/diviner-payload-pointer-model": "workspace:~"
+    "@xyo-network/diviner-payload-pointer-memory": "~5.2.21",
+    "@xyo-network/diviner-payload-pointer-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

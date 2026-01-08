@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:~",
-    "@xyo-network/diviner-boundwitness-stats-memory": "workspace:~",
-    "@xyo-network/diviner-boundwitness-stats-model": "workspace:~"
+    "@xyo-network/diviner-boundwitness-stats-abstract": "~5.2.21",
+    "@xyo-network/diviner-boundwitness-stats-memory": "~5.2.21",
+    "@xyo-network/diviner-boundwitness-stats-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

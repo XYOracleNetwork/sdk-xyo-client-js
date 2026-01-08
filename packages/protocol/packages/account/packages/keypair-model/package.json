@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/data": "workspace:~"
+    "@xyo-network/data": "~5.2.21"
   },
   "devDependencies": {
     "@types/node": "~25.0.3",

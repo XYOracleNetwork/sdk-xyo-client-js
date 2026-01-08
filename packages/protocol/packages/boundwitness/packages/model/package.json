@@ -38,7 +38,7 @@
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
     "@xylabs/zod": "~5.0.61",
-    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-model": "~5.2.21",
     "zod": "~4.2.1"
   },
   "devDependencies": {

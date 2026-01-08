@@ -39,19 +39,19 @@
     "@xylabs/axios": "~5.0.61",
     "@xylabs/platform": "~5.0.61",
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/dns": "workspace:~",
-    "@xyo-network/huri": "workspace:~",
-    "@xyo-network/network": "workspace:~",
-    "@xyo-network/payload-builder": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-plugin": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~"
+    "@xyo-network/dns": "~5.2.21",
+    "@xyo-network/huri": "~5.2.21",
+    "@xyo-network/network": "~5.2.21",
+    "@xyo-network/payload-builder": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21",
+    "@xyo-network/payload-plugin": "~5.2.21",
+    "@xyo-network/payload-wrapper": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
     "@xylabs/vitest-extended": "~5.0.61",
-    "@xyo-network/api-models": "workspace:~",
+    "@xyo-network/api-models": "~5.2.21",
     "axios": "^1.13.2",
     "typescript": "~5.9.3",
     "vitest": "~4.0.16"

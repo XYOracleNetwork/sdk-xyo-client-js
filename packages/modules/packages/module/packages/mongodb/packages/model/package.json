@@ -40,9 +40,9 @@
   ],
   "dependencies": {
     "@xylabs/mongo": "~5.0.61",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/payload-mongodb": "workspace:~",
-    "@xyo-network/shared": "workspace:~"
+    "@xyo-network/module-model": "~5.2.21",
+    "@xyo-network/payload-mongodb": "~5.2.21",
+    "@xyo-network/shared": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

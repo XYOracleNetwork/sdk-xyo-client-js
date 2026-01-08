@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/previous-hash-store-indexeddb": "workspace:~",
-    "@xyo-network/previous-hash-store-model": "workspace:~",
-    "@xyo-network/previous-hash-store-storage": "workspace:~"
+    "@xyo-network/previous-hash-store-indexeddb": "~5.2.21",
+    "@xyo-network/previous-hash-store-model": "~5.2.21",
+    "@xyo-network/previous-hash-store-storage": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

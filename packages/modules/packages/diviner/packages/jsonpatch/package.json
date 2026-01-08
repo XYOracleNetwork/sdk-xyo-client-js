@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-jsonpatch-memory": "workspace:~",
-    "@xyo-network/diviner-jsonpatch-model": "workspace:~"
+    "@xyo-network/diviner-jsonpatch-memory": "~5.2.21",
+    "@xyo-network/diviner-jsonpatch-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

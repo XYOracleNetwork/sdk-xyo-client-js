@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/archivist-wrapper": "workspace:~"
+    "@xyo-network/archivist-model": "~5.2.21",
+    "@xyo-network/archivist-wrapper": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

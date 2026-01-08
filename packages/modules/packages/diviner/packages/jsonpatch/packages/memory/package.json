@@ -37,19 +37,19 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/diviner-abstract": "workspace:~",
-    "@xyo-network/diviner-jsonpatch-model": "workspace:~",
-    "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/diviner-abstract": "~5.2.21",
+    "@xyo-network/diviner-jsonpatch-model": "~5.2.21",
+    "@xyo-network/diviner-model": "~5.2.21",
+    "@xyo-network/module-model": "~5.2.21",
+    "@xyo-network/payload-model": "~5.2.21",
     "fast-json-patch": "~3.1.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
     "@xylabs/vitest-extended": "~5.0.61",
-    "@xyo-network/wallet": "workspace:~",
-    "@xyo-network/wallet-model": "workspace:~",
+    "@xyo-network/wallet": "~5.2.21",
+    "@xyo-network/wallet-model": "~5.2.21",
     "typescript": "~5.9.3",
     "vitest": "~4.0.16"
   },

@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-coin-user-locations-abstract": "workspace:~",
-    "@xyo-network/diviner-coin-user-locations-model": "workspace:~"
+    "@xyo-network/diviner-coin-user-locations-abstract": "~5.2.21",
+    "@xyo-network/diviner-coin-user-locations-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

@@ -36,17 +36,17 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-address-chain-model": "workspace:~",
-    "@xyo-network/diviner-address-history-model": "workspace:~",
-    "@xyo-network/diviner-address-space-model": "workspace:~",
-    "@xyo-network/diviner-boundwitness-model": "workspace:~",
-    "@xyo-network/diviner-boundwitness-stats-model": "workspace:~",
-    "@xyo-network/diviner-forecasting-model": "workspace:~",
-    "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/diviner-payload-model": "workspace:~",
-    "@xyo-network/diviner-payload-stats-model": "workspace:~",
-    "@xyo-network/diviner-schema-list-model": "workspace:~",
-    "@xyo-network/diviner-schema-stats-model": "workspace:~"
+    "@xyo-network/diviner-address-chain-model": "~5.2.21",
+    "@xyo-network/diviner-address-history-model": "~5.2.21",
+    "@xyo-network/diviner-address-space-model": "~5.2.21",
+    "@xyo-network/diviner-boundwitness-model": "~5.2.21",
+    "@xyo-network/diviner-boundwitness-stats-model": "~5.2.21",
+    "@xyo-network/diviner-forecasting-model": "~5.2.21",
+    "@xyo-network/diviner-model": "~5.2.21",
+    "@xyo-network/diviner-payload-model": "~5.2.21",
+    "@xyo-network/diviner-payload-stats-model": "~5.2.21",
+    "@xyo-network/diviner-schema-list-model": "~5.2.21",
+    "@xyo-network/diviner-schema-stats-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

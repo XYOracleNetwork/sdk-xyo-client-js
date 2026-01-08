@@ -40,8 +40,8 @@
   ],
   "dependencies": {
     "@xylabs/mongo": "~5.0.61",
-    "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/archivist-model": "~5.2.21",
+    "@xyo-network/module-model": "~5.2.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

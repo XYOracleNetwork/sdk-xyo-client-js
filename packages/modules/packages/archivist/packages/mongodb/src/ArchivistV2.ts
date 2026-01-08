@@ -2,8 +2,11 @@ import type { Hash } from '@xylabs/sdk-js'
 import { exists } from '@xylabs/sdk-js'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import type { ArchivistNextOptions } from '@xyo-network/archivist-model'
-import { ArchivistInsertQuerySchema, ArchivistNextQuerySchema } from '@xyo-network/archivist-model'
+import {
+  ArchivistDeleteQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistNextQuerySchema,
+} from '@xyo-network/archivist-model'
 import { MongoDBArchivistConfigSchema } from '@xyo-network/archivist-model-mongodb'
+import { DefaultModuleQueries } from '@xyo-network/module-abstract'
 import { MongoDBModuleMixinV2 } from '@xyo-network/module-abstract-mongodb'
 import {
   type Payload, type Schema, type Sequence, SequenceConstants,
@@ -147,4 +150,14 @@ export class MongoDBArchivistV2 extends MongoDBArchivistBaseV2 {
     await super.startHandler()
     await this.ensureCollection()
   }
+}
+
+export class MongoDBArchivistV2Deletable extends MongoDBArchivistV2 {
+  override readonly queries: string[] = [
+    ArchivistDeleteQuerySchema,
+    ArchivistGetQuerySchema,
+    ArchivistInsertQuerySchema,
+    ArchivistNextQuerySchema,
+    ...DefaultModuleQueries,
+  ]
 }

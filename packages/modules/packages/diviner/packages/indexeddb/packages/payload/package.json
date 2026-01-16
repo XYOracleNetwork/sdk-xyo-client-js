@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-payload-indexeddb",
-  "version": "5.2.22",
+  "version": "5.2.23",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -38,22 +38,22 @@
   "dependencies": {
     "@xylabs/array": "~5.0.61",
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/archivist-indexeddb": "~5.2.22",
-    "@xyo-network/archivist-model": "~5.2.22",
-    "@xyo-network/diviner-model": "~5.2.22",
-    "@xyo-network/diviner-payload-abstract": "~5.2.22",
-    "@xyo-network/diviner-payload-model": "~5.2.22",
-    "@xyo-network/module-model": "~5.2.22",
-    "@xyo-network/payload-model": "~5.2.22",
+    "@xyo-network/archivist-indexeddb": "~5.2.23",
+    "@xyo-network/archivist-model": "~5.2.23",
+    "@xyo-network/diviner-model": "~5.2.23",
+    "@xyo-network/diviner-payload-abstract": "~5.2.23",
+    "@xyo-network/diviner-payload-model": "~5.2.23",
+    "@xyo-network/module-model": "~5.2.23",
+    "@xyo-network/payload-model": "~5.2.23",
     "idb": "~8.0.3"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
     "@xylabs/vitest-extended": "~5.0.61",
-    "@xyo-network/archivist-indexeddb": "~5.2.22",
-    "@xyo-network/node-memory": "~5.2.22",
-    "@xyo-network/payload-builder": "~5.2.22",
+    "@xyo-network/archivist-indexeddb": "~5.2.23",
+    "@xyo-network/node-memory": "~5.2.23",
+    "@xyo-network/payload-builder": "~5.2.23",
     "fake-indexeddb": "~6.2.5",
     "typescript": "~5.9.3",
     "vitest": "~4.0.16"

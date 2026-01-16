@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-utils",
-  "version": "5.2.22",
+  "version": "5.2.23",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,15 +36,15 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/api-models": "~5.2.22",
-    "@xyo-network/dns": "~5.2.22",
-    "@xyo-network/metamask-connector": "~5.2.22",
-    "@xyo-network/network": "~5.2.22",
-    "@xyo-network/payload-plugin": "~5.2.22",
-    "@xyo-network/payloadset-plugin": "~5.2.22",
-    "@xyo-network/schema-cache": "~5.2.22",
-    "@xyo-network/schema-name-validator": "~5.2.22",
-    "@xyo-network/witnesses": "~5.2.22"
+    "@xyo-network/api-models": "~5.2.23",
+    "@xyo-network/dns": "~5.2.23",
+    "@xyo-network/metamask-connector": "~5.2.23",
+    "@xyo-network/network": "~5.2.23",
+    "@xyo-network/payload-plugin": "~5.2.23",
+    "@xyo-network/payloadset-plugin": "~5.2.23",
+    "@xyo-network/schema-cache": "~5.2.23",
+    "@xyo-network/schema-name-validator": "~5.2.23",
+    "@xyo-network/witnesses": "~5.2.23"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

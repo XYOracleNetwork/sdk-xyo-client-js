@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/manifest-model",
-  "version": "5.2.22",
+  "version": "5.2.23",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,7 +37,7 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/payload-model": "~5.2.22"
+    "@xyo-network/payload-model": "~5.2.23"
   },
   "devDependencies": {
     "@types/node": "~25.0.3",

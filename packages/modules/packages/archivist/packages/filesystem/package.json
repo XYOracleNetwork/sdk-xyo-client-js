@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/filesystem-archivist",
-  "version": "5.2.22",
+  "version": "5.2.23",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -38,13 +38,13 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/archivist-abstract": "~5.2.22",
-    "@xyo-network/archivist-memory": "~5.2.22",
-    "@xyo-network/archivist-model": "~5.2.22",
-    "@xyo-network/boundwitness-model": "~5.2.22",
-    "@xyo-network/module-model": "~5.2.22",
-    "@xyo-network/payload-model": "~5.2.22",
-    "@xyo-network/wallet": "~5.2.22"
+    "@xyo-network/archivist-abstract": "~5.2.23",
+    "@xyo-network/archivist-memory": "~5.2.23",
+    "@xyo-network/archivist-model": "~5.2.23",
+    "@xyo-network/boundwitness-model": "~5.2.23",
+    "@xyo-network/module-model": "~5.2.23",
+    "@xyo-network/payload-model": "~5.2.23",
+    "@xyo-network/wallet": "~5.2.23"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "~5.0.61",

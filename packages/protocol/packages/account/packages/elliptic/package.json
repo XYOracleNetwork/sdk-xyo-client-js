@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/elliptic",
-  "version": "5.2.22",
+  "version": "5.2.23",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -39,8 +39,8 @@
     "@bitauth/libauth": "~3.0.0",
     "@xylabs/arraybuffer": "~5.0.61",
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/data": "~5.2.22",
-    "@xyo-network/wasm": "~5.2.22",
+    "@xyo-network/data": "~5.2.23",
+    "@xyo-network/wasm": "~5.2.23",
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {

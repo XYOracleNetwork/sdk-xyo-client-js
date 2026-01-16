@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-cookie",
-  "version": "5.2.22",
+  "version": "5.2.23",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,12 +37,12 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/archivist-abstract": "~5.2.22",
-    "@xyo-network/archivist-model": "~5.2.22",
-    "@xyo-network/boundwitness-model": "~5.2.22",
-    "@xyo-network/module-model": "~5.2.22",
-    "@xyo-network/payload-builder": "~5.2.22",
-    "@xyo-network/payload-model": "~5.2.22",
+    "@xyo-network/archivist-abstract": "~5.2.23",
+    "@xyo-network/archivist-model": "~5.2.23",
+    "@xyo-network/boundwitness-model": "~5.2.23",
+    "@xyo-network/module-model": "~5.2.23",
+    "@xyo-network/payload-builder": "~5.2.23",
+    "@xyo-network/payload-model": "~5.2.23",
     "js-cookie": "~3.0.5"
   },
   "devDependencies": {
@@ -50,8 +50,8 @@
     "@xylabs/sdk-js": "~5.0.61",
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
-    "@xyo-network/id-payload-plugin": "~5.2.22",
-    "@xyo-network/payload-wrapper": "~5.2.22",
+    "@xyo-network/id-payload-plugin": "~5.2.23",
+    "@xyo-network/payload-wrapper": "~5.2.23",
     "typescript": "~5.9.3",
     "vitest": "~4.0.16"
   },

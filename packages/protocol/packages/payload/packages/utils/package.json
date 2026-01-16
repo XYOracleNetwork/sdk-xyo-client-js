@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/payload-utils",
-  "version": "5.2.22",
+  "version": "5.2.23",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -38,16 +38,16 @@
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
     "@xylabs/set": "~5.0.61",
-    "@xyo-network/boundwitness-model": "~5.2.22",
-    "@xyo-network/hash": "~5.2.22",
-    "@xyo-network/payload-builder": "~5.2.22",
-    "@xyo-network/payload-model": "~5.2.22"
+    "@xyo-network/boundwitness-model": "~5.2.23",
+    "@xyo-network/hash": "~5.2.23",
+    "@xyo-network/payload-builder": "~5.2.23",
+    "@xyo-network/payload-model": "~5.2.23"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
     "@xylabs/vitest-extended": "~5.0.61",
-    "@xyo-network/boundwitness-builder": "~5.2.22",
+    "@xyo-network/boundwitness-builder": "~5.2.23",
     "typescript": "~5.9.3",
     "vitest": "~4.0.16"
   },

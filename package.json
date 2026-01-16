@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-js",
-  "version": "5.2.23",
+  "version": "5.2.24",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -57,9 +57,9 @@
     "test": "vitest --watch false"
   },
   "dependencies": {
-    "@xyo-network/manifest": "~5.2.23",
-    "@xyo-network/modules": "~5.2.23",
-    "@xyo-network/protocol": "~5.2.23"
+    "@xyo-network/manifest": "~5.2.24",
+    "@xyo-network/modules": "~5.2.24",
+    "@xyo-network/protocol": "~5.2.24"
   },
   "devDependencies": {
     "@firebase/app": "~0.14.6",
@@ -76,7 +76,7 @@
     "@xylabs/tsconfig": "~7.2.32",
     "@xylabs/tsconfig-dom": "~7.2.32",
     "@xylabs/vitest-extended": "~5.0.61",
-    "@xyo-network/sdk-utils": "~5.2.23",
+    "@xyo-network/sdk-utils": "~5.2.24",
     "chalk": "~5.6.2",
     "dependency-cruiser": "~17.3.5",
     "dotenv": "~17.2.3",

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/account-model",
-  "version": "5.2.23",
+  "version": "5.2.24",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -38,8 +38,8 @@
   "dependencies": {
     "@xylabs/arraybuffer": "~5.0.61",
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/key-model": "~5.2.23",
-    "@xyo-network/previous-hash-store-model": "~5.2.23"
+    "@xyo-network/key-model": "~5.2.24",
+    "@xyo-network/previous-hash-store-model": "~5.2.24"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

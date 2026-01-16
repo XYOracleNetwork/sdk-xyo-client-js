@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-address-space-memory",
-  "version": "5.2.23",
+  "version": "5.2.24",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,23 +37,23 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.61",
-    "@xyo-network/archivist-wrapper": "~5.2.23",
-    "@xyo-network/boundwitness-model": "~5.2.23",
-    "@xyo-network/diviner-address-space-abstract": "~5.2.23",
-    "@xyo-network/diviner-address-space-model": "~5.2.23",
-    "@xyo-network/module-model": "~5.2.23",
-    "@xyo-network/payload-builder": "~5.2.23",
-    "@xyo-network/payload-model": "~5.2.23"
+    "@xyo-network/archivist-wrapper": "~5.2.24",
+    "@xyo-network/boundwitness-model": "~5.2.24",
+    "@xyo-network/diviner-address-space-abstract": "~5.2.24",
+    "@xyo-network/diviner-address-space-model": "~5.2.24",
+    "@xyo-network/module-model": "~5.2.24",
+    "@xyo-network/payload-builder": "~5.2.24",
+    "@xyo-network/payload-model": "~5.2.24"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "~5.0.61",
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
     "@xylabs/vitest-extended": "~5.0.61",
-    "@xyo-network/account": "~5.2.23",
-    "@xyo-network/archivist-memory": "~5.2.23",
-    "@xyo-network/node-memory": "~5.2.23",
-    "@xyo-network/payload-wrapper": "~5.2.23",
+    "@xyo-network/account": "~5.2.24",
+    "@xyo-network/archivist-memory": "~5.2.24",
+    "@xyo-network/node-memory": "~5.2.24",
+    "@xyo-network/payload-wrapper": "~5.2.24",
     "typescript": "~5.9.3",
     "vitest": "~4.0.16"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-acceptance-tests",
-  "version": "5.2.24",
+  "version": "5.2.25",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,16 +37,16 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.63",
-    "@xyo-network/archivist-model": "~5.2.24",
-    "@xyo-network/id-payload-plugin": "~5.2.24",
-    "@xyo-network/payload-builder": "~5.2.24",
+    "@xyo-network/archivist-model": "~5.2.25",
+    "@xyo-network/id-payload-plugin": "~5.2.25",
+    "@xyo-network/payload-builder": "~5.2.25",
     "uuid": "~13.0.0",
     "vitest": "~4.0.17"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
-    "@xyo-network/payload-model": "~5.2.24",
+    "@xyo-network/payload-model": "~5.2.25",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

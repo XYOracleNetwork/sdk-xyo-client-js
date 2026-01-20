@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-forecasting-memory",
-  "version": "5.2.24",
+  "version": "5.2.25",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,14 +37,14 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.63",
-    "@xyo-network/archivist-model": "~5.2.24",
-    "@xyo-network/diviner-boundwitness-model": "~5.2.24",
-    "@xyo-network/diviner-forecasting-abstract": "~5.2.24",
-    "@xyo-network/diviner-forecasting-method-arima": "~5.2.24",
-    "@xyo-network/diviner-forecasting-model": "~5.2.24",
-    "@xyo-network/diviner-model": "~5.2.24",
-    "@xyo-network/module-model": "~5.2.24",
-    "@xyo-network/payload-model": "~5.2.24",
+    "@xyo-network/archivist-model": "~5.2.25",
+    "@xyo-network/diviner-boundwitness-model": "~5.2.25",
+    "@xyo-network/diviner-forecasting-abstract": "~5.2.25",
+    "@xyo-network/diviner-forecasting-method-arima": "~5.2.25",
+    "@xyo-network/diviner-forecasting-model": "~5.2.25",
+    "@xyo-network/diviner-model": "~5.2.25",
+    "@xyo-network/module-model": "~5.2.25",
+    "@xyo-network/payload-model": "~5.2.25",
     "jsonpath": "~1.1.1"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "@xylabs/sdk-js": "~5.0.63",
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
-    "@xyo-network/boundwitness-model": "~5.2.24",
+    "@xyo-network/boundwitness-model": "~5.2.25",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

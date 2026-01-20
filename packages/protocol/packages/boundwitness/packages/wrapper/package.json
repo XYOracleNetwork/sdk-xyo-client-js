@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/boundwitness-wrapper",
-  "version": "5.2.24",
+  "version": "5.2.25",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,12 +37,12 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.63",
-    "@xyo-network/boundwitness-model": "~5.2.24",
-    "@xyo-network/boundwitness-validator": "~5.2.24",
-    "@xyo-network/payload": "~5.2.24",
-    "@xyo-network/payload-builder": "~5.2.24",
-    "@xyo-network/payload-model": "~5.2.24",
-    "@xyo-network/payload-wrapper": "~5.2.24",
+    "@xyo-network/boundwitness-model": "~5.2.25",
+    "@xyo-network/boundwitness-validator": "~5.2.25",
+    "@xyo-network/payload": "~5.2.25",
+    "@xyo-network/payload-builder": "~5.2.25",
+    "@xyo-network/payload-model": "~5.2.25",
+    "@xyo-network/payload-wrapper": "~5.2.25",
     "ajv": "~8.17.1"
   },
   "devDependencies": {

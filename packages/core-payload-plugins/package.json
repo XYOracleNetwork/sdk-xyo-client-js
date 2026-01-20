@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/core-payload-plugins",
-  "version": "5.2.24",
+  "version": "5.2.25",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,15 +36,15 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/address-payload-plugin": "~5.2.24",
-    "@xyo-network/config-payload-plugin": "~5.2.24",
-    "@xyo-network/domain-payload-plugin": "~5.2.24",
-    "@xyo-network/id-payload-plugin": "~5.2.24",
-    "@xyo-network/payload-model": "~5.2.24",
-    "@xyo-network/payload-plugin": "~5.2.24",
-    "@xyo-network/query-payload-plugin": "~5.2.24",
-    "@xyo-network/schema-payload-plugin": "~5.2.24",
-    "@xyo-network/value-payload-plugin": "~5.2.24"
+    "@xyo-network/address-payload-plugin": "~5.2.25",
+    "@xyo-network/config-payload-plugin": "~5.2.25",
+    "@xyo-network/domain-payload-plugin": "~5.2.25",
+    "@xyo-network/id-payload-plugin": "~5.2.25",
+    "@xyo-network/payload-model": "~5.2.25",
+    "@xyo-network/payload-plugin": "~5.2.25",
+    "@xyo-network/query-payload-plugin": "~5.2.25",
+    "@xyo-network/schema-payload-plugin": "~5.2.25",
+    "@xyo-network/value-payload-plugin": "~5.2.25"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/schema-name-validator",
-  "version": "5.2.24",
+  "version": "5.2.25",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/dns": "~5.2.24"
+    "@xyo-network/dns": "~5.2.25"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

@@ -1,13 +1,12 @@
 import '@xylabs/vitest-extended'
 
-import { filterAs } from '@xylabs/array'
 import {
-  AsObjectFactory, assertEx, delay,
+  AsObjectFactory, assertEx, delay, filterAs,
 } from '@xylabs/sdk-js'
 import type { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { asBoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'

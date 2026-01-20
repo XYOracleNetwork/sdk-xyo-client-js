@@ -1,5 +1,4 @@
-import { axiosJsonConfig } from '@xylabs/axios'
-import { isString } from '@xylabs/sdk-js'
+import { axiosJsonConfig, isString } from '@xylabs/sdk-js'
 import type {
   ApiConfig,
   ApiEnvelope,

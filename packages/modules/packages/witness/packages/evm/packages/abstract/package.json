@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.63",
     "@xyo-network/abstract-witness": "~5.2.24",
     "@xyo-network/module-model": "~5.2.24",
     "@xyo-network/payload-model": "~5.2.24",

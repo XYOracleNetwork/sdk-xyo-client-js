@@ -36,16 +36,20 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.61",
-    "@xylabs/zod": "~5.0.61",
-    "@xyo-network/payload-model": "~5.2.24",
-    "zod": "~4.2.1"
+    "@xylabs/sdk-js": "~5.0.63",
+    "@xylabs/zod": "~5.0.63",
+    "@xyo-network/payload-model": "~5.2.24"
   },
   "devDependencies": {
-    "@types/node": "~25.0.3",
+    "@types/node": "~25.0.9",
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
-    "typescript": "~5.9.3"
+    "typescript": "~5.9.3",
+    "vitest": "~4.0.17",
+    "zod": "~4.3.5"
+  },
+  "peerDependencies": {
+    "zod": "^4"
   },
   "publishConfig": {
     "access": "public"

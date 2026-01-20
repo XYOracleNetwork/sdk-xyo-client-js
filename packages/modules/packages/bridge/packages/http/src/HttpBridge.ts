@@ -1,6 +1,6 @@
-import { axiosJsonConfig } from '@xylabs/axios'
 import {
   Address, assertEx,
+  axiosJsonConfig,
   exists,
   forget,
   Promisable, toSafeJsonString,

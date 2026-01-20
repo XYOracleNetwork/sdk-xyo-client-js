@@ -1,7 +1,6 @@
 import {
   assertEx, forget, globallyUnique,
 } from '@xylabs/sdk-js'
-import { spanAsync } from '@xylabs/telemetry'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -61,7 +60,7 @@ export abstract class AbstractSentinel<
   async report(inPayloads?: Payload[]): Promise<Payload[]> {
     this._noOverride('report')
     this.isSupportedQuery(SentinelReportQuerySchema, 'report')
-    return await spanAsync('report', async () => {
+    return await this.spanAsync('report', async () => {
       const reportPromise = (async () => {
         if (this.reentrancy?.scope === 'global' && this.reentrancy?.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
           console.warn(`Skipping report for ${this.id} due to global reentrancy lock`)
@@ -92,7 +91,7 @@ export abstract class AbstractSentinel<
         forget(reportPromise, { name: `AbstractSentinel.report [${this.id}]` })
         return []
       }
-    }, this.tracer)
+    }, { timeBudgetLimit: 200 })
   }
 
   async reportQuery(payloads?: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {

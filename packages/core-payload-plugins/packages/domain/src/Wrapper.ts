@@ -1,6 +1,7 @@
-import { axiosJson } from '@xylabs/axios'
-import { isBrowser } from '@xylabs/platform'
-import { Base, isString } from '@xylabs/sdk-js'
+import {
+  axiosJson, Base, isBrowser,
+  isString,
+} from '@xylabs/sdk-js'
 import { type Hash, isHash } from '@xylabs/sdk-js'
 import type { ApiEnvelope } from '@xyo-network/api-models'
 import { DnsRecordType, domainResolve } from '@xyo-network/dns'

@@ -1,5 +1,6 @@
-import type { Logger } from '@xylabs/logger'
-import type { Creatable, CreatableInstance } from '@xylabs/sdk-js'
+import type {
+  Creatable, CreatableInstance, Logger,
+} from '@xylabs/sdk-js'
 import type { Schema } from '@xyo-network/payload-model'
 
 import type { ModuleEventData } from '../EventsModels/index.ts'

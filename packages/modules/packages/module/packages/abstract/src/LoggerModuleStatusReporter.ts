@@ -1,5 +1,6 @@
-import type { Logger } from '@xylabs/logger'
-import type { CreatableName, CreatableStatus } from '@xylabs/sdk-js'
+import type {
+  CreatableName, CreatableStatus, Logger,
+} from '@xylabs/sdk-js'
 import type { ModuleStatusReporter } from '@xyo-network/module-model'
 
 export class LoggerModuleStatusReporter implements ModuleStatusReporter {

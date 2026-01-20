@@ -36,16 +36,16 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/geo": "~5.0.61",
-    "@xylabs/sdk-js": "~5.0.61",
-    "mapbox-gl": "~3.17.0"
+    "@xylabs/geo": "~5.0.63",
+    "@xylabs/sdk-js": "~5.0.63",
+    "mapbox-gl": "~3.18.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
-    "@xylabs/vitest-extended": "~5.0.61",
+    "@xylabs/vitest-extended": "~5.0.63",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.16"
+    "vitest": "~4.0.17"
   },
   "publishConfig": {
     "access": "public"

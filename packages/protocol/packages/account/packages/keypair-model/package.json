@@ -39,7 +39,7 @@
     "@xyo-network/data": "~5.2.24"
   },
   "devDependencies": {
-    "@types/node": "~25.0.3",
+    "@types/node": "~25.0.9",
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
     "typescript": "~5.9.3"

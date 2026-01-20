@@ -1,8 +1,8 @@
 /// <reference lib="dom" />
 
-import { containsAll } from '@xylabs/array'
 import {
-  assertEx, exists, removeFields,
+  assertEx, containsAll,
+  exists, removeFields,
 } from '@xylabs/sdk-js'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'

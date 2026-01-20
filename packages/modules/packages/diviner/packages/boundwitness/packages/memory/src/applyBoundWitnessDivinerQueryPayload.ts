@@ -1,6 +1,6 @@
-import { containsAll } from '@xylabs/array'
 import {
-  assertEx, exists, hexFromHexString,
+  assertEx, containsAll,
+  exists, hexFromHexString,
 } from '@xylabs/sdk-js'
 import { type BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'

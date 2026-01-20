@@ -1,11 +1,10 @@
 /* eslint-disable max-statements */
 /* eslint-disable complexity */
-import type { Logger } from '@xylabs/logger'
-import { IdLogger } from '@xylabs/logger'
-import type { Address } from '@xylabs/sdk-js'
+import type { Address, Logger } from '@xylabs/sdk-js'
 import {
   assertEx,
   exists,
+  IdLogger,
   isAddress,
   isDefined, isString, isTruthy, toSafeJsonString,
 } from '@xylabs/sdk-js'

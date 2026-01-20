@@ -36,9 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/array": "~5.0.61",
-    "@xylabs/arraybuffer": "~5.0.61",
-    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.63",
     "@xyo-network/boundwitness-model": "~5.2.24",
     "@xyo-network/elliptic": "~5.2.24",
     "@xyo-network/payload": "~5.2.24",
@@ -48,13 +46,13 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
-    "@xylabs/vitest-extended": "~5.0.61",
+    "@xylabs/vitest-extended": "~5.0.63",
     "@xyo-network/boundwitness-builder": "~5.2.24",
     "@xyo-network/schema-name-validator": "~5.2.24",
     "@xyo-network/wallet": "~5.2.24",
     "@xyo-network/wallet-model": "~5.2.24",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.16"
+    "vitest": "~4.0.17"
   },
   "publishConfig": {
     "access": "public"

@@ -1,12 +1,11 @@
 import { generateMnemonic } from '@scure/bip39'
 import { wordlist as englishWordlist } from '@scure/bip39/wordlists/english.js'
-import { toUint8Array } from '@xylabs/arraybuffer'
 import {
   Address, asAddress, assertEx,
   globallyUnique,
-  Hex, hexFromHexString,
+  Hex, hexFromHexString, staticImplements,
+  toUint8Array,
 } from '@xylabs/sdk-js'
-import { staticImplements } from '@xylabs/static-implements'
 import { Account, PrivateKey } from '@xyo-network/account'
 import {
   AccountConfig,

@@ -37,8 +37,7 @@
   ],
   "dependencies": {
     "@scure/bip39": "~2.0.1",
-    "@xylabs/logger": "~5.0.61",
-    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.63",
     "@xyo-network/archivist-model": "~5.2.24",
     "@xyo-network/boundwitness-model": "~5.2.24",
     "@xyo-network/bridge-abstract": "~5.2.24",

@@ -1,7 +1,6 @@
 import { generateMnemonic } from '@scure/bip39'
 import { wordlist } from '@scure/bip39/wordlists/english.js'
-import type { Logger } from '@xylabs/logger'
-import type { Address } from '@xylabs/sdk-js'
+import type { Address, Logger } from '@xylabs/sdk-js'
 import { forget } from '@xylabs/sdk-js'
 import type { PackageManifestPayload } from '@xyo-network/manifest'
 import { ManifestWrapper } from '@xyo-network/manifest'

@@ -1,4 +1,4 @@
-import { toArrayBuffer } from '@xylabs/arraybuffer'
+import { toArrayBuffer } from '@xylabs/sdk-js'
 import type { PrivateKeyInstance } from '@xyo-network/key-model'
 
 import { PrivateKey } from '../Key/index.ts'

@@ -36,14 +36,14 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.63",
     "@xyo-network/module-model": "~5.2.24",
     "@xyo-network/node-abstract": "~5.2.24",
     "@xyo-network/node-model": "~5.2.24",
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
-    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.63",
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
     "@xyo-network/module-events": "~5.2.24",

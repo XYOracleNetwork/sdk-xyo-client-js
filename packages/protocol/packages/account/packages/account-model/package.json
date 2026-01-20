@@ -36,8 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/arraybuffer": "~5.0.61",
-    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.63",
     "@xyo-network/key-model": "~5.2.24",
     "@xyo-network/previous-hash-store-model": "~5.2.24"
   },

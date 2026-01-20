@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.63",
     "@xyo-network/boundwitness-model": "~5.2.24",
     "@xyo-network/diviner-payload-stats-abstract": "~5.2.24",
     "@xyo-network/diviner-payload-stats-model": "~5.2.24",

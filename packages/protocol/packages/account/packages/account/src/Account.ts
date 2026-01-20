@@ -1,4 +1,3 @@
-import { toArrayBuffer, toUint8Array } from '@xylabs/arraybuffer'
 import {
   Address,
   asAddress,
@@ -8,9 +7,9 @@ import {
   Hash,
   isDefined, isHash,
   isString,
-  toHex,
+  staticImplements,
+  toArrayBuffer, toHex, toUint8Array,
 } from '@xylabs/sdk-js'
-import { staticImplements } from '@xylabs/static-implements'
 import {
   AccountConfig,
   AccountInstance,

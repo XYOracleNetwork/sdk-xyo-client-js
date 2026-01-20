@@ -1,9 +1,8 @@
 import type { BaseParams } from '@xylabs/sdk-js'
 import {
   assertEx, Base, forget,
-  isDefined,
+  isDefined, spanRootAsync,
 } from '@xylabs/sdk-js'
-import { spanRootAsync } from '@xylabs/telemetry'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
 import type {
@@ -105,7 +104,7 @@ export class SentinelRunner extends Base {
               // No matter what start the next automation
               this.start()
             }
-          }, this.tracer)
+          }, { tracer: this.tracer })
         }, delay)
       }
     }
@@ -132,6 +131,6 @@ export class SentinelRunner extends Base {
       await this.add(wrapper.payload, false)
       const triggerResult = await this.sentinel.report()
       this.onTriggerResult?.(triggerResult)
-    }, this.tracer)
+    }, { tracer: this.tracer })
   }
 }

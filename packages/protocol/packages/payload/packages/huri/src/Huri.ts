@@ -1,7 +1,7 @@
-import { axiosJson } from '@xylabs/axios'
 import type { Address, Hash } from '@xylabs/sdk-js'
 import {
   assertEx,
+  axiosJson,
   isDefined, isHash, isString,
 } from '@xylabs/sdk-js'
 import { AddressValue } from '@xyo-network/account'

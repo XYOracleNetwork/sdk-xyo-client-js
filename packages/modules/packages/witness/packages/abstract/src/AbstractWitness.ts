@@ -2,7 +2,6 @@ import type { Promisable } from '@xylabs/sdk-js'
 import {
   assertEx, globallyUnique, isAddress,
 } from '@xylabs/sdk-js'
-import { spanAsync } from '@xylabs/telemetry'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -62,7 +61,7 @@ export abstract class AbstractWitness<
   async observe(inPayloads?: TIn[]): Promise<(WithoutPrivateStorageMeta<TOut>)[]> {
     this._noOverride('observe')
     this.isSupportedQuery(WitnessObserveQuerySchema, 'observe')
-    return await spanAsync('observe', async () => {
+    return await this.spanAsync('observe', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
       }
@@ -90,7 +89,7 @@ export abstract class AbstractWitness<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, this.tracer)
+    }, { timeBudgetLimit: 200 })
   }
 
   async observeQuery(payloads?: TIn[], account?: AccountInstance): Promise<ModuleQueryResult<TOut>> {

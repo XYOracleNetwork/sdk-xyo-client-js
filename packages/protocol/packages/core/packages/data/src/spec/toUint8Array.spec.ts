@@ -1,6 +1,6 @@
 import '@xylabs/vitest-extended'
 
-import { toUint8Array } from '@xylabs/arraybuffer'
+import { toUint8Array } from '@xylabs/sdk-js'
 import {
   describe, expect, test,
 } from 'vitest'

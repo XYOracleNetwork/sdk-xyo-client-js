@@ -36,8 +36,7 @@
     "package.json"
   ],
   "dependencies": {
-    "@xylabs/axios": "~5.0.61",
-    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.63",
     "@xyo-network/account": "~5.2.24",
     "@xyo-network/boundwitness-model": "~5.2.24",
     "@xyo-network/bridge-abstract": "~5.2.24",
@@ -52,11 +51,11 @@
     "lru-cache": "^11.2.4"
   },
   "devDependencies": {
-    "@types/node": "~25.0.3",
-    "@xylabs/sdk-js": "~5.0.61",
+    "@types/node": "~25.0.9",
+    "@xylabs/sdk-js": "~5.0.63",
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
-    "@xylabs/vitest-extended": "~5.0.61",
+    "@xylabs/vitest-extended": "~5.0.63",
     "@xyo-network/api-models": "~5.2.24",
     "@xyo-network/archivist-model": "~5.2.24",
     "@xyo-network/bridge-abstract": "~5.2.24",
@@ -68,7 +67,7 @@
     "@xyo-network/payload-wrapper": "~5.2.24",
     "@xyo-network/wallet": "~5.2.24",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.16"
+    "vitest": "~4.0.17"
   },
   "publishConfig": {
     "access": "public"

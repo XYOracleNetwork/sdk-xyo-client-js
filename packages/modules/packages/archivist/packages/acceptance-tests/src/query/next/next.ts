@@ -1,4 +1,4 @@
-import { filterAs } from '@xylabs/array'
+import { filterAs } from '@xylabs/sdk-js'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import type { Id } from '@xyo-network/id-payload-plugin'
 import { asOptionalId } from '@xyo-network/id-payload-plugin'

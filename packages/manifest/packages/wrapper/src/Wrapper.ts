@@ -1,5 +1,4 @@
-import type { Logger } from '@xylabs/logger'
-import type { CreatableName } from '@xylabs/sdk-js'
+import type { CreatableName, Logger } from '@xylabs/sdk-js'
 import {
   assertEx, isDefined, isString,
 } from '@xylabs/sdk-js'

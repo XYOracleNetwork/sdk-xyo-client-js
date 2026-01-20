@@ -1,4 +1,4 @@
-import { toUint8Array } from '@xylabs/arraybuffer'
+import { toUint8Array } from '@xylabs/sdk-js'
 import { Elliptic } from '@xyo-network/elliptic'
 import {
   describe, expect, it,

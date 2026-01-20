@@ -1,4 +1,4 @@
-import type { Logger } from '@xylabs/logger'
+import type { Logger } from '@xylabs/sdk-js'
 import type { Schema } from '@xyo-network/payload-model'
 
 export interface PayloadBuilderOptions {

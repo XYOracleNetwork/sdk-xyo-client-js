@@ -1,5 +1,4 @@
-import type { LogLevelValue } from '@xylabs/logger'
-import type { RetryConfig } from '@xylabs/retry'
+import type { LogLevelValue, RetryConfig } from '@xylabs/sdk-js'
 import type { Schema } from '@xyo-network/payload-model'
 
 import type { Labels } from '../Labels/index.ts'

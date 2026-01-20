@@ -1,6 +1,7 @@
-import { containsAll } from '@xylabs/array'
 import type { Hash } from '@xylabs/sdk-js'
-import { assertEx, exists } from '@xylabs/sdk-js'
+import {
+  assertEx, containsAll, exists,
+} from '@xylabs/sdk-js'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'

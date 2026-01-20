@@ -1,4 +1,3 @@
-import { toUint8Array } from '@xylabs/arraybuffer'
 import type {
   Address,
   Hash, Hex,
@@ -7,7 +6,7 @@ import {
   assertEx,
   isAddress,
   toAddress,
-  toHex,
+  toHex, toUint8Array,
 } from '@xylabs/sdk-js'
 
 import type {

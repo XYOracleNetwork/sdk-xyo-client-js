@@ -1,8 +1,7 @@
 import type { Address, Hash } from '@xylabs/sdk-js'
 import {
-  assertEx, delay, forget,
+  assertEx, clearTimeoutEx, delay, forget, setTimeoutEx,
 } from '@xylabs/sdk-js'
-import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'

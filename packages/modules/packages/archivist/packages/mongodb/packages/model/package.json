@@ -39,14 +39,18 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/mongo": "~5.0.61",
+    "@xylabs/mongo": "~5.0.63",
     "@xyo-network/archivist-model": "~5.2.24",
     "@xyo-network/module-model": "~5.2.24"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
+    "mongodb": "^7.0.0",
     "typescript": "~5.9.3"
+  },
+  "peerDependencies": {
+    "mongodb": "^6 || ^7"
   },
   "engines": {
     "node": ">=16"

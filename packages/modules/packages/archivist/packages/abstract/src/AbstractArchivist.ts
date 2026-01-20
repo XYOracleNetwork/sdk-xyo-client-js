@@ -5,11 +5,10 @@ import type {
 } from '@xylabs/sdk-js'
 import {
   assertEx,
+  difference,
   exists, globallyUnique,
   isNull, isUndefined,
 } from '@xylabs/sdk-js'
-import { difference } from '@xylabs/set'
-import { spanAsync } from '@xylabs/telemetry'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type {
   ArchivistAllQuery,
@@ -131,7 +130,7 @@ export abstract class AbstractArchivist<
   async all(): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('all')
     this.isSupportedQuery(ArchivistAllQuerySchema, 'all')
-    return await spanAsync(`${this.id}|all`, async () => {
+    return await this.spanAsync(`${this.id}|all`, async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
       }
@@ -144,7 +143,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, this.tracer)
+    }, { timeBudgetLimit: 100 })
   }
 
   /** deprecated use nextQuery or snapshotQuery instead */
@@ -157,7 +156,7 @@ export abstract class AbstractArchivist<
   async clear(): Promise<void> {
     this._noOverride('clear')
     this.isSupportedQuery(ArchivistClearQuerySchema, 'clear')
-    return await spanAsync(`${this.id}|clear`, async () => {
+    return await this.spanAsync(`${this.id}|clear`, async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return
       }
@@ -172,7 +171,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, this.tracer)
+    }, { timeBudgetLimit: 100 })
   }
 
   async clearQuery(account: AccountInstance): Promise<ModuleQueryResult> {
@@ -184,7 +183,7 @@ export abstract class AbstractArchivist<
   async commit(): Promise<BoundWitness[]> {
     this._noOverride('commit')
     this.isSupportedQuery(ArchivistCommitQuerySchema, 'commit')
-    return await spanAsync(`${this.id}commit`, async () => {
+    return await this.spanAsync(`${this.id}commit`, async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
       }
@@ -197,7 +196,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, this.tracer)
+    }, { timeBudgetLimit: 200 })
   }
 
   async commitQuery(account: AccountInstance): Promise<ModuleQueryResult> {
@@ -209,7 +208,7 @@ export abstract class AbstractArchivist<
   async delete(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('delete')
     this.isSupportedQuery(ArchivistDeleteQuerySchema, 'delete')
-    return await spanAsync(`${this.id}|delete`, async () => {
+    return await this.spanAsync(`${this.id}|delete`, async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
       }
@@ -222,7 +221,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, this.tracer)
+    }, { timeBudgetLimit: 200 })
   }
 
   async deleteQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -234,7 +233,7 @@ export abstract class AbstractArchivist<
   async get(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('get')
     this.isSupportedQuery(ArchivistGetQuerySchema, 'get')
-    return await spanAsync(`${this.id}|get`, async () => {
+    return await this.spanAsync(`${this.id}|get`, async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
       }
@@ -247,7 +246,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, this.tracer)
+    }, { timeBudgetLimit: 200 })
   }
 
   async getQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -259,7 +258,7 @@ export abstract class AbstractArchivist<
   async insert(payloads: Payload[]): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('insert')
     this.isSupportedQuery(ArchivistInsertQuerySchema, 'insert')
-    return await spanAsync(`${this.id}|insert`, async () => {
+    return await this.spanAsync(`${this.id}|insert`, async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
       }
@@ -272,7 +271,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, this.tracer)
+    }, { timeBudgetLimit: 200 })
   }
 
   async insertQuery(payloads: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -284,7 +283,7 @@ export abstract class AbstractArchivist<
   async next(options?: ArchivistNextOptions): Promise<WithStorageMeta<Payload>[]> {
     this._noOverride('next')
     this.isSupportedQuery(ArchivistNextQuerySchema, 'next')
-    return await spanAsync(`${this.id}|next`, async () => {
+    return await this.spanAsync(`${this.id}|next`, async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
       }
@@ -298,7 +297,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, this.tracer)
+    }, { timeBudgetLimit: 200 })
   }
 
   async nextQuery(options?: ArchivistNextOptions, account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -310,7 +309,7 @@ export abstract class AbstractArchivist<
   async snapshot(): Promise<ArchivistSnapshotPayload<WithStorageMeta<Payload>, Hash>[]> {
     this._noOverride('snapshot')
     this.isSupportedQuery(ArchivistSnapshotQuerySchema, 'snapshot')
-    return await spanAsync(`${this.id}|snapshot`, async () => {
+    return await this.spanAsync(`${this.id}|snapshot`, async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         throw new Error('Cannot take snapshot while in a global reentrancy lock')
       }
@@ -323,7 +322,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, this.tracer)
+    }, { timeBudgetLimit: 200 })
   }
 
   async snapshotQuery(account?: AccountInstance): Promise<ModuleQueryResult> {

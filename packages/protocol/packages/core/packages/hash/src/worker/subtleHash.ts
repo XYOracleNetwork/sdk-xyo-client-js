@@ -1,4 +1,4 @@
-import { subtle } from '@xylabs/platform'
+import { subtle } from '@xylabs/sdk-js'
 import { expose } from '@xylabs/threads/worker'
 
 expose({

@@ -1,6 +1,5 @@
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xylabs/mongo'
-import { assertEx } from '@xylabs/sdk-js'
-import { staticImplements } from '@xylabs/static-implements'
+import { assertEx, staticImplements } from '@xylabs/sdk-js'
 import {
   MongoDBModule, MongoDBModuleParams, MongoDBStorageClassLabels,
 } from '@xyo-network/module-model-mongodb'

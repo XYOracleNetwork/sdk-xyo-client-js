@@ -1,4 +1,4 @@
-import { axiosJson } from '@xylabs/axios'
+import { axiosJson } from '@xylabs/sdk-js'
 
 import { DnsRecordType } from './DnsRecordType.ts'
 import type { GoogleDnsResult } from './GoogleDnsResult.ts'

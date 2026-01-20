@@ -1,4 +1,3 @@
-import { uniq } from '@xylabs/array'
 import {
   ObjectStore,
   withDb,
@@ -7,7 +6,7 @@ import {
 import {
   assertEx,
   exists,
-  Hash, Hex, isDefined, isUndefined,
+  Hash, Hex, isDefined, isUndefined, uniq,
 } from '@xylabs/sdk-js'
 import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import {

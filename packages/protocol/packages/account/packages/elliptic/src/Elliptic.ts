@@ -1,7 +1,8 @@
 import type { Secp256k1 } from '@bitauth/libauth'
 import { instantiateSecp256k1 } from '@bitauth/libauth'
-import { toUint8Array } from '@xylabs/arraybuffer'
-import { assertEx, toHex } from '@xylabs/sdk-js'
+import {
+  assertEx, toHex, toUint8Array,
+} from '@xylabs/sdk-js'
 import { Data } from '@xyo-network/data'
 import { WasmSupport } from '@xyo-network/wasm'
 import { Mutex } from 'async-mutex'

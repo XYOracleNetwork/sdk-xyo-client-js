@@ -1,23 +1,20 @@
 /* eslint-disable max-lines */
-import type { Logger } from '@xylabs/logger'
-import {
-  ConsoleLogger, IdLogger,
-  LevelLogger,
-  LogLevel,
-} from '@xylabs/logger'
 import type {
-  Address, CreatableInstance, Hash, Promisable,
+  Address, CreatableInstance, Hash, Logger,
+  Promisable,
 } from '@xylabs/sdk-js'
 import {
   AbstractCreatable,
   assertEx,
-  exists,
+  ConsoleLogger, exists,
   forget,
   globallyUnique,
   handleErrorAsync,
-  isDefined, isObject, isString, isUndefined, PromiseEx,
+  IdLogger,
+  isDefined, isObject, isString, isUndefined, LevelLogger,
+  LogLevel,
+  PromiseEx,
 } from '@xylabs/sdk-js'
-import { spanAsync } from '@xylabs/telemetry'
 import { Account } from '@xyo-network/account'
 import { type AccountInstance, isAccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
@@ -362,7 +359,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   ): Promise<ModuleQueryResult> {
     this._checkDead()
     this._noOverride('query')
-    return await spanAsync('query', async () => {
+    return await this.spanAsync('query', async () => {
       const sourceQuery = assertEx(isQueryBoundWitness(query) ? query : undefined, () => 'Unable to parse query')
       return await this.busy(async () => {
         const resultPayloads: Payload[] = []
@@ -405,7 +402,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         await this.emit('moduleQueried', args)
         return result
       })
-    }, this.tracer)
+    }, { timeBudgetLimit: 200 })
   }
 
   async queryable<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

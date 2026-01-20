@@ -1,6 +1,7 @@
-import { filterAs } from '@xylabs/array'
 import type { EventListener, Hex } from '@xylabs/sdk-js'
-import { assertEx, forget } from '@xylabs/sdk-js'
+import {
+  assertEx, filterAs, forget,
+} from '@xylabs/sdk-js'
 import type { ArchivistInstance, ArchivistModuleEventData } from '@xyo-network/archivist-model'
 import type { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'

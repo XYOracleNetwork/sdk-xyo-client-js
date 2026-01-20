@@ -1,4 +1,4 @@
-import type { RetryConfig } from '@xylabs/retry'
+import type { RetryConfig } from '@xylabs/sdk-js'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type { ModuleQueryResult } from '@xyo-network/module-model'
 import type { Payload, WithoutPrivateStorageMeta } from '@xyo-network/payload-model'

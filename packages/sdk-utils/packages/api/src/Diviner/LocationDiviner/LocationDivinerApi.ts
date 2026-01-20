@@ -1,4 +1,4 @@
-import { axiosJson } from '@xylabs/axios'
+import { axiosJson } from '@xylabs/sdk-js'
 import type { ApiConfig } from '@xyo-network/api-models'
 import type { RawAxiosRequestConfig } from 'axios'
 

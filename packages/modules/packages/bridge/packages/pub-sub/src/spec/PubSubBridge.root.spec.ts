@@ -1,7 +1,7 @@
 /* eslint-disable max-statements */
 import '@xylabs/vitest-extended'
 
-import { ConsoleLogger, LogLevel } from '@xylabs/logger'
+import { ConsoleLogger, LogLevel } from '@xylabs/sdk-js'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistConfigSchema, asArchivistInstance } from '@xyo-network/archivist-model'

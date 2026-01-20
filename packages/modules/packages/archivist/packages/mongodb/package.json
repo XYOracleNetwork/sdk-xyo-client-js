@@ -39,7 +39,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.63",
     "@xyo-network/archivist-abstract": "~5.2.24",
     "@xyo-network/archivist-model": "~5.2.24",
     "@xyo-network/archivist-model-mongodb": "~5.2.24",
@@ -49,22 +49,25 @@
     "@xyo-network/module-abstract-mongodb": "~5.2.24",
     "@xyo-network/payload-model": "~5.2.24",
     "@xyo-network/payload-mongodb": "~5.2.24",
-    "@xyo-network/payload-wrapper": "~5.2.24",
-    "mongodb": "^6.21.0"
+    "@xyo-network/payload-wrapper": "~5.2.24"
   },
   "devDependencies": {
-    "@xylabs/mongo": "~5.0.61",
-    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/mongo": "~5.0.63",
+    "@xylabs/sdk-js": "~5.0.63",
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
-    "@xylabs/vitest-extended": "~5.0.61",
+    "@xylabs/vitest-extended": "~5.0.63",
     "@xyo-network/account": "~5.2.24",
     "@xyo-network/archivist-acceptance-tests": "~5.2.24",
     "@xyo-network/archivist-wrapper": "~5.2.24",
     "@xyo-network/boundwitness-builder": "~5.2.24",
     "@xyo-network/payload-builder": "~5.2.24",
+    "mongodb": "~7.0.0",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.16"
+    "vitest": "~4.0.17"
+  },
+  "peerDependencies": {
+    "mongodb": "^6 || ^7"
   },
   "engines": {
     "node": ">=16"

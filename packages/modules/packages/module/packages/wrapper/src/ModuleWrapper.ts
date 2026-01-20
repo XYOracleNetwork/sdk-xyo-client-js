@@ -1,10 +1,10 @@
-import { Logger } from '@xylabs/logger'
 import {
   Address, assertEx,
   Base,
   CreatableName, EventAnyListener, EventListener,
   exists,
-  isDefined, Promisable, PromiseEx,
+  isDefined, Logger,
+  Promisable, PromiseEx,
 } from '@xylabs/sdk-js'
 import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'

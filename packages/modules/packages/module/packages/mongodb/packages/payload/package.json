@@ -44,7 +44,7 @@
     "@xyo-network/payload-model": "~5.2.24"
   },
   "devDependencies": {
-    "@xylabs/sdk-js": "~5.0.61",
+    "@xylabs/sdk-js": "~5.0.63",
     "@xylabs/ts-scripts-yarn3": "~7.2.32",
     "@xylabs/tsconfig": "~7.2.32",
     "typescript": "~5.9.3"

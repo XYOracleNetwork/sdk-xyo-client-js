@@ -1,7 +1,8 @@
 import { base16, base58 } from '@scure/base'
-import { toArrayBuffer, toUint8Array } from '@xylabs/arraybuffer'
 import type { Hex } from '@xylabs/sdk-js'
-import { assertEx } from '@xylabs/sdk-js'
+import {
+  assertEx, toArrayBuffer, toUint8Array,
+} from '@xylabs/sdk-js'
 import { keccak256 } from 'ethers'
 
 import { AbstractData } from './AbstractData.ts'

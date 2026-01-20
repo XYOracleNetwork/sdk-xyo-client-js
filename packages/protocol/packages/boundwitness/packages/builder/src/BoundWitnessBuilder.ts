@@ -1,10 +1,9 @@
-import { toArrayBuffer } from '@xylabs/arraybuffer'
 import type {
   Address, Hash, Hex,
 } from '@xylabs/sdk-js'
 import {
   asAddress, asHash, assertEx,
-  hexFromArrayBuffer,
+  hexFromArrayBuffer, toArrayBuffer,
 } from '@xylabs/sdk-js'
 import type { AccountInstance } from '@xyo-network/account-model'
 import type {

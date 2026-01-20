@@ -1,0 +1,107 @@
+{
+  "name": "@xyo-network/sdk-js",
+  "version": "5.2.24",
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "homepage": "https://xyo.network",
+  "bugs": {
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues",
+    "email": "support@xyo.network"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "license": "LGPL-3.0-only",
+  "author": {
+    "name": "XYO Development Team",
+    "email": "support@xyo.network",
+    "url": "https://xyo.network"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/neutral/index.d.ts",
+      "default": "./dist/neutral/index.mjs"
+    },
+    "./package.json": "./package.json",
+    "./README.md": "./README.md"
+  },
+  "module": "./dist/neutral/index.mjs",
+  "types": "./dist/neutral/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "!**/*.bench.*",
+    "!**/*.spec.*",
+    "!**/*.test.*"
+  ],
+  "workspaces": [
+    "packages/**/*"
+  ],
+  "scripts": {
+    "bench": "vitest bench",
+    "build": "xy build -j 8 && xy statics",
+    "build-typedoc-site": "typedoc",
+    "compile": "./scripts/clear-scrollback-buffer.sh && yarn xy compile",
+    "coverage": "vitest --coverage --watch false",
+    "cycle": "node ./scripts/run-cycle.mjs",
+    "deploy": "xy deploy",
+    "free-3033": "kill -9 $(lsof -t -i :3033)",
+    "free-8080": "kill -9 $(lsof -t -i :8080)",
+    "free-mongo": "kill -9 $(lsof -t -i :55391) && kill -9 $(lsof -t -i :55393)",
+    "package-build": "yarn package-clean && rimraf docs && yarn package-build-only && typedoc && xy statics",
+    "package-clean": "rimraf dist",
+    "publish-all": "npm publish --workspaces --include-workspace-root",
+    "readme:gen": "node scripts/readme-gen.mjs",
+    "test": "vitest --watch false"
+  },
+  "dependencies": {
+    "@xyo-network/manifest": "~5.2.24",
+    "@xyo-network/modules": "~5.2.24",
+    "@xyo-network/protocol": "~5.2.24"
+  },
+  "devDependencies": {
+    "@firebase/app": "~0.14.7",
+    "@firebase/app-compat": "~0.5.7",
+    "@stylistic/eslint-plugin": "~5.7.0",
+    "@types/node": "^25.0.9",
+    "@types/supertest": "~6.0.3",
+    "@typescript-eslint/eslint-plugin": "~8.53.1",
+    "@typescript-eslint/parser": "~8.53.1",
+    "@typescript-eslint/types": "~8.53.1",
+    "@vitest/coverage-v8": "~4.0.17",
+    "@xylabs/eslint-config-flat": "~7.2.32",
+    "@xylabs/sdk-js": "~5.0.63",
+    "@xylabs/ts-scripts-yarn3": "~7.2.32",
+    "@xylabs/tsconfig": "~7.2.32",
+    "@xylabs/tsconfig-dom": "~7.2.32",
+    "@xylabs/vitest-extended": "~5.0.63",
+    "@xyo-network/sdk-utils": "~5.2.24",
+    "chalk": "~5.6.2",
+    "dependency-cruiser": "~17.3.6",
+    "dotenv": "~17.2.3",
+    "eslint": "~9.39.2",
+    "eslint-import-resolver-typescript": "~4.4.4",
+    "glob": "~13.0.0",
+    "jsdom": "~27.4.0",
+    "knip": "~5.82.1",
+    "reflect-metadata": "~0.2.2",
+    "rimraf": "~6.1.2",
+    "supertest": "~7.2.2",
+    "tslib": "~2.8.1",
+    "typedoc": "~0.28.16",
+    "typedoc-plugin-markdown": "~4.9.0",
+    "typescript": "~5.9.3",
+    "vitest": "~4.0.17"
+  },
+  "packageManager": "yarn@4.12.0",
+  "volta": {
+    "node": "22.3.0",
+    "yarn": "1.22.22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "readme": "README.md"
+}

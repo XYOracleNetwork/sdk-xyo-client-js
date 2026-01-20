@@ -1,6 +1,6 @@
-import { toArrayBuffer } from '@xylabs/arraybuffer'
-import { assertEx } from '@xylabs/sdk-js'
-import { staticImplements } from '@xylabs/static-implements'
+import {
+  assertEx, staticImplements, toArrayBuffer,
+} from '@xylabs/sdk-js'
 import { Elliptic } from '@xyo-network/elliptic'
 import {
   AddressValueInstance, PublicKeyInstance, PublicKeyStatic,

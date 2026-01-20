@@ -1,10 +1,9 @@
 /* eslint-disable sonarjs/public-static-readonly */
 
-import { subtle } from '@xylabs/platform'
 import type { EmptyObject, Hash } from '@xylabs/sdk-js'
 import {
   asHash, assertEx,
-  hexFromArrayBuffer, ObjectWrapper, omitBy,
+  hexFromArrayBuffer, ObjectWrapper, omitBy, subtle,
 } from '@xylabs/sdk-js'
 import type { ModuleThread, Worker } from '@xylabs/threads/master'
 import { Pool, spawn } from '@xylabs/threads/master'

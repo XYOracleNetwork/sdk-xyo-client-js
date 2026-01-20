@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
-import { toArrayBuffer } from '@xylabs/arraybuffer'
 import type { Address } from '@xylabs/sdk-js'
+import { toArrayBuffer } from '@xylabs/sdk-js'
 import {
   Account,
   AddressValue,

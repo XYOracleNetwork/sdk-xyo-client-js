@@ -1,17 +1,14 @@
-import type { Logger } from '@xylabs/logger'
-import type { RetryConfig, RetryConfigWithComplete } from '@xylabs/retry'
-import { retry } from '@xylabs/retry'
 import type {
-  AsTypeFunction, EventUnsubscribeFunction, Promisable,
+  AsTypeFunction, EventUnsubscribeFunction, Logger,
+  Promisable, RetryConfig, RetryConfigWithComplete,
 } from '@xylabs/sdk-js'
 import {
   assertEx,
   delay,
   forget,
   globallyUnique,
-  isDefined, isNull, isUndefined,
+  isDefined, isNull, isUndefined, retry,
 } from '@xylabs/sdk-js'
-import { spanAsync } from '@xylabs/telemetry'
 import type { AccountInstance } from '@xyo-network/account-model'
 import { isArchivistInstance } from '@xyo-network/archivist-model'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -89,7 +86,7 @@ export abstract class AbstractDiviner<
   async divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<DivinerDivineResult<TOut>[]> {
     this._noOverride('divine')
     this.isSupportedQuery(DivinerDivineQuerySchema, 'divine')
-    return await spanAsync('divine', async () => {
+    return await this.spanAsync('divine', async () => {
       if (this.reentrancy?.scope === 'global' && this.reentrancy.action === 'skip' && this.globalReentrancyMutex?.isLocked()) {
         return []
       }
@@ -118,7 +115,7 @@ export abstract class AbstractDiviner<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, this.tracer)
+    }, { timeBudgetLimit: 200 })
   }
 
   async divineQuery(payloads?: TIn[], account?: AccountInstance, _retry?: RetryConfig): Promise<ModuleQueryResult<TOut>> {

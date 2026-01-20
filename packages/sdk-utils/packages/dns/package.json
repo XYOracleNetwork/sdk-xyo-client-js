@@ -36,8 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/axios": "~5.0.61",
-    "@xylabs/sdk-js": "~5.0.61"
+    "@xylabs/sdk-js": "~5.0.63"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.2.32",

@@ -103,9 +103,7 @@ export class MongoDBArchivistV2 extends MongoDBArchivistBaseV2 {
 
     let sequence: Sequence | undefined
     if (cursor) {
-      const payload = await this.findOneBySequence(cursor)
-      // TODO: Should we throw an error if the requested payload is not found?
-      if (payload) sequence = payload._sequence
+      sequence = cursor
     } else {
       sequence = order === 'asc'
       // If ascending, start from the beginning of time
@@ -114,7 +112,6 @@ export class MongoDBArchivistV2 extends MongoDBArchivistBaseV2 {
         // them most recent ObjectIds are included)
         : SequenceConstants.maxLocalSequence
     }
-    if (!sequence) return []
 
     // Create find criteria
     const sort = order === 'asc' ? 1 : -1

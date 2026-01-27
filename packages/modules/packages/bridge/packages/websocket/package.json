@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/bridge-websocket",
-  "version": "5.2.26",
+  "version": "5.2.27",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -44,32 +44,32 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.63",
-    "@xyo-network/account": "~5.2.26",
-    "@xyo-network/boundwitness-model": "~5.2.26",
-    "@xyo-network/bridge-abstract": "~5.2.26",
-    "@xyo-network/bridge-model": "~5.2.26",
-    "@xyo-network/config-payload-plugin": "~5.2.26",
-    "@xyo-network/module-model": "~5.2.26",
-    "@xyo-network/payload-model": "~5.2.26",
+    "@xylabs/sdk-js": "~5.0.64",
+    "@xyo-network/account": "~5.2.27",
+    "@xyo-network/boundwitness-model": "~5.2.27",
+    "@xyo-network/bridge-abstract": "~5.2.27",
+    "@xyo-network/bridge-model": "~5.2.27",
+    "@xyo-network/config-payload-plugin": "~5.2.27",
+    "@xyo-network/module-model": "~5.2.27",
+    "@xyo-network/payload-model": "~5.2.27",
     "async-mutex": "~0.5.0",
-    "lru-cache": "^11.2.4",
+    "lru-cache": "^11.2.5",
     "socket.io": "~4.8.3"
   },
   "devDependencies": {
-    "@xylabs/sdk-js": "~5.0.63",
-    "@xylabs/ts-scripts-yarn3": "~7.2.32",
-    "@xylabs/tsconfig": "~7.2.32",
-    "@xylabs/vitest-extended": "~5.0.63",
-    "@xyo-network/account": "~5.2.26",
-    "@xyo-network/archivist-model": "~5.2.26",
-    "@xyo-network/node-memory": "~5.2.26",
-    "@xyo-network/node-model": "~5.2.26",
-    "@xyo-network/payload-builder": "~5.2.26",
-    "@xyo-network/payload-wrapper": "~5.2.26",
+    "@xylabs/sdk-js": "~5.0.64",
+    "@xylabs/ts-scripts-yarn3": "~7.3.2",
+    "@xylabs/tsconfig": "~7.3.2",
+    "@xylabs/vitest-extended": "~5.0.64",
+    "@xyo-network/account": "~5.2.27",
+    "@xyo-network/archivist-model": "~5.2.27",
+    "@xyo-network/node-memory": "~5.2.27",
+    "@xyo-network/node-model": "~5.2.27",
+    "@xyo-network/payload-builder": "~5.2.27",
+    "@xyo-network/payload-wrapper": "~5.2.27",
     "socket.io-client": "~4.8.3",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.17"
+    "vitest": "~4.0.18"
   },
   "publishConfig": {
     "access": "public"

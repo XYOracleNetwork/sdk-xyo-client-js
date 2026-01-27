@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/core",
-  "version": "5.2.26",
+  "version": "5.2.27",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,14 +36,14 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/data": "~5.2.26",
-    "@xyo-network/hash": "~5.2.26",
-    "@xyo-network/wasm": "~5.2.26"
+    "@xyo-network/data": "~5.2.27",
+    "@xyo-network/hash": "~5.2.27",
+    "@xyo-network/wasm": "~5.2.27"
   },
   "devDependencies": {
-    "@types/node": "~25.0.9",
-    "@xylabs/ts-scripts-yarn3": "~7.2.32",
-    "@xylabs/tsconfig": "~7.2.32",
+    "@types/node": "~25.0.10",
+    "@xylabs/ts-scripts-yarn3": "~7.3.2",
+    "@xylabs/tsconfig": "~7.3.2",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

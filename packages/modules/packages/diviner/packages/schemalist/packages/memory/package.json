@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-schema-list-memory",
-  "version": "5.2.26",
+  "version": "5.2.27",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,17 +36,17 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/array": "~5.0.63",
-    "@xylabs/sdk-js": "~5.0.63",
-    "@xyo-network/boundwitness-model": "~5.2.26",
-    "@xyo-network/diviner-schema-list-abstract": "~5.2.26",
-    "@xyo-network/diviner-schema-list-model": "~5.2.26",
-    "@xyo-network/payload-builder": "~5.2.26",
-    "@xyo-network/payload-model": "~5.2.26"
+    "@xylabs/array": "~5.0.64",
+    "@xylabs/sdk-js": "~5.0.64",
+    "@xyo-network/boundwitness-model": "~5.2.27",
+    "@xyo-network/diviner-schema-list-abstract": "~5.2.27",
+    "@xyo-network/diviner-schema-list-model": "~5.2.27",
+    "@xyo-network/payload-builder": "~5.2.27",
+    "@xyo-network/payload-model": "~5.2.27"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.2.32",
-    "@xylabs/tsconfig": "~7.2.32",
+    "@xylabs/ts-scripts-yarn3": "~7.3.2",
+    "@xylabs/tsconfig": "~7.3.2",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-firebase",
-  "version": "5.2.26",
+  "version": "5.2.27",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -38,19 +38,19 @@
   "dependencies": {
     "@firebase/app": "~0.14.7",
     "@firebase/firestore": "~4.10.0",
-    "@xylabs/sdk-js": "~5.0.63",
-    "@xyo-network/archivist-abstract": "~5.2.26",
-    "@xyo-network/archivist-model": "~5.2.26",
-    "@xyo-network/module-model": "~5.2.26",
-    "@xyo-network/payload-model": "~5.2.26"
+    "@xylabs/sdk-js": "~5.0.64",
+    "@xyo-network/archivist-abstract": "~5.2.27",
+    "@xyo-network/archivist-model": "~5.2.27",
+    "@xyo-network/module-model": "~5.2.27",
+    "@xyo-network/payload-model": "~5.2.27"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "~5.0.0",
-    "@xylabs/ts-scripts-yarn3": "~7.2.32",
-    "@xylabs/tsconfig": "~7.2.32",
+    "@xylabs/ts-scripts-yarn3": "~7.3.2",
+    "@xylabs/tsconfig": "~7.3.2",
     "firebase": "~12.8.0",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.17"
+    "vitest": "~4.0.18"
   },
   "publishConfig": {
     "access": "public"

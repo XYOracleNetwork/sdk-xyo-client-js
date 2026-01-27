@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-model-mongodb",
-  "version": "5.2.26",
+  "version": "5.2.27",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -39,13 +39,13 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/mongo": "~5.0.63",
-    "@xyo-network/archivist-model": "~5.2.26",
-    "@xyo-network/module-model": "~5.2.26"
+    "@xylabs/mongo": "~5.0.64",
+    "@xyo-network/archivist-model": "~5.2.27",
+    "@xyo-network/module-model": "~5.2.27"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.2.32",
-    "@xylabs/tsconfig": "~7.2.32",
+    "@xylabs/ts-scripts-yarn3": "~7.3.2",
+    "@xylabs/tsconfig": "~7.3.2",
     "mongodb": "^7.0.0",
     "typescript": "~5.9.3"
   },

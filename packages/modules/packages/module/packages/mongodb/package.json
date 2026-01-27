@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/module-mongodb",
-  "version": "5.2.26",
+  "version": "5.2.27",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -39,13 +39,13 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/module-abstract-mongodb": "~5.2.26",
-    "@xyo-network/module-model-mongodb": "~5.2.26",
-    "@xyo-network/payload-mongodb": "~5.2.26"
+    "@xyo-network/module-abstract-mongodb": "~5.2.27",
+    "@xyo-network/module-model-mongodb": "~5.2.27",
+    "@xyo-network/payload-mongodb": "~5.2.27"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.2.32",
-    "@xylabs/tsconfig": "~7.2.32",
+    "@xylabs/ts-scripts-yarn3": "~7.3.2",
+    "@xylabs/tsconfig": "~7.3.2",
     "typescript": "~5.9.3"
   },
   "engines": {

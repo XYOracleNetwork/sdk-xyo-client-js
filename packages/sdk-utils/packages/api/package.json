@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/api",
-  "version": "5.2.26",
+  "version": "5.2.27",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,26 +36,26 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.63",
-    "@xyo-network/api-models": "~5.2.26",
-    "@xyo-network/diviner-model": "~5.2.26",
-    "@xyo-network/huri": "~5.2.26",
-    "@xyo-network/payload-model": "~5.2.26",
-    "axios": "^1.13.2"
+    "@xylabs/sdk-js": "~5.0.64",
+    "@xyo-network/api-models": "~5.2.27",
+    "@xyo-network/diviner-model": "~5.2.27",
+    "@xyo-network/huri": "~5.2.27",
+    "@xyo-network/payload-model": "~5.2.27",
+    "axios": "^1.13.3"
   },
   "devDependencies": {
-    "@types/node": "~25.0.9",
+    "@types/node": "~25.0.10",
     "@types/uuid": "~11.0.0",
-    "@xylabs/sdk-js": "~5.0.63",
-    "@xylabs/ts-scripts-yarn3": "~7.2.32",
-    "@xylabs/tsconfig": "~7.2.32",
-    "@xylabs/vitest-extended": "~5.0.63",
-    "@xyo-network/boundwitness-model": "~5.2.26",
-    "@xyo-network/module-model": "~5.2.26",
-    "@xyo-network/query-payload-plugin": "~5.2.26",
+    "@xylabs/sdk-js": "~5.0.64",
+    "@xylabs/ts-scripts-yarn3": "~7.3.2",
+    "@xylabs/tsconfig": "~7.3.2",
+    "@xylabs/vitest-extended": "~5.0.64",
+    "@xyo-network/boundwitness-model": "~5.2.27",
+    "@xyo-network/module-model": "~5.2.27",
+    "@xyo-network/query-payload-plugin": "~5.2.27",
     "typescript": "~5.9.3",
     "uuid": "~13.0.0",
-    "vitest": "~4.0.17"
+    "vitest": "~4.0.18"
   },
   "publishConfig": {
     "access": "public"

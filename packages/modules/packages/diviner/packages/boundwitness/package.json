@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-boundwitness",
-  "version": "5.2.26",
+  "version": "5.2.27",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,13 +36,13 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-boundwitness-abstract": "~5.2.26",
-    "@xyo-network/diviner-boundwitness-memory": "~5.2.26",
-    "@xyo-network/diviner-boundwitness-model": "~5.2.26"
+    "@xyo-network/diviner-boundwitness-abstract": "~5.2.27",
+    "@xyo-network/diviner-boundwitness-memory": "~5.2.27",
+    "@xyo-network/diviner-boundwitness-model": "~5.2.27"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.2.32",
-    "@xylabs/tsconfig": "~7.2.32",
+    "@xylabs/ts-scripts-yarn3": "~7.3.2",
+    "@xylabs/tsconfig": "~7.3.2",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

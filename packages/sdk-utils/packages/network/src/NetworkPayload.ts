@@ -8,6 +8,5 @@ export type NetworkSchema = typeof NetworkSchema
 export type NetworkPayload = Payload<{
   name?: string
   nodes?: NetworkNodePayload[]
-  schema: NetworkSchema
   slug: string
-}>
+}, NetworkSchema>

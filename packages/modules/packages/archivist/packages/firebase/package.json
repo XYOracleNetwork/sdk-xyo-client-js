@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-firebase",
-  "version": "5.2.25",
+  "version": "5.2.26",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -39,10 +39,10 @@
     "@firebase/app": "~0.14.7",
     "@firebase/firestore": "~4.10.0",
     "@xylabs/sdk-js": "~5.0.63",
-    "@xyo-network/archivist-abstract": "~5.2.25",
-    "@xyo-network/archivist-model": "~5.2.25",
-    "@xyo-network/module-model": "~5.2.25",
-    "@xyo-network/payload-model": "~5.2.25"
+    "@xyo-network/archivist-abstract": "~5.2.26",
+    "@xyo-network/archivist-model": "~5.2.26",
+    "@xyo-network/module-model": "~5.2.26",
+    "@xyo-network/payload-model": "~5.2.26"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "~5.0.0",

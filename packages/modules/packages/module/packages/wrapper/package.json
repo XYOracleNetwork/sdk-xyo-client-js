@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/module-wrapper",
-  "version": "5.2.25",
+  "version": "5.2.26",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,13 +37,13 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.63",
-    "@xyo-network/account-model": "~5.2.25",
-    "@xyo-network/boundwitness-builder": "~5.2.25",
-    "@xyo-network/boundwitness-model": "~5.2.25",
-    "@xyo-network/boundwitness-wrapper": "~5.2.25",
-    "@xyo-network/manifest-model": "~5.2.25",
-    "@xyo-network/module-model": "~5.2.25",
-    "@xyo-network/payload-model": "~5.2.25",
+    "@xyo-network/account-model": "~5.2.26",
+    "@xyo-network/boundwitness-builder": "~5.2.26",
+    "@xyo-network/boundwitness-model": "~5.2.26",
+    "@xyo-network/boundwitness-wrapper": "~5.2.26",
+    "@xyo-network/manifest-model": "~5.2.26",
+    "@xyo-network/module-model": "~5.2.26",
+    "@xyo-network/payload-model": "~5.2.26",
     "lru-cache": "^11.2.4"
   },
   "devDependencies": {

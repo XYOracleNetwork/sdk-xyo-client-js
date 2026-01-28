@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-abstract",
-  "version": "5.3.0",
+  "version": "5.3.1",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,23 +37,23 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.64",
-    "@xyo-network/account-model": "~5.3.0",
-    "@xyo-network/archivist-model": "~5.3.0",
-    "@xyo-network/boundwitness-model": "~5.3.0",
-    "@xyo-network/boundwitness-wrapper": "~5.3.0",
-    "@xyo-network/diviner-model": "~5.3.0",
-    "@xyo-network/module-abstract": "~5.3.0",
-    "@xyo-network/module-model": "~5.3.0",
-    "@xyo-network/payload-builder": "~5.3.0",
-    "@xyo-network/payload-model": "~5.3.0",
-    "@xyo-network/witness-model": "~5.3.0"
+    "@xyo-network/account-model": "~5.3.1",
+    "@xyo-network/archivist-model": "~5.3.1",
+    "@xyo-network/boundwitness-model": "~5.3.1",
+    "@xyo-network/boundwitness-wrapper": "~5.3.1",
+    "@xyo-network/diviner-model": "~5.3.1",
+    "@xyo-network/module-abstract": "~5.3.1",
+    "@xyo-network/module-model": "~5.3.1",
+    "@xyo-network/payload-builder": "~5.3.1",
+    "@xyo-network/payload-model": "~5.3.1",
+    "@xyo-network/witness-model": "~5.3.1"
   },
   "devDependencies": {
     "@xylabs/logger": "~5.0.64",
     "@xylabs/sdk-js": "~5.0.64",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
-    "@xyo-network/module-events": "~5.3.0",
+    "@xyo-network/module-events": "~5.3.1",
     "typescript": "~5.9.3"
   },
   "publishConfig": {

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-schema-stats",
-  "version": "5.3.0",
+  "version": "5.3.1",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-schema-stats-abstract": "~5.3.0",
-    "@xyo-network/diviner-schema-stats-memory": "~5.3.0",
-    "@xyo-network/diviner-schema-stats-model": "~5.3.0"
+    "@xyo-network/diviner-schema-stats-abstract": "~5.3.1",
+    "@xyo-network/diviner-schema-stats-memory": "~5.3.1",
+    "@xyo-network/diviner-schema-stats-model": "~5.3.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.3.2",

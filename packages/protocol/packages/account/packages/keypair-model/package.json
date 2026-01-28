@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/key-model",
-  "version": "5.3.0",
+  "version": "5.3.1",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/data": "~5.3.0"
+    "@xyo-network/data": "~5.3.1"
   },
   "devDependencies": {
     "@types/node": "~25.0.10",

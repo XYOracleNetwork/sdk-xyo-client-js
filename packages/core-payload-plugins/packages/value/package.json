@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/value-payload-plugin",
-  "version": "5.3.0",
+  "version": "5.3.1",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,8 +37,8 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.64",
-    "@xyo-network/payload-model": "~5.3.0",
-    "@xyo-network/payload-plugin": "~5.3.0"
+    "@xyo-network/payload-model": "~5.3.1",
+    "@xyo-network/payload-plugin": "~5.3.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.3.2",

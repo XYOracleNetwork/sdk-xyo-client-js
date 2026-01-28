@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-temporal-indexing",
-  "version": "5.2.27",
+  "version": "5.3.0",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-temporal-indexing-memory": "~5.2.27",
-    "@xyo-network/diviner-temporal-indexing-model": "~5.2.27"
+    "@xyo-network/diviner-temporal-indexing-memory": "~5.3.0",
+    "@xyo-network/diviner-temporal-indexing-model": "~5.3.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.3.2",

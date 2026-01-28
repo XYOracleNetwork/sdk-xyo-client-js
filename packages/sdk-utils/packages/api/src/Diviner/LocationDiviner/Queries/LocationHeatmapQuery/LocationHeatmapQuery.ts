@@ -1,9 +1,11 @@
+import { asSchema } from '@xyo-network/payload-model'
+
 import type { LocationWitnessSchema } from '../../Witnesses/index.ts'
 
-export const LocationHeatmapQuerySchema = 'network.xyo.location.heatmap.query' as const
+export const LocationHeatmapQuerySchema = asSchema('network.xyo.location.heatmap.query', true)
 export type LocationHeatmapQuerySchema = typeof LocationHeatmapQuerySchema
 
-export const LocationHeatmapAnswerSchema = 'network.xyo.location.heatmap.answer' as const
+export const LocationHeatmapAnswerSchema = asSchema('network.xyo.location.heatmap.answer', true)
 export type LocationHeatmapAnswerSchema = typeof LocationHeatmapAnswerSchema
 
 export type LocationHeatmapQuery = {

@@ -1,6 +1,6 @@
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 
-export const CurrentLocationWitnessSchema = 'co.coinapp.currentlocationwitness' as const
+export const CurrentLocationWitnessSchema = asSchema('co.coinapp.currentlocationwitness', true)
 export type CurrentLocationWitnessSchema = typeof CurrentLocationWitnessSchema
 
 export type CurrentLocationWitnessPayload = Payload<{

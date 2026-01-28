@@ -5,9 +5,9 @@ import {
 } from 'vitest'
 
 import type { Payload } from '../Payload.ts'
-import { asSchema, type Schema } from '../Schema.ts'
+import { asSchema } from '../Schema.ts'
 
-const TestPayloadSchema = 'com.test.schema' as Schema
+const TestPayloadSchema = asSchema('com.test.schema', true)
 type TestPayloadSchema = typeof TestPayloadSchema
 
 type TestPayload = Payload<{ data: { foo: string } }, TestPayloadSchema>

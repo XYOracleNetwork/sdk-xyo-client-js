@@ -1,2 +1,4 @@
-export const IndexedDbArchivistSchema = 'network.xyo.archivist.indexeddb' as const
+import { asSchema } from '@xyo-network/payload-model'
+
+export const IndexedDbArchivistSchema = asSchema('network.xyo.archivist.indexeddb', true)
 export type IndexedDbArchivistSchema = typeof IndexedDbArchivistSchema

@@ -1,4 +1,4 @@
-import type { Schema } from '../Schema.ts'
+import { asSchema } from '../Schema.ts'
 
-export const PayloadSetSchema = 'network.xyo.payload.set' as Schema
+export const PayloadSetSchema = asSchema('network.xyo.payload.set', true)
 export type PayloadSetSchema = typeof PayloadSetSchema

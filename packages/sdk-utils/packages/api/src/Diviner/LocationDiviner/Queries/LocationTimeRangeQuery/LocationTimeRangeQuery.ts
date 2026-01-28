@@ -1,11 +1,11 @@
-import { isPayload } from '@xyo-network/payload-model'
+import { asSchema, isPayload } from '@xyo-network/payload-model'
 
 import { LocationWitnessSchema } from '../../Witnesses/index.ts'
 
-export const LocationTimeRangeQuerySchema = 'network.xyo.location.range.query' as const
+export const LocationTimeRangeQuerySchema = asSchema('network.xyo.location.range.query', true)
 export type LocationTimeRangeQuerySchema = typeof LocationTimeRangeQuerySchema
 
-export const LocationTimeRangeAnswerSchema = 'network.xyo.location.range.answer' as const
+export const LocationTimeRangeAnswerSchema = asSchema('network.xyo.location.range.answer', true)
 export type LocationTimeRangeAnswerSchema = typeof LocationTimeRangeAnswerSchema
 
 export type LocationTimeRangeQuery = {

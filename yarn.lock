@@ -6233,6 +6233,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
     "@xyo-network/module-model": "npm:~5.3.0"
+    "@xyo-network/payload-model": "npm:~5.3.0"
     "@xyo-network/payload-mongodb": "npm:~5.3.0"
     "@xyo-network/shared": "npm:~5.3.0"
     mongodb: "npm:~7.0.0"

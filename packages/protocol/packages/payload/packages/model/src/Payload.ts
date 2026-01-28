@@ -54,6 +54,3 @@ export type WithoutSchema<T extends WithOptionalSchema<Payload>> = Omit<T, 'sche
 export type WithOptionalSchema<T extends Payload = Payload> = WithoutSchema<T> & Partial<T & SchemaField>
 
 export type WithOnlyClientMeta<T extends Payload> = DeepPickStartsWith<T, '$'>
-
-type A = Payload<{ a: string; schema: 'test.schema' }>
-type B = Payload<{ a: string }, Schema<'test.schema'>>

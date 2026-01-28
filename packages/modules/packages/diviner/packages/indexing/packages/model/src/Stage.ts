@@ -1,7 +1,8 @@
-export type DivinerStageSchema = 'network.xyo.diviner.stage'
-export const DivinerStageSchema: DivinerStageSchema = 'network.xyo.diviner.stage'
+export const DivinerStageSchema = asSchema('network.xyo.diviner.stage', true)
+export type DivinerStageSchema = typeof DivinerStageSchema
 
 import type { ModuleIdentifier } from '@xyo-network/module-model'
+import { asSchema } from '@xyo-network/payload-model'
 
 /**
  * The diviners for each stage of an indexing diviner

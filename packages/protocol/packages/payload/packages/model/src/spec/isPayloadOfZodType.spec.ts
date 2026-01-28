@@ -7,9 +7,9 @@ import z from 'zod'
 
 import { isPayloadOfZodType } from '../isPayloadOfZodType.ts'
 import type { Payload } from '../Payload.ts'
-import type { Schema } from '../Schema.ts'
+import { asSchema } from '../Schema.ts'
 
-const TestPayloadSchema = 'com.test.schema' as Schema
+const TestPayloadSchema = asSchema('com.test.schema', true)
 type TestPayloadSchema = typeof TestPayloadSchema
 
 type TestPayload = Payload<{ data: { foo: string } }, TestPayloadSchema>

@@ -1,6 +1,6 @@
 import { asSchema } from '@xyo-network/payload-model'
 
-export const AddressChainSchema = 'network.xyo.diviner.address.chain' as const
+export const AddressChainSchema = asSchema('network.xyo.diviner.address.chain', true)
 export type AddressChainSchema = typeof AddressChainSchema
 
 export const AddressChainDivinerConfigSchema = asSchema(`${AddressChainSchema}.config`, true)

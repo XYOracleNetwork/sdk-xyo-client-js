@@ -2,7 +2,7 @@ import '@xylabs/vitest-extended'
 
 import type { JsonPatchDivinerConfig } from '@xyo-network/diviner-jsonpatch-model'
 import { JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
-import type { AnyPayload } from '@xyo-network/payload-model'
+import { type AnyPayload, asSchema } from '@xyo-network/payload-model'
 import { HDWallet } from '@xyo-network/wallet'
 import type { WalletInstance } from '@xyo-network/wallet-model'
 import {
@@ -21,8 +21,8 @@ const cases: [string, JsonPatchDivinerConfig, AnyPayload[], AnyPayload[]][] = [
       }],
       schema: JsonPatchDivinerConfigSchema,
     },
-    [{ schema: 'network.xyo.test' }],
-    [{ schema: 'network.xyo.test', value: 'foo' }],
+    [{ schema: asSchema('network.xyo.test', true) }],
+    [{ schema: asSchema('network.xyo.test', true), value: 'foo' }],
   ],
   [
     'Removes a value',
@@ -30,8 +30,8 @@ const cases: [string, JsonPatchDivinerConfig, AnyPayload[], AnyPayload[]][] = [
       operations: [{ op: 'remove', path: '/value' }],
       schema: JsonPatchDivinerConfigSchema,
     },
-    [{ schema: 'network.xyo.test', value: 'foo' }],
-    [{ schema: 'network.xyo.test' }],
+    [{ schema: asSchema('network.xyo.test', true), value: 'foo' }],
+    [{ schema: asSchema('network.xyo.test', true) }],
   ],
   [
     'Replaces a schema',
@@ -41,8 +41,8 @@ const cases: [string, JsonPatchDivinerConfig, AnyPayload[], AnyPayload[]][] = [
       }],
       schema: JsonPatchDivinerConfigSchema,
     },
-    [{ schema: 'network.xyo.test' }],
-    [{ schema: 'network.xyo.debug' }],
+    [{ schema: asSchema('network.xyo.test', true) }],
+    [{ schema: asSchema('network.xyo.debug', true) }],
   ],
   [
     'Replaces a value',
@@ -52,8 +52,8 @@ const cases: [string, JsonPatchDivinerConfig, AnyPayload[], AnyPayload[]][] = [
       }],
       schema: JsonPatchDivinerConfigSchema,
     },
-    [{ schema: 'network.xyo.test', value: 'foo' }],
-    [{ schema: 'network.xyo.test', value: 'bar' }],
+    [{ schema: asSchema('network.xyo.test', true), value: 'foo' }],
+    [{ schema: asSchema('network.xyo.test', true), value: 'bar' }],
   ],
   [
     'Moves a value',
@@ -63,8 +63,8 @@ const cases: [string, JsonPatchDivinerConfig, AnyPayload[], AnyPayload[]][] = [
       }],
       schema: JsonPatchDivinerConfigSchema,
     },
-    [{ schema: 'network.xyo.test', value: 'foo' }],
-    [{ schema: 'network.xyo.test', target: 'foo' }],
+    [{ schema: asSchema('network.xyo.test', true), value: 'foo' }],
+    [{ schema: asSchema('network.xyo.test', true), target: 'foo' }],
   ],
   [
     'Copies a value',
@@ -74,9 +74,9 @@ const cases: [string, JsonPatchDivinerConfig, AnyPayload[], AnyPayload[]][] = [
       }],
       schema: JsonPatchDivinerConfigSchema,
     },
-    [{ schema: 'network.xyo.test', value: 'foo' }],
+    [{ schema: asSchema('network.xyo.test', true), value: 'foo' }],
     [{
-      schema: 'network.xyo.test', target: 'foo', value: 'foo',
+      schema: asSchema('network.xyo.test', true), target: 'foo', value: 'foo',
     }],
   ],
   [
@@ -88,10 +88,10 @@ const cases: [string, JsonPatchDivinerConfig, AnyPayload[], AnyPayload[]][] = [
       schema: JsonPatchDivinerConfigSchema,
     },
     [
-      { schema: 'network.xyo.test', value: 'foo' },
-      { schema: 'network.xyo.debug', value: 'bar' },
+      { schema: asSchema('network.xyo.test', true), value: 'foo' },
+      { schema: asSchema('network.xyo.debug', true), value: 'bar' },
     ],
-    [{ schema: 'network.xyo.test', value: 'foo' }],
+    [{ schema: asSchema('network.xyo.test', true), value: 'foo' }],
   ],
   [
     'Filters by value',
@@ -102,10 +102,10 @@ const cases: [string, JsonPatchDivinerConfig, AnyPayload[], AnyPayload[]][] = [
       schema: JsonPatchDivinerConfigSchema,
     },
     [
-      { schema: 'network.xyo.test', value: 'foo' },
-      { schema: 'network.xyo.test', value: 'bar' },
+      { schema: asSchema('network.xyo.test', true), value: 'foo' },
+      { schema: asSchema('network.xyo.test', true), value: 'bar' },
     ],
-    [{ schema: 'network.xyo.test', value: 'foo' }],
+    [{ schema: asSchema('network.xyo.test', true), value: 'foo' }],
   ],
   [
     'Handles multiple operations',
@@ -126,9 +126,9 @@ const cases: [string, JsonPatchDivinerConfig, AnyPayload[], AnyPayload[]][] = [
       ],
       schema: JsonPatchDivinerConfigSchema,
     },
-    [{ schema: 'network.xyo.test' }, { schema: 'network.xyo.debug' }],
+    [{ schema: asSchema('network.xyo.test', true) }, { schema: asSchema('network.xyo.debug', true) }],
     [{
-      schema: 'network.xyo.test', target: 'bar', value: 'foo',
+      schema: asSchema('network.xyo.test', true), target: 'bar', value: 'foo',
     }],
   ],
   [
@@ -140,12 +140,12 @@ const cases: [string, JsonPatchDivinerConfig, AnyPayload[], AnyPayload[]][] = [
       schema: JsonPatchDivinerConfigSchema,
     },
     [
-      { schema: 'network.xyo.test', value: 'foo' },
-      { schema: 'network.xyo.test', value: 'bar' },
+      { schema: asSchema('network.xyo.test', true), value: 'foo' },
+      { schema: asSchema('network.xyo.test', true), value: 'bar' },
     ],
     [
-      { schema: 'network.xyo.test', value: 'foo' },
-      { schema: 'network.xyo.test', value: 'bar' },
+      { schema: asSchema('network.xyo.test', true), value: 'foo' },
+      { schema: asSchema('network.xyo.test', true), value: 'bar' },
     ],
   ],
   [
@@ -156,8 +156,8 @@ const cases: [string, JsonPatchDivinerConfig, AnyPayload[], AnyPayload[]][] = [
       }],
       schema: JsonPatchDivinerConfigSchema,
     },
-    [{ schema: 'network.xyo.test', value: 'foo' }],
-    [{ schema: 'network.xyo.test', value: 'foo' }],
+    [{ schema: asSchema('network.xyo.test', true), value: 'foo' }],
+    [{ schema: asSchema('network.xyo.test', true), value: 'foo' }],
   ],
   [
     'Filters if property null',
@@ -167,8 +167,8 @@ const cases: [string, JsonPatchDivinerConfig, AnyPayload[], AnyPayload[]][] = [
       }],
       schema: JsonPatchDivinerConfigSchema,
     },
-    [{ schema: 'network.xyo.test', value: null }],
-    [{ schema: 'network.xyo.test', value: null }],
+    [{ schema: asSchema('network.xyo.test', true), value: null }],
+    [{ schema: asSchema('network.xyo.test', true), value: null }],
   ],
   /* [
     'Filters if property not null',

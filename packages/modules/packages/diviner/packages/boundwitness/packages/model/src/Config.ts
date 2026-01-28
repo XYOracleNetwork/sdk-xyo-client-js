@@ -1,10 +1,10 @@
 import type { DivinerConfig } from '@xyo-network/diviner-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 
 import { BoundWitnessDivinerSchema } from './Schema.ts'
 
-export type BoundWitnessDivinerConfigSchema = `${BoundWitnessDivinerSchema}.config`
-export const BoundWitnessDivinerConfigSchema: BoundWitnessDivinerConfigSchema = `${BoundWitnessDivinerSchema}.config`
+export const BoundWitnessDivinerConfigSchema = asSchema(`${BoundWitnessDivinerSchema}.config`, true)
+export type BoundWitnessDivinerConfigSchema = typeof BoundWitnessDivinerConfigSchema
 
 export type BoundWitnessDivinerConfig<T extends Payload = Payload> = DivinerConfig<
   T & {

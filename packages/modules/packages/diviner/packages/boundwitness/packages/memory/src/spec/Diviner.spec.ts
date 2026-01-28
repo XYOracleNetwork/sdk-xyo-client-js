@@ -9,7 +9,9 @@ import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-bound
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type Schema,
+} from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -27,20 +29,20 @@ describe('MemoryBoundWitnessDiviner', () => {
   let sut: MemoryBoundWitnessDiviner
   let node: MemoryNode
   const payloadA: Payload<{ schema: string; url: string }> = {
-    schema: 'network.xyo.test',
+    schema: asSchema('network.xyo.test', true),
     url: 'https://xyo.network',
   }
   const payloadB: Payload<{ foo: string[]; schema: string }> = {
     foo: ['bar', 'baz'],
-    schema: 'network.xyo.debug',
+    schema: asSchema('network.xyo.debug', true),
   }
   const payloadC: Payload<{ foo: string[]; schema: string }> = {
     foo: ['one', 'two'],
-    schema: 'network.xyo.debug',
+    schema: asSchema('network.xyo.debug', true),
   }
   const payloadD: Payload<{ foo: string[]; schema: string }> = {
     foo: ['aaa', 'bbb'],
-    schema: 'network.xyo.debug',
+    schema: asSchema('network.xyo.debug', true),
   }
   const bws: BoundWitness[] = []
   beforeAll(async () => {
@@ -141,7 +143,7 @@ describe('MemoryBoundWitnessDiviner', () => {
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
           expect(await PayloadBuilder.dataHash(results[0])).toBe(await PayloadBuilder.dataHash(bws[4]))
-          expect(results.every(result => payload_schemas.includes(result.payload_schemas[0]))).toBe(true)
+          expect(results.every(result => payload_schemas.includes(asSchema(result.payload_schemas.at(0), true)))).toBe(true)
         })
       })
     })

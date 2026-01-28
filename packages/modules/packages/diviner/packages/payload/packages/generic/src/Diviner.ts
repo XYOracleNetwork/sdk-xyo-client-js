@@ -14,17 +14,18 @@ import type {
 import { asPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  Payload, Schema,
-  Sequence,
-  WithStorageMeta,
+import {
+  asSchema,
+  type Payload, type Schema,
+  type Sequence,
+  type WithStorageMeta,
 } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
 const DEFAULT_INDEX_BATCH_SIZE = 100 as const
 const DEFAULT_MAX_INDEX_SIZE = 8000 as const
 
-export const GenericPayloadDivinerConfigSchema = 'network.xyo.diviner.payload.generic.config' as const
+export const GenericPayloadDivinerConfigSchema = asSchema('network.xyo.diviner.payload.generic.config', true)
 export type GenericPayloadDivinerConfigSchema = typeof GenericPayloadDivinerConfigSchema
 
 export type GenericPayloadDivinerConfig = PayloadDivinerConfig<

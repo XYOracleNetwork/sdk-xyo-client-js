@@ -41,7 +41,7 @@ import {
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import { type Payload, type Schema } from '@xyo-network/payload-model'
 
 export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractModuleInstance<TParams, TEventData>
@@ -184,6 +184,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return manifest
   }
 
+  // eslint-disable-next-line max-statements
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
@@ -195,7 +196,8 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
       case NodeAttachQuerySchema: {
-        const address = await this.attachHandler(queryPayload.id, queryPayload.external)
+        const typedQueryPayload = queryPayload as NodeAttachQuery
+        const address = await this.attachHandler(typedQueryPayload.id, typedQueryPayload.external)
         if (address) {
           const payload = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
@@ -203,7 +205,8 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
         break
       }
       case NodeCertifyQuerySchema: {
-        const fields = await this.certifyHandler(queryPayload.id)
+        const typedQueryPayload = queryPayload as NodeCertifyQuery
+        const fields = await this.certifyHandler(typedQueryPayload.id)
         if (fields) {
           const payload = new PayloadBuilder<ChildCertification>({ schema: ChildCertificationSchema }).fields(fields).build()
           resultPayloads.push(payload)
@@ -211,7 +214,8 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
         break
       }
       case NodeDetachQuerySchema: {
-        const address = await this.detachHandler(queryPayload.id)
+        const typedQueryPayload = queryPayload as NodeDetachQuery
+        const address = await this.detachHandler(typedQueryPayload.id)
         if (address) {
           const payload = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)

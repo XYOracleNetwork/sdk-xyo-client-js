@@ -1,17 +1,17 @@
-export const DappPackageManifestPayloadSchema = 'network.xyo.manifest.package.dapp' as const
+export const DappPackageManifestPayloadSchema = asSchema('network.xyo.manifest.package.dapp', true)
 export type DappPackageManifestPayloadSchema = typeof DappPackageManifestPayloadSchema
 
-export const PackageManifestPayloadSchema = 'network.xyo.manifest.package' as const
+export const PackageManifestPayloadSchema = asSchema('network.xyo.manifest.package', true)
 export type PackageManifestPayloadSchema = typeof PackageManifestPayloadSchema
 
-export const ModuleManifestPayloadSchema = 'network.xyo.module.manifest' as const
+export const ModuleManifestPayloadSchema = asSchema('network.xyo.module.manifest', true)
 export type ModuleManifestPayloadSchema = typeof ModuleManifestPayloadSchema
 
-export const NodeManifestPayloadSchema = 'network.xyo.node.manifest' as const
+export const NodeManifestPayloadSchema = asSchema('network.xyo.node.manifest', true)
 export type NodeManifestPayloadSchema = typeof NodeManifestPayloadSchema
 
 import type { Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { asSchema, isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 import type {
   ModuleManifest, NodeManifest, PackageManifest,

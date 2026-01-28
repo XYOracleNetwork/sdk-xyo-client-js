@@ -1,14 +1,16 @@
 import type { WithAdditional } from '@xylabs/sdk-js'
 import type { ModuleConfig } from '@xyo-network/module-model'
-import type { Payload } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type Schema,
+} from '@xyo-network/payload-model'
 
 import type { SentinelAutomationPayload } from './Automation.ts'
 import type { Task } from './Task.ts'
 
-export const SentinelConfigSchema = 'network.xyo.sentinel.config' as const
+export const SentinelConfigSchema = asSchema('network.xyo.sentinel.config', true)
 export type SentinelConfigSchema = typeof SentinelConfigSchema
 
-export type SentinelConfig<TConfig extends Payload | void = void, TSchema extends string | void = void> = ModuleConfig<
+export type SentinelConfig<TConfig extends Payload | void = void, TSchema extends Schema | void = void> = ModuleConfig<
   WithAdditional<
     {
       automations?: SentinelAutomationPayload[]

@@ -12,7 +12,9 @@ import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type WithStorageMeta,
+} from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { v4 } from 'uuid'
 import {
@@ -350,19 +352,19 @@ describe('LmdbArchivist [full]', () => {
       const account = await Account.random()
 
       const payloads1 = [
-        { schema: 'network.xyo.test', value: 1 },
+        { schema: asSchema('network.xyo.test', true), value: 1 },
       ]
 
       const payloads2 = [
-        { schema: 'network.xyo.test', value: 2 },
+        { schema: asSchema('network.xyo.test', true), value: 2 },
       ]
 
       const payloads3 = [
-        { schema: 'network.xyo.test', value: 3 },
+        { schema: asSchema('network.xyo.test', true), value: 3 },
       ]
 
       const payloads4 = [
-        { schema: 'network.xyo.test', value: 4 },
+        { schema: asSchema('network.xyo.test', true), value: 4 },
       ]
 
       await archivist.insert(payloads1)

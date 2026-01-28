@@ -10,7 +10,9 @@ import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-mo
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type WithStorageMeta,
+} from '@xyo-network/payload-model'
 import {
   beforeAll, describe, expect, it,
 } from 'vitest'
@@ -27,20 +29,20 @@ describe('GenericPayloadDiviner', () => {
   let sut: MemoryPayloadDiviner
   let node: MemoryNode
   const payloadA: Payload<{ schema: string; url: string }> = {
-    schema: 'network.xyo.test',
+    schema: asSchema('network.xyo.test', true),
     url: 'https://xyo.network',
   }
   const payloadB: Payload<{ foo: string[]; schema: string }> = {
     foo: ['bar', 'baz'],
-    schema: 'network.xyo.debug',
+    schema: asSchema('network.xyo.debug', true),
   }
   const payloadC: Payload<{ foo: string[]; schema: string }> = {
     foo: ['one', 'two'],
-    schema: 'network.xyo.debug',
+    schema: asSchema('network.xyo.debug', true),
   }
   const payloadD: Payload<{ foo: string[]; schema: string }> = {
     foo: ['aaa', 'bbb'],
-    schema: 'network.xyo.debug',
+    schema: asSchema('network.xyo.debug', true),
   }
   const insertedPayloads: WithStorageMeta<Payload>[] = []
   beforeAll(async () => {

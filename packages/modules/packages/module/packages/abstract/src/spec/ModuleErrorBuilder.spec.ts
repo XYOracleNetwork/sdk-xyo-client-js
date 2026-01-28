@@ -1,5 +1,5 @@
 import { ModuleConfigSchema, ModuleDetailsError } from '@xyo-network/module-model'
-import type { Schema } from '@xyo-network/payload-model'
+import { asSchema, type Schema } from '@xyo-network/payload-model'
 import {
   describe, expect,
   test,
@@ -21,7 +21,7 @@ describe('ModuleErrorBuilder', () => {
     const errorPayload = new ModuleErrorBuilder()
       .meta({ $sources: ['0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'] })
       .name('<Unknown>')
-      .query('network.xyo.query.insert')
+      .query(asSchema('network.xyo.query.insert', true))
       .details(error.details)
       .message(error.message)
       .build()

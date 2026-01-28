@@ -1,7 +1,7 @@
 import type { Address } from '@xylabs/sdk-js'
-import type { Query } from '@xyo-network/payload-model'
+import { asSchema, type Query } from '@xyo-network/payload-model'
 
-export const ModuleSubscribeQuerySchema = 'network.xyo.query.module.subscribe' as const
+export const ModuleSubscribeQuerySchema = asSchema('network.xyo.query.module.subscribe', true)
 export type ModuleSubscribeQuerySchema = typeof ModuleSubscribeQuerySchema
 
 export interface ModuleSubscribeFilter {

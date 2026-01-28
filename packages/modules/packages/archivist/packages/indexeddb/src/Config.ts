@@ -1,9 +1,10 @@
 import type { ArchivistConfig } from '@xyo-network/archivist-model'
+import { asSchema } from '@xyo-network/payload-model'
 
 import { IndexedDbArchivistSchema } from './Schema.ts'
 
-export type IndexedDbArchivistConfigSchema = `${IndexedDbArchivistSchema}.config`
-export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = `${IndexedDbArchivistSchema}.config`
+export const IndexedDbArchivistConfigSchema = asSchema(`${IndexedDbArchivistSchema}.config`, true)
+export type IndexedDbArchivistConfigSchema = typeof IndexedDbArchivistConfigSchema
 
 export type IndexedDbArchivistConfig<TStoreName extends string = string> = ArchivistConfig<{
   /**

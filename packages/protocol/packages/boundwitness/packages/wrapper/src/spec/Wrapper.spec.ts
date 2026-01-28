@@ -2,7 +2,7 @@ import '@xylabs/vitest-extended'
 
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { PayloadBuilder } from '@xyo-network/payload'
+import { asSchema, PayloadBuilder } from '@xyo-network/payload'
 import type { Payload } from '@xyo-network/payload-model'
 import {
   describe, expect,
@@ -13,8 +13,8 @@ import { BoundWitnessWrapper } from '../BoundWitnessWrapper.ts'
 
 describe('BoundWitnessWrapper', () => {
   describe('payloads', () => {
-    const included1: Payload = { schema: 'network.xyo.test.1' }
-    const included2: Payload = { schema: 'network.xyo.test.2' }
+    const included1: Payload = { schema: asSchema('network.xyo.test.1', true) }
+    const included2: Payload = { schema: asSchema('network.xyo.test.2', true) }
     // const excluded1 = PayloadWrapper.wrap({ schema: 'network.xyo.test.3' })
     const payloads = [included1, included2]
     const bw: () => Promise<BoundWitness> = async () =>

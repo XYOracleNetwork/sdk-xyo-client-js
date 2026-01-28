@@ -1,8 +1,10 @@
 import { AsObjectFactory } from '@xylabs/sdk-js'
 import type { Payload, WithSources } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources } from '@xyo-network/payload-model'
+import {
+  asSchema, isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources,
+} from '@xyo-network/payload-model'
 
-export const HashLeaseSchema = 'network.xyo.hash.lease' as const
+export const HashLeaseSchema = asSchema('network.xyo.hash.lease', true)
 export type HashLeaseSchema = typeof HashLeaseSchema
 
 export type HashLease = Payload<

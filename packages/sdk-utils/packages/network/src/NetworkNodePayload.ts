@@ -1,8 +1,8 @@
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 
 export type NetworkNodeType = 'archivist' | 'diviner' | 'bridge' | 'sentinel'
 
-export const NetworkNodeSchema = 'network.xyo.network.node' as const
+export const NetworkNodeSchema = asSchema('network.xyo.network.node', true)
 export type NetworkNodeSchema = typeof NetworkNodeSchema
 
 export type NetworkNodePayload = Payload<

@@ -10,7 +10,11 @@ import type { PackageManifestPayload } from '@xyo-network/manifest'
 import { ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import type { MemoryNode } from '@xyo-network/node-memory'
-import type { Payload } from '@xyo-network/payload-model'
+import type {
+  Payload,
+  Schema,
+} from '@xyo-network/payload-model'
+import { asSchema } from '@xyo-network/payload-model'
 import { HDWallet } from '@xyo-network/wallet'
 import {
   beforeAll,
@@ -25,7 +29,7 @@ import SentinelManifest from './Sentinel.Interval.spec.json' with { type: 'json'
  * @group slow
  */
 
-const NETWORK_XYO_TEST = 'network.xyo.test' as const
+const NETWORK_XYO_TEST = asSchema('network.xyo.test', true)
 
 describe('Sentinel.Interval', () => {
   let node: MemoryNode
@@ -36,7 +40,7 @@ describe('Sentinel.Interval', () => {
     locator.register(JsonPatchDiviner.factory())
     locator.register(JsonPathDiviner.factory())
     locator.register(JsonPathAggregateDiviner.factory())
-    const manifest = SentinelManifest as PackageManifestPayload
+    const manifest = SentinelManifest as unknown as PackageManifestPayload
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)
     await node.start()
@@ -94,21 +98,21 @@ describe('Sentinel.Interval', () => {
       limit: 1,
       offset: 0,
       order: 'desc',
-      schema: 'network.xyo.diviner.payload.query',
+      schema: asSchema('network.xyo.diviner.payload.query', true),
       // schema: 'network.xyo.diviner.boundwitness.query',
       // payload_schemas: ['network.xyo.module.state'],
-      schemas: ['network.xyo.module.state'],
+      schemas: [asSchema('network.xyo.module.state', true)],
     }
     const initialState = await addressStatePayloadDiviner?.divine([lastStateQuery])
     const statePayloads
-      = initialState?.filter((p): p is { offset?: number; schema: string } => p.schema === 'network.xyo.module.state') ?? []
+      = initialState?.filter((p): p is { offset?: number; schema: Schema } => p.schema === asSchema('network.xyo.module.state', true)) ?? []
     const offset = statePayloads?.[0]?.offset ?? 0
     const payloadDiviner = asDivinerInstance(await node.resolve('PayloadDiviner'))
     const payloadDivinerQuery = {
       limit: 1,
       offset,
       order: 'asc',
-      schema: 'network.xyo.diviner.payload.query',
+      schema: asSchema('network.xyo.diviner.payload.query', true),
       schemas: [NETWORK_XYO_TEST],
     }
     const payloadBatch = await payloadDiviner?.divine([payloadDivinerQuery])

@@ -2,7 +2,7 @@ import '@xylabs/vitest-extended'
 
 import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -27,7 +27,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
   const indexes = [
     [
       {
-        schema: 'TODO',
+        schema: asSchema('TODO', true),
         sources: [],
         status: 200,
         success: true,
@@ -37,7 +37,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
     ],
     [
       {
-        schema: 'TODO',
+        schema: asSchema('TODO', true),
         sources: [],
         status: 200,
         success: true,
@@ -45,7 +45,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
         url,
       },
       {
-        schema: 'TODO',
+        schema: asSchema('TODO', true),
         sources: [],
         status: 500,
         success: false,

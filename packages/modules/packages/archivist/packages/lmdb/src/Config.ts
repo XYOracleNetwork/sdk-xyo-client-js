@@ -1,9 +1,10 @@
 import type { ArchivistConfig } from '@xyo-network/archivist-model'
+import { asSchema } from '@xyo-network/payload-model'
 
 import { LmdbArchivistSchema } from './Schema.ts'
 
-export type LmdbArchivistConfigSchema = `${LmdbArchivistSchema}.config`
-export const LmdbArchivistConfigSchema: LmdbArchivistConfigSchema = `${LmdbArchivistSchema}.config`
+export const LmdbArchivistConfigSchema = asSchema(`${LmdbArchivistSchema}.config`, true)
+export type LmdbArchivistConfigSchema = typeof LmdbArchivistConfigSchema
 
 export type LmdbArchivistConfig<TStoreName extends string = string> = ArchivistConfig<{
   /**

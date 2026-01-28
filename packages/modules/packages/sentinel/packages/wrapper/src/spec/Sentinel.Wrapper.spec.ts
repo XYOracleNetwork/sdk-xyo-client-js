@@ -11,7 +11,7 @@ import type { AttachableModuleInstance } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
-import { PayloadSchema } from '@xyo-network/payload-model'
+import { asSchema, PayloadSchema } from '@xyo-network/payload-model'
 import type { MemorySentinelParams } from '@xyo-network/sentinel-memory'
 import { MemorySentinel } from '@xyo-network/sentinel-memory'
 import type { ReportEndEventArgs, SentinelConfig } from '@xyo-network/sentinel-model'
@@ -90,7 +90,7 @@ describe('Sentinel', () => {
         const paramsA = {
           account: 'random' as const,
           config: {
-            payload: { nonce: Date.now() * 8, schema: 'network.xyo.test' },
+            payload: { nonce: Date.now() * 8, schema: asSchema('network.xyo.test', true) },
             schema: AdhocWitnessConfigSchema,
             targetSchema: PayloadSchema,
           },
@@ -98,7 +98,7 @@ describe('Sentinel', () => {
         const paramsB = {
           account: 'random' as const,
           config: {
-            payload: { nonce: Date.now() * 9, schema: 'network.xyo.test' },
+            payload: { nonce: Date.now() * 9, schema: asSchema('network.xyo.test', true) },
             schema: AdhocWitnessConfigSchema,
             targetSchema: PayloadSchema,
           },

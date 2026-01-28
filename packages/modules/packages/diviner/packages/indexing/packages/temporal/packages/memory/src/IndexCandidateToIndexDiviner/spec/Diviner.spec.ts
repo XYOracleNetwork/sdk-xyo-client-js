@@ -5,7 +5,7 @@ import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import type { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import { isTemporalIndexingDivinerResultIndex } from '@xyo-network/diviner-temporal-indexing-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
 import { TimestampSchema } from '@xyo-network/witness-timestamp'
 import {
@@ -31,7 +31,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
     const timestampPayloadA: TimeStamp = { schema: TimestampSchema, timestamp: timestampA }
     const imageThumbnailPayloadA: ImageThumbnail = {
       http: { status: 200 },
-      schema: 'network.xyo.image.thumbnail',
+      schema: asSchema('network.xyo.image.thumbnail', true),
       sourceUrl: 'https://xyo.network',
       url: 'data',
     }
@@ -39,7 +39,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
     const timestampPayloadB: TimeStamp = { schema: TimestampSchema, timestamp: timestampB }
     const imageThumbnailPayloadB: ImageThumbnail = {
       http: { status: 500 },
-      schema: 'network.xyo.image.thumbnail',
+      schema: asSchema('network.xyo.image.thumbnail', true),
       sourceUrl: 'https://xyo.network',
     }
     const timestampC = 1_234_567_892
@@ -47,7 +47,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
     const imageThumbnailPayloadC: ImageThumbnail = {
 
       http: { ipAddress: '192.169.1.1' },
-      schema: 'network.xyo.image.thumbnail',
+      schema: asSchema('network.xyo.image.thumbnail', true),
       sourceUrl: 'https://www.google.com',
     }
     describe('with single schema transform', () => {
@@ -75,13 +75,15 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
           },
         })
       })
-      const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
+
+      const schemaTransforms = {
         'network.xyo.image.thumbnail': [
           { destinationField: 'url', sourcePathExpression: '$.sourceUrl' },
           { destinationField: 'status', sourcePathExpression: '$.http.status' },
         ],
         'network.xyo.timestamp': [{ destinationField: 'timestamp', sourcePathExpression: '$.timestamp' }],
-      }
+      } as SchemaToJsonPathTransformExpressionsDictionary
+
       let diviner: TemporalIndexingDivinerIndexCandidateToIndexDiviner
 
       const cases: [TimeStamp, ImageThumbnail][] = [
@@ -175,28 +177,28 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
           },
         })
       })
-      const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
+      const schemaTransforms = {
         'network.xyo.image.thumbnail': [{ destinationField: 'status', sourcePathExpression: '$.http.status' }],
         'network.xyo.image.thumbnail.other': [{ destinationField: 'url', sourcePathExpression: '$.sourceUrl' }],
         'network.xyo.timestamp': [{ destinationField: 'timestamp', sourcePathExpression: '$.timestamp' }],
-      }
+      } as SchemaToJsonPathTransformExpressionsDictionary
       let diviner: TemporalIndexingDivinerIndexCandidateToIndexDiviner
 
       const cases: [TimeStamp, ImageThumbnail, Payload<{ sourceUrl: string }>][] = [
         [
           timestampPayloadA,
           { ...imageThumbnailPayloadA, sourceUrl: '' },
-          { schema: 'network.xyo.image.thumbnail.other', sourceUrl: imageThumbnailPayloadA.sourceUrl },
+          { schema: asSchema('network.xyo.image.thumbnail.other', true), sourceUrl: imageThumbnailPayloadA.sourceUrl },
         ],
         [
           timestampPayloadB,
           { ...imageThumbnailPayloadB, sourceUrl: '' },
-          { schema: 'network.xyo.image.thumbnail.other', sourceUrl: imageThumbnailPayloadB.sourceUrl },
+          { schema: asSchema('network.xyo.image.thumbnail.other', true), sourceUrl: imageThumbnailPayloadB.sourceUrl },
         ],
         [
           timestampPayloadC,
           { ...imageThumbnailPayloadC, sourceUrl: '' },
-          { schema: 'network.xyo.image.thumbnail.other', sourceUrl: imageThumbnailPayloadC.sourceUrl },
+          { schema: asSchema('network.xyo.image.thumbnail.other', true), sourceUrl: imageThumbnailPayloadC.sourceUrl },
         ],
       ]
       describe('with single result', () => {

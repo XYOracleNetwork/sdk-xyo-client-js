@@ -5,9 +5,10 @@ import {
 import z from 'zod'
 
 import { PayloadZodLoose, PayloadZodOfSchema } from './PayloadZod.ts'
+import type { Schema } from './Schema.ts'
 
 // payload that wraps a complete boundwitness with its payloads for use in systems such as submission queues
-export const PayloadBundleSchema = 'network.xyo.payload.bundle' as const
+export const PayloadBundleSchema = 'network.xyo.payload.bundle' as Schema
 export type PayloadBundleSchema = typeof PayloadBundleSchema
 
 export const PayloadBundleFieldsZod = z.object({

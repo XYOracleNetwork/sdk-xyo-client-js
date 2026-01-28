@@ -24,24 +24,24 @@ import {
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  Payload, Schema, WithStorageMeta,
+import {
+  asSchema,
+  type Payload, type Schema, type WithStorageMeta,
 } from '@xyo-network/payload-model'
 import type { StoreBase, StoreType } from 'store2'
 import store from 'store2'
 
 const storeTypes = store as unknown as StoreType
 
-export const StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config' as const
+export const StorageArchivistConfigSchema = asSchema('network.xyo.archivist.storage.config', true)
 export type StorageArchivistConfigSchema = typeof StorageArchivistConfigSchema
 
 export type StorageArchivistConfig = ArchivistConfig<{
   maxEntries?: number
   maxEntrySize?: number
   namespace?: string
-  schema: StorageArchivistConfigSchema
   type?: 'local' | 'session' | 'page'
-}>
+}, StorageArchivistConfigSchema>
 
 export type StorageArchivistParams = ArchivistParams<AnyConfigSchema<StorageArchivistConfig>>
 export class StorageArchivist<
@@ -69,7 +69,7 @@ export class StorageArchivist<
     return this.config?.namespace ?? 'xyo-archivist'
   }
 
-  override get queries(): string[] {
+  override get queries(): Schema[] {
     return [
       ArchivistAllQuerySchema,
       ArchivistDeleteQuerySchema,

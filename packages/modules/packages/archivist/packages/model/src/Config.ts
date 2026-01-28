@@ -1,6 +1,10 @@
 import type { EmptyObject, WithAdditional } from '@xylabs/sdk-js'
 import type { ModuleConfig, ModuleIdentifier } from '@xyo-network/module-model'
-import type { Payload } from '@xyo-network/payload-model'
+import type {
+  Payload,
+  Schema,
+} from '@xyo-network/payload-model'
+import { asSchema } from '@xyo-network/payload-model'
 
 import type { IndexDescription } from './IndexDescription.ts'
 
@@ -20,10 +24,10 @@ export interface ArchivistGetCache {
   maxEntries?: number
 }
 
-export const ArchivistConfigSchema = 'network.xyo.archivist.config' as const
+export const ArchivistConfigSchema = asSchema('network.xyo.archivist.config', true)
 export type ArchivistConfigSchema = typeof ArchivistConfigSchema
 
-export type ArchivistConfig<TConfig extends Payload | EmptyObject | void = void, TSchema extends string | void = void> = ModuleConfig<
+export type ArchivistConfig<TConfig extends Payload | EmptyObject | void = void, TSchema extends Schema | void = void> = ModuleConfig<
   WithAdditional<
     {
       /** @field caching configuration for get calls */

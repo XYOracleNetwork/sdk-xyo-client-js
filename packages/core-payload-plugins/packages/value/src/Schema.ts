@@ -1,2 +1,4 @@
-export const ValueSchema = 'network.xyo.value' as const
+import { asSchema } from '@xyo-network/payload-model'
+
+export const ValueSchema = asSchema('network.xyo.value', true)
 export type ValueSchema = typeof ValueSchema

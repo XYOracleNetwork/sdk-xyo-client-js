@@ -1,6 +1,6 @@
-import type { Query } from '@xyo-network/payload-model'
+import { asSchema, type Query } from '@xyo-network/payload-model'
 
-export const WitnessObserveQuerySchema = 'network.xyo.query.witness.observe' as const
+export const WitnessObserveQuerySchema = asSchema('network.xyo.query.witness.observe', true)
 export type WitnessObserveQuerySchema = typeof WitnessObserveQuerySchema
 
 export type WitnessObserveQuery = Query<{

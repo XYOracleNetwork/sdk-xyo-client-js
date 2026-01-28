@@ -9,7 +9,9 @@ import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-mo
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type WithStorageMeta,
+} from '@xyo-network/payload-model'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -56,13 +58,13 @@ describe('IndexedDbPayloadDiviner', () => {
   let node: MemoryNode
   const urlIndex: IndexDescription = { key: { url: 1 }, name: 'IX_url' }
   let payloadA: Payload<{ url: string }> = {
-    schema: 'network.xyo.test',
+    schema: asSchema('network.xyo.test', true),
     url: 'https://xyo.network',
   }
   let payloadB: Payload<{ foo: string[]; other: string }> = {
     foo: ['bar', 'baz'],
     other: 'value',
-    schema: 'network.xyo.debug',
+    schema: asSchema('network.xyo.debug', true),
   }
   let insertedPayloads: WithStorageMeta<Payload>[] = []
   beforeAll(async () => {

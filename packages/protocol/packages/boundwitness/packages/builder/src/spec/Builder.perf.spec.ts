@@ -1,14 +1,14 @@
 import '@xylabs/vitest-extended'
 
 import { Account } from '@xyo-network/account'
-import { PayloadBuilder } from '@xyo-network/payload'
+import { asSchema, PayloadBuilder } from '@xyo-network/payload'
 import {
   describe, expect, it,
 } from 'vitest'
 
 import { BoundWitnessBuilder } from '../BoundWitnessBuilder.ts'
 
-const schema = 'network.xyo.test'
+const schema = asSchema('network.xyo.test', true)
 
 const payloadsPromise = (async () =>
   await Promise.all(

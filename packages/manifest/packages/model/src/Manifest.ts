@@ -1,5 +1,6 @@
 import type { Address, Brand } from '@xylabs/sdk-js'
 import { isObject } from '@xylabs/sdk-js'
+import type { Schema } from '@xyo-network/payload-model'
 
 export type ModuleAlias = Brand<string, { __moduleAlias: true }>
 
@@ -18,7 +19,7 @@ export interface ConfigManifest {
   language?: string
   name: string
   os?: string
-  schema: string
+  schema: Schema
 }
 
 export interface NodeManifest extends ModuleManifest {

@@ -60,7 +60,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return this.config.client?.discoverRoots ?? this.config.discoverRoots ?? (this.config.client === undefined ? false : 'start')
   }
 
-  override get queries(): string[] {
+  override get queries(): Schema[] {
     return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeExposeQuerySchema, BridgeUnexposeQuerySchema, ...super.queries]
   }
 

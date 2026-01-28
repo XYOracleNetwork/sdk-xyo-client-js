@@ -104,6 +104,10 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     return this
   }
 
+  get timeBudget() {
+    return this.config.timeBudget
+  }
+
   get upResolver() {
     this._upResolver
       = this._upResolver

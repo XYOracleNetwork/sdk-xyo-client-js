@@ -20,7 +20,7 @@ describe('Manifest', () => {
       const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
       const wallet = await HDWallet.fromPhrase(mnemonic)
       const manifest = new ManifestWrapper(
-        simpleNodeParentManifest as PackageManifestPayload,
+        simpleNodeParentManifest as unknown as PackageManifestPayload,
         wallet,
         new ModuleFactoryLocator(),
         simpleNodeChildManifest.nodes[0].modules.public as ModuleManifest[],

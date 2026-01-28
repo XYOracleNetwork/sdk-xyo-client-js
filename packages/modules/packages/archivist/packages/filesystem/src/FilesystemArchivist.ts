@@ -15,6 +15,7 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import {
+  asSchema,
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
 import { HDWallet } from '@xyo-network/wallet'
@@ -23,7 +24,7 @@ export interface FileSystemArchivistData {
   payloads: Payload[]
 }
 
-export const FilesystemArchivistConfigSchema = 'network.xyo.archivist.filesystem.config' as const
+export const FilesystemArchivistConfigSchema = asSchema('network.xyo.archivist.filesystem.config', true)
 export type FilesystemArchivistConfigSchema = typeof FilesystemArchivistConfigSchema
 
 export type FilesystemArchivistConfig = ArchivistConfig<{

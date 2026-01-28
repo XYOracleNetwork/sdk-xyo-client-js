@@ -5,6 +5,7 @@ import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type { ModuleQueries } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { asSchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   expect,
@@ -36,7 +37,7 @@ test('Archivist Parent Write Through', async () => {
   await node.register(storage)
   await node.attach(storage.address)
 
-  const wrapper = PayloadWrapper.wrap({ schema: 'network.xyo.test' })
+  const wrapper = PayloadWrapper.wrap({ schema: asSchema('network.xyo.test', true) })
 
   expect(wrapper).toBeDefined()
 

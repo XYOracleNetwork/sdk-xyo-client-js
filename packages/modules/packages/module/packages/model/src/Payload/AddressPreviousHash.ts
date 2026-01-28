@@ -1,7 +1,7 @@
 import type { Address } from '@xylabs/sdk-js'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 
-export const AddressPreviousHashSchema = 'network.xyo.address.hash.previous' as const
+export const AddressPreviousHashSchema = asSchema('network.xyo.address.hash.previous', true)
 export type AddressPreviousHashSchema = typeof AddressPreviousHashSchema
 
 export type AddressPreviousHashPayload = Payload<

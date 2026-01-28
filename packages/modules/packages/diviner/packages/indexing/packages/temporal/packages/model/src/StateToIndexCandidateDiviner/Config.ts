@@ -1,11 +1,13 @@
 import type { BoundWitnessDivinerPredicate } from '@xyo-network/diviner-boundwitness-model'
 import type { DivinerConfig, SearchableStorage } from '@xyo-network/diviner-model'
+import { asSchema } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerStateToIndexCandidateDivinerSchema } from './Schema.ts'
 
-export type TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema = `${TemporalIndexingDivinerStateToIndexCandidateDivinerSchema}.config`
-export const TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema: TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema
-  = `${TemporalIndexingDivinerStateToIndexCandidateDivinerSchema}.config`
+export const TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema
+  = asSchema(`${TemporalIndexingDivinerStateToIndexCandidateDivinerSchema}.config`, true)
+
+export type TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema = typeof TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema
 
 /**
  * Diviner Config for a Diviner which transforms a Diviner State to Index Candidates

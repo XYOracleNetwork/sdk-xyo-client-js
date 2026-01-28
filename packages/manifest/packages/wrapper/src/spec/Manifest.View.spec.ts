@@ -18,7 +18,7 @@ describe('Manifest', () => {
     test('Simple Node [Inline]', async () => {
       const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
       const wallet = await HDWallet.fromPhrase(mnemonic)
-      const manifest = new ManifestWrapper(simpleNodeViewManifest as PackageManifestPayload, wallet, new ModuleFactoryLocator())
+      const manifest = new ManifestWrapper(simpleNodeViewManifest as unknown as PackageManifestPayload, wallet, new ModuleFactoryLocator())
       const [node] = await manifest.loadNodes()
       expect(node).toBeDefined()
 

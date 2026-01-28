@@ -1,12 +1,14 @@
 import type { Promisable } from '@xylabs/sdk-js'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type Schema,
+} from '@xyo-network/payload-model'
 import type {
   WitnessConfig, WitnessModule, WitnessParams,
 } from '@xyo-network/witness-model'
 
-export const AdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config' as const
+export const AdhocWitnessConfigSchema = asSchema('network.xyo.witness.adhoc.config', true)
 export type AdhocWitnessConfigSchema = typeof AdhocWitnessConfigSchema
 
 export type AdhocWitnessConfig = WitnessConfig<{

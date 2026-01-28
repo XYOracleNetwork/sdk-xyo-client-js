@@ -8,12 +8,12 @@ import type {
 } from '@xyo-network/diviner-payload-pointer-model'
 import { PayloadPointerSchema } from '@xyo-network/diviner-payload-pointer-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Sequence } from '@xyo-network/payload-model'
+import type { Schema, Sequence } from '@xyo-network/payload-model'
 import { SequenceConstants } from '@xyo-network/payload-model'
 
 export const createPointer = (
   addresses: string[][] = [],
-  schemas: string[][] = [],
+  schemas: Schema[][] = [],
   order: Order = 'desc',
   sequence?: Sequence,
 ): PayloadPointerPayload => {

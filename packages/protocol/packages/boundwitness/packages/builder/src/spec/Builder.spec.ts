@@ -7,7 +7,7 @@ import {
   AddressValue,
 } from '@xyo-network/account'
 import { Elliptic } from '@xyo-network/elliptic'
-import { PayloadBuilder } from '@xyo-network/payload'
+import { asSchema, PayloadBuilder } from '@xyo-network/payload'
 import { HDWallet } from '@xyo-network/wallet'
 import {
   describe, expect, it,
@@ -15,7 +15,7 @@ import {
 
 import { BoundWitnessBuilder } from '../BoundWitnessBuilder.ts'
 
-const schema = 'network.xyo.temp'
+const schema = asSchema('network.xyo.temp', true)
 const payload1 = {
   number_field: 1,
   object_field: {

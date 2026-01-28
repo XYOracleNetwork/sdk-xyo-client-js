@@ -1,11 +1,11 @@
 import type { Hex } from '@xylabs/sdk-js'
 import { isHex } from '@xylabs/sdk-js'
 import type { Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { asSchema, isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 /* We decorate these names with Payload since Range is a system type */
 
-export const RangeSchema = 'network.xyo.range' as const
+export const RangeSchema = asSchema('network.xyo.range', true)
 export type RangeSchema = typeof RangeSchema
 
 export type RangePayloadBase<T> = Payload<

@@ -1,13 +1,14 @@
 import type { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import type { DivinerConfig } from '@xyo-network/diviner-model'
+import { asSchema } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema } from './Schema.ts'
 
+export const TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
+  = asSchema(`${TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema}.config`, true)
+
 export type TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
-  = `${TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema}.config`
-// eslint-disable-next-line @stylistic/max-len
-export const TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
-  = `${TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema}.config`
+  = typeof TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
 
 /**
  * Diviner Config for a Diviner which transforms an Index Query Response to a Diviner Query Response

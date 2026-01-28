@@ -14,7 +14,9 @@ import type {
   Payload,
   WithStorageMeta,
 } from '@xyo-network/payload-model'
-import { isSequenceStorageMeta, SequenceConstants } from '@xyo-network/payload-model'
+import {
+  asSchema, isSequenceStorageMeta, SequenceConstants,
+} from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -36,13 +38,13 @@ describe('MemoryPayloadDiviner', () => {
   let insertedPayloads: WithStorageMeta<Payload>[]
   beforeAll(async () => {
     payloadA = {
-      schema: 'network.xyo.test',
+      schema: asSchema('network.xyo.test', true),
       url: 'https://xyo.network',
     }
     await delay(2)
     payloadB = {
       foo: ['bar', 'baz'],
-      schema: 'network.xyo.debug',
+      schema: asSchema('network.xyo.debug', true),
     }
 
     archivist = await MemoryArchivist.create({

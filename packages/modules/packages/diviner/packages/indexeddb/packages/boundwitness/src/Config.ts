@@ -1,9 +1,10 @@
 import type { IndexDescription } from '@xyo-network/archivist-model'
 import type { DivinerConfig } from '@xyo-network/diviner-model'
+import { asSchema } from '@xyo-network/payload-model'
 
 import { IndexedDbBoundWitnessDivinerSchema } from './Schema.ts'
 
-export const IndexedDbBoundWitnessDivinerConfigSchema = `${IndexedDbBoundWitnessDivinerSchema}.config` as const
+export const IndexedDbBoundWitnessDivinerConfigSchema = asSchema(`${IndexedDbBoundWitnessDivinerSchema}.config`, true)
 export type IndexedDbBoundWitnessDivinerConfigSchema = typeof IndexedDbBoundWitnessDivinerConfigSchema
 
 export type IndexedDbBoundWitnessDivinerConfig = DivinerConfig<{

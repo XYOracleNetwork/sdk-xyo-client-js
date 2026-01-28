@@ -22,10 +22,10 @@ import {
   NodeDetachQuerySchema,
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
-import type { Schema } from '@xyo-network/payload-model'
+import { asSchema, type Schema } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
-export const ViewNodeConfigSchema = 'network.xyo.node.view.config' as const
+export const ViewNodeConfigSchema = asSchema('network.xyo.node.view.config', true)
 export type ViewNodeConfigSchema = typeof ViewNodeConfigSchema
 
 export type ViewNodeConfig = NodeConfig<

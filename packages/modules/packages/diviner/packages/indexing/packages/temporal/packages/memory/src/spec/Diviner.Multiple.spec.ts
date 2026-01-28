@@ -20,7 +20,7 @@ import type {
 import { isModuleState } from '@xyo-network/module-model'
 import type { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 import { HDWallet } from '@xyo-network/wallet'
 import type { TimeStamp } from '@xyo-network/witness-timestamp'
 import { TimestampSchema } from '@xyo-network/witness-timestamp'
@@ -57,7 +57,7 @@ describe('TemporalIndexingDiviner - Multiple', () => {
   const sourceUrl = 'https://placekitten.com/200/300'
   const thumbnailHttpSuccess: ImageThumbnail = {
     http: { status: 200 },
-    schema: 'network.xyo.image.thumbnail',
+    schema: asSchema('network.xyo.image.thumbnail', true),
     sourceHash: '7f39363514d9d9b958a5a993edeba35cb44f912c7072ed9ddd628728ac0fd681',
     sourceUrl,
     url: 'data:image/png;base64,===',
@@ -69,20 +69,20 @@ describe('TemporalIndexingDiviner - Multiple', () => {
       ipAddress: '104.17.96.13',
       status: 429,
     },
-    schema: 'network.xyo.image.thumbnail',
+    schema: asSchema('network.xyo.image.thumbnail', true),
     sourceUrl,
   }
 
   const thumbnailCodeFail: ImageThumbnail = {
     http: { code: 'FAILED' },
-    schema: 'network.xyo.image.thumbnail',
+    schema: asSchema('network.xyo.image.thumbnail', true),
     sourceUrl,
   }
 
   const thumbnailWitnessFail: ImageThumbnail = {
 
     http: { ipAddress: '104.17.96.13' },
-    schema: 'network.xyo.image.thumbnail',
+    schema: asSchema('network.xyo.image.thumbnail', true),
     sourceUrl,
   }
   const witnessedThumbnails = [thumbnailHttpSuccess, thumbnailHttpFail, thumbnailCodeFail, thumbnailWitnessFail]

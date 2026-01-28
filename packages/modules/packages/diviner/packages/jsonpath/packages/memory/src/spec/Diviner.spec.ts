@@ -3,7 +3,7 @@ import '@xylabs/vitest-extended'
 import type { JsonPathTransformExpression } from '@xyo-network/diviner-jsonpath-model'
 import { JsonPathDivinerConfigSchema } from '@xyo-network/diviner-jsonpath-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { AnyPayload } from '@xyo-network/payload-model'
+import { type AnyPayload, asSchema } from '@xyo-network/payload-model'
 import { HDWallet } from '@xyo-network/wallet'
 import type { WalletInstance } from '@xyo-network/wallet-model'
 import {
@@ -17,40 +17,40 @@ describe('JsonPathDiviner', () => {
   const cases: TestData[] = [
     [
       'transforms single payload',
-      [{ a: 0, schema: 'network.xyo.test.source.a' }],
+      [{ a: 0, schema: asSchema('network.xyo.test.source.a', true) }],
       [{ destinationField: 'c', sourcePathExpression: '$.a' }],
-      [{ c: 0, schema: 'network.xyo.test.destination' }],
+      [{ c: 0, schema: asSchema('network.xyo.test.destination', true) }],
     ],
     [
       'transforms multiple payloads',
       [
-        { a: 0, schema: 'network.xyo.test.source.a' },
-        { b: 1, schema: 'network.xyo.test.source.b' },
+        { a: 0, schema: asSchema('network.xyo.test.source.a', true) },
+        { b: 1, schema: asSchema('network.xyo.test.source.b', true) },
       ],
       [
         { destinationField: 'c', sourcePathExpression: '$.a' },
         { destinationField: 'd', sourcePathExpression: '$.b' },
       ],
       [
-        { c: 0, schema: 'network.xyo.test.destination' },
-        { d: 1, schema: 'network.xyo.test.destination' },
+        { c: 0, schema: asSchema('network.xyo.test.destination', true) },
+        { d: 1, schema: asSchema('network.xyo.test.destination', true) },
       ],
     ],
     [
       'transforms with default value if source property is missing',
-      [{ schema: 'network.xyo.test.source.a' }],
+      [{ schema: asSchema('network.xyo.test.source.a', true) }],
       [{
         defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a',
       }],
-      [{ c: 0, schema: 'network.xyo.test.destination' }],
+      [{ c: 0, schema: asSchema('network.xyo.test.destination', true) }],
     ],
     [
       'transforms with default value if source property is undefined',
-      [{ schema: 'network.xyo.test.source.a' }],
+      [{ schema: asSchema('network.xyo.test.source.a', true) }],
       [{
         defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a',
       }],
-      [{ c: 0, schema: 'network.xyo.test.destination' }],
+      [{ c: 0, schema: asSchema('network.xyo.test.destination', true) }],
     ],
     // TODO: Since this returns an array, it will not work with the current
     // implementation. Uncomment when arrayed transformer values are supported.
@@ -62,53 +62,53 @@ describe('JsonPathDiviner', () => {
     // ],
     [
       'transforms array (first position)',
-      [{ a: [0, 1, 2], schema: 'network.xyo.test.source.a' }],
+      [{ a: [0, 1, 2], schema: asSchema('network.xyo.test.source.a', true) }],
       [{ destinationField: 'c', sourcePathExpression: '$.a[0]' }],
-      [{ c: 0, schema: 'network.xyo.test.destination' }],
+      [{ c: 0, schema: asSchema('network.xyo.test.destination', true) }],
     ],
     [
       'transforms array (Nth position)',
-      [{ a: [0, 1, 2], schema: 'network.xyo.test.source.a' }],
+      [{ a: [0, 1, 2], schema: asSchema('network.xyo.test.source.a', true) }],
       [{ destinationField: 'c', sourcePathExpression: '$.a[1]' }],
-      [{ c: 1, schema: 'network.xyo.test.destination' }],
+      [{ c: 1, schema: asSchema('network.xyo.test.destination', true) }],
     ],
     [
       'transforms array (last position via subscript)',
-      [{ a: [0, 1, 2], schema: 'network.xyo.test.source.a' }],
+      [{ a: [0, 1, 2], schema: asSchema('network.xyo.test.source.a', true) }],
       [{ destinationField: 'c', sourcePathExpression: '$.a[(@.length-1)]' }],
-      [{ c: 2, schema: 'network.xyo.test.destination' }],
+      [{ c: 2, schema: asSchema('network.xyo.test.destination', true) }],
     ],
     // Since this can return an array, it should stop passing when
     // the arrayed transformer values are supported.
     [
       'transforms array (last position via slice)',
-      [{ a: [0, 1, 2], schema: 'network.xyo.test.source.a' }],
+      [{ a: [0, 1, 2], schema: asSchema('network.xyo.test.source.a', true) }],
       [{ destinationField: 'c', sourcePathExpression: '$.a[-1:]' }],
-      [{ c: 2, schema: 'network.xyo.test.destination' }],
+      [{ c: 2, schema: asSchema('network.xyo.test.destination', true) }],
     ],
     [
       'does not transform with default value if source property is null',
-      [{ a: null, schema: 'network.xyo.test.source.a' }],
+      [{ a: null, schema: asSchema('network.xyo.test.source.a', true) }],
       [{
         defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a',
       }],
-      [{ c: null, schema: 'network.xyo.test.destination' }],
+      [{ c: null, schema: asSchema('network.xyo.test.destination', true) }],
     ],
     [
       'does not transform with default value if source property is false',
-      [{ a: false, schema: 'network.xyo.test.source.a' }],
+      [{ a: false, schema: asSchema('network.xyo.test.source.a', true) }],
       [{
         defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a',
       }],
-      [{ c: false, schema: 'network.xyo.test.destination' }],
+      [{ c: false, schema: asSchema('network.xyo.test.destination', true) }],
     ],
     [
       'does not transform with default value if source property is falsy',
-      [{ a: 0, schema: 'network.xyo.test.source.a' }],
+      [{ a: 0, schema: asSchema('network.xyo.test.source.a', true) }],
       [{
         defaultValue: 1, destinationField: 'c', sourcePathExpression: '$.a',
       }],
-      [{ c: 0, schema: 'network.xyo.test.destination' }],
+      [{ c: 0, schema: asSchema('network.xyo.test.destination', true) }],
     ],
   ]
   let wallet: WalletInstance

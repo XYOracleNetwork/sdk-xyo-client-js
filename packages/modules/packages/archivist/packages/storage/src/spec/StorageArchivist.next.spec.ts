@@ -2,7 +2,9 @@ import { delay } from '@xylabs/sdk-js'
 import { Account } from '@xyo-network/account'
 import { generateArchivistNextTests } from '@xyo-network/archivist-acceptance-tests'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type WithStorageMeta,
+} from '@xyo-network/payload-model'
 import { v4 } from 'uuid'
 import {
   describe, expect,
@@ -25,8 +27,8 @@ describe('next', () => {
     const account = await Account.random()
 
     const payloads1 = [
-      { schema: 'network.xyo.test', value: 1 },
-      { schema: 'network.xyo.test', value: 2 },
+      { schema: asSchema('network.xyo.test', true), value: 1 },
+      { schema: asSchema('network.xyo.test', true), value: 2 },
     ]
 
     // console.log('Payloads1:', toSafeJsonString(await PayloadBuilder.hashPairs(payloads1), 10))
@@ -34,8 +36,8 @@ describe('next', () => {
     await delay(1)
 
     const payloads2 = [
-      { schema: 'network.xyo.test', value: 3 },
-      { schema: 'network.xyo.test', value: 4 },
+      { schema: asSchema('network.xyo.test', true), value: 3 },
+      { schema: asSchema('network.xyo.test', true), value: 4 },
     ]
 
     // console.log('Payloads2:', toSafeJsonString(await PayloadBuilder.hashPairs(payloads2), 10))

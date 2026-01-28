@@ -40,14 +40,14 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
     'network.xyo.diviner.stage': 'indexCandidateToIndexDiviner',
   }
 
-  private _indexableSchemas: string[] | undefined
+  private _indexableSchemas: Schema[] | undefined
   private _payloadTransformers: SchemaToPayloadTransformersDictionary | undefined
 
   /**
    * List of indexable schemas for this diviner
    */
-  protected get indexableSchemas(): string[] {
-    if (!this._indexableSchemas) this._indexableSchemas = Object.keys(this.schemaTransforms)
+  protected get indexableSchemas(): Schema[] {
+    if (!this._indexableSchemas) this._indexableSchemas = Object.keys(this.schemaTransforms) as Schema[]
     return this._indexableSchemas
   }
 
@@ -138,7 +138,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
    * @param schema The candidate schema
    * @returns True if this schema is one indexed by this diviner, false otherwise
    */
-  protected isIndexableSchema = (schema?: string | null) => {
+  protected isIndexableSchema = (schema?: Schema | null) => {
     return typeof schema === 'string' ? this.indexableSchemas.includes(schema) : false
   }
 }

@@ -41,6 +41,7 @@ import type {
   ModuleDescriptionPayload,
   ModuleDetailsError,
   ModuleEventData,
+  ModuleManifestQuery,
   ModuleParams,
   ModuleQueriedEventArgs,
   ModuleQueries,
@@ -65,8 +66,9 @@ import {
   ObjectResolverPriority,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  ModuleError, Payload, Query, Schema,
+import {
+  asSchema,
+  type ModuleError, type Payload, type Query, type Schema,
 } from '@xyo-network/payload-model'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
 import type { WalletInstance } from '@xyo-network/wallet-model'
@@ -78,7 +80,7 @@ import { ModuleErrorBuilder } from './Error.ts'
 import type { Queryable } from './QueryValidator/index.ts'
 import { ModuleConfigQueryValidator, SupportedQueryValidator } from './QueryValidator/index.ts'
 
-export const DefaultModuleQueries = [ModuleAddressQuerySchema, ModuleSubscribeQuerySchema, ModuleManifestQuerySchema, ModuleStateQuerySchema] as const
+export const DefaultModuleQueries = [ModuleAddressQuerySchema, ModuleSubscribeQuerySchema, ModuleManifestQuerySchema, ModuleStateQuerySchema]
 
 creatableModule()
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
@@ -392,7 +394,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           })
         }
         if (this.timestamp) {
-          const timestamp = { schema: 'network.xyo.timestamp', timestamp: Date.now() }
+          const timestamp = { schema: asSchema('network.xyo.timestamp', true), timestamp: Date.now() }
           resultPayloads.push(timestamp)
         }
         const result = await this.bindQueryResult(sourceQuery, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads)
@@ -593,7 +595,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
       case ModuleManifestQuerySchema: {
-        resultPayloads.push(await this.manifestHandler(queryPayload.maxDepth))
+        const typedQueryPayload = queryPayload as ModuleManifestQuery
+        resultPayloads.push(await this.manifestHandler(typedQueryPayload.maxDepth))
         break
       }
       case ModuleAddressQuerySchema: {

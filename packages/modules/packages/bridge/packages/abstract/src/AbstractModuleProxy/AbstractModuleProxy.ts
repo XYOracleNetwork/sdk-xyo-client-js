@@ -92,7 +92,7 @@ export abstract class AbstractModuleProxy<
     return { ...this._config, schema: (this._config?.schema ?? ModuleConfigSchema) }
   }
 
-  override get queries(): string[] {
+  override get queries(): Schema[] {
     const queryPayloads = assertEx(this._state, () => 'Module state not found.  Make sure proxy has been started').filter(item =>
       isPayloadOfSchemaType<QueryPayload>(QuerySchema)(item)) as QueryPayload[]
     return queryPayloads.map(payload => payload.query)

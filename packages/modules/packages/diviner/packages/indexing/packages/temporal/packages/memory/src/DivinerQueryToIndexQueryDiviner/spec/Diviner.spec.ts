@@ -10,7 +10,7 @@ import {
 } from '@xyo-network/diviner-temporal-indexing-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { asSchema, isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -72,9 +72,9 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       })
     })
     describe('with config fields specified', () => {
-      const divinerQuerySchema = 'network.xyo.test.source.query'
-      const indexQuerySchema = 'network.xyo.test.destination.query'
-      const indexSchema = 'network.xyo.test.index.schema'
+      const divinerQuerySchema = asSchema('network.xyo.test.source.query', true)
+      const indexQuerySchema = asSchema('network.xyo.test.destination.query', true)
+      const indexSchema = asSchema('network.xyo.test.index.schema', true)
       const queries = [
         {
           schema: divinerQuerySchema,

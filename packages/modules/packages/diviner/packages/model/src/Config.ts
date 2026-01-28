@@ -1,8 +1,10 @@
 import type { EmptyObject, WithAdditional } from '@xylabs/sdk-js'
 import type { ModuleConfig, ModuleIdentifier } from '@xyo-network/module-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type Schema,
+} from '@xyo-network/payload-model'
 
-export const DivinerConfigSchema = 'network.xyo.diviner.config' as const
+export const DivinerConfigSchema = asSchema('network.xyo.diviner.config', true)
 export type DivinerConfigSchema = typeof DivinerConfigSchema
 
 export interface ModuleEventSubscription {
@@ -15,9 +17,8 @@ export type DivinerConfig<TConfig extends Payload | EmptyObject | void = void, T
   WithAdditional<
     {
       eventSubscriptions?: ModuleEventSubscription[]
-      schema: TConfig extends Payload ? TConfig['schema'] : DivinerConfigSchema
     },
-    TConfig
+    Omit<TConfig, 'schema'>
   >,
-  TSchema
+  TSchema extends Schema ? TSchema : TConfig extends Payload ? TConfig['schema'] : DivinerConfigSchema
 >

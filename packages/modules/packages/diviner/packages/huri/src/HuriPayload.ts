@@ -1,10 +1,9 @@
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 
-export const HuriSchema = 'network.xyo.huri' as const
+export const HuriSchema = asSchema('network.xyo.huri', true)
 export type HuriSchema = typeof HuriSchema
 
 export type HuriPayload = Payload<{
   huri: string[]
-  schema: 'network.xyo.huri'
   tokens?: string[]
-}>
+}, HuriSchema>

@@ -1,8 +1,8 @@
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 
 import { PayloadBuilder } from '../Builder.ts'
 
-const schema = 'network.xyo.temp'
+const schema = asSchema('network.xyo.temp', true)
 
 import '@xylabs/vitest-extended'
 
@@ -104,7 +104,7 @@ describe('PayloadBuilder', () => {
         },
         timestamp: 1_609_459_200_000,
       },
-      schema: 'network.xyo.location.current',
+      schema: asSchema('network.xyo.location.current', true),
     }
     const dh = await PayloadBuilder.dataHash(value)
     const h = await PayloadBuilder.hash(value)
@@ -125,14 +125,14 @@ describe('PayloadBuilder', () => {
       payload_hashes: ['c915c56dd93b5e0db509d1a63ca540cfb211e11f03039b05e19712267bb8b6db'],
       payload_schemas: ['network.xyo.test'],
       previous_hashes: [null],
-      schema: 'network.xyo.boundwitness',
+      schema: asSchema('network.xyo.boundwitness', true),
     }
     const value2 = {
       addresses: ['e3b3bb3cdc49e13f9ac5f48d52915368de43afec'],
       payload_hashes: ['c915c56dd93b5e0db509d1a63ca540cfb211e11f03039b05e19712267bb8b6db'],
       payload_schemas: ['network.xyo.test'],
       previous_hashes: [null],
-      schema: 'network.xyo.boundwitness',
+      schema: asSchema('network.xyo.boundwitness', true),
     }
     console.log('payload', PayloadBuilder.omitMeta(value))
     const dh = await PayloadBuilder.dataHash(value)

@@ -1,10 +1,10 @@
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 
 import { ForecastingDivinerSchema } from '../Schema.ts'
 import type { Forecast } from './Forecast.ts'
 
-export type ForecastPayloadSchema = `${ForecastingDivinerSchema}.forecast`
-export const ForecastPayloadSchema: ForecastPayloadSchema = `${ForecastingDivinerSchema}.forecast`
+export const ForecastPayloadSchema = asSchema(`${ForecastingDivinerSchema}.forecast`, true)
+export type ForecastPayloadSchema = typeof ForecastPayloadSchema
 
 export type ForecastPayload = Payload<{
   schema: ForecastPayloadSchema

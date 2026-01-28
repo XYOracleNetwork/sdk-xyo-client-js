@@ -9,7 +9,9 @@ import type { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-bound
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isStorageMeta, type WithStorageMeta } from '@xyo-network/payload-model'
+import {
+  asSchema, isStorageMeta, type WithStorageMeta,
+} from '@xyo-network/payload-model'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -56,12 +58,12 @@ describe('IndexedDbBoundWitnessDiviner', () => {
   let sut: IndexedDbBoundWitnessDiviner
   let node: MemoryNode
   const payloadA = {
-    schema: 'network.xyo.test',
+    schema: asSchema('network.xyo.test', true),
     url: 'https://xyo.network',
   }
   const payloadB = {
     foo: ['bar', 'baz'],
-    schema: 'network.xyo.debug',
+    schema: asSchema('network.xyo.debug', true),
   }
   const boundWitnesses: WithStorageMeta<BoundWitness>[] = []
   beforeAll(async () => {

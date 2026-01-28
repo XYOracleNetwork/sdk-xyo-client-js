@@ -24,7 +24,7 @@ export class MongoDBArchivistV2 extends MongoDBArchivistBaseV2 {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, MongoDBArchivistConfigSchema]
   static override readonly defaultConfigSchema: Schema = MongoDBArchivistConfigSchema
 
-  override readonly queries: string[] = [ArchivistInsertQuerySchema, ArchivistNextQuerySchema, ...super.queries]
+  override readonly queries: Schema[] = [ArchivistInsertQuerySchema, ArchivistNextQuerySchema, ...super.queries]
 
   /**
    * The amount of time to allow the aggregate query to execute
@@ -153,7 +153,7 @@ export class MongoDBArchivistV2 extends MongoDBArchivistBaseV2 {
 }
 
 export class MongoDBArchivistV2Deletable extends MongoDBArchivistV2 {
-  override readonly queries: string[] = [
+  override readonly queries: Schema[] = [
     ArchivistDeleteQuerySchema,
     ArchivistGetQuerySchema,
     ArchivistInsertQuerySchema,

@@ -3969,6 +3969,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:~7.3.2"
     "@xyo-network/archivist-model": "npm:~5.2.27"
     "@xyo-network/module-model": "npm:~5.2.27"
+    "@xyo-network/payload-model": "npm:~5.2.27"
     mongodb: "npm:^7.0.0"
     typescript: "npm:~5.9.3"
   peerDependencies:
@@ -4732,6 +4733,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:~7.3.2"
     "@xyo-network/diviner-model": "npm:~5.2.27"
     "@xyo-network/module-model": "npm:~5.2.27"
+    "@xyo-network/payload-model": "npm:~5.2.27"
     typescript: "npm:~5.9.3"
   languageName: unknown
   linkType: soft
@@ -4971,6 +4973,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
     "@xyo-network/diviner-model": "npm:~5.2.27"
+    "@xyo-network/payload-model": "npm:~5.2.27"
     typescript: "npm:~5.9.3"
   languageName: unknown
   linkType: soft
@@ -5211,6 +5214,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:~7.3.2"
     "@xyo-network/diviner-model": "npm:~5.2.27"
     "@xyo-network/module-model": "npm:~5.2.27"
+    "@xyo-network/payload-model": "npm:~5.2.27"
     fast-json-patch: "npm:~3.1.1"
     typescript: "npm:~5.9.3"
   languageName: unknown
@@ -6478,6 +6482,7 @@ __metadata:
     "@xyo-network/node-model": "npm:~5.2.27"
     "@xyo-network/node-wrapper": "npm:~5.2.27"
     "@xyo-network/payload": "npm:~5.2.27"
+    "@xyo-network/payload-model": "npm:~5.2.27"
     "@xyo-network/wallet": "npm:~5.2.27"
     "@xyo-network/witness-adhoc": "npm:~5.2.27"
     typescript: "npm:~5.9.3"

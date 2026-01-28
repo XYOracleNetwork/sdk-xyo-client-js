@@ -2,6 +2,7 @@ import '@xylabs/vitest-extended'
 
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
+import type { Schema } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -11,11 +12,11 @@ import { combinationsByBoundwitness } from '../combinationsByBoundwitness.ts'
 
 describe('combinationsByBoundwitness', () => {
   const payloadCount = 2
-  const testMatrix: [string, string[]][] = [
+  const testMatrix = [
     ['with single payload', ['network.xyo.temp.a']],
     ['with multiple payload', ['network.xyo.temp.a', 'network.xyo.temp.b']],
     ['with with many payloads', ['network.xyo.temp.a', 'network.xyo.temp.b', 'network.xyo.temp.c']],
-  ]
+  ] as [string, Schema[]][]
   describe.each(testMatrix)('%s', (_title, schemas) => {
     const payloads = schemas.map((schema) => {
       return [...Array(payloadCount).keys()].map((i) => {

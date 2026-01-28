@@ -7,7 +7,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { asSchema, isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   describe, expect, it,
@@ -30,7 +30,7 @@ describe.skip('WebsocketBridge', () => {
   it('WebsocketBridge: %s', async () => {
     const memClientNode = await MemoryNode.create({
       account: 'random',
-      config: { name: 'TestClientNode', schema: 'network.xyo.node.config' },
+      config: { name: 'TestClientNode', schema: asSchema('network.xyo.node.config', true) },
     })
     const memHostNode = await MemoryNode.create({ account: 'random' })
 

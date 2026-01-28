@@ -9,6 +9,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { COLLECTIONS, hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { asSchema } from '@xyo-network/payload-model'
 import type { PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
@@ -38,13 +39,13 @@ describe.runIf(hasMongoDBConfig())('Archivist', () => {
       payloadSdkConfig: payloadsConfig,
     })
     archivist = new ArchivistWrapper({ mod: mod, account: await Account.random() })
-    const payload1 = { nonce: Date.now(), schema: 'network.xyo.debug' }
+    const payload1 = { nonce: Date.now(), schema: asSchema('network.xyo.debug', true) }
     await delay(2)
-    const payload2 = { nonce: Date.now(), schema: 'network.xyo.test' }
+    const payload2 = { nonce: Date.now(), schema: asSchema('network.xyo.test', true) }
     await delay(2)
-    const payload3 = { nonce: Date.now(), schema: 'network.xyo.debug' }
+    const payload3 = { nonce: Date.now(), schema: asSchema('network.xyo.debug', true) }
     await delay(2)
-    const payload4 = { nonce: Date.now(), schema: 'network.xyo.test' }
+    const payload4 = { nonce: Date.now(), schema: asSchema('network.xyo.test', true) }
     await delay(2)
     const payloadWrapper1 = PayloadWrapper.wrap(payload1)
     const payloadWrapper2 = PayloadWrapper.wrap(payload2)
@@ -117,10 +118,10 @@ describe.runIf(hasMongoDBConfig())('Archivist', () => {
     const payloads: BoundWitnessWrapper | PayloadWrapper[] = []
     beforeAll(async () => {
       for (let i = 0; i < 10; i++) {
-        const payload1 = { nonce: Date.now(), schema: 'network.xyo.debug' }
+        const payload1 = { nonce: Date.now(), schema: asSchema('network.xyo.debug', true) }
         const payloadWrapper1 = PayloadWrapper.wrap(payload1)
         await delay(2)
-        const payload2 = { nonce: Date.now(), schema: 'network.xyo.test' }
+        const payload2 = { nonce: Date.now(), schema: asSchema('network.xyo.test', true) }
         const payloadWrapper2 = PayloadWrapper.wrap(payload2)
         await delay(2)
         const signer = await Account.random()

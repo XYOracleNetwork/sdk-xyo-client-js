@@ -39,6 +39,9 @@ export interface ModuleConfigFields {
   /** @field Store the queries made to the module in an archivist if possible */
   readonly storeQueries?: boolean
 
+  /** @field Time Budget setting for spans */
+  readonly timeBudget?: number
+
   /** @field add a timestamp payload to every query  */
   readonly timestamp?: boolean
 }

@@ -1,13 +1,14 @@
 import type { IndexingDivinerStage, IndexingDivinerStageConfig } from '@xyo-network/diviner-indexing-model'
 import type { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import type { DivinerConfig, SearchableStorage } from '@xyo-network/diviner-model'
+import { asSchema } from '@xyo-network/payload-model'
 
 import type { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig } from './DivinerQueryToIndexQueryDiviner/index.ts'
 import type { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfig } from './IndexQueryResponseToDivinerQueryResponseDiviner/index.ts'
 import { TemporalIndexingDivinerSchema } from './Schema.ts'
 import type { TemporalIndexingDivinerStateToIndexCandidateDivinerConfig } from './StateToIndexCandidateDiviner/index.ts'
 
-export const TemporalIndexingDivinerConfigSchema = `${TemporalIndexingDivinerSchema}.config` as const
+export const TemporalIndexingDivinerConfigSchema = asSchema(`${TemporalIndexingDivinerSchema}.config`, true)
 export type TemporalIndexingDivinerConfigSchema = typeof TemporalIndexingDivinerConfigSchema
 
 /**

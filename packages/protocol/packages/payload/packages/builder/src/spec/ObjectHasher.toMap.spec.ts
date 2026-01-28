@@ -2,7 +2,7 @@ import '@xylabs/vitest-extended'
 
 import type { AnyObject } from '@xylabs/sdk-js'
 import { ObjectHasher } from '@xyo-network/hash'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -12,7 +12,7 @@ import { PayloadBuilder } from '../Builder.ts'
 
 describe('PayloadBuilder', () => {
   const testObject = {
-    schema: 'network.xyo.test',
+    schema: asSchema('network.xyo.test', true),
     testArray: [1, 2, 3],
     testBoolean: true,
     testNull: null,
@@ -25,7 +25,7 @@ describe('PayloadBuilder', () => {
     testString: 'hello there.  this is a pretty long string.  what do you think?',
   }
   const bigObject = {
-    schema: 'network.xyo.test',
+    schema: asSchema('network.xyo.test', true),
     testArray: [1, 2, 3],
     testBoolean: true,
     testNull: null,
@@ -43,40 +43,40 @@ describe('PayloadBuilder', () => {
     [
       'Hashes input payloads to a map',
       [
-        { a: 0, schema: 'network.xyo.test.a' },
-        { b: 1, schema: 'network.xyo.test.b' },
+        { a: 0, schema: asSchema('network.xyo.test.a', true) },
+        { b: 1, schema: asSchema('network.xyo.test.b', true) },
       ] satisfies Payload<AnyObject>[],
     ],
     [
       'Preserves ordering of input payloads when creating object keys',
       [
-        { a: 0, schema: 'network.xyo.test.a' },
-        { b: 1, schema: 'network.xyo.test.b' },
-        { c: 2, schema: 'network.xyo.test.c' },
-        { d: 3, schema: 'network.xyo.test.d' },
-        { e: 4, schema: 'network.xyo.test.e' },
-        { f: 5, schema: 'network.xyo.test.f' },
-        { g: 6, schema: 'network.xyo.test.g' },
-        { h: 7, schema: 'network.xyo.test.h' },
-        { i: 8, schema: 'network.xyo.test.i' },
-        { j: 9, schema: 'network.xyo.test.j' },
-        { k: 10, schema: 'network.xyo.test.k' },
-        { l: 11, schema: 'network.xyo.test.l' },
-        { m: 12, schema: 'network.xyo.test.m' },
+        { a: 0, schema: asSchema('network.xyo.test.a', true) },
+        { b: 1, schema: asSchema('network.xyo.test.b', true) },
+        { c: 2, schema: asSchema('network.xyo.test.c', true) },
+        { d: 3, schema: asSchema('network.xyo.test.d', true) },
+        { e: 4, schema: asSchema('network.xyo.test.e', true) },
+        { f: 5, schema: asSchema('network.xyo.test.f', true) },
+        { g: 6, schema: asSchema('network.xyo.test.g', true) },
+        { h: 7, schema: asSchema('network.xyo.test.h', true) },
+        { i: 8, schema: asSchema('network.xyo.test.i', true) },
+        { j: 9, schema: asSchema('network.xyo.test.j', true) },
+        { k: 10, schema: asSchema('network.xyo.test.k', true) },
+        { l: 11, schema: asSchema('network.xyo.test.l', true) },
+        { m: 12, schema: asSchema('network.xyo.test.m', true) },
         bigObject,
-        { n: 13, schema: 'network.xyo.test.n' },
-        { o: 14, schema: 'network.xyo.test.o' },
-        { p: 15, schema: 'network.xyo.test.p' },
-        { q: 16, schema: 'network.xyo.test.q' },
-        { r: 17, schema: 'network.xyo.test.r' },
-        { s: 18, schema: 'network.xyo.test.s' },
-        { schema: 'network.xyo.test.t', t: 19 },
-        { schema: 'network.xyo.test.u', u: 20 },
-        { schema: 'network.xyo.test.v', v: 21 },
-        { schema: 'network.xyo.test.w', w: 22 },
-        { schema: 'network.xyo.test.x', x: 23 },
-        { schema: 'network.xyo.test.y', y: 24 },
-        { schema: 'network.xyo.test.z', z: 25 },
+        { n: 13, schema: asSchema('network.xyo.test.n', true) },
+        { o: 14, schema: asSchema('network.xyo.test.o', true) },
+        { p: 15, schema: asSchema('network.xyo.test.p', true) },
+        { q: 16, schema: asSchema('network.xyo.test.q', true) },
+        { r: 17, schema: asSchema('network.xyo.test.r', true) },
+        { s: 18, schema: asSchema('network.xyo.test.s', true) },
+        { schema: asSchema('network.xyo.test.t', true), t: 19 },
+        { schema: asSchema('network.xyo.test.u', true), u: 20 },
+        { schema: asSchema('network.xyo.test.v', true), v: 21 },
+        { schema: asSchema('network.xyo.test.w', true), w: 22 },
+        { schema: asSchema('network.xyo.test.x', true), x: 23 },
+        { schema: asSchema('network.xyo.test.y', true), y: 24 },
+        { schema: asSchema('network.xyo.test.z', true), z: 25 },
       ] satisfies Payload<AnyObject>[],
     ],
   ]

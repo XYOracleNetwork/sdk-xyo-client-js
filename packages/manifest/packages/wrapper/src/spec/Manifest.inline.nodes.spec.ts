@@ -20,7 +20,7 @@ describe('Manifest (Inline Nodes)', () => {
     test('Simple Node [Inline with Nodes]', { timeout: 10_000 }, async () => {
       const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
       const wallet = await HDWallet.fromPhrase(mnemonic)
-      const manifest = new ManifestWrapper(simpleNodeInlineNodesManifest as PackageManifestPayload, wallet, new ModuleFactoryLocator())
+      const manifest = new ManifestWrapper(simpleNodeInlineNodesManifest as unknown as PackageManifestPayload, wallet, new ModuleFactoryLocator())
       const [node] = await manifest.loadNodes()
       expect(node).toBeDefined()
       expect(node.name).toBe('SimpleMemoryDapp')

@@ -1,7 +1,7 @@
 import type { ModuleIdentifier } from '@xyo-network/module-model'
-import type { Query } from '@xyo-network/payload-model'
+import { asSchema, type Query } from '@xyo-network/payload-model'
 
-export const NodeDetachQuerySchema = 'network.xyo.query.node.detach' as const
+export const NodeDetachQuerySchema = asSchema('network.xyo.query.node.detach', true)
 export type NodeDetachQuerySchema = typeof NodeDetachQuerySchema
 
 export type NodeDetachQuery = Query<{

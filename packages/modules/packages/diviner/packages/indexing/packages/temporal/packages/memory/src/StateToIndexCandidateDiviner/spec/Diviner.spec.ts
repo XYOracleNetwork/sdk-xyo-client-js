@@ -14,6 +14,7 @@ import type { ModuleState } from '@xyo-network/module-model'
 import { isModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
+  asSchema,
   isStorageMeta, type Payload, type WithStorageMeta,
 } from '@xyo-network/payload-model'
 import { HDWallet } from '@xyo-network/wallet'
@@ -33,7 +34,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
   const sourceUrl = 'https://placekitten.com/200/300'
   const thumbnailHttpSuccess = {
     http: { status: 200 },
-    schema: 'network.xyo.image.thumbnail',
+    schema: asSchema('network.xyo.image.thumbnail', true),
     sourceHash: '7f39363514d9d9b958a5a993edeba35cb44f912c7072ed9ddd628728ac0fd681',
     sourceUrl,
     url: 'data:image/png;base64,===',
@@ -45,20 +46,20 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
       ipAddress: '104.17.96.13',
       status: 429,
     },
-    schema: 'network.xyo.image.thumbnail',
+    schema: asSchema('network.xyo.image.thumbnail', true),
     sourceUrl,
   }
 
   const thumbnailCodeFail = {
     http: { code: 'FAILED' },
-    schema: 'network.xyo.image.thumbnail',
+    schema: asSchema('network.xyo.image.thumbnail', true),
     sourceUrl,
   }
 
   const thumbnailWitnessFail = {
 
     http: { ipAddress: '104.17.96.13' },
-    schema: 'network.xyo.image.thumbnail',
+    schema: asSchema('network.xyo.image.thumbnail', true),
     sourceUrl,
   }
 
@@ -70,7 +71,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     const wallet = await HDWallet.random()
     const locator = new ModuleFactoryLocator()
     locator.register(TemporalIndexingDivinerStateToIndexCandidateDiviner.factory())
-    const manifest = TemporalStateToIndexCandidateDivinerManifest as PackageManifestPayload
+    const manifest = TemporalStateToIndexCandidateDivinerManifest as unknown as PackageManifestPayload
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     const node = await manifestWrapper.loadNodeFromIndex(0)
     await node.start()

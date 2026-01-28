@@ -2,6 +2,7 @@ import '@xylabs/vitest-extended'
 
 import type { NodeManifestPayload } from '@xyo-network/manifest-model'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { asSchema } from '@xyo-network/payload-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 import {
   describe, expect, it,
@@ -17,7 +18,7 @@ describe('MemoryNode', () => {
   it('Creates MemoryNode from Manifest', async () => {
     const memoryNode = await MemoryNode.create({
       account: 'random',
-      config: { name: 'MemoryNode', schema: 'network.xyo.node.config' },
+      config: { name: 'MemoryNode', schema: asSchema('network.xyo.node.config', true) },
     })
     const privateWitnesses = [
       await AdhocWitness.create({ account: 'random', config: { name: 'PrivateWitness1', schema: AdhocWitnessConfigSchema } }),

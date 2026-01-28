@@ -1,10 +1,10 @@
 import type { Payload } from '@xyo-network/payload-model'
-import { PayloadSchema } from '@xyo-network/payload-model'
+import { asSchema, PayloadSchema } from '@xyo-network/payload-model'
 
 import type { PointerPayload } from './Pointer.ts'
 
-export type PayloadPointerSchema = `${PayloadSchema}.pointer`
-export const PayloadPointerSchema: PayloadPointerSchema = `${PayloadSchema}.pointer`
+export const PayloadPointerSchema = asSchema(`${PayloadSchema}.pointer`, true)
+export type PayloadPointerSchema = typeof PayloadPointerSchema
 
 export type PayloadPointerPayload = PointerPayload & {
   schema: PayloadPointerSchema

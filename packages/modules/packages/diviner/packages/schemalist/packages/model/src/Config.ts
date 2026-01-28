@@ -1,10 +1,10 @@
 import type { DivinerConfig } from '@xyo-network/diviner-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 
 import { SchemaListDivinerSchema } from './Schema.ts'
 
-export type SchemaListDivinerConfigSchema = `${SchemaListDivinerSchema}.config`
-export const SchemaListDivinerConfigSchema: SchemaListDivinerConfigSchema = `${SchemaListDivinerSchema}.config`
+export const SchemaListDivinerConfigSchema = asSchema(`${SchemaListDivinerSchema}.config`, true)
+export type SchemaListDivinerConfigSchema = typeof SchemaListDivinerConfigSchema
 
 export type SchemaListDivinerConfig<T extends Payload = Payload> = DivinerConfig<
   T & {

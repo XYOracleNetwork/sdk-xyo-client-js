@@ -45,7 +45,7 @@ export abstract class AbstractSentinel<
     return this._jobPromise
   }
 
-  override get queries(): string[] {
+  override get queries(): Schema[] {
     return [SentinelReportQuerySchema, ...super.queries]
   }
 

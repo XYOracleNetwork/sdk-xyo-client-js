@@ -1,6 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { asSchema } from '@xyo-network/payload-model'
 import { HDWallet } from '@xyo-network/wallet'
 import {
   afterAll,
@@ -11,28 +12,30 @@ import {
 
 import { BoundWitnessBuilder } from '../BoundWitnessBuilder.ts'
 
+const NetworkIdSchema = asSchema('network.xyo.id', true)
+
 const payloadSequences = [
   {
-    payloads: [{ salt: '0', schema: 'network.xyo.id' }],
+    payloads: [{ salt: '0', schema: NetworkIdSchema }],
     payloadHashes: [
       'ada56ff753c0c9b2ce5e1f823eda9ac53501db2843d8883d6cf6869c18ef7f65',
     ],
   },
   {
-    payloads: [{ salt: '1', schema: 'network.xyo.id' }],
+    payloads: [{ salt: '1', schema: NetworkIdSchema }],
     payloadHashes: [
       '3a3b8deca568ff820b0b7c8714fbdf82b40fb54f4b15aca8745e06b81291558e',
     ],
   },
   {
-    payloads: [{ salt: '2', schema: 'network.xyo.id' }, { salt: '3', schema: 'network.xyo.id' }],
+    payloads: [{ salt: '2', schema: NetworkIdSchema }, { salt: '3', schema: NetworkIdSchema }],
     payloadHashes: [
       '1a40207fab71fc184e88557d5bee6196cbbb49f11f73cda85000555a628a8f0a',
       'c4bce9b4d3239fcc9a248251d1bef1ba7677e3c0c2c43ce909a6668885b519e6',
     ],
   },
   {
-    payloads: [{ salt: '4', schema: 'network.xyo.id' }, { salt: '5', schema: 'network.xyo.id' }],
+    payloads: [{ salt: '4', schema: NetworkIdSchema }, { salt: '5', schema: NetworkIdSchema }],
     payloadHashes: [
       '59c0374dd801ae64ddddba27320ca028d7bd4b3d460f6674c7da1b4aa9c956d6',
       '5d9b8e84bc824280fcbb6290904c2edbb401d626ad9789717c0a23d1cab937b0',

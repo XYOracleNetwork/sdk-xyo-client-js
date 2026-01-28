@@ -7,6 +7,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryQuerySchema } from '@xyo-network/diviner-address-history-model'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { asSchema } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -37,9 +38,9 @@ describe('AddressHistoryDiviner', () => {
         config: { schema: MemoryArchivist.defaultConfigSchema, storeQueries: true },
       })
       const wrapper = ArchivistWrapper.wrap(archivist, wrapperAccount)
-      const payload1 = { index: 1, schema: 'network.xyo.test' }
-      const payload2 = { index: 2, schema: 'network.xyo.test' }
-      const payload3 = { index: 3, schema: 'network.xyo.test' }
+      const payload1 = { index: 1, schema: asSchema('network.xyo.test', true) }
+      const payload2 = { index: 2, schema: asSchema('network.xyo.test', true) }
+      const payload3 = { index: 3, schema: asSchema('network.xyo.test', true) }
       await wrapper.insert([payload1])
       await wrapper.insert([payload2])
       await wrapper.insert([payload3])

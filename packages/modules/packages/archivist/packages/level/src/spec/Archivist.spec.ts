@@ -11,6 +11,7 @@ import {
   IdSchema, isId,
 } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { asSchema } from '@xyo-network/payload-model'
 import { HDWallet } from '@xyo-network/wallet'
 import {
   describe, expect, it,
@@ -104,19 +105,19 @@ describe('LevelArchivist', () => {
     const account = await HDWallet.random()
 
     const payloads1 = [
-      { schema: 'network.xyo.test', value: 1 },
+      { schema: asSchema('network.xyo.test', true), value: 1 },
     ]
 
     const payloads2 = [
-      { schema: 'network.xyo.test', value: 2 },
+      { schema: asSchema('network.xyo.test', true), value: 2 },
     ]
 
     const payloads3 = [
-      { schema: 'network.xyo.test', value: 3 },
+      { schema: asSchema('network.xyo.test', true), value: 3 },
     ]
 
     const payloads4 = [
-      { schema: 'network.xyo.test', value: 4 },
+      { schema: asSchema('network.xyo.test', true), value: 4 },
     ]
 
     const insertedPayloads1 = await archivist.insert(payloads1)

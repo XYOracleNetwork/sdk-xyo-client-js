@@ -99,7 +99,7 @@ export abstract class AbstractArchivist<
     return this.defaultNextLimitSetting
   }
 
-  override get queries(): string[] {
+  override get queries(): Schema[] {
     return [ArchivistGetQuerySchema, ...super.queries]
   }
 
@@ -143,7 +143,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, { timeBudgetLimit: 100 })
+    }, { timeBudgetLimit: this.timeBudget })
   }
 
   /** deprecated use nextQuery or snapshotQuery instead */
@@ -171,7 +171,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, { timeBudgetLimit: 100 })
+    }, { timeBudgetLimit: this.timeBudget })
   }
 
   async clearQuery(account: AccountInstance): Promise<ModuleQueryResult> {
@@ -196,7 +196,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, { timeBudgetLimit: 200 })
+    }, { timeBudgetLimit: this.timeBudget })
   }
 
   async commitQuery(account: AccountInstance): Promise<ModuleQueryResult> {
@@ -221,7 +221,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, { timeBudgetLimit: 200 })
+    }, { timeBudgetLimit: this.timeBudget })
   }
 
   async deleteQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -246,7 +246,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, { timeBudgetLimit: 200 })
+    }, { timeBudgetLimit: this.timeBudget })
   }
 
   async getQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -271,7 +271,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, { timeBudgetLimit: 200 })
+    }, { timeBudgetLimit: this.timeBudget })
   }
 
   async insertQuery(payloads: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -297,7 +297,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, { timeBudgetLimit: 200 })
+    }, { timeBudgetLimit: this.timeBudget })
   }
 
   async nextQuery(options?: ArchivistNextOptions, account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -322,7 +322,7 @@ export abstract class AbstractArchivist<
       } finally {
         this.globalReentrancyMutex?.release()
       }
-    }, { timeBudgetLimit: 200 })
+    }, { timeBudgetLimit: this.timeBudget })
   }
 
   async snapshotQuery(account?: AccountInstance): Promise<ModuleQueryResult> {
@@ -561,6 +561,7 @@ export abstract class AbstractArchivist<
     return -1
   }
 
+  // eslint-disable-next-line max-statements
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads: Payload[],
@@ -587,11 +588,13 @@ export abstract class AbstractArchivist<
         break
       }
       case ArchivistDeleteQuerySchema: {
-        resultPayloads.push(...(await this.deleteWithConfig(queryPayload.hashes)))
+        const typedQueryPayload = queryPayload as ArchivistDeleteQuery
+        resultPayloads.push(...(await this.deleteWithConfig(typedQueryPayload.hashes)))
         break
       }
       case ArchivistGetQuerySchema: {
-        resultPayloads.push(...(await this.getWithConfig(queryPayload.hashes ?? [])))
+        const typedQueryPayload = queryPayload as ArchivistGetQuery
+        resultPayloads.push(...(await this.getWithConfig(typedQueryPayload.hashes ?? [])))
         break
       }
       case ArchivistInsertQuerySchema: {
@@ -599,7 +602,8 @@ export abstract class AbstractArchivist<
         break
       }
       case ArchivistNextQuerySchema: {
-        resultPayloads.push(...(await this.nextHandler(queryPayload)))
+        const typedQueryPayload = queryPayload as ArchivistNextQuery
+        resultPayloads.push(...(await this.nextHandler(typedQueryPayload)))
         break
       }
       case ArchivistSnapshotQuerySchema: {

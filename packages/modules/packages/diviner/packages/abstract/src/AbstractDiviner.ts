@@ -73,12 +73,12 @@ export abstract class AbstractDiviner<
   implements AttachableDivinerInstance<TParams, TIn, TOut, TEventData> {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, DivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = DivinerConfigSchema
-  static readonly targetSchema: string
+  static readonly targetSchema: Schema
   static override readonly uniqueName = globallyUnique('AbstractDiviner', AbstractDiviner, 'xyo')
 
   private _eventUnsubscribeFunctions: EventUnsubscribeFunction[] = []
 
-  override get queries(): string[] {
+  override get queries(): Schema[] {
     return [DivinerDivineQuerySchema, ...super.queries]
   }
 

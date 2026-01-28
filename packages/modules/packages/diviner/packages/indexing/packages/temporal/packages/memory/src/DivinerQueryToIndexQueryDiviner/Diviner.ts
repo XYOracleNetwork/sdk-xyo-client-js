@@ -55,7 +55,7 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
    * List of indexable schemas for this diviner
    */
   protected get indexableSchemas(): Schema[] {
-    if (!this._indexableSchemas) this._indexableSchemas = Object.keys(this.schemaTransforms)
+    if (!this._indexableSchemas) this._indexableSchemas = Object.keys(this.schemaTransforms) as Schema[]
     return this._indexableSchemas
   }
 

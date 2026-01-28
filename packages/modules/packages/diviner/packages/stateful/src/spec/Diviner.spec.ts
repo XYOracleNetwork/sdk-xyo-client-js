@@ -12,7 +12,7 @@ import {
   creatableModule, CreatableModuleInstance, type ModuleState,
 } from '@xyo-network/module-model'
 import type { MemoryNode } from '@xyo-network/node-memory'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 import { HDWallet } from '@xyo-network/wallet'
 import {
   beforeAll,
@@ -52,7 +52,7 @@ describe('TestStatefulDiviner', () => {
     locator.register(MemoryBoundWitnessDiviner.factory())
     locator.register(GenericPayloadDiviner.factory())
     locator.register(TestStatefulDiviner.factory())
-    const manifest = TestManifest as PackageManifestPayload
+    const manifest = TestManifest as unknown as PackageManifestPayload
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)
     await node.start()
@@ -74,9 +74,9 @@ describe('TestStatefulDiviner', () => {
     })
     describe('with previous state', () => {
       const cases: ModuleState[] = [
-        { schema: 'network.xyo.module.state', state: { offset: 0 } },
-        { schema: 'network.xyo.module.state', state: { offset: 1 } },
-        { schema: 'network.xyo.module.state', state: { offset: 1000 } },
+        { schema: asSchema('network.xyo.module.state', true), state: { offset: 0 } },
+        { schema: asSchema('network.xyo.module.state', true), state: { offset: 1 } },
+        { schema: asSchema('network.xyo.module.state', true), state: { offset: 1000 } },
       ]
 
       it.each(cases)('returns state', async (state) => {

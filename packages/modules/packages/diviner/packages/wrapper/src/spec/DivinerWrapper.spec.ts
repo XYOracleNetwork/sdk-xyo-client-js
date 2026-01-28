@@ -2,6 +2,7 @@ import '@xylabs/vitest-extended'
 
 import { IdentityDiviner } from '@xyo-network/diviner-identity'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { asSchema } from '@xyo-network/payload-model'
 import {
   describe, expect,
   it,
@@ -15,7 +16,7 @@ import {
 describe('DivinerWrapper', () => {
   describe('divine', () => {
     it('returns divined result', async () => {
-      const schema = 'network.xyo.debug'
+      const schema = asSchema('network.xyo.debug', true)
       const diviner = await IdentityDiviner.create({ account: 'random' })
       const payloads = [new PayloadBuilder({ schema }).build()]
       const result = await diviner.divine(payloads)

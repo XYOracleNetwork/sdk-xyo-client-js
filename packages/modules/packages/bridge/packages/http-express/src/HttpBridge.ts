@@ -22,7 +22,9 @@ import {
 import {
   AnyConfigSchema, creatableModule, ModuleInstance, ModuleQueryResult, resolveAddressToInstanceUp,
 } from '@xyo-network/module-model'
-import { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  asSchema, Payload, Schema,
+} from '@xyo-network/payload-model'
 import express, {
   Application, Request, Response,
 } from 'express'
@@ -47,7 +49,7 @@ type PostAddressRequestBody = [QueryBoundWitness, undefined | Payload[]]
   error: string
 } */
 
-export const HttpBridgeExpressConfigSchema = 'network.xyo.bridge.http.express.config' as const
+export const HttpBridgeExpressConfigSchema = asSchema('network.xyo.bridge.http.express.config', true)
 export type HttpBridgeExpressConfigSchema = typeof HttpBridgeExpressConfigSchema
 
 export interface HttpBridgeExpressConfig extends HttpBridgeConfig<{}, HttpBridgeExpressConfigSchema> {}

@@ -11,7 +11,7 @@ import {
   hasLabels,
   registerCreatableModuleFactory,
 } from '@xyo-network/module-model'
-import type { Schema } from '@xyo-network/payload-model'
+import { asSchema, type Schema } from '@xyo-network/payload-model'
 
 import { standardCreatableFactories } from './standardCreatableFactories.ts'
 
@@ -52,7 +52,7 @@ export class ModuleFactoryLocator implements ModuleFactoryLocatorInstance {
    * @param labels The labels for the module factory
    * @returns A module factory that matches the supplied schema and labels or throws if one is not found
    */
-  locate(schema: string, labels?: Labels): CreatableModuleFactory | LabeledCreatableModuleFactory {
+  locate(schema: Schema, labels?: Labels): CreatableModuleFactory | LabeledCreatableModuleFactory {
     return assertEx(
       this.tryLocate(schema, labels),
 
@@ -63,10 +63,11 @@ export class ModuleFactoryLocator implements ModuleFactoryLocatorInstance {
   merge(locator: ModuleFactoryLocatorInstance): ModuleFactoryLocatorInstance {
     const registry = { ...this.registry }
     for (const schema in locator.registry) {
-      if (registry[schema]) {
-        registry[schema].push(...(locator.registry[schema] ?? []))
+      const typedSchema = asSchema(schema, true)
+      if (registry[typedSchema]) {
+        registry[typedSchema].push(...(locator.registry[typedSchema] ?? []))
       } else {
-        registry[schema] = locator.registry[schema]
+        registry[typedSchema] = locator.registry[typedSchema]
       }
     }
     return new ModuleFactoryLocator(registry)
@@ -100,7 +101,7 @@ export class ModuleFactoryLocator implements ModuleFactoryLocatorInstance {
    * @param labels The labels for the module factory
    * @returns A module factory that matches the supplied schema and labels or undefined
    */
-  tryLocate(schema: string, labels?: Labels): CreatableModuleFactory | LabeledCreatableModuleFactory | undefined {
+  tryLocate(schema: Schema, labels?: Labels): CreatableModuleFactory | LabeledCreatableModuleFactory | undefined {
     return labels
       // Find the first factory that has labels and has all the labels provided
       ? (this._registry[schema]?.filter(hasLabels).find(factory => hasAllLabels(factory?.labels, labels)) ?? this._registry[schema]?.[0])

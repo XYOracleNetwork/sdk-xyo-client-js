@@ -2,6 +2,7 @@ import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { asSchema } from '@xyo-network/payload-model'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -47,7 +48,7 @@ describe('IndexedDbPayloadDiviner.Errors', () => {
   let sut: IndexedDbPayloadDiviner
   const values = [
     {
-      schema: 'network.xyo.test',
+      schema: asSchema('network.xyo.test', true),
       url: 'https://xyo.network',
     },
   ]

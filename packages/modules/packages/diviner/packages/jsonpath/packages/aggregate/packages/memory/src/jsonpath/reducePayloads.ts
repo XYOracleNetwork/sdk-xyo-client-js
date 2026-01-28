@@ -1,7 +1,9 @@
 import { exists } from '@xylabs/sdk-js'
 import type { SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithoutSchema } from '@xyo-network/payload-model'
+import type {
+  Payload, Schema, WithoutSchema,
+} from '@xyo-network/payload-model'
 
 /**
  * Reduces the payloads to a single payload using the supplied transformers
@@ -14,7 +16,7 @@ import type { Payload, WithoutSchema } from '@xyo-network/payload-model'
 export const reducePayloads = async <T extends Payload = Payload>(
   payloads: Payload[],
   payloadTransformers: SchemaToPayloadTransformersDictionary,
-  destinationSchema: string,
+  destinationSchema: Schema,
   excludeSources = false,
 ): Promise<T> => {
   // Use the payload transformers to convert the fields from the source payloads to the destination fields
@@ -40,7 +42,7 @@ export const reducePayloads = async <T extends Payload = Payload>(
 export const reducePayloadsArray = async <T extends Payload = Payload>(
   payloadsArray: Payload[][],
   payloadTransformers: SchemaToPayloadTransformersDictionary,
-  destinationSchema: string,
+  destinationSchema: Schema,
   excludeSources = false,
 ): Promise<T[]> => {
   return await Promise.all(

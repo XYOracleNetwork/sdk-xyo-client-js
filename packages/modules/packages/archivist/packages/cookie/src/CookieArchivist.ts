@@ -22,12 +22,13 @@ import {
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { type AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type {
-  Payload, Schema, WithStorageMeta,
+import {
+  asSchema,
+  type Payload, type Schema, type WithStorageMeta,
 } from '@xyo-network/payload-model'
 import Cookies from 'js-cookie'
 
-export const CookieArchivistConfigSchema = 'network.xyo.archivist.cookie.config' as const
+export const CookieArchivistConfigSchema = asSchema('network.xyo.archivist.cookie.config', true)
 export type CookieArchivistConfigSchema = typeof CookieArchivistConfigSchema
 
 export type CookieArchivistConfig = ArchivistConfig<{
@@ -67,7 +68,7 @@ export class CookieArchivist<
     return this.config?.namespace ?? 'xyoarch'
   }
 
-  override get queries(): string[] {
+  override get queries(): Schema[] {
     return [
       ArchivistAllQuerySchema,
       ArchivistDeleteQuerySchema,

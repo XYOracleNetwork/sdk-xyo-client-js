@@ -3,7 +3,7 @@ import '@xylabs/vitest-extended'
 import type {
   PayloadAddressRule, PayloadRule, PayloadSchemaRule, PayloadSequenceOrderRule,
 } from '@xyo-network/diviner-payload-pointer-model'
-import { SequenceConstants } from '@xyo-network/payload-model'
+import { asSchema, SequenceConstants } from '@xyo-network/payload-model'
 import {
   describe, expect, it,
 } from 'vitest'
@@ -12,7 +12,7 @@ import { combineRules } from '../combineRules.ts'
 
 const validRules = (): PayloadRule[][] => {
   return [
-    [{ schema: 'network.xyo.debug' }],
+    [{ schema: asSchema('network.xyo.debug', true) }],
     [{ order: 'desc', sequence: SequenceConstants.maxLocalSequence }],
   ]
 }
@@ -62,7 +62,7 @@ describe('combineRules', () => {
     it('combines multiple rules', () => {
       const rules: PayloadRule[][] = [
         [{ order: 'desc', sequence: SequenceConstants.maxLocalSequence }],
-        [{ schema: 'network.xyo.test' }, { schema: 'network.xyo.debug' }],
+        [{ schema: asSchema('network.xyo.test', true) }, { schema: asSchema('network.xyo.debug', true) }],
       ]
       const actual = combineRules(rules)
       // eslint-disable-next-line sonarjs/no-alphabetical-sort
@@ -72,7 +72,7 @@ describe('combineRules', () => {
   describe('with multiple PayloadSequenceDirectionRule rules', () => {
     it('should only allow one rule', () => {
       const rules: PayloadRule[][] = [
-        [{ schema: 'network.xyo.debug' }],
+        [{ schema: asSchema('network.xyo.debug', true) }],
         [
           { order: 'desc', sequence: SequenceConstants.maxLocalSequence },
           { order: 'asc', sequence: SequenceConstants.minLocalSequence },

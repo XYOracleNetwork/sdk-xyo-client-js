@@ -2,11 +2,14 @@ import type {
   DeepOmitStartsWith, DeepPickStartsWith, EmptyObject, Hash,
 } from '@xylabs/sdk-js'
 
-import type { Schema, WithSchema } from './Schema.ts'
+import type { BrandedSchema, Schema } from './Schema.ts'
 
 export interface SchemaField<T extends Schema = Schema> {
   schema: T
 }
+
+export type WithSchema<T extends EmptyObject | void = void>
+  = T extends EmptyObject ? SchemaField & T : PayloadFields
 
 /** Additional fields for a payload */
 export interface PayloadFields extends SchemaField {}
@@ -16,19 +19,19 @@ export interface SourcesMetaField { $sources: Hash[] }
 export interface PayloadMetaFields extends SourcesMetaField {}
 
 export type WithPayload<T extends EmptyObject | void = void>
-  = WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>
+  = T extends EmptyObject ? PayloadFields & T : PayloadFields
 
 /** Base Type for Payloads */
-export type Payload<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void>
-  = (T extends WithSchema
+export type Payload<T extends void | EmptyObject | SchemaField = void, S extends Schema | void = void>
+  = (T extends SchemaField
     ? S extends Schema
       /* T (w/Schema) & S provided */
-      ? WithPayload<Omit<T, 'schema'> & { schema: S }>
+      ? WithPayload<Omit<T, 'schema'> & { schema: BrandedSchema<S> }>
       : /* Only T (w/Schema) provided */ WithPayload<T>
     : T extends object
       ? S extends Schema
       /* T (w/o Schema) & S provided */
-        ? WithPayload<T & { schema: S }>
+        ? WithPayload<T & { schema: BrandedSchema<S> }>
         : /* Only T (w/o Schema) provided */ WithPayload<T & PayloadFields>
       : /* Either just S or neither S or T provided */ WithPayload<{
         schema: S extends Schema ? S : Schema
@@ -37,14 +40,8 @@ export type Payload<T extends void | EmptyObject | WithSchema = void, S extends 
 export type OverridablePayload<T extends Payload> = WithoutMeta<Omit<T, 'schema'> & PayloadFields>
 
 export type WithSources<T extends EmptyObject> = T & SourcesMetaField
-/** @deprecated optional $sources are now optional in all Payloads */
-export type WithOptionalSources<T extends EmptyObject> = (T & SourcesMetaField) | T
 
-export type PayloadWithSources<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = WithSources<Payload<T, S>>
-
-/** @deprecated optional $sources are now optional in all Payloads */
-// eslint-disable-next-line sonarjs/deprecation
-export type PayloadWithOptionalSources<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = WithOptionalSources<Payload<T, S>>
+export type PayloadWithSources<T extends void | EmptyObject | SchemaField = void, S extends Schema | void = void> = WithSources<Payload<T, S>>
 
 export type WithAnySchema<T extends Payload> = OverridablePayload<T>
 
@@ -57,3 +54,6 @@ export type WithoutSchema<T extends WithOptionalSchema<Payload>> = Omit<T, 'sche
 export type WithOptionalSchema<T extends Payload = Payload> = WithoutSchema<T> & Partial<T & SchemaField>
 
 export type WithOnlyClientMeta<T extends Payload> = DeepPickStartsWith<T, '$'>
+
+type A = Payload<{ a: string; schema: 'test.schema' }>
+type B = Payload<{ a: string }, Schema<'test.schema'>>

@@ -1,7 +1,7 @@
 import type { Address, EmptyObject } from '@xylabs/sdk-js'
 
-import type { Payload } from './Payload.ts'
-import type { Schema, WithSchema } from './Schema.ts'
+import type { Payload, SchemaField } from './Payload.ts'
+import type { Schema } from './Schema.ts'
 
 export interface QueryFields {
   /** @field The addresses of the intended handlers */
@@ -17,10 +17,10 @@ export interface QueryFields {
   minBid?: number
 }
 
-export type Query<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = Payload<
+export type Query<T extends void | EmptyObject | SchemaField = void, S extends Schema | void = void> = Payload<
   T extends void ? QueryFields : T & QueryFields,
   S extends void
-    ? T extends WithSchema ? T['schema']
+    ? T extends SchemaField ? T['schema']
       : T extends void ? Schema
         : void
     : S

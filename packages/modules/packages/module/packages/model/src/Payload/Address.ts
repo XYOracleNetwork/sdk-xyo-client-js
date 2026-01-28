@@ -1,11 +1,13 @@
 import type { Address } from '@xylabs/sdk-js'
 import { AsObjectFactory } from '@xylabs/sdk-js'
-import { isPayloadOfSchemaType, type Payload } from '@xyo-network/payload-model'
+import {
+  asSchema, isPayloadOfSchemaType, type Payload,
+} from '@xyo-network/payload-model'
 
-export const AddressSchema = 'network.xyo.address' as const
+export const AddressSchema = asSchema('network.xyo.address', true)
 export type AddressSchema = typeof AddressSchema
 
-export const AddressChildSchema = 'network.xyo.address.child' as const
+export const AddressChildSchema = asSchema('network.xyo.address.child', true)
 export type AddressChildSchema = typeof AddressChildSchema
 
 export interface AddressFields {

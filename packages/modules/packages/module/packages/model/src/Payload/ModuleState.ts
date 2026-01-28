@@ -1,6 +1,8 @@
 import { AsObjectFactory } from '@xylabs/sdk-js'
 import type { Payload, WithSources } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources } from '@xyo-network/payload-model'
+import {
+  asSchema, isPayloadOfSchemaType, isPayloadOfSchemaTypeWithSources,
+} from '@xyo-network/payload-model'
 
 export interface StateDictionary {
   [key: string]: string | number
@@ -9,7 +11,7 @@ export interface State<T extends StateDictionary = StateDictionary> {
   state: T
 }
 
-export const ModuleStateSchema = 'network.xyo.module.state' as const
+export const ModuleStateSchema = asSchema('network.xyo.module.state', true)
 export type ModuleStateSchema = typeof ModuleStateSchema
 
 export type ModuleState<T extends StateDictionary = StateDictionary> = Payload<State<T>, ModuleStateSchema>

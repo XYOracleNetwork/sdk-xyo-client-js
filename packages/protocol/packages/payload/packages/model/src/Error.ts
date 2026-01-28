@@ -12,7 +12,6 @@ export type ModuleError = Payload<{
   message?: string
   name?: string
   query?: Hash | Schema
-  schema: ModuleErrorSchema
-}>
+}, ModuleErrorSchema>
 
 export const isModuleError = isPayloadOfSchemaType<ModuleError>(ModuleErrorSchema)

@@ -8,7 +8,7 @@ import {
   isModule, isModuleInstance, isModuleObject,
 } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   describe, expect,
@@ -153,7 +153,7 @@ test('Archivist Parent Reads', async () => {
   await memoryNode.register(storage)
   await memoryNode.attach(storage.address, true)
 
-  const wrapper = PayloadWrapper.wrap({ schema: 'network.xyo.test' })
+  const wrapper = PayloadWrapper.wrap({ schema: asSchema('network.xyo.test', true) })
 
   expect(wrapper).toBeDefined()
 

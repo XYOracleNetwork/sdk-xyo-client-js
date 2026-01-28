@@ -1,7 +1,9 @@
 import type { EmptyObject } from '@xylabs/sdk-js'
 import type { BridgeConfig } from '@xyo-network/bridge-model'
+import type { Schema } from '@xyo-network/payload-model'
+import { asSchema } from '@xyo-network/payload-model'
 
-export const HttpBridgeConfigSchema = 'network.xyo.bridge.http.config' as const
+export const HttpBridgeConfigSchema = asSchema('network.xyo.bridge.http.config', true)
 export type HttpBridgeConfigSchema = typeof HttpBridgeConfigSchema
 
 export type HttpBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchema extends string | void = void> = BridgeConfig<
@@ -20,5 +22,5 @@ export type HttpBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchema 
     nodeUrl?: string
     schema: HttpBridgeConfigSchema
   } & TConfig,
-  TSchema extends string ? TSchema : HttpBridgeConfigSchema
+  TSchema extends Schema ? TSchema : HttpBridgeConfigSchema
 >

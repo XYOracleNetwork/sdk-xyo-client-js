@@ -3,7 +3,7 @@ import '@xylabs/vitest-extended'
 import type { CreatableName } from '@xylabs/sdk-js'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { PayloadSchema } from '@xyo-network/payload-model'
+import { asSchema, PayloadSchema } from '@xyo-network/payload-model'
 import type { ReportEndEventArgs, SentinelConfig } from '@xyo-network/sentinel-model'
 import { SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
@@ -23,14 +23,14 @@ describe('Sentinel', () => {
   test('report [resolve]', async () => {
     const paramsA = {
       config: {
-        payload: { nonce: Math.floor(Math.random() * 9_999_999), schema: 'network.xyo.test' },
+        payload: { nonce: Math.floor(Math.random() * 9_999_999), schema: asSchema('network.xyo.test', true) },
         schema: AdhocWitnessConfigSchema,
         targetSchema: PayloadSchema,
       },
     }
     const paramsB = {
       config: {
-        payload: { nonce: Math.floor(Math.random() * 9_999_999), schema: 'network.xyo.test' },
+        payload: { nonce: Math.floor(Math.random() * 9_999_999), schema: asSchema('network.xyo.test', true) },
         schema: AdhocWitnessConfigSchema,
         targetSchema: PayloadSchema,
       },

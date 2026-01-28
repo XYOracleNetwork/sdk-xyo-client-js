@@ -6,7 +6,7 @@ import type { AccountInstance } from '@xyo-network/account-model'
 import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import type { NodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import type { Payload, Schema } from '@xyo-network/payload-model'
 import { SequenceConstants } from '@xyo-network/payload-model'
 import {
   beforeAll,
@@ -28,7 +28,7 @@ describe('PayloadPointerDiviner', () => {
   describe('with rules for [sequence]', () => {
     let account: AccountInstance
     let payloads: Payload[]
-    let expectedSchema: string
+    let expectedSchema: Schema
     let node: NodeInstance
     let archivist: ArchivistInstance
     let sut: PayloadPointerDiviner

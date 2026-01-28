@@ -3,7 +3,7 @@ import '@xylabs/vitest-extended'
 import type { Promisable } from '@xylabs/sdk-js'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Account } from '@xyo-network/account'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 import { isWitnessInstance, WitnessConfigSchema } from '@xyo-network/witness-model'
 import {
   describe, expect, test,
@@ -13,7 +13,7 @@ import { WitnessWrapper } from '../WitnessWrapper.ts'
 
 class TestWitness extends AbstractWitness {
   protected override observeHandler(fields?: Payload[]): Promisable<Payload[]> {
-    return [...(fields ?? []), { schema: 'network.xyo.test' }]
+    return [...(fields ?? []), { schema: asSchema('network.xyo.test', true) }]
   }
 }
 

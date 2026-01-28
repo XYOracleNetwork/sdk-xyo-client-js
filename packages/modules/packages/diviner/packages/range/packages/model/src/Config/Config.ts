@@ -1,7 +1,7 @@
 import type { DivinerConfig } from '@xyo-network/diviner-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { asSchema, isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
-export const RangeDivinerConfigSchema = 'network.xyo.diviner.range.config' as const
+export const RangeDivinerConfigSchema = asSchema('network.xyo.diviner.range.config', true)
 export type RangeDivinerConfigSchema = typeof RangeDivinerConfigSchema
 
 import type { RangePayload } from '../Payload/index.ts'

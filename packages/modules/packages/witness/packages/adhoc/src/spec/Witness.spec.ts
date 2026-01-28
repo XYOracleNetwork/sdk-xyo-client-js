@@ -3,6 +3,7 @@ import '@xylabs/vitest-extended'
 import { Account } from '@xyo-network/account'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { asSchema } from '@xyo-network/payload-model'
 import {
   describe, expect, it,
 } from 'vitest'
@@ -14,11 +15,11 @@ describe('AdhocWitness', () => {
   describe('observe', () => {
     describe('with payload supplied to observe', () => {
       it('uses payload schema', async () => {
-        const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).build()
+        const payload = new PayloadBuilder({ schema: asSchema('network.xyo.debug', true) }).build()
         const config: AdhocWitnessConfig = {
           name: 'AdhocWitness', payload, schema: AdhocWitnessConfigSchema,
         }
-        const observed = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
+        const observed = new PayloadBuilder({ schema: asSchema('network.xyo.test', true) }).build()
         const witness = await AdhocWitness.create({ account: 'random', config })
         const observation = await witness.observe([observed])
         expect(observation).toBeArrayOfSize(2)
@@ -26,7 +27,7 @@ describe('AdhocWitness', () => {
         expect(observation?.[1]?.schema).toBe(observed.schema)
       })
       it('manifest [direct]', async () => {
-        const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).build()
+        const payload = new PayloadBuilder({ schema: asSchema('network.xyo.debug', true) }).build()
         const config: AdhocWitnessConfig = {
           name: 'AdhocWitness', payload, schema: AdhocWitnessConfigSchema,
         }
@@ -37,7 +38,7 @@ describe('AdhocWitness', () => {
         expect(manifest.config.name).toBe('AdhocWitness')
       })
       it('manifest [indirect]', async () => {
-        const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).build()
+        const payload = new PayloadBuilder({ schema: asSchema('network.xyo.debug', true) }).build()
         const config: AdhocWitnessConfig = {
           name: 'AdhocWitness', payload, schema: AdhocWitnessConfigSchema,
         }
@@ -49,11 +50,11 @@ describe('AdhocWitness', () => {
         expect(manifest.config.name).toBe('AdhocWitness')
       })
       it('additionalSigners', async () => {
-        const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).build()
+        const payload = new PayloadBuilder({ schema: asSchema('network.xyo.debug', true) }).build()
         const config: AdhocWitnessConfig = {
           name: 'AdhocWitness', payload, schema: AdhocWitnessConfigSchema,
         }
-        const observed = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
+        const observed = new PayloadBuilder({ schema: asSchema('network.xyo.test', true) }).build()
         const additionalSigners = [await Account.random()]
         const witness = await AdhocWitness.create({
           account: 'random', additionalSigners, config,

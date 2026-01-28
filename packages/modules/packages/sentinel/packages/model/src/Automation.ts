@@ -1,15 +1,15 @@
 import type { EventName } from '@xylabs/sdk-js'
 import type { ModuleIdentifier } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { asSchema, isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
-export const SentinelAutomationSchema = 'network.xyo.automation' as const
+export const SentinelAutomationSchema = asSchema('network.xyo.automation', true)
 export type SentinelAutomationSchema = typeof SentinelAutomationSchema
 
-export const SentinelIntervalAutomationSchema = 'network.xyo.automation.interval' as const
+export const SentinelIntervalAutomationSchema = asSchema('network.xyo.automation.interval', true)
 export type SentinelIntervalAutomationSchema = typeof SentinelIntervalAutomationSchema
 
-export const SentinelModuleEventAutomationSchema = 'network.xyo.automation.event.module' as const
+export const SentinelModuleEventAutomationSchema = asSchema('network.xyo.automation.event.module', true)
 export type SentinelModuleEventAutomationSchema = typeof SentinelModuleEventAutomationSchema
 
 export type SentinelBaseAutomationPayload<T extends Payload> = Payload<

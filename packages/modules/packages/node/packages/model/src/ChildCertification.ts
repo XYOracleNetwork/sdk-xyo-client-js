@@ -1,7 +1,7 @@
 import type { Address } from '@xylabs/sdk-js'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 
-export const ChildCertificationSchema = 'network.xyo.child.certification' as const
+export const ChildCertificationSchema = asSchema('network.xyo.child.certification', true)
 export type ChildCertificationSchema = typeof ChildCertificationSchema
 
 export interface ChildCertificationFields {

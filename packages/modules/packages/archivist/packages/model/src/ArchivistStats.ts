@@ -1,6 +1,6 @@
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 
-export const ArchivistStatsPayloadSchema = 'network.xyo.archivist.stats' as const
+export const ArchivistStatsPayloadSchema = asSchema('network.xyo.archivist.stats', true)
 export type ArchivistStatsPayloadSchema = typeof ArchivistStatsPayloadSchema
 
 export type ArchivistStatsPayload

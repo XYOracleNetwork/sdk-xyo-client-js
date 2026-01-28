@@ -8,7 +8,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { BoundWitness } from '@xyo-network/boundwitness-model'
 import { hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -32,13 +32,13 @@ describe.runIf(hasMongoDBConfig())('MongoDBArchivistV2Deletable', () => {
     })
     await mod.start()
     archivist = new ArchivistWrapper({ mod: mod, account: await Account.random() })
-    const payload1: Payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: Date.now() }).build()
+    const payload1: Payload = new PayloadBuilder({ schema: asSchema('network.xyo.debug', true) }).fields({ nonce: Date.now() }).build()
     await delay(2)
-    const payload2: Payload = new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ nonce: Date.now() }).build()
+    const payload2: Payload = new PayloadBuilder({ schema: asSchema('network.xyo.test', true) }).fields({ nonce: Date.now() }).build()
     await delay(2)
-    const payload3: Payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: Date.now() }).build()
+    const payload3: Payload = new PayloadBuilder({ schema: asSchema('network.xyo.debug', true) }).fields({ nonce: Date.now() }).build()
     await delay(2)
-    const payload4: Payload = new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ nonce: Date.now() }).build()
+    const payload4: Payload = new PayloadBuilder({ schema: asSchema('network.xyo.test', true) }).fields({ nonce: Date.now() }).build()
     await delay(2)
     payloads.push(payload1, payload2, payload3, payload4)
     const signer = await Account.random()

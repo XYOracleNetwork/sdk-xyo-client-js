@@ -1,7 +1,9 @@
 import type { ModuleIdentifier } from '@xyo-network/module-model'
-import type { Payload, Query } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type Query,
+} from '@xyo-network/payload-model'
 
-export const BridgeExposeQuerySchema = 'network.xyo.query.bridge.expose' as const
+export const BridgeExposeQuerySchema = asSchema('network.xyo.query.bridge.expose', true)
 export type BridgeExposeQuerySchema = typeof BridgeExposeQuerySchema
 
 export interface BridgeExposeOptions {
@@ -9,7 +11,7 @@ export interface BridgeExposeOptions {
   required?: boolean
 }
 
-export const ModuleFilterPayloadSchema = 'network.xyo.module.filter'
+export const ModuleFilterPayloadSchema = asSchema('network.xyo.module.filter', true)
 export type ModuleFilterPayloadSchema = typeof ModuleFilterPayloadSchema
 
 export type ModuleFilterPayload = Payload<{ id: ModuleIdentifier } & BridgeExposeOptions, ModuleFilterPayloadSchema>

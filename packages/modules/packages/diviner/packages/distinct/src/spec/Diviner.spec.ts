@@ -1,7 +1,7 @@
 import '@xylabs/vitest-extended'
 
 import type { AnyObject } from '@xylabs/sdk-js'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 import {
   describe, expect, it,
 } from 'vitest'
@@ -12,19 +12,19 @@ describe('RangeDiviner', () => {
     const diviner = await DistinctDiviner.create({ account: 'random' })
     const inPayloads: Payload<AnyObject>[] = [
       {
-        schema: 'network.xyo.test',
+        schema: asSchema('network.xyo.test', true),
         value: 1,
       },
       {
-        schema: 'network.xyo.test',
+        schema: asSchema('network.xyo.test', true),
         value: 2,
       },
       {
-        schema: 'network.xyo.test',
+        schema: asSchema('network.xyo.test', true),
         value: 3,
       },
       {
-        schema: 'network.xyo.test',
+        schema: asSchema('network.xyo.test', true),
         value: 3,
       },
     ]

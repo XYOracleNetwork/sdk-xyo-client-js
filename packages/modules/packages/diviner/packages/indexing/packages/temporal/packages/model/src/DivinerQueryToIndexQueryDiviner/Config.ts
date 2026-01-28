@@ -1,13 +1,14 @@
 import type { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import type { DivinerConfig } from '@xyo-network/diviner-model'
-import type { Schema } from '@xyo-network/payload-model'
+import { asSchema, type Schema } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema } from './Schema.ts'
 
+export const TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema
+  = asSchema(`${TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema}.config`, true)
+
 export type TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema
-  = `${TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema}.config`
-export const TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema: TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema
-  = `${TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema}.config`
+  = typeof TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema
 
 /**
  * Diviner Config for a Diviner which transforms a Diviner Query to an Index Query

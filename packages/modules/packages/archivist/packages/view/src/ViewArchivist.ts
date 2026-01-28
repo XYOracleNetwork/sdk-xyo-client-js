@@ -19,10 +19,11 @@ import {
   ModuleLimitationViewLabel,
 } from '@xyo-network/module-model'
 import {
+  asSchema,
   Payload, Schema, WithStorageMeta,
 } from '@xyo-network/payload-model'
 
-export const ViewArchivistConfigSchema = 'network.xyo.archivist.view.config' as const
+export const ViewArchivistConfigSchema = asSchema('network.xyo.archivist.view.config', true)
 export type ViewArchivistConfigSchema = typeof ViewArchivistConfigSchema
 
 export type ViewArchivistConfig = ArchivistConfig<

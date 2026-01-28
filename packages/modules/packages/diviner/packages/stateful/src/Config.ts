@@ -1,12 +1,13 @@
 import type { DivinerConfig } from '@xyo-network/diviner-model'
 import type { ModuleIdentifier } from '@xyo-network/module-model'
+import { asSchema } from '@xyo-network/payload-model'
 
 import { StatefulDivinerSchema } from './Schema.ts'
 
 /**
  * The schema for a Stateful Diviner config
  */
-export const StatefulDivinerConfigSchema = `${StatefulDivinerSchema}.config` as const
+export const StatefulDivinerConfigSchema = asSchema(`${StatefulDivinerSchema}.config`, true)
 /**
  * The schema for a Stateful Diviner config
  */

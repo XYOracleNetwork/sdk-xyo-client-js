@@ -1,14 +1,16 @@
 import type { EmptyObject, WithAdditional } from '@xylabs/sdk-js'
 import type { DivinerConfig, SearchableStorage } from '@xyo-network/diviner-model'
-import type { Payload } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type Schema,
+} from '@xyo-network/payload-model'
 
 import { IndexingDivinerSchema } from './Schema.ts'
 import type { IndexingDivinerStageConfig } from './Stage.ts'
 
-export const IndexingDivinerConfigSchema = `${IndexingDivinerSchema}.config` as const
+export const IndexingDivinerConfigSchema = asSchema(`${IndexingDivinerSchema}.config`, true)
 export type IndexingDivinerConfigSchema = typeof IndexingDivinerConfigSchema
 
-export type IndexingDivinerConfig<TConfig extends Payload | EmptyObject | void = void, TSchema extends string | void = void> = DivinerConfig<
+export type IndexingDivinerConfig<TConfig extends Payload | EmptyObject | void = void, TSchema extends Schema | void = void> = DivinerConfig<
   WithAdditional<
     {
       /**

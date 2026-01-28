@@ -1,12 +1,13 @@
 import type { DivinerConfig } from '@xyo-network/diviner-model'
 import type { ModuleIdentifier } from '@xyo-network/module-model'
+import { asSchema } from '@xyo-network/payload-model'
 
 import { PayloadPointerDivinerSchema } from './Schema.ts'
 
 /**
  * The config schema for the Payload Pointer Diviner
  */
-export const PayloadPointerDivinerConfigSchema = `${PayloadPointerDivinerSchema}.config`
+export const PayloadPointerDivinerConfigSchema = asSchema(`${PayloadPointerDivinerSchema}.config`, true)
 
 /**
  * The config schema type for the Payload Pointer Diviner

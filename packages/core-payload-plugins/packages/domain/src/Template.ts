@@ -1,3 +1,5 @@
+import { asSchema } from '@xyo-network/payload-model'
+
 import type { DomainPayload } from './Payload.ts'
 import { DomainSchema } from './Schema.ts'
 
@@ -9,13 +11,13 @@ export const domainConfigTemplate = (): DomainPayload => ({
       nodes: [
         {
           name: '',
-          schema: 'network.xyo.network.node',
+          schema: asSchema('network.xyo.network.node', true),
           slug: '',
           type: 'archivist',
           uri: '',
         },
       ],
-      schema: 'network.xyo.network',
+      schema: asSchema('network.xyo.network', true),
       slug: '',
     },
   ],

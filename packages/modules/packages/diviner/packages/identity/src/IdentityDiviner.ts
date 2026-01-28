@@ -4,7 +4,7 @@ import {
   DivinerConfig, DivinerInstance, DivinerModuleEventData, DivinerParams,
 } from '@xyo-network/diviner-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { asSchema, Payload } from '@xyo-network/payload-model'
 
 export type IdentityDivinerParams<TConfig extends AnyConfigSchema<DivinerConfig> = AnyConfigSchema<DivinerConfig>> = DivinerParams<TConfig>
 
@@ -18,7 +18,7 @@ export class IdentityDiviner<
     TIn
   >,
 > extends AbstractDiviner<TParams, TIn, TIn, TEventData> {
-  static override readonly targetSchema = 'network.xyo.test'
+  static override readonly targetSchema = asSchema('network.xyo.test', true)
 
   protected override divineHandler(payloads?: TIn[]): Promisable<TIn[]> {
     return assertEx(payloads, () => 'IdentityDiviner requires passed payload') as TIn[]

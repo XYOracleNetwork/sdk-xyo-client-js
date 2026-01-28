@@ -7,7 +7,7 @@ import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { CosigningAddressSet, ModuleConfig } from '@xyo-network/module-model'
 import { ModuleConfigSchema, ModuleStateQuerySchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Schema } from '@xyo-network/payload-model'
+import { asSchema, type Schema } from '@xyo-network/payload-model'
 import {
   beforeAll,
   describe, expect, it,
@@ -92,7 +92,7 @@ describe('ModuleConfigQueryValidator', () => {
         expect(await sut.queryable(query[0], query[1])).toBeFalse()
       })
       it('disallows non-allowed schema from allowed address', async () => {
-        const queryPayload = new PayloadBuilder({ schema: 'foo.bar.baz' }).build()
+        const queryPayload = new PayloadBuilder({ schema: asSchema('foo.bar.baz', true) }).build()
         const query = await (new QueryBoundWitnessBuilder().signer(allowed1).query(queryPayload)).build()
         expect(await sut.queryable(query[0], query[1])).toBeFalse()
       })

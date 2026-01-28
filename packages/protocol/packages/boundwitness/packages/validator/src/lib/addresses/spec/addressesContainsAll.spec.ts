@@ -2,6 +2,7 @@ import '@xylabs/vitest-extended'
 
 import type { Address } from '@xylabs/sdk-js'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { asSchema } from '@xyo-network/payload-model'
 import { HDWallet } from '@xyo-network/wallet'
 import type { WalletInstance } from '@xyo-network/wallet-model'
 import {
@@ -12,7 +13,7 @@ import {
 import { addressesContainsAll } from '../addressesContainsAll.ts'
 
 describe('addressesContainsAll', () => {
-  const payload = { schema: 'network.xyo.test', value: Date.now() }
+  const payload = { schema: asSchema('network.xyo.test', true), value: Date.now() }
   let oneWallet: WalletInstance[] = []
   let twoWallets: WalletInstance[] = []
 

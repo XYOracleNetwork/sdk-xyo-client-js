@@ -10,6 +10,7 @@ import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-ch
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { asSchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   describe, expect, it,
@@ -37,9 +38,9 @@ describe('MemoryAddressHistoryDiviner', () => {
 
       const wrapperAddress = wrapperAccount.address
 
-      const payload1 = PayloadWrapper.wrap({ index: 1, schema: 'network.xyo.test' })
-      const payload2 = PayloadWrapper.wrap({ index: 2, schema: 'network.xyo.test' })
-      const payload3 = PayloadWrapper.wrap({ index: 3, schema: 'network.xyo.test' })
+      const payload1 = PayloadWrapper.wrap({ index: 1, schema: asSchema('network.xyo.test', true) })
+      const payload2 = PayloadWrapper.wrap({ index: 2, schema: asSchema('network.xyo.test', true) })
+      const payload3 = PayloadWrapper.wrap({ index: 3, schema: asSchema('network.xyo.test', true) })
 
       for (const payload of [payload1, payload2, payload3]) {
         await delay(2)

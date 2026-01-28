@@ -1,5 +1,5 @@
 import { isTruthy } from '@xylabs/sdk-js'
-import type { Schema } from '@xyo-network/payload-model'
+import { asSchema, type Schema } from '@xyo-network/payload-model'
 
 import type { Labels } from '../Labels/index.ts'
 import type { CreatableModuleFactory, CreatableModuleInstance } from './CreatableModule.ts'
@@ -90,7 +90,8 @@ export const assignCreatableModuleRegistry = (
   ...sources: CreatableModuleRegistry[]
 ): CreatableModuleRegistry => {
   for (const source of sources)
-    for (const [schema, factories] of Object.entries(source)) {
+    for (const [schemaString, factories] of Object.entries(source)) {
+      const schema = asSchema(schemaString, true)
       if (factories) {
         const existingFactories = target[schema]
         target[schema] = [...existingFactories ?? [], ...factories]

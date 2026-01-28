@@ -4,6 +4,7 @@ import { delay } from '@xylabs/sdk-js'
 import type { AbstractWitness } from '@xyo-network/abstract-witness'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { asSchema } from '@xyo-network/payload-model'
 import type {
   SentinelConfig,
   SentinelIntervalAutomationPayload,
@@ -37,7 +38,7 @@ describe('SentinelRunner', () => {
     const witnessModules: AbstractWitness[] = [
       await AdhocWitness.create({
         account: 'random',
-        config: { payload: { id: 1, schema: 'network.xyo.id' }, schema: AdhocWitnessConfigSchema } as AdhocWitnessConfig,
+        config: { payload: { id: 1, schema: asSchema('network.xyo.id', true) }, schema: AdhocWitnessConfigSchema } as AdhocWitnessConfig,
       }),
     ]
     const witnesses = await Promise.all(

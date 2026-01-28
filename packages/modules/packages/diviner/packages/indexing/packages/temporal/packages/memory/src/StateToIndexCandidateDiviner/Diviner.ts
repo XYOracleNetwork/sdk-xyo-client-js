@@ -73,7 +73,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
   /**
    * The required payload_schemas within BoundWitnesses to identify index candidates
    */
-  protected get payload_schemas(): string[] {
+  protected get payload_schemas(): Schema[] {
     const schemas = this.config.filter?.payload_schemas
     return [TimestampSchema, ...(schemas ?? [])]
   }

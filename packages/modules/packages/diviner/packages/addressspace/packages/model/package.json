@@ -37,7 +37,8 @@
   ],
   "dependencies": {
     "@xyo-network/diviner-model": "~5.2.27",
-    "@xyo-network/module-model": "~5.2.27"
+    "@xyo-network/module-model": "~5.2.27",
+    "@xyo-network/payload-model": "~5.2.27"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.3.2",

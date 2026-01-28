@@ -39,7 +39,7 @@ export class JsonPathAggregateDiviner<
   /**
    * The schema to use for the destination payloads
    */
-  protected get destinationSchema(): string {
+  protected get destinationSchema(): Schema {
     return this.config.destinationSchema ?? PayloadSchema
   }
 

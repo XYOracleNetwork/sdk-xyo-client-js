@@ -1,2 +1,4 @@
-export const QuerySchema = 'network.xyo.query' as const
+import { asSchema } from '@xyo-network/payload-model'
+
+export const QuerySchema = asSchema('network.xyo.query', true)
 export type QuerySchema = typeof QuerySchema

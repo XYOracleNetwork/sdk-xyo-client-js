@@ -3,16 +3,18 @@ import { isTruthy } from '@xylabs/sdk-js'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import type { AnyConfigSchema } from '@xyo-network/module-model'
 import { creatableModule } from '@xyo-network/module-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type Schema,
+} from '@xyo-network/payload-model'
 import type {
   CustomWitnessInstance, WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams,
 } from '@xyo-network/witness-model'
 import type { Provider } from 'ethers'
 
-export const EvmWitnessConfigSchema = 'network.xyo.evm.witness' as const
+export const EvmWitnessConfigSchema = asSchema('network.xyo.evm.witness', true)
 export type EvmWitnessConfigSchema = typeof EvmWitnessConfigSchema
 
-export type EvmWitnessConfig<TAdditional extends EmptyObject | Payload | void = void, TSchema extends string | void = void> = WitnessConfig<
+export type EvmWitnessConfig<TAdditional extends EmptyObject | Payload | void = void, TSchema extends Schema | void = void> = WitnessConfig<
   TAdditional,
   TSchema extends void
     ? TAdditional extends Payload

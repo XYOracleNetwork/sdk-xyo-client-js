@@ -3,7 +3,7 @@ import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import type {
   AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQueries,
 } from '@xyo-network/module-model'
-import type { Schema } from '@xyo-network/payload-model'
+import { asSchema, type Schema } from '@xyo-network/payload-model'
 
 import type { Queryable, QueryValidator } from './QueryValidator.ts'
 
@@ -21,12 +21,14 @@ export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleCo
   constructor(config?: TConfig) {
     if (config?.security?.allowed) {
       for (const [schema, addresses] of Object.entries(config.security?.allowed)) {
-        this.allowed[schema] = addresses.map(toAddressesString)
+        const typedSchema = asSchema(schema, true)
+        this.allowed[typedSchema] = addresses.map(toAddressesString)
       }
     }
     if (config?.security?.disallowed) {
       for (const [schema, addresses] of Object.entries(config.security?.disallowed)) {
-        this.disallowed[schema] = addresses.map(toAddressesString)
+        const typedSchema = asSchema(schema, true)
+        this.disallowed[typedSchema] = addresses.map(toAddressesString)
       }
     }
     this.hasAllowedRules = Object.keys(this.allowed).length > 0

@@ -1,8 +1,12 @@
 import type { EmptyObject, WithAdditional } from '@xylabs/sdk-js'
 import type { CacheConfig, ModuleConfig } from '@xyo-network/module-model'
-import type { Payload } from '@xyo-network/payload-model'
+import type {
+  Payload,
+  Schema,
+} from '@xyo-network/payload-model'
+import { asSchema } from '@xyo-network/payload-model'
 
-export const BridgeConfigSchema = 'network.xyo.bridge.config' as const
+export const BridgeConfigSchema = asSchema('network.xyo.bridge.config', true)
 export type BridgeConfigSchema = typeof BridgeConfigSchema
 
 export type BridgeClientConfig = {
@@ -18,7 +22,7 @@ export type BridgeHostConfig = {
 
 export type BridgeConfig<
   TConfig extends Payload | EmptyObject | void = void,
-  TSchema extends string | void = void,
+  TSchema extends Schema | void = void,
   TClient extends EmptyObject | void = void,
   THost extends EmptyObject | void = void,
 > = ModuleConfig<

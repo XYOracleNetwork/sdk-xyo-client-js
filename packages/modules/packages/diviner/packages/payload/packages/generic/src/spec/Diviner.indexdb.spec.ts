@@ -6,7 +6,9 @@ import type { PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-mo
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type WithStorageMeta,
+} from '@xyo-network/payload-model'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -61,20 +63,20 @@ describe('GenericPayloadDiviner', () => {
 
   beforeAll(async () => {
     payloadA = {
-      schema: 'network.xyo.test',
+      schema: asSchema('network.xyo.test', true),
       url: 'https://xyo.network',
     }
     payloadB = {
       foo: ['bar', 'baz'],
-      schema: 'network.xyo.debug',
+      schema: asSchema('network.xyo.debug', true),
     }
     payloadC = {
       foo: ['one', 'two'],
-      schema: 'network.xyo.debug',
+      schema: asSchema('network.xyo.debug', true),
     }
     payloadD = {
       foo: ['aaa', 'bbb'],
-      schema: 'network.xyo.debug',
+      schema: asSchema('network.xyo.debug', true),
     }
 
     archivist = await IndexedDbArchivist.create({

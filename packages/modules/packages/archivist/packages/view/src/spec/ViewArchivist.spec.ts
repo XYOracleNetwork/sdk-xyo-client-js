@@ -2,6 +2,7 @@ import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { asSchema } from '@xyo-network/payload-model'
 import {
   describe, expect, it,
 } from 'vitest'
@@ -34,7 +35,7 @@ describe('MemoryArchivist', () => {
     await node.register(viewArchivist)
     await node.attach(viewArchivist.modName ?? viewArchivist.address, true)
 
-    const payloads = [{ schema: 'network.xyo.test' }]
+    const payloads = [{ schema: asSchema('network.xyo.test', true) }]
     const payloadHashes = await Promise.all(payloads.map(async payload => await PayloadBuilder.dataHash(payload)))
     const result = await originArchivist.insert(payloads)
 

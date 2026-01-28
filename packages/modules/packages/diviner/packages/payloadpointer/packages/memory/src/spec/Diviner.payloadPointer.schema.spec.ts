@@ -6,7 +6,7 @@ import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import type { NodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 import {
   beforeAll, describe, expect, it,
 } from 'vitest'
@@ -124,7 +124,7 @@ describe('PayloadPointerDiviner', () => {
       })
     })
     it('no matching schema', async () => {
-      const pointer = createPointer([[(await account).address]], [['network.xyo.test']])
+      const pointer = createPointer([[(await account).address]], [[asSchema('network.xyo.test', true)]])
       const results = await sut.divine([pointer])
       expect(results).toBeDefined()
       expect(results).toBeEmpty()

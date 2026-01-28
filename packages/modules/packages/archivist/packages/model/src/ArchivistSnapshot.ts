@@ -1,7 +1,9 @@
 import type { Hash } from '@xylabs/sdk-js'
-import type { Payload, PayloadHashMap } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type PayloadHashMap,
+} from '@xyo-network/payload-model'
 
-export const ArchivistSnapshotPayloadSchema = 'network.xyo.archivist.snapshot' as const
+export const ArchivistSnapshotPayloadSchema = asSchema('network.xyo.archivist.snapshot', true)
 export type ArchivistSnapshotPayloadSchema = typeof ArchivistSnapshotPayloadSchema
 
 export type ArchivistSnapshotPayload<TPayload extends Payload = Payload, TId extends string | number | symbol = Hash>

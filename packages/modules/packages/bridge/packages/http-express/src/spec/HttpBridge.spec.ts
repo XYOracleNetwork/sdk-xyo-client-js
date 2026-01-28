@@ -20,7 +20,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance, isNodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import type { Payload } from '@xyo-network/payload-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { asSchema, isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { HDWallet } from '@xyo-network/wallet'
 import {
@@ -142,9 +142,9 @@ describe('HttpBridgeExpress', () => {
     expect(roundTripPayload).toBeDefined()
   })
   it.each(cases)('HttpBridgeExpress - Nested: %s', async (_, nodeUrl) => {
-    const memNode1 = await MemoryNode.create({ account: 'random', config: { schema: 'network.xyo.node.config' } })
-    const memNode2 = await MemoryNode.create({ account: 'random', config: { schema: 'network.xyo.node.config' } })
-    const memNode3 = await MemoryNode.create({ account: 'random', config: { schema: 'network.xyo.node.config' } })
+    const memNode1 = await MemoryNode.create({ account: 'random', config: { schema: asSchema('network.xyo.node.config', true) } })
+    const memNode2 = await MemoryNode.create({ account: 'random', config: { schema: asSchema('network.xyo.node.config', true) } })
+    const memNode3 = await MemoryNode.create({ account: 'random', config: { schema: asSchema('network.xyo.node.config', true) } })
 
     await memNode1.register(memNode2)
     await memNode1.attach(memNode2.address, true)

@@ -1,8 +1,10 @@
 import type { EmptyObject, WithAdditional } from '@xylabs/sdk-js'
 import type { ArchivistConfig } from '@xyo-network/archivist-model'
-import type { Payload, Schema } from '@xyo-network/payload-model'
+import {
+  asSchema, type Payload, type Schema,
+} from '@xyo-network/payload-model'
 
-export const GenericArchivistConfigSchema = 'network.xyo.archivist.generic.config' as const
+export const GenericArchivistConfigSchema = asSchema('network.xyo.archivist.generic.config', true)
 export type GenericArchivistConfigSchema = typeof GenericArchivistConfigSchema
 
 export type GenericArchivistConfig<TConfig extends Payload | EmptyObject | void = void, TSchema extends Schema | void = void> = ArchivistConfig<

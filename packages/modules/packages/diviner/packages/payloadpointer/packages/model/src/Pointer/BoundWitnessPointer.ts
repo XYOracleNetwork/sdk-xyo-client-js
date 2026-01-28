@@ -1,10 +1,10 @@
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import type { Payload } from '@xyo-network/payload-model'
+import { asSchema, type Payload } from '@xyo-network/payload-model'
 
 import type { PointerPayload } from './Pointer.ts'
 
-export type BoundWitnessPointerSchema = `${BoundWitnessSchema}.pointer`
-export const BoundWitnessPointerSchema: BoundWitnessPointerSchema = `${BoundWitnessSchema}.pointer`
+export const BoundWitnessPointerSchema = asSchema(`${BoundWitnessSchema}.pointer`, true)
+export type BoundWitnessPointerSchema = typeof BoundWitnessPointerSchema
 
 export type BoundWitnessPointerPayload = PointerPayload & {
   schema: BoundWitnessPointerSchema

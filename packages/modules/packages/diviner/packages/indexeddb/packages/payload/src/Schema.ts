@@ -1,4 +1,5 @@
 import { PayloadDivinerSchema } from '@xyo-network/diviner-payload-model'
+import { asSchema } from '@xyo-network/payload-model'
 
-export const IndexedDbPayloadDivinerSchema = `${PayloadDivinerSchema}.indexeddb` as const
+export const IndexedDbPayloadDivinerSchema = asSchema(`${PayloadDivinerSchema}.indexeddb`, true)
 export type IndexedDbPayloadDivinerSchema = typeof IndexedDbPayloadDivinerSchema

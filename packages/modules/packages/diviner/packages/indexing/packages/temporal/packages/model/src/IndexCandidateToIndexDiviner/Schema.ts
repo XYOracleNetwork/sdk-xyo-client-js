@@ -1,5 +1,8 @@
+import { asSchema } from '@xyo-network/payload-model'
+
 import { TemporalIndexingDivinerSchema } from '../Schema.ts'
 
-export type TemporalIndexingDivinerIndexCandidateToIndexDivinerSchema = `${TemporalIndexingDivinerSchema}.stage.indexCandidateToIndexDiviner`
-export const TemporalIndexingDivinerIndexCandidateToIndexDivinerSchema: TemporalIndexingDivinerIndexCandidateToIndexDivinerSchema
-  = `${TemporalIndexingDivinerSchema}.stage.indexCandidateToIndexDiviner`
+export const TemporalIndexingDivinerIndexCandidateToIndexDivinerSchema
+  = asSchema(`${TemporalIndexingDivinerSchema}.stage.indexCandidateToIndexDiviner`, true)
+
+export type TemporalIndexingDivinerIndexCandidateToIndexDivinerSchema = typeof TemporalIndexingDivinerIndexCandidateToIndexDivinerSchema

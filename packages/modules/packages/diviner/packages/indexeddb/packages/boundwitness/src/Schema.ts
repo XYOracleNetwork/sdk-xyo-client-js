@@ -1,4 +1,5 @@
 import { BoundWitnessDivinerSchema } from '@xyo-network/diviner-boundwitness-model'
+import { asSchema } from '@xyo-network/payload-model'
 
-export const IndexedDbBoundWitnessDivinerSchema = `${BoundWitnessDivinerSchema}.indexeddb` as const
+export const IndexedDbBoundWitnessDivinerSchema = asSchema(`${BoundWitnessDivinerSchema}.indexeddb`, true)
 export type IndexedDbBoundWitnessDivinerSchema = typeof IndexedDbBoundWitnessDivinerSchema

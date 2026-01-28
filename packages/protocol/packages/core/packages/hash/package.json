@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/hash",
-  "version": "5.3.1",
+  "version": "5.3.2",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -59,7 +59,7 @@
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.64",
     "@xylabs/threads": "~5.0.64",
-    "@xyo-network/wasm": "~5.3.1",
+    "@xyo-network/wasm": "~5.3.2",
     "hash-wasm": "~4.12.0"
   },
   "devDependencies": {

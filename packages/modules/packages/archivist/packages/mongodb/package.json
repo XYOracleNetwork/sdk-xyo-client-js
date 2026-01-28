@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-mongodb",
-  "version": "5.3.1",
+  "version": "5.3.2",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -40,16 +40,16 @@
   ],
   "dependencies": {
     "@xylabs/sdk-js": "~5.0.64",
-    "@xyo-network/archivist-abstract": "~5.3.1",
-    "@xyo-network/archivist-model": "~5.3.1",
-    "@xyo-network/archivist-model-mongodb": "~5.3.1",
-    "@xyo-network/boundwitness-model": "~5.3.1",
-    "@xyo-network/boundwitness-wrapper": "~5.3.1",
-    "@xyo-network/module-abstract": "~5.3.1",
-    "@xyo-network/module-abstract-mongodb": "~5.3.1",
-    "@xyo-network/payload-model": "~5.3.1",
-    "@xyo-network/payload-mongodb": "~5.3.1",
-    "@xyo-network/payload-wrapper": "~5.3.1"
+    "@xyo-network/archivist-abstract": "~5.3.2",
+    "@xyo-network/archivist-model": "~5.3.2",
+    "@xyo-network/archivist-model-mongodb": "~5.3.2",
+    "@xyo-network/boundwitness-model": "~5.3.2",
+    "@xyo-network/boundwitness-wrapper": "~5.3.2",
+    "@xyo-network/module-abstract": "~5.3.2",
+    "@xyo-network/module-abstract-mongodb": "~5.3.2",
+    "@xyo-network/payload-model": "~5.3.2",
+    "@xyo-network/payload-mongodb": "~5.3.2",
+    "@xyo-network/payload-wrapper": "~5.3.2"
   },
   "devDependencies": {
     "@xylabs/mongo": "~5.0.64",
@@ -57,11 +57,11 @@
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.64",
-    "@xyo-network/account": "~5.3.1",
-    "@xyo-network/archivist-acceptance-tests": "~5.3.1",
-    "@xyo-network/archivist-wrapper": "~5.3.1",
-    "@xyo-network/boundwitness-builder": "~5.3.1",
-    "@xyo-network/payload-builder": "~5.3.1",
+    "@xyo-network/account": "~5.3.2",
+    "@xyo-network/archivist-acceptance-tests": "~5.3.2",
+    "@xyo-network/archivist-wrapper": "~5.3.2",
+    "@xyo-network/boundwitness-builder": "~5.3.2",
+    "@xyo-network/payload-builder": "~5.3.2",
     "mongodb": "~7.0.0",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"

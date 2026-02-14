@@ -145,9 +145,9 @@ describe('PubSubBridge', () => {
           intersect,
           pollFrequency,
           queryCache: { ttl },
+          discoverRoots: 'lazy',
           stateStore,
         },
-        discoverRoots: 'lazy',
         host: {
           intersect, pollFrequency, stateStore,
         },

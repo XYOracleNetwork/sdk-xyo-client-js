@@ -36,14 +36,14 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/geo": "~5.0.64",
-    "@xylabs/sdk-js": "~5.0.64",
+    "@xylabs/geo": "~5.0.79",
+    "@xylabs/sdk-js": "~5.0.79",
     "mapbox-gl": "~3.18.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
-    "@xylabs/vitest-extended": "~5.0.64",
+    "@xylabs/vitest-extended": "~5.0.79",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
   },

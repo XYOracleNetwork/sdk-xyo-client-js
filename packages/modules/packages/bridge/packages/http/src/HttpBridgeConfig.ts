@@ -18,8 +18,6 @@ export type HttpBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchema 
     }
     maxConnections?: number
     maxPayloadSizeWarning?: number
-    /** @deprecated use client.url instead */
-    nodeUrl?: string
     schema: HttpBridgeConfigSchema
   } & TConfig,
   TSchema extends Schema ? TSchema : HttpBridgeConfigSchema

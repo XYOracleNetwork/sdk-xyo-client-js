@@ -37,7 +37,7 @@
   ],
   "dependencies": {
     "@scure/bip39": "~2.0.1",
-    "@xylabs/sdk-js": "~5.0.64",
+    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/archivist-model": "~5.3.2",
     "@xyo-network/boundwitness-model": "~5.3.2",
     "@xyo-network/bridge-abstract": "~5.3.2",
@@ -50,7 +50,7 @@
     "@xyo-network/payload-model": "~5.3.2",
     "@xyo-network/sentinel-model": "~5.3.2",
     "@xyo-network/wallet": "~5.3.2",
-    "lru-cache": "^11.2.5"
+    "lru-cache": "^11.2.6"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.3.2",

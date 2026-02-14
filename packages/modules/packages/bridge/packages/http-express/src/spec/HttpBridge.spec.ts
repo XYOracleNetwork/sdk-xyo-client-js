@@ -77,7 +77,7 @@ describe('HttpBridgeExpress', () => {
     const bridge = await HttpBridgeExpress.create({
       account: 'random',
       config: {
-        discoverRoots: 'start', name: 'TestBridge', nodeUrl, schema: HttpBridgeExpressConfigSchema, security: { allowAnonymous: true },
+        name: 'TestBridge', client: { url: nodeUrl, discoverRoots: 'start' }, schema: HttpBridgeExpressConfigSchema, security: { allowAnonymous: true },
       },
     })
 
@@ -154,7 +154,7 @@ describe('HttpBridgeExpress', () => {
     const bridge = await HttpBridgeExpress.create({
       account: 'random',
       config: {
-        nodeUrl, schema: HttpBridgeExpressConfigSchema, security: { allowAnonymous: true },
+        client: { url: nodeUrl }, schema: HttpBridgeExpressConfigSchema, security: { allowAnonymous: true },
       },
     })
 

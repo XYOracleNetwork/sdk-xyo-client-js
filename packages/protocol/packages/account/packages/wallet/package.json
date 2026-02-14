@@ -37,7 +37,7 @@
   ],
   "dependencies": {
     "@scure/bip39": "~2.0.1",
-    "@xylabs/sdk-js": "~5.0.64",
+    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/account": "~5.3.2",
     "@xyo-network/account-model": "~5.3.2",
     "@xyo-network/key-model": "~5.3.2",
@@ -47,7 +47,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
-    "@xylabs/vitest-matchers": "~5.0.64",
+    "@xylabs/vitest-matchers": "~5.0.79",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
   },

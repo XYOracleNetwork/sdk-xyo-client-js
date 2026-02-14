@@ -29,8 +29,6 @@ export type BridgeConfig<
   WithAdditional<
     {
       client?: WithAdditional<BridgeClientConfig, TClient>
-      /** @deprecated use client.discoverRoots instead */
-      discoverRoots?: 'start' | 'lazy'
       host?: WithAdditional<BridgeHostConfig, THost>
       schema: TConfig extends Payload ? TConfig['schema'] : BridgeConfigSchema
     },

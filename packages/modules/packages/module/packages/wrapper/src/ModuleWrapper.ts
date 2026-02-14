@@ -14,11 +14,9 @@ import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
-  AddressToWeakInstanceCache,
   asAttachableModuleInstance,
   asModuleInstance,
   AttachableModuleInstance,
-  Direction,
   duplicateModules,
   InstanceTypeCheck,
   isModule,
@@ -114,9 +112,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
     this.wrapperParams = mutatedWrapperParams
   }
-
-  pipeline?: 'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many' | undefined
-  addressCache?: ((direction: Direction, includePrivate: boolean) => AddressToWeakInstanceCache | undefined) | undefined
 
   get account() {
     return this.wrapperParams.account

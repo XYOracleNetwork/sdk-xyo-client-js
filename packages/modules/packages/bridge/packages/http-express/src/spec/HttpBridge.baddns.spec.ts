@@ -27,7 +27,7 @@ describe('HttpBridge', () => {
     const bridge = await HttpBridgeExpress.create({
       account: 'random',
       config: {
-        nodeUrl, schema: HttpBridgeExpressConfigSchema, security: { allowAnonymous: true },
+        client: { url: nodeUrl }, schema: HttpBridgeExpressConfigSchema, security: { allowAnonymous: true },
       },
     })
 

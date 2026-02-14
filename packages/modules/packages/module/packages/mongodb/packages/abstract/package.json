@@ -39,8 +39,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/mongo": "~5.0.64",
-    "@xylabs/sdk-js": "~5.0.64",
+    "@xylabs/mongo": "~5.0.79",
+    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/module-model-mongodb": "~5.3.2"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "@xylabs/tsconfig": "~7.3.2",
     "@xyo-network/module-model": "~5.3.2",
     "@xyo-network/payload-mongodb": "~5.3.2",
-    "mongodb": "~7.0.0",
+    "mongodb": "~7.1.0",
     "tslib": "~2.8.1",
     "typescript": "~5.9.3"
   },

@@ -36,15 +36,15 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.64",
+    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/account": "~5.3.2",
     "@xyo-network/payload-model": "~5.3.2"
   },
   "devDependencies": {
-    "@xylabs/sdk-js": "~5.0.64",
+    "@xylabs/sdk-js": "~5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
-    "@xylabs/vitest-extended": "~5.0.64",
+    "@xylabs/vitest-extended": "~5.0.79",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
   },

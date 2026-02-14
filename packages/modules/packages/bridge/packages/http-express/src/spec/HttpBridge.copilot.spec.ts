@@ -16,7 +16,7 @@ describe('HttpBridgeExpress', () => {
     httpBridge = await HttpBridgeExpress.create({
       account: 'random',
       config: {
-        name: 'TestBridge', nodeUrl: 'http://localhost:8080', schema: HttpBridgeExpressConfigSchema, security: { allowAnonymous: true },
+        name: 'TestBridge', client: { url: 'http://localhost:8080' }, schema: HttpBridgeExpressConfigSchema, security: { allowAnonymous: true },
       },
     })
   })

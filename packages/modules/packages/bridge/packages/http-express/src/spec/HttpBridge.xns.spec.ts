@@ -23,9 +23,8 @@ describe('HttpBridgeExpress - Xns', () => {
     const bridge = await HttpBridgeExpress.create({
       account: 'random',
       config: {
-        discoverRoots: 'start',
         name: 'TestBridge',
-        nodeUrl: 'https://beta.xns.xyo.network',
+        client: { url: 'https://beta.xns.xyo.network', discoverRoots: 'start' },
         schema: HttpBridgeExpressConfigSchema,
         security: { allowAnonymous: true },
       },

@@ -46,30 +46,16 @@ export const toStorageMeta = zodToFactory(StorageMetaZod, 'toStorageMeta')
 
 export const PayloadZod = z.object({ schema: SchemaZod })
 
-/** @deprecated use WithStorageMetaZod */
-export const PayloadWithStorageMetaZod = PayloadZod.extend(StorageMetaZod.shape)
-
 export const AnyPayloadZod = PayloadZod.loose()
-
-/** @deprecated use WithStorageMetaZod */
-export const AnyPayloadWithStorageMetaZod = AnyPayloadZod.extend(StorageMetaZod.shape)
-
-/** @deprecated use WithStorageMetaZod */
-// eslint-disable-next-line sonarjs/deprecation
-export type PayloadWithStorageMeta = z.infer<typeof PayloadWithStorageMetaZod>
 
 export type AnyPayload = z.infer<typeof AnyPayloadZod>
 
-/** @deprecated use WithStorageMetaZod */
-// eslint-disable-next-line sonarjs/deprecation
-export type AnyPayloadWithStorageMeta = z.infer<typeof AnyPayloadWithStorageMetaZod>
-
-export function WithStorageMetaZod<T extends z.ZodRawShape>(valueZod: z.ZodObject<T>) {
-  return valueZod.extend(StorageMetaZod.shape)
+export function WithStorageMetaZod<T extends z.ZodType>(valueZod: T) {
+  return z.intersection(valueZod, StorageMetaZod)
 }
 
-export function WithHashMetaZod<T extends z.ZodRawShape>(valueZod: z.ZodObject<T>) {
-  return valueZod.extend(HashMetaZod.shape)
+export function WithHashMetaZod<T extends z.ZodType>(valueZod: T) {
+  return z.intersection(valueZod, HashMetaZod)
 }
 
 export const PayloadZodStrict = z.strictObject({ schema: SchemaZod })

@@ -36,12 +36,12 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.64",
+    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/previous-hash-store-model": "~5.3.2",
     "idb": "~8.0.3"
   },
   "devDependencies": {
-    "@types/node": "~25.0.10",
+    "@types/node": "^25.2.3",
     "@types/uuid": "11.0.0",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",

@@ -66,7 +66,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
   }
 
   get clientUrl() {
-    return assertEx(this.config.client?.url ?? this.config.nodeUrl, () => 'No Url Set')
+    return assertEx(this.config.client?.url, () => 'No Url Set')
   }
 
   get failureRetryTime() {

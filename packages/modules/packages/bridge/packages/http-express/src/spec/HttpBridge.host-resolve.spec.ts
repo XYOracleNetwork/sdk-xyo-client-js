@@ -44,7 +44,7 @@ describe.skip('HttpBridge with PubSubBridge', () => {
     const bridge = await HttpBridge.create({
       account: 'random',
       config: {
-        discoverRoots: 'start', name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true },
+        name: 'TestBridge', client: { url: nodeUrl, discoverRoots: 'start' }, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true },
       },
     })
 

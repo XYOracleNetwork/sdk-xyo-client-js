@@ -44,7 +44,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.64",
+    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/account": "~5.3.2",
     "@xyo-network/boundwitness-model": "~5.3.2",
     "@xyo-network/bridge-abstract": "~5.3.2",
@@ -53,14 +53,14 @@
     "@xyo-network/module-model": "~5.3.2",
     "@xyo-network/payload-model": "~5.3.2",
     "async-mutex": "~0.5.0",
-    "lru-cache": "^11.2.5",
+    "lru-cache": "^11.2.6",
     "socket.io": "~4.8.3"
   },
   "devDependencies": {
-    "@xylabs/sdk-js": "~5.0.64",
+    "@xylabs/sdk-js": "~5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
-    "@xylabs/vitest-extended": "~5.0.64",
+    "@xylabs/vitest-extended": "~5.0.79",
     "@xyo-network/account": "~5.3.2",
     "@xyo-network/archivist-model": "~5.3.2",
     "@xyo-network/node-memory": "~5.3.2",

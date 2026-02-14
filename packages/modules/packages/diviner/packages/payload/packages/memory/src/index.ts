@@ -1,1 +1,2 @@
-export * from './MemoryPayloadDiviner.ts'
+// eslint-disable-next-line unicorn/require-module-specifiers
+export {}

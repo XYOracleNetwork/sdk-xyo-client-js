@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.64",
+    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/diviner-model": "~5.3.2",
     "@xyo-network/module-model": "~5.3.2",
     "@xyo-network/payload-builder": "~5.3.2",
@@ -47,10 +47,10 @@
     "@xyo-network/witness-model": "~5.3.2"
   },
   "devDependencies": {
-    "@xylabs/sdk-js": "~5.0.64",
+    "@xylabs/sdk-js": "~5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
-    "@xylabs/vitest-extended": "~5.0.64",
+    "@xylabs/vitest-extended": "~5.0.79",
     "@xyo-network/abstract-witness": "~5.3.2",
     "@xyo-network/archivist-memory": "~5.3.2",
     "@xyo-network/id-payload-plugin": "~5.3.2",

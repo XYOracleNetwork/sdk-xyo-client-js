@@ -26,6 +26,3 @@ export class BrowserObjectHasher<T extends EmptyObject = EmptyObject> extends Ob
     }
   })()
 }
-
-/** @deprecated use BrowserObjectHasher instead */
-export class BrowserPayloadHasher<T extends EmptyObject = EmptyObject> extends BrowserObjectHasher<T> {}

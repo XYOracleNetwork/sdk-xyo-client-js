@@ -35,7 +35,6 @@
     "!**/*.spec.*",
     "!**/*.test.*"
   ],
-  "dependencies": {},
   "devDependencies": {
     "@xylabs/geo": "^5.0.79",
     "@xylabs/sdk-js": "^5.0.79",

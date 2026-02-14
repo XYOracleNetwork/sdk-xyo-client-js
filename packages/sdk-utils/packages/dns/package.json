@@ -35,7 +35,6 @@
     "!**/*.spec.*",
     "!**/*.test.*"
   ],
-  "dependencies": {},
   "devDependencies": {
     "@xylabs/sdk-js": "~5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",

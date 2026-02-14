@@ -42,9 +42,13 @@
   },
   "devDependencies": {
     "@types/node": "^25.2.3",
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "typescript": "~5.9.3"
+  },
+  "peerDependencies": {
+    "@xylabs/sdk-js": "^5"
   },
   "publishConfig": {
     "access": "public"

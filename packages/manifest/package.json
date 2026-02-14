@@ -43,12 +43,16 @@
     "@xyo-network/manifest-wrapper": "~5.3.3"
   },
   "devDependencies": {
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.79",
     "ajv": "~8.18.0",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
+  },
+  "peerDependencies": {
+    "@xylabs/sdk-js": "^5"
   },
   "publishConfig": {
     "access": "public"

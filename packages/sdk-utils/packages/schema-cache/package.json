@@ -36,23 +36,29 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/domain-payload-plugin": "~5.3.3",
     "@xyo-network/huri": "~5.3.3",
     "@xyo-network/payload-model": "~5.3.3",
-    "@xyo-network/schema-payload-plugin": "~5.3.3",
-    "ajv": "~8.18.0",
-    "axios": "^1.13.5",
-    "lru-cache": "^11.2.6"
+    "@xyo-network/schema-payload-plugin": "~5.3.3"
   },
   "devDependencies": {
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig-dom": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.79",
     "@xyo-network/network": "~5.3.3",
     "@xyo-network/payload-builder": "~5.3.3",
+    "ajv": "^8.18.0",
+    "axios": "^1.13.5",
+    "lru-cache": "^11.2.6",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
+  },
+  "peerDependencies": {
+    "@xylabs/sdk-js": "^5",
+    "ajv": "^8",
+    "axios": "^1",
+    "lru-cache": "^11"
   },
   "publishConfig": {
     "access": "public"

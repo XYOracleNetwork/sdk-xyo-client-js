@@ -57,13 +57,12 @@
     "wasmHashBundle": "esbuild src/worker/wasmHash.ts --bundle --outfile=dist/browser/worker/wasmHash-bundle.mjs --target=chrome120,firefox120,safari14,edge120"
   },
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.79",
     "@xylabs/threads": "~5.0.79",
     "@xyo-network/wasm": "~5.3.3",
     "hash-wasm": "~4.12.0"
   },
   "devDependencies": {
-    "@xylabs/sdk-js": "~5.0.79",
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.79",
@@ -71,6 +70,9 @@
     "publint": "~0.3.17",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
+  },
+  "peerDependencies": {
+    "@xylabs/sdk-js": "^5"
   },
   "publishConfig": {
     "access": "public"

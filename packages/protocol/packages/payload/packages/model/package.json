@@ -36,10 +36,10 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.79",
-    "@xylabs/zod": "~5.0.79"
+    "@xylabs/zod": "^5.0.79"
   },
   "devDependencies": {
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.79",
@@ -48,6 +48,7 @@
     "zod": "~4.3.6"
   },
   "peerDependencies": {
+    "@xylabs/sdk-js": "^5",
     "zod": "^4"
   },
   "publishConfig": {

@@ -1,6 +1,5 @@
-import { distinct } from '@xylabs/array'
 import type { Address } from '@xylabs/sdk-js'
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx, distinct } from '@xylabs/sdk-js'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { SchemaListDiviner } from '@xyo-network/diviner-schema-list-abstract'
 import type {

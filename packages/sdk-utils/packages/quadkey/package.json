@@ -35,17 +35,21 @@
     "!**/*.spec.*",
     "!**/*.test.*"
   ],
-  "dependencies": {
-    "@xylabs/geo": "~5.0.79",
-    "@xylabs/sdk-js": "~5.0.79",
-    "mapbox-gl": "~3.18.1"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@xylabs/geo": "^5.0.79",
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.79",
+    "mapbox-gl": "^3.18.1",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
+  },
+  "peerDependencies": {
+    "@xylabs/geo": "^5",
+    "@xylabs/sdk-js": "^5",
+    "mapbox-gl": "^3"
   },
   "publishConfig": {
     "access": "public"

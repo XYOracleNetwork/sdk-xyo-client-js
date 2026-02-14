@@ -36,7 +36,6 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/account-model": "~5.3.3",
     "@xyo-network/manifest-model": "~5.3.3",
     "@xyo-network/module-model": "~5.3.3",
@@ -46,9 +45,13 @@
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "typescript": "~5.9.3"
+  },
+  "peerDependencies": {
+    "@xylabs/sdk-js": "^5"
   },
   "publishConfig": {
     "access": "public"

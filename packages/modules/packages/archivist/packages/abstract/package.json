@@ -37,7 +37,6 @@
   ],
   "dependencies": {
     "@opentelemetry/api": "^1.9.0",
-    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/account-model": "~5.3.3",
     "@xyo-network/archivist-model": "~5.3.3",
     "@xyo-network/boundwitness-model": "~5.3.3",
@@ -49,9 +48,13 @@
     "lru-cache": "^11.2.6"
   },
   "devDependencies": {
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "typescript": "~5.9.3"
+  },
+  "peerDependencies": {
+    "@xylabs/sdk-js": "^5"
   },
   "publishConfig": {
     "access": "public"

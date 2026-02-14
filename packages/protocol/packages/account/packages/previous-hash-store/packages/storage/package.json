@@ -36,18 +36,21 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/previous-hash-store-model": "~5.3.3",
     "store2": "~2.14.4"
   },
   "devDependencies": {
     "@types/node": "^25.2.3",
     "@types/uuid": "~11.0.0",
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "typescript": "~5.9.3",
     "uuid": "~13.0.0",
     "vitest": "~4.0.18"
+  },
+  "peerDependencies": {
+    "@xylabs/sdk-js": "^5"
   },
   "publishConfig": {
     "access": "public"

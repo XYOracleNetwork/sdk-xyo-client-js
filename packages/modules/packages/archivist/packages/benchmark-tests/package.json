@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "devDependencies": {
-    "@xylabs/sdk-js": "~5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/tsconfig": "~7.3.2",
     "@xyo-network/archivist-leveldb": "~5.3.3",
     "@xyo-network/archivist-lmdb": "~5.3.3",

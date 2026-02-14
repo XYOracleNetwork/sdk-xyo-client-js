@@ -36,7 +36,6 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/account-model": "~5.3.3",
     "@xyo-network/boundwitness-model": "~5.3.3",
     "@xyo-network/hash": "~5.3.3",
@@ -46,6 +45,7 @@
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.79",
@@ -54,6 +54,9 @@
     "@xyo-network/wallet": "~5.3.3",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
+  },
+  "peerDependencies": {
+    "@xylabs/sdk-js": "^5"
   },
   "publishConfig": {
     "access": "public"

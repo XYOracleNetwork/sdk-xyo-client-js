@@ -39,7 +39,6 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/archivist-abstract": "~5.3.3",
     "@xyo-network/archivist-model": "~5.3.3",
     "@xyo-network/archivist-model-mongodb": "~5.3.3",
@@ -53,7 +52,7 @@
   },
   "devDependencies": {
     "@xylabs/mongo": "~5.0.79",
-    "@xylabs/sdk-js": "~5.0.79",
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.79",
@@ -67,6 +66,7 @@
     "vitest": "~4.0.18"
   },
   "peerDependencies": {
+    "@xylabs/sdk-js": "^5",
     "mongodb": "^6 || ^7"
   },
   "engines": {

@@ -36,13 +36,13 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/abstract-witness": "~5.3.3",
     "@xyo-network/module-model": "~5.3.3",
     "@xyo-network/payload-model": "~5.3.3",
     "@xyo-network/witness-model": "~5.3.3"
   },
   "devDependencies": {
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.79",
@@ -51,6 +51,9 @@
     "@xyo-network/payload-builder": "~5.3.3",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
+  },
+  "peerDependencies": {
+    "@xylabs/sdk-js": "^5"
   },
   "publishConfig": {
     "access": "public"

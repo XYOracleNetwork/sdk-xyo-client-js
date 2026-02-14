@@ -36,7 +36,6 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/archivist-memory": "~5.3.3",
     "@xyo-network/archivist-view": "~5.3.3",
     "@xyo-network/bridge-http": "~5.3.3",
@@ -51,10 +50,14 @@
     "@xyo-network/witness-adhoc": "~5.3.3"
   },
   "devDependencies": {
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xyo-network/diviner-payload-memory": "~5.3.3",
     "typescript": "~5.9.3"
+  },
+  "peerDependencies": {
+    "@xylabs/sdk-js": "^5"
   },
   "publishConfig": {
     "access": "public"

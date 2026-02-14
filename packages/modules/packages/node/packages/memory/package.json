@@ -36,19 +36,21 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/module-model": "~5.3.3",
     "@xyo-network/node-abstract": "~5.3.3",
     "@xyo-network/node-model": "~5.3.3",
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
-    "@xylabs/sdk-js": "~5.0.79",
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xyo-network/module-events": "~5.3.3",
     "@xyo-network/module-resolver": "~5.3.3",
     "typescript": "~5.9.3"
+  },
+  "peerDependencies": {
+    "@xylabs/sdk-js": "^5"
   },
   "publishConfig": {
     "access": "public"

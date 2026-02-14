@@ -68,7 +68,6 @@
     "@typescript-eslint/types": "~8.55.0",
     "@vitest/coverage-v8": "~4.0.18",
     "@xylabs/eslint-config-flat": "~7.3.2",
-    "@xylabs/sdk-js": "~5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/tsconfig-dom": "~7.3.2",

@@ -38,7 +38,6 @@
   "dependencies": {
     "@firebase/app": "~0.14.8",
     "@firebase/firestore": "~4.11.0",
-    "@xylabs/sdk-js": "~5.0.79",
     "@xyo-network/archivist-abstract": "~5.3.3",
     "@xyo-network/archivist-model": "~5.3.3",
     "@xyo-network/module-model": "~5.3.3",
@@ -46,11 +45,15 @@
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "~5.0.0",
+    "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "firebase": "~12.9.0",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
+  },
+  "peerDependencies": {
+    "@xylabs/sdk-js": "^5"
   },
   "publishConfig": {
     "access": "public"

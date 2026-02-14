@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-wrapper",
-  "version": "5.3.2",
+  "version": "5.3.3",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -37,18 +37,18 @@
   ],
   "dependencies": {
     "@xylabs/retry": "~5.0.79",
-    "@xyo-network/account-model": "~5.3.2",
-    "@xyo-network/diviner-model": "~5.3.2",
-    "@xyo-network/module-model": "~5.3.2",
-    "@xyo-network/module-wrapper": "~5.3.2",
-    "@xyo-network/payload-model": "~5.3.2"
+    "@xyo-network/account-model": "~5.3.3",
+    "@xyo-network/diviner-model": "~5.3.3",
+    "@xyo-network/module-model": "~5.3.3",
+    "@xyo-network/module-wrapper": "~5.3.3",
+    "@xyo-network/payload-model": "~5.3.3"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.79",
-    "@xyo-network/diviner-identity": "~5.3.2",
-    "@xyo-network/payload-builder": "~5.3.2",
+    "@xyo-network/diviner-identity": "~5.3.3",
+    "@xyo-network/payload-builder": "~5.3.3",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
   },

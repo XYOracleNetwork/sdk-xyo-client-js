@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/manifest",
-  "version": "5.3.4",
+  "version": "5.3.5",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -39,8 +39,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/manifest-model": "~5.3.4",
-    "@xyo-network/manifest-wrapper": "~5.3.4"
+    "@xyo-network/manifest-model": "~5.3.5",
+    "@xyo-network/manifest-wrapper": "~5.3.5"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.79",

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-mongodb",
-  "version": "5.3.4",
+  "version": "5.3.5",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -39,16 +39,16 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/archivist-abstract": "~5.3.4",
-    "@xyo-network/archivist-model": "~5.3.4",
-    "@xyo-network/archivist-model-mongodb": "~5.3.4",
-    "@xyo-network/boundwitness-model": "~5.3.4",
-    "@xyo-network/boundwitness-wrapper": "~5.3.4",
-    "@xyo-network/module-abstract": "~5.3.4",
-    "@xyo-network/module-abstract-mongodb": "~5.3.4",
-    "@xyo-network/payload-model": "~5.3.4",
-    "@xyo-network/payload-mongodb": "~5.3.4",
-    "@xyo-network/payload-wrapper": "~5.3.4"
+    "@xyo-network/archivist-abstract": "~5.3.5",
+    "@xyo-network/archivist-model": "~5.3.5",
+    "@xyo-network/archivist-model-mongodb": "~5.3.5",
+    "@xyo-network/boundwitness-model": "~5.3.5",
+    "@xyo-network/boundwitness-wrapper": "~5.3.5",
+    "@xyo-network/module-abstract": "~5.3.5",
+    "@xyo-network/module-abstract-mongodb": "~5.3.5",
+    "@xyo-network/payload-model": "~5.3.5",
+    "@xyo-network/payload-mongodb": "~5.3.5",
+    "@xyo-network/payload-wrapper": "~5.3.5"
   },
   "devDependencies": {
     "@xylabs/mongo": "~5.0.79",
@@ -56,11 +56,11 @@
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.79",
-    "@xyo-network/account": "~5.3.4",
-    "@xyo-network/archivist-acceptance-tests": "~5.3.4",
-    "@xyo-network/archivist-wrapper": "~5.3.4",
-    "@xyo-network/boundwitness-builder": "~5.3.4",
-    "@xyo-network/payload-builder": "~5.3.4",
+    "@xyo-network/account": "~5.3.5",
+    "@xyo-network/archivist-acceptance-tests": "~5.3.5",
+    "@xyo-network/archivist-wrapper": "~5.3.5",
+    "@xyo-network/boundwitness-builder": "~5.3.5",
+    "@xyo-network/payload-builder": "~5.3.5",
     "mongodb": "~7.1.0",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"

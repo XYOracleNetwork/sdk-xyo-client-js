@@ -29,7 +29,7 @@ const disallowedImports = [
   '@xylabs/hex',
   '@xylabs/log',
   '@xylabs/logger',
-  '@xylabs/object/index-un-deprecated',
+  '@xylabs/object',
   '@xylabs/platform',
   '@xylabs/profile',
   '@xylabs/promise',

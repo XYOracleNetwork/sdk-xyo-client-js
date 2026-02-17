@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-indexing-memory",
-  "version": "5.3.5",
+  "version": "5.3.6",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,17 +36,17 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/archivist-wrapper": "~5.3.5",
-    "@xyo-network/boundwitness-builder": "~5.3.5",
-    "@xyo-network/boundwitness-model": "~5.3.5",
-    "@xyo-network/diviner-abstract": "~5.3.5",
-    "@xyo-network/diviner-boundwitness-model": "~5.3.5",
-    "@xyo-network/diviner-indexing-model": "~5.3.5",
-    "@xyo-network/diviner-model": "~5.3.5",
-    "@xyo-network/diviner-wrapper": "~5.3.5",
-    "@xyo-network/module-model": "~5.3.5",
-    "@xyo-network/payload-builder": "~5.3.5",
-    "@xyo-network/payload-model": "~5.3.5"
+    "@xyo-network/archivist-wrapper": "~5.3.6",
+    "@xyo-network/boundwitness-builder": "~5.3.6",
+    "@xyo-network/boundwitness-model": "~5.3.6",
+    "@xyo-network/diviner-abstract": "~5.3.6",
+    "@xyo-network/diviner-boundwitness-model": "~5.3.6",
+    "@xyo-network/diviner-indexing-model": "~5.3.6",
+    "@xyo-network/diviner-model": "~5.3.6",
+    "@xyo-network/diviner-wrapper": "~5.3.6",
+    "@xyo-network/module-model": "~5.3.6",
+    "@xyo-network/payload-builder": "~5.3.6",
+    "@xyo-network/payload-model": "~5.3.6"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.79",

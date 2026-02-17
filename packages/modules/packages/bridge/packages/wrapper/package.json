@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/bridge-wrapper",
-  "version": "5.3.5",
+  "version": "5.3.6",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/bridge-model": "~5.3.5",
-    "@xyo-network/module-model": "~5.3.5",
-    "@xyo-network/module-wrapper": "~5.3.5"
+    "@xyo-network/bridge-model": "~5.3.6",
+    "@xyo-network/module-model": "~5.3.6",
+    "@xyo-network/module-wrapper": "~5.3.6"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.79",

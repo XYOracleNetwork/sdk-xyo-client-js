@@ -46,7 +46,6 @@
     "@xyo-network/node-model": "~5.3.5",
     "@xyo-network/payload-model": "~5.3.5",
     "async-mutex": "~0.5.0",
-    "axios": "^1.13.5",
     "lru-cache": "^11.2.6"
   },
   "devDependencies": {
@@ -65,11 +64,13 @@
     "@xyo-network/payload-builder": "~5.3.5",
     "@xyo-network/payload-wrapper": "~5.3.5",
     "@xyo-network/wallet": "~5.3.5",
+    "axios": "^1.13.5",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
   },
   "peerDependencies": {
-    "@xylabs/sdk-js": "^5"
+    "@xylabs/sdk-js": "^5",
+    "axios": "^1"
   },
   "publishConfig": {
     "access": "public"

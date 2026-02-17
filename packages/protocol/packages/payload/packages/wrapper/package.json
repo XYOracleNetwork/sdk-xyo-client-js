@@ -38,17 +38,23 @@
   "dependencies": {
     "@xyo-network/payload-builder": "~5.3.5",
     "@xyo-network/payload-model": "~5.3.5",
-    "@xyo-network/payload-validator": "~5.3.5",
-    "ajv": "~8.18.0"
+    "@xyo-network/payload-validator": "~5.3.5"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
+    "ajv": "^8.18.0",
     "typescript": "~5.9.3"
   },
   "peerDependencies": {
-    "@xylabs/sdk-js": "^5"
+    "@xylabs/sdk-js": "^5",
+    "ajv": "^8"
+  },
+  "peerDependenciesMeta": {
+    "ajv": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"

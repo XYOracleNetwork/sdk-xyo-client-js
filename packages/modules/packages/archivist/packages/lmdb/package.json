@@ -41,8 +41,7 @@
     "@xyo-network/boundwitness-model": "~5.3.5",
     "@xyo-network/module-model": "~5.3.5",
     "@xyo-network/payload-builder": "~5.3.5",
-    "@xyo-network/payload-model": "~5.3.5",
-    "lmdb": "~3.5.1"
+    "@xyo-network/payload-model": "~5.3.5"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.79",
@@ -55,12 +54,14 @@
     "@xyo-network/id-payload-plugin": "~5.3.5",
     "@xyo-network/payload-wrapper": "~5.3.5",
     "@xyo-network/wallet": "~5.3.5",
+    "lmdb": "^3.5.1",
     "typescript": "~5.9.3",
     "uuid": "~13.0.0",
     "vitest": "~4.0.18"
   },
   "peerDependencies": {
-    "@xylabs/sdk-js": "^5"
+    "@xylabs/sdk-js": "^5",
+    "lmdb": "^3"
   },
   "publishConfig": {
     "access": "public"

@@ -3696,6 +3696,7 @@ __metadata:
     vitest: "npm:~4.0.18"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    ethers: ^6
   languageName: unknown
   linkType: soft
 
@@ -3724,6 +3725,8 @@ __metadata:
     "@xylabs/tsconfig": "npm:~7.3.2"
     axios: "npm:^1.13.5"
     typescript: "npm:~5.9.3"
+  peerDependencies:
+    axios: ^1
   languageName: unknown
   linkType: soft
 
@@ -3856,6 +3859,8 @@ __metadata:
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.18"
   peerDependencies:
+    "@firebase/app": ~0.14
+    "@firebase/firestore": ^4
     "@xylabs/sdk-js": ^5
   languageName: unknown
   linkType: soft
@@ -3907,12 +3912,14 @@ __metadata:
     "@xyo-network/payload-model": "npm:~5.3.5"
     "@xyo-network/payload-wrapper": "npm:~5.3.5"
     fake-indexeddb: "npm:~6.2.5"
-    idb: "npm:~8.0.3"
+    idb: "npm:^8.0.3"
     typescript: "npm:~5.9.3"
     uuid: "npm:~13.0.0"
     vitest: "npm:~4.0.18"
   peerDependencies:
+    "@xylabs/indexed-db": ^5
     "@xylabs/sdk-js": ^5
+    idb: ^8
   languageName: unknown
   linkType: soft
 
@@ -3936,14 +3943,16 @@ __metadata:
     "@xyo-network/payload-model": "npm:~5.3.5"
     "@xyo-network/payload-wrapper": "npm:~5.3.5"
     "@xyo-network/wallet": "npm:~5.3.5"
-    abstract-level: "npm:~3.1.1"
+    abstract-level: "npm:^3.1.1"
     async-mutex: "npm:~0.5.0"
-    level: "npm:~10.0.0"
+    level: "npm:^10.0.0"
     typescript: "npm:~5.9.3"
     uuid: "npm:~13.0.0"
     vitest: "npm:~4.0.18"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    abstract-level: ^3
+    level: ^10
   languageName: unknown
   linkType: soft
 
@@ -3967,12 +3976,13 @@ __metadata:
     "@xyo-network/payload-model": "npm:~5.3.5"
     "@xyo-network/payload-wrapper": "npm:~5.3.5"
     "@xyo-network/wallet": "npm:~5.3.5"
-    lmdb: "npm:~3.5.1"
+    lmdb: "npm:^3.5.1"
     typescript: "npm:~5.9.3"
     uuid: "npm:~13.0.0"
     vitest: "npm:~4.0.18"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    lmdb: ^3
   languageName: unknown
   linkType: soft
 
@@ -4009,7 +4019,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-model-mongodb@workspace:packages/modules/packages/archivist/packages/mongodb/packages/model"
   dependencies:
-    "@xylabs/mongo": "npm:~5.0.79"
+    "@xylabs/mongo": "npm:^5.0.79"
     "@xylabs/sdk-js": "npm:^5.0.79"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
@@ -4019,6 +4029,7 @@ __metadata:
     mongodb: "npm:^7.1.0"
     typescript: "npm:~5.9.3"
   peerDependencies:
+    "@xylabs/mongo": ^5
     "@xylabs/sdk-js": ^5
     mongodb: ^6 || ^7
   languageName: unknown
@@ -4213,13 +4224,14 @@ __metadata:
     "@xylabs/sdk-js": "npm:^5.0.79"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
-    "@xylabs/zod": "npm:~5.0.79"
+    "@xylabs/zod": "npm:^5.0.79"
     "@xyo-network/payload-model": "npm:~5.3.5"
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.18"
     zod: "npm:~4.3.6"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    "@xylabs/zod": ^5
     zod: ^4
   languageName: unknown
   linkType: soft
@@ -4262,11 +4274,15 @@ __metadata:
     "@xyo-network/payload-builder": "npm:~5.3.5"
     "@xyo-network/payload-model": "npm:~5.3.5"
     "@xyo-network/payload-wrapper": "npm:~5.3.5"
-    ajv: "npm:~8.18.0"
+    ajv: "npm:^8.18.0"
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.18"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    ajv: ^8
+  peerDependenciesMeta:
+    ajv:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -4351,7 +4367,8 @@ __metadata:
     "@xyo-network/payload-model": "npm:~5.3.5"
     "@xyo-network/payload-wrapper": "npm:~5.3.5"
     "@xyo-network/wallet": "npm:~5.3.5"
-    express: "npm:~5.2.1"
+    axios: "npm:^1.13.5"
+    express: "npm:^5.2.1"
     get-port-please: "npm:~3.2.0"
     http-status-codes: "npm:~2.3.0"
     typescript: "npm:~5.9.3"
@@ -4359,6 +4376,8 @@ __metadata:
     zod: "npm:^4.3.6"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    axios: ^1
+    express: ^5
     zod: ^4
   languageName: unknown
   linkType: soft
@@ -4396,6 +4415,7 @@ __metadata:
     vitest: "npm:~4.0.18"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    axios: ^1
   languageName: unknown
   linkType: soft
 
@@ -4487,6 +4507,7 @@ __metadata:
     vitest: "npm:~4.0.18"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    socket.io: ^4
   languageName: unknown
   linkType: soft
 
@@ -4638,6 +4659,7 @@ __metadata:
     vitest: "npm:~4.0.18"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    ethers: ^6
   languageName: unknown
   linkType: soft
 
@@ -4915,11 +4937,12 @@ __metadata:
     "@xyo-network/payload-builder": "npm:~5.3.5"
     "@xyo-network/payload-model": "npm:~5.3.5"
     fake-indexeddb: "npm:~6.2.5"
-    idb: "npm:~8.0.3"
+    idb: "npm:^8.0.3"
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.18"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    idb: ^8
   languageName: unknown
   linkType: soft
 
@@ -5615,11 +5638,12 @@ __metadata:
     "@xyo-network/payload-builder": "npm:~5.3.5"
     "@xyo-network/payload-model": "npm:~5.3.5"
     fake-indexeddb: "npm:~6.2.5"
-    idb: "npm:~8.0.3"
+    idb: "npm:^8.0.3"
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.18"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    idb: ^8
   languageName: unknown
   linkType: soft
 
@@ -6511,7 +6535,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-model-mongodb@workspace:packages/modules/packages/module/packages/mongodb/packages/model"
   dependencies:
-    "@xylabs/mongo": "npm:~5.0.79"
+    "@xylabs/mongo": "npm:^5.0.79"
     "@xylabs/sdk-js": "npm:^5.0.79"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
@@ -6522,6 +6546,7 @@ __metadata:
     mongodb: "npm:~7.1.0"
     typescript: "npm:~5.9.3"
   peerDependencies:
+    "@xylabs/mongo": ^5
     "@xylabs/sdk-js": ^5
     mongodb: ^6 || ^7
   languageName: unknown
@@ -6840,6 +6865,7 @@ __metadata:
     zod: "npm:~4.3.6"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    "@xylabs/zod": ^5
     zod: ^4
   languageName: unknown
   linkType: soft
@@ -6931,10 +6957,14 @@ __metadata:
     "@xyo-network/payload-builder": "npm:~5.3.5"
     "@xyo-network/payload-model": "npm:~5.3.5"
     "@xyo-network/payload-validator": "npm:~5.3.5"
-    ajv: "npm:~8.18.0"
+    ajv: "npm:^8.18.0"
     typescript: "npm:~5.9.3"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    ajv: ^8
+  peerDependenciesMeta:
+    ajv:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -6986,12 +7016,13 @@ __metadata:
     "@xylabs/tsconfig": "npm:~7.3.2"
     "@xyo-network/previous-hash-store-model": "npm:~5.3.5"
     fake-indexeddb: "npm:~6.2.5"
-    idb: "npm:~8.0.3"
+    idb: "npm:^8.0.3"
     typescript: "npm:~5.9.3"
     uuid: "npm:~13.0.0"
     vitest: "npm:~4.0.18"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    idb: ^8
   languageName: unknown
   linkType: soft
 
@@ -7187,9 +7218,11 @@ __metadata:
     "@xyo-network/schema-cache": "npm:~5.3.5"
     "@xyo-network/schema-name-validator": "npm:~5.3.5"
     "@xyo-network/witnesses": "npm:~5.3.5"
+    axios: "npm:^1.13.5"
     typescript: "npm:~5.9.3"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    axios: ^1
   languageName: unknown
   linkType: soft
 
@@ -7467,6 +7500,7 @@ __metadata:
     typescript: "npm:~5.9.3"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    ethers: ^6
   languageName: unknown
   linkType: soft
 
@@ -7518,6 +7552,7 @@ __metadata:
     typescript: "npm:~5.9.3"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    ethers: ^6
   languageName: unknown
   linkType: soft
 
@@ -7633,7 +7668,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"abstract-level@npm:^3.1.0, abstract-level@npm:~3.1.1":
+"abstract-level@npm:^3.1.0, abstract-level@npm:^3.1.1":
   version: 3.1.1
   resolution: "abstract-level@npm:3.1.1"
   dependencies:
@@ -9409,7 +9444,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:~5.2.1":
+"express@npm:^5.2.1":
   version: 5.2.1
   resolution: "express@npm:5.2.1"
   dependencies:
@@ -10158,7 +10193,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"idb@npm:~8.0.3":
+"idb@npm:^8.0.3, idb@npm:~8.0.3":
   version: 8.0.3
   resolution: "idb@npm:8.0.3"
   checksum: 10/e2beccb0be7c6af562a5e92b209363358571a770aecdc68e891d1141d994d8f1e8f34b79dafa309ed7467d0f4df2b7b4c15f67cfd0611100282bfc3d85f9c73c
@@ -10713,7 +10748,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"level@npm:~10.0.0":
+"level@npm:^10.0.0":
   version: 10.0.0
   resolution: "level@npm:10.0.0"
   dependencies:
@@ -10777,7 +10812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lmdb@npm:~3.5.1":
+"lmdb@npm:^3.5.1":
   version: 3.5.1
   resolution: "lmdb@npm:3.5.1"
   dependencies:

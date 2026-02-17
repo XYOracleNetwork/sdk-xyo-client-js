@@ -52,8 +52,7 @@
     "@xyo-network/module-model": "~5.3.5",
     "@xyo-network/payload-model": "~5.3.5",
     "async-mutex": "~0.5.0",
-    "lru-cache": "^11.2.6",
-    "socket.io": "~4.8.3"
+    "lru-cache": "^11.2.6"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.79",
@@ -66,12 +65,14 @@
     "@xyo-network/node-model": "~5.3.5",
     "@xyo-network/payload-builder": "~5.3.5",
     "@xyo-network/payload-wrapper": "~5.3.5",
+    "socket.io": "~4.8.3",
     "socket.io-client": "~4.8.3",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
   },
   "peerDependencies": {
-    "@xylabs/sdk-js": "^5"
+    "@xylabs/sdk-js": "^5",
+    "socket.io": "^4"
   },
   "publishConfig": {
     "access": "public"

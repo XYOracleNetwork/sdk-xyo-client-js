@@ -36,19 +36,20 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@scure/base": "~2.0.0",
-    "ethers": "^6.16.0"
+    "@scure/base": "~2.0.0"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.79",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.79",
+    "ethers": "^6.16.0",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18"
   },
   "peerDependencies": {
-    "@xylabs/sdk-js": "^5"
+    "@xylabs/sdk-js": "^5",
+    "ethers": "^6"
   },
   "publishConfig": {
     "access": "public"

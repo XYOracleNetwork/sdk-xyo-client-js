@@ -77,7 +77,7 @@ describe.skip('IndexedDbArchivist.Upgrade', () => {
       expect(archivistModule).toBeDefined()
       // expect(archivistModule?.dbVersion).toBe(oldVersion ?? 1)
       const payloads = await fillDb(archivistModule)
-      let all = await archivistModule?.all?.()
+      let all = await archivistModule?.next?.()
       expect(all?.length).toBe(payloads.length)
       const newConfig: IndexedDbArchivistConfig = {
         dbName, schema: IndexedDbArchivistConfigSchema, storeName,
@@ -86,7 +86,7 @@ describe.skip('IndexedDbArchivist.Upgrade', () => {
       archivistModule = await IndexedDbArchivist.create({ account, config: newConfig })
       expect(archivistModule).toBeDefined()
       // expect(archivistModule?.dbVersion).toBe(newVersion ?? 1)
-      all = await archivistModule?.all?.()
+      all = await archivistModule?.next?.()
       expect(all?.length).toBe(10)
     })
   })
@@ -107,7 +107,7 @@ describe.skip('IndexedDbArchivist.Upgrade', () => {
       expect(archivistModule).toBeDefined()
       // expect(archivistModule?.dbVersion).toBe(oldVersion ?? 1)
       const payloads = await fillDb(archivistModule)
-      let all = await archivistModule?.all?.()
+      let all = await archivistModule?.next?.()
       expect(all?.length).toBe(payloads.length)
       const newConfig: IndexedDbArchivistConfig = {
         dbName,
@@ -119,7 +119,7 @@ describe.skip('IndexedDbArchivist.Upgrade', () => {
       archivistModule = await IndexedDbArchivist.create({ account, config: newConfig })
       expect(archivistModule).toBeDefined()
       // expect(archivistModule?.dbVersion).toBe(newVersion ?? 1)
-      all = await archivistModule?.all?.()
+      all = await archivistModule?.next?.()
       expect(all?.length).toBe(10)
     })
   })

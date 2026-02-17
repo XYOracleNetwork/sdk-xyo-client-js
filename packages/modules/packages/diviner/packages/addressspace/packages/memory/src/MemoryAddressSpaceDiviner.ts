@@ -27,7 +27,7 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
     assertEx(payloads.length === 0, () => 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')
     const archivistMod = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod, this.account)
-    const all = await archivist.all?.()
+    const all = await archivist.next?.({ limit: Number.MAX_SAFE_INTEGER })
     const bwLists = all?.filter(x => isBoundWitness(x) && isStorageMeta(x)) ?? []
     const addresses = new Set<Address>(bwLists.flatMap(bw => bw.addresses).map(address => address.toLowerCase() as Address))
     return await Promise.all(

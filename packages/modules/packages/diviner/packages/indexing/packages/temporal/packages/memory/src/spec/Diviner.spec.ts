@@ -140,7 +140,7 @@ describe('TemporalIndexingDiviner', () => {
       stateArchivist = assertEx(asArchivistInstance<MemoryArchivist>(mod))
     })
     it('has expected bound witnesses', async () => {
-      const payloads = await stateArchivist.all()
+      const payloads = await stateArchivist.next()
       const stateBoundWitnesses = payloads.filter(x => isBoundWitness(x))
       expect(stateBoundWitnesses).toBeArrayOfSize(1)
       for (const stateBoundWitness of stateBoundWitnesses) {
@@ -150,7 +150,7 @@ describe('TemporalIndexingDiviner', () => {
       }
     })
     it('has expected state', async () => {
-      const payloads = await stateArchivist.all()
+      const payloads = await stateArchivist.next()
       const statePayloads = payloads.filter(isModuleState)
       expect(statePayloads).toBeArrayOfSize(1)
       expect(statePayloads.at(-1)).toBeObject()
@@ -167,7 +167,7 @@ describe('TemporalIndexingDiviner', () => {
     })
     // We're not signing indexes for performance reasons
     it.skip('has expected bound witnesses', async () => {
-      const payloads = await indexArchivist.all()
+      const payloads = await indexArchivist.next()
       const indexBoundWitnesses = payloads.filter(x => isBoundWitness(x))
       expect(indexBoundWitnesses).toBeArrayOfSize(1)
       const indexBoundWitness = indexBoundWitnesses[0]
@@ -176,7 +176,7 @@ describe('TemporalIndexingDiviner', () => {
       expect(indexBoundWitness.addresses).toContain(sut.address)
     })
     it('has expected index', async () => {
-      const payloads = await indexArchivist.all()
+      const payloads = await indexArchivist.next()
       const indexPayloads = payloads.filter(isTemporalIndexingDivinerResultIndex)
       expect(indexPayloads).toBeArrayOfSize(witnessedThumbnails.length)
     })

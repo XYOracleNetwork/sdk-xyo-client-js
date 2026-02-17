@@ -137,7 +137,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     })
     describe('with previous state', () => {
       it.each([1, 2, 3])('returns next state and batch results', async (batch) => {
-        const all = (await archivist.all()).toSorted(PayloadBuilder.compareStorageMeta)
+        const all = (await archivist.next()).toSorted(PayloadBuilder.compareStorageMeta)
         const batchOffset = all.at((3 * batch) - 1)
         expect(batchOffset).toBeDefined()
         // Test across all offsets

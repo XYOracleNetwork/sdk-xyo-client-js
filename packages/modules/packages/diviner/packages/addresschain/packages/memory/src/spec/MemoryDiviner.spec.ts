@@ -46,7 +46,7 @@ describe('MemoryAddressHistoryDiviner', () => {
         await delay(2)
         await archivistWrapper.insert([payload.payload])
       }
-      const all = await archivist.all()
+      const all = await archivist.next({ limit: Number.MAX_SAFE_INTEGER })
       expect(all).toBeArrayOfSize(6)
 
       const allBWs = all.filter(x => isBoundWitness(x))

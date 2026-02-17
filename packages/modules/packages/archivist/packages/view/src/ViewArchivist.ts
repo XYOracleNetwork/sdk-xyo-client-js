@@ -1,4 +1,6 @@
-import { assertEx, Hash } from '@xylabs/sdk-js'
+import {
+  assertEx, Hash, Promisable,
+} from '@xylabs/sdk-js'
 import { AbstractArchivist, StorageClassLabel } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -63,9 +65,8 @@ export class ViewArchivist<
   }
 
   /** @deprecated use next instead */
-  protected override async allHandler(): Promise<WithStorageMeta<Payload>[]> {
-    // eslint-disable-next-line sonarjs/deprecation
-    return (await (await this.originArchivistInstance()).all?.()) ?? []
+  protected override allHandler(): Promisable<WithStorageMeta<Payload>[]> {
+    throw new Error('allHandler is deprecated, use nextHandler instead')
   }
 
   protected override async getHandler(hashes: Hash[]): Promise<WithStorageMeta<Payload>[]> {

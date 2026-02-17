@@ -67,7 +67,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
   }
 
   protected override allHandler(): PromisableArray<WithStorageMeta<Payload>> {
-    return this.memoryArchivist.all()
+    return this.memoryArchivist.next({ limit: Number.MAX_SAFE_INTEGER })
   }
 
   protected override clearHandler(): void | Promise<void> {

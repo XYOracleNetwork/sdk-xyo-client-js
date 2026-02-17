@@ -17,6 +17,6 @@ test('FilesystemArchivist Load', async () => {
       schema: FilesystemArchivistConfigSchema,
     },
   })) as FilesystemArchivist
-  const all = await archivist.all()
+  const all = await archivist.next({ limit: Number.MAX_SAFE_INTEGER })
   expect(all.length).toBe(4)
 })

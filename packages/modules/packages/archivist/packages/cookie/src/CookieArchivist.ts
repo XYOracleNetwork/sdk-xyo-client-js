@@ -105,7 +105,7 @@ export class CookieArchivist<
 
   protected override async commitHandler(): Promise<BoundWitness[]> {
     try {
-      const payloads = await this.all()
+      const payloads = await this.next({ limit: Number.MAX_SAFE_INTEGER })
       assertEx(payloads.length > 0, () => 'Nothing to commit')
       const settled = await Promise.allSettled(
         (

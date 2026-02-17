@@ -44,7 +44,7 @@ describe('AddressHistoryDiviner', () => {
       await wrapper.insert([payload1])
       await wrapper.insert([payload2])
       await wrapper.insert([payload3])
-      const all = await wrapper.all()
+      const all = await wrapper.next()
       expect(all).toBeArrayOfSize(6)
       await node.register(archivist)
       await node.attach(archivist.address)

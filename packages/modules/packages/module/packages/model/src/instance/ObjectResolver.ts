@@ -22,8 +22,6 @@ export type ObjectResolverPriority = typeof ObjectResolverPriority[keyof typeof 
 
 export interface ObjectResolver<TResult extends EmptyObject> {
   priority: ObjectResolverPriority
-  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
-  resolve<T extends TResult = TResult>(): Promisable<T | undefined>
   resolve<T extends TResult = TResult>(all: '*', options?: ObjectFilterOptions<T>): Promisable<T[]>
   resolve<T extends TResult = TResult>(id: ModuleIdentifier, options?: ObjectFilterOptions<T>): Promisable<T | undefined>
   resolve<T extends TResult = TResult>(

@@ -92,7 +92,7 @@ describe('GenericPayloadDiviner', () => {
     const [insertedPayloadD] = await archivist.insert([payloadD])
     await delay(1)
     insertedPayloads = [insertedPayloadA, insertedPayloadB, insertedPayloadC, insertedPayloadD]
-    const all = await archivist.all()
+    const all = await archivist.next()
     console.log(all)
     sut = await GenericPayloadDiviner.create({
       account: 'random',

@@ -34,7 +34,7 @@ test.skip('FirebaseArchivist Load', async () => {
     account: 'random',
     config: { schema: FirebaseArchivistConfigSchema },
   })) as FirebaseArchivist
-  const all = await archivist.all()
+  const all = await archivist.next({ limit: 10 })
   expect(all.length).toBe(4)
 })
 

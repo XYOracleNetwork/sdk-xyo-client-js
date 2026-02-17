@@ -39,7 +39,7 @@ describe('MemoryAddressSpaceDiviner', () => {
       await archivist.insert([payload2.payload])
       await archivist.insert([payload3.payload])
 
-      const all = await archivist.all()
+      const all = await archivist.next()
 
       expect(all).toBeArrayOfSize(6)
 

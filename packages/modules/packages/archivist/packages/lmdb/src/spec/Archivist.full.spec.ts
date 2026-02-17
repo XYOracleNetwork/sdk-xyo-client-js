@@ -123,8 +123,7 @@ describe('LmdbArchivist [full]', () => {
       sources = await fillDb(archivistModule)
     })
     it('returns all data', async () => {
-      // eslint-disable-next-line sonarjs/deprecation
-      const getResult = await archivistModule.all?.()
+      const getResult = await archivistModule.next?.()
       expect(getResult).toBeDefined()
       expect(getResult?.length).toBe(sources.length)
       expect(PayloadBuilder.omitStorageMeta(getResult)).toEqual(sources)

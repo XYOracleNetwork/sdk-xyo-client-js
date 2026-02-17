@@ -19,10 +19,10 @@ import type {
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
+  ModuleInstanceParams,
   ModuleManifestQuery,
   ModuleName,
   ModuleNameResolver,
-  ModuleParams,
   ModuleQueryResult,
   ModuleStateQuery,
   ObjectFilterOptions,
@@ -57,7 +57,7 @@ function filterIdentity<T extends TypedValue>(mod?: ModuleInstance | ModuleInsta
   return (mod ? (identityFunc ? identityFunc(mod) : true) : false) ? mod : undefined
 }
 
-export abstract class AbstractModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
+export abstract class AbstractModuleInstance<TParams extends ModuleInstanceParams = ModuleInstanceParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModule<TParams, TEventData>
   implements AttachableModuleInstance<TParams, TEventData>, ModuleNameResolver {
   static override readonly uniqueName = globallyUnique('AbstractModuleInstance', AbstractModuleInstance, 'xyo')

@@ -6,10 +6,10 @@ import type { Schema } from '@xyo-network/payload-model'
 import type { ModuleEventData } from '../EventsModels/index.ts'
 import type { AttachableModuleInstance } from '../instance/index.ts'
 import type { WithOptionalLabels } from '../Labels/index.ts'
-import type { ModuleParams } from '../ModuleParams.ts'
+import type { QueryableModuleParams } from '../QueryableModule/index.ts'
 import type { LabeledCreatableModuleFactory } from './LabeledCreatableModuleFactory.ts'
 
-export interface CreatableModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
+export interface CreatableModuleInstance<TParams extends QueryableModuleParams = QueryableModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends CreatableInstance<TParams, TEventData>, AttachableModuleInstance<TParams, TEventData> {}
 
 export interface CreatableModuleFactory<T extends CreatableModuleInstance = CreatableModuleInstance>

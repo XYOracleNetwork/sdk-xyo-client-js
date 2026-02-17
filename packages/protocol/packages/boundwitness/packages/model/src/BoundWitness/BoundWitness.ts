@@ -6,6 +6,7 @@ import { PayloadZod, SchemaZod } from '@xyo-network/payload-model'
 import z from 'zod'
 
 import { BoundWitnessSchema } from './BoundWitnessSchema.ts'
+import type { SignedSignaturesMeta, UnsignedSignaturesMeta } from './Signatures.ts'
 import { SignaturesMetaZod } from './Signatures.ts'
 
 export const BoundWitnessRequiredFieldsZod = z.object({
@@ -38,3 +39,7 @@ export const toBoundWitness = zodToFactory(BoundWitnessZod, 'toBoundWitness')
 
 export const AnyBoundWitnessZod = BoundWitnessZod.loose()
 export type AnyBoundWitness = z.infer<typeof AnyBoundWitnessZod>
+
+export type Unsigned<T extends BoundWitness = BoundWitness> = Omit<T, '$signatures'> & UnsignedSignaturesMeta
+export type Signed<T extends BoundWitness = BoundWitness> = Omit<T, '$signatures'> & SignedSignaturesMeta
+export type PossiblySigned<T extends BoundWitness = BoundWitness> = Unsigned<T> | Signed<T>

@@ -18,12 +18,13 @@ import type { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AbstractNode } from '@xyo-network/node-abstract'
 import type {
   ChildCertificationFields,
-  NodeConfig, NodeModuleEventData, NodeParams,
+  NodeConfig, NodeInstanceParams,
+  NodeModuleEventData,
 } from '@xyo-network/node-model'
 import { isNodeModule } from '@xyo-network/node-model'
 import { Mutex } from 'async-mutex'
 
-export type MemoryNodeParams = NodeParams<AnyConfigSchema<NodeConfig>>
+export type MemoryNodeParams = NodeInstanceParams<AnyConfigSchema<NodeConfig>>
 
 @creatableModule()
 export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>

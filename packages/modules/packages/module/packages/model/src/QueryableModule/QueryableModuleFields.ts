@@ -4,10 +4,10 @@ import type { Payload } from '@xyo-network/payload-model'
 
 import type { ModuleConfig } from '../Config/index.ts'
 import type { ModuleName } from '../ModuleIdentifier.ts'
-import type { ModuleParams } from '../ModuleParams.ts'
 import type { ModuleQueryResult } from '../ModuleQueryResult.ts'
+import type { QueryableModuleParams } from './QueryableModuleParams.ts'
 
-export interface ModuleFields<TParams extends ModuleParams = ModuleParams> {
+export interface QueryableModuleFields<TParams extends QueryableModuleParams = QueryableModuleParams> {
   address: Address
   config: TParams['config']
 
@@ -32,3 +32,6 @@ export interface ModuleFields<TParams extends ModuleParams = ModuleParams> {
     queryConfig?: TConf,
   ) => Promisable<boolean>
 }
+
+/** @deprecated use QueryableModuleFields instead */
+export interface ModuleFields<TParams extends QueryableModuleParams = QueryableModuleParams> extends QueryableModuleFields<TParams> {}

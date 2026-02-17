@@ -1,2 +1,2 @@
-/** @deprecated use @xylabs/object instead */
-export * from '@xylabs/sdk-js'
+// eslint-disable-next-line unicorn/require-module-specifiers
+export {}

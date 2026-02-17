@@ -1,8 +1,6 @@
 import type { TypeCheck } from '@xylabs/sdk-js'
 
-import { isModuleInstance } from './instance/index.ts'
-import { isModule } from './module/index.ts'
-
+/** @deprecated use narrowing instead [ if(is) ] */
 export const WithFactory = {
   create: <T extends object>(typeCheck: TypeCheck<T>) => {
     return <R>(
@@ -15,6 +13,3 @@ export const WithFactory = {
     }
   },
 }
-
-export const withModule = WithFactory.create(isModule)
-export const withModuleInstance = WithFactory.create(isModuleInstance)

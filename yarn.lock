@@ -3662,9 +3662,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/account-model@npm:~5.3.5, @xyo-network/account-model@workspace:packages/protocol/packages/account/packages/account-model":
+"@xyo-network/account-model@npm:~5.3.5, @xyo-network/account-model@workspace:packages/protocol/packages/crypto/packages/account-model":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/account-model@workspace:packages/protocol/packages/account/packages/account-model"
+  resolution: "@xyo-network/account-model@workspace:packages/protocol/packages/crypto/packages/account-model"
   dependencies:
     "@xylabs/sdk-js": "npm:^5.0.79"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
@@ -3677,9 +3677,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/account@npm:~5.3.5, @xyo-network/account@workspace:packages/protocol/packages/account/packages/account":
+"@xyo-network/account@npm:~5.3.5, @xyo-network/account@workspace:packages/protocol/packages/crypto/packages/account":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/account@workspace:packages/protocol/packages/account/packages/account"
+  resolution: "@xyo-network/account@workspace:packages/protocol/packages/crypto/packages/account"
   dependencies:
     "@xylabs/sdk-js": "npm:^5.0.79"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
@@ -4160,16 +4160,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/bip39@workspace:packages/protocol/packages/bip39":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/bip39@workspace:packages/protocol/packages/bip39"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
-    "@xylabs/tsconfig": "npm:~7.3.2"
-    typescript: "npm:~5.9.3"
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/boundwitness-builder@npm:~5.3.5, @xyo-network/boundwitness-builder@workspace:packages/protocol/packages/boundwitness/packages/builder":
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-builder@workspace:packages/protocol/packages/boundwitness/packages/builder"
@@ -4611,17 +4601,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-model@workspace:packages/protocol/packages/account":
+"@xyo-network/crypto@npm:~5.3.5, @xyo-network/crypto@workspace:packages/protocol/packages/crypto":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/crypto-model@workspace:packages/protocol/packages/account"
+  resolution: "@xyo-network/crypto@workspace:packages/protocol/packages/crypto"
   dependencies:
     "@xylabs/sdk-js": "npm:^5.0.79"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
     "@xylabs/vitest-extended": "npm:~5.0.79"
     "@xylabs/vitest-matchers": "npm:~5.0.79"
+    "@xyo-network/account": "npm:~5.3.5"
     "@xyo-network/account-model": "npm:~5.3.5"
+    "@xyo-network/elliptic": "npm:~5.3.5"
     "@xyo-network/key-model": "npm:~5.3.5"
+    "@xyo-network/previous-hash-store": "npm:~5.3.5"
+    "@xyo-network/wallet": "npm:~5.3.5"
     "@xyo-network/wallet-model": "npm:~5.3.5"
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.18"
@@ -6230,9 +6224,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/elliptic@npm:~5.3.5, @xyo-network/elliptic@workspace:packages/protocol/packages/account/packages/elliptic":
+"@xyo-network/elliptic@npm:~5.3.5, @xyo-network/elliptic@workspace:packages/protocol/packages/crypto/packages/elliptic":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/elliptic@workspace:packages/protocol/packages/account/packages/elliptic"
+  resolution: "@xyo-network/elliptic@workspace:packages/protocol/packages/crypto/packages/elliptic"
   dependencies:
     "@bitauth/libauth": "npm:~3.0.0"
     "@xylabs/sdk-js": "npm:^5.0.79"
@@ -6323,9 +6317,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/key-model@npm:~5.3.5, @xyo-network/key-model@workspace:packages/protocol/packages/account/packages/keypair-model":
+"@xyo-network/key-model@npm:~5.3.5, @xyo-network/key-model@workspace:packages/protocol/packages/crypto/packages/key-model":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/key-model@workspace:packages/protocol/packages/account/packages/keypair-model"
+  resolution: "@xyo-network/key-model@workspace:packages/protocol/packages/crypto/packages/key-model"
   dependencies:
     "@types/node": "npm:^25.2.3"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
@@ -6809,12 +6803,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/object@workspace:packages/protocol/packages/core/packages/object"
   dependencies:
-    "@xylabs/sdk-js": "npm:^5.0.79"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
     typescript: "npm:~5.9.3"
-  peerDependencies:
-    "@xylabs/sdk-js": ^5
   languageName: unknown
   linkType: soft
 
@@ -6882,9 +6873,11 @@ __metadata:
     "@xyo-network/payload-wrapper": "npm:~5.3.5"
     ajv: "npm:^8.18.0"
     typescript: "npm:~5.9.3"
+    zod: "npm:^4.3.6"
   peerDependencies:
     "@xylabs/sdk-js": ^5
     ajv: ^8
+    zod: ^4.3.6
   peerDependenciesMeta:
     ajv:
       optional: true
@@ -6982,9 +6975,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/previous-hash-store-indexeddb@npm:~5.3.5, @xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/indexeddb":
+"@xyo-network/previous-hash-store-indexeddb@npm:~5.3.5, @xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/crypto/packages/previous-hash-store/packages/indexeddb":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/indexeddb"
+  resolution: "@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/crypto/packages/previous-hash-store/packages/indexeddb"
   dependencies:
     "@types/node": "npm:^25.2.3"
     "@types/uuid": "npm:11.0.0"
@@ -7002,9 +6995,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/previous-hash-store-model@npm:~5.3.5, @xyo-network/previous-hash-store-model@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/model":
+"@xyo-network/previous-hash-store-model@npm:~5.3.5, @xyo-network/previous-hash-store-model@workspace:packages/protocol/packages/crypto/packages/previous-hash-store/packages/model":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/previous-hash-store-model@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/model"
+  resolution: "@xyo-network/previous-hash-store-model@workspace:packages/protocol/packages/crypto/packages/previous-hash-store/packages/model"
   dependencies:
     "@xylabs/sdk-js": "npm:^5.0.79"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
@@ -7015,9 +7008,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/previous-hash-store-storage@npm:~5.3.5, @xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/storage":
+"@xyo-network/previous-hash-store-storage@npm:~5.3.5, @xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/crypto/packages/previous-hash-store/packages/storage":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/storage"
+  resolution: "@xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/crypto/packages/previous-hash-store/packages/storage"
   dependencies:
     "@types/node": "npm:^25.2.3"
     "@types/uuid": "npm:~11.0.0"
@@ -7034,9 +7027,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/previous-hash-store@workspace:packages/protocol/packages/account/packages/previous-hash-store":
+"@xyo-network/previous-hash-store@npm:~5.3.5, @xyo-network/previous-hash-store@workspace:packages/protocol/packages/crypto/packages/previous-hash-store":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/previous-hash-store@workspace:packages/protocol/packages/account/packages/previous-hash-store"
+  resolution: "@xyo-network/previous-hash-store@workspace:packages/protocol/packages/crypto/packages/previous-hash-store"
   dependencies:
     "@xylabs/sdk-js": "npm:^5.0.79"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
@@ -7057,9 +7050,9 @@ __metadata:
     "@xylabs/sdk-js": "npm:^5.0.79"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
-    "@xyo-network/account": "npm:~5.3.5"
     "@xyo-network/boundwitness": "npm:~5.3.5"
     "@xyo-network/core": "npm:~5.3.5"
+    "@xyo-network/crypto": "npm:~5.3.5"
     "@xyo-network/payload": "npm:~5.3.5"
     typescript: "npm:~5.9.3"
   peerDependencies:
@@ -7385,9 +7378,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/wallet-model@npm:~5.3.5, @xyo-network/wallet-model@workspace:packages/protocol/packages/account/packages/wallet-model":
+"@xyo-network/wallet-model@npm:~5.3.5, @xyo-network/wallet-model@workspace:packages/protocol/packages/crypto/packages/wallet-model":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/wallet-model@workspace:packages/protocol/packages/account/packages/wallet-model"
+  resolution: "@xyo-network/wallet-model@workspace:packages/protocol/packages/crypto/packages/wallet-model"
   dependencies:
     "@xylabs/sdk-js": "npm:^5.0.79"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
@@ -7399,9 +7392,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/wallet@npm:~5.3.5, @xyo-network/wallet@workspace:packages/protocol/packages/account/packages/wallet":
+"@xyo-network/wallet@npm:~5.3.5, @xyo-network/wallet@workspace:packages/protocol/packages/crypto/packages/wallet":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/wallet@workspace:packages/protocol/packages/account/packages/wallet"
+  resolution: "@xyo-network/wallet@workspace:packages/protocol/packages/crypto/packages/wallet"
   dependencies:
     "@scure/bip39": "npm:~2.0.1"
     "@xylabs/sdk-js": "npm:^5.0.79"
@@ -7417,6 +7410,7 @@ __metadata:
     vitest: "npm:~4.0.18"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    ethers: ^6.16.0
   languageName: unknown
   linkType: soft
 
@@ -7606,15 +7600,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witnesses@workspace:packages/sdk-utils/packages/witnesses"
   dependencies:
-    "@xylabs/sdk-js": "npm:^5.0.79"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
-    "@xyo-network/abstract-witness": "npm:~5.3.5"
-    "@xyo-network/payload-model": "npm:~5.3.5"
-    "@xyo-network/witness-model": "npm:~5.3.5"
     typescript: "npm:~5.9.3"
-  peerDependencies:
-    "@xylabs/sdk-js": ^5
   languageName: unknown
   linkType: soft
 

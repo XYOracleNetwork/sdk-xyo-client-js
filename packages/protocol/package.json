@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/account": "~5.3.5",
     "@xyo-network/boundwitness": "~5.3.5",
     "@xyo-network/core": "~5.3.5",
+    "@xyo-network/crypto": "~5.3.5",
     "@xyo-network/payload": "~5.3.5"
   },
   "devDependencies": {

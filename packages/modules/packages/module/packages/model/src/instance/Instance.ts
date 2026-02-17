@@ -6,9 +6,11 @@ import { IsObjectFactory, toSafeJsonString } from '@xylabs/sdk-js'
 import type { AccountInstance } from '@xyo-network/account-model'
 
 import type { ModuleEventData } from '../EventsModels/index.ts'
-import type { Module, ModuleQueryFunctions } from '../module/index.ts'
 import type { ModuleIdentifier, ModuleName } from '../ModuleIdentifier.ts'
-import type { ModuleParams } from '../ModuleParams.ts'
+import type {
+  QueryableModule, QueryableModuleFunctions,
+  QueryableModuleParams,
+} from '../QueryableModule/index.ts'
 import type { Direction } from './ObjectFilter.ts'
 import type { ObjectResolver } from './ObjectResolver.ts'
 
@@ -50,10 +52,10 @@ export interface ModuleFamilyFunctions {
   siblings: () => Promisable<ModuleInstance[]>
 }
 
-export interface ModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
-  extends Module<TParams, TEventData>,
+export interface ModuleInstance<TParams extends QueryableModuleParams = QueryableModuleParams, TEventData extends ModuleEventData = ModuleEventData>
+  extends QueryableModule<TParams, TEventData>,
   ObjectResolver<ModuleInstance>,
-  ModuleQueryFunctions,
+  QueryableModuleFunctions,
   ModuleFamilyFunctions {
   readonly pipeline?: ModulePipeLine
 

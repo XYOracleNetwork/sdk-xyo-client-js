@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-deprecated */
+/* eslint-disable sonarjs/deprecation */
 import { typeOf } from './typeOf.ts'
 import type { TypeOfTypes } from './TypeOfTypes.ts'
 
+/** @deprecated use @xylabs/typeof or zod */
 export const ifTypeOf = <T, R>(
   typeName: TypeOfTypes,
   value: unknown,

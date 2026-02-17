@@ -2,11 +2,11 @@ import type { CreatableInstance, TypeCheck } from '@xylabs/sdk-js'
 import { IsObjectFactory } from '@xylabs/sdk-js'
 
 import type { ModuleEventData } from '../../EventsModels/index.ts'
-import type { ModuleParams } from '../../ModuleParams.ts'
+import type { QueryableModuleParams } from '../../QueryableModule/index.ts'
 import type { ModuleInstance } from '../Instance.ts'
 import type { ModuleResolverInstance } from '../ModuleResolver.ts'
 
-export interface AttachableModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
+export interface AttachableModuleInstance<TParams extends QueryableModuleParams = QueryableModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends ModuleInstance<TParams, TEventData>, CreatableInstance<TParams, TEventData> {
   config: TParams['config']
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module */

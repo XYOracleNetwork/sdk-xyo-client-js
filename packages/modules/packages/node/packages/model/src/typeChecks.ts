@@ -1,7 +1,8 @@
 import type { TypeCheck } from '@xylabs/sdk-js'
 import { AsObjectFactory } from '@xylabs/sdk-js'
 import {
-  IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory,
+  // eslint-disable-next-line sonarjs/deprecation
+  IsInstanceFactory, isModuleInstance, IsQueryableModuleFactory, WithFactory,
 } from '@xyo-network/module-model'
 
 import type { NodeInstance } from './instance.ts'
@@ -21,9 +22,14 @@ export const isNodeInstance: TypeCheck<NodeInstance> = instanceFactory.create(
   [isModuleInstance],
 )
 
-export const isNodeModule: TypeCheck<NodeModule> = new IsModuleFactory<NodeModule>().create([NodeAttachedQuerySchema])
+export const isNodeModule: TypeCheck<NodeModule> = new IsQueryableModuleFactory<NodeModule>().create([NodeAttachedQuerySchema])
 
 export const asNodeModule = AsObjectFactory.create(isNodeModule)
 export const asNodeInstance = AsObjectFactory.create(isNodeInstance)
+
+/** @deprecated use narrowing instead [ if(is) ] */
+// eslint-disable-next-line sonarjs/deprecation, @typescript-eslint/no-deprecated
 export const withNodeModule = WithFactory.create(isNodeModule)
+/** @deprecated use narrowing instead [ if(is) ] */
+// eslint-disable-next-line sonarjs/deprecation, @typescript-eslint/no-deprecated
 export const withNodeInstance = WithFactory.create(isNodeInstance)

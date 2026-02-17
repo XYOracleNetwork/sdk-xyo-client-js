@@ -3727,7 +3727,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/api@workspace:packages/sdk-utils/packages/api":
+"@xyo-network/api@npm:~5.3.5, @xyo-network/api@workspace:packages/sdk-utils/packages/api":
   version: 0.0.0-use.local
   resolution: "@xyo-network/api@workspace:packages/sdk-utils/packages/api"
   dependencies:
@@ -7060,7 +7060,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/quadkey@workspace:packages/sdk-utils/packages/quadkey":
+"@xyo-network/quadkey@npm:~5.3.5, @xyo-network/quadkey@workspace:packages/sdk-utils/packages/quadkey":
   version: 0.0.0-use.local
   resolution: "@xyo-network/quadkey@workspace:packages/sdk-utils/packages/quadkey"
   dependencies:
@@ -7161,6 +7161,8 @@ __metadata:
     "@xyo-network/manifest": "npm:~5.3.5"
     "@xyo-network/modules": "npm:~5.3.5"
     "@xyo-network/protocol": "npm:~5.3.5"
+    "@xyo-network/sdk-utils": "npm:~5.3.5"
+    "@xyo-network/shared": "npm:~5.3.5"
     typescript: "npm:~5.9.3"
   peerDependencies:
     "@xylabs/sdk-js": ^5
@@ -7174,12 +7176,14 @@ __metadata:
     "@xylabs/sdk-js": "npm:^5.0.79"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
+    "@xyo-network/api": "npm:~5.3.5"
     "@xyo-network/api-models": "npm:~5.3.5"
     "@xyo-network/dns": "npm:~5.3.5"
     "@xyo-network/metamask-connector": "npm:~5.3.5"
     "@xyo-network/network": "npm:~5.3.5"
     "@xyo-network/payload-plugin": "npm:~5.3.5"
     "@xyo-network/payloadset-plugin": "npm:~5.3.5"
+    "@xyo-network/quadkey": "npm:~5.3.5"
     "@xyo-network/schema-cache": "npm:~5.3.5"
     "@xyo-network/schema-name-validator": "npm:~5.3.5"
     "@xyo-network/witnesses": "npm:~5.3.5"

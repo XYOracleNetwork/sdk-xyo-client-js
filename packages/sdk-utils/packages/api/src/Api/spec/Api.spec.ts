@@ -8,7 +8,7 @@ import {
   describe, expect, it,
 } from 'vitest'
 
-import { getApi } from './ApiUtil.spec.ts'
+import { getApi } from './ApiUtil.ts'
 
 describe('ArchivistApi', () => {
   describe('get', () => {

@@ -1,5 +1,5 @@
 export * from './testBoundWitness.spec.ts'
-export * from './testPayload.spec.ts'
+export * from './testPayload.ts'
 
 import { expect, it } from 'vitest'
 

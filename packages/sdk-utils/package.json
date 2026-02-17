@@ -36,12 +36,14 @@
     "!**/*.test.*"
   ],
   "dependencies": {
+    "@xyo-network/api": "~5.3.5",
     "@xyo-network/api-models": "~5.3.5",
     "@xyo-network/dns": "~5.3.5",
     "@xyo-network/metamask-connector": "~5.3.5",
     "@xyo-network/network": "~5.3.5",
     "@xyo-network/payload-plugin": "~5.3.5",
     "@xyo-network/payloadset-plugin": "~5.3.5",
+    "@xyo-network/quadkey": "~5.3.5",
     "@xyo-network/schema-cache": "~5.3.5",
     "@xyo-network/schema-name-validator": "~5.3.5",
     "@xyo-network/witnesses": "~5.3.5"

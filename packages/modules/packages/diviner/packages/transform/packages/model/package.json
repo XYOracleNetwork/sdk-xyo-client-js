@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-transform-model",
-  "version": "5.3.6",
+  "version": "5.3.7",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-model": "~5.3.6",
-    "@xyo-network/payload-model": "~5.3.6"
+    "@xyo-network/diviner-model": "~5.3.7",
+    "@xyo-network/payload-model": "~5.3.7"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.80",

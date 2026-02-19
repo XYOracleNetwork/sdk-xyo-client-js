@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-utils",
-  "version": "5.3.6",
+  "version": "5.3.7",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,17 +36,17 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/api": "~5.3.6",
-    "@xyo-network/api-models": "~5.3.6",
-    "@xyo-network/dns": "~5.3.6",
-    "@xyo-network/metamask-connector": "~5.3.6",
-    "@xyo-network/network": "~5.3.6",
-    "@xyo-network/payload-plugin": "~5.3.6",
-    "@xyo-network/payloadset-plugin": "~5.3.6",
-    "@xyo-network/quadkey": "~5.3.6",
-    "@xyo-network/schema-cache": "~5.3.6",
-    "@xyo-network/schema-name-validator": "~5.3.6",
-    "@xyo-network/witnesses": "~5.3.6"
+    "@xyo-network/api": "~5.3.7",
+    "@xyo-network/api-models": "~5.3.7",
+    "@xyo-network/dns": "~5.3.7",
+    "@xyo-network/metamask-connector": "~5.3.7",
+    "@xyo-network/network": "~5.3.7",
+    "@xyo-network/payload-plugin": "~5.3.7",
+    "@xyo-network/payloadset-plugin": "~5.3.7",
+    "@xyo-network/quadkey": "~5.3.7",
+    "@xyo-network/schema-cache": "~5.3.7",
+    "@xyo-network/schema-name-validator": "~5.3.7",
+    "@xyo-network/witnesses": "~5.3.7"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.80",

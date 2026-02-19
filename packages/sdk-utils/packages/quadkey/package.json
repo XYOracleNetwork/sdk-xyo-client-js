@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/quadkey",
-  "version": "5.3.6",
+  "version": "5.3.7",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {

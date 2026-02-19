@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/node-wrapper",
-  "version": "5.3.6",
+  "version": "5.3.7",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,12 +36,12 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/account-model": "~5.3.6",
-    "@xyo-network/manifest-model": "~5.3.6",
-    "@xyo-network/module-model": "~5.3.6",
-    "@xyo-network/module-wrapper": "~5.3.6",
-    "@xyo-network/node-model": "~5.3.6",
-    "@xyo-network/payload-model": "~5.3.6",
+    "@xyo-network/account-model": "~5.3.7",
+    "@xyo-network/manifest-model": "~5.3.7",
+    "@xyo-network/module-model": "~5.3.7",
+    "@xyo-network/module-wrapper": "~5.3.7",
+    "@xyo-network/node-model": "~5.3.7",
+    "@xyo-network/payload-model": "~5.3.7",
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {

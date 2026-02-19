@@ -44,10 +44,10 @@
     "@xyo-network/payload-model": "~5.3.6"
   },
   "devDependencies": {
-    "@xylabs/sdk-js": "^5.0.79",
+    "@xylabs/sdk-js": "^5.0.80",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
-    "@xylabs/vitest-extended": "~5.0.79",
+    "@xylabs/vitest-extended": "~5.0.80",
     "@xyo-network/account": "~5.3.6",
     "@xyo-network/account-model": "~5.3.6",
     "@xyo-network/archivist-acceptance-tests": "~5.3.6",
@@ -57,11 +57,13 @@
     "lmdb": "^3.5.1",
     "typescript": "~5.9.3",
     "uuid": "~13.0.0",
-    "vitest": "~4.0.18"
+    "vitest": "~4.0.18",
+    "zod": "^4.3.6"
   },
   "peerDependencies": {
     "@xylabs/sdk-js": "^5",
-    "lmdb": "^3"
+    "lmdb": "^3",
+    "zod": "^4"
   },
   "publishConfig": {
     "access": "public"

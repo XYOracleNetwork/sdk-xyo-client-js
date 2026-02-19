@@ -51,11 +51,11 @@
     "@xyo-network/payload-wrapper": "~5.3.6"
   },
   "devDependencies": {
-    "@xylabs/mongo": "~5.0.79",
-    "@xylabs/sdk-js": "^5.0.79",
+    "@xylabs/mongo": "~5.0.80",
+    "@xylabs/sdk-js": "^5.0.80",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
-    "@xylabs/vitest-extended": "~5.0.79",
+    "@xylabs/vitest-extended": "~5.0.80",
     "@xyo-network/account": "~5.3.6",
     "@xyo-network/archivist-acceptance-tests": "~5.3.6",
     "@xyo-network/archivist-wrapper": "~5.3.6",
@@ -63,11 +63,13 @@
     "@xyo-network/payload-builder": "~5.3.6",
     "mongodb": "~7.1.0",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.18"
+    "vitest": "~4.0.18",
+    "zod": "^4.3.6"
   },
   "peerDependencies": {
     "@xylabs/sdk-js": "^5",
-    "mongodb": "^6 || ^7"
+    "mongodb": "^6 || ^7",
+    "zod": "^4"
   },
   "engines": {
     "node": ">=16"

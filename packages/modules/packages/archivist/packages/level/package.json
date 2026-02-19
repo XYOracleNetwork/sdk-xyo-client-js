@@ -45,10 +45,10 @@
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
-    "@xylabs/sdk-js": "^5.0.79",
+    "@xylabs/sdk-js": "^5.0.80",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
-    "@xylabs/vitest-extended": "~5.0.79",
+    "@xylabs/vitest-extended": "~5.0.80",
     "@xyo-network/account": "~5.3.6",
     "@xyo-network/account-model": "~5.3.6",
     "@xyo-network/archivist-acceptance-tests": "~5.3.6",
@@ -59,12 +59,14 @@
     "level": "^10.0.0",
     "typescript": "~5.9.3",
     "uuid": "~13.0.0",
-    "vitest": "~4.0.18"
+    "vitest": "~4.0.18",
+    "zod": "^4.3.6"
   },
   "peerDependencies": {
     "@xylabs/sdk-js": "^5",
     "abstract-level": "^3",
-    "level": "^10"
+    "level": "^10",
+    "zod": "^4"
   },
   "publishConfig": {
     "access": "public"

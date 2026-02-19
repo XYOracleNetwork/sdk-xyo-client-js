@@ -1,7 +1,7 @@
-import { HashZod } from '@xylabs/sdk-js'
 import {
+  HashZod,
   zodAsFactory, zodIsFactory, zodToFactory,
-} from '@xylabs/zod'
+} from '@xylabs/sdk-js'
 import z from 'zod'
 
 import { PayloadZodLoose, PayloadZodOfSchema } from './PayloadZod.ts'

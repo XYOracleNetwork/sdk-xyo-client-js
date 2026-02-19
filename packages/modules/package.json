@@ -45,10 +45,10 @@
     "@xyo-network/witness": "~5.3.6"
   },
   "devDependencies": {
-    "@xylabs/sdk-js": "^5.0.79",
+    "@xylabs/sdk-js": "^5.0.80",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
-    "@xylabs/vitest-extended": "~5.0.79",
+    "@xylabs/vitest-extended": "~5.0.80",
     "@xyo-network/archivist-memory": "~5.3.6",
     "@xyo-network/archivist-model": "~5.3.6",
     "@xyo-network/diviner-address-history": "~5.3.6",
@@ -66,7 +66,11 @@
     "@xyo-network/witness-adhoc": "~5.3.6",
     "@xyo-network/witness-model": "~5.3.6",
     "typescript": "~5.9.3",
-    "vitest": "~4.0.18"
+    "vitest": "~4.0.18",
+    "zod": "^4.3.6"
+  },
+  "peerDependencies": {
+    "zod": "^4"
   },
   "publishConfig": {
     "access": "public"

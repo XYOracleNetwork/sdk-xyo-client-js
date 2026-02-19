@@ -37,17 +37,19 @@
   ],
   "devDependencies": {
     "@metamask/providers": "~22.1.1",
-    "@xylabs/sdk-js": "~5.0.79",
+    "@xylabs/sdk-js": "~5.0.80",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig-dom": "~7.3.2",
     "ethers": "^6.16.0",
     "typescript": "~5.9.3",
-    "webextension-polyfill": "^0.12.0"
+    "webextension-polyfill": "^0.12.0",
+    "zod": "^4.3.6"
   },
   "peerDependencies": {
     "@xylabs/sdk-js": "^5",
     "ethers": "^6",
-    "webextension-polyfill": "^0.10.0 || ^0.11.0 || ^0.12.0"
+    "webextension-polyfill": "^0.10.0 || ^0.11.0 || ^0.12.0",
+    "zod": "^4"
   },
   "publishConfig": {
     "access": "public"

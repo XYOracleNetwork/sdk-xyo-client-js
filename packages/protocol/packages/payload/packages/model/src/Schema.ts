@@ -1,5 +1,5 @@
 import type { Brand } from '@xylabs/sdk-js'
-import { zodAsFactory, zodIsFactory } from '@xylabs/zod'
+import { zodAsFactory, zodIsFactory } from '@xylabs/sdk-js'
 import z from 'zod'
 
 export type BrandedSchema<T extends string = string> = Brand<T, { readonly __schema: true }>

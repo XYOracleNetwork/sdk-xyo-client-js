@@ -1,7 +1,7 @@
-import { AddressZod, HashZod } from '@xylabs/sdk-js'
 import {
+  AddressZod, HashZod,
   zodAsFactory, zodIsFactory, zodToFactory,
-} from '@xylabs/zod'
+} from '@xylabs/sdk-js'
 import { PayloadZod, SchemaZod } from '@xyo-network/payload-model'
 import z from 'zod'
 

@@ -38,6 +38,7 @@
   "dependencies": {
     "@xyo-network/module-event-emitter": "~5.3.7",
     "@xyo-network/module-events": "~5.3.7",
+    "@xyo-network/module-factory-locator": "~5.3.7",
     "@xyo-network/module-model": "~5.3.7",
     "@xyo-network/module-resolver": "~5.3.7",
     "@xyo-network/module-wrapper": "~5.3.7"

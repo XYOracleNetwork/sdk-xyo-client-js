@@ -6895,6 +6895,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:~7.3.2"
     "@xyo-network/module-event-emitter": "npm:~5.3.7"
     "@xyo-network/module-events": "npm:~5.3.7"
+    "@xyo-network/module-factory-locator": "npm:~5.3.7"
     "@xyo-network/module-model": "npm:~5.3.7"
     "@xyo-network/module-resolver": "npm:~5.3.7"
     "@xyo-network/module-wrapper": "npm:~5.3.7"

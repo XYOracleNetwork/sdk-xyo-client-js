@@ -1,4 +1,4 @@
-import type { Module, ModuleEventData } from '@xyo-network/module-model'
+import type { ModuleEventData, QueryableModule } from '@xyo-network/module-model'
 
 import type {
   JobEndEventData,
@@ -9,7 +9,7 @@ import type {
   TaskStartEventData,
 } from './EventsModels/index.ts'
 
-export interface SentinelModuleEventData<T extends Module = Module>
+export interface SentinelModuleEventData<T extends QueryableModule = QueryableModule>
   extends TaskEndEventData<T>,
   TaskStartEventData<T>,
   JobEndEventData<T>,

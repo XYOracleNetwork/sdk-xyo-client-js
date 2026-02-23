@@ -42,6 +42,7 @@ const disallowedImports = [
   '@xylabs/timer',
   '@xylabs/typeof',
   '@xylabs/url',
+  '@xylabs/zod',
 ]
 
 export default [

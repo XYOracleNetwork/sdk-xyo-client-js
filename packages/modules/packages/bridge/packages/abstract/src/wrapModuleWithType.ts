@@ -3,7 +3,7 @@ import { isArchivistModule } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { isDivinerModule } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import type { Module } from '@xyo-network/module-model'
+import type { QueryableModule } from '@xyo-network/module-model'
 import type { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { isNodeModule } from '@xyo-network/node-model'
 import { NodeWrapper } from '@xyo-network/node-wrapper'
@@ -12,7 +12,7 @@ import { SentinelWrapper } from '@xyo-network/sentinel-wrapper'
 import { isWitnessModule } from '@xyo-network/witness-model'
 import { WitnessWrapper } from '@xyo-network/witness-wrapper'
 
-export const wrapModuleWithType = (mod: Module, account: AccountInstance): ModuleWrapper => {
+export const wrapModuleWithType = (mod: QueryableModule, account: AccountInstance): ModuleWrapper => {
   if (isArchivistModule(mod)) {
     return ArchivistWrapper.wrap(mod, account)
   }

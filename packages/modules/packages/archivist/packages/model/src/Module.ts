@@ -1,5 +1,5 @@
 import type { Hash } from '@xylabs/sdk-js'
-import type { ModuleQueryFunctions } from '@xyo-network/module-model'
+import type { QueryableModuleFunctions } from '@xyo-network/module-model'
 import type { Payload, Sequence } from '@xyo-network/payload-model'
 
 import type { Archivist } from './PayloadArchivist.ts'
@@ -11,4 +11,4 @@ export interface ArchivistModule<
   TId extends string = Hash,
   TCursor extends string = Sequence,
 > extends Archivist<TReadResponse, TWriteResponse, TWrite, TId, TCursor>,
-  ModuleQueryFunctions {}
+  QueryableModuleFunctions {}

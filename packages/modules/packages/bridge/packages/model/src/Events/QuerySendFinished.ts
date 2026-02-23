@@ -1,11 +1,12 @@
 import type { EventData } from '@xylabs/sdk-js'
 import type { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import type {
-  Module, ModuleEventArgs, ModuleQueryResult,
+  ModuleEventArgs, ModuleQueryResult,
+  QueryableModule,
 } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 
-export type QuerySendFinishedEventArgs<T extends Module = Module> = ModuleEventArgs<
+export type QuerySendFinishedEventArgs<T extends QueryableModule = QueryableModule> = ModuleEventArgs<
   T,
   {
     payloads?: Payload[]
@@ -15,6 +16,6 @@ export type QuerySendFinishedEventArgs<T extends Module = Module> = ModuleEventA
   }
 >
 
-export interface QuerySendFinishedEventData<T extends Module = Module> extends EventData {
+export interface QuerySendFinishedEventData<T extends QueryableModule = QueryableModule> extends EventData {
   querySendFinished: QuerySendFinishedEventArgs<T>
 }

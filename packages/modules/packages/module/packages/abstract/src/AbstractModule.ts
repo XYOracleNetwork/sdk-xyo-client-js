@@ -35,19 +35,19 @@ import type {
   CreatableModuleFactory,
   CreatableModuleInstance,
   Labels,
-  Module,
   ModuleBusyEventArgs,
   ModuleConfig,
   ModuleDescriptionPayload,
   ModuleDetailsError,
   ModuleEventData,
   ModuleManifestQuery,
-  ModuleParams,
   ModuleQueriedEventArgs,
   ModuleQueries,
   ModuleQueryHandlerResult,
   ModuleQueryResult,
   ModuleResolverInstance,
+  QueryableModule,
+  QueryableModuleParams,
 } from '@xyo-network/module-model'
 import {
   AddressPreviousHashSchema,
@@ -83,9 +83,9 @@ import { ModuleConfigQueryValidator, SupportedQueryValidator } from './QueryVali
 export const DefaultModuleQueries = [ModuleAddressQuerySchema, ModuleSubscribeQuerySchema, ModuleManifestQuerySchema, ModuleStateQuerySchema]
 
 creatableModule()
-export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
+export abstract class AbstractModule<TParams extends QueryableModuleParams = QueryableModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractCreatable<TParams, TEventData>
-  implements Module<TParams, TEventData> {
+  implements QueryableModule<TParams, TEventData> {
   static readonly allowRandomAccount: boolean = true
   static readonly configSchemas: Schema[] = [ModuleConfigSchema]
   static readonly defaultConfigSchema: Schema = ModuleConfigSchema
@@ -264,7 +264,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this.configSchemas.includes(schema)
   }
 
-  static override async paramsHandler<T extends AttachableModuleInstance<ModuleParams, ModuleEventData>>(
+  static override async paramsHandler<T extends AttachableModuleInstance<QueryableModuleParams, ModuleEventData>>(
     inParams: Partial<T['params']> = {},
   ) {
     const superParams = await super.paramsHandler(inParams)
@@ -318,7 +318,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
     assertEx(isAccountInstance(this._account), () => `Invalid account instance: ${this._account}`)
 
-    this._supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
+    this._supportedQueryValidator = new SupportedQueryValidator(this as QueryableModule).queryable
     this._moduleConfigQueryValidator = new ModuleConfigQueryValidator(this.config).queryable
 
     if (!AbstractModule.enableLazyLoad) {

@@ -1,14 +1,14 @@
 import type { EventData } from '@xylabs/sdk-js'
-import type { Module, ModuleEventArgs } from '@xyo-network/module-model'
+import type { ModuleEventArgs, QueryableModule } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 
-export type ReportStartEventArgs<T extends Module = Module> = ModuleEventArgs<
+export type ReportStartEventArgs<T extends QueryableModule = QueryableModule> = ModuleEventArgs<
   T,
   {
     inPayloads?: Payload[]
   }
 >
 
-export interface ReportStartEventData<T extends Module = Module> extends EventData {
+export interface ReportStartEventData<T extends QueryableModule = QueryableModule> extends EventData {
   reportStart: ReportStartEventArgs<T>
 }

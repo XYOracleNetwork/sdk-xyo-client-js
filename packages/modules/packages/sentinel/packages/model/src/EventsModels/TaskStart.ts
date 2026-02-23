@@ -1,8 +1,8 @@
 import type { Address, EventData } from '@xylabs/sdk-js'
-import type { Module, ModuleEventArgs } from '@xyo-network/module-model'
+import type { ModuleEventArgs, QueryableModule } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 
-export type TaskStartEventArgs<T extends Module = Module> = ModuleEventArgs<
+export type TaskStartEventArgs<T extends QueryableModule = QueryableModule> = ModuleEventArgs<
   T,
   {
     address: Address
@@ -11,6 +11,6 @@ export type TaskStartEventArgs<T extends Module = Module> = ModuleEventArgs<
   }
 >
 
-export interface TaskStartEventData<T extends Module = Module> extends EventData {
+export interface TaskStartEventData<T extends QueryableModule = QueryableModule> extends EventData {
   taskStart: TaskStartEventArgs<T>
 }

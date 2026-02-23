@@ -6,9 +6,9 @@ import type { AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import type {
   AddressPayload,
   AttachableModuleInstance,
-  Module,
   ModuleDescription,
   ModuleDescriptionPayload,
+  QueryableModule,
 } from '@xyo-network/module-model'
 import {
   AddressSchema,
@@ -342,7 +342,7 @@ describe('MemoryNode', () => {
   })
   describe('discover', () => {
     const archivistConfig = { schema: MemoryArchivist.defaultConfigSchema }
-    const validateStateResponse = (mod: Module, response: Payload[]) => {
+    const validateStateResponse = (mod: QueryableModule, response: Payload[]) => {
       expect(response).toBeArray()
       const address = response.find(p => p.schema === AddressSchema) as AddressPayload
       expect(address).toBeObject()
@@ -386,7 +386,7 @@ describe('MemoryNode', () => {
     describe('node with nested nodes and modules', () => {
       beforeEach(async () => {
         node = await MemoryNode.create({ account: 'random' })
-        const attachEvents: Module[] = []
+        const attachEvents: QueryableModule[] = []
         node.on('moduleAttached', (args) => {
           const { mod } = args as ModuleAttachedEventArgs
           attachEvents.push(mod)

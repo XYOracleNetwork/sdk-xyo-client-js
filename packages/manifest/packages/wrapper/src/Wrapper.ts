@@ -7,7 +7,7 @@ import type {
 } from '@xyo-network/manifest-model'
 import type {
   ModuleFactoryLocatorInstance,
-  ModuleIdentifierTransformer, ModuleInstance, ModuleParams,
+  ModuleIdentifierTransformer, ModuleInstance, QueryableModuleParams,
 } from '@xyo-network/module-model'
 import { isModuleName } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -146,7 +146,7 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
     const creatableModule = this.locator.locate(manifest.config.schema, manifest.config.labels)
     const path = manifest.config.accountPath
     const account = isString(path) ? await wallet.derivePath(path) : 'random'
-    const params: ModuleParams = {
+    const params: QueryableModuleParams = {
       name: manifest.config.name as CreatableName,
       account,
       config: assertEx(manifest.config, () => 'Missing config'),

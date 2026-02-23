@@ -1,8 +1,8 @@
 import type { EventData } from '@xylabs/sdk-js'
-import type { Module, ModuleEventArgs } from '@xyo-network/module-model'
+import type { ModuleEventArgs, QueryableModule } from '@xyo-network/module-model'
 
-export type ClearedEventArgs<T extends Module = Module> = ModuleEventArgs<T>
+export type ClearedEventArgs<T extends QueryableModule = QueryableModule> = ModuleEventArgs<T>
 
-export interface ClearedEventData<T extends Module = Module> extends EventData {
+export interface ClearedEventData<T extends QueryableModule = QueryableModule> extends EventData {
   cleared: ClearedEventArgs<T>
 }

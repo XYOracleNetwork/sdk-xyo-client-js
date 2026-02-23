@@ -5,7 +5,7 @@ import type { ArchivistInstance } from '@xyo-network/archivist-model'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import {
-  isModule, isModuleInstance, isModuleObject,
+  isModuleInstance, isQueryableModule, isQueryableModuleObject,
 } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asSchema, type Payload } from '@xyo-network/payload-model'
@@ -130,9 +130,9 @@ test('Archivist Parent Reads', async () => {
   const parent = await MemoryArchivist.create({ account: 'random' })
   const memoryNode = await MemoryNode.create({ account: 'random' })
 
-  expect(isModuleObject(parent)).toBe(true)
+  expect(isQueryableModuleObject(parent)).toBe(true)
 
-  expect(isModule(parent)).toBe(true)
+  expect(isQueryableModule(parent)).toBe(true)
 
   expect(isModuleInstance(parent)).toBe(true)
 

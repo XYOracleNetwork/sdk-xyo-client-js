@@ -1,15 +1,16 @@
 import type { EventData } from '@xylabs/sdk-js'
 import type {
-  Module, ModuleEventArgs, ModuleInstance,
+  ModuleEventArgs, ModuleInstance,
+  QueryableModule,
 } from '@xyo-network/module-model'
 
-export type UnexposedEventArgs<T extends Module = Module> = ModuleEventArgs<
+export type UnexposedEventArgs<T extends QueryableModule = QueryableModule> = ModuleEventArgs<
   T,
   {
     modules: ModuleInstance[]
   }
 >
 
-export interface UnexposedEventData<T extends Module = Module> extends EventData {
+export interface UnexposedEventData<T extends QueryableModule = QueryableModule> extends EventData {
   unexposed: UnexposedEventArgs<T>
 }

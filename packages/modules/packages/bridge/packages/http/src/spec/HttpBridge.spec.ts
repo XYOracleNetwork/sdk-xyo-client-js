@@ -13,7 +13,7 @@ import {
 } from '@xyo-network/archivist-model'
 import type { ModuleDescriptionPayload } from '@xyo-network/module-model'
 import {
-  isModule, isModuleInstance, isModuleObject,
+  isModuleInstance, isQueryableModule, isQueryableModuleObject,
   ModuleDescriptionSchema,
 } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -163,8 +163,8 @@ describe('HttpBridge', () => {
     const mod = await bridge.resolve('XYOPublic')
 
     expect(mod).toBeDefined()
-    expect(isModule(mod)).toBeTrue()
-    expect(isModuleObject(mod)).toBeTrue()
+    expect(isQueryableModule(mod)).toBeTrue()
+    expect(isQueryableModuleObject(mod)).toBeTrue()
 
     const remoteNode = asAttachableNodeInstance(
       mod,

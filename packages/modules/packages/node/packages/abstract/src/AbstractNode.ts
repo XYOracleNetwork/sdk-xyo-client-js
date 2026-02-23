@@ -8,12 +8,12 @@ import { NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import type {
   AddressPayload,
-  Module,
   ModuleConfig,
   ModuleIdentifier,
   ModuleInstance,
   ModuleQueryHandlerResult,
   ModuleQueryResult,
+  QueryableModule,
 } from '@xyo-network/module-model'
 import { AddressSchema } from '@xyo-network/module-model'
 import type {
@@ -47,7 +47,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   extends AbstractModuleInstance<TParams, TEventData>
   implements
     AttachableNodeInstance<TParams, TEventData>,
-    Module<TParams, TEventData>,
+    QueryableModule<TParams, TEventData>,
     NodeInstance<TParams, TEventData>,
     ModuleInstance<TParams, TEventData>,
     NodeModule<TParams, TEventData> {

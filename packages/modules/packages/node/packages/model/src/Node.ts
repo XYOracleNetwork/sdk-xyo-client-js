@@ -1,4 +1,4 @@
-import type { Module, ModuleEventData } from '@xyo-network/module-model'
+import type { ModuleEventData, QueryableModule } from '@xyo-network/module-model'
 
 import type {
   ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData,
@@ -13,4 +13,4 @@ export interface NodeModuleEventData
   ModuleEventData {}
 
 export interface NodeModule<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
-  extends Module<TParams, TEventData> {}
+  extends QueryableModule<TParams, TEventData> {}

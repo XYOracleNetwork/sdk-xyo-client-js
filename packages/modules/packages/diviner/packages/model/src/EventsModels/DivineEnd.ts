@@ -1,8 +1,8 @@
 import type { EventData } from '@xylabs/sdk-js'
-import type { Module, ModuleEventArgs } from '@xyo-network/module-model'
+import type { ModuleEventArgs, QueryableModule } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 
-export type DivineEndEventArgs<T extends Module = Module, TIn extends Payload = Payload, TOut extends Payload = Payload> = ModuleEventArgs<
+export type DivineEndEventArgs<T extends QueryableModule = QueryableModule, TIn extends Payload = Payload, TOut extends Payload = Payload> = ModuleEventArgs<
   T,
   {
     errors: Error[]
@@ -11,6 +11,7 @@ export type DivineEndEventArgs<T extends Module = Module, TIn extends Payload = 
   }
 >
 
-export interface DivineEndEventData<T extends Module = Module, TIn extends Payload = Payload, TOut extends Payload = Payload> extends EventData {
+export interface DivineEndEventData<T extends QueryableModule = QueryableModule,
+  TIn extends Payload = Payload, TOut extends Payload = Payload> extends EventData {
   divineEnd: DivineEndEventArgs<T, TIn, TOut>
 }

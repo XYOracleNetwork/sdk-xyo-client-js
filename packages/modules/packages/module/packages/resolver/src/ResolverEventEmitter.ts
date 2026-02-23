@@ -1,10 +1,11 @@
 import type {
-  Module, ModuleIdentifier, ModuleResolver,
+  ModuleIdentifier, ModuleResolver,
+  QueryableModule,
 } from '@xyo-network/module-model'
 
 export interface ModuleResolvedEventArgs {
   id?: ModuleIdentifier
-  mod: Module
+  mod: QueryableModule
 }
 
 export interface ResolverEventEmitter {
@@ -20,7 +21,7 @@ const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
     for (const listener of listeners) listener(args)
     return true
   }
-  const onModuleResolved = (mod: Module, id?: ModuleIdentifier) => {
+  const onModuleResolved = (mod: QueryableModule, id?: ModuleIdentifier) => {
     const args = { id, mod }
     emit('moduleResolved', args)
   }
@@ -34,7 +35,7 @@ const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
     on: (event: 'moduleResolved', listener: (args: ModuleResolvedEventArgs) => void) => {
       listeners.push(listener)
     },
-    resolve: async (id?: ModuleIdentifier): Promise<Module[]> => {
+    resolve: async (id?: ModuleIdentifier): Promise<QueryableModule[]> => {
       const modulesResult = await originalResolve(id) ?? []
       const modules = Array.isArray(modulesResult) ? modulesResult : [modulesResult]
 

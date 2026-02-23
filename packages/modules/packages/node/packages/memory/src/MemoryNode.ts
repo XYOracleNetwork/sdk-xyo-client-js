@@ -9,10 +9,10 @@ import {
   type AnyConfigSchema,
   type AttachableModuleInstance,
   creatableModule,
-  type Module,
   type ModuleIdentifier,
   type ModuleInstance,
   type ModuleResolverInstance,
+  type QueryableModule,
 } from '@xyo-network/module-model'
 import type { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AbstractNode } from '@xyo-network/node-abstract'
@@ -239,7 +239,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     ).filter(exists)
   }
 
-  private async notifyOfExistingModulesAttached(childModules: Module[]) {
+  private async notifyOfExistingModulesAttached(childModules: QueryableModule[]) {
     await Promise.all(
       childModules.map(async (child) => {
         const args = { mod: child, name: child.modName }
@@ -248,7 +248,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     )
   }
 
-  private async notifyOfExistingModulesDetached(childModules: Module[]) {
+  private async notifyOfExistingModulesDetached(childModules: QueryableModule[]) {
     await Promise.all(
       childModules.map(async (child) => {
         const args = { mod: child, name: child.modName }

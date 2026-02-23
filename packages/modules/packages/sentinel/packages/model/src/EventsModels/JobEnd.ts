@@ -1,8 +1,8 @@
 import type { Address, EventData } from '@xylabs/sdk-js'
-import type { Module, ModuleEventArgs } from '@xyo-network/module-model'
+import type { ModuleEventArgs, QueryableModule } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 
-export type JobEndEventArgs<T extends Module = Module> = ModuleEventArgs<
+export type JobEndEventArgs<T extends QueryableModule = QueryableModule> = ModuleEventArgs<
   T,
   {
     finalResult?: Record<Address, Payload[]>
@@ -10,6 +10,6 @@ export type JobEndEventArgs<T extends Module = Module> = ModuleEventArgs<
   }
 >
 
-export interface JobEndEventData<T extends Module = Module> extends EventData {
+export interface JobEndEventData<T extends QueryableModule = QueryableModule> extends EventData {
   jobEnd: JobEndEventArgs<T>
 }

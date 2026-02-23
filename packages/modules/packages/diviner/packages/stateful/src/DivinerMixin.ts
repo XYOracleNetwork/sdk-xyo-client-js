@@ -9,8 +9,8 @@ import { asDivinerInstance } from '@xyo-network/diviner-model'
 import type {
   AnyConfigSchema,
   ModuleInstance,
-  ModuleParams,
   ModuleState,
+  QueryableModuleParams,
   StateDictionary,
 } from '@xyo-network/module-model'
 import {
@@ -23,7 +23,7 @@ import { SequenceConstants } from '@xyo-network/payload-model'
 
 import type { StatefulDivinerConfig } from './Config.ts'
 
-export type StatefulModuleParams = ModuleParams<AnyConfigSchema<StatefulDivinerConfig>>
+export type StatefulModuleParams = QueryableModuleParams<AnyConfigSchema<StatefulDivinerConfig>>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyModule<TParams extends StatefulModuleParams = StatefulModuleParams> = new (...args: any[]) => ModuleInstance<TParams>

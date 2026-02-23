@@ -19,9 +19,8 @@ import {
   AttachableModuleInstance,
   duplicateModules,
   InstanceTypeCheck,
-  isModule,
   isModuleInstance,
-  Module,
+  isQueryableModule,
   ModuleAddressQuery,
   ModuleAddressQuerySchema,
   ModuleFilterOptions,
@@ -34,8 +33,9 @@ import {
   ModuleStateQuery,
   ModuleStateQuerySchema,
   ModuleStatus,
-  ModuleTypeCheck,
   ObjectResolverPriority,
+  QueryableModule,
+  QueryableModuleTypeCheck,
 } from '@xyo-network/module-model'
 import {
   ModuleError, ModuleErrorSchema, Payload, Query,
@@ -47,11 +47,11 @@ import type { ModuleWrapperParams } from './models.ts'
 export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   defaultLogger?: Logger
   instanceIdentityCheck: InstanceTypeCheck
-  moduleIdentityCheck: ModuleTypeCheck
+  moduleIdentityCheck: QueryableModuleTypeCheck
   requiredQueries: string[]
   new (params: ModuleWrapperParams<TWrapper['mod']>): TWrapper
 
-  canWrap(mod: Module | undefined): boolean
+  canWrap(mod: QueryableModule | undefined): boolean
 
   is<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
@@ -61,14 +61,14 @@ export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
 
   tryWrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    mod: Module | undefined,
+    mod: QueryableModule | undefined,
     account: AccountInstance,
     checkIdentity?: boolean,
   ): TModuleWrapper | undefined
 
   wrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    mod: Module | undefined,
+    mod: QueryableModule | undefined,
     account: AccountInstance,
     checkIdentity?: boolean,
   ): TModuleWrapper
@@ -82,11 +82,11 @@ export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
 }
 
 @constructableModuleWrapper()
-export class ModuleWrapper<TWrappedModule extends Module = Module>
+export class ModuleWrapper<TWrappedModule extends QueryableModule = QueryableModule>
   extends Base<Exclude<Omit<TWrappedModule['params'], 'config'> & { config: Exclude<TWrappedModule['params']['config'], undefined> }, undefined>>
   implements AttachableModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']> {
   static readonly instanceIdentityCheck: InstanceTypeCheck = isModuleInstance
-  static readonly moduleIdentityCheck: ModuleTypeCheck = isModule
+  static readonly moduleIdentityCheck: QueryableModuleTypeCheck = isQueryableModule
   static readonly requiredQueries: string[] = [ModuleStateQuerySchema]
 
   eventData = {} as TWrappedModule['eventData']
@@ -188,11 +188,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     this._status = value
   }
 
-  static canWrap(mod?: Module) {
+  static canWrap(mod?: QueryableModule) {
     return !!mod && this.moduleIdentityCheck(mod)
   }
 
-  static hasRequiredQueries(mod: Module) {
+  static hasRequiredQueries(mod: QueryableModule) {
     return this.missingRequiredQueries(mod).length === 0
   }
 
@@ -204,7 +204,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return wrapper instanceof this
   }
 
-  static missingRequiredQueries(mod: Module): string[] {
+  static missingRequiredQueries(mod: QueryableModule): string[] {
     const modQueries = mod.queries
     return (
       this.requiredQueries.map((query) => {
@@ -215,7 +215,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   static tryWrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    mod: Module | undefined,
+    mod: QueryableModule | undefined,
     account: AccountInstance,
     checkIdentity = true,
   ): TModuleWrapper | undefined {
@@ -236,7 +236,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   static wrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    mod: Module | undefined,
+    mod: QueryableModule | undefined,
     account: AccountInstance,
     checkIdentity = true,
   ): TModuleWrapper {

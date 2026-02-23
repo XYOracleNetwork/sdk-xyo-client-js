@@ -1,4 +1,4 @@
-import type { Module } from '@xyo-network/module-model'
+import type { QueryableModule } from '@xyo-network/module-model'
 import type { Payload } from '@xyo-network/payload-model'
 
 import type { WitnessModuleEventData } from './EventData.ts'
@@ -14,4 +14,4 @@ export type CustomWitnessModule<
     TIn,
     TOut
   >,
-> = Module<TParams, TEvents>
+> = QueryableModule<TParams, TEvents>

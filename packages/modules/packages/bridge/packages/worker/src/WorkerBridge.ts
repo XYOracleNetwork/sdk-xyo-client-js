@@ -13,8 +13,8 @@ import {
   creatableModule,
   ModuleConfig,
   ModuleInstance,
-  ModuleParams,
   ModuleQueryResult,
+  QueryableModuleParams,
 } from '@xyo-network/module-model'
 import { Payload, Schema } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
@@ -22,7 +22,7 @@ import { LRUCache } from 'lru-cache'
 import { defaultPackageManifest } from './defaultNodeManifest.ts'
 import { WorkerBridgeConfig, WorkerBridgeConfigSchema } from './WorkerBridgeConfig.ts'
 
-export interface WorkerBridgeParams<TConfig extends AnyConfigSchema<WorkerBridgeConfig> = AnyConfigSchema<WorkerBridgeConfig>> extends ModuleParams<
+export interface WorkerBridgeParams<TConfig extends AnyConfigSchema<WorkerBridgeConfig> = AnyConfigSchema<WorkerBridgeConfig>> extends QueryableModuleParams<
   TConfig
 > {
   worker?: Worker

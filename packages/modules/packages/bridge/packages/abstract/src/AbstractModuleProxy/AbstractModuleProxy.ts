@@ -18,16 +18,16 @@ import type {
   AddressPreviousHashPayload,
   ArchivingModuleConfig,
   AttachableModuleInstance,
-  Module,
   ModuleAddressQuery,
   ModuleEventData,
   ModuleInstance,
   ModuleManifestQuery,
   ModuleName,
-  ModuleParams,
   ModuleQueryHandlerResult,
   ModuleQueryResult,
   ModuleResolver,
+  QueryableModule,
+  QueryableModuleParams,
 } from '@xyo-network/module-model'
 import {
   AddressPreviousHashSchema,
@@ -51,7 +51,7 @@ import { LRUCache } from 'lru-cache'
 
 import { ModuleProxyResolver } from './ModuleProxyResolver.ts'
 
-export interface ModuleProxyParams extends ModuleParams
+export interface ModuleProxyParams extends QueryableModuleParams
 {
   account: AccountInstance
   archiving?: ArchivingModuleConfig['archiving'] & { resolveArchivists: () => Promise<ArchivistInstance[]> }
@@ -98,7 +98,7 @@ export abstract class AbstractModuleProxy<
     return queryPayloads.map(payload => payload.query)
   }
 
-  static hasRequiredQueries(mod: Module) {
+  static hasRequiredQueries(mod: QueryableModule) {
     return this.missingRequiredQueries(mod).length === 0
   }
 
@@ -106,7 +106,7 @@ export abstract class AbstractModuleProxy<
     return isSchema(schema)
   }
 
-  static missingRequiredQueries(mod: Module): string[] {
+  static missingRequiredQueries(mod: QueryableModule): string[] {
     const moduleQueries = mod.queries
     return (
       this.requiredQueries.map((query) => {
@@ -115,7 +115,7 @@ export abstract class AbstractModuleProxy<
     ).filter(exists)
   }
 
-  static override async paramsHandler<T extends AttachableModuleInstance<ModuleParams, ModuleEventData>>(
+  static override async paramsHandler<T extends AttachableModuleInstance<QueryableModuleParams, ModuleEventData>>(
     inParams?: Partial<T['params']>,
   ): Promise<T['params']> {
     const superParams = await super.paramsHandler(inParams)

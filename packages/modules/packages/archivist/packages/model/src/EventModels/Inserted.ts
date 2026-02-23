@@ -1,8 +1,8 @@
 import type { EventData } from '@xylabs/sdk-js'
-import type { Module, ModuleEventArgs } from '@xyo-network/module-model'
+import type { ModuleEventArgs, QueryableModule } from '@xyo-network/module-model'
 import type { Payload, WithStorageMeta } from '@xyo-network/payload-model'
 
-export type InsertedEventArgs<T extends Module = Module> = ModuleEventArgs<
+export type InsertedEventArgs<T extends QueryableModule = QueryableModule> = ModuleEventArgs<
   T, {
     inPayloads: Payload[]
     outPayloads: WithStorageMeta<Payload>[]
@@ -10,6 +10,6 @@ export type InsertedEventArgs<T extends Module = Module> = ModuleEventArgs<
   }
 >
 
-export interface InsertedEventData<T extends Module = Module> extends EventData {
+export interface InsertedEventData<T extends QueryableModule = QueryableModule> extends EventData {
   inserted: InsertedEventArgs<T>
 }

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/bridge",
-  "version": "5.3.9",
+  "version": "5.3.10",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/bridge-model": "~5.3.9",
-    "@xyo-network/bridge-wrapper": "~5.3.9"
+    "@xyo-network/bridge-model": "~5.3.10",
+    "@xyo-network/bridge-wrapper": "~5.3.10"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "~7.3.2",

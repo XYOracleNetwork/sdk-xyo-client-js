@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/module-factory-locator",
-  "version": "5.3.9",
+  "version": "5.3.10",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,24 +36,24 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/archivist-memory": "~5.3.9",
-    "@xyo-network/archivist-view": "~5.3.9",
-    "@xyo-network/bridge-http": "~5.3.9",
-    "@xyo-network/diviner-boundwitness-memory": "~5.3.9",
-    "@xyo-network/diviner-identity": "~5.3.9",
-    "@xyo-network/diviner-payload-generic": "~5.3.9",
-    "@xyo-network/module-model": "~5.3.9",
-    "@xyo-network/node-memory": "~5.3.9",
-    "@xyo-network/node-view": "~5.3.9",
-    "@xyo-network/payload-model": "~5.3.9",
-    "@xyo-network/sentinel-memory": "~5.3.9",
-    "@xyo-network/witness-adhoc": "~5.3.9"
+    "@xyo-network/archivist-memory": "~5.3.10",
+    "@xyo-network/archivist-view": "~5.3.10",
+    "@xyo-network/bridge-http": "~5.3.10",
+    "@xyo-network/diviner-boundwitness-memory": "~5.3.10",
+    "@xyo-network/diviner-identity": "~5.3.10",
+    "@xyo-network/diviner-payload-generic": "~5.3.10",
+    "@xyo-network/module-model": "~5.3.10",
+    "@xyo-network/node-memory": "~5.3.10",
+    "@xyo-network/node-view": "~5.3.10",
+    "@xyo-network/payload-model": "~5.3.10",
+    "@xyo-network/sentinel-memory": "~5.3.10",
+    "@xyo-network/witness-adhoc": "~5.3.10"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.80",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
-    "@xyo-network/diviner-payload-memory": "~5.3.9",
+    "@xyo-network/diviner-payload-memory": "~5.3.10",
     "typescript": "~5.9.3",
     "zod": "^4.3.6"
   },

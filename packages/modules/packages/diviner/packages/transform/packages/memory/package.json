@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-transform-memory",
-  "version": "5.3.9",
+  "version": "5.3.10",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,10 +36,10 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-transform-abstract": "~5.3.9",
-    "@xyo-network/diviner-transform-model": "~5.3.9",
-    "@xyo-network/payload-model": "~5.3.9",
-    "@xyo-network/value-payload-plugin": "~5.3.9",
+    "@xyo-network/diviner-transform-abstract": "~5.3.10",
+    "@xyo-network/diviner-transform-model": "~5.3.10",
+    "@xyo-network/payload-model": "~5.3.10",
+    "@xyo-network/value-payload-plugin": "~5.3.10",
     "jsonpath": "~1.2.1"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.80",
-    "@xyo-network/account": "~5.3.9",
+    "@xyo-network/account": "~5.3.10",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18",
     "zod": "^4.3.6"

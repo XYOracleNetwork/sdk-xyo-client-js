@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/crypto",
-  "version": "5.3.9",
+  "version": "5.3.10",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,13 +36,13 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/account": "~5.3.9",
-    "@xyo-network/account-model": "~5.3.9",
-    "@xyo-network/elliptic": "~5.3.9",
-    "@xyo-network/key-model": "~5.3.9",
-    "@xyo-network/previous-hash-store": "~5.3.9",
-    "@xyo-network/wallet": "~5.3.9",
-    "@xyo-network/wallet-model": "~5.3.9"
+    "@xyo-network/account": "~5.3.10",
+    "@xyo-network/account-model": "~5.3.10",
+    "@xyo-network/elliptic": "~5.3.10",
+    "@xyo-network/key-model": "~5.3.10",
+    "@xyo-network/previous-hash-store": "~5.3.10",
+    "@xyo-network/wallet": "~5.3.10",
+    "@xyo-network/wallet-model": "~5.3.10"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.80",

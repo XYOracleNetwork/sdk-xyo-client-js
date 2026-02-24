@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-address-history",
-  "version": "5.3.9",
+  "version": "5.3.10",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,25 +36,25 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/archivist-model": "~5.3.9",
-    "@xyo-network/boundwitness-builder": "~5.3.9",
-    "@xyo-network/boundwitness-model": "~5.3.9",
-    "@xyo-network/diviner-abstract": "~5.3.9",
-    "@xyo-network/diviner-address-history-model": "~5.3.9",
-    "@xyo-network/payload-builder": "~5.3.9",
-    "@xyo-network/payload-model": "~5.3.9",
-    "@xyo-network/payload-wrapper": "~5.3.9"
+    "@xyo-network/archivist-model": "~5.3.10",
+    "@xyo-network/boundwitness-builder": "~5.3.10",
+    "@xyo-network/boundwitness-model": "~5.3.10",
+    "@xyo-network/diviner-abstract": "~5.3.10",
+    "@xyo-network/diviner-address-history-model": "~5.3.10",
+    "@xyo-network/payload-builder": "~5.3.10",
+    "@xyo-network/payload-model": "~5.3.10",
+    "@xyo-network/payload-wrapper": "~5.3.10"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.80",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.80",
-    "@xyo-network/account": "~5.3.9",
-    "@xyo-network/account-model": "~5.3.9",
-    "@xyo-network/archivist-memory": "~5.3.9",
-    "@xyo-network/archivist-wrapper": "~5.3.9",
-    "@xyo-network/node-memory": "~5.3.9",
+    "@xyo-network/account": "~5.3.10",
+    "@xyo-network/account-model": "~5.3.10",
+    "@xyo-network/archivist-memory": "~5.3.10",
+    "@xyo-network/archivist-wrapper": "~5.3.10",
+    "@xyo-network/node-memory": "~5.3.10",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18",
     "zod": "^4.3.6"

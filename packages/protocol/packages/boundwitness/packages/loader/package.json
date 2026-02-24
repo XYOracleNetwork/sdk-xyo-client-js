@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/boundwitness-loader",
-  "version": "5.3.8",
+  "version": "5.3.9",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,11 +36,11 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/archivist-memory": "~5.3.8",
-    "@xyo-network/archivist-model": "~5.3.8",
-    "@xyo-network/boundwitness-model": "~5.3.8",
-    "@xyo-network/huri": "~5.3.8",
-    "@xyo-network/payload-model": "~5.3.8",
+    "@xyo-network/archivist-memory": "~5.3.9",
+    "@xyo-network/archivist-model": "~5.3.9",
+    "@xyo-network/boundwitness-model": "~5.3.9",
+    "@xyo-network/huri": "~5.3.9",
+    "@xyo-network/payload-model": "~5.3.9",
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {

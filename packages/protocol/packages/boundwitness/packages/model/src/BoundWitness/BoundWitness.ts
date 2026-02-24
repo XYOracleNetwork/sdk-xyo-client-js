@@ -40,6 +40,8 @@ export const toBoundWitness = zodToFactory(BoundWitnessZod, 'toBoundWitness')
 export const AnyBoundWitnessZod = BoundWitnessZod.loose()
 export type AnyBoundWitness = z.infer<typeof AnyBoundWitnessZod>
 
-export type Unsigned<T extends BoundWitness = BoundWitness> = Omit<T, '$signatures'> & UnsignedSignaturesMeta
-export type Signed<T extends BoundWitness = BoundWitness> = Omit<T, '$signatures'> & SignedSignaturesMeta
-export type PossiblySigned<T extends BoundWitness = BoundWitness> = Unsigned<T> | Signed<T>
+export type Unsigned<T extends BoundWitness> = Omit<T, '$signatures'> & UnsignedSignaturesMeta
+
+export type Signed<T extends BoundWitness> = Omit<T, '$signatures'> & SignedSignaturesMeta
+
+export type PossiblySigned<T extends BoundWitness> = Unsigned<T> | Signed<T>

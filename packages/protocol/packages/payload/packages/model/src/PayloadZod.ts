@@ -50,11 +50,12 @@ export const AnyPayloadZod = PayloadZod.loose()
 
 export type AnyPayload = z.infer<typeof AnyPayloadZod>
 
-export function WithStorageMetaZod<T extends z.ZodType>(valueZod: T) {
+export function WithStorageMetaZod<T extends PayloadZodLoose>(valueZod: T) {
   return z.intersection(valueZod, StorageMetaZod)
 }
 
-export function WithHashMetaZod<T extends z.ZodType>(valueZod: T) {
+export function WithHashMetaZod<T extends PayloadZodStrict>(valueZod: T): z.ZodIntersection<T, typeof HashMetaZod>
+export function WithHashMetaZod<T extends PayloadZodStrict>(valueZod: T) {
   return z.intersection(valueZod, HashMetaZod)
 }
 

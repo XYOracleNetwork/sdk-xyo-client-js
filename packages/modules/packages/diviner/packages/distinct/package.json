@@ -50,7 +50,7 @@
     "@xylabs/vitest-extended": "~5.0.80",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18",
-    "zod": "^4"
+    "zod": "^4.3.6"
   },
   "peerDependencies": {
     "zod": "^4"

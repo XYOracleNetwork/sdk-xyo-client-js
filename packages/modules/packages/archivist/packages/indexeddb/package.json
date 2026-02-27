@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-indexeddb",
-  "version": "5.3.11",
+  "version": "5.3.12",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,22 +36,22 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/archivist-abstract": "~5.3.11",
-    "@xyo-network/archivist-model": "~5.3.11",
-    "@xyo-network/module-model": "~5.3.11",
-    "@xyo-network/payload-builder": "~5.3.11",
-    "@xyo-network/payload-model": "~5.3.11"
+    "@xyo-network/archivist-abstract": "~5.3.12",
+    "@xyo-network/archivist-model": "~5.3.12",
+    "@xyo-network/module-model": "~5.3.12",
+    "@xyo-network/payload-builder": "~5.3.12",
+    "@xyo-network/payload-model": "~5.3.12"
   },
   "devDependencies": {
     "@xylabs/indexed-db": "~5.0.80",
     "@xylabs/sdk-js": "^5.0.80",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
-    "@xyo-network/account": "~5.3.11",
-    "@xyo-network/account-model": "~5.3.11",
-    "@xyo-network/archivist-acceptance-tests": "~5.3.11",
-    "@xyo-network/id-payload-plugin": "~5.3.11",
-    "@xyo-network/payload-wrapper": "~5.3.11",
+    "@xyo-network/account": "~5.3.12",
+    "@xyo-network/account-model": "~5.3.12",
+    "@xyo-network/archivist-acceptance-tests": "~5.3.12",
+    "@xyo-network/id-payload-plugin": "~5.3.12",
+    "@xyo-network/payload-wrapper": "~5.3.12",
     "fake-indexeddb": "~6.2.5",
     "idb": "^8.0.3",
     "typescript": "~5.9.3",

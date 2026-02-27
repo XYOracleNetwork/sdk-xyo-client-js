@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/diviner-jsonpatch-memory",
-  "version": "5.3.11",
+  "version": "5.3.12",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,11 +36,11 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-abstract": "~5.3.11",
-    "@xyo-network/diviner-jsonpatch-model": "~5.3.11",
-    "@xyo-network/diviner-model": "~5.3.11",
-    "@xyo-network/module-model": "~5.3.11",
-    "@xyo-network/payload-model": "~5.3.11",
+    "@xyo-network/diviner-abstract": "~5.3.12",
+    "@xyo-network/diviner-jsonpatch-model": "~5.3.12",
+    "@xyo-network/diviner-model": "~5.3.12",
+    "@xyo-network/module-model": "~5.3.12",
+    "@xyo-network/payload-model": "~5.3.12",
     "fast-json-patch": "~3.1.1"
   },
   "devDependencies": {
@@ -48,8 +48,8 @@
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.80",
-    "@xyo-network/wallet": "~5.3.11",
-    "@xyo-network/wallet-model": "~5.3.11",
+    "@xyo-network/wallet": "~5.3.12",
+    "@xyo-network/wallet-model": "~5.3.12",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18",
     "zod": "^4.3.6"

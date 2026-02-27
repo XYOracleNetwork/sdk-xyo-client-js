@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/core",
-  "version": "5.3.11",
+  "version": "5.3.12",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/data": "~5.3.11",
-    "@xyo-network/hash": "~5.3.11",
-    "@xyo-network/wasm": "~5.3.11"
+    "@xyo-network/data": "~5.3.12",
+    "@xyo-network/hash": "~5.3.12",
+    "@xyo-network/wasm": "~5.3.12"
   },
   "devDependencies": {
     "@types/node": "^25.3.2",

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sentinel-memory",
-  "version": "5.3.11",
+  "version": "5.3.12",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,25 +36,25 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/diviner-model": "~5.3.11",
-    "@xyo-network/module-model": "~5.3.11",
-    "@xyo-network/payload-builder": "~5.3.11",
-    "@xyo-network/payload-model": "~5.3.11",
-    "@xyo-network/payload-wrapper": "~5.3.11",
-    "@xyo-network/sentinel-abstract": "~5.3.11",
-    "@xyo-network/sentinel-model": "~5.3.11",
-    "@xyo-network/witness-model": "~5.3.11"
+    "@xyo-network/diviner-model": "~5.3.12",
+    "@xyo-network/module-model": "~5.3.12",
+    "@xyo-network/payload-builder": "~5.3.12",
+    "@xyo-network/payload-model": "~5.3.12",
+    "@xyo-network/payload-wrapper": "~5.3.12",
+    "@xyo-network/sentinel-abstract": "~5.3.12",
+    "@xyo-network/sentinel-model": "~5.3.12",
+    "@xyo-network/witness-model": "~5.3.12"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.80",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.80",
-    "@xyo-network/abstract-witness": "~5.3.11",
-    "@xyo-network/archivist-memory": "~5.3.11",
-    "@xyo-network/id-payload-plugin": "~5.3.11",
-    "@xyo-network/node-memory": "~5.3.11",
-    "@xyo-network/witness-adhoc": "~5.3.11",
+    "@xyo-network/abstract-witness": "~5.3.12",
+    "@xyo-network/archivist-memory": "~5.3.12",
+    "@xyo-network/id-payload-plugin": "~5.3.12",
+    "@xyo-network/node-memory": "~5.3.12",
+    "@xyo-network/witness-adhoc": "~5.3.12",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18",
     "zod": "^4.3.6"

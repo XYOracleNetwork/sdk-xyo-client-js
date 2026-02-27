@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-js",
-  "version": "5.3.11",
+  "version": "5.3.12",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -57,12 +57,12 @@
     "test": "vitest --watch false"
   },
   "dependencies": {
-    "@xyo-network/core-payload-plugins": "~5.3.11",
-    "@xyo-network/manifest": "~5.3.11",
-    "@xyo-network/modules": "~5.3.11",
-    "@xyo-network/protocol": "~5.3.11",
-    "@xyo-network/sdk-utils": "~5.3.11",
-    "@xyo-network/shared": "~5.3.11"
+    "@xyo-network/core-payload-plugins": "~5.3.12",
+    "@xyo-network/manifest": "~5.3.12",
+    "@xyo-network/modules": "~5.3.12",
+    "@xyo-network/protocol": "~5.3.12",
+    "@xyo-network/sdk-utils": "~5.3.12",
+    "@xyo-network/shared": "~5.3.12"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.80",

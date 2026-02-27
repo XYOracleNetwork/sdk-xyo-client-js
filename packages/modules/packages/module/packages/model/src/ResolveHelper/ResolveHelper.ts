@@ -6,7 +6,7 @@ import {
   exists,
   IdLogger,
   isAddress,
-  isDefined, isString, isTruthy, toSafeJsonString,
+  isDefined, isString, isTruthy,
 } from '@xylabs/sdk-js'
 
 import type {

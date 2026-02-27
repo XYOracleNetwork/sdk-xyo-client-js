@@ -2,7 +2,7 @@ import {
   HashZod,
   zodAsFactory, zodIsFactory, zodToFactory,
 } from '@xylabs/sdk-js'
-import type { ZodType } from 'zod'
+import type { ZodRawShape } from 'zod'
 import z from 'zod'
 
 import type { Payload } from './Payload.ts'
@@ -51,13 +51,12 @@ export const AnyPayloadZod = PayloadZod.loose()
 
 export type AnyPayload = z.infer<typeof AnyPayloadZod>
 
-export function WithStorageMetaZod<T extends ZodType>(valueZod: T) {
-  return z.intersection(valueZod, StorageMetaZod)
+export function WithStorageMetaZod<T extends ZodRawShape>(valueZod: z.ZodObject<T>) {
+  return z.object({ ...valueZod.shape, ...StorageMetaZod.shape })
 }
 
-export function WithHashMetaZod<T extends ZodType>(valueZod: T): z.ZodIntersection<T, typeof HashMetaZod>
-export function WithHashMetaZod<T extends ZodType>(valueZod: T) {
-  return z.intersection(valueZod, HashMetaZod)
+export function WithHashMetaZod<T extends ZodRawShape>(valueZod: z.ZodObject<T>) {
+  return z.object({ ...valueZod.shape, ...HashMetaZod.shape })
 }
 
 export const PayloadZodStrict = z.strictObject({ schema: SchemaZod })

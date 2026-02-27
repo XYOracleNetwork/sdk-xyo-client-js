@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/node",
-  "version": "5.3.12",
+  "version": "5.3.13",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,10 +36,10 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/node-abstract": "~5.3.12",
-    "@xyo-network/node-memory": "~5.3.12",
-    "@xyo-network/node-model": "~5.3.12",
-    "@xyo-network/node-wrapper": "~5.3.12"
+    "@xyo-network/node-abstract": "~5.3.13",
+    "@xyo-network/node-memory": "~5.3.13",
+    "@xyo-network/node-model": "~5.3.13",
+    "@xyo-network/node-wrapper": "~5.3.13"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.80",
@@ -47,20 +47,20 @@
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.80",
     "@xylabs/vitest-matchers": "~5.0.80",
-    "@xyo-network/account": "~5.3.12",
-    "@xyo-network/account-model": "~5.3.12",
-    "@xyo-network/archivist-memory": "~5.3.12",
-    "@xyo-network/archivist-model": "~5.3.12",
-    "@xyo-network/diviner-archivist": "~5.3.12",
-    "@xyo-network/diviner-huri": "~5.3.12",
-    "@xyo-network/diviner-model": "~5.3.12",
-    "@xyo-network/manifest-model": "~5.3.12",
-    "@xyo-network/module-model": "~5.3.12",
-    "@xyo-network/node-memory": "~5.3.12",
-    "@xyo-network/payload": "~5.3.12",
-    "@xyo-network/payload-model": "~5.3.12",
-    "@xyo-network/wallet": "~5.3.12",
-    "@xyo-network/witness-adhoc": "~5.3.12",
+    "@xyo-network/account": "~5.3.13",
+    "@xyo-network/account-model": "~5.3.13",
+    "@xyo-network/archivist-memory": "~5.3.13",
+    "@xyo-network/archivist-model": "~5.3.13",
+    "@xyo-network/diviner-archivist": "~5.3.13",
+    "@xyo-network/diviner-huri": "~5.3.13",
+    "@xyo-network/diviner-model": "~5.3.13",
+    "@xyo-network/manifest-model": "~5.3.13",
+    "@xyo-network/module-model": "~5.3.13",
+    "@xyo-network/node-memory": "~5.3.13",
+    "@xyo-network/payload": "~5.3.13",
+    "@xyo-network/payload-model": "~5.3.13",
+    "@xyo-network/wallet": "~5.3.13",
+    "@xyo-network/witness-adhoc": "~5.3.13",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18",
     "zod": "^4.3.6"

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/boundwitness-validator",
-  "version": "5.3.12",
+  "version": "5.3.13",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,21 +36,21 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/boundwitness-model": "~5.3.12",
-    "@xyo-network/elliptic": "~5.3.12",
-    "@xyo-network/payload": "~5.3.12",
-    "@xyo-network/payload-model": "~5.3.12",
-    "@xyo-network/payload-validator": "~5.3.12"
+    "@xyo-network/boundwitness-model": "~5.3.13",
+    "@xyo-network/elliptic": "~5.3.13",
+    "@xyo-network/payload": "~5.3.13",
+    "@xyo-network/payload-model": "~5.3.13",
+    "@xyo-network/payload-validator": "~5.3.13"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.80",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.80",
-    "@xyo-network/boundwitness-builder": "~5.3.12",
-    "@xyo-network/schema-name-validator": "~5.3.12",
-    "@xyo-network/wallet": "~5.3.12",
-    "@xyo-network/wallet-model": "~5.3.12",
+    "@xyo-network/boundwitness-builder": "~5.3.13",
+    "@xyo-network/schema-name-validator": "~5.3.13",
+    "@xyo-network/wallet": "~5.3.13",
+    "@xyo-network/wallet-model": "~5.3.13",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18",
     "zod": "^4.3.6"

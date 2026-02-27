@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/previous-hash-store-storage",
+  "name": "@xyo-network/archivist-express",
   "version": "5.3.10",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
@@ -21,13 +21,13 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/neutral/index.d.ts",
-      "default": "./dist/neutral/index.mjs"
+      "types": "./dist/node/index.d.ts",
+      "default": "./dist/node/index.mjs"
     },
     "./package.json": "./package.json"
   },
-  "module": "dist/neutral/index.mjs",
-  "types": "dist/neutral/index.d.ts",
+  "module": "dist/node/index.mjs",
+  "types": "dist/node/index.d.ts",
   "files": [
     "dist",
     "src",
@@ -36,22 +36,23 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/previous-hash-store-model": "~5.3.10",
-    "store2": "~2.14.4"
+    "@xyo-network/payload-builder": "~5.3.10",
+    "@xyo-network/payload-model": "~5.3.10"
   },
   "devDependencies": {
-    "@types/node": "^25.3.2",
-    "@types/uuid": "~11.0.0",
+    "@xylabs/express": "^5.0.80",
     "@xylabs/sdk-js": "^5.0.80",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
+    "@xyo-network/archivist-model": "~5.3.10",
+    "express": "^5.2.1",
     "typescript": "~5.9.3",
-    "uuid": "~13.0.0",
-    "vitest": "~4.0.18",
     "zod": "^4.3.6"
   },
   "peerDependencies": {
+    "@xylabs/express": "^5",
     "@xylabs/sdk-js": "^5",
+    "express": "^5",
     "zod": "^4"
   },
   "publishConfig": {

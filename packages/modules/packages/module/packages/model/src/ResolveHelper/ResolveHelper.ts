@@ -121,7 +121,6 @@ export class ResolveHelper extends ResolveHelperStatic {
 
       if (modules.length > 0) {
         log?.debug('modules [count]', modules.length)
-        log?.debug('modules', toSafeJsonString(modules, 4))
       }
 
       if (maxDepth === 0) {

@@ -1308,7 +1308,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapbox/point-geometry@npm:^1.1.0, @mapbox/point-geometry@npm:~1.1.0":
+"@mapbox/point-geometry@npm:*, @mapbox/point-geometry@npm:^1.1.0, @mapbox/point-geometry@npm:~1.1.0":
   version: 1.1.0
   resolution: "@mapbox/point-geometry@npm:1.1.0"
   checksum: 10/1e649be5c6c83584fae9e043a398c61ad56f81e2ae5334deeb4048884ed1f2a5dc7e727e1757e3159ebf12e6cb1f5b059519078df8d16452bf7c7ab26323eb4a
@@ -2405,6 +2405,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/mapbox__point-geometry@npm:^1.0.87":
+  version: 1.0.87
+  resolution: "@types/mapbox__point-geometry@npm:1.0.87"
+  dependencies:
+    "@mapbox/point-geometry": "npm:*"
+  checksum: 10/380b3b419ebad67ea480722dd1ee54a10149a114b7aeadf6d0a0d218525b3f39efe86311cd78e037639b30cc5dcc657ce295cfbfcebd0540e2a24a3abba48d07
+  languageName: node
+  linkType: hard
+
 "@types/mdast@npm:^3.0.0":
   version: 3.0.15
   resolution: "@types/mdast@npm:3.0.15"
@@ -2428,12 +2437,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0, @types/node@npm:^25.3.0":
-  version: 25.3.0
-  resolution: "@types/node@npm:25.3.0"
+"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0, @types/node@npm:^25.3.2":
+  version: 25.3.2
+  resolution: "@types/node@npm:25.3.2"
   dependencies:
     undici-types: "npm:~7.18.0"
-  checksum: 10/061b00c8de070a606a052afaa4c45dca5f8d6a8e7e39c0c3e196bb650ee37e986bbb161991ea39076a05aada102f36b13c974528448a09efd8d36bdfee75de4b
+  checksum: 10/3a7783f0a9508dd8bd3f386e44c062d0d9fe0414fa8983ab203350d1b95db24aad694a54f21b9a0f0a30691ca26c7959c9329e37fea909d35124ec99b6e7b418
   languageName: node
   linkType: hard
 
@@ -2507,13 +2516,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/supertest@npm:~6.0.3":
-  version: 6.0.3
-  resolution: "@types/supertest@npm:6.0.3"
+"@types/supertest@npm:~7.2.0":
+  version: 7.2.0
+  resolution: "@types/supertest@npm:7.2.0"
   dependencies:
     "@types/methods": "npm:^1.1.4"
     "@types/superagent": "npm:^8.1.0"
-  checksum: 10/6ec05eb591c97bc856b0e78c12f5bec10545f3a749688f34232d189797a506d971bc95931718eb57b378d8513f6d2d12462383e6d68455fa72df35c19de6e89e
+  checksum: 10/5a322e29b81033e90ac50ab315d49559b21809ee39b5681ab7386819463e30d68e29c63c946023a1c353e7f13fb3f20d64dcb89d3d8a0fff569450501aff786c
   languageName: node
   linkType: hard
 
@@ -3254,7 +3263,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/express@npm:~5.0.80":
+"@xylabs/express@npm:^5.0.80, @xylabs/express@npm:~5.0.80":
   version: 5.0.80
   resolution: "@xylabs/express@npm:5.0.80"
   dependencies:
@@ -3756,7 +3765,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/api@workspace:packages/sdk-utils/packages/api"
   dependencies:
-    "@types/node": "npm:^25.3.0"
+    "@types/node": "npm:^25.3.2"
     "@types/uuid": "npm:~11.0.0"
     "@xylabs/sdk-js": "npm:^5.0.80"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
@@ -3868,6 +3877,28 @@ __metadata:
     zod: "npm:^4.3.6"
   peerDependencies:
     "@xylabs/sdk-js": ^5
+    zod: ^4
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/archivist-express@workspace:packages/modules/packages/archivist/packages/express":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/archivist-express@workspace:packages/modules/packages/archivist/packages/express"
+  dependencies:
+    "@xylabs/express": "npm:^5.0.80"
+    "@xylabs/sdk-js": "npm:^5.0.80"
+    "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
+    "@xylabs/tsconfig": "npm:~7.3.2"
+    "@xyo-network/archivist-model": "npm:~5.3.10"
+    "@xyo-network/payload-builder": "npm:~5.3.10"
+    "@xyo-network/payload-model": "npm:~5.3.10"
+    express: "npm:^5.2.1"
+    typescript: "npm:~5.9.3"
+    zod: "npm:^4.3.6"
+  peerDependencies:
+    "@xylabs/express": ^5
+    "@xylabs/sdk-js": ^5
+    express: ^5
     zod: ^4
   languageName: unknown
   linkType: soft
@@ -4281,7 +4312,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-model@workspace:packages/protocol/packages/boundwitness/packages/model"
   dependencies:
-    "@types/node": "npm:^25.3.0"
+    "@types/node": "npm:^25.3.2"
     "@xylabs/sdk-js": "npm:^5.0.80"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
@@ -4412,7 +4443,7 @@ __metadata:
   resolution: "@xyo-network/bridge-http-express@workspace:packages/modules/packages/bridge/packages/http-express"
   dependencies:
     "@types/express": "npm:~5.0.6"
-    "@types/node": "npm:^25.3.0"
+    "@types/node": "npm:^25.3.2"
     "@xylabs/express": "npm:~5.0.80"
     "@xylabs/sdk-js": "npm:^5.0.80"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
@@ -4453,7 +4484,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-http@workspace:packages/modules/packages/bridge/packages/http"
   dependencies:
-    "@types/node": "npm:^25.3.0"
+    "@types/node": "npm:^25.3.2"
     "@xylabs/sdk-js": "npm:^5.0.80"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
@@ -4686,7 +4717,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/core@workspace:packages/protocol/packages/core"
   dependencies:
-    "@types/node": "npm:^25.3.0"
+    "@types/node": "npm:^25.3.2"
     "@xylabs/sdk-js": "npm:^5.0.80"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
@@ -6581,7 +6612,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/key-model@workspace:packages/protocol/packages/crypto/packages/key-model"
   dependencies:
-    "@types/node": "npm:^25.3.0"
+    "@types/node": "npm:^25.3.2"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
     "@xyo-network/data": "npm:~5.3.10"
@@ -6593,7 +6624,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest-model@workspace:packages/manifest/packages/model"
   dependencies:
-    "@types/node": "npm:^25.3.0"
+    "@types/node": "npm:^25.3.2"
     "@xylabs/sdk-js": "npm:^5.0.80"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
@@ -7306,7 +7337,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/crypto/packages/previous-hash-store/packages/indexeddb"
   dependencies:
-    "@types/node": "npm:^25.3.0"
+    "@types/node": "npm:^25.3.2"
     "@types/uuid": "npm:11.0.0"
     "@xylabs/sdk-js": "npm:^5.0.80"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
@@ -7344,7 +7375,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/crypto/packages/previous-hash-store/packages/storage"
   dependencies:
-    "@types/node": "npm:^25.3.0"
+    "@types/node": "npm:^25.3.2"
     "@types/uuid": "npm:~11.0.0"
     "@xylabs/sdk-js": "npm:^5.0.80"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
@@ -7407,7 +7438,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
     "@xylabs/vitest-extended": "npm:~5.0.80"
-    mapbox-gl: "npm:^3.18.1"
+    mapbox-gl: "npm:^3.19.0"
     typescript: "npm:~5.9.3"
     vitest: "npm:~4.0.18"
     zod: "npm:^4.3.6"
@@ -7553,8 +7584,8 @@ __metadata:
     "@firebase/app": "npm:~0.14.8"
     "@firebase/app-compat": "npm:~0.5.8"
     "@stylistic/eslint-plugin": "npm:~5.9.0"
-    "@types/node": "npm:^25.3.0"
-    "@types/supertest": "npm:~6.0.3"
+    "@types/node": "npm:^25.3.2"
+    "@types/supertest": "npm:~7.2.0"
     "@typescript-eslint/eslint-plugin": "npm:~8.56.1"
     "@typescript-eslint/parser": "npm:~8.56.1"
     "@typescript-eslint/types": "npm:~8.56.1"
@@ -7725,7 +7756,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/typeof@workspace:packages/shared/packages/typeof"
   dependencies:
-    "@types/node": "npm:^25.3.0"
+    "@types/node": "npm:^25.3.2"
     "@xylabs/ts-scripts-yarn3": "npm:~7.3.2"
     "@xylabs/tsconfig": "npm:~7.3.2"
     typescript: "npm:~5.9.3"
@@ -11356,7 +11387,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mapbox-gl@npm:^3.18.1, mapbox-gl@npm:~3.18.1":
+"mapbox-gl@npm:^3.19.0":
+  version: 3.19.0
+  resolution: "mapbox-gl@npm:3.19.0"
+  dependencies:
+    "@mapbox/jsonlint-lines-primitives": "npm:^2.0.2"
+    "@mapbox/mapbox-gl-supported": "npm:^3.0.0"
+    "@mapbox/point-geometry": "npm:^1.1.0"
+    "@mapbox/tiny-sdf": "npm:^2.0.6"
+    "@mapbox/unitbezier": "npm:^0.0.1"
+    "@mapbox/vector-tile": "npm:^2.0.4"
+    "@types/geojson": "npm:^7946.0.16"
+    "@types/geojson-vt": "npm:^3.2.5"
+    "@types/mapbox__point-geometry": "npm:^1.0.87"
+    "@types/pbf": "npm:^3.0.5"
+    "@types/supercluster": "npm:^7.1.3"
+    cheap-ruler: "npm:^4.0.0"
+    csscolorparser: "npm:~1.0.3"
+    earcut: "npm:^3.0.1"
+    geojson-vt: "npm:^4.0.2"
+    gl-matrix: "npm:^3.4.4"
+    grid-index: "npm:^1.1.0"
+    kdbush: "npm:^4.0.2"
+    martinez-polygon-clipping: "npm:^0.8.1"
+    murmurhash-js: "npm:^1.0.0"
+    pbf: "npm:^4.0.1"
+    potpack: "npm:^2.0.0"
+    quickselect: "npm:^3.0.0"
+    supercluster: "npm:^8.0.1"
+    tinyqueue: "npm:^3.0.0"
+  checksum: 10/b962d415eec647e7f68f291d1efeaac9ce1bf32f5befe7582836e656f3478152d879e3ab12a5c298a729758af082b3dcfe0dbe2d89fe97d5047be6b3e99277b0
+  languageName: node
+  linkType: hard
+
+"mapbox-gl@npm:~3.18.1":
   version: 3.18.1
   resolution: "mapbox-gl@npm:3.18.1"
   dependencies:

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/previous-hash-store-indexeddb",
-  "version": "5.3.10",
+  "version": "5.3.11",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/previous-hash-store-model": "~5.3.10"
+    "@xyo-network/previous-hash-store-model": "~5.3.11"
   },
   "devDependencies": {
     "@types/node": "^25.3.2",

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/id-payload-plugin",
-  "version": "5.3.10",
+  "version": "5.3.11",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,8 +36,8 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/payload-model": "~5.3.10",
-    "@xyo-network/payload-plugin": "~5.3.10"
+    "@xyo-network/payload-model": "~5.3.11",
+    "@xyo-network/payload-plugin": "~5.3.11"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.80",

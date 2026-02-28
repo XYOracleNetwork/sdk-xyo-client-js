@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/manifest-wrapper",
-  "version": "5.3.14",
+  "version": "5.3.15",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,22 +36,22 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/manifest-model": "~5.3.14",
-    "@xyo-network/module-model": "~5.3.14",
-    "@xyo-network/node-memory": "~5.3.14",
-    "@xyo-network/payload-model": "~5.3.14",
-    "@xyo-network/payload-wrapper": "~5.3.14",
-    "@xyo-network/wallet": "~5.3.14",
-    "@xyo-network/wallet-model": "~5.3.14"
+    "@xyo-network/manifest-model": "~5.3.15",
+    "@xyo-network/module-model": "~5.3.15",
+    "@xyo-network/node-memory": "~5.3.15",
+    "@xyo-network/payload-model": "~5.3.15",
+    "@xyo-network/payload-wrapper": "~5.3.15",
+    "@xyo-network/wallet": "~5.3.15",
+    "@xyo-network/wallet-model": "~5.3.15"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.80",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.80",
-    "@xyo-network/module-abstract": "~5.3.14",
-    "@xyo-network/module-factory-locator": "~5.3.14",
-    "@xyo-network/node-model": "~5.3.14",
+    "@xyo-network/module-abstract": "~5.3.15",
+    "@xyo-network/module-factory-locator": "~5.3.15",
+    "@xyo-network/node-model": "~5.3.15",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18",
     "zod": "^4.3.6"

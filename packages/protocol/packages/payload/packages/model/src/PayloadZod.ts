@@ -47,7 +47,15 @@ export const toStorageMeta = zodToFactory(StorageMetaZod, 'toStorageMeta')
 
 export const PayloadZod = z.object({ schema: SchemaZod })
 
+export const isPayload = zodIsFactory(PayloadZod)
+export const asPayload = zodAsFactory(PayloadZod, 'asPayload')
+export const toPayload = zodToFactory(PayloadZod, 'toPayload')
+
 export const AnyPayloadZod = PayloadZod.loose()
+
+export const isAnyPayload = zodIsFactory(AnyPayloadZod)
+export const asAnyPayload = zodAsFactory(AnyPayloadZod, 'asAnyPayload')
+export const toAnyPayload = zodToFactory(AnyPayloadZod, 'toAnyPayload')
 
 export type AnyPayload = z.infer<typeof AnyPayloadZod>
 

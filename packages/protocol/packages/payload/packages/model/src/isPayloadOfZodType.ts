@@ -1,8 +1,8 @@
 import { isDefined } from '@xylabs/sdk-js'
 import type { ZodObject } from 'zod'
 
-import { isAnyPayload } from './isPayload.ts'
 import type { Payload } from './Payload.ts'
+import { isAnyPayload } from './PayloadZod.ts'
 
 /**
  * Checks if a value is a payload of a specific Zod type.

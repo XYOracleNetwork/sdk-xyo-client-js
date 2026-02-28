@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/archivist-storage",
-  "version": "5.3.13",
+  "version": "5.3.14",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,12 +36,12 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/archivist-abstract": "~5.3.13",
-    "@xyo-network/archivist-model": "~5.3.13",
-    "@xyo-network/boundwitness-model": "~5.3.13",
-    "@xyo-network/module-model": "~5.3.13",
-    "@xyo-network/payload-builder": "~5.3.13",
-    "@xyo-network/payload-model": "~5.3.13",
+    "@xyo-network/archivist-abstract": "~5.3.14",
+    "@xyo-network/archivist-model": "~5.3.14",
+    "@xyo-network/boundwitness-model": "~5.3.14",
+    "@xyo-network/module-model": "~5.3.14",
+    "@xyo-network/payload-builder": "~5.3.14",
+    "@xyo-network/payload-model": "~5.3.14",
     "store2": "~2.14.4"
   },
   "devDependencies": {
@@ -49,13 +49,13 @@
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.80",
-    "@xyo-network/account": "~5.3.13",
-    "@xyo-network/archivist-acceptance-tests": "~5.3.13",
-    "@xyo-network/archivist-memory": "~5.3.13",
-    "@xyo-network/boundwitness-wrapper": "~5.3.13",
-    "@xyo-network/id-payload-plugin": "~5.3.13",
-    "@xyo-network/node-memory": "~5.3.13",
-    "@xyo-network/payload-wrapper": "~5.3.13",
+    "@xyo-network/account": "~5.3.14",
+    "@xyo-network/archivist-acceptance-tests": "~5.3.14",
+    "@xyo-network/archivist-memory": "~5.3.14",
+    "@xyo-network/boundwitness-wrapper": "~5.3.14",
+    "@xyo-network/id-payload-plugin": "~5.3.14",
+    "@xyo-network/node-memory": "~5.3.14",
+    "@xyo-network/payload-wrapper": "~5.3.14",
     "typescript": "~5.9.3",
     "uuid": "~13.0.0",
     "vitest": "~4.0.18",

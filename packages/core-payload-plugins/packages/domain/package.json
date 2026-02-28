@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/domain-payload-plugin",
-  "version": "5.3.13",
+  "version": "5.3.14",
   "description": "Typescript/Javascript Plugins for XYO Platform",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,20 +36,20 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/dns": "~5.3.13",
-    "@xyo-network/huri": "~5.3.13",
-    "@xyo-network/network": "~5.3.13",
-    "@xyo-network/payload-builder": "~5.3.13",
-    "@xyo-network/payload-model": "~5.3.13",
-    "@xyo-network/payload-plugin": "~5.3.13",
-    "@xyo-network/payload-wrapper": "~5.3.13"
+    "@xyo-network/dns": "~5.3.14",
+    "@xyo-network/huri": "~5.3.14",
+    "@xyo-network/network": "~5.3.14",
+    "@xyo-network/payload-builder": "~5.3.14",
+    "@xyo-network/payload-model": "~5.3.14",
+    "@xyo-network/payload-plugin": "~5.3.14",
+    "@xyo-network/payload-wrapper": "~5.3.14"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.80",
     "@xylabs/ts-scripts-yarn3": "~7.3.2",
     "@xylabs/tsconfig": "~7.3.2",
     "@xylabs/vitest-extended": "~5.0.80",
-    "@xyo-network/api-models": "~5.3.13",
+    "@xyo-network/api-models": "~5.3.14",
     "axios": "^1.13.5",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18",

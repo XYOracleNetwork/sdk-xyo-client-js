@@ -44,10 +44,18 @@
     "@xyo-network/id-payload-plugin": "~5.3.15",
     "@xyo-network/payload-builder": "~5.3.15",
     "@xyo-network/payload-model": "~5.3.15",
+    "abstract-level": "^3.1.1",
+    "level": "^10.0.0",
+    "lmdb": "^3.5.1",
     "typescript": "~5.9.3",
     "uuid": "~13.0.0",
     "vitest": "~4.0.18",
     "zod": "^4.3.6"
+  },
+  "peerDependencies": {
+    "abstract-level": "^3",
+    "level": "^10",
+    "lmdb": "^3"
   },
   "publishConfig": {
     "access": "public"

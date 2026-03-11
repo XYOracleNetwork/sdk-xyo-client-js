@@ -58,6 +58,7 @@
     "@xyo-network/network": "~5.3.15",
     "@xyo-network/payload-builder": "~5.3.15",
     "@xyo-network/payload-wrapper": "~5.3.15",
+    "axios": "^1.9.0",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18",
     "zod": "^4.3.6"

@@ -36,7 +36,7 @@
     "!**/*.test.*"
   ],
   "devDependencies": {
-    "@metamask/providers": "~22.1.1",
+    "@metamask/providers": "^22.1.1",
     "@xylabs/sdk-js": "~5.0.86",
     "@xylabs/ts-scripts-yarn3": "~7.4.17",
     "@xylabs/tsconfig": "^7.4.17",
@@ -47,6 +47,7 @@
     "zod": "^4.3.6"
   },
   "peerDependencies": {
+    "@metamask/providers": "^22",
     "@xylabs/sdk-js": "^5",
     "ethers": "^6",
     "webextension-polyfill": "^0.10.0 || ^0.11.0 || ^0.12.0",

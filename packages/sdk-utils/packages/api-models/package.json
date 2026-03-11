@@ -36,9 +36,9 @@
     "!**/*.test.*"
   ],
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "~7.3.2",
-    "@xylabs/tsconfig": "~7.3.2",
-    "axios": "^1.13.5",
+    "@xylabs/ts-scripts-yarn3": "~7.4.16",
+    "@xylabs/tsconfig": "~7.4.16",
+    "axios": "^1.13.6",
     "typescript": "~5.9.3"
   },
   "peerDependencies": {

@@ -40,10 +40,10 @@
     "@xyo-network/payload-model": "~5.3.15"
   },
   "devDependencies": {
-    "@xylabs/express": "^5.0.80",
-    "@xylabs/sdk-js": "^5.0.80",
-    "@xylabs/ts-scripts-yarn3": "~7.3.2",
-    "@xylabs/tsconfig": "~7.3.2",
+    "@xylabs/express": "^5.0.86",
+    "@xylabs/sdk-js": "^5.0.86",
+    "@xylabs/ts-scripts-yarn3": "~7.4.16",
+    "@xylabs/tsconfig": "~7.4.16",
     "@xyo-network/archivist-model": "~5.3.15",
     "express": "^5.2.1",
     "typescript": "~5.9.3",

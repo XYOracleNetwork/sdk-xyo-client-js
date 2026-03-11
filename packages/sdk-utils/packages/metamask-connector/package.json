@@ -37,9 +37,9 @@
   ],
   "devDependencies": {
     "@metamask/providers": "~22.1.1",
-    "@xylabs/sdk-js": "~5.0.80",
-    "@xylabs/ts-scripts-yarn3": "~7.3.2",
-    "@xylabs/tsconfig-dom": "~7.3.2",
+    "@xylabs/sdk-js": "~5.0.86",
+    "@xylabs/ts-scripts-yarn3": "~7.4.16",
+    "@xylabs/tsconfig-dom": "~7.4.16",
     "ethers": "^6.16.0",
     "typescript": "~5.9.3",
     "webextension-polyfill": "^0.12.0",

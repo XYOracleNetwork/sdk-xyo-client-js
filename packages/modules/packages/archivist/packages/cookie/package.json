@@ -46,9 +46,9 @@
   },
   "devDependencies": {
     "@types/js-cookie": "~3.0.6",
-    "@xylabs/sdk-js": "^5.0.80",
-    "@xylabs/ts-scripts-yarn3": "~7.3.2",
-    "@xylabs/tsconfig": "~7.3.2",
+    "@xylabs/sdk-js": "^5.0.86",
+    "@xylabs/ts-scripts-yarn3": "~7.4.16",
+    "@xylabs/tsconfig": "~7.4.16",
     "@xyo-network/id-payload-plugin": "~5.3.15",
     "@xyo-network/payload-wrapper": "~5.3.15",
     "typescript": "~5.9.3",

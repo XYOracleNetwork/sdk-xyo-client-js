@@ -46,10 +46,10 @@
     "@xyo-network/payload-wrapper": "~5.3.15"
   },
   "devDependencies": {
-    "@xylabs/sdk-js": "^5.0.80",
-    "@xylabs/ts-scripts-yarn3": "~7.3.2",
-    "@xylabs/tsconfig": "~7.3.2",
-    "@xylabs/vitest-extended": "~5.0.80",
+    "@xylabs/sdk-js": "^5.0.86",
+    "@xylabs/ts-scripts-yarn3": "~7.4.16",
+    "@xylabs/tsconfig": "~7.4.16",
+    "@xylabs/vitest-extended": "~5.0.86",
     "@xyo-network/account": "~5.3.15",
     "@xyo-network/account-model": "~5.3.15",
     "@xyo-network/archivist-memory": "~5.3.15",

@@ -45,9 +45,9 @@
     "@xyo-network/module-wrapper": "~5.3.15"
   },
   "devDependencies": {
-    "@xylabs/sdk-js": "^5.0.80",
-    "@xylabs/ts-scripts-yarn3": "~7.3.2",
-    "@xylabs/tsconfig": "~7.3.2",
+    "@xylabs/sdk-js": "^5.0.86",
+    "@xylabs/ts-scripts-yarn3": "~7.4.16",
+    "@xylabs/tsconfig": "~7.4.16",
     "typescript": "~5.9.3",
     "zod": "^4.3.6"
   },

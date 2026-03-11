@@ -44,11 +44,27 @@
     "@xylabs/sdk-js": "^5.0.86",
     "@xylabs/ts-scripts-yarn3": "~7.4.17",
     "@xylabs/tsconfig": "~7.4.17",
+    "@xylabs/vitest-extended": "~5.0.86",
+    "@xyo-network/account": "~5.3.15",
+    "@xyo-network/account-model": "~5.3.15",
+    "@xyo-network/archivist-model": "~5.3.15",
+    "@xyo-network/boundwitness-model": "~5.3.15",
+    "@xyo-network/boundwitness-wrapper": "~5.3.15",
+    "@xyo-network/module-abstract": "~5.3.15",
+    "@xyo-network/module-model": "~5.3.15",
+    "@xyo-network/module-wrapper": "~5.3.15",
+    "@xyo-network/payload-builder": "~5.3.15",
+    "@xyo-network/payload-model": "~5.3.15",
+    "@xyo-network/value-payload-plugin": "~5.3.15",
+    "@xyo-network/witness-blockchain-abstract": "~5.3.15",
+    "@xyo-network/witness-evm-abstract": "~5.3.15",
     "typescript": "~5.9.3",
+    "vitest": "~4.0.18",
     "zod": "^4.3.6"
   },
   "peerDependencies": {
     "@xylabs/sdk-js": "^5",
+    "ethers": "^6",
     "zod": "^4"
   },
   "publishConfig": {

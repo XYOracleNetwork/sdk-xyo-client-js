@@ -36,7 +36,6 @@
     "!**/*.test.*"
   ],
   "devDependencies": {
-    "@types/node": "^25.4.0",
     "@xylabs/ts-scripts-yarn3": "~7.4.17",
     "@xylabs/tsconfig": "~7.4.17",
     "typescript": "~5.9.3"

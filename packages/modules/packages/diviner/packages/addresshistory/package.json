@@ -54,6 +54,8 @@
     "@xyo-network/account-model": "~5.3.15",
     "@xyo-network/archivist-memory": "~5.3.15",
     "@xyo-network/archivist-wrapper": "~5.3.15",
+    "@xyo-network/diviner-model": "~5.3.15",
+    "@xyo-network/module-model": "~5.3.15",
     "@xyo-network/node-memory": "~5.3.15",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18",

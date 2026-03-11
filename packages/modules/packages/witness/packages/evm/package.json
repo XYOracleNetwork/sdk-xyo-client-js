@@ -39,9 +39,17 @@
     "@xyo-network/witness-evm-abstract": "~5.3.15"
   },
   "devDependencies": {
+    "@xylabs/sdk-js": "^5.0.86",
     "@xylabs/ts-scripts-yarn3": "~7.4.17",
     "@xylabs/tsconfig": "~7.4.17",
+    "@xyo-network/abstract-witness": "~5.3.15",
+    "@xyo-network/module-model": "~5.3.15",
+    "@xyo-network/payload-model": "~5.3.15",
+    "@xyo-network/witness-model": "~5.3.15",
     "typescript": "~5.9.3"
+  },
+  "peerDependencies": {
+    "ethers": "^6"
   },
   "publishConfig": {
     "access": "public"

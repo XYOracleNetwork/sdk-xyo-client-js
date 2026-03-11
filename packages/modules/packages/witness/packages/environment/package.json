@@ -48,7 +48,6 @@
     "@xylabs/tsconfig": "~7.4.17",
     "@xylabs/vitest-extended": "~5.0.86",
     "@xyo-network/account": "~5.3.15",
-    "@xyo-network/payload-builder": "~5.3.15",
     "ethers": "^6.16.0",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18",

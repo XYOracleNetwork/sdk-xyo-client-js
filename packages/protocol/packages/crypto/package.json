@@ -45,17 +45,30 @@
     "@xyo-network/wallet-model": "~5.3.15"
   },
   "devDependencies": {
+    "@bitauth/libauth": "~3.0.0",
+    "@scure/bip39": "~2.0.1",
     "@xylabs/sdk-js": "^5.0.86",
     "@xylabs/ts-scripts-yarn3": "~7.4.17",
     "@xylabs/tsconfig": "~7.4.17",
     "@xylabs/vitest-extended": "~5.0.86",
     "@xylabs/vitest-matchers": "~5.0.86",
+    "@xyo-network/data": "~5.3.15",
+    "@xyo-network/previous-hash-store-indexeddb": "~5.3.15",
+    "@xyo-network/previous-hash-store-model": "~5.3.15",
+    "@xyo-network/previous-hash-store-storage": "~5.3.15",
+    "@xyo-network/wasm": "~5.3.15",
+    "async-mutex": "~0.5.0",
+    "fake-indexeddb": "~6.2.5",
+    "idb": "^8.0.3",
+    "store2": "~2.14.4",
     "typescript": "~5.9.3",
+    "uuid": "~13.0.0",
     "vitest": "~4.0.18",
     "zod": "^4.3.6"
   },
   "peerDependencies": {
-    "@xylabs/sdk-js": "^5"
+    "@xylabs/sdk-js": "^5",
+    "ethers": "^6"
   },
   "publishConfig": {
     "access": "public"

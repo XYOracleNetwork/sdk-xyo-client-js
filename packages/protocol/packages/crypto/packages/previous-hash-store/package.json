@@ -44,7 +44,12 @@
     "@xylabs/sdk-js": "^5.0.86",
     "@xylabs/ts-scripts-yarn3": "~7.4.17",
     "@xylabs/tsconfig": "~7.4.17",
+    "fake-indexeddb": "~6.2.5",
+    "idb": "^8.0.3",
+    "store2": "~2.14.4",
     "typescript": "~5.9.3",
+    "uuid": "~13.0.0",
+    "vitest": "~4.0.18",
     "zod": "^4.3.6"
   },
   "peerDependencies": {

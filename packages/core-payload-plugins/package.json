@@ -50,11 +50,21 @@
     "@xylabs/sdk-js": "^5.0.86",
     "@xylabs/ts-scripts-yarn3": "~7.4.17",
     "@xylabs/tsconfig": "~7.4.17",
+    "@xylabs/vitest-extended": "~5.0.86",
+    "@xyo-network/api-models": "~5.3.15",
+    "@xyo-network/dns": "~5.3.15",
+    "@xyo-network/huri": "~5.3.15",
+    "@xyo-network/module-model": "~5.3.15",
+    "@xyo-network/network": "~5.3.15",
+    "@xyo-network/payload-builder": "~5.3.15",
+    "@xyo-network/payload-wrapper": "~5.3.15",
     "typescript": "~5.9.3",
+    "vitest": "~4.0.18",
     "zod": "^4.3.6"
   },
   "peerDependencies": {
-    "@xylabs/sdk-js": "^5"
+    "@xylabs/sdk-js": "^5",
+    "axios": "^1"
   },
   "publishConfig": {
     "access": "public"

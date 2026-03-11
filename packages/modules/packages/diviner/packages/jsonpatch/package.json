@@ -43,7 +43,16 @@
     "@xylabs/sdk-js": "^5.0.86",
     "@xylabs/ts-scripts-yarn3": "~7.4.17",
     "@xylabs/tsconfig": "~7.4.17",
+    "@xylabs/vitest-extended": "~5.0.86",
+    "@xyo-network/diviner-abstract": "~5.3.15",
+    "@xyo-network/diviner-model": "~5.3.15",
+    "@xyo-network/module-model": "~5.3.15",
+    "@xyo-network/payload-model": "~5.3.15",
+    "@xyo-network/wallet": "~5.3.15",
+    "@xyo-network/wallet-model": "~5.3.15",
+    "fast-json-patch": "~3.1.1",
     "typescript": "~5.9.3",
+    "vitest": "~4.0.18",
     "zod": "^4.3.6"
   },
   "peerDependencies": {

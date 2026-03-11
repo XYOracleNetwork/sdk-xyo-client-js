@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/boundwitness-builder",
-  "version": "5.3.15",
+  "version": "5.3.16",
   "description": "Primary SDK for using XYO Protocol 2.0",
   "homepage": "https://xyo.network",
   "bugs": {
@@ -36,21 +36,21 @@
     "!**/*.test.*"
   ],
   "dependencies": {
-    "@xyo-network/account-model": "~5.3.15",
-    "@xyo-network/boundwitness-model": "~5.3.15",
-    "@xyo-network/hash": "~5.3.15",
-    "@xyo-network/payload": "~5.3.15",
-    "@xyo-network/payload-builder": "~5.3.15",
-    "@xyo-network/payload-model": "~5.3.15",
+    "@xyo-network/account-model": "~5.3.16",
+    "@xyo-network/boundwitness-model": "~5.3.16",
+    "@xyo-network/hash": "~5.3.16",
+    "@xyo-network/payload": "~5.3.16",
+    "@xyo-network/payload-builder": "~5.3.16",
+    "@xyo-network/payload-model": "~5.3.16",
     "async-mutex": "~0.5.0"
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.86",
     "@xylabs/tsconfig": "~7.4.17",
     "@xylabs/vitest-extended": "~5.0.86",
-    "@xyo-network/account": "~5.3.15",
-    "@xyo-network/elliptic": "~5.3.15",
-    "@xyo-network/wallet": "~5.3.15",
+    "@xyo-network/account": "~5.3.16",
+    "@xyo-network/elliptic": "~5.3.16",
+    "@xyo-network/wallet": "~5.3.16",
     "typescript": "~5.9.3",
     "vitest": "~4.0.18",
     "zod": "^4.3.6"

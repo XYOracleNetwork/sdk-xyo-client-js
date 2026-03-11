@@ -50,8 +50,8 @@
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.86",
-    "@xylabs/ts-scripts-yarn3": "~7.4.16",
-    "@xylabs/tsconfig": "~7.4.16",
+    "@xylabs/ts-scripts-yarn3": "~7.4.17",
+    "@xylabs/tsconfig": "~7.4.17",
     "@xylabs/vitest-extended": "~5.0.86",
     "@xyo-network/account": "~5.3.15",
     "@xyo-network/archivist-memory": "~5.3.15",

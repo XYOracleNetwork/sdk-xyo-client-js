@@ -63,8 +63,8 @@
   },
   "devDependencies": {
     "@xylabs/sdk-js": "^5.0.86",
-    "@xylabs/ts-scripts-yarn3": "~7.4.16",
-    "@xylabs/tsconfig": "~7.4.16",
+    "@xylabs/ts-scripts-yarn3": "~7.4.17",
+    "@xylabs/tsconfig": "~7.4.17",
     "@xylabs/vitest-extended": "~5.0.86",
     "esbuild": "~0.27.3",
     "publint": "~0.3.18",

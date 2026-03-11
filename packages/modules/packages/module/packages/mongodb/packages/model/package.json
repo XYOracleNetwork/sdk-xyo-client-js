@@ -47,8 +47,8 @@
   "devDependencies": {
     "@xylabs/mongo": "^5.0.86",
     "@xylabs/sdk-js": "^5.0.86",
-    "@xylabs/ts-scripts-yarn3": "~7.4.16",
-    "@xylabs/tsconfig": "~7.4.16",
+    "@xylabs/ts-scripts-yarn3": "~7.4.17",
+    "@xylabs/tsconfig": "~7.4.17",
     "mongodb": "~7.1.0",
     "typescript": "~5.9.3",
     "zod": "^4.3.6"
